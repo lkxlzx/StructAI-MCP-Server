@@ -1,0 +1,128 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WC-REPORT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WC-REPORT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "REPORT_TYPE",
+          "EXPORT_PATH",
+          "OUTPUT_NAME"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "REPORT_TYPE": {
+            "type": "string",
+            "enum": [
+              "WID+STORY",
+              "WID"
+            ],
+            "default": "WID+STORY"
+          },
+          "CURRENT_MODE_WID_STORY": {
+            "type": "string",
+            "oneOf": [
+              {
+                "title": "Graphic (JPG image)",
+                "const": "Graphic"
+              },
+              {
+                "title": "Detail (DOC document)",
+                "const": "Detail"
+              },
+              {
+                "title": "Summary (TXT text)",
+                "const": "Summary"
+              },
+              {
+                "title": "PM Curve (JPG image)",
+                "const": "PMCurve"
+              }
+            ]
+          },
+          "CURRENT_MODE_WID": {
+            "type": "string",
+            "oneOf": [
+              {
+                "title": "Graphic (JPG image)",
+                "const": "Graphic"
+              },
+              {
+                "title": "Summary (TXT text)",
+                "const": "Summary"
+              },
+              {
+                "title": "PM Curve (JPG image)",
+                "const": "PMCurve"
+              }
+            ]
+          },
+          "SELECTIONS": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ],
+                      "not": {
+                        "required": [
+                          "TO"
+                        ]
+                      }
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ],
+                      "not": {
+                        "required": [
+                          "KEYS"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "OUTPUT_NAME": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

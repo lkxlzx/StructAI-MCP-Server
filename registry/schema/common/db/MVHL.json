@@ -1,0 +1,98 @@
+{
+  "key": "DB.MVHL",
+  "uri": "DB/MVHL",
+  "source": "help_center",
+  "schema": {
+    "MVHL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "MVLD_CODE": {
+          "description": "MovingLoadCode",
+          "type": "integer"
+        },
+        "VEHICLE_LOAD_NAME": {
+          "description": "VehicularLoadName",
+          "type": "string"
+        },
+        "VEHICLE_LOAD_NUM": {
+          "description": "VehicularLoadNumber",
+          "type": "integer"
+        },
+        "VEHICLE_TYPE_NAME": {
+          "description": "VehicularTypeName",
+          "type": "string"
+        },
+        "STANDARD_CODE": {
+          "description": "StandardCode",
+          "type": "string"
+        },
+        "USER_LOAD_TYPE": {
+          "description": "UserLoadType",
+          "type": "string"
+        },
+        "VEH_DEFAULT": {
+          "type": "object",
+          "properties": {
+            "UNIFORM_LOAD": {
+              "description": "UniformLoad",
+              "type": "number"
+            },
+            "DYN_LOAD_ALLOWANCE": {
+              "description": "DynamicUserAllowance",
+              "type": "number"
+            },
+            "W1": {
+              "description": "W1",
+              "type": "number"
+            },
+            "W2": {
+              "description": "W2",
+              "type": "number"
+            },
+            "D1": {
+              "description": "D1",
+              "type": "number"
+            },
+            "D2": {
+              "description": "D2",
+              "type": "number"
+            },
+            "PL": {
+              "description": "PL",
+              "type": "number"
+            },
+            "PLM": {
+              "description": "PLM",
+              "type": "number"
+            },
+            "PLV": {
+              "description": "PLV",
+              "type": "number"
+            },
+            "CENT_F": {
+              "description": "AddCentrifugalForce",
+              "type": "boolean"
+            }
+          }
+        },
+        "LOAD_ITEMS": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "POINT_LOAD": {
+                "description": "PointLoad",
+                "type": "number"
+              },
+              "POINT_DIST": {
+                "description": "PointDistance",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

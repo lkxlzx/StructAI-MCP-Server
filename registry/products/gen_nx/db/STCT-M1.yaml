@@ -1,0 +1,49 @@
+key: "DB.STCT-M1"
+namespace: DB
+uri: "/DB/STCT-M1"
+methods: [GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "STCT-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/STCT-M1.json"
+  introspect: "info/db/STCT-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Construction Stage Analysis Control Data
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/57053813627673-Construction-Stage-Analysis-Control-Data"
+  retrieved_at: "2026-05-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 113
+  examples: 1
+  has_response_head: false
+notes: ["누락돼 있었다. 특히 `iBSC`는 레거시 `STCT`(17번 절)와 이름은 같지만 **기본값이 다르다** (STCT는 0, STCT-M1은 1)(아티클 id `57053813627673`).", "추가돼 있었고, `bIEMF`가 통째로 누락돼 있었다(아티클 id `57053813627673`).", "`\"SHRINK\"`와 달리 STCT-M1에서는 **`\"SHRINKAGE\"`**로 표기된다 — 원문 JSON Schema·Specifications 표 양쪽에서 일관되게 확인됨(아티클 id `57053813627673`). 이전 문서는 STCT와 동일하게 `\"SHRINK\"`로 잘못 기재돼 있었다."]

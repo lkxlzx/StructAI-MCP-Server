@@ -1,0 +1,54 @@
+{
+  "key": "DB.LLANTR",
+  "uri": "DB/LLANTR",
+  "source": "help_center",
+  "schema": {
+    "LLANTR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LL_NAME": {
+          "description": "NAME",
+          "type": "string"
+        },
+        "LANE_ITEMS": {
+          "description": "LaneData(TR)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ELEM": {
+                "description": "Element",
+                "type": "integer"
+              },
+              "FACTOR": {
+                "description": "Factor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "SPECIAL_LANE_ITEMS": {
+          "description": "Usedonlywhenimporting",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ELEMS": {
+                "description": "KeyElements",
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "FACTOR": {
+                "description": "Factor",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

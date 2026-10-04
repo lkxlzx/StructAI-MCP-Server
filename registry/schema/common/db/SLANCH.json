@@ -1,0 +1,70 @@
+{
+  "key": "DB.SLANCH",
+  "uri": "DB/SLANCH",
+  "source": "help_center",
+  "schema": {
+    "SLANCH": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "LaneName",
+          "type": "string"
+        },
+        "WIDTH": {
+          "description": "LaneWidth",
+          "type": "number"
+        },
+        "WHEEL_SPACE": {
+          "description": "WheelSpacing",
+          "type": "number"
+        },
+        "SKEW_START": {
+          "description": "SkewStart",
+          "type": "number"
+        },
+        "SKEW_END": {
+          "description": "SkewEnd",
+          "type": "number"
+        },
+        "bOPTIMIZE": {
+          "description": "TransverseLaneOptimization",
+          "type": "boolean"
+        },
+        "ALLOW_WIDTH": {
+          "description": "AllowableWidth",
+          "type": "number"
+        },
+        "MV_DIR": {
+          "description": "MovingDirection",
+          "type": "string"
+        },
+        "LANE_ITEMS": {
+          "description": "LaneDataList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "NODE": {
+                "description": "NodeKey",
+                "type": "integer"
+              },
+              "OFFSET": {
+                "description": "OffsetDistancetoLaneCenter",
+                "type": "number"
+              },
+              "SPAN_LENGTH": {
+                "description": "SpanLength",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "SEQ": {
+          "description": "SequenceNumber(MustbeUnique)",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

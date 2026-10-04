@@ -1,0 +1,50 @@
+key: DB.SDIS
+namespace: DB
+uri: /DB/SDIS
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SDIS
+schema_ref:
+  local: schema/common/db/SDIS.json
+  introspect: info/db/SDIS
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+unavailable_on: ["civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Seismic Device - Isolator(MSS)"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35948330042649-Seismic-Device-Isolator-MSS"
+  retrieved_at: "2025-03-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 39
+  examples: 1
+  has_response_head: false
+notes: ["잘못 기재(실제로는 **`\"SLD\"`**, 데이터 객체 키만 `\"SB\"`), (2) LRB의 `DX`/`OPT_CONS_NONL`/ `BETA`/`ALPHA`/`SIGMA_V`를 서로 같은 레벨의 형제 필드로 잘못 기재(실제로는 **`DX`가 `{OPT_CONS_NONL, BETA, ALPHA, SIGMA_V}`를 담는 하위 객체**), (3) LRB의 `KE`·`K0`(이름이 비슷하지만 별개인 두 초기강성 필드) 중 `K0`을 누락, (4) NRB Data가 `KH` 하나뿐인 것으로 잘못 기재(실제로는 `AR`/`TR`/`KH`/`DX{...}` 4+4개), (5) SB Data의 `QD`(Index)·`Pi_VALUE`를 누락한 채 작성돼 있었다. 원문 JSON Schema + Request Exampl"]

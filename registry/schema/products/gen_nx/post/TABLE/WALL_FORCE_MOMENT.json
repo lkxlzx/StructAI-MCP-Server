@@ -1,0 +1,32 @@
+{
+  "key": "POST.TABLE.WALL_FORCE_MOMENT",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "Argument": {
+      "EXPORT_PATH": "string",
+      "TABLE_NAME": "WALL_FORCE_MOMENT",
+      "TABLE_TYPE": "string",
+      "UNIT": {
+        "FORCE": "KGF",
+        "DIST": "MM",
+        "HEAT": "CAL",
+        "TEMP": "C"
+      },
+      "STYLES": {
+        "FORMAT": "DEFAULT",
+        "PLACE": 0
+      },
+      "NODE_ELEMS": {
+        "KEYS": [
+          0
+        ],
+        "TO": "string",
+        "STRUCTURE_GROUP_NAME": "string"
+      },
+      "STORY_NAMES": [
+        "string"
+      ]
+    }
+  }
+}

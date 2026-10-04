@@ -1,0 +1,118 @@
+{
+  "key": "DB.BMLD",
+  "uri": "DB/BMLD",
+  "source": "help_center",
+  "schema": {
+    "BMLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "BeamLoadItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "CMD": {
+                "description": "ElementType",
+                "type": "string"
+              },
+              "TYPE": {
+                "description": "LoadTYPE",
+                "type": "string"
+              },
+              "DIRECTION": {
+                "description": "LoadDirection",
+                "type": "string"
+              },
+              "VX": {
+                "description": "VectorX",
+                "type": "number"
+              },
+              "VY": {
+                "description": "VectorY",
+                "type": "number"
+              },
+              "VZ": {
+                "description": "VectorZ",
+                "type": "number"
+              },
+              "USE_PROJECTION": {
+                "description": "UseProjection",
+                "type": "boolean"
+              },
+              "USE_ECCEN": {
+                "description": "IsEccentricity",
+                "type": "boolean"
+              },
+              "ECCEN_TYPE": {
+                "description": "EccentricityType",
+                "type": "integer"
+              },
+              "ECCEN_DIR": {
+                "description": "EccentricityDirection",
+                "type": "string"
+              },
+              "I_END": {
+                "description": "DistanceI",
+                "type": "number"
+              },
+              "J_END": {
+                "description": "DistanceJ",
+                "type": "number"
+              },
+              "USE_J_END": {
+                "description": "UseDistanceJ",
+                "type": "boolean"
+              },
+              "D": {
+                "description": "DistanceRatio",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 4
+                }
+              },
+              "P": {
+                "description": "ForceType",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 4
+                }
+              },
+              "USE_ADDITIONAL": {
+                "description": "UseAdditional",
+                "type": "boolean"
+              },
+              "ADDITIONAL_I_END": {
+                "description": "AdditionalDistanceI",
+                "type": "number"
+              },
+              "ADDITIONAL_J_END": {
+                "description": "AdditionalDistanceJ",
+                "type": "number"
+              },
+              "USE_ADDITIONAL_J_END": {
+                "description": "UseAdditionalDistanceJ",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

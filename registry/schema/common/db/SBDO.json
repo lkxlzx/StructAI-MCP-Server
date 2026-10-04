@@ -1,0 +1,104 @@
+{
+  "key": "DB.SBDO",
+  "uri": "DB/SBDO",
+  "source": "help_center",
+  "schema": {
+    "SBDO": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "SUB_DOMAIN_NAME": {
+          "description": "SubDomainName",
+          "type": "string"
+        },
+        "MEMBER_TYPE": {
+          "description": "MemberType",
+          "type": "integer"
+        },
+        "V1": {
+          "description": "V1",
+          "type": "number"
+        },
+        "V2": {
+          "description": "V2",
+          "type": "number"
+        },
+        "DOMAIN_NAME": {
+          "description": "DomainName",
+          "type": "string"
+        },
+        "bUseMt": {
+          "description": "UseMt",
+          "type": "boolean"
+        },
+        "THICKNESS": {
+          "description": "Thickness",
+          "type": "number"
+        },
+        "OPT_BASIC_REBAR": {
+          "description": "BasicRebarBoolean",
+          "type": "boolean"
+        },
+        "TOP_REBAR_NAME_X": {
+          "description": "TopRebarName:X-Dir",
+          "type": "string"
+        },
+        "TOP_REBAR_SPACE_X": {
+          "description": "TopRebarSpace:X-Dir",
+          "type": "number"
+        },
+        "BOTTOM_REBAR_NAME_X": {
+          "description": "BottomRebarName:X-Dir",
+          "type": "string"
+        },
+        "BOTTOM_REBAR_SPACE_X": {
+          "description": "BottomRebarSpace:X-Dir",
+          "type": "number"
+        },
+        "TOP_REBAR_NAME_Y": {
+          "description": "TopRebarName:Y-Dir",
+          "type": "string"
+        },
+        "TOP_REBAR_SPACE_Y": {
+          "description": "TopRebarSpace:Y-Dir",
+          "type": "number"
+        },
+        "BOTTOM_REBAR_NAME_Y": {
+          "description": "BottomRebarName:Y-Dir",
+          "type": "string"
+        },
+        "BOTTOM_REBAR_SPACE_Y": {
+          "description": "BottomRebarSpace:Y-Dir",
+          "type": "number"
+        },
+        "AXIS_VECTOR": {
+          "description": "AxisVector",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "OPT_REBAR_MATL": {
+          "description": "RebarMaterialBoolean",
+          "type": "boolean"
+        },
+        "REBAR_MATL_KEY": {
+          "description": "RebarMaterialKey",
+          "type": "integer"
+        },
+        "REBAR_AXIS_TYPE": {
+          "description": "RebarAxisType",
+          "type": "integer"
+        },
+        "STR_UCS": {
+          "description": "UCS",
+          "type": "string"
+        },
+        "MEMB_TYPE_CIVIL": {
+          "description": "MemberTypeCivil",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

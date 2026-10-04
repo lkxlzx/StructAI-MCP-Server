@@ -1,0 +1,44 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.KFAC",
+  "uri": "DESIGN/RC/KDS-41-20-2022/KFAC",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "Ky": {
+                "type": "number",
+                "description": "Ky",
+                "default": 1
+              },
+              "Kz": {
+                "type": "number",
+                "description": "Kz",
+                "default": 1
+              },
+              "Kt": {
+                "type": "number",
+                "description": "Kt",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.CMFT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/CMFT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "OPT_AUTO": {
+                "type": "boolean",
+                "description": "Auto Calculate",
+                "default": false
+              },
+              "CMY": {
+                "type": "number",
+                "description": "CMy",
+                "default": 0
+              },
+              "CMZ": {
+                "type": "number",
+                "description": "CMz",
+                "default": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1007 @@
+{
+  "key": "DB.POLC-M1",
+  "uri": "DB/POLC-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices; each value is a Pushover Load Case (Add/Modify) request item (gvs1: SSOT planner).",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "LCNAME",
+                "INCRE_STEP",
+                "NLTYPE",
+                "bUSEINITIAL",
+                "INCRE_METHOD",
+                "CTRL_OPT",
+                "LOADPATTERNTYPE",
+                "LOADPATTERN"
+              ],
+              "properties": {
+                "LCNAME": {
+                  "type": "string",
+                  "description": "Name (길이 1~20, 중복 불가)"
+                },
+                "DESC": {
+                  "type": "string",
+                  "default": "",
+                  "description": "Description (길이 ≤80)"
+                },
+                "INCRE_STEP": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Increment Steps (nstep) (값 > 0. UI 기본 20)"
+                },
+                "NLTYPE": {
+                  "type": "string",
+                  "enum": [
+                    "NONE",
+                    "PDELTA",
+                    "LARGE"
+                  ],
+                  "description": "None (UI 3개 라디오가 DTO 단일 enum으로 병합)"
+                },
+                "bUSEINITIAL": {
+                  "type": "boolean",
+                  "description": "Use Initial Load (true일 때 bREACOUTPUT 필수)"
+                },
+                "bREACOUTPUT": {
+                  "type": "boolean",
+                  "description": "Cumulative Reaction / Story Shear (bUSEINITIAL == false 일 때 DTO에 실어보내면 LV_WRONG_FIELD (handler 명시 체크))"
+                },
+                "INCRE_METHOD": {
+                  "type": "string",
+                  "enum": [
+                    "LOAD",
+                    "DISP"
+                  ],
+                  "description": "Load Control (UI 2개 라디오가 DTO 단일 enum으로 병합)"
+                },
+                "CTRL_OPT": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "STEPCTRLOPTION": {
+                      "type": "string",
+                      "enum": [
+                        "AUTO",
+                        "EQUAL",
+                        "INC_FUNC"
+                      ],
+                      "description": "Auto-Stepping Control (LOAD 분기 3개 라디오가 단일 enum 필드로 병합)"
+                    },
+                    "INCFUNC_NAME": {
+                      "type": "string",
+                      "description": "Increment Function Name (POFC 이름 참조)"
+                    },
+                    "DISPCTRLOPTION": {
+                      "type": "string",
+                      "enum": [
+                        "GLOBAL",
+                        "NODE"
+                      ],
+                      "description": "Global (DISP 분기 2개 라디오가 단일 enum 필드로 병합)"
+                    },
+                    "GLOBAL_MAX_DISP": {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "description": "Max. Translational Displacement (값 > 0 필수)"
+                    },
+                    "MASTERNODE": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Node (ExistNode 통과 필요)"
+                    },
+                    "MASTERDIRECTION": {
+                      "type": "string",
+                      "enum": [
+                        "DX",
+                        "DY",
+                        "DZ"
+                      ],
+                      "description": "Direction (DB 1/2/3 ↔ DTO 0/1/2 offset 변환 (handler 자동))"
+                    },
+                    "MASTERMAXDISP": {
+                      "type": "number",
+                      "not": {
+                        "const": 0
+                      },
+                      "description": "Max. Displacement (값 != 0.0 필수)"
+                    },
+                    "STIFF_RATIO": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100,
+                      "description": "Current Stiffness Ratio (Cs) ([0, 100] 범위. UI는 Figure 서브 대화상자에서 설정)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When STEPCTRLOPTION = INC_FUNC, INCFUNC_NAME is required",
+                      "if": {
+                        "properties": {
+                          "STEPCTRLOPTION": {
+                            "const": "INC_FUNC"
+                          }
+                        },
+                        "required": [
+                          "STEPCTRLOPTION"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "INCFUNC_NAME"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "When STEPCTRLOPTION = AUTO or EQUAL, INCFUNC_NAME must not be provided",
+                      "if": {
+                        "properties": {
+                          "STEPCTRLOPTION": {
+                            "enum": [
+                              "AUTO",
+                              "EQUAL"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "STEPCTRLOPTION"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "INCFUNC_NAME"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When DISPCTRLOPTION = GLOBAL, GLOBAL_MAX_DISP is required and node-control fields must not be provided",
+                      "if": {
+                        "properties": {
+                          "DISPCTRLOPTION": {
+                            "const": "GLOBAL"
+                          }
+                        },
+                        "required": [
+                          "DISPCTRLOPTION"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "GLOBAL_MAX_DISP"
+                        ],
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "MASTERNODE"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "MASTERDIRECTION"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "MASTERMAXDISP"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When DISPCTRLOPTION = NODE, MASTERNODE, MASTERDIRECTION, and MASTERMAXDISP are required and GLOBAL_MAX_DISP must not be provided",
+                      "if": {
+                        "properties": {
+                          "DISPCTRLOPTION": {
+                            "const": "NODE"
+                          }
+                        },
+                        "required": [
+                          "DISPCTRLOPTION"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "MASTERNODE",
+                          "MASTERDIRECTION",
+                          "MASTERMAXDISP"
+                        ],
+                        "not": {
+                          "required": [
+                            "GLOBAL_MAX_DISP"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Control Option (INCRE_METHOD 분기 컨테이너)"
+                },
+                "LOADPATTERNTYPE": {
+                  "type": "string",
+                  "enum": [
+                    "LOAD",
+                    "ACC",
+                    "MODE",
+                    "NOR_MODE"
+                  ],
+                  "description": "Load Type (배열 크기 제약: ACC/MODE/NOR_MODE는 배열 원소 1개만 허용)"
+                },
+                "LOADPATTERN": {
+                  "type": "array",
+                  "minItems": 1,
+                  "description": "Load Pattern 배열 (크기 ≥ 1)",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "LCNAME": {
+                        "type": "string",
+                        "description": "Load Case (ExistStld 통과 필요 (Static Load Case 이름))"
+                      },
+                      "DIR": {
+                        "type": "string",
+                        "enum": [
+                          "DX",
+                          "DY",
+                          "DZ"
+                        ],
+                        "description": "Load Case (DB 1/2/3 ↔ DTO 0/1/2 offset 변환)"
+                      },
+                      "MODE": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Load Case (값 > 0. 1개 항목만 허용)"
+                      },
+                      "SF": {
+                        "type": "number",
+                        "not": {
+                          "const": 0
+                        },
+                        "description": "Scale Factor (값 != 0.0. UI 기본 1.0)"
+                      }
+                    }
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "description": "When bUSEINITIAL = true, bREACOUTPUT is required",
+                  "if": {
+                    "properties": {
+                      "bUSEINITIAL": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "bUSEINITIAL"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "bREACOUTPUT"
+                    ]
+                  }
+                },
+                {
+                  "description": "When bUSEINITIAL = false, bREACOUTPUT must not be provided",
+                  "if": {
+                    "properties": {
+                      "bUSEINITIAL": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "bUSEINITIAL"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "bREACOUTPUT"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "When INCRE_METHOD = LOAD, CTRL_OPT requires STEPCTRLOPTION and STIFF_RATIO and must not contain displacement-control fields",
+                  "if": {
+                    "properties": {
+                      "INCRE_METHOD": {
+                        "const": "LOAD"
+                      }
+                    },
+                    "required": [
+                      "INCRE_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "CTRL_OPT": {
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "STEPCTRLOPTION": {
+                                "type": "string",
+                                "enum": [
+                                  "AUTO",
+                                  "EQUAL",
+                                  "INC_FUNC"
+                                ],
+                                "description": "Auto-Stepping Control (LOAD 분기 3개 라디오가 단일 enum 필드로 병합)"
+                              },
+                              "INCFUNC_NAME": {
+                                "type": "string",
+                                "description": "Increment Function Name (POFC 이름 참조)"
+                              },
+                              "DISPCTRLOPTION": {
+                                "type": "string",
+                                "enum": [
+                                  "GLOBAL",
+                                  "NODE"
+                                ],
+                                "description": "Global (DISP 분기 2개 라디오가 단일 enum 필드로 병합)"
+                              },
+                              "GLOBAL_MAX_DISP": {
+                                "type": "number",
+                                "exclusiveMinimum": 0,
+                                "description": "Max. Translational Displacement (값 > 0 필수)"
+                              },
+                              "MASTERNODE": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Node (ExistNode 통과 필요)"
+                              },
+                              "MASTERDIRECTION": {
+                                "type": "string",
+                                "enum": [
+                                  "DX",
+                                  "DY",
+                                  "DZ"
+                                ],
+                                "description": "Direction (DB 1/2/3 ↔ DTO 0/1/2 offset 변환 (handler 자동))"
+                              },
+                              "MASTERMAXDISP": {
+                                "type": "number",
+                                "not": {
+                                  "const": 0
+                                },
+                                "description": "Max. Displacement (값 != 0.0 필수)"
+                              },
+                              "STIFF_RATIO": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 100,
+                                "description": "Current Stiffness Ratio (Cs) ([0, 100] 범위. UI는 Figure 서브 대화상자에서 설정)"
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "description": "When STEPCTRLOPTION = INC_FUNC, INCFUNC_NAME is required",
+                                "if": {
+                                  "properties": {
+                                    "STEPCTRLOPTION": {
+                                      "const": "INC_FUNC"
+                                    }
+                                  },
+                                  "required": [
+                                    "STEPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "INCFUNC_NAME"
+                                  ]
+                                }
+                              },
+                              {
+                                "description": "When STEPCTRLOPTION = AUTO or EQUAL, INCFUNC_NAME must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "STEPCTRLOPTION": {
+                                      "enum": [
+                                        "AUTO",
+                                        "EQUAL"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "STEPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "not": {
+                                    "required": [
+                                      "INCFUNC_NAME"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "description": "When DISPCTRLOPTION = GLOBAL, GLOBAL_MAX_DISP is required and node-control fields must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "DISPCTRLOPTION": {
+                                      "const": "GLOBAL"
+                                    }
+                                  },
+                                  "required": [
+                                    "DISPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "GLOBAL_MAX_DISP"
+                                  ],
+                                  "not": {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "MASTERNODE"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "MASTERDIRECTION"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "MASTERMAXDISP"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "description": "When DISPCTRLOPTION = NODE, MASTERNODE, MASTERDIRECTION, and MASTERMAXDISP are required and GLOBAL_MAX_DISP must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "DISPCTRLOPTION": {
+                                      "const": "NODE"
+                                    }
+                                  },
+                                  "required": [
+                                    "DISPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "MASTERNODE",
+                                    "MASTERDIRECTION",
+                                    "MASTERMAXDISP"
+                                  ],
+                                  "not": {
+                                    "required": [
+                                      "GLOBAL_MAX_DISP"
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "required": [
+                              "STEPCTRLOPTION",
+                              "STIFF_RATIO"
+                            ]
+                          },
+                          {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "DISPCTRLOPTION"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "GLOBAL_MAX_DISP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MASTERNODE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MASTERDIRECTION"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MASTERMAXDISP"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "description": "When INCRE_METHOD = DISP, CTRL_OPT requires DISPCTRLOPTION and must not contain load-control fields",
+                  "if": {
+                    "properties": {
+                      "INCRE_METHOD": {
+                        "const": "DISP"
+                      }
+                    },
+                    "required": [
+                      "INCRE_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "CTRL_OPT": {
+                        "type": "object",
+                        "unevaluatedProperties": false,
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "STEPCTRLOPTION": {
+                                "type": "string",
+                                "enum": [
+                                  "AUTO",
+                                  "EQUAL",
+                                  "INC_FUNC"
+                                ],
+                                "description": "Auto-Stepping Control (LOAD 분기 3개 라디오가 단일 enum 필드로 병합)"
+                              },
+                              "INCFUNC_NAME": {
+                                "type": "string",
+                                "description": "Increment Function Name (POFC 이름 참조)"
+                              },
+                              "DISPCTRLOPTION": {
+                                "type": "string",
+                                "enum": [
+                                  "GLOBAL",
+                                  "NODE"
+                                ],
+                                "description": "Global (DISP 분기 2개 라디오가 단일 enum 필드로 병합)"
+                              },
+                              "GLOBAL_MAX_DISP": {
+                                "type": "number",
+                                "exclusiveMinimum": 0,
+                                "description": "Max. Translational Displacement (값 > 0 필수)"
+                              },
+                              "MASTERNODE": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "Node (ExistNode 통과 필요)"
+                              },
+                              "MASTERDIRECTION": {
+                                "type": "string",
+                                "enum": [
+                                  "DX",
+                                  "DY",
+                                  "DZ"
+                                ],
+                                "description": "Direction (DB 1/2/3 ↔ DTO 0/1/2 offset 변환 (handler 자동))"
+                              },
+                              "MASTERMAXDISP": {
+                                "type": "number",
+                                "not": {
+                                  "const": 0
+                                },
+                                "description": "Max. Displacement (값 != 0.0 필수)"
+                              },
+                              "STIFF_RATIO": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 100,
+                                "description": "Current Stiffness Ratio (Cs) ([0, 100] 범위. UI는 Figure 서브 대화상자에서 설정)"
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "description": "When STEPCTRLOPTION = INC_FUNC, INCFUNC_NAME is required",
+                                "if": {
+                                  "properties": {
+                                    "STEPCTRLOPTION": {
+                                      "const": "INC_FUNC"
+                                    }
+                                  },
+                                  "required": [
+                                    "STEPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "INCFUNC_NAME"
+                                  ]
+                                }
+                              },
+                              {
+                                "description": "When STEPCTRLOPTION = AUTO or EQUAL, INCFUNC_NAME must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "STEPCTRLOPTION": {
+                                      "enum": [
+                                        "AUTO",
+                                        "EQUAL"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "STEPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "not": {
+                                    "required": [
+                                      "INCFUNC_NAME"
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "description": "When DISPCTRLOPTION = GLOBAL, GLOBAL_MAX_DISP is required and node-control fields must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "DISPCTRLOPTION": {
+                                      "const": "GLOBAL"
+                                    }
+                                  },
+                                  "required": [
+                                    "DISPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "GLOBAL_MAX_DISP"
+                                  ],
+                                  "not": {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "MASTERNODE"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "MASTERDIRECTION"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "MASTERMAXDISP"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "description": "When DISPCTRLOPTION = NODE, MASTERNODE, MASTERDIRECTION, and MASTERMAXDISP are required and GLOBAL_MAX_DISP must not be provided",
+                                "if": {
+                                  "properties": {
+                                    "DISPCTRLOPTION": {
+                                      "const": "NODE"
+                                    }
+                                  },
+                                  "required": [
+                                    "DISPCTRLOPTION"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "MASTERNODE",
+                                    "MASTERDIRECTION",
+                                    "MASTERMAXDISP"
+                                  ],
+                                  "not": {
+                                    "required": [
+                                      "GLOBAL_MAX_DISP"
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DISPCTRLOPTION"
+                            ]
+                          },
+                          {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "STEPCTRLOPTION"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "INCFUNC_NAME"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "STIFF_RATIO"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "description": "When LOADPATTERNTYPE = LOAD, LOADPATTERN items must be load-case items",
+                  "if": {
+                    "properties": {
+                      "LOADPATTERNTYPE": {
+                        "const": "LOAD"
+                      }
+                    },
+                    "required": [
+                      "LOADPATTERNTYPE"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "LOADPATTERN": {
+                        "items": {
+                          "type": "object",
+                          "unevaluatedProperties": false,
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "LCNAME": {
+                                  "type": "string",
+                                  "description": "Load Case (ExistStld 통과 필요 (Static Load Case 이름))"
+                                },
+                                "DIR": {
+                                  "type": "string",
+                                  "enum": [
+                                    "DX",
+                                    "DY",
+                                    "DZ"
+                                  ],
+                                  "description": "Load Case (DB 1/2/3 ↔ DTO 0/1/2 offset 변환)"
+                                },
+                                "MODE": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "Load Case (값 > 0. 1개 항목만 허용)"
+                                },
+                                "SF": {
+                                  "type": "number",
+                                  "not": {
+                                    "const": 0
+                                  },
+                                  "description": "Scale Factor (값 != 0.0. UI 기본 1.0)"
+                                }
+                              }
+                            },
+                            {
+                              "required": [
+                                "LCNAME",
+                                "SF"
+                              ]
+                            },
+                            {
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "DIR"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "MODE"
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "description": "When LOADPATTERNTYPE = ACC, LOADPATTERN must contain exactly one acceleration item",
+                  "if": {
+                    "properties": {
+                      "LOADPATTERNTYPE": {
+                        "const": "ACC"
+                      }
+                    },
+                    "required": [
+                      "LOADPATTERNTYPE"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "LOADPATTERN": {
+                        "maxItems": 1,
+                        "items": {
+                          "type": "object",
+                          "unevaluatedProperties": false,
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "LCNAME": {
+                                  "type": "string",
+                                  "description": "Load Case (ExistStld 통과 필요 (Static Load Case 이름))"
+                                },
+                                "DIR": {
+                                  "type": "string",
+                                  "enum": [
+                                    "DX",
+                                    "DY",
+                                    "DZ"
+                                  ],
+                                  "description": "Load Case (DB 1/2/3 ↔ DTO 0/1/2 offset 변환)"
+                                },
+                                "MODE": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "Load Case (값 > 0. 1개 항목만 허용)"
+                                },
+                                "SF": {
+                                  "type": "number",
+                                  "not": {
+                                    "const": 0
+                                  },
+                                  "description": "Scale Factor (값 != 0.0. UI 기본 1.0)"
+                                }
+                              }
+                            },
+                            {
+                              "required": [
+                                "DIR",
+                                "SF"
+                              ]
+                            },
+                            {
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "LCNAME"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "MODE"
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "description": "When LOADPATTERNTYPE = MODE or NOR_MODE, LOADPATTERN must contain exactly one mode item",
+                  "if": {
+                    "properties": {
+                      "LOADPATTERNTYPE": {
+                        "enum": [
+                          "MODE",
+                          "NOR_MODE"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LOADPATTERNTYPE"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "LOADPATTERN": {
+                        "maxItems": 1,
+                        "items": {
+                          "type": "object",
+                          "unevaluatedProperties": false,
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "LCNAME": {
+                                  "type": "string",
+                                  "description": "Load Case (ExistStld 통과 필요 (Static Load Case 이름))"
+                                },
+                                "DIR": {
+                                  "type": "string",
+                                  "enum": [
+                                    "DX",
+                                    "DY",
+                                    "DZ"
+                                  ],
+                                  "description": "Load Case (DB 1/2/3 ↔ DTO 0/1/2 offset 변환)"
+                                },
+                                "MODE": {
+                                  "type": "integer",
+                                  "minimum": 1,
+                                  "description": "Load Case (값 > 0. 1개 항목만 허용)"
+                                },
+                                "SF": {
+                                  "type": "number",
+                                  "not": {
+                                    "const": 0
+                                  },
+                                  "description": "Scale Factor (값 != 0.0. UI 기본 1.0)"
+                                }
+                              }
+                            },
+                            {
+                              "required": [
+                                "MODE",
+                                "SF"
+                              ]
+                            },
+                            {
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "LCNAME"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "DIR"
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

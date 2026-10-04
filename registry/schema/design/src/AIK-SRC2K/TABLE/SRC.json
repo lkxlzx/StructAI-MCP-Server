@@ -1,0 +1,138 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.TABLE.SRC",
+  "uri": "DESIGN/SRC/AIK-SRC2K/TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Response Table Title",
+            "default": ""
+          },
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Result Table Type",
+            "enum": [
+              "SRCCOLUMNDESIGNFORCES"
+            ]
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit"
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Length/Distance unit"
+              },
+              "HEAT": {
+                "type": "string",
+                "description": "Heat unit"
+              },
+              "TEMP": {
+                "type": "string",
+                "description": "Temperature unit"
+              }
+            },
+            "default": "System"
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "description": "Number format",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "description": "Digit place",
+                "minimum": 0,
+                "maximum": 15
+              }
+            },
+            "default": "System"
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "description": "Components of Result Table",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Memb",
+                "Part",
+                "LComName",
+                "Type",
+                "Fx",
+                "...(전체 10개)"
+              ]
+            }
+          },
+          "NODE_ELEMS": {
+            "type": "object",
+            "description": "Node/Element No. Input",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "description": "Specify Each ID",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify ID Range (e.g., '1to160')"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify Structure Group Name"
+              }
+            }
+          },
+          "PARTS": {
+            "type": "array",
+            "description": "Element Part Number",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PartI",
+                "Part1/4",
+                "Part2/4",
+                "Part3/4",
+                "PartJ"
+              ]
+            },
+            "default": [
+              "All"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

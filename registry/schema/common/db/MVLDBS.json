@@ -1,0 +1,299 @@
+{
+  "key": "DB.MVLDBS",
+  "uri": "DB/MVLDBS",
+  "source": "help_center",
+  "schema": {
+    "MVLDBS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "bAUTOOPTIMIZE": {
+          "description": "MovingLoadOptimization",
+          "type": "boolean"
+        },
+        "LOADMODEL": {
+          "description": "SelectLoadModel",
+          "type": "string"
+        },
+        "bAUTOLIVELOADCOMB": {
+          "description": "AutoLiveLoadCombination",
+          "type": "boolean"
+        },
+        "DGNCOMBFACTORTYPE": {
+          "description": "TypeofDesignCombinationFactor",
+          "type": "string"
+        },
+        "COMBMETHOD": {
+          "description": "CombinationofLoads",
+          "type": "string"
+        },
+        "LCDATA_STANDARD": {
+          "description": "LoadCaseData(Mode:Standard)",
+          "type": "object",
+          "properties": {
+            "LOADINGEFFECT": {
+              "description": "Sub-LoadCasesLoadingEffect",
+              "type": "string"
+            },
+            "SUBLOADDATA": {
+              "description": "Sub-LoadCases",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "SCALEFACTOR": {
+                    "description": "ScaleFactor",
+                    "type": "number"
+                  },
+                  "NUMLOADEDLANE": {
+                    "description": "NumberofLoadedLanes",
+                    "type": "integer"
+                  },
+                  "VEHICLE_NAME": {
+                    "description": "VehicleName",
+                    "type": "string"
+                  },
+                  "SELECTEDLANES": {
+                    "description": "AllSelectedLane",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "STRAD_LANE": {
+                    "description": "StraddingLane",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "STARDD_LANE_1": {
+                          "description": "Lane1",
+                          "type": "string"
+                        },
+                        "STARDD_LANE_2": {
+                          "description": "Lane2",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "LCDATA_SPECIAL": {
+          "description": "LoadCaseData(Mode:Special)",
+          "type": "object",
+          "properties": {
+            "VEHICLE_NAME": {
+              "description": "VehicleName",
+              "type": "string"
+            },
+            "SPECIAL_VIHICLE_NAME": {
+              "description": "SpecialVehicleName",
+              "type": "string"
+            },
+            "SELECTEDLANES": {
+              "description": "AllSelectedLane",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "STRAD_LANE": {
+              "description": "StraddingLane",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "STARDD_LANE_1": {
+                    "description": "Lane1",
+                    "type": "string"
+                  },
+                  "STARDD_LANE_2": {
+                    "description": "Lane2",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "LCDATA_ALLMODE": {
+          "description": "LoadCaseData(Mode:ALLMode1,2)",
+          "type": "object",
+          "properties": {
+            "VEHICLE_NAME": {
+              "description": "VehicleName",
+              "type": "string"
+            },
+            "SPECIAL_VIHICLE_NAME": {
+              "description": "SpecialVehicleName",
+              "type": "string"
+            },
+            "SELECTEDLANES": {
+              "description": "AllSelectedLane",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "STRAD_LANE": {
+              "description": "StraddingLane",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "STARDD_LANE_1": {
+                    "description": "Lane1",
+                    "type": "string"
+                  },
+                  "STARDD_LANE_2": {
+                    "description": "Lane2",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "REMAINING_LANE": {
+              "description": "RemainingAreaLane(OnlyALLMode1)",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "LCDATA_STANDARD_OPTI": {
+          "description": "OptimizationLoadCaseData(Mode:Standard)",
+          "type": "object",
+          "properties": {
+            "LOADINGEFFECT": {
+              "description": "LoadCasesLoadingEffect",
+              "type": "string"
+            },
+            "OPTI_BASE": {
+              "description": "OptimizationCommonData",
+              "type": "object",
+              "properties": {
+                "MINVEHLDIST": {
+                  "description": "OptimizationMinimumVehicleDistance",
+                  "type": "number"
+                },
+                "ASSIGN_LANE": {
+                  "description": "AssignmentLane",
+                  "type": "string"
+                },
+                "NUMLOADEDLANES": {
+                  "description": "NumberofLoadedLane",
+                  "type": "integer"
+                }
+              }
+            },
+            "OPTI_VEHICLE_BASE": {
+              "description": "OptimizationVehicleData",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "VEHICLE_TYPE": {
+                    "description": "VehicleType",
+                    "type": "string"
+                  },
+                  "VEHICLE_NAME": {
+                    "description": "VehicleName",
+                    "type": "string"
+                  },
+                  "SCALE_FACTOR": {
+                    "description": "VehicleScaleFactor",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "LCDATA_SPECIAL_OPTI": {
+          "description": "OptimizationLoadCaseData(Mode:Special)",
+          "type": "object",
+          "properties": {
+            "VEHICLE_NAME": {
+              "description": "VehicleName",
+              "type": "string"
+            },
+            "SPECIAL_VIHICLE_NAME": {
+              "description": "SpecialVehicleName",
+              "type": "string"
+            },
+            "OPTI_BASE": {
+              "description": "OptimizationCommonData",
+              "type": "object",
+              "properties": {
+                "MINVEHLDIST": {
+                  "description": "OptimizationMinimumVehicleDistance",
+                  "type": "number"
+                },
+                "ASSIGN_LANE": {
+                  "description": "AssignmentLane",
+                  "type": "string"
+                },
+                "NUMLOADEDLANES": {
+                  "description": "NumberofLoadedLane",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "LCDATA_ALLMODE_OPTI": {
+          "description": "OptimizationLoadCaseData(Mode:ALLMode1,2)",
+          "type": "object",
+          "properties": {
+            "VEHICLE_NAME": {
+              "description": "VehicleName",
+              "type": "string"
+            },
+            "SPECIAL_VIHICLE_NAME": {
+              "description": "SpecialVehicleName",
+              "type": "string"
+            },
+            "OPTI_BASE": {
+              "description": "OptimizationCommonData",
+              "type": "object",
+              "properties": {
+                "MINVEHLDIST": {
+                  "description": "OptimizationMinimumVehicleDistance",
+                  "type": "number"
+                },
+                "ASSIGN_LANE": {
+                  "description": "AssignmentLane",
+                  "type": "string"
+                },
+                "NUMLOADEDLANES": {
+                  "description": "NumberofLoadedLane",
+                  "type": "integer"
+                }
+              }
+            },
+            "REMAINING_LANE": {
+              "description": "RemainingAreaLane(OnlyALLMode1)",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

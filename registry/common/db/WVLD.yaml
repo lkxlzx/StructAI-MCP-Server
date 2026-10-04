@@ -1,0 +1,50 @@
+key: DB.WVLD
+namespace: DB
+uri: /DB/WVLD
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: WVLD
+schema_ref:
+  local: schema/common/db/WVLD.json
+  introspect: info/db/WVLD
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["civil-cloud"]
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Wave Loads
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35988728179097-Wave-Loads"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 87
+  examples: 1
+  has_response_head: false
+notes: ["2개만 불릿으로 제시하며(JSON Schema·예제에도 enum 목록 없음), `\"GLOBAL_X\"`는 원문 어디에도 근거가 없다. 실제로 존재할 가능성이 높은 값(X/Y/Z 3축 구조 관례상)이라 삭제하지 않고 미확인 표시만 남긴다(아티클 id `35988728179097`).", "Interpolation\" 설명만 제시할 뿐 리터럴 문자열은 표·JSON Schema 어디에도 없다. 예제로 확인되는 값은 `\"CONST\"` 하나뿐이라 이전 문서의 `\"GROUP\"` 표기(구조그룹별 재정의 기능인 `bOVER`와 혼동한 것으로 추정)를 삭제하고 미확인으로 정정(아티클 id `35988728179097`).", "일관되게 \"Grid Y Size\"로 표기하고 있어(오타가 아니라 원문 자체가 그렇게 명명) 정정. `\"CREST\"`/ `\"UNIT\"`은 원문 표에 옵션 불릿이 없어 이전 문서의 `\"MAX\"`/`\"MANUAL\"`/`\"m\"` 표기가 근거 없는 추정치였음을 확인 — 공식 Request Example에서 실제 확인되는 값(`\"MXM\"`/`\"PHASE\"`)으로 아래 예제·Python 코드도 함께 정정했다(아티클 id `35988728179097`)."]

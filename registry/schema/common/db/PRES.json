@@ -1,0 +1,83 @@
+{
+  "key": "DB.PRES",
+  "uri": "DB/PRES",
+  "source": "help_center",
+  "schema": {
+    "PRES": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "LoadGroupName",
+                "type": "string"
+              },
+              "CMD": {
+                "description": "CommandType",
+                "type": "string"
+              },
+              "ELEM_TYPE": {
+                "description": "ElementType",
+                "type": "string"
+              },
+              "FACE_EDGE_TYPE": {
+                "description": "Face/Edge",
+                "type": "string"
+              },
+              "DIRECTION": {
+                "description": "Direction",
+                "type": "string"
+              },
+              "VECTORS": {
+                "description": "VectorArray",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "OPT_PROJECTION": {
+                "description": "ProjectionBoolean",
+                "type": "boolean"
+              },
+              "FORCES": {
+                "description": "ForceArray",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "EDGE_LOADS": {
+                "description": "EdgeLoadArray",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "PSLT_KEY": {
+                "description": "PsltKey",
+                "type": "integer"
+              },
+              "EDGE_FACE": {
+                "description": "EdgeFace",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

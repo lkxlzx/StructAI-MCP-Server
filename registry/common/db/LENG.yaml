@@ -1,0 +1,60 @@
+key: DB.LENG
+namespace: DB
+uri: /DB/LENG
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: LENG
+schema_ref:
+  local: schema/common/db/LENG.json
+  introspect: info/db/LENG
+  source: help_center
+  params_ref: "designer_params.json#DB/LENG"
+parser: db_generic
+products: [CIVIL_DESIGNER, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DB/LENG
+    methods: "GET, PUT"
+    title: "参数-计算长度系数"
+    spec_rows: 4
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: array
+availability: verified
+verified_on: ["gen-local", "designer-cloud"]
+path_key_supported: true
+table_type: null
+title: Unbraced Length
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513511154329-Unbraced-Length"
+  retrieved_at: "2026-07-02"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 6
+  examples: 3
+  has_response_head: false

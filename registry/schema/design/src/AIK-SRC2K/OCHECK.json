@@ -1,0 +1,248 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.OCHECK",
+  "uri": "DESIGN/SRC/AIK-SRC2K/OCHECK",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "SECT_LIST",
+          "OUTPUT"
+        ],
+        "properties": {
+          "SECT_LIST": {
+            "type": "array",
+            "description": "Section List & Design Criteria (SRC). Each item corresponds to one Section No entry and its design criteria (POST input only).",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "SECT_NO",
+                "SECT_DB"
+              ],
+              "properties": {
+                "SECT_NO": {
+                  "type": "integer",
+                  "description": "Section Number (input)."
+                },
+                "SECT_DB": {
+                  "type": "string",
+                  "description": "Design Criteria - SectDB",
+                  "oneOf": [
+                    {
+                      "title": "BUILT (Welded sections)",
+                      "const": "BUILT"
+                    },
+                    {
+                      "title": "KS21 (Korean Standard rolled sections)",
+                      "const": "KS21"
+                    },
+                    {
+                      "title": "USER (User-defined sections)",
+                      "const": "USER"
+                    }
+                  ]
+                },
+                "ALLOW": {
+                  "type": "number",
+                  "description": "Design Criteria - Allow",
+                  "default": 1
+                },
+                "D1": {
+                  "type": "number",
+                  "description": "Design Criteria - D1",
+                  "default": 0
+                },
+                "D2": {
+                  "type": "number",
+                  "description": "Design Criteria - D2",
+                  "default": 0
+                },
+                "D3": {
+                  "type": "number",
+                  "description": "Design Criteria - D3",
+                  "default": 0
+                },
+                "D4": {
+                  "type": "number",
+                  "description": "Design Criteria - D4",
+                  "default": 0
+                },
+                "D5": {
+                  "type": "number",
+                  "description": "Design Criteria - D5",
+                  "default": 0
+                },
+                "D6": {
+                  "type": "number",
+                  "description": "Design Criteria - D6",
+                  "default": 0
+                }
+              }
+            }
+          },
+          "ANALYSIS_OPT": {
+            "type": "object",
+            "description": "Analysis option - number of re-analysis iterations",
+            "additionalProperties": false,
+            "properties": {
+              "ANAL_TIME": {
+                "type": "integer",
+                "description": "Number of re-analysis iterations (max 10). Set 0 for section selection only without re-analysis.",
+                "default": 1,
+                "minimum": 0,
+                "maximum": 10
+              }
+            }
+          },
+          "PLATE_THICKNESS": {
+            "type": "array",
+            "description": "Plate thickness list for BUILT sections (max 50 entries)",
+            "items": {
+              "type": "number"
+            }
+          },
+          "COLUMN_DESIGN": {
+            "type": "object",
+            "description": "Column design settings for optimal design of column members",
+            "additionalProperties": false,
+            "properties": {
+              "APPLIED_FORCES": {
+                "type": "integer",
+                "description": "Applied forces and moments method for column design",
+                "default": 0,
+                "oneOf": [
+                  {
+                    "title": "Axial Forces and Moments",
+                    "const": 0
+                  },
+                  {
+                    "title": "Axial Forces Only",
+                    "const": 1
+                  }
+                ]
+              },
+              "JOINT_METHOD": {
+                "type": "integer",
+                "description": "Joint method of built-up column splices",
+                "default": 1,
+                "oneOf": [
+                  {
+                    "title": "Internal Const (Fixed inside, expand outward)",
+                    "const": 0
+                  },
+                  {
+                    "title": "External Const (Fixed outside, adjust inward)",
+                    "const": 1
+                  }
+                ]
+              }
+            }
+          },
+          "USER_DEFINED_SECT": {
+            "type": "array",
+            "description": "User-defined section database. Each row defines a section with No, Shape, and dimensions D1-D6.",
+            "items": {
+              "type": "object",
+              "required": [
+                "NO",
+                "SHAPE"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "NO": {
+                  "type": "integer",
+                  "description": "Section No."
+                },
+                "SHAPE": {
+                  "type": "string",
+                  "description": "Section shape (L, C, H, T, B, P, SR, SB, 2L, 2C)"
+                },
+                "D1": {
+                  "type": "number",
+                  "default": 0
+                },
+                "D2": {
+                  "type": "number",
+                  "default": 0
+                },
+                "D3": {
+                  "type": "number",
+                  "default": 0
+                },
+                "D4": {
+                  "type": "number",
+                  "default": 0
+                },
+                "D5": {
+                  "type": "number",
+                  "default": 0
+                },
+                "D6": {
+                  "type": "number",
+                  "default": 0
+                }
+              }
+            }
+          },
+          "OUTPUT": {
+            "type": "object",
+            "description": "Output options for optimal design results (can select multiple simultaneously)",
+            "required": [
+              "EXPORT_PATH"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "GRAPH_MAX_RATIO": {
+                "type": "boolean",
+                "description": "Output Max. Ratio graph",
+                "default": true
+              },
+              "GRAPH_AVG_RATIO": {
+                "type": "boolean",
+                "description": "Output Average Ratio graph",
+                "default": true
+              },
+              "GRAPH_WEIGHT": {
+                "type": "boolean",
+                "description": "Output Weight graph",
+                "default": true
+              },
+              "GRAPH_WEIGHT_SUM": {
+                "type": "boolean",
+                "description": "Output Weight Sum graph",
+                "default": true
+              },
+              "GRAPH_WEIGHT_RATIO": {
+                "type": "boolean",
+                "description": "Output Weight Ratio graph",
+                "default": true
+              },
+              "TEXT_REPORT": {
+                "type": "boolean",
+                "description": "Output results as text report to screen and file",
+                "default": true
+              },
+              "MODEL_UPDATE": {
+                "type": "boolean",
+                "description": "Apply selected optimal sections to the model",
+                "default": true
+              },
+              "EXPORT_PATH": {
+                "type": "string",
+                "description": "File path to save report output"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

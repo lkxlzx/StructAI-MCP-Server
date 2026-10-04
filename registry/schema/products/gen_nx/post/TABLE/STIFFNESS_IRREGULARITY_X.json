@@ -1,0 +1,86 @@
+{
+  "key": "POST.TABLE.STIFFNESS_IRREGULARITY_X",
+  "uri": "POST/TABLE",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Stiffness Irregularity Check (Soft Story) - Analysis Story Table",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Table Name • Response Table Title"
+          },
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Result Table Type • X-Direction : \"STIFFNESS_IRREGULARITY_X\" • Y-Direction : \"STIFFNESS_IRREGULARITY_Y\""
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force"
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Length"
+              },
+              "HEAT": {
+                "type": "string",
+                "description": "Heat"
+              },
+              "TEMP": {
+                "type": "string",
+                "description": "Temperature"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "description": "Number Format • \"Default\" • \"Fixed\" • \"Scientific\" • \"General\""
+              },
+              "PLACE": {
+                "type": "integer",
+                "description": "Digit Place • 0 to 15"
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "string",
+            "description": "Components of Result Table"
+          },
+          "LOAD_CASE_NAMES": {
+            "type": "string",
+            "description": "Load Name & Type • Static Load Cases ◦ NAME + \"(ST)\" • Load Combinations ◦ NAME + \"(CB)\" • Response Spectrum ◦ NAME + \"(RS)\" ◦ NAME + \"(ES)\""
+          },
+          "ADDITIONAL": {
+            "type": "object",
+            "description": "Additional Setting",
+            "properties": {
+              "SET_CALCULATION_METHOD": {
+                "type": "object",
+                "description": "Set Calculation Method"
+              }
+            }
+          }
+        },
+        "required": [
+          "TABLE_TYPE"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "key": "DB.PNLA",
+  "uri": "DB/PNLA",
+  "source": "help_center",
+  "schema": {
+    "PNLA": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "LOAD_GROUP": {
+          "description": "LoadGroupName",
+          "type": "string"
+        },
+        "PNLD_KEY": {
+          "description": "PlaneLoadTypeKey",
+          "type": "integer"
+        },
+        "ELEM_TYPE": {
+          "description": "ElementType",
+          "type": "string"
+        },
+        "POINT_ORIGIN": {
+          "description": "OriginPoint",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "AXIS_X": {
+          "description": "PlaneXAxis",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "AXIS_Y": {
+          "description": "PlaneYAxis",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "TOL": {
+          "description": "Tolerance",
+          "type": "number"
+        },
+        "SELECT_TYPE": {
+          "description": "ElementSelectionType",
+          "type": "string"
+        },
+        "ELEM_GROUP": {
+          "description": "ElementGroupName",
+          "type": "string"
+        },
+        "FACE_NO": {
+          "description": "SolidFaceNo.(1~6)",
+          "type": "integer"
+        },
+        "LOAD_DIR": {
+          "description": "LoadDirection",
+          "type": "string"
+        },
+        "PROJECT_TYPE": {
+          "description": "ProjectionType",
+          "type": "string"
+        },
+        "bDEFINE_NODE": {
+          "description": "NodeDefiningLoadingArea",
+          "type": "boolean"
+        },
+        "CONNECT_NODE": {
+          "description": "LoadingBoundaryConnectingNode",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maxItems": 15
+          }
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

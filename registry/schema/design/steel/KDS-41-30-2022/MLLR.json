@@ -1,0 +1,58 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.MLLR",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/MLLR",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "FACTOR": {
+                "type": "number",
+                "description": "Reduction Factor",
+                "default": 1,
+                "minimum": 0.3,
+                "maximum": 1
+              },
+              "COMPONENTS": {
+                "type": "object",
+                "description": "Applied Components",
+                "additionalProperties": false,
+                "properties": {
+                  "AXIAL": {
+                    "type": "boolean",
+                    "description": "Axial Force",
+                    "default": false
+                  },
+                  "MOMENT": {
+                    "type": "boolean",
+                    "description": "Moments",
+                    "default": false
+                  },
+                  "SHEAR": {
+                    "type": "boolean",
+                    "description": "Shear Forces",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

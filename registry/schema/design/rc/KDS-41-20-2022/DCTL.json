@@ -1,0 +1,89 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCTL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCTL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "description": "Definition of Frame (shared structure: T_DCTL_D). Supported methods: GET, PUT.",
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "maxProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "FRAMEX": {
+                "type": "string",
+                "description": "X-Direction of Frame",
+                "default": "Braced Non-sway",
+                "oneOf": [
+                  {
+                    "title": "Unbraced | Sway",
+                    "const": "Unbraced Sway"
+                  },
+                  {
+                    "title": "Braced | Non-sway",
+                    "const": "Braced Non-sway"
+                  }
+                ]
+              },
+              "FRAMEY": {
+                "type": "string",
+                "description": "Y-Direction of Frame",
+                "default": "Braced Non-sway",
+                "oneOf": [
+                  {
+                    "title": "Unbraced | Sway",
+                    "const": "Unbraced Sway"
+                  },
+                  {
+                    "title": "Braced | Non-sway",
+                    "const": "Braced Non-sway"
+                  }
+                ]
+              },
+              "bAUTOKF": {
+                "type": "boolean",
+                "description": "Auto Calculate Effective Length Factor",
+                "default": false
+              },
+              "DT": {
+                "type": "string",
+                "description": "Design Type",
+                "default": "3D",
+                "oneOf": [
+                  {
+                    "title": "3-D",
+                    "const": "3D"
+                  },
+                  {
+                    "title": "X-Z Plane",
+                    "const": "XZ"
+                  },
+                  {
+                    "title": "Y-Z Plane",
+                    "const": "YZ"
+                  },
+                  {
+                    "title": "X-Y Plane",
+                    "const": "XY"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

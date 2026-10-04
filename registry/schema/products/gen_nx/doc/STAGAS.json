@@ -1,0 +1,11 @@
+{
+  "key": "DOC.STAGAS",
+  "uri": "DOC/STAGAS",
+  "source": "repo_midas_api",
+  "schema": {
+    "Argument": {
+      "EXPORT_PATH": "C:\\MIDAS\\FASE1.mcb",
+      "STAGE_STEP": "Fase1"
+    }
+  }
+}

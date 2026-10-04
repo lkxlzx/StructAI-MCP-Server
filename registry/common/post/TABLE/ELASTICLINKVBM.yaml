@@ -1,0 +1,39 @@
+key: POST.TABLE.ELASTICLINKVBM
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/ELASTICLINKVBM.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: ELASTICLINKVBM
+title: "Elastic Link - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36017416195737-Elastic-Link-Analysis-Result-Table"
+  retrieved_at: "2025-08-14"
+  provenance: [help_center]
+stats:
+  spec_rows: 25
+  examples: 6
+  has_response_head: false

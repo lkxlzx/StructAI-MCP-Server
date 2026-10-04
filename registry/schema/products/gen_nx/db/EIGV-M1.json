@@ -1,0 +1,340 @@
+{
+  "key": "DB.EIGV-M1",
+  "uri": "DB/EIGV-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices (e.g. \"1\"); each value is an Eigenvalue Analysis Control input object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ANAL_TYPE"
+          ],
+          "properties": {
+            "ANAL_TYPE": {
+              "type": "string",
+              "enum": [
+                "LANCZOS",
+                "RITZ"
+              ],
+              "description": "Eigen Vectors (Lanczos) (UI Subspace Iteration 은 MEC 에서 Lanczos 로 병합)"
+            },
+            "FREQ_NO": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "description": "Number of Frequencies (범위 1~1000)"
+            },
+            "FREQ_RANGE": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "OPT_USE"
+              ],
+              "properties": {
+                "OPT_USE": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Frequency range of interest"
+                },
+                "FREQ_MIN": {
+                  "type": "number",
+                  "description": "Search From"
+                },
+                "FREQ_MAX": {
+                  "type": "number",
+                  "description": "To"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "If OPT_USE = true, FREQ_MIN and FREQ_MAX are required.",
+                  "if": {
+                    "properties": {
+                      "OPT_USE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "OPT_USE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "FREQ_MIN",
+                      "FREQ_MAX"
+                    ]
+                  }
+                },
+                {
+                  "description": "If OPT_USE = false, FREQ_MIN and FREQ_MAX must not be provided.",
+                  "if": {
+                    "properties": {
+                      "OPT_USE": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "OPT_USE"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "FREQ_MIN"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "FREQ_MAX"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "description": "Frequency range of interest"
+            },
+            "STURM_SEQ": {
+              "type": "boolean",
+              "default": false,
+              "description": "Sturm Sequence Check"
+            },
+            "GLINK_VECTOR": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "OPT_USE"
+              ],
+              "properties": {
+                "OPT_USE": {
+                  "type": "boolean",
+                  "description": "Include GL-link Force Vectors"
+                },
+                "GLINK_NUMBER": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Number of Generations for Each GL-link Force Vectors"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "If OPT_USE = true, GLINK_NUMBER is required.",
+                  "if": {
+                    "properties": {
+                      "OPT_USE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "OPT_USE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "GLINK_NUMBER"
+                    ]
+                  }
+                },
+                {
+                  "description": "If OPT_USE = false, GLINK_NUMBER must not be provided.",
+                  "if": {
+                    "properties": {
+                      "OPT_USE": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "OPT_USE"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "GLINK_NUMBER"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "description": "Include GL-link Force Vectors"
+            },
+            "RITZ_LOAD": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "TYPE",
+                  "LOAD_NAME",
+                  "NUM_OF_GEN"
+                ],
+                "properties": {
+                  "TYPE": {
+                    "type": "string",
+                    "enum": [
+                      "LOAD",
+                      "GROUND"
+                    ],
+                    "description": "Load Case / Number of Generations / Starting Load Vectors 목록"
+                  },
+                  "LOAD_NAME": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Load Case / Number of Generations / Starting Load Vectors 목록"
+                  },
+                  "NUM_OF_GEN": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Load Case / Number of Generations / Starting Load Vectors 목록"
+                  }
+                },
+                "allOf": [
+                  {
+                    "description": "If TYPE = GROUND, LOAD_NAME must be one of ACCX/ACCY/ACCZ.",
+                    "if": {
+                      "properties": {
+                        "TYPE": {
+                          "const": "GROUND"
+                        }
+                      },
+                      "required": [
+                        "TYPE"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "LOAD_NAME": {
+                          "enum": [
+                            "ACCX",
+                            "ACCY",
+                            "ACCZ"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "description": "Load Case / Number of Generations / Starting Load Vectors 목록 (각 엔트리가 {TYPE, LOAD_NAME, NUM_OF_GEN}. TYPE=GROUND 이면 LOAD_NAME 은 ACCX/ACCY/ACCZ)"
+            }
+          },
+          "allOf": [
+            {
+              "description": "If ANAL_TYPE = LANCZOS, FREQ_NO is required.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "const": "LANCZOS"
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "FREQ_NO"
+                ]
+              }
+            },
+            {
+              "description": "If ANAL_TYPE = LANCZOS, RITZ-only fields are not allowed.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "const": "LANCZOS"
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "GLINK_VECTOR"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "RITZ_LOAD"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "If ANAL_TYPE = RITZ, RITZ_LOAD is required.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "const": "RITZ"
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "RITZ_LOAD"
+                ]
+              }
+            },
+            {
+              "description": "If ANAL_TYPE = RITZ, LANCZOS-only fields are not allowed.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "const": "RITZ"
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "FREQ_NO"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "FREQ_RANGE"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STURM_SEQ"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

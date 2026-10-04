@@ -1,0 +1,44 @@
+{
+  "key": "DB.MVLDTR",
+  "uri": "DB/MVLDTR",
+  "source": "help_center",
+  "schema": {
+    "MVLDTR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "MVHL_NAME": {
+          "description": "Vehicle(MVHL)Name",
+          "type": "string"
+        },
+        "SCALEFACTOR": {
+          "description": "ScaleFactor",
+          "type": "number"
+        },
+        "LLAN_NAME": {
+          "description": "LineLaneName",
+          "type": "string"
+        },
+        "NUM_LANE": {
+          "description": "NumberofLanes",
+          "type": "integer"
+        },
+        "ITEMS": {
+          "description": "LaneFactors",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

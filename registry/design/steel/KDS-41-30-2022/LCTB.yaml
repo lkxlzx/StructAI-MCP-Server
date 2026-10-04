@@ -1,0 +1,45 @@
+key: "DESIGN.STEEL.KDS-41-30-2022.LCTB"
+namespace: DESIGN
+uri: "/DESIGN/STEEL/KDS-41-30-2022/LCTB"
+methods: [GET]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: LCTB
+schema_ref:
+  local: "schema/design/steel/KDS-41-30-2022/LCTB.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Load Contribution for Nonlinear Load Case (비선형 하중케이스 하중기여)
+title_zh: 非线性荷载工况荷载贡献
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 6
+  examples: 1
+  has_response_head: false

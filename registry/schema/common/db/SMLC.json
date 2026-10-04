@@ -1,0 +1,40 @@
+{
+  "key": "DB.SMLC",
+  "uri": "DB/SMLC",
+  "source": "help_center",
+  "schema": {
+    "SMLC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "SettlementLoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "SettlementLoadCaseDescription",
+          "type": "string"
+        },
+        "FACTOR": {
+          "description": "SettlementScaleFactor",
+          "type": "number"
+        },
+        "MIN": {
+          "description": "SettlementMin",
+          "type": "integer"
+        },
+        "MAX": {
+          "description": "SettlementMax",
+          "type": "integer"
+        },
+        "ST_GROUPS": {
+          "description": "SettlementGroups(Const)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

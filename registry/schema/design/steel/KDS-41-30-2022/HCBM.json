@@ -1,0 +1,171 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.HCBM",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/HCBM",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "NAME",
+              "PART_A",
+              "PART_B",
+              "PART_C",
+              "POS_TYPE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "NAME": {
+                "type": "string",
+                "description": "Haunch Name"
+              },
+              "PART_A": {
+                "type": "object",
+                "description": "Element No. Input for Part A (Use only one method)",
+                "additionalProperties": false,
+                "required": [
+                  "INPUT_METHOD"
+                ],
+                "properties": {
+                  "INPUT_METHOD": {
+                    "type": "string",
+                    "description": "Select input method for Part A",
+                    "oneOf": [
+                      {
+                        "title": "Specify each Element ID",
+                        "const": "KEYS"
+                      },
+                      {
+                        "title": "Specify ID range",
+                        "const": "TO"
+                      }
+                    ]
+                  },
+                  "KEYS": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 1,
+                    "description": "Specify each Element ID"
+                  },
+                  "TO": {
+                    "type": "string",
+                    "description": "Specify ID range (e.g. \"101 to 105\")"
+                  }
+                }
+              },
+              "PART_B": {
+                "type": "object",
+                "description": "Element No. Input for Part B (Use only one method)",
+                "additionalProperties": false,
+                "required": [
+                  "INPUT_METHOD"
+                ],
+                "properties": {
+                  "INPUT_METHOD": {
+                    "type": "string",
+                    "description": "Select input method for Part B",
+                    "oneOf": [
+                      {
+                        "title": "Specify each Element ID",
+                        "const": "KEYS"
+                      },
+                      {
+                        "title": "Specify ID range",
+                        "const": "TO"
+                      }
+                    ]
+                  },
+                  "KEYS": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 1,
+                    "description": "Specify each Element ID"
+                  },
+                  "TO": {
+                    "type": "string",
+                    "description": "Specify ID range (e.g. \"101 to 105\")"
+                  }
+                }
+              },
+              "PART_C": {
+                "type": "object",
+                "description": "Element No. Input for Part C (Use only one method)",
+                "additionalProperties": false,
+                "required": [
+                  "INPUT_METHOD"
+                ],
+                "properties": {
+                  "INPUT_METHOD": {
+                    "type": "string",
+                    "description": "Select input method for Part C",
+                    "oneOf": [
+                      {
+                        "title": "Specify each Element ID",
+                        "const": "KEYS"
+                      },
+                      {
+                        "title": "Specify ID range",
+                        "const": "TO"
+                      }
+                    ]
+                  },
+                  "KEYS": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 1,
+                    "description": "Specify each Element ID"
+                  },
+                  "TO": {
+                    "type": "string",
+                    "description": "Specify ID range (e.g. \"101 to 105\")"
+                  }
+                }
+              },
+              "POS_TYPE": {
+                "type": "integer",
+                "description": "Design Position Type",
+                "oneOf": [
+                  {
+                    "title": "Part 1/2",
+                    "const": 0
+                  },
+                  {
+                    "title": "User",
+                    "const": 1
+                  }
+                ]
+              },
+              "L1": {
+                "type": "number",
+                "description": "User defined L1 distance",
+                "default": 1
+              },
+              "L2": {
+                "type": "number",
+                "description": "User defined L2 distance",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

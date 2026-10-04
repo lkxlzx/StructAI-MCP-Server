@@ -1,0 +1,49 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.DCO",
+  "uri": "DESIGN/SRC/AIK-SRC2K/DCO",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "minProperties": 1,
+        "maxProeprties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "DGNCODE",
+              "SEISMIC"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "DGNCODE": {
+                "type": "string",
+                "description": "Design code.",
+                "default": "AIK-SRC2K",
+                "oneOf": [
+                  {
+                    "const": "AIK-SRC2K",
+                    "title": "AIK-SRC2K"
+                  }
+                ]
+              },
+              "SEISMIC": {
+                "type": "boolean",
+                "description": "Whether seismic design is applied.",
+                "default": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

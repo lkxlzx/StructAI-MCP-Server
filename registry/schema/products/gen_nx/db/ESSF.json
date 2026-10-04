@@ -1,0 +1,62 @@
+{
+  "key": "DB.ESSF",
+  "uri": "DB/ESSF",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "AREA_SF": {
+                "description": "Area",
+                "type": "number"
+              },
+              "ASY_SF": {
+                "description": "Asy",
+                "type": "number"
+              },
+              "ASZ_SF": {
+                "description": "Asz",
+                "type": "number"
+              },
+              "IXX_SF": {
+                "description": "Ixx",
+                "type": "number"
+              },
+              "IYY_SF": {
+                "description": "Iyy",
+                "type": "number"
+              },
+              "IZZ_SF": {
+                "description": "Izz",
+                "type": "number"
+              },
+              "WGT_SF": {
+                "description": "Weight",
+                "type": "number"
+              },
+              "GROUP_NAME": {
+                "description": "NameofBoundaryGroup",
+                "type": "string"
+              },
+              "iPart": {
+                "description": "Part",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

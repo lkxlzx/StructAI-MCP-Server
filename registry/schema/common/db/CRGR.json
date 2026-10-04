@@ -1,0 +1,20 @@
+{
+  "key": "DB.CRGR",
+  "uri": "DB/CRGR",
+  "source": "help_center",
+  "schema": {
+    "CRGR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "GROUPS": {
+          "description": "SetofCurrentReactionGroup",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

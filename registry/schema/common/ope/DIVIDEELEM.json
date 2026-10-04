@@ -1,0 +1,171 @@
+{
+  "key": "OPE.DIVIDEELEM",
+  "uri": "OPE/DIVIDEELEM",
+  "source": "help_center",
+  "schema": {
+    "DIVIDEELEM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TARGETS": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "START_NUMBER": {
+              "type": "object",
+              "properties": {
+                "NODE_NUMBER": {
+                  "type": "object",
+                  "properties": {
+                    "NUMBER_OPTION": {
+                      "type": "string",
+                      "enum": [
+                        "Smallest",
+                        "Largest",
+                        "User"
+                      ]
+                    },
+                    "USER_NUM": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "ELEM_NUMBER": {
+                  "type": "object",
+                  "properties": {
+                    "NUMBER_OPTION": {
+                      "type": "string",
+                      "enum": [
+                        "Smallest",
+                        "Largest",
+                        "User"
+                      ]
+                    },
+                    "USER_NUM": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "DIVIDE": {
+              "type": "object",
+              "properties": {
+                "ELEM_TYPE": {
+                  "type": "string",
+                  "enum": [
+                    "Frame",
+                    "Wall",
+                    "Planar",
+                    "Solid"
+                  ]
+                },
+                "DIV_METHOD": {
+                  "type": "string",
+                  "enum": [
+                    "Equal",
+                    "Unequal",
+                    "ParametricUnequal",
+                    "ParallelBracing",
+                    "DividebyNode"
+                  ]
+                },
+                "OPTION": {
+                  "type": "object",
+                  "properties": {
+                    "EQUAL_OPTION": {
+                      "type": "object",
+                      "properties": {
+                        "NUM_X": {
+                          "type": "integer"
+                        },
+                        "NUM_Y": {
+                          "type": "integer"
+                        },
+                        "NUM_Z": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "UNEQUAL_OPTION": {
+                      "type": "object",
+                      "properties": {
+                        "DIST_X": {
+                          "type": "string"
+                        },
+                        "DIST_Y": {
+                          "type": "string"
+                        },
+                        "DIST_Z": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "PARAMETRIC_OPTION": {
+                      "type": "object",
+                      "properties": {
+                        "RATIO_X": {
+                          "type": "string"
+                        },
+                        "RATIO_Y": {
+                          "type": "string"
+                        },
+                        "RATIO_Z": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "PARALLEL_OPTION": {
+                      "type": "object",
+                      "properties": {
+                        "NUM_OF_DIVISIONS": {
+                          "type": "integer"
+                        },
+                        "MAIN_POST_ELEM": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "BY_NODE_OPTION": {
+                      "type": "object",
+                      "properties": {
+                        "ELEM_NUM": {
+                          "type": "integer"
+                        },
+                        "NODE_NUM": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "SUBDIVIDE_ELEM": {
+                  "type": "boolean"
+                },
+                "MERGE_DUPLICATE_NODES": {
+                  "type": "object",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean"
+                    },
+                    "TOLERANCE": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

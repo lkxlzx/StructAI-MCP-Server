@@ -1,0 +1,268 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.REBW",
+  "uri": "DESIGN/RC/KDS-41-20-2022/REBW",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "벽체 ID 문자열을 키로 갖는 맵 (예: \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "description": "벽체 철근 항목",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "VERTICAL_REBAR",
+                    "HORIZONTAL_REBAR",
+                    "CONCRETE_FACE_TO_CENTER_OF_REBAR"
+                  ],
+                  "properties": {
+                    "CREATE_SUB_WALL_ID": {
+                      "type": "boolean",
+                      "description": "서브 벽체 ID 생성",
+                      "default": false
+                    },
+                    "SUB_WALL_ID": {
+                      "type": "integer",
+                      "description": "서브 벽체 ID (CREATE_SUB_WALL_ID=true 일 때 읽기 전용)"
+                    },
+                    "STORY": {
+                      "type": "object",
+                      "description": "층 범위 (CREATE_SUB_WALL_ID=true 일 때 필수)",
+                      "required": [
+                        "FROM",
+                        "TO"
+                      ],
+                      "properties": {
+                        "FROM": {
+                          "type": "string",
+                          "description": "시작 층"
+                        },
+                        "TO": {
+                          "type": "string",
+                          "description": "종료 층"
+                        }
+                      }
+                    },
+                    "VERTICAL_REBAR": {
+                      "type": "object",
+                      "description": "수직 철근 데이터",
+                      "required": [
+                        "NAME",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "수직 철근 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "수직 철근 간격"
+                        }
+                      }
+                    },
+                    "HORIZONTAL_REBAR": {
+                      "type": "object",
+                      "description": "수평 철근 데이터",
+                      "required": [
+                        "NAME",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "수평 철근 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "수평 철근 간격"
+                        }
+                      }
+                    },
+                    "USE_END_REBAR": {
+                      "type": "boolean",
+                      "description": "단부 철근 입력 사용",
+                      "default": false
+                    },
+                    "END_REBAR": {
+                      "type": "object",
+                      "description": "단부 철근 데이터 (USE_END_REBAR=true 일 때 필수)",
+                      "required": [
+                        "NAME",
+                        "NUM",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "단부(수직) 철근 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "NUM": {
+                          "type": "integer",
+                          "description": "단부 철근 개수"
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "단부 철근 간격"
+                        }
+                      }
+                    },
+                    "BE_HORIZONTAL_REBAR": {
+                      "type": "object",
+                      "description": "경계요소 수평 철근 데이터",
+                      "required": [
+                        "NAME",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "경계요소 수평 철근 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "경계요소 수평 철근 간격"
+                        }
+                      }
+                    },
+                    "BOUNDARY_ELEMENT_LENGTH": {
+                      "type": "number",
+                      "description": "경계요소 길이",
+                      "default": 0
+                    },
+                    "CONCRETE_FACE_TO_CENTER_OF_REBAR": {
+                      "type": "object",
+                      "description": "콘크리트면~철근중심 거리",
+                      "required": [
+                        "DW",
+                        "DE"
+                      ],
+                      "properties": {
+                        "DW": {
+                          "type": "number",
+                          "description": "콘크리트면~수직 철근중심 (dw)"
+                        },
+                        "DE": {
+                          "type": "number",
+                          "description": "콘크리트면~경계요소 철근중심 (de)"
+                        }
+                      }
+                    },
+                    "USE_MODEL_THICKNESS": {
+                      "type": "boolean",
+                      "description": "모델 두께 사용",
+                      "default": true
+                    },
+                    "THICKNESS": {
+                      "type": "number",
+                      "description": "벽체 두께 (USE_MODEL_THICKNESS=false 일 때 필수)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "CREATE_SUB_WALL_ID": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "CREATE_SUB_WALL_ID"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "SUB_WALL_ID",
+                          "STORY"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "USE_END_REBAR": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "USE_END_REBAR"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "END_REBAR"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "USE_MODEL_THICKNESS": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "USE_MODEL_THICKNESS"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "THICKNESS"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

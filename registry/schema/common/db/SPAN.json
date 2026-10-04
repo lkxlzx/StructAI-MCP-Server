@@ -1,0 +1,53 @@
+{
+  "key": "DB.SPAN",
+  "uri": "DB/SPAN",
+  "source": "help_center",
+  "schema": {
+    "SPAN": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "bEXACTSPAN": {
+          "description": "bExactSpan",
+          "type": "boolean"
+        },
+        "DIRECTION": {
+          "description": "nDirection",
+          "type": "integer"
+        },
+        "SECTTYPE": {
+          "description": "nSectType",
+          "type": "integer"
+        },
+        "SPAN_LIST": {
+          "description": "Span",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "SPAN_BASE_ITEMS": {
+          "description": "SpanBaseItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ELEM_KEY": {
+                "description": "Element",
+                "type": "integer"
+              },
+              "SUPPORT": {
+                "description": "Support",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "key": "DB.RCHK",
+  "uri": "DB/RCHK",
+  "source": "help_center",
+  "schema": {
+    "RCHK": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "MEMBTYPE": {
+          "description": "MEMBTYPE",
+          "type": "string"
+        },
+        "ENVTYPE": {
+          "description": "EnvironmentType",
+          "type": "integer"
+        },
+        "BEAM": {
+          "description": "BEAM",
+          "type": "object",
+          "properties": {
+            "OPTION_IMJSAME": {
+              "description": "IMJSameOption(itneedsonlyI)",
+              "type": "boolean"
+            },
+            "vMAIN": {
+              "description": "MainRebarDatas",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "SECTOR": {
+                    "description": "Sector",
+                    "type": "string"
+                  },
+                  "POS_TOP_LAYERS": {
+                    "description": "PositionTopLayers",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "LAYER": {
+                          "description": "LayerIndex",
+                          "type": "integer"
+                        },
+                        "dD": {
+                          "description": "dD",
+                          "type": "number"
+                        },
+                        "BAR_NUM": {
+                          "description": "BAR_NUM",
+                          "type": "integer"
+                        },
+                        "BAR_NAME1": {
+                          "description": "BAR_NAME1",
+                          "type": "string"
+                        },
+                        "BAR_NAME2": {
+                          "description": "BAR_NAME2",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "POS_BOT_LAYERS": {
+                    "description": "PositionBotLayers",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "LAYER": {
+                          "description": "LayerIndex",
+                          "type": "integer"
+                        },
+                        "dD": {
+                          "description": "dD",
+                          "type": "number"
+                        },
+                        "BAR_NUM": {
+                          "description": "BAR_NUM",
+                          "type": "integer"
+                        },
+                        "BAR_NAME1": {
+                          "description": "BAR_NAME1",
+                          "type": "string"
+                        },
+                        "BAR_NAME2": {
+                          "description": "BAR_NAME2",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "vSUB_BAR": {
+              "description": "SubRebarData",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "SECTOR": {
+                    "description": "SECTOR",
+                    "type": "string"
+                  },
+                  "dSUB_BARNUM": {
+                    "description": "dSUB_BARNUM",
+                    "type": "number"
+                  },
+                  "SUB_BARNAME": {
+                    "description": "SUB_BARNAME",
+                    "type": "string"
+                  },
+                  "dSUB_BARDIST": {
+                    "description": "dSUB_BARDIST",
+                    "type": "number"
+                  },
+                  "dSUB_BARANGLE": {
+                    "description": "dSUB_BARANGLE",
+                    "type": "number"
+                  },
+                  "bTORSIONAL_BAR": {
+                    "description": "bTORSIONAL_BAR",
+                    "type": "boolean"
+                  },
+                  "sTRTORBARNA": {
+                    "description": "sTRTORBARNA",
+                    "type": "string"
+                  },
+                  "dTORBAR_SPACING": {
+                    "description": "dTORBAR_SPACING",
+                    "type": "number"
+                  },
+                  "bBUNDLEDBAR": {
+                    "description": "bBUNDLEDBAR",
+                    "type": "boolean"
+                  },
+                  "dBUNDLEDBARNUM": {
+                    "description": "dBUNDLEDBARNUM",
+                    "type": "number"
+                  },
+                  "LONGIBARNA": {
+                    "description": "LONGIBARNA",
+                    "type": "string"
+                  },
+                  "dLONGIBARNUM": {
+                    "description": "dLONGIBARNUM",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "COLM": {
+          "description": "COLM",
+          "type": "object",
+          "properties": {
+            "vLAYER": {
+              "description": "vMAIN",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "INDEX": {
+                    "description": "INDEX",
+                    "type": "integer"
+                  },
+                  "dDc": {
+                    "description": "dDc",
+                    "type": "number"
+                  },
+                  "vPOSITION": {
+                    "description": "vPOSITION",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "POSITION": {
+                          "description": "POSITION",
+                          "type": "string"
+                        },
+                        "BAR_NUM": {
+                          "description": "BAR_NUM",
+                          "type": "integer"
+                        },
+                        "BAR_NAME1": {
+                          "description": "BAR_NAME1",
+                          "type": "string"
+                        },
+                        "BAR_NAME2": {
+                          "description": "BAR_NAME2",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SUB_BAR": {
+              "description": "SUB_BAR",
+              "type": "object",
+              "properties": {
+                "SUBBAR_NAME": {
+                  "description": "SUBBAR_NAME",
+                  "type": "string"
+                },
+                "SUBBAR_DIST": {
+                  "description": "SUBBAR_DIST",
+                  "type": "number"
+                },
+                "SUBBAR_NUM": {
+                  "description": "SUBBAR_NUM",
+                  "type": "number"
+                },
+                "SUBBAR_NAME_Y": {
+                  "description": "SUBBAR_NAME_Y",
+                  "type": "string"
+                },
+                "SUBBAR_NAME_Z": {
+                  "description": "SUBBAR_NAME_Z",
+                  "type": "string"
+                },
+                "SUBBAR_NUM_Y": {
+                  "description": "SUBBAR_NUM_Y",
+                  "type": "number"
+                },
+                "SUBBAR_NUM_Z": {
+                  "description": "SUBBAR_NUM_Z",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

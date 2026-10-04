@@ -1,0 +1,59 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.SUEQ",
+  "uri": "DESIGN/RC/KDS-41-20-2022/SUEQ",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "LC_AXIAL": {
+                "type": "number",
+                "description": "Load Case - Axial Scale Factor",
+                "default": 1
+              },
+              "LC_MOMENT": {
+                "type": "number",
+                "description": "Load Case - Moment Scale Factor",
+                "default": 1
+              },
+              "LC_SHEAR": {
+                "type": "number",
+                "description": "Load Case - Shear Scale Factor",
+                "default": 1
+              },
+              "LCOM_AXIAL": {
+                "type": "number",
+                "description": "Load Combination - Axial Scale Factor",
+                "default": 1
+              },
+              "LCOM_MOMENT": {
+                "type": "number",
+                "description": "Load Combination - Moment Scale Factor",
+                "default": 1
+              },
+              "LCOM_SHEAR": {
+                "type": "number",
+                "description": "Load Combination - Shear Scale Factor",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,957 @@
+{
+  "key": "DB.FIMP",
+  "uri": "DB/FIMP",
+  "source": "help_center",
+  "schema": {
+    "FIMP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "MATL_TYPE": {
+          "description": "MaterialType",
+          "type": "string"
+        },
+        "HYS_MODEL": {
+          "description": "HysteresisModel",
+          "type": "string"
+        },
+        "ASSIGN_TYPE": {
+          "description": "AssignType",
+          "type": "string"
+        },
+        "CONC": {
+          "description": "Concrete",
+          "type": "object",
+          "properties": {
+            "KENPAR": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "FC": {
+                  "description": "fc",
+                  "type": "number"
+                },
+                "EC0": {
+                  "description": "ec0",
+                  "type": "number"
+                },
+                "K": {
+                  "description": "K",
+                  "type": "number"
+                },
+                "ECU": {
+                  "description": "ecu",
+                  "type": "number"
+                },
+                "PARTIAL_FACT": {
+                  "description": "PartialSafetyFactor",
+                  "type": "number"
+                },
+                "EC1_METHOD": {
+                  "description": "ec1,ZSelection",
+                  "type": "integer"
+                },
+                "Z": {
+                  "description": "Z",
+                  "type": "number"
+                },
+                "EC1": {
+                  "description": "ec1",
+                  "type": "number"
+                },
+                "STRENGTH_AFTER": {
+                  "description": "StrengthAfterCriticalStrain(ecu)Property",
+                  "type": "integer"
+                }
+              }
+            },
+            "JPSTND": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "FC": {
+                  "description": "fc",
+                  "type": "number"
+                },
+                "EPEAK": {
+                  "description": "epeak",
+                  "type": "number"
+                },
+                "PARTIAL_FACT": {
+                  "description": "PartialSafetyFactor",
+                  "type": "number"
+                }
+              }
+            },
+            "JP_H14": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "EARTHQUAKE_TYPE": {
+                  "description": "EarthquakeType",
+                  "type": "number"
+                },
+                "EC": {
+                  "description": "Ec",
+                  "type": "number"
+                },
+                "SIGMA_CK": {
+                  "description": "σck",
+                  "type": "number"
+                },
+                "SIGMA_SY": {
+                  "description": "σsy",
+                  "type": "number"
+                },
+                "ALPHA": {
+                  "description": "α",
+                  "type": "number"
+                },
+                "SIGMA_BT": {
+                  "description": "σbt",
+                  "type": "number"
+                },
+                "AH": {
+                  "description": "Ah",
+                  "type": "number"
+                },
+                "S": {
+                  "description": "s",
+                  "type": "number"
+                },
+                "D": {
+                  "description": "d",
+                  "type": "number"
+                },
+                "BETA": {
+                  "description": "β",
+                  "type": "number"
+                },
+                "STRENGTH_LIMIT": {
+                  "description": "StrengthafterCriticalStrainProperty",
+                  "type": "integer"
+                }
+              }
+            },
+            "NAGOYA": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "SIGMA_CK": {
+                  "description": "σck",
+                  "type": "number"
+                },
+                "EPSILON_CC": {
+                  "description": "εcc",
+                  "type": "number"
+                },
+                "K": {
+                  "description": "K",
+                  "type": "number"
+                },
+                "EPSILON_CU": {
+                  "description": "εcu",
+                  "type": "number"
+                },
+                "EPSILON_T0": {
+                  "description": "εt0",
+                  "type": "number"
+                },
+                "EPSILON_TU": {
+                  "description": "εtu",
+                  "type": "number"
+                },
+                "EPSILON_T1": {
+                  "description": "εt1",
+                  "type": "number"
+                },
+                "STRENGTH_AFTER": {
+                  "description": "StrengthafterCriticalStrainProperty",
+                  "type": "integer"
+                }
+              }
+            },
+            "TRILIN": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "INPUT_METHOD": {
+                  "description": "Inputmethod:σ-ε/σ-α",
+                  "type": "integer"
+                },
+                "SIGMA_Y_ITEMS": {
+                  "description": "",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "EPSILON_T_ITEMS": {
+                  "description": "εt",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "EPSILON_Y_ITEMS": {
+                  "description": "εy",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "EPSILON_CU": {
+                  "description": "εcu",
+                  "type": "number"
+                },
+                "K_ITEMS": {
+                  "description": "K",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "CHGB02": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "FCK": {
+                  "description": "fc*",
+                  "type": "number"
+                },
+                "EC": {
+                  "description": "εc",
+                  "type": "number"
+                },
+                "FTK": {
+                  "description": "ft*",
+                  "type": "number"
+                },
+                "ET": {
+                  "description": "εt",
+                  "type": "number"
+                }
+              }
+            },
+            "MANDER": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "CONC_TYPE": {
+                  "description": "ConcreteType",
+                  "type": "integer"
+                },
+                "KE": {
+                  "description": "ConfinedConreteData",
+                  "type": "object",
+                  "properties": {
+                    "SC_REBAR_TYPE": {
+                      "description": "Section&ConfinementRebarType",
+                      "type": "integer"
+                    },
+                    "OPT_ACC": {
+                      "description": "UseAreaofEffectiveConcreteCore(Acc)",
+                      "type": "boolean"
+                    },
+                    "ACC": {
+                      "description": "AreaofEffectiveConcreteCore(Acc)",
+                      "type": "number"
+                    },
+                    "OPT_AE": {
+                      "description": "UseTotalAreaofEffectivelyConfinedCoreConcrete",
+                      "type": "boolean"
+                    },
+                    "AE": {
+                      "description": "TotalAreaofEffectivelyConfinedCoreConcrete",
+                      "type": "number"
+                    },
+                    "OPT_KE": {
+                      "description": "UseAe/Acc=Ae/(Ac(1-ρcc))",
+                      "type": "boolean"
+                    },
+                    "KE": {
+                      "description": "Ae/Acc=Ae/(Ac(1-ρcc))",
+                      "type": "number"
+                    },
+                    "OPT_FL": {
+                      "description": "UseTheEffectiveLateralconfiningstressontheConcrete(Circular)",
+                      "type": "boolean"
+                    },
+                    "FL": {
+                      "description": "TheEffectiveLateralconfiningstressontheConcrete(Circular)",
+                      "type": "number"
+                    }
+                  }
+                },
+                "CCS": {
+                  "description": "ConfinedConcreteStrength&Strain",
+                  "type": "object",
+                  "properties": {
+                    "OPT_FCC": {
+                      "description": "UseStrengthofConfinedConcrete(fcc)",
+                      "type": "boolean"
+                    },
+                    "FCC": {
+                      "description": "StrengthofConfinedConcrete(fcc)",
+                      "type": "number"
+                    },
+                    "OPT_EPSILON_CC": {
+                      "description": "UseStrainforConfinedConcretecorrespondingtofcc(ecc)",
+                      "type": "boolean"
+                    },
+                    "EPSILON_CC": {
+                      "description": "StrainforConfinedConcretecorrespondingtofcc(ecc)",
+                      "type": "number"
+                    },
+                    "OPT_EPSILON_CY": {
+                      "description": "UseYieldStrainforconfinedConcrete",
+                      "type": "boolean"
+                    },
+                    "EPSILON_CY": {
+                      "description": "YieldStrainforconfinedConcrete",
+                      "type": "number"
+                    },
+                    "OPT_ENABLE_EPSILON_CU": {
+                      "description": "EnableUltimateStrainforConcreteGroup",
+                      "type": "boolean"
+                    },
+                    "USE_RHO_S": {
+                      "description": "UseRatiooftheVolumeofTransverse...(ρs)",
+                      "type": "boolean"
+                    },
+                    "RHO_S": {
+                      "description": "RatiooftheVolumeofTransverse...(ρs)",
+                      "type": "number"
+                    },
+                    "IDX_STEEL_MATERIAL": {
+                      "description": "UltimateStrainforConfinedConcrete-SteelMatrial",
+                      "type": "integer"
+                    },
+                    "USE_EPSILON_CU": {
+                      "description": "UseUltimateStrainforConfinedConcrete-eCU",
+                      "type": "boolean"
+                    },
+                    "EPSILON_CU": {
+                      "description": "UltimateStrainforConfinedConcrete-deCU",
+                      "type": "number"
+                    }
+                  }
+                },
+                "UCD": {
+                  "description": "UnconfinedConcreteData",
+                  "type": "object",
+                  "properties": {
+                    "OPT_FCO": {
+                      "description": "UseUnconfinedConcreteStrength",
+                      "type": "boolean"
+                    },
+                    "FCO": {
+                      "description": "UnconfinedConcreteStrength",
+                      "type": "number"
+                    },
+                    "OPT_EPSILON_CO": {
+                      "description": "UseUnconfinedConcreteStrain",
+                      "type": "boolean"
+                    },
+                    "EPSILON_CO": {
+                      "description": "UnconfinedConcreteStrain",
+                      "type": "number"
+                    },
+                    "OPT_EPSILON_CY": {
+                      "description": "UseYieldStrainforunconfinedConcrete",
+                      "type": "boolean"
+                    },
+                    "EPSILON_CY": {
+                      "description": "YieldStrainforunconfinedConcrete",
+                      "type": "number"
+                    },
+                    "OPT_EPSILON_SP": {
+                      "description": "UseSpallingStrainforUnconfined",
+                      "type": "boolean"
+                    },
+                    "EPSILON_SP": {
+                      "description": "SpallingStrainforUnconfined",
+                      "type": "number"
+                    },
+                    "IDX_EC": {
+                      "description": "ElasticModulusofConcreteIndex",
+                      "type": "integer"
+                    },
+                    "EC": {
+                      "description": "ElasticModulusofConcrete",
+                      "type": "number"
+                    },
+                    "IDX_FT": {
+                      "description": "TensileStrengthofConcreteIndex",
+                      "type": "integer"
+                    },
+                    "FT": {
+                      "description": "TensileStrengthofConcrete",
+                      "type": "number"
+                    },
+                    "EPSILON_T": {
+                      "description": "TensileStrainofConcrete",
+                      "type": "number"
+                    }
+                  }
+                },
+                "FIELD_2": {
+                  "description": "Field2",
+                  "type": "object",
+                  "properties": {
+                    "nRectSectAutoorUser": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "nCircSectAutoorUser": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "dXdirectionbc": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "dXdirectionwxi": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "nXdirectionn": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "dYdirectiondc": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "dYdirectionwyj": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "nYdirectionm": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "dds": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "nLongiRebarType": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "nLongiRebarNum": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "strLongiRebarSize": {
+                      "description": "",
+                      "type": "string"
+                    },
+                    "dLongiRebarArea": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bLongiRebarRatio": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dLongiRebarRatio": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "nGeneralRebarType": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "strGeneralRebarSize": {
+                      "description": "",
+                      "type": "string"
+                    },
+                    "dGeneralRebarArea": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "dHoopsSpaceS1": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "dClearHoopsSpaceS2": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "nGeneralRebarNumX": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "nGeneralRebarNumY": {
+                      "description": "",
+                      "type": "integer"
+                    },
+                    "dGeneralAsx": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "dGeneralAsy": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bRectStrengthfyh": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dRectStrengthfyh": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bGeneralAsx": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "bGeneralAsy": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "bRectRatiopx": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dRectRatiopx": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bRectRatiopy": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dRectRatiopy": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bRectStressflx": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dRectStressflx": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bRectStressfly": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dRectStressfly": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bCircularStrengthfyh": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dCircularStrengthfyh": {
+                      "description": "",
+                      "type": "number"
+                    },
+                    "bGeneralRebarArea": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "bCircularRatiops": {
+                      "description": "",
+                      "type": "boolean"
+                    },
+                    "dCircularRatiops": {
+                      "description": "",
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            },
+            "JP_H24": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "EC": {
+                  "description": "Ec",
+                  "type": "number"
+                },
+                "SIGMA_CK": {
+                  "description": "σck",
+                  "type": "number"
+                },
+                "SIGMA_SY": {
+                  "description": "σsy",
+                  "type": "number"
+                },
+                "ALPHA": {
+                  "description": "α",
+                  "type": "number"
+                },
+                "SIGMA_BT": {
+                  "description": "σbt",
+                  "type": "number"
+                },
+                "AH": {
+                  "description": "Ah",
+                  "type": "number"
+                },
+                "S": {
+                  "description": "s",
+                  "type": "number"
+                },
+                "D": {
+                  "description": "d",
+                  "type": "number"
+                },
+                "BETA": {
+                  "description": "β",
+                  "type": "number"
+                },
+                "STRENGTH_LIMIT": {
+                  "description": "StrengthafterCriticalStrainProperty",
+                  "type": "integer"
+                }
+              }
+            },
+            "CHGB10": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "FCR": {
+                  "description": "fc.r",
+                  "type": "number"
+                },
+                "FTR": {
+                  "description": "ft.r",
+                  "type": "number"
+                },
+                "ECR": {
+                  "description": "εc.r",
+                  "type": "number"
+                },
+                "ETR": {
+                  "description": "εt.r",
+                  "type": "number"
+                },
+                "EC": {
+                  "description": "Ec",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "STEEL": {
+          "description": "Steel",
+          "type": "object",
+          "properties": {
+            "MENEGO": {
+              "description": "Menegoto-PintoModel",
+              "type": "object",
+              "properties": {
+                "FY": {
+                  "description": "fy",
+                  "type": "number"
+                },
+                "E": {
+                  "description": "E",
+                  "type": "number"
+                },
+                "B": {
+                  "description": "b",
+                  "type": "number"
+                },
+                "PARTIAL_FACT": {
+                  "description": "PartialSafetyFactor",
+                  "type": "number"
+                }
+              }
+            },
+            "BILINE": {
+              "description": "BilinearModel",
+              "type": "object",
+              "properties": {
+                "FY": {
+                  "description": "fy",
+                  "type": "number"
+                },
+                "E1": {
+                  "description": "E1",
+                  "type": "number"
+                },
+                "E2E1": {
+                  "description": "E2/E1",
+                  "type": "number"
+                },
+                "PARTIAL_FACT": {
+                  "description": "PartialSafetyFactor",
+                  "type": "number"
+                }
+              }
+            },
+            "GENBIL": {
+              "description": "AsymmetricalBilinearSteelModel",
+              "type": "object",
+              "properties": {
+                "SIGMA_Y": {
+                  "description": "σY",
+                  "type": "number"
+                },
+                "SIGMA_CY": {
+                  "description": "σCY",
+                  "type": "number"
+                },
+                "EPSILON_1": {
+                  "description": "ε1",
+                  "type": "number"
+                },
+                "EPSILON_2": {
+                  "description": "ε2",
+                  "type": "number"
+                },
+                "E_ITEMS": {
+                  "description": "E",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "TRILIN": {
+              "description": "TrilinearSteelModel",
+              "type": "object",
+              "properties": {
+                "INPUT_METHOD": {
+                  "description": "Inputmethod:σ-ε/σ-α",
+                  "type": "integer"
+                },
+                "SIGMA_Y_ITEMS": {
+                  "description": "σy",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "EPSILON_Y_ITEMS": {
+                  "description": "εy",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "K_ITEMS": {
+                  "description": "K",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "PARKMD": {
+              "description": "ParkModel",
+              "type": "object",
+              "properties": {
+                "FY": {
+                  "description": "fy",
+                  "type": "number"
+                },
+                "FU": {
+                  "description": "fu",
+                  "type": "number"
+                },
+                "ES": {
+                  "description": "Es",
+                  "type": "number"
+                },
+                "EPSILON_SH": {
+                  "description": "εsh",
+                  "type": "number"
+                },
+                "EPSILON_SU": {
+                  "description": "εsu",
+                  "type": "number"
+                }
+              }
+            },
+            "JPROAD": {
+              "description": "JapanRoadwaySpecificationModel",
+              "type": "object",
+              "properties": {
+                "SIGMA_Y": {
+                  "description": "σy",
+                  "type": "number"
+                },
+                "ES": {
+                  "description": "Es",
+                  "type": "number"
+                },
+                "EPSILON_ST": {
+                  "description": "εst",
+                  "type": "number"
+                }
+              }
+            },
+            "CHGB10": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "FYR": {
+                  "description": "fyr",
+                  "type": "number"
+                },
+                "FSTR": {
+                  "description": "fstr",
+                  "type": "number"
+                },
+                "EPSILON_C": {
+                  "description": "εc",
+                  "type": "number"
+                },
+                "EPSILON_T": {
+                  "description": "εt",
+                  "type": "number"
+                },
+                "EUY": {
+                  "description": "Euy",
+                  "type": "number"
+                },
+                "EU": {
+                  "description": "Eu",
+                  "type": "number"
+                },
+                "K": {
+                  "description": "K",
+                  "type": "number"
+                }
+              }
+            },
+            "ENRGDS": {
+              "description": "EnergyBasedModel",
+              "type": "object",
+              "properties": {
+                "SHAPE_OF_CURVE": {
+                  "description": "ShapeofCurve(General/PerfectPlastic)",
+                  "type": "integer"
+                },
+                "OPT_STRENGTH_LOSS": {
+                  "description": "EnableStrengthLossBoolean",
+                  "type": "boolean"
+                },
+                "OPT_USE_STRENGTH_LOSS": {
+                  "description": "UseStrengthLossBoolean",
+                  "type": "boolean"
+                },
+                "OPT_SYMMETRIC": {
+                  "description": "IsSymmetricBoolean",
+                  "type": "boolean"
+                },
+                "INPUT_TYPE": {
+                  "description": "InputType",
+                  "type": "integer"
+                },
+                "FMR_ITEMS": {
+                  "description": "ForceMomentRatioItmes",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ITEMS": {
+                        "description": "",
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "YIELD_STRENGTHS": {
+                  "description": "YieldStrength(+,-)",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "OPT_USE_YIELD_STRAIN": {
+                  "description": "YieldStrian-UserDefined",
+                  "type": "boolean"
+                },
+                "YIELD_STRAINS": {
+                  "description": "YieldStrainItems",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "ELASTIC_MODULUS": {
+                  "description": "ElasticModulus",
+                  "type": "number"
+                },
+                "OPT_USE_TOTAL_STR_LOSS_AT_E": {
+                  "description": "UseTotalStrengthLossatPointE,-E",
+                  "type": "boolean"
+                },
+                "OPT_TOTAL_STR_LOSS_AT_E": {
+                  "description": "EnableTotalStrengthLossatPointE,-E",
+                  "type": "boolean"
+                },
+                "OPT_CYCLIC_DEGRATION": {
+                  "description": "UseCyclicDegration",
+                  "type": "boolean"
+                },
+                "A_B_P": {
+                  "description": "A-B(CyclicDegenration:+)",
+                  "type": "number"
+                },
+                "C_P": {
+                  "description": "C(CyclicDegenration:+)",
+                  "type": "number"
+                },
+                "D_P": {
+                  "description": "D(CyclicDegenration:+)",
+                  "type": "number"
+                },
+                "E_P": {
+                  "description": "E(CyclicDegenration:+)",
+                  "type": "number"
+                },
+                "A_B_M": {
+                  "description": "A-B(CyclicDegenration:-)",
+                  "type": "number"
+                },
+                "C_M": {
+                  "description": "C(CyclicDegenration:-)",
+                  "type": "number"
+                },
+                "D_M": {
+                  "description": "D(CyclicDegenration:-)",
+                  "type": "number"
+                },
+                "E_M": {
+                  "description": "E(CyclicDegenration:-)",
+                  "type": "number"
+                },
+                "OPT_UNLOADING_STIFF_FACTOR": {
+                  "description": "UnloadingStiffnessFactorBoolean",
+                  "type": "boolean"
+                },
+                "UNLOADING_STIFF_FACTOR": {
+                  "description": "UnloadingStiffnessFactor",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

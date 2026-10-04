@@ -1,0 +1,44 @@
+key: DB.SWIND
+namespace: DB
+uri: /DB/SWIND
+methods: []
+tool_map:
+  query: midas_db_query
+wrapper:
+  write: Assign
+  read_root: SWIND
+methods_unknown: true
+schema_ref:
+  local: schema/products/gen_nx/db/SWIND.json
+  introspect: info/db/SWIND
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+availability: untested
+enabled: false
+disable_reason: 源手册未标注任何方法（methods_unknown）；在拿到官方答复前不对外暴露。见测试报告 §5.3 与修复计划 D2/F8。
+path_key_supported: true
+table_type: null
+title: "Static Wind Load - KDS(41-12:2022)"
+risk:
+  level: low
+  destructive: false
+  retry: {}
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: true
+capability: [MODEL]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/58908673370521-Static-Wind-Load-KDS-41-12-2022"
+  retrieved_at: "2026-08-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 60
+  examples: 3
+  has_response_head: false
+notes: [Schema 기준 요청 페이로드에 보내면 안 되는 것으로 명시되어 있어 위 표에서 제외했다.]

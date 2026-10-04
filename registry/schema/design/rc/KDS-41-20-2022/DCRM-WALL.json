@@ -1,0 +1,120 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCRM-WALL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "벽체 ID 문자열을 키로 갖는 맵 (예: \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "description": "벽체별 층(Story)별 배근 지정",
+            "required": [
+              "ITEMS"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "description": "해당 벽체 ID의 층별 지정 목록",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "description": "층별 벽체 철근 규격·배근",
+                  "required": [
+                    "STORY",
+                    "VERTICAL_REBAR",
+                    "HORIZONTAL_REBAR",
+                    "END_REBAR",
+                    "BE_HORZ_REBAR",
+                    "BE_HORZ_SPACE",
+                    "BE_VERT_SPACE"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "STORY": {
+                      "type": "string",
+                      "description": "층 이름",
+                      "minLength": 1
+                    },
+                    "VERTICAL_REBAR": {
+                      "type": "string",
+                      "description": "수직 철근 규격 (전체 19종: D4 ~ D57)",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    },
+                    "HORIZONTAL_REBAR": {
+                      "type": "string",
+                      "description": "수평 철근 규격 (전체 19종: D4 ~ D57)",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    },
+                    "END_REBAR": {
+                      "type": "string",
+                      "description": "단부 철근 규격 (전체 19종: D4 ~ D57)",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    },
+                    "BE_HORZ_REBAR": {
+                      "type": "string",
+                      "description": "경계요소 수평 철근 규격 (전체 19종: D4 ~ D57)",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    },
+                    "BE_HORZ_SPACE": {
+                      "type": "number",
+                      "description": "경계요소 수평 철근 간격"
+                    },
+                    "BE_VERT_SPACE": {
+                      "type": "number",
+                      "description": "경계요소 수직 철근 간격"
+                    },
+                    "DE": {
+                      "type": "number",
+                      "description": "단부 피복 거리 de (m)",
+                      "default": 0
+                    },
+                    "DW": {
+                      "type": "number",
+                      "description": "벽면 피복 거리 dw (m)",
+                      "default": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "key": "DB.CO_F",
+  "uri": "DB/CO_F",
+  "source": "help_center",
+  "schema": {
+    "CO_F": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "FloorLoadTypeName",
+          "type": "string"
+        },
+        "WF_R": {
+          "description": "WireFrame_Red",
+          "type": "integer"
+        },
+        "WF_G": {
+          "description": "WireFrame_Green",
+          "type": "integer"
+        },
+        "WF_B": {
+          "description": "WireFrame_Blue",
+          "type": "integer"
+        },
+        "HF_R": {
+          "description": "HiddenFill_Red",
+          "type": "integer"
+        },
+        "HF_G": {
+          "description": "HiddenFill_Green",
+          "type": "integer"
+        },
+        "HF_B": {
+          "description": "HiddenFill_Blue",
+          "type": "integer"
+        },
+        "HE_R": {
+          "description": "HiddenEdge_Red",
+          "type": "integer"
+        },
+        "HE_G": {
+          "description": "HiddenEdge_Green",
+          "type": "integer"
+        },
+        "HE_B": {
+          "description": "HiddenEdge_Blue",
+          "type": "integer"
+        },
+        "OPT_BLEND": {
+          "description": "Blending",
+          "type": "boolean"
+        },
+        "BLEND_FACTOR": {
+          "description": "BlendingFactor",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

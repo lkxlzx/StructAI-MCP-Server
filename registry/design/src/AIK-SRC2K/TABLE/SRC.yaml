@@ -1,0 +1,44 @@
+key: "DESIGN.SRC.AIK-SRC2K.TABLE.SRC"
+namespace: DESIGN
+uri: "/DESIGN/SRC/AIK-SRC2K/TABLE"
+methods: [POST]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: TABLE
+schema_ref:
+  local: "schema/design/src/AIK-SRC2K/TABLE/SRC.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+path_key_supported: true
+table_type: null
+title: SRC Column Design Forces (SRC 기둥 설계력)
+title_zh: SRC 柱设计内力
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: LONG
+  timeout_ms: 3600000
+  retryable: false
+  idempotent: false
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 17
+  examples: 2
+  has_response_head: false

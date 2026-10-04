@@ -1,0 +1,49 @@
+key: DB.STRPSSM
+namespace: DB
+uri: /DB/STRPSSM
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: STRPSSM
+schema_ref:
+  local: schema/common/db/STRPSSM.json
+  introspect: info/db/STRPSSM
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["civil-cloud"]
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: "Section Manager - Stress Points"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35943448721177-Section-Manager-Stress-Points"
+  retrieved_at: "2025-03-05"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 9
+  examples: 1
+  has_response_head: false

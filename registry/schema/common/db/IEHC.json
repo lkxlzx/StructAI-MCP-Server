@@ -1,0 +1,81 @@
+{
+  "key": "DB.IEHC",
+  "uri": "DB/IEHC",
+  "source": "help_center",
+  "schema": {
+    "IEHC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "BEAM_LOC": {
+          "description": "Referencelocationfordistributedhinges",
+          "type": "integer"
+        },
+        "BeamDivNumNy": {
+          "description": "Numberofdivisions(Beam-Column)-Ny,Core",
+          "type": "integer"
+        },
+        "BeamDivNumNz": {
+          "description": "Numberofdivisions(Beam-Column)-Nz,Core",
+          "type": "integer"
+        },
+        "WallConsOut": {
+          "description": "Consideroutofplanenonlinearityofplatetype",
+          "type": "boolean"
+        },
+        "WallDivNumZ": {
+          "description": "Numberofdivisions-z,Core",
+          "type": "integer"
+        },
+        "WallDivNumY": {
+          "description": "Numberofdivisions-y,Core",
+          "type": "integer"
+        },
+        "dR": {
+          "description": "ShearSpringLocationr",
+          "type": "number"
+        },
+        "WAreaSize": {
+          "description": "FiberWallAreasCore,D_IEHC_FSIZE_",
+          "type": "string"
+        },
+        "OPT_ConsiderRebarArea1D": {
+          "description": "Beam-Column,ConsiderRebarArea",
+          "type": "boolean"
+        },
+        "OPT_ConsiderRebarAreaWall": {
+          "description": "Wall,ConsiderRebarArea",
+          "type": "boolean"
+        },
+        "FAreaSizeCore": {
+          "description": "FiberBeamAreasCore,0:AutoSize1:Equal",
+          "type": "integer"
+        },
+        "FAreaSizeCover": {
+          "description": "FiberBeamAreasCover,D_IEHC_FSIZE_",
+          "type": "integer"
+        },
+        "WAreaSizeCover": {
+          "description": "FiberWallAreasCover,D_IEHC_FSIZE_",
+          "type": "integer"
+        },
+        "BeamDivNumNyCover": {
+          "description": "Numberofdivisions(Beam-Column)-Ny,Cover",
+          "type": "integer"
+        },
+        "BeamDivNumNzCover": {
+          "description": "Numberofdivisions(Beam-Column)-Nz,Cover",
+          "type": "integer"
+        },
+        "WallDivNumZCover": {
+          "description": "Numberofdivisions-z,Cover",
+          "type": "integer"
+        },
+        "WallDivNumYCover": {
+          "description": "Numberofdivisions-y,Cover",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

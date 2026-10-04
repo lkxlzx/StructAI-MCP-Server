@@ -1,0 +1,113 @@
+{
+  "key": "DB.MVCTID",
+  "uri": "DB/MVCTID",
+  "source": "help_center",
+  "schema": {
+    "MVCTID": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "iIGP": {
+          "description": "Influencegeneratingpoints",
+          "type": "integer"
+        },
+        "UNUMT": {
+          "description": "Number/Lineelement",
+          "type": "integer"
+        },
+        "DIST": {
+          "description": "Distancebetweenpoints",
+          "type": "number"
+        },
+        "PLATE": {
+          "description": "Analysisresult-Plate",
+          "type": "string"
+        },
+        "bSTRCALC": {
+          "description": "Stress-CheckBox",
+          "type": "boolean"
+        },
+        "FRAME": {
+          "description": "Analysisresult-Frame",
+          "type": "string"
+        },
+        "bCSTRCALC": {
+          "description": "Combinedstress-CheckBox",
+          "type": "boolean"
+        },
+        "bREAC": {
+          "description": "Reactions",
+          "type": "boolean"
+        },
+        "bRGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "RGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bDISP": {
+          "description": "Displacements",
+          "type": "boolean"
+        },
+        "bDGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "DGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bFM": {
+          "description": "Forces/Moments",
+          "type": "boolean"
+        },
+        "bFGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "FGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bL": {
+          "description": "Elastic/Generallinks",
+          "type": "boolean"
+        },
+        "bLG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "LGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "BRIDGE": {
+          "description": "Bridgetypeforimpact/CDAcalculation",
+          "type": "integer"
+        },
+        "TRACKS": {
+          "description": "Tracks",
+          "type": "integer"
+        },
+        "WIDTHTYPE": {
+          "description": "Sleeperwidthtype",
+          "type": "integer"
+        },
+        "WIDTH": {
+          "description": "Sleeperwidthvalue",
+          "type": "number"
+        },
+        "DEPTH": {
+          "description": "Depthoffill(d)",
+          "type": "number"
+        },
+        "VHMAX": {
+          "description": "Maximumsuccessivevehicles",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

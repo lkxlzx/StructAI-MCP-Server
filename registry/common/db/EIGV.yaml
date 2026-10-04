@@ -1,0 +1,49 @@
+key: DB.EIGV
+namespace: DB
+uri: /DB/EIGV
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: EIGV
+schema_ref:
+  local: schema/common/db/EIGV.json
+  introspect: info/db/EIGV
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Eigenvalue Analysis Control
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35989224565273-Eigenvalue-Analysis-Control"
+  retrieved_at: "2026-07-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 19
+  examples: 3
+  has_response_head: false
+notes: ["표기해 General/Ground Acc. 두 분기를 뭉뚱그렸지만, JSON Schema는 `CASE`와 `GROUND`를 별개 속성으로 선언하고 있고 원문 예제·아래 로컬 예제 모두 Ground Acc. 항목엔 `\"GROUND\"` 키를 쓴다 (표가 자기 예제와도 모순). 예제·스키마 우선 원칙에 따라 표를 분리해 정정(아티클 id `35989224565273`).", "`iDIM`/`TOL`이 잘못 섞여 있었다(위 Lanczos 파라미터 표에도 없는 필드). 원문 Lanczos 예제에 없는 필드라 삭제(아티클 id `35989224565273`)."]

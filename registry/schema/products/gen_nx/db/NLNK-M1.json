@@ -1,0 +1,240 @@
+{
+  "key": "DB.NLNK-M1",
+  "uri": "DB/NLNK-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "인덱스 문자열 키별 General Link (Nonlinear Link) 입력 값",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "PROP_NAME",
+                "NODE1",
+                "NODE2",
+                "REF_SYSTEM"
+              ],
+              "properties": {
+                "PROP_NAME": {
+                  "type": "string",
+                  "description": "Name (UI는 PropKey(ItemData)로 관리하나 DTO는 이름(CString)으로 노출. 서버가 GetNllpKey로 역조회하여 존재 검증. 없으면 LV_WRONG_DATA/UNKNOWN)"
+                },
+                "NODE1": {
+                  "type": "integer",
+                  "description": "2 Nodes (UI 단일 입력란이 DTO 2개 필드로 분할됨. 노드 리스트의 첫째=NODE1, 둘째=NODE2)"
+                },
+                "NODE2": {
+                  "type": "integer",
+                  "description": "2 Nodes (UI 단일 입력란이 DTO 2개 필드로 분할됨. 노드 리스트의 첫째=NODE1, 둘째=NODE2)"
+                },
+                "REF_SYSTEM": {
+                  "type": "integer",
+                  "description": "Element / Global (M1은 enum 미노출 — int 코드로 전달. MEC DB에는 별도 저장 없으나 DTO에서는 필수)",
+                  "enum": [
+                    0,
+                    1
+                  ]
+                },
+                "BETA_ANGLE": {
+                  "type": "number",
+                  "default": 0,
+                  "description": "Beta Angle (단위 [deg]. Element/Angle 모드의 직접 입력값)"
+                },
+                "INPUT_METHOD": {
+                  "type": "integer",
+                  "description": "Angle / 3 points / Vector (M1은 enum 미노출 — int 코드로 전달)",
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                "ANGLE_VALUES": {
+                  "type": "array",
+                  "description": "about X (MEC DB에는 미저장이지만 DTO에는 승격되어 노출. 단위 [deg])",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "VALUE"
+                    ],
+                    "properties": {
+                      "VALUE": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "description": "VALUE (좌표/각도 벡터. 용도에 따라 길이 3 요구 (ANGLE: x/y'/z\", POINT: X/Y/Z, VECTOR: X/Y/Z))"
+                      }
+                    }
+                  }
+                },
+                "POINT_VALUES": {
+                  "type": "array",
+                  "description": "P0 (좌표 (X, Y, Z). 3점이 유효 평면을 결정해야 함 (calcPlaneLocalVector))",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "VALUE"
+                    ],
+                    "properties": {
+                      "VALUE": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "description": "VALUE (좌표/각도 벡터. 용도에 따라 길이 3 요구 (ANGLE: x/y'/z\", POINT: X/Y/Z, VECTOR: X/Y/Z))"
+                      }
+                    }
+                  }
+                },
+                "VECTOR_VALUES": {
+                  "type": "array",
+                  "description": "V1 (벡터 성분 (Vx, Vy, Vz). 두 벡터가 유효 평면을 결정해야 함)",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "VALUE"
+                    ],
+                    "properties": {
+                      "VALUE": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "description": "VALUE (좌표/각도 벡터. 용도에 따라 길이 3 요구 (ANGLE: x/y'/z\", POINT: X/Y/Z, VECTOR: X/Y/Z))"
+                      }
+                    }
+                  }
+                },
+                "GROUP_NAME": {
+                  "type": "string",
+                  "default": "",
+                  "description": "Boundary Group Name (UI는 GroupKey(ItemData)로 관리하나 DTO는 이름(CString)으로 노출. 빈 문자열 허용 (= 그룹 미지정))"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "REF_SYSTEM == 0이면 BETA_ANGLE이 필요합니다.",
+                  "if": {
+                    "properties": {
+                      "REF_SYSTEM": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "REF_SYSTEM"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "BETA_ANGLE"
+                    ]
+                  }
+                },
+                {
+                  "description": "REF_SYSTEM == 1이면 INPUT_METHOD가 필요합니다.",
+                  "if": {
+                    "properties": {
+                      "REF_SYSTEM": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "REF_SYSTEM"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "INPUT_METHOD"
+                    ]
+                  }
+                },
+                {
+                  "description": "REF_SYSTEM == 1 && INPUT_METHOD == 0이면 ANGLE_VALUES가 필요합니다.",
+                  "if": {
+                    "properties": {
+                      "REF_SYSTEM": {
+                        "const": 1
+                      },
+                      "INPUT_METHOD": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "REF_SYSTEM",
+                      "INPUT_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "ANGLE_VALUES"
+                    ]
+                  }
+                },
+                {
+                  "description": "REF_SYSTEM == 1 && INPUT_METHOD == 1이면 POINT_VALUES가 필요합니다.",
+                  "if": {
+                    "properties": {
+                      "REF_SYSTEM": {
+                        "const": 1
+                      },
+                      "INPUT_METHOD": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "REF_SYSTEM",
+                      "INPUT_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "POINT_VALUES"
+                    ]
+                  }
+                },
+                {
+                  "description": "REF_SYSTEM == 1 && INPUT_METHOD == 2이면 VECTOR_VALUES가 필요합니다.",
+                  "if": {
+                    "properties": {
+                      "REF_SYSTEM": {
+                        "const": 1
+                      },
+                      "INPUT_METHOD": {
+                        "const": 2
+                      }
+                    },
+                    "required": [
+                      "REF_SYSTEM",
+                      "INPUT_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "VECTOR_VALUES"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

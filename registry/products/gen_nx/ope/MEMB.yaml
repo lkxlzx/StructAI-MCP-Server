@@ -1,0 +1,40 @@
+key: OPE.MEMB
+namespace: OPE
+uri: /OPE/MEMB
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+parser: generic
+products: [GEN_NX]
+availability: untested
+table_type: null
+title: Member Assignment
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49514964272665-Member-Assignment"
+  retrieved_at: "2026-09-28"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 4
+  examples: 3
+  has_response_head: false

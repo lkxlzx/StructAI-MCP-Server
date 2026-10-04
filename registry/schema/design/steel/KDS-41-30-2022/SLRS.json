@@ -1,0 +1,86 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.SLRS",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/SLRS",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "FRAME_TYPE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "FRAME_TYPE": {
+                "type": "string",
+                "description": "Seismic Load Resisting System Frame Type",
+                "oneOf": [
+                  {
+                    "title": "Special Concentrically Braced Frames",
+                    "const": "Special Concentrically Braced Frames"
+                  },
+                  {
+                    "title": "Ordinary Concentrically Braced Frames",
+                    "const": "Ordinary Concentrically Braced Frames"
+                  },
+                  {
+                    "title": "Eccentrically Braced Frames",
+                    "const": "Eccentrically Braced Frames"
+                  },
+                  {
+                    "title": "Buckling Restrained Braced Frames",
+                    "const": "Buckling Restrained Braced Frames"
+                  },
+                  {
+                    "title": "Special Plate Shear Walls",
+                    "const": "Special Plate Shear Walls"
+                  }
+                ]
+              },
+              "CHECK_OPTION": {
+                "type": "boolean",
+                "description": "Check for Brace Slenderness Ratio / Check for Links (not supported for Buckling-Restrained Braced Frames and Special Plate Shear Walls)",
+                "default": true
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "FRAME_TYPE": {
+                      "enum": [
+                        "Buckling Restrained Braced Frames",
+                        "Special Plate Shear Walls"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "FRAME_TYPE"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "CHECK_OPTION": {
+                      "const": false
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "key": "POST.TABLE.IEHG_FORCE_TRUSS",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "RESULTGRAPHIC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string",
+              "description": "TableName"
+            },
+            "TABLE_TYPE": {
+              "type": "string",
+              "description": "ResultTableType",
+              "enum": [
+                "IEHG_FORCE_LUMPED",
+                "IEHG_FORCE_DIST",
+                "IEHG_FORCE_WALL",
+                "IEHG_FORCE_TRUSS",
+                "IEHG_FORCE_SPRING"
+              ]
+            },
+            "EXPORT_PATH": {
+              "type": "string",
+              "description": "ResultTableSavePath"
+            },
+            "UNIT": {
+              "type": "object",
+              "description": "ResponseUnitSetting",
+              "properties": {
+                "FORCE": {
+                  "type": "string",
+                  "description": "Force"
+                },
+                "DIST": {
+                  "type": "string",
+                  "description": "Length"
+                },
+                "HEAT": {
+                  "type": "string",
+                  "description": "Heat"
+                },
+                "TEMP": {
+                  "type": "string",
+                  "description": "Temperature"
+                }
+              }
+            },
+            "STYLES": {
+              "type": "object",
+              "description": "ResponseNumberFormat",
+              "properties": {
+                "FORMAT": {
+                  "type": "string",
+                  "description": "Numberformat",
+                  "enum": [
+                    "Default",
+                    "Fixed",
+                    "Scientific",
+                    "General"
+                  ]
+                },
+                "PLACE": {
+                  "type": "integer",
+                  "description": "Digitplace"
+                }
+              }
+            },
+            "COMPONENTS": {
+              "type": "array",
+              "description": "ComponentsofResultTable",
+              "items": {
+                "type": "string"
+              }
+            },
+            "TH_LOAD_CASE_NAMES": {
+              "type": "array",
+              "description": "TimeHistoryLoadCaseName",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

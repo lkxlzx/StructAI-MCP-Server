@@ -1,0 +1,46 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.CRCM",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/CRCM",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "title": "Combined Strength Method",
+            "type": "object",
+            "required": [
+              "METHOD"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "METHOD": {
+                "type": "string",
+                "description": "Combined Strength Method",
+                "oneOf": [
+                  {
+                    "title": "SRSS",
+                    "const": "SRSS"
+                  },
+                  {
+                    "title": "Linear Sum",
+                    "const": "Linear Sum"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "key": "DB.SLANOP",
+  "uri": "DB/SLANOP",
+  "source": "help_center",
+  "schema": {
+    "SLANOP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LANE_NAME": {
+          "description": "LaneName",
+          "type": "string"
+        },
+        "LANE_ID": {
+          "description": "LaneID",
+          "type": "integer"
+        },
+        "SKEW_START": {
+          "description": "SKEW_START",
+          "type": "number"
+        },
+        "SKEW_END": {
+          "description": "SKEW_END",
+          "type": "number"
+        },
+        "MOVING": {
+          "description": "MovingDirection",
+          "type": "string"
+        },
+        "OPTIMIZE_WIDTH": {
+          "description": "OptimizedWIdth",
+          "type": "number"
+        },
+        "LANE_WIDTH": {
+          "description": "LaneWidth",
+          "type": "number"
+        },
+        "ANALYSIS_LANE_OFFSET": {
+          "description": "AnalysisLaneOffset",
+          "type": "number"
+        },
+        "WHEEL_SPACE": {
+          "description": "WheelSpace",
+          "type": "number"
+        },
+        "MARGIN": {
+          "description": "Margin",
+          "type": "number"
+        },
+        "OPT_STRADD": {
+          "description": "BSStraddlingLaneBoolean",
+          "type": "integer"
+        },
+        "OFFSET_TYPE": {
+          "description": "OffsetType",
+          "type": "integer"
+        },
+        "DIVIDE_NUM": {
+          "description": "Dividenumber",
+          "type": "integer"
+        },
+        "CHINA_ITEMS": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "NODE_KEY": {
+                "description": "NodeKey",
+                "type": "integer"
+              },
+              "OFFSET": {
+                "description": "Offset",
+                "type": "number"
+              },
+              "SPAN_LENGTH": {
+                "description": "SpanLength",
+                "type": "number"
+              },
+              "SPAN_START": {
+                "description": "SpanStartBoolean",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "ITEMS": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "NODE_KEY": {
+                "description": "NodeKey",
+                "type": "integer"
+              },
+              "OFFSET": {
+                "description": "Offset",
+                "type": "number"
+              },
+              "FACTOR": {
+                "description": "Factor",
+                "type": "number"
+              },
+              "SPAN_START": {
+                "description": "SpanStartBoolean",
+                "type": "boolean"
+              },
+              "CENT_F": {
+                "description": "CentF",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

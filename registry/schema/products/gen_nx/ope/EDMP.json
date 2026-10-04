@@ -1,0 +1,59 @@
+{
+  "key": "OPE.EDMP",
+  "uri": "OPE/EDMP",
+  "source": "help_center",
+  "schema": {
+    "EDMP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "NODE_ELEMS": {
+              "type": "object",
+              "properties": {
+                "KEYS": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "TYPE": {
+              "description": "TYPE",
+              "type": "string",
+              "enum": [
+                "NSM",
+                "VSR"
+              ]
+            },
+            "AUTO": {
+              "description": "Auto Calculate",
+              "type": "boolean"
+            },
+            "CODE": {
+              "description": "CODE",
+              "type": "string",
+              "enum": [
+                "Korean Standard",
+                "CEB-FIP(1990)",
+                "Japanese Standard",
+                "Chinese Standard"
+              ]
+            },
+            "PARAMETER": {
+              "description": "Parameter Value(a)",
+              "type": "Number"
+            },
+            "H_VS": {
+              "description": "Change Property Value h(v/s)",
+              "type": "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+key: DB.PHGE
+namespace: DB
+uri: /DB/PHGE
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: PHGE
+schema_ref:
+  local: schema/common/db/PHGE.json
+  introspect: info/db/PHGE
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Assign Pushover Hinge Properties
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35992838417049-Assign-Pushover-Hinge-Properties"
+  retrieved_at: "2026-07-02"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 4
+  examples: 3
+  has_response_head: false
+notes: ["한정된 enum이며, `\"WALL\"`에는 원문상 \"MIDAS GEN NX only\" 아이콘이 붙어 있다 — 이전 문서는 \"예:\" 표기로 비한정 나열하며 `\"G-LINK\"`를 누락하고 있었다(아티클 id `35992838417049`)."]

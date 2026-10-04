@@ -1,0 +1,178 @@
+{
+  "key": "DB.NLCT",
+  "uri": "DB/NLCT",
+  "source": "help_center",
+  "schema": {
+    "NLCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NONLINEAR_TYPE": {
+          "description": "NonlinearType",
+          "type": "string"
+        },
+        "ITERATION_METHOD": {
+          "description": "IterationMethod",
+          "type": "string"
+        },
+        "NUMBER_STEPS": {
+          "description": "NumberofLoad/DisplacementSteps",
+          "type": "integer"
+        },
+        "MAX_ITERATIONS": {
+          "description": "MaximumNumberofIterations/LoadStep",
+          "type": "integer"
+        },
+        "INITIAL_FORCE_RATIO_ARC_LEN": {
+          "description": "InitialForceRatioforUnitArc-Length",
+          "type": "number"
+        },
+        "MASTER_NODE": {
+          "description": "MasterNode",
+          "type": "integer"
+        },
+        "DIRECTION": {
+          "description": "Direction",
+          "type": "integer"
+        },
+        "MAXIMUM_DISPLACEMENT": {
+          "description": "MaximumDisplacement",
+          "type": "number"
+        },
+        "OPT_ENERGY_NORM": {
+          "description": "EnergyNormBoolean",
+          "type": "boolean"
+        },
+        "ENERGY_NORM": {
+          "description": "EnergyNorm",
+          "type": "number"
+        },
+        "OPT_DISPLACEMENT_NORM": {
+          "description": "DisplacementNormBoolean",
+          "type": "boolean"
+        },
+        "DISPLACEMENT_NORM": {
+          "description": "DisplacementNorm",
+          "type": "number"
+        },
+        "OPT_FORCE_NORM": {
+          "description": "ForceNormBoolean",
+          "type": "boolean"
+        },
+        "FORCE_NORM": {
+          "description": "ForceNorm",
+          "type": "number"
+        },
+        "NEWTON_ITEMS": {
+          "description": "NewtonItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ITERATION_METHOD": {
+                "description": "IterationMethod",
+                "type": "string"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "NUMBER_STEPS": {
+                "description": "NumberofDisplacementSteps",
+                "type": "number"
+              },
+              "MAX_ITERATIONS": {
+                "description": "MaximimNumberofIterations/IncrementStep",
+                "type": "integer"
+              },
+              "LOAD_FACTORS": {
+                "description": "MasterNodeDisplacementList",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "ARCLEN_ITEMS": {
+          "description": "ArclenItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ITERATION_METHOD": {
+                "description": "IterationMethod",
+                "type": "string"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "INITIAL_FORCE_RATIO_ARC_LEN": {
+                "description": "InitialForceRatioforUnitArc-Length",
+                "type": "number"
+              },
+              "NUMBER_STEPS": {
+                "description": "NumberofDisplacementSteps",
+                "type": "number"
+              },
+              "MAX_ITERATIONS": {
+                "description": "MaximimNumberofIterations/IncrementStep",
+                "type": "integer"
+              },
+              "MAXIMUM_DISPLACEMENT": {
+                "description": "MaximumDisplacement",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "DISPCT_ITEMS": {
+          "description": "DispctItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ITERATION_METHOD": {
+                "description": "IterationMethod",
+                "type": "string"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "NUMBER_STEPS": {
+                "description": "NumberofDisplacementSteps",
+                "type": "number"
+              },
+              "MAX_ITERATIONS": {
+                "description": "MaximimNumberofIterations/IncrementStep",
+                "type": "integer"
+              },
+              "MASTER_NODE": {
+                "description": "MasterNode",
+                "type": "integer"
+              },
+              "DIRECTION": {
+                "description": "Direction",
+                "type": "integer"
+              },
+              "MAXIMUM_DISPLACEMENT": {
+                "description": "MaximumDisplacement",
+                "type": "number"
+              },
+              "LOAD_FACTORS": {
+                "description": "MasterNodeDisplacementList",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

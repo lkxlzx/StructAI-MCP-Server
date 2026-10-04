@@ -1,0 +1,97 @@
+{
+  "key": "DB.MVCTBS",
+  "uri": "DB/MVCTBS",
+  "source": "help_center",
+  "schema": {
+    "MVCTBS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "iIGP": {
+          "description": "Influencegeneratingpoints",
+          "type": "integer"
+        },
+        "UNUMT": {
+          "description": "Number/Lineelement",
+          "type": "integer"
+        },
+        "DIST": {
+          "description": "Distancebetweenpoints",
+          "type": "number"
+        },
+        "PLATE": {
+          "description": "Analysisresult-Plate",
+          "type": "string"
+        },
+        "bSTRCALC": {
+          "description": "Stress-CheckBox",
+          "type": "boolean"
+        },
+        "bCONCURRENT": {
+          "description": "Concurrentforce-CheckBox",
+          "type": "boolean"
+        },
+        "FRAME": {
+          "description": "Analysisresult-Frame",
+          "type": "string"
+        },
+        "bCSTRCALC": {
+          "description": "Combinedstress-CheckBox",
+          "type": "boolean"
+        },
+        "bREAC": {
+          "description": "Reactions",
+          "type": "boolean"
+        },
+        "bRGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "RGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bDISP": {
+          "description": "Displacements",
+          "type": "boolean"
+        },
+        "bDGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "DGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bFM": {
+          "description": "Forces/Moments",
+          "type": "boolean"
+        },
+        "bFGP": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "FGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bL": {
+          "description": "Elastic/Generallinks",
+          "type": "boolean"
+        },
+        "bLG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "LGP": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "NUMLANE": {
+          "description": "Numberofnationallanes",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

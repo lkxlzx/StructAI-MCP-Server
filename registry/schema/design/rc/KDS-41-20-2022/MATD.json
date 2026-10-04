@@ -1,0 +1,375 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.MATD",
+  "uri": "DESIGN/RC/KDS-41-20-2022/MATD",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a material ID string (e.g., \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "CONCRETE",
+              "REBAR"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "CONCRETE": {
+                "type": "object",
+                "description": "Concrete material selection.",
+                "required": [
+                  "CODE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "CODE": {
+                    "type": "string",
+                    "description": "Concrete code type.",
+                    "oneOf": [
+                      {
+                        "const": "None",
+                        "title": "None"
+                      },
+                      {
+                        "const": "Standard",
+                        "title": "Standard"
+                      }
+                    ]
+                  },
+                  "STANDARD_CODE": {
+                    "type": "string",
+                    "description": "Concrete standard code when CODE is Standard. Currently only KS19(RC) is supported.",
+                    "oneOf": [
+                      {
+                        "const": "KS19(RC)",
+                        "title": "KS19(RC)"
+                      }
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string",
+                    "description": "User-defined concrete material name when CODE is None."
+                  },
+                  "GRADE": {
+                    "type": "string",
+                    "description": "Concrete grade when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "C15",
+                        "title": "C15"
+                      },
+                      {
+                        "const": "C18",
+                        "title": "C18"
+                      },
+                      {
+                        "const": "C21",
+                        "title": "C21"
+                      },
+                      {
+                        "const": "C24",
+                        "title": "C24"
+                      },
+                      {
+                        "const": "C27",
+                        "title": "C27"
+                      },
+                      {
+                        "const": "C30",
+                        "title": "C30"
+                      },
+                      {
+                        "const": "C35",
+                        "title": "C35"
+                      },
+                      {
+                        "const": "C40",
+                        "title": "C40"
+                      },
+                      {
+                        "const": "C45",
+                        "title": "C45"
+                      },
+                      {
+                        "const": "C49",
+                        "title": "C49"
+                      },
+                      {
+                        "const": "C50",
+                        "title": "C50"
+                      },
+                      {
+                        "const": "C55",
+                        "title": "C55"
+                      },
+                      {
+                        "const": "C60",
+                        "title": "C60"
+                      },
+                      {
+                        "const": "C65",
+                        "title": "C65"
+                      },
+                      {
+                        "const": "C70",
+                        "title": "C70"
+                      },
+                      {
+                        "const": "C75",
+                        "title": "C75"
+                      },
+                      {
+                        "const": "C80",
+                        "title": "C80"
+                      },
+                      {
+                        "const": "C85",
+                        "title": "C85"
+                      },
+                      {
+                        "const": "C90",
+                        "title": "C90"
+                      },
+                      {
+                        "const": "C95",
+                        "title": "C95"
+                      }
+                    ]
+                  },
+                  "FC": {
+                    "type": "number",
+                    "description": "Specified compressive strength (fc|fck) in kN/mm². User input when CODE is None. Auto-filled from the selected standard code and grade when CODE is Standard."
+                  },
+                  "LIGHTWEIGHT": {
+                    "type": "boolean",
+                    "description": "Whether the lightweight concrete factor (Lambda) is applied. Editable for both CODE=None and CODE=Standard.",
+                    "default": false
+                  },
+                  "LAMBDA": {
+                    "type": "number",
+                    "description": "Lambda value. Editable for both CODE=None and CODE=Standard.",
+                    "default": 1
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "None"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "NAME",
+                        "FC"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "Standard"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "STANDARD_CODE",
+                        "GRADE"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "REBAR": {
+                "type": "object",
+                "description": "Rebar material selection.",
+                "required": [
+                  "CODE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "CODE": {
+                    "type": "string",
+                    "description": "Rebar code type.",
+                    "oneOf": [
+                      {
+                        "const": "None",
+                        "title": "None"
+                      },
+                      {
+                        "const": "Standard",
+                        "title": "Standard"
+                      }
+                    ]
+                  },
+                  "STANDARD_CODE": {
+                    "type": "string",
+                    "description": "Rebar standard code when CODE is Standard. Currently only KS19(RC) is supported.",
+                    "oneOf": [
+                      {
+                        "const": "KS19(RC)",
+                        "title": "KS19(RC)"
+                      }
+                    ]
+                  },
+                  "MAIN_REBAR_NAME": {
+                    "type": "string",
+                    "description": "User-defined main rebar name when CODE is None."
+                  },
+                  "MAIN_REBAR_GRADE": {
+                    "type": "string",
+                    "description": "Grade of main rebar when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "SD300",
+                        "title": "SD300"
+                      },
+                      {
+                        "const": "SD400",
+                        "title": "SD400"
+                      },
+                      {
+                        "const": "SD500",
+                        "title": "SD500"
+                      },
+                      {
+                        "const": "SD600",
+                        "title": "SD600"
+                      },
+                      {
+                        "const": "SD700",
+                        "title": "SD700"
+                      },
+                      {
+                        "const": "SD400S",
+                        "title": "SD400S"
+                      },
+                      {
+                        "const": "SD500S",
+                        "title": "SD500S"
+                      },
+                      {
+                        "const": "SD600S",
+                        "title": "SD600S"
+                      }
+                    ]
+                  },
+                  "FY": {
+                    "type": "number",
+                    "description": "Yield strength Fy of main rebar in kN/mm². User input when CODE is None. Auto-filled from the selected standard code and rebar grade when CODE is Standard."
+                  },
+                  "SUB_REBAR_NAME": {
+                    "type": "string",
+                    "description": "User-defined sub-rebar name when CODE is None."
+                  },
+                  "SUB_REBAR_GRADE": {
+                    "type": "string",
+                    "description": "Grade of sub-rebar when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "SD300",
+                        "title": "SD300"
+                      },
+                      {
+                        "const": "SD400",
+                        "title": "SD400"
+                      },
+                      {
+                        "const": "SD500",
+                        "title": "SD500"
+                      },
+                      {
+                        "const": "SD600",
+                        "title": "SD600"
+                      },
+                      {
+                        "const": "SD700",
+                        "title": "SD700"
+                      },
+                      {
+                        "const": "SD400S",
+                        "title": "SD400S"
+                      },
+                      {
+                        "const": "SD500S",
+                        "title": "SD500S"
+                      },
+                      {
+                        "const": "SD600S",
+                        "title": "SD600S"
+                      }
+                    ]
+                  },
+                  "FYS": {
+                    "type": "number",
+                    "description": "Yield strength Fys of sub-rebar in kN/mm². User input when CODE is None. Auto-filled from the selected standard code and rebar grade when CODE is Standard."
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "None"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "MAIN_REBAR_NAME",
+                        "SUB_REBAR_NAME",
+                        "FY",
+                        "FYS"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "Standard"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "STANDARD_CODE",
+                        "MAIN_REBAR_GRADE",
+                        "SUB_REBAR_GRADE"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

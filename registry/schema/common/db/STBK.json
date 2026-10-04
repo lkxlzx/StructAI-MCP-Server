@@ -1,0 +1,41 @@
+{
+  "key": "DB.STBK",
+  "uri": "DB/STBK",
+  "source": "help_center",
+  "schema": {
+    "STBK": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NODE1": {
+          "description": "Node1",
+          "type": "integer"
+        },
+        "NODE2": {
+          "description": "Node2",
+          "type": "integer"
+        },
+        "DX": {
+          "description": "Dx",
+          "type": "number"
+        },
+        "DY": {
+          "description": "Dy",
+          "type": "number"
+        },
+        "DZ": {
+          "description": "Dz",
+          "type": "number"
+        },
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "GROUP_NAME": {
+          "description": "LoadGroupName",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

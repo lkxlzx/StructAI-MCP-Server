@@ -1,0 +1,460 @@
+{
+  "key": "DB.WVLD",
+  "uri": "DB/WVLD",
+  "source": "help_center",
+  "schema": {
+    "WVLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "WaveLoadName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "bSTLD": {
+          "description": "UseStaticLoadGeneration",
+          "type": "boolean"
+        },
+        "bTHIS": {
+          "description": "UseTimeHistoryLoadGeneration",
+          "type": "boolean"
+        },
+        "NAME_THIS": {
+          "description": "TimeHistoryLoadCaseName",
+          "type": "string"
+        },
+        "VERT_COORD": {
+          "description": "VerticalCoordinate",
+          "type": "string"
+        },
+        "DENSITY": {
+          "description": "WaterWeightDensity",
+          "type": "number"
+        },
+        "DEPTH": {
+          "description": "WaterDepth",
+          "type": "number"
+        },
+        "COEF": {
+          "description": "Drag&InertiaCoefficients",
+          "type": "object",
+          "properties": {
+            "TYPE": {
+              "description": "Type",
+              "type": "string"
+            },
+            "COEF_S": {
+              "description": "Coefficientssarray",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "GRUP": {
+                    "description": "StructureGroupName",
+                    "type": "string"
+                  },
+                  "DIA": {
+                    "description": "Diameter",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_X": {
+                    "description": "DragCoefficientX",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Y": {
+                    "description": "DragCoefficientY",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Z": {
+                    "description": "DragCoefficientZ",
+                    "type": "number"
+                  },
+                  "INER_COEF_X": {
+                    "description": "InertiaCoefficientX",
+                    "type": "number"
+                  },
+                  "INER_COEF_Y": {
+                    "description": "InertiaCoefficientY",
+                    "type": "number"
+                  },
+                  "INER_COEF_Z": {
+                    "description": "InertiaCoefficientZ",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "COEF_R": {
+              "description": "Coefficientsrarray",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "GRUP": {
+                    "description": "StructureGroupName",
+                    "type": "string"
+                  },
+                  "DIA": {
+                    "description": "Diameter",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_X": {
+                    "description": "DragCoefficientX",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Y": {
+                    "description": "DragCoefficientY",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Z": {
+                    "description": "DragCoefficientZ",
+                    "type": "number"
+                  },
+                  "INER_COEF_X": {
+                    "description": "InertiaCoefficientX",
+                    "type": "number"
+                  },
+                  "INER_COEF_Y": {
+                    "description": "InertiaCoefficientY",
+                    "type": "number"
+                  },
+                  "INER_COEF_Z": {
+                    "description": "InertiaCoefficientZ",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "bOVER": {
+              "description": "OverrideCoefficientswithStructureGroup",
+              "type": "boolean"
+            },
+            "OVER_S": {
+              "description": "OverrideCoefficientssarray",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "GRUP": {
+                    "description": "StructureGroupName",
+                    "type": "string"
+                  },
+                  "DIA": {
+                    "description": "Diameter",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_X": {
+                    "description": "DragCoefficientX",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Y": {
+                    "description": "DragCoefficientY",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Z": {
+                    "description": "DragCoefficientZ",
+                    "type": "number"
+                  },
+                  "INER_COEF_X": {
+                    "description": "InertiaCoefficientX",
+                    "type": "number"
+                  },
+                  "INER_COEF_Y": {
+                    "description": "InertiaCoefficientY",
+                    "type": "number"
+                  },
+                  "INER_COEF_Z": {
+                    "description": "InertiaCoefficientZ",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "OVER_R": {
+              "description": "OverrideCoefficientsrarray",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "GRUP": {
+                    "description": "StructureGroupName",
+                    "type": "string"
+                  },
+                  "DIA": {
+                    "description": "Diameter",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_X": {
+                    "description": "DragCoefficientX",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Y": {
+                    "description": "DragCoefficientY",
+                    "type": "number"
+                  },
+                  "DRAG_COEF_Z": {
+                    "description": "DragCoefficientZ",
+                    "type": "number"
+                  },
+                  "INER_COEF_X": {
+                    "description": "InertiaCoefficientX",
+                    "type": "number"
+                  },
+                  "INER_COEF_Y": {
+                    "description": "InertiaCoefficientY",
+                    "type": "number"
+                  },
+                  "INER_COEF_Z": {
+                    "description": "InertiaCoefficientZ",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "CHAR": {
+          "description": "WaveCharacteristics",
+          "type": "object",
+          "properties": {
+            "THEORY": {
+              "description": "TheoryType",
+              "type": "string"
+            },
+            "FUNC": {
+              "description": "FunctionOrder",
+              "type": "integer"
+            },
+            "DIR": {
+              "description": "WaveDirection",
+              "type": "number"
+            },
+            "HEIGHT": {
+              "description": "WaveHeight",
+              "type": "number"
+            },
+            "CHAR_TYPE": {
+              "description": "WaveLength/WavePeriod",
+              "type": "string"
+            },
+            "LENGTH": {
+              "description": "Length",
+              "type": "number"
+            },
+            "PERIOD": {
+              "description": "Period",
+              "type": "number"
+            },
+            "K_FACTOR": {
+              "description": "KinematicsFactor",
+              "type": "number"
+            },
+            "SURFACE_V": {
+              "description": "CurrentSurfaceVelocity",
+              "type": "number"
+            },
+            "BOTTOM_Y": {
+              "description": "CurrentBottomVelocity",
+              "type": "number"
+            }
+          }
+        },
+        "PROF": {
+          "description": "CurrentProfile",
+          "type": "object",
+          "properties": {
+            "CUR_DIR": {
+              "description": "CurrentDirection",
+              "type": "number"
+            },
+            "CUR_FACTOR": {
+              "description": "CurrentBlockageFactor",
+              "type": "number"
+            },
+            "GRID_DATA": {
+              "description": "GridData",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "D": {
+                    "description": "Elevation",
+                    "type": "number"
+                  },
+                  "V": {
+                    "description": "Velocity",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "FLOOD_GRUP": {
+          "description": "FloodCondition",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "GROWTH": {
+          "description": "MarineGrowth",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Z": {
+                "description": "Elevation",
+                "type": "number"
+              },
+              "T": {
+                "description": "Thickness",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "GRID_X": {
+          "description": "GridXsize",
+          "type": "integer"
+        },
+        "GRID_Z": {
+          "description": "GridYsize",
+          "type": "integer"
+        },
+        "USERGRID": {
+          "description": "UserDefinedGridData",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "X": {
+                  "description": "X",
+                  "type": "number"
+                },
+                "Z": {
+                  "description": "Z",
+                  "type": "number"
+                },
+                "ELEV": {
+                  "description": "Elevation",
+                  "type": "number"
+                },
+                "VX": {
+                  "description": "Vx",
+                  "type": "number"
+                },
+                "VCX": {
+                  "description": "Vcx",
+                  "type": "number"
+                },
+                "VT": {
+                  "description": "Vt",
+                  "type": "number"
+                },
+                "VZ": {
+                  "description": "Vz",
+                  "type": "number"
+                },
+                "AX": {
+                  "description": "Ax",
+                  "type": "number"
+                },
+                "AZ": {
+                  "description": "Az",
+                  "type": "number"
+                }
+              },
+              "maxItems": 73
+            },
+            "maxItems": 20
+          }
+        },
+        "TRAJ": {
+          "description": "TrajectoryGridData",
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "X": {
+                  "description": "X",
+                  "type": "number"
+                },
+                "Z": {
+                  "description": "Z",
+                  "type": "number"
+                },
+                "ELEV": {
+                  "description": "Elevation",
+                  "type": "number"
+                },
+                "VX": {
+                  "description": "Vx",
+                  "type": "number"
+                },
+                "VCX": {
+                  "description": "Vcx",
+                  "type": "number"
+                },
+                "VT": {
+                  "description": "Vt",
+                  "type": "number"
+                },
+                "VZ": {
+                  "description": "Vz",
+                  "type": "number"
+                },
+                "AX": {
+                  "description": "Ax",
+                  "type": "number"
+                },
+                "AZ": {
+                  "description": "Az",
+                  "type": "number"
+                }
+              },
+              "maxItems": 73
+            },
+            "maxItems": 10
+          }
+        },
+        "bSELFW": {
+          "description": "UseSelfWeight",
+          "type": "boolean"
+        },
+        "bBUOYANT": {
+          "description": "UseBuoyancyLoad",
+          "type": "boolean"
+        },
+        "CREST": {
+          "description": "CrestCriticalPosition",
+          "type": "string"
+        },
+        "UNIT": {
+          "description": "CrestPositionUnit",
+          "type": "string"
+        },
+        "INITAL_POS": {
+          "description": "InitialPosition",
+          "type": "number"
+        },
+        "STEP": {
+          "description": "IncreaseStep",
+          "type": "number"
+        },
+        "POS": {
+          "description": "NumberofPositions",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

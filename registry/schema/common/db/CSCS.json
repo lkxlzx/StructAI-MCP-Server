@@ -1,0 +1,400 @@
+{
+  "key": "DB.CSCS",
+  "uri": "DB/CSCS",
+  "source": "help_center",
+  "schema": {
+    "CSCS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "SEC": {
+          "description": "SectionNo.",
+          "type": "integer"
+        },
+        "ASTAGE": {
+          "description": "ActiveStage",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "CompositeType",
+          "type": "string"
+        },
+        "bTAP": {
+          "description": "TaperedCompositeSectionType",
+          "type": "boolean"
+        },
+        "vPARTINFO": {
+          "description": "PartInfo",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PART": {
+                "description": "CompositeSectionPart",
+                "type": "integer"
+              },
+              "MTYPE": {
+                "description": "MaterialType",
+                "type": "string"
+              },
+              "MAT": {
+                "description": "MaterialNo.",
+                "type": "string"
+              },
+              "CSTAGE": {
+                "description": "CompositeStage",
+                "type": "string"
+              },
+              "AGE": {
+                "description": "MaterialAge",
+                "type": "number"
+              },
+              "PARTINFO_H": {
+                "description": "Notationalsize,h",
+                "type": "number"
+              },
+              "PARTINFO_VS": {
+                "description": "Volumn-surfaceratio,v/s",
+                "type": "number"
+              },
+              "PARTINFO_M": {
+                "description": "Moduleofanexposedsurface,M",
+                "type": "number"
+              },
+              "AREA": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "ASY": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "ASZ": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "IXX": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "IYY": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "IZZ": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "WAREA": {
+                "description": "StiffnessScaleFactor-Weight",
+                "type": "number"
+              },
+              "IW": {
+                "description": "StiffnessScaleFactor",
+                "type": "number"
+              },
+              "CY": {
+                "description": "Y-dir.DistancetoNeutralAxis",
+                "type": "number"
+              },
+              "CZ": {
+                "description": "Z-dir.DistancetoNeutralAxis",
+                "type": "number"
+              },
+              "CYI": {
+                "description": "Y-dir.DistancetoNeutralAxisI(Tapered)",
+                "type": "number"
+              },
+              "CZI": {
+                "description": "Z-dir.DistancetoNeutralAxisI(Tapered)",
+                "type": "number"
+              },
+              "CYJ": {
+                "description": "Y-dir.DistancetoNeutralAxisJ(Tapered)",
+                "type": "number"
+              },
+              "CZJ": {
+                "description": "Z-dir.DistancetoNeutralAxisJ(Tapered)",
+                "type": "number"
+              },
+              "STIFF_USER": {
+                "description": "StiffnessUser",
+                "type": "object",
+                "properties": {
+                  "AREA": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IXX": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IYY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IZZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QYB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QZB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IW": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  }
+                }
+              },
+              "STIFF_USER_TAPERED_I": {
+                "description": "StiffnessUserI(Tapered)",
+                "type": "object",
+                "properties": {
+                  "AREA": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IXX": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IYY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IZZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QYB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QZB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IW": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  }
+                }
+              },
+              "STIFF_USER_TAPERED_J": {
+                "description": "StiffnessUserJ(Tapered)",
+                "type": "object",
+                "properties": {
+                  "AREA": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "ASZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IXX": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IYY": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IZZ": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CYM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZP": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "CZM": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QYB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "QZB": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "X4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y1": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y2": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y3": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "Y4": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  },
+                  "IW": {
+                    "description": "Partialstiffness",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "OPT_UPDATE_ALL_H": {
+          "description": "AutoCalculationOptionNotationalsize,h",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

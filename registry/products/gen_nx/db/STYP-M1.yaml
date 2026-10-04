@@ -1,0 +1,49 @@
+key: "DB.STYP-M1"
+namespace: DB
+uri: "/DB/STYP-M1"
+methods: [GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "STYP-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/STYP-M1.json"
+  introspect: "info/db/STYP-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Structure Type
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56375311138201-Structure-Type"
+  retrieved_at: "2026-05-15"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 12
+  examples: 2
+  has_response_head: false
+notes: ["정의돼 있으나, 같은 아티클의 Request Examples와 Specifications 표는 모두 `\"3D\"`(언더스코어 없음)로 일관되게 표기한다. 본 저장소 원칙(예제가 표보다 우선)에 따라 아래 예제·표에서는 `\"3D\"`를 사용한다."]

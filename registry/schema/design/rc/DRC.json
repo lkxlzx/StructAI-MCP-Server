@@ -1,0 +1,39 @@
+{
+  "key": "DESIGN.RC.DRC",
+  "uri": "DESIGN/RC/DRC",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "maxProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "DGNCODE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "DGNCODE": {
+                "type": "string",
+                "description": "Design Code",
+                "enum": [
+                  "KDS 41 20 : 2022"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

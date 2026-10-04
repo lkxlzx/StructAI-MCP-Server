@@ -1,0 +1,176 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WC-TABLE",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WC-TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "enum": [
+              "WID+STORY",
+              "WID"
+            ]
+          },
+          "SELECTIONS": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ],
+                      "not": {
+                        "required": [
+                          "TO"
+                        ]
+                      }
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ],
+                      "not": {
+                        "required": [
+                          "KEYS"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "PRI_SORT": {
+            "type": "integer",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "Story",
+                "const": 0
+              },
+              {
+                "title": "WID",
+                "const": 1
+              }
+            ]
+          },
+          "PRI_SORT_WID": {
+            "type": "integer",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "WallMark",
+                "const": 0
+              },
+              {
+                "title": "WID",
+                "const": 1
+              }
+            ]
+          },
+          "RESULT": {
+            "type": "integer",
+            "default": 0,
+            "oneOf": [
+              {
+                "title": "All",
+                "const": 0
+              },
+              {
+                "title": "OK",
+                "const": 1
+              },
+              {
+                "title": "NG",
+                "const": 2
+              }
+            ]
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "default": "RC Wall Checking Result"
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "UNIT": {
+            "type": "object",
+            "properties": {
+              "FORCE": {
+                "type": "string"
+              },
+              "DIST": {
+                "type": "string"
+              },
+              "HEAT": {
+                "type": "string"
+              },
+              "TEMP": {
+                "type": "string"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

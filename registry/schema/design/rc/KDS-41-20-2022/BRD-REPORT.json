@@ -1,0 +1,89 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.BRD-REPORT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/BRD-REPORT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "REPORT_TYPE",
+          "EXPORT_PATH",
+          "OUTPUT_NAME"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "REPORT_TYPE": {
+            "type": "string",
+            "enum": [
+              "MEMB",
+              "PROP"
+            ]
+          },
+          "CURRENT_MODE_MEMB": {
+            "type": "string",
+            "enum": [
+              "Graphic",
+              "Detail",
+              "Summary",
+              "PMCurve"
+            ]
+          },
+          "CURRENT_MODE_PROP": {
+            "type": "string",
+            "enum": [
+              "Graphic",
+              "Summary"
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            }
+          },
+          "SECTIONS": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "OUTPUT_NAME": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

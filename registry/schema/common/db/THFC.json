@@ -1,0 +1,82 @@
+{
+  "key": "DB.THFC",
+  "uri": "DB/THFC",
+  "source": "help_center",
+  "schema": {
+    "THFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Timehistoryfunctionname",
+          "type": "string"
+        },
+        "FUNCTYPE": {
+          "description": "Timehistoryfunctiontype-Time",
+          "type": "integer"
+        },
+        "iTYPE": {
+          "description": "Timefunctiondatatype",
+          "type": "integer"
+        },
+        "iMETHOD": {
+          "description": "Scalingmethod",
+          "type": "integer"
+        },
+        "SCALE": {
+          "description": "Scalefactor",
+          "type": "number"
+        },
+        "MAXVALUE": {
+          "description": "MaximumValue",
+          "type": "number"
+        },
+        "GRAV": {
+          "description": "Gravity",
+          "type": "number"
+        },
+        "aFUNCDATA": {
+          "description": "TimeValueList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TIME": {
+                "description": "Time",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "CONS_A": {
+          "description": "ConstantA",
+          "type": "number"
+        },
+        "CONS_C": {
+          "description": "ConstantC",
+          "type": "number"
+        },
+        "FREQUENCY": {
+          "description": "Frequency",
+          "type": "number"
+        },
+        "DAMP_FACTOR": {
+          "description": "DampingFactor",
+          "type": "number"
+        },
+        "PHASE_ANGLE": {
+          "description": "PhaseAngle",
+          "type": "number"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "key": "DB.HECB",
+  "uri": "DB/HECB",
+  "source": "help_center",
+  "schema": {
+    "HECB": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "BoundaryGroupName",
+                "type": "string"
+              },
+              "FACE_NO": {
+                "description": "FACE#",
+                "type": "integer"
+              },
+              "CCFC_NAME": {
+                "description": "ConvectionCoefficientFunction",
+                "type": "string"
+              },
+              "ETFC_NAME": {
+                "description": "AmbientTemperatureFunction",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

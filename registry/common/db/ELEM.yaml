@@ -1,0 +1,59 @@
+key: DB.ELEM
+namespace: DB
+uri: /DB/ELEM
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: ELEM
+schema_ref:
+  local: schema/common/db/ELEM.json
+  introspect: info/db/ELEM
+  source: help_center
+parser: db_generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DB/ELEM
+    methods: GET
+    title: 单元
+    spec_rows: 6
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: verified
+verified_on: ["gen-local", "civil-cloud", "designer-cloud"]
+path_key_supported: true
+table_type: null
+title: Element
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35806934300825-Element"
+  retrieved_at: "2025-11-04"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 67
+  examples: 27
+  has_response_head: false

@@ -1,0 +1,267 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Result Table Type",
+            "enum": [
+              "MEMB",
+              "PROP"
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "description": "Element No. Input.",
+            "additionalProperties": false,
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "description": "Specify Each ID",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify ID Range (e.g., '1to160')"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify Structure Group Name"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "KEYS"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "TO"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "STRUCTURE_GROUP_NAME"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "SECTIONS": {
+            "type": "array",
+            "description": "List of section numbers to include in the table.",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "PRI_SORT": {
+            "type": "integer",
+            "description": "Sorting criteria for member-based output (by Section No. or Member No.)",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "SECT",
+                "const": 0
+              },
+              {
+                "title": "MEMB",
+                "const": 1
+              }
+            ]
+          },
+          "RESULT": {
+            "type": "integer",
+            "description": "Filter results by check status",
+            "default": 0,
+            "oneOf": [
+              {
+                "title": "All",
+                "const": 0
+              },
+              {
+                "title": "OK",
+                "const": 1
+              },
+              {
+                "title": "NG",
+                "const": 2
+              }
+            ]
+          },
+          "VIEW_RATPC": {
+            "type": "boolean",
+            "description": "Filter to show only members with RatPc greater than 0.4",
+            "default": false
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Response Table Title",
+            "default": ""
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit"
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Length/Distance unit"
+              },
+              "HEAT": {
+                "type": "string",
+                "description": "Heat unit"
+              },
+              "TEMP": {
+                "type": "string",
+                "description": "Temperature unit"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "description": "Number format",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "description": "Digit place",
+                "minimum": 0,
+                "maximum": 15
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "description": "Components of Result Table",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CHK",
+                "MEMB",
+                "COM",
+                "SECT",
+                "SHR",
+                "Section",
+                "Material",
+                "Fy",
+                "LCB",
+                "Len",
+                "Lb",
+                "Ly",
+                "Lz",
+                "Cb",
+                "Ky",
+                "Kz",
+                "B1y",
+                "B1z",
+                "B2y",
+                "B2z",
+                "RatPc",
+                "Pu",
+                "pPn",
+                "Muy",
+                "pMny",
+                "Muz",
+                "pMnz",
+                "Vuy",
+                "pVny",
+                "Vuz",
+                "pVnz",
+                "Tu",
+                "pTn",
+                "Def",
+                "Defa"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

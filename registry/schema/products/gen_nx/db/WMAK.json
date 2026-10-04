@@ -1,0 +1,24 @@
+{
+  "key": "DB.WMAK",
+  "uri": "DB/WMAK",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "MARKNAME": {
+          "description": "WallMarkName",
+          "type": "string"
+        },
+        "WID_LIST": {
+          "description": "WallIDList",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

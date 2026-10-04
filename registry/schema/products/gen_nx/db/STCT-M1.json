@@ -1,0 +1,2839 @@
+{
+  "key": "DB.STCT-M1",
+  "uri": "DB/STCT-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices; each value is a Stage Analysis Control request item (gvs1: SSOT planner).",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "required": [
+            "bLAST_FINAL"
+          ],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "bLAST_FINAL": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Last Stage / Other Stage / Stage Combo (OnSet 시 FINAL_STAGE 이름을 FindStagKeyByName으로 역조회. 미존재 시 LV_WRONG_DATA.)"
+                },
+                "FINAL_STAGE": {
+                  "type": "string",
+                  "description": "Last Stage / Other Stage / Stage Combo (OnSet 시 FINAL_STAGE 이름을 FindStagKeyByName으로 역조회. 미존재 시 LV_WRONG_DATA.)"
+                },
+                "RESTART_CS_ANAL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Restart Construction Stage Analysis / Select Stages for Restart... (Civil v7.2+ 옵션. 상세 하위 필드는 현재 SSOT에서 요약 수준으로만 제공됨.)",
+                  "properties": {
+                    "OPT_USE": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "When true, RESTART_STAGE is required; when false, RESTART_STAGE is optional."
+                    },
+                    "RESTART_STAGE": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Array of construction stage names to restart."
+                    }
+                  },
+                  "required": [
+                    "OPT_USE"
+                  ],
+                  "allOf": [
+                    {
+                      "description": "OPT_USE=true then RESTART_STAGE is required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "RESTART_STAGE"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "description": "bLAST_FINAL=false then FINAL_STAGE is required",
+                  "if": {
+                    "properties": {
+                      "bLAST_FINAL": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "bLAST_FINAL"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "FINAL_STAGE"
+                    ]
+                  }
+                },
+                {
+                  "description": "bLAST_FINAL=true then FINAL_STAGE must not be provided",
+                  "if": {
+                    "properties": {
+                      "bLAST_FINAL": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "bLAST_FINAL"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "FINAL_STAGE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ANAL_TYPE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Analysis Type (NL + P-Delta 불가. Geo NL + TDE + Independent 불가)",
+                  "properties": {
+                    "iINC_NLA": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "default": 0,
+                      "description": "Analysis type (Linear: 0, Geometric Nonlinear: 1, Material Nonlinear: 2, Geometric/Material Nonlinear: 3)"
+                    },
+                    "iNLA_TYPE": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "default": 0,
+                      "description": "Stage option (Independent: 0, Accumulative: 1)"
+                    },
+                    "bIEMF": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Include Equilibrium Element Nodal Forces (Geometric Nonlinear + Independent context)"
+                    },
+                    "bINC_PDL": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Include P-Delta Effect"
+                    },
+                    "bINC_TDE": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Include Time Dependent Effect"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When iINC_NLA is 2 or 3, only iNLA_TYPE=1 is allowed.",
+                      "if": {
+                        "properties": {
+                          "iINC_NLA": {
+                            "enum": [
+                              2,
+                              3
+                            ]
+                          }
+                        },
+                        "required": [
+                          "iINC_NLA"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "iNLA_TYPE": {
+                            "enum": [
+                              1
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "description": "bIEMF is allowed only when iINC_NLA=1 and iNLA_TYPE=0.",
+                      "if": {
+                        "not": {
+                          "properties": {
+                            "iINC_NLA": {
+                              "const": 1
+                            },
+                            "iNLA_TYPE": {
+                              "const": 0
+                            }
+                          },
+                          "required": [
+                            "iINC_NLA",
+                            "iNLA_TYPE"
+                          ]
+                        }
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bIEMF"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "bINC_PDL is allowed only when iINC_NLA=0.",
+                      "if": {
+                        "properties": {
+                          "iINC_NLA": {
+                            "enum": [
+                              1,
+                              2,
+                              3
+                            ]
+                          }
+                        },
+                        "required": [
+                          "iINC_NLA"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bINC_PDL"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "bINC_TDE is allowed only when iNLA_TYPE=1 and iINC_NLA is 0 or 1.",
+                      "if": {
+                        "not": {
+                          "properties": {
+                            "iINC_NLA": {
+                              "enum": [
+                                0,
+                                1
+                              ]
+                            },
+                            "iNLA_TYPE": {
+                              "const": 1
+                            }
+                          },
+                          "required": [
+                            "iINC_NLA",
+                            "iNLA_TYPE"
+                          ]
+                        }
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bINC_TDE"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ERECTION_LOAD": {
+                  "type": "array",
+                  "default": [],
+                  "description": "(복합) (OnSet 시 LC_NAME_LIST의 각 Load Case 이름을 FindStldKeyByName으로 역조회. 미존재 시 LV_WRONG_DATA.)",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "LTYPECC",
+                      "EREC",
+                      "vLCNAME"
+                    ],
+                    "properties": {
+                      "LTYPECC": {
+                        "type": "string",
+                        "description": "Erection Load Case Name"
+                      },
+                      "EREC": {
+                        "type": "string",
+                        "enum": [
+                          "D",
+                          "DC",
+                          "DW",
+                          "EP",
+                          "L",
+                          "W",
+                          "T",
+                          "TPG",
+                          "E",
+                          "ER"
+                        ],
+                        "description": "Erection Load Type for C.S. (Dead Load:D, Dead Load of Component and Attachments:DC, Dead Load of Wearing Surfaces and Utilities:DW, Earth Pressure:EP, Live Load:L, Wind Load on Structure:W, Temperature:T, Temperature Gradient:TPG, Earthquake:E, Erection Load:ER)"
+                      },
+                      "vLCNAME": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Load Case Name List"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "bSDLE": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Secondary Dead Load Effect for Grid Model"
+                },
+                "vSDLE": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "description": "Load Case Name List (Grid Analysis Load)"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "bSDLE=true then vSDLE is required",
+                  "if": {
+                    "properties": {
+                      "bSDLE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "bSDLE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "vSDLE"
+                    ]
+                  }
+                },
+                {
+                  "description": "bSDLE=false then vSDLE must not be provided",
+                  "if": {
+                    "properties": {
+                      "bSDLE": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "bSDLE"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "vSDLE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "TIME_DEP_CONTROL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "(복합 체크 + 콤보 + 에디트 다수) (Auto Time Step 배열 5개(T>10/100/1K/5K/10K). MEC 전용 Confinement 포함)",
+                  "required": [
+                    "CREEP_SHRINKAGE"
+                  ],
+                  "properties": {
+                    "CREEP_SHRINKAGE": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Creep & Shrinkage"
+                        },
+                        "TYPE": {
+                          "type": "string",
+                          "enum": [
+                            "CREEP",
+                            "SHRINKAGE",
+                            "BOTH"
+                          ],
+                          "description": "Creep and shrinkage type (Creep:CREEP, Shrinkage:SHRINKAGE, Both:BOTH)"
+                        },
+                        "bOUCC": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Only User’s Creep Coefficient"
+                        },
+                        "INTERNAL_STEP": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Internal Time Step for Creep"
+                            },
+                            "iITS": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "Time Step"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "OPT_USE=true then iITS is required",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "iITS"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "OPT_USE=false then iITS must not be provided",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "required": [
+                                    "iITS"
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "AUTO_TIME_STEP": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Auto Time Step Generation for Large Time Gap"
+                            },
+                            "iT10": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "T > 10"
+                            },
+                            "iT100": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "T > 100"
+                            },
+                            "iT1K": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "T > 1000"
+                            },
+                            "iT5K": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "T > 5000"
+                            },
+                            "iT10K": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "description": "T > 10000"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "OPT_USE=true then iT10~iT10K is required",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "iT10",
+                                  "iT100",
+                                  "iT1K",
+                                  "iT5K",
+                                  "iT10K"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "OPT_USE=false then iT10~iT10K must not be provided",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "iT10"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "iT100"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "iT1K"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "iT5K"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "iT10K"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "bTTLE_CS": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Tendon Tension Loss Effect (Creep & Shrinkage)"
+                        },
+                        "bRCE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Consider Re-Bar Confinement Effect"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "OPT_USE=true then TYPE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "TYPE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When OPT_USE=false, detail fields must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "TYPE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "bOUCC"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "INTERNAL_STEP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "AUTO_TIME_STEP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "bTTLE_CS"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "bRCE"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When TYPE=SHRINKAGE, creep-related detail options must not be provided.",
+                          "if": {
+                            "properties": {
+                              "TYPE": {
+                                "const": "SHRINKAGE"
+                              }
+                            },
+                            "required": [
+                              "TYPE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "bOUCC"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "INTERNAL_STEP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "AUTO_TIME_STEP"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "bOUCC=true then INTERNAL_STEP, AUTO_TIME_STEP must not be provided",
+                          "if": {
+                            "properties": {
+                              "bOUCC": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "bOUCC"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "INTERNAL_STEP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "AUTO_TIME_STEP"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "bVAR": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Variation of Comp. Strength"
+                    },
+                    "bAPPLY_ELA": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Apply TDE Elastic Modulus to Post C.S."
+                    },
+                    "bTTLE_ES": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Tendon Tension Loss Effect (Elastic Shortening)"
+                    },
+                    "iTTLE_ES": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Loss option (Change: 0, Constant: 1)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "bVAR=trueonly when bAPPLY_ELA is allowed",
+                      "if": {
+                        "properties": {
+                          "bVAR": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "bVAR"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bAPPLY_ELA"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "bTTLE_ES=trueonly when iTTLE_ES is allowed",
+                      "if": {
+                        "properties": {
+                          "bTTLE_ES": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "bTTLE_ES"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "iTTLE_ES"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "CABLE_CONTROL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Internal Force / External Force / Add / Replace",
+                  "properties": {
+                    "CPFC": {
+                      "type": "string",
+                      "enum": [
+                        "INTERNAL",
+                        "EXTERNAL"
+                      ],
+                      "default": "INTERNAL",
+                      "description": "Cable pretension force type (Internal force:INTERNAL, External force:EXTERNAL)"
+                    },
+                    "bEXT_REPL": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "External Force Type (false=Add, true=Replace)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "CPFC=INTERNAL then bEXT_REPL must not be provided",
+                      "if": {
+                        "properties": {
+                          "CPFC": {
+                            "const": "INTERNAL"
+                          }
+                        },
+                        "required": [
+                          "CPFC"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bEXT_REPL"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INITIAL_CONTROL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "(복합)",
+                  "properties": {
+                    "bCONV": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Convert Final Stage Member Forces to Initial Forces for Post C.S"
+                    },
+                    "bTRUSS": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Truss (bCONV=true when )"
+                    },
+                    "bBEAM": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Beam (bCONV=true when )"
+                    },
+                    "bCHANGE_CABLE": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Change Cable Element to Equivalent Truss Element for Post C.S"
+                    },
+                    "bAPPLY_IMF": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Apply Initial Member Force to C.S"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "bCONV=true then bTRUSS, bBEAM required",
+                      "if": {
+                        "properties": {
+                          "bCONV": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "bCONV"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "bTRUSS",
+                          "bBEAM"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "bCONV=true then bTRUSS, bBEAM at least one of bTRUSS or bBEAM must be true",
+                      "if": {
+                        "properties": {
+                          "bCONV": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "bCONV",
+                          "bTRUSS",
+                          "bBEAM"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "properties": {
+                            "bTRUSS": {
+                              "const": false
+                            },
+                            "bBEAM": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "bTRUSS",
+                            "bBEAM"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When both bTRUSS and bBEAM are false, bCONV must be false.",
+                      "if": {
+                        "properties": {
+                          "bTRUSS": {
+                            "const": false
+                          },
+                          "bBEAM": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "bTRUSS",
+                          "bBEAM"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "bCONV": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "bCONV"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "bCONV=false then bTRUSS, bBEAM not required",
+                      "if": {
+                        "properties": {
+                          "bCONV": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "bCONV"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "bTRUSS"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "bBEAM"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INITIAL_DISP": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "(복합) (GROUP 선택 시 GROUP_NAME을 FindGrupKeyByName으로 역조회. Lack-of-Fit Force Control은 M1 DTO 명시 노출 제한 항목.)",
+                  "properties": {
+                    "ITD_CONTROL": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Initial Tangent Displacement for Erected Structures (Accumulative context)"
+                        },
+                        "ITD": {
+                          "type": "string",
+                          "enum": [
+                            "ALL",
+                            "GROUP"
+                          ],
+                          "default": "ALL",
+                          "description": "Initial tangent displacement type (All structures:ALL, Structure group:GROUP)"
+                        },
+                        "GROUP": {
+                          "type": "string",
+                          "description": "Structure Group Name for ITD (ITD=GROUP when is required)"
+                        },
+                        "LFFC_OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Lack-of-Fit Force Control"
+                        },
+                        "LFFGR": {
+                          "type": "string",
+                          "description": "Structure Group Name (LFFC_OPT_USE=true when is required)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "When OPT_USE=false, child fields must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "ITD"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "GROUP"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "LFFC_OPT_USE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "LFFGR"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "OPT_USE=true then ITD is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "ITD"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "ITD=ALL then GROUP must not be provided",
+                          "if": {
+                            "properties": {
+                              "ITD": {
+                                "const": "ALL"
+                              }
+                            },
+                            "required": [
+                              "ITD"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "GROUP"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "ITD=GROUP then GROUP is required",
+                          "if": {
+                            "properties": {
+                              "ITD": {
+                                "const": "GROUP"
+                              }
+                            },
+                            "required": [
+                              "ITD"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "GROUP"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "LFFC_OPT_USE=true then LFFGR is required",
+                          "if": {
+                            "properties": {
+                              "LFFC_OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "LFFC_OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "LFFGR"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "LFFC_OPT_USE=false then LFFGR must not be provided",
+                          "if": {
+                            "properties": {
+                              "LFFC_OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "LFFC_OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "LFFGR"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "bCAMBER": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Apply Camber Displacement to C.S. (if defined)"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "STRESS_DECREASE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Consider Stress Decrease at Transfer Length Zone by Post-tension",
+                  "properties": {
+                    "OPT_USE": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Consider Stress Decrease at Transfer Length Zone by Post-Tension"
+                    },
+                    "iSDOPT": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "default": 0,
+                      "description": "Stress decrease method (Linear interpolation: 0, Constant stress: 1)"
+                    },
+                    "SDCONST": {
+                      "type": "number",
+                      "default": 0,
+                      "minimum": 0,
+                      "description": "Ratio Value for Constant Type (iSDOPT=1 when )"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "OPT_USE=false then iSDOPT, SDCONST must not be provided",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "iSDOPT"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "SDCONST"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "OPT_USE=true then iSDOPT is required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "iSDOPT"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "iSDOPT=1 then SDCONST is required",
+                      "if": {
+                        "properties": {
+                          "iSDOPT": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "iSDOPT"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "SDCONST"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "iSDOPT=0 then SDCONST must not be provided",
+                      "if": {
+                        "properties": {
+                          "iSDOPT": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "iSDOPT"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "SDCONST"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "iBSC": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ],
+                  "default": 1,
+                  "description": "Constant / Change with Tendon"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "FRAME_OUTPUT": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "(복합)",
+                  "properties": {
+                    "bCALC_CFF": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Calculate Concurrent Forces of Frame"
+                    },
+                    "bCALC_CSP": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Calculate Output of Each Part of Composite Section"
+                    },
+                    "bSELFCONS": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Self-Constrained Forces & Stresses"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "bSELFCONS is allowed only when bCALC_CSP=true.",
+                      "if": {
+                        "not": {
+                          "properties": {
+                            "bCALC_CSP": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "bCALC_CSP"
+                          ]
+                        }
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "bSELFCONS"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "bSAVE_OCS": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Save Output of Current Stage(Beam/Truss)"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "NONL_CONTROL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "(복합) (Advanced 는 §4 서브 진입)",
+                  "properties": {
+                    "iLSTEP": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Number of Increments"
+                    },
+                    "INTOUT": {
+                      "type": "string",
+                      "enum": [
+                        "EVERY",
+                        "LAST"
+                      ],
+                      "default": "LAST",
+                      "description": "Intermediate output request (Every increment:EVERY, Last increment only:LAST)"
+                    },
+                    "ADVANCED": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "USE_DEF_SETTINGS"
+                      ],
+                      "description": "Advanced Nonlinear Parameters (NLCT 의 dlg_api_NLCT_for_planner 의 Advanced Nonlinear Parameters 섹션 참조)",
+                      "properties": {
+                        "USE_DEF_SETTINGS": {
+                          "type": "boolean",
+                          "default": true,
+                          "description": "Use Default Settings"
+                        },
+                        "STIFF_UPD_SCHEME": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "description": "Stiffness update scheme (Custom: 0, Full Newton-Raphson: 1, Initial stiffness: 2)"
+                        },
+                        "ITER_BEF_UPDATE": {
+                          "type": "integer",
+                          "description": "No. of Iterations before Stiffness Update"
+                        },
+                        "TERMINATE_ON_FAIL_CONV": {
+                          "type": "boolean",
+                          "description": "Terminate Analysis on Failed Convergence"
+                        },
+                        "MAX_ITER_INCREMENT": {
+                          "type": "integer",
+                          "description": "Max. No. of Iterations per Increment"
+                        },
+                        "MAX_BISECT_LEVEL": {
+                          "type": "integer",
+                          "description": "Max. Bisection Level"
+                        },
+                        "SMART_BISECT": {
+                          "type": "boolean",
+                          "description": "Smart Bisection"
+                        },
+                        "DIVERG_THRESH": {
+                          "type": "number",
+                          "description": "Divergence Threshold"
+                        },
+                        "ENABLE_LINE_SEARCH": {
+                          "type": "boolean",
+                          "default": true,
+                          "description": "Enable Line Search"
+                        },
+                        "LINE_SEARCH": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "description": "Enabled by Enable Line Search"
+                            },
+                            "LINE_SEARCH_TYPE": {
+                              "type": "string",
+                              "enum": [
+                                "AUTO",
+                                "USER"
+                              ],
+                              "default": "AUTO",
+                              "description": "Line search option type (Automatic:AUTO, User-defined:USER)"
+                            },
+                            "MAX_LN_SRCH_ITER": {
+                              "type": "integer",
+                              "description": "Max. Line Search per Iteration"
+                            },
+                            "LN_SEARCH_TOL": {
+                              "type": "number",
+                              "description": "Line Search Tolerance"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "OPT_USE=true then LINE_SEARCH_TYPE is required",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "LINE_SEARCH_TYPE"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "OPT_USE=false then LINE_SEARCH_TYPE, MAX_LN_SRCH_ITER, LN_SEARCH_TOL must not be provided",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "LINE_SEARCH_TYPE"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "MAX_LN_SRCH_ITER"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "LN_SEARCH_TOL"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "description": "LINE_SEARCH_TYPE=USER then MAX_LN_SRCH_ITER, LN_SEARCH_TOL is required",
+                              "if": {
+                                "properties": {
+                                  "LINE_SEARCH_TYPE": {
+                                    "const": "USER"
+                                  }
+                                },
+                                "required": [
+                                  "LINE_SEARCH_TYPE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "MAX_LN_SRCH_ITER",
+                                  "LN_SEARCH_TOL"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "LINE_SEARCH_TYPE=AUTO then MAX_LN_SRCH_ITER, LN_SEARCH_TOL must not be provided",
+                              "if": {
+                                "properties": {
+                                  "LINE_SEARCH_TYPE": {
+                                    "const": "AUTO"
+                                  }
+                                },
+                                "required": [
+                                  "LINE_SEARCH_TYPE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "MAX_LN_SRCH_ITER"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "LN_SEARCH_TOL"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "description": "Line Search Parameters"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "When USE_DEF_SETTINGS=true, user-defined fields must not be provided.",
+                          "if": {
+                            "properties": {
+                              "USE_DEF_SETTINGS": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "USE_DEF_SETTINGS"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "STIFF_UPD_SCHEME"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "ITER_BEF_UPDATE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "TERMINATE_ON_FAIL_CONV"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MAX_ITER_INCREMENT"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MAX_BISECT_LEVEL"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "SMART_BISECT"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "DIVERG_THRESH"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "ENABLE_LINE_SEARCH"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "LINE_SEARCH"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When STIFF_UPD_SCHEME = 0, ITER_BEF_UPDATE is required",
+                          "if": {
+                            "properties": {
+                              "STIFF_UPD_SCHEME": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "STIFF_UPD_SCHEME"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "ITER_BEF_UPDATE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "ITER_BEF_UPDATE can be provided only when STIFF_UPD_SCHEME = 0",
+                          "if": {
+                            "required": [
+                              "ITER_BEF_UPDATE"
+                            ]
+                          },
+                          "then": {
+                            "properties": {
+                              "STIFF_UPD_SCHEME": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "STIFF_UPD_SCHEME"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When STIFF_UPD_SCHEME != 0, ITER_BEF_UPDATE must not be provided",
+                          "if": {
+                            "properties": {
+                              "STIFF_UPD_SCHEME": {
+                                "enum": [
+                                  1,
+                                  2
+                                ]
+                              }
+                            },
+                            "required": [
+                              "STIFF_UPD_SCHEME"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "ITER_BEF_UPDATE"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "ENABLE_LINE_SEARCH=false then LINE_SEARCH must not be provided",
+                          "if": {
+                            "properties": {
+                              "ENABLE_LINE_SEARCH": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "ENABLE_LINE_SEARCH"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "LINE_SEARCH"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "ENABLE_LINE_SEARCH=true then LINE_SEARCH is required",
+                          "if": {
+                            "properties": {
+                              "ENABLE_LINE_SEARCH": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "ENABLE_LINE_SEARCH"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "LINE_SEARCH"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "DISP": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Norm option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Norm tolerance value (required only when OPT_USE=true)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "OPT_USE=true then VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "OPT_USE=false then VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Considering Displacement Norm"
+                    },
+                    "LOAD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Norm option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Norm tolerance value (required only when OPT_USE=true)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "OPT_USE=true then VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "OPT_USE=false then VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Considering Load Norm"
+                    },
+                    "WORK": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Norm option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Norm tolerance value (required only when OPT_USE=true)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "OPT_USE=true then VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "OPT_USE=false then VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Considering Work Norm"
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "DISP": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "LOAD": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "LOAD"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "WORK": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "WORK"
+                      ]
+                    }
+                  ],
+                  "default": {
+                    "DISP": {
+                      "OPT_USE": false
+                    },
+                    "LOAD": {
+                      "OPT_USE": true,
+                      "VALUE": 0.001
+                    },
+                    "WORK": {
+                      "OPT_USE": true,
+                      "VALUE": 1e-06
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "When iINC_NLA=0 and iNLA_TYPE=0, Initial Displacement, part of Frame Output, and Save OCS are disabled.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "const": 0
+                      },
+                      "iNLA_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "ITD"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "GROUP"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "LFFC_OPT_USE"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "LFFGR"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FRAME_OUTPUT": {
+                          "required": [
+                            "bCALC_CFF"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FRAME_OUTPUT": {
+                          "required": [
+                            "bSELFCONS"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "bSAVE_OCS"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "iINC_NLA=1 and iNLA_TYPE=0 then Initial Member Force, Initial Displacement, Stress Decrease, Frame Output, Save OCS disabled",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "const": 1
+                      },
+                      "iNLA_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "INITIAL_CONTROL": {
+                          "required": [
+                            "bAPPLY_IMF"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_CONTROL"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "ITD"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "GROUP"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "LFFC_OPT_USE"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "INITIAL_DISP": {
+                          "properties": {
+                            "ITD_CONTROL": {
+                              "required": [
+                                "LFFGR"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "ITD_CONTROL"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRESS_DECREASE"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FRAME_OUTPUT": {
+                          "required": [
+                            "bCALC_CFF"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FRAME_OUTPUT": {
+                          "required": [
+                            "bCALC_CSP"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FRAME_OUTPUT": {
+                          "required": [
+                            "bSELFCONS"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "bSAVE_OCS"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "iINC_NLA=1 and iNLA_TYPE=1 then Initial Member Force, Stress Decrease disabled",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "const": 1
+                      },
+                      "iNLA_TYPE": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "INITIAL_CONTROL": {
+                          "required": [
+                            "bAPPLY_IMF"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INITIAL_CONTROL"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRESS_DECREASE"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "When iINC_NLA is 2 or 3, Cable Pretension, Initial Force/Member Force, Initial Displacement/Camber, Stress Decrease, Frame Output, Save OCS, and Nonlinear Control are disabled.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "enum": [
+                          2,
+                          3
+                        ]
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "CABLE_CONTROL"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "INITIAL_CONTROL"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "INITIAL_DISP"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRESS_DECREASE"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "FRAME_OUTPUT"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "bSAVE_OCS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "NONL_CONTROL"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "When iINC_NLA is 0 or 1 and iNLA_TYPE=0, CABLE_CONTROL is not required.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "enum": [
+                          0,
+                          1
+                        ]
+                      },
+                      "iNLA_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE"
+                ]
+              },
+              "then": {}
+            },
+            {
+              "description": "When iINC_NLA is 0 or 1 and iNLA_TYPE=0, if bEXT_REPL is provided inside CABLE_CONTROL, only false is allowed.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "enum": [
+                          0,
+                          1
+                        ]
+                      },
+                      "iNLA_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  },
+                  "CABLE_CONTROL": {
+                    "required": [
+                      "bEXT_REPL"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE",
+                  "CABLE_CONTROL"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "CABLE_CONTROL": {
+                    "properties": {
+                      "bEXT_REPL": {
+                        "const": false
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "iINC_NLA=0 or 1and iNLA_TYPE=1only when CABLE_CONTROL enabled",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "properties": {
+                        "iINC_NLA": {
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        },
+                        "iNLA_TYPE": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "iINC_NLA",
+                        "iNLA_TYPE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE"
+                  ]
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "CABLE_CONTROL"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "When iINC_NLA is 0 or 1 and iNLA_TYPE=1 and CPFC=INTERNAL, bEXT_REPL is not required.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iINC_NLA": {
+                        "enum": [
+                          0,
+                          1
+                        ]
+                      },
+                      "iNLA_TYPE": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "iINC_NLA",
+                      "iNLA_TYPE"
+                    ]
+                  },
+                  "CABLE_CONTROL": {
+                    "properties": {
+                      "CPFC": {
+                        "const": "INTERNAL"
+                      }
+                    },
+                    "required": [
+                      "CPFC"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE",
+                  "CABLE_CONTROL"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "CABLE_CONTROL": {
+                    "not": {
+                      "required": [
+                        "bEXT_REPL"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "Secondary Dead Load Effect is allowed only when iINC_NLA=0 and iNLA_TYPE=1.",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "properties": {
+                        "iINC_NLA": {
+                          "const": 0
+                        },
+                        "iNLA_TYPE": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "iINC_NLA",
+                        "iNLA_TYPE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE"
+                  ]
+                }
+              },
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "bSDLE"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "vSDLE"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "bAPPLY_IMF is allowed only when iINC_NLA=0.",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "properties": {
+                        "iINC_NLA": {
+                          "const": 0
+                        }
+                      },
+                      "required": [
+                        "iINC_NLA"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE"
+                  ]
+                }
+              },
+              "then": {
+                "properties": {
+                  "INITIAL_CONTROL": {
+                    "not": {
+                      "required": [
+                        "bAPPLY_IMF"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "ITD_CONTROL is allowed only when iNLA_TYPE=1.",
+              "if": {
+                "properties": {
+                  "ANAL_TYPE": {
+                    "properties": {
+                      "iNLA_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "iNLA_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_TYPE",
+                  "INITIAL_DISP"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "INITIAL_DISP": {
+                    "not": {
+                      "required": [
+                        "ITD_CONTROL"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "bCALC_CSP is allowed only when iINC_NLA=0 or (iINC_NLA=1 and iNLA_TYPE=1).",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "anyOf": [
+                        {
+                          "properties": {
+                            "iINC_NLA": {
+                              "const": 0
+                            }
+                          },
+                          "required": [
+                            "iINC_NLA"
+                          ]
+                        },
+                        {
+                          "properties": {
+                            "iINC_NLA": {
+                              "const": 1
+                            },
+                            "iNLA_TYPE": {
+                              "const": 1
+                            }
+                          },
+                          "required": [
+                            "iINC_NLA",
+                            "iNLA_TYPE"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE"
+                  ]
+                }
+              },
+              "then": {
+                "properties": {
+                  "FRAME_OUTPUT": {
+                    "not": {
+                      "required": [
+                        "bCALC_CSP"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "bSELFCONS is allowed only when iNLA_TYPE=1, bCALC_CSP=true, and iINC_NLA is 0 or 1.",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "properties": {
+                        "iINC_NLA": {
+                          "enum": [
+                            0,
+                            1
+                          ]
+                        },
+                        "iNLA_TYPE": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "iINC_NLA",
+                        "iNLA_TYPE"
+                      ]
+                    },
+                    "FRAME_OUTPUT": {
+                      "properties": {
+                        "bCALC_CSP": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "bCALC_CSP"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE",
+                    "FRAME_OUTPUT"
+                  ]
+                }
+              },
+              "then": {
+                "properties": {
+                  "FRAME_OUTPUT": {
+                    "not": {
+                      "required": [
+                        "bSELFCONS"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "TIME_DEP_CONTROL is allowed only when bINC_TDE=true.",
+              "if": {
+                "not": {
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "properties": {
+                        "bINC_TDE": {
+                          "const": true
+                        }
+                      },
+                      "required": [
+                        "bINC_TDE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "ANAL_TYPE"
+                  ]
+                }
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "TIME_DEP_CONTROL"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

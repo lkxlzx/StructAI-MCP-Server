@@ -1,0 +1,74 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WC-ANAL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WC-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Execute RC Wall design calculation. If SELECTIONS is omitted or empty, all wall IDs and all stories are included.",
+        "additionalProperties": false,
+        "properties": {
+          "SELECTIONS": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  },
+                  "oneOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ],
+                      "not": {
+                        "required": [
+                          "TO"
+                        ]
+                      }
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ],
+                      "not": {
+                        "required": [
+                          "KEYS"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

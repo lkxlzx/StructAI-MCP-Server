@@ -1,0 +1,44 @@
+key: "DESIGN.RC.KDS-41-20-2022.BEMW"
+namespace: DESIGN
+uri: "/DESIGN/RC/KDS-41-20-2022/BEMW"
+methods: [POST]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: BEMW
+schema_ref:
+  local: "schema/design/rc/KDS-41-20-2022/BEMW.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+path_key_supported: true
+table_type: null
+title: Boundary Element Method by Wall ID (벽체ID별 경계요소법)
+title_zh: 按墙体 ID 的边缘构件法
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: LONG
+  timeout_ms: 3600000
+  retryable: false
+  idempotent: false
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 5
+  examples: 2
+  has_response_head: false

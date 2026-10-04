@@ -1,0 +1,45 @@
+key: "DESIGN.STEEL.KDS-41-30-2022.SRDF"
+namespace: DESIGN
+uri: "/DESIGN/STEEL/KDS-41-30-2022/SRDF"
+methods: [GET]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: SRDF
+schema_ref:
+  local: "schema/design/steel/KDS-41-30-2022/SRDF.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Strength Reduction Factors (강도감소계수 φ)
+title_zh: 强度折减系数
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 6
+  examples: 2
+  has_response_head: false

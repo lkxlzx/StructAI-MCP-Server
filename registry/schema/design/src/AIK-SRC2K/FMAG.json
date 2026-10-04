@@ -1,0 +1,49 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.FMAG",
+  "uri": "DESIGN/SRC/AIK-SRC2K/FMAG",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "B1Y_DELTA_BY": {
+                "type": "number",
+                "description": "B1y - Delta by (First Order Moment Y)",
+                "default": 1
+              },
+              "B1Z_DELTA_BZ": {
+                "type": "number",
+                "description": "B1z - Delta bz (First Order Moment Z)",
+                "default": 1
+              },
+              "B2Y_DELTA_SY": {
+                "type": "number",
+                "description": "B2y - Delta sy (Second Order Moment Y)",
+                "default": 1
+              },
+              "B2Z_DELTA_SZ": {
+                "type": "number",
+                "description": "B2z - Delta sz (Second Order Moment Z)",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

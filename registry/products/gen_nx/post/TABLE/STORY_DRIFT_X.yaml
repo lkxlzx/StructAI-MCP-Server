@@ -1,0 +1,40 @@
+key: POST.TABLE.STORY_DRIFT_X
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/STORY_DRIFT_X.json
+  introspect: null
+  source: help_center_spec_table
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: STORY_DRIFT_X
+title: "Story Drift - Analysis Story Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49511531295257-post-TABLE-Story-Drift-X-Y-Combine-Story-Result-Table"
+  retrieved_at: "2026-07-28"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 45
+  examples: 10
+  has_response_head: true
+notes: ["Average Drift of Vertical Elements\" 블록(5열) 전체가 누락되고 일부 `Remark`/`Node` 열이 다른 블록에 잘못 배치되어 있었습니다(공식 원문 오타가 아니라 이 저장소의 집필 실수). 공식 Response 예제(37열)를 기준으로 정정했습니다.", DATA 값과 정합되지 않았습니다(37열). 공식 Response 예제의 실제 값으로 교체했습니다.]

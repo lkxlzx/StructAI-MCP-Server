@@ -1,0 +1,49 @@
+key: DB.MVHL
+namespace: DB
+uri: /DB/MVHL
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MVHL
+schema_ref:
+  local: schema/common/db/MVHL.json
+  introspect: info/db/MVHL
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Vehicles - AASHTO Standard"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35957125531545-Vehicles-AASHTO-Standard"
+  retrieved_at: "2025-11-04"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 33
+  examples: 2
+  has_response_head: false
+notes: ["기재돼 있었으나, 실제로는 AASHTO Standard/LRFD·PENNDOT·Korea(KS-RB)·Taiwan 5개 코드만 `VEH_DEFAULT`를 쓰고, 나머지 국가는 각자 전용 객체(`VEH_CA`/`VEH_BS`/`VEH_EUROCODE`/`VEH_AU`/ `VEH_PL`/`VEH_RU`/`VEH_ZA`/`VEH_CN`/`VEH_IN`)를 씁니다(KSCE-LSD15의 `VEH_KSCE_LSD15`와 동일한 패턴). 아래에 국가별 스키마를 추가합니다. Canada/Australia/South Africa/China/Poland는 하위 모드 전체를, BS/Eurocode/Russia/India는 원문 자체가 매우 방대(다중 표준·10개 이상 하위모드 혼재)해 대표 모드만 문서화합니다(SECT/TDMT"]

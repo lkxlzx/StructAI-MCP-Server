@@ -1,0 +1,1013 @@
+{
+ "source": "G:\\midas Civil Designer - API\\md\\midas Civil Designer - API JSON手册.md",
+ "note": "Civil Designer 手册的请求参数表原文提取。该手册的请求示例为扁平请求体（无 Assign/Argument 包装），与 NX 系约定不同，故未直接生成 JSON Schema —— 待写操作实测确认后再定 schema 形态。",
+ "endpoints": {
+  "DOC/OPEN": {
+   "uri": "/DOC/OPEN",
+   "sections": [
+    {
+     "title": "打开文件",
+     "params": [
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": true,
+       "description": "文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/SAVEAS": {
+   "uri": "/DOC/SAVEAS",
+   "sections": [
+    {
+     "title": "另存为",
+     "params": [
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": true,
+       "description": "文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/IMPORTCML": {
+   "uri": "/DOC/IMPORTCML",
+   "sections": [
+    {
+     "title": "导入Cml文件",
+     "params": [
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": true,
+       "description": "Cml文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/IMPORTMRB": {
+   "uri": "/DOC/IMPORTMRB",
+   "sections": [
+    {
+     "title": "导入mrb文件",
+     "params": [
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": true,
+       "description": "mrb文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/IMPORTFILE": {
+   "uri": "/DOC/IMPORTFILE",
+   "sections": [
+    {
+     "title": "导入Cml、mrb文件",
+     "params": [
+      {
+       "name": "CmlFilePath",
+       "type": "string",
+       "required": true,
+       "description": "Cml文件路径"
+      },
+      {
+       "name": "MrbFilePath",
+       "type": "string",
+       "required": true,
+       "description": "mrb文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/UPDATEFILE": {
+   "uri": "/DOC/UPDATEFILE",
+   "sections": [
+    {
+     "title": "更新Cml、mrb文件",
+     "params": [
+      {
+       "name": "CmlFilePath",
+       "type": "string",
+       "required": true,
+       "description": "Cml文件路径"
+      },
+      {
+       "name": "MrbFilePath",
+       "type": "string",
+       "required": true,
+       "description": "mrb文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/OUTFLOW": {
+   "uri": "/DOC/OUTFLOW",
+   "sections": [
+    {
+     "title": "更新文件至Civil NX",
+     "params": [
+      {
+       "name": "OutFlowType",
+       "type": "integer",
+       "required": true,
+       "description": "更新数据类型<br>* 0-所有数据 1-钢筋信息 2-截面信息 3-钢束信息 4-试验车辆布载方案"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/EXPORTFILE": {
+   "uri": "/DOC/EXPORTFILE",
+   "sections": [
+    {
+     "title": "导出文件至mct",
+     "params": [
+      {
+       "name": "ExportType",
+       "type": "integer",
+       "required": true,
+       "description": "导出数据类型<br>* 0-所有数据 1-钢筋信息 2-截面信息 3-钢束信息 4-试验车辆布载方案"
+      },
+      {
+       "name": "ExportPath",
+       "type": "string",
+       "required": true,
+       "description": "导出文件路径"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/ACTIVE": {
+   "uri": "/DOC/ACTIVE",
+   "sections": [
+    {
+     "title": "激活文件",
+     "params": [
+      {
+       "name": "DocName",
+       "type": "string",
+       "required": true,
+       "description": "文档名称"
+      }
+     ]
+    }
+   ]
+  },
+  "DOC/UNIT": {
+   "uri": "/DOC/UNIT",
+   "sections": [
+    {
+     "title": "单位",
+     "params": [
+      {
+       "name": "Force",
+       "type": "string",
+       "required": true,
+       "description": "力单位 (KG/TONF/N/KN/LBF/KIPS)"
+      },
+      {
+       "name": "Length",
+       "type": "string",
+       "required": true,
+       "description": "长度单位 (MM/CM/M/IN/FT)"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/MODULE": {
+   "uri": "/DB/MODULE",
+   "sections": [
+    {
+     "title": "模块",
+     "params": [
+      {
+       "name": "Module",
+       "type": "integer",
+       "required": true,
+       "description": "模块类型<br>* 0-设计 1-评定 2-试验 3-加固"
+      },
+      {
+       "name": "DgnCode",
+       "type": "integer",
+       "required": true,
+       "description": "设计规范"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/DCOD": {
+   "uri": "/DB/DCOD",
+   "sections": [
+    {
+     "title": "规范设置",
+     "params": [
+      {
+       "name": "DimType",
+       "type": "integer",
+       "required": false,
+       "description": "设计内力<br>*0-二维 1-二维+扭矩 2-三维"
+      },
+      {
+       "name": "SafeType",
+       "type": "integer",
+       "required": false,
+       "description": "公路桥涵结构的设计安全等级<br>*0-一级 1-二级 2-三级"
+      },
+      {
+       "name": "CastType",
+       "type": "integer",
+       "required": false,
+       "description": "构件制作方法<br>*0-预制 1-现浇"
+      },
+      {
+       "name": "BrgType",
+       "type": "integer",
+       "required": false,
+       "description": "构件类型<br>*0-全预应力 1-A类 2-B类"
+      },
+      {
+       "name": "CrackWidth",
+       "type": "array",
+       "required": false,
+       "description": "环境设置<br>*0-I类-一般环境 1-II类-冻融环境 2-III类-海洋氯化物环境 3-IV类-除冰盐等其他氯化物环境 4-V类-盐结晶环境 5-VI类-化学腐蚀环境 6-VII类-磨蚀环境"
+      },
+      {
+       "name": "CalcBtType",
+       "type": "integer",
+       "required": false,
+       "description": "抗扭降低系数βt<br>*0-翼缘+腹板 1-腹板"
+      },
+      {
+       "name": "Mesh",
+       "type": "boolean",
+       "required": false,
+       "description": "是否采用网格划分"
+      },
+      {
+       "name": "MeshSize",
+       "type": "number",
+       "required": false,
+       "description": "网格尺寸"
+      },
+      {
+       "name": "WeldSkeleton",
+       "type": "boolean",
+       "required": false,
+       "description": "RC构件是否采用焊接钢筋骨架"
+      },
+      {
+       "name": "WeldSkeletoFactor",
+       "type": "number",
+       "required": false,
+       "description": "RC构件采用焊接钢筋骨架系数"
+      },
+      {
+       "name": "Consider",
+       "type": "number",
+       "required": false,
+       "description": "预应力弯起钢筋考虑"
+      },
+      {
+       "name": "fcup",
+       "type": "number",
+       "required": false,
+       "description": "施工阶段应力验算fcu’"
+      },
+      {
+       "name": "MatlStrength",
+       "type": "integer",
+       "required": false,
+       "description": "柱P-M验算材料强度<br>*0-标准值 1-设计值"
+      },
+      {
+       "name": "Option1",
+       "type": "array",
+       "required": false,
+       "description": "验算选项RC<br>*从上到下true-勾选 false-不勾选"
+      },
+      {
+       "name": "Option2",
+       "type": "array",
+       "required": false,
+       "description": "验算选项PSC<br>*从上到下true-勾选 false-不勾选"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/SPAN": {
+   "uri": "/DB/SPAN",
+   "sections": [
+    {
+     "title": "跨度",
+     "params": [
+      {
+       "name": "Key",
+       "type": "integer",
+       "required": true,
+       "description": "跨度Key<br>*需要先Get跨度Key，查看跨度Key对应内容（表格号不为跨度号）"
+      },
+      {
+       "name": "Name",
+       "type": "string",
+       "required": true,
+       "description": "梁名称"
+      },
+      {
+       "name": "SpanInfo",
+       "type": "array",
+       "required": true,
+       "description": "跨度信息"
+      },
+      {
+       "name": "ModifySpan",
+       "type": "boolean",
+       "required": true,
+       "description": "是否修改跨度"
+      },
+      {
+       "name": "SpanLength",
+       "type": "array",
+       "required": false,
+       "description": "修改跨度<br>*ModifySpan=false时内部自动计算，ModifySpan=true时需要填写"
+      },
+      {
+       "name": "Direction",
+       "type": "integer",
+       "required": false,
+       "description": "多片梁的内部方向<br>*0-（-）局部-y 1-（+）局部-y"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/MEMB": {
+   "uri": "/DB/MEMB",
+   "sections": [
+    {
+     "title": "构件",
+     "params": [
+      {
+       "name": "Key",
+       "type": "integer",
+       "required": true,
+       "description": "构件Key"
+      },
+      {
+       "name": "Name",
+       "type": "string",
+       "required": true,
+       "description": "构件名称"
+      },
+      {
+       "name": "MembType",
+       "type": "string",
+       "required": true,
+       "description": "构件类型"
+      },
+      {
+       "name": "ItrElems",
+       "type": "array",
+       "required": true,
+       "description": "单元列表"
+      },
+      {
+       "name": "CheckPos",
+       "type": "integer",
+       "required": false,
+       "description": "验算位置 <br>*0-两端 1-I/M/J 2-I/0.2/J 3-I/0.5/J 4-各段 5-用户输入"
+      },
+      {
+       "name": "Dist",
+       "type": "number",
+       "required": false,
+       "description": "分割间距<br>仅CheckPos=5时有效"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/LENG": {
+   "uri": "/DB/LENG",
+   "sections": [
+    {
+     "title": "参数-自由长度",
+     "params": [
+      {
+       "name": "ID",
+       "type": "integer",
+       "required": true,
+       "description": "构件Key"
+      },
+      {
+       "name": "Ly",
+       "type": "number",
+       "required": false,
+       "description": "自由长度Ly"
+      },
+      {
+       "name": "Lz",
+       "type": "number",
+       "required": false,
+       "description": "自由长度Lz"
+      }
+     ]
+    },
+    {
+     "title": "参数-计算长度系数",
+     "params": [
+      {
+       "name": "ID",
+       "type": "integer",
+       "required": true,
+       "description": "构件Key"
+      },
+      {
+       "name": "Ky",
+       "type": "number",
+       "required": false,
+       "description": "计算长度系数Ky"
+      },
+      {
+       "name": "Kz",
+       "type": "number",
+       "required": false,
+       "description": "计算长度系数Kz"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/CWRC": {
+   "uri": "/DB/CWRC",
+   "sections": [
+    {
+     "title": "参数-裂缝宽度系数",
+     "params": [
+      {
+       "name": "ID",
+       "type": "integer",
+       "required": true,
+       "description": "构件Key"
+      },
+      {
+       "name": "C1",
+       "type": "number",
+       "required": false,
+       "description": "裂缝宽度系数C1"
+      },
+      {
+       "name": "C2",
+       "type": "number",
+       "required": false,
+       "description": "裂缝宽度系数C2"
+      },
+      {
+       "name": "C3",
+       "type": "number",
+       "required": false,
+       "description": "裂缝宽度系数C3"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/BTCP": {
+   "uri": "/DB/BTCP",
+   "sections": [
+    {
+     "title": "参数-盖梁验算",
+     "params": [
+      {
+       "name": "ID",
+       "type": "integer",
+       "required": true,
+       "description": "构件Key"
+      },
+      {
+       "name": "BentCap",
+       "type": "boolean",
+       "required": false,
+       "description": "是否按盖梁验算（规范第8.4节）"
+      },
+      {
+       "name": "SteelFrame",
+       "type": "boolean",
+       "required": false,
+       "description": "按钢架计算"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/CAPSIZE": {
+   "uri": "/DB/CAPSIZE",
+   "sections": [
+    {
+     "title": "倾覆数据",
+     "params": [
+      {
+       "name": "CapsizeInfo",
+       "type": "object",
+       "required": false,
+       "description": "倾覆信息"
+      },
+      {
+       "name": "PierInfo",
+       "type": "array",
+       "required": true,
+       "description": "桥墩信息"
+      }
+     ]
+    }
+   ]
+  },
+  "DB/TRPT": {
+   "uri": "/DB/TRPT",
+   "sections": [
+    {
+     "title": "整体计算书设置",
+     "params": [
+      {
+       "name": "ProjInfo",
+       "type": "object",
+       "required": false,
+       "description": "项目信息"
+      },
+      {
+       "name": "taMembs",
+       "type": "array",
+       "required": false,
+       "description": "构件信息"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/DESIGN": {
+   "uri": "/OPRT/DESIGN",
+   "sections": [
+    {
+     "title": "运行设计",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "设计的目标构件<br>*0-全部构件<br>1-选择目标"
+      },
+      {
+       "name": "SubType",
+       "type": "integer",
+       "required": false,
+       "description": "目标构件类型<br>*Type==1时有效；<br>*0-构件Key 1-单元Key对应构件2-构件名称"
+      },
+      {
+       "name": "NameList",
+       "type": "array",
+       "required": false,
+       "description": "构件名称<br>*Type==1且SubType==2时有效"
+      },
+      {
+       "name": "KeyList",
+       "type": "array",
+       "required": false,
+       "description": "构件/单元Key<br>*Type==1且SubType==0,1时有效"
+      },
+      {
+       "name": "MultiCore",
+       "type": "boolean",
+       "required": false,
+       "description": "是否多核计算"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/LCOM": {
+   "uri": "/OPRT/LCOM",
+   "sections": [
+    {
+     "title": "自动生成荷载组合",
+     "params": [
+      {
+       "name": "Option",
+       "type": "integer",
+       "required": true,
+       "description": "选项<br>*0-替换 1-添加"
+      },
+      {
+       "name": "CSLoad",
+       "type": "integer",
+       "required": true,
+       "description": "施工阶段荷载<br>*0-ST 1-CS 2-ST+CS"
+      },
+      {
+       "name": "JTGD602004",
+       "type": "object",
+       "required": false,
+       "description": "JTGD60-2004规范"
+      },
+      {
+       "name": "JTGD602015",
+       "type": "object",
+       "required": false,
+       "description": "JTGD60-2015规范"
+      },
+      {
+       "name": "JTGD602015Foundation",
+       "type": "object",
+       "required": false,
+       "description": "JTGD60-2015 基础规范"
+      },
+      {
+       "name": "JTJ02385",
+       "type": "object",
+       "required": false,
+       "description": "JTG023-1985规范"
+      },
+      {
+       "name": "TB100922017",
+       "type": "object",
+       "required": false,
+       "description": "TB10092-2017规范"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/EFFSECTION": {
+   "uri": "/OPRT/EFFSECTION",
+   "sections": [
+    {
+     "title": "自动生成有效截面",
+     "params": [
+      {
+       "name": "StiffenerType",
+       "type": "integer",
+       "required": false,
+       "description": "加劲肋类型"
+      },
+      {
+       "name": "BucklFactor",
+       "type": "number",
+       "required": false,
+       "description": "弹性屈曲系数"
+      },
+      {
+       "name": "ScaleFactor",
+       "type": "number",
+       "required": false,
+       "description": "比例系数（公用）"
+      },
+      {
+       "name": "QMBScaleFactor",
+       "type": "number",
+       "required": false,
+       "description": "比例系数（仅组合梁桥面板）"
+      },
+      {
+       "name": "ShearConnectorDist",
+       "type": "number",
+       "required": false,
+       "description": "剪力连接件的距离"
+      },
+      {
+       "name": "Centroid",
+       "type": "boolean",
+       "required": false,
+       "description": "考虑截面偏心"
+      },
+      {
+       "name": "MCFType",
+       "type": "integer",
+       "required": false,
+       "description": "单箱多室加强版类型"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/CAPSIZE": {
+   "uri": "/OPRT/CAPSIZE",
+   "sections": [
+    {
+     "title": "自动生成倾覆参数",
+     "params": [
+      {
+       "name": "SafeFactor",
+       "type": "number",
+       "required": true,
+       "description": "横向抗倾覆稳定系数"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/DETAILREPORT": {
+   "uri": "/OPRT/DETAILREPORT",
+   "sections": [
+    {
+     "title": "生成详细计算书",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "详细计算书的目标构件<br>*0-全部构件 1-选择目标"
+      },
+      {
+       "name": "SubType",
+       "type": "integer",
+       "required": false,
+       "description": "目标构件类型<br>*Type==1时有效；<br>*0-构件Key 1-单元Key对应构件2-构件名称"
+      },
+      {
+       "name": "NameList",
+       "type": "array",
+       "required": false,
+       "description": "构件名称<br>*Type==1且SubType==2时有效"
+      },
+      {
+       "name": "KeyList",
+       "type": "array",
+       "required": false,
+       "description": "构件/单元Key<br>*Type==1且SubType==0,1时有效"
+      },
+      {
+       "name": "ProjectName",
+       "type": "string",
+       "required": false,
+       "description": "项目名称"
+      },
+      {
+       "name": "Date",
+       "type": "string",
+       "required": false,
+       "description": "日期"
+      },
+      {
+       "name": "Company",
+       "type": "string",
+       "required": false,
+       "description": "公司名"
+      },
+      {
+       "name": "Designer",
+       "type": "string",
+       "required": false,
+       "description": "设计者"
+      },
+      {
+       "name": "Checker",
+       "type": "string",
+       "required": false,
+       "description": "复核者"
+      },
+      {
+       "name": "Examiner",
+       "type": "string",
+       "required": false,
+       "description": "审批者"
+      },
+      {
+       "name": "Content",
+       "type": "string",
+       "required": false,
+       "description": "计算内容"
+      },
+      {
+       "name": "Other",
+       "type": "string",
+       "required": false,
+       "description": "其他"
+      },
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": false,
+       "description": "输出路径<br>*未设置时用默认路径"
+      },
+      {
+       "name": "Option1",
+       "type": "array",
+       "required": false,
+       "description": "输出选项1<br>*两个验算选项列表时，左侧验算选项列表；一个验算选项列表时的验算选项列表"
+      },
+      {
+       "name": "Option2",
+       "type": "array",
+       "required": false,
+       "description": "输出选项2<br>*两个验算选项列表时，右侧验算选项列表"
+      },
+      {
+       "name": "Open",
+       "type": "boolean",
+       "required": false,
+       "description": "是否打开报告"
+      }
+     ]
+    }
+   ]
+  },
+  "OPRT/TOTALREPORT": {
+   "uri": "/OPRT/TOTALREPORT",
+   "sections": [
+    {
+     "title": "生成整体计算书",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "生成或更新计算书<br>*0-生成计算书 1-更新计算书"
+      },
+      {
+       "name": "OutFilePath",
+       "type": "string",
+       "required": false,
+       "description": "生成计算书路径及文件名<br>*未设置时用默认路径"
+      },
+      {
+       "name": "RefFilePath",
+       "type": "string",
+       "required": false,
+       "description": "模板路径<br>*Type=1时必填"
+      },
+      {
+       "name": "Open",
+       "type": "boolean",
+       "required": false,
+       "description": "是否打开报告"
+      }
+     ]
+    }
+   ]
+  },
+  "VIEW/ACTIVE": {
+   "uri": "/VIEW/ACTIVE",
+   "sections": [
+    {
+     "title": "激活",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "激活方式<br>*0-全部构件 1-指定单元号对应的构件 2-指定构件 3-指定结构组对应的构件"
+      },
+      {
+       "name": "KeyList",
+       "type": "array",
+       "required": false,
+       "description": "单元号<br>*仅\"Type\"为1时有效"
+      },
+      {
+       "name": "NameList",
+       "type": "array",
+       "required": false,
+       "description": "构件名称、结构组名称<br>*仅\"Type\"为2、3时有效"
+      }
+     ]
+    }
+   ]
+  },
+  "VIEW/ANGLE": {
+   "uri": "/VIEW/ANGLE",
+   "sections": [
+    {
+     "title": "视角",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "视角类型<br>*0-轴测图1 1-轴测图2 2-后视图 3-前视图 4-俯视图 5-仰视图 6-左视图 7-右视图 8-左上 9-左下 10-右上 11-右下 12-初始视图"
+      }
+     ]
+    }
+   ]
+  },
+  "VIEW/DISPLAY": {
+   "uri": "/VIEW/DISPLAY",
+   "sections": [
+    {
+     "title": "显示",
+     "params": [
+      {
+       "name": "Structure",
+       "type": "object",
+       "required": false,
+       "description": "结构显示设置"
+      },
+      {
+       "name": "Boundary",
+       "type": "object",
+       "required": false,
+       "description": "边界显示设置"
+      },
+      {
+       "name": "DgnParam",
+       "type": "object",
+       "required": false,
+       "description": "设计参数显示设置"
+      },
+      {
+       "name": "Result",
+       "type": "object",
+       "required": false,
+       "description": "结果显示设置"
+      }
+     ]
+    }
+   ]
+  },
+  "VIEW/CAPTURE": {
+   "uri": "/VIEW/CAPTURE",
+   "sections": [
+    {
+     "title": "截图",
+     "params": [
+      {
+       "name": "Active",
+       "type": "object",
+       "required": false,
+       "description": "激活对象"
+      },
+      {
+       "name": "Angle",
+       "type": "object",
+       "required": false,
+       "description": "视角设置"
+      },
+      {
+       "name": "Display",
+       "type": "object",
+       "required": false,
+       "description": "显示设置"
+      },
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": true,
+       "description": "截图保存路径"
+      }
+     ]
+    }
+   ]
+  },
+  "POST/TABLE": {
+   "uri": "/POST/TABLE",
+   "sections": [
+    {
+     "title": "表格提取",
+     "params": [
+      {
+       "name": "Type",
+       "type": "integer",
+       "required": true,
+       "description": "获取结果表格方式<br>*0-全部构件 1-指定构件号 2-指定单元号对应的构件 3-指定构件名称"
+      },
+      {
+       "name": "KeyList",
+       "type": "array",
+       "required": false,
+       "description": "构件号、单元号<br>*仅Type为1,2时有效，未设置时输出全部构件表格"
+      },
+      {
+       "name": "NameList",
+       "type": "array",
+       "required": false,
+       "description": "构件名称<br>*仅Type为3时有效，未设置时输出全部构件"
+      },
+      {
+       "name": "OptionList",
+       "type": "array",
+       "required": true,
+       "description": "需要输出的结果表格索引列表 <br>*序号0-N"
+      },
+      {
+       "name": "FilePath",
+       "type": "string",
+       "required": false,
+       "description": "JSON文件保存路径<br>*未设置时不输出JSON文件；设置时输出JSON文件到指定路径"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

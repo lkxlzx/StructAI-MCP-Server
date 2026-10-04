@@ -1,0 +1,41 @@
+key: OPE.SECTPROP
+namespace: OPE
+uri: /OPE/SECTPROP
+methods: [GET]
+tool_map:
+  query: midas_db_query
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+parser: generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["civil-cloud", "gen-local"]
+table_type: null
+title: Section Properties Calculation Results
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35994769341081-Section-Properties-Calculation-Results"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 1
+  has_response_head: false

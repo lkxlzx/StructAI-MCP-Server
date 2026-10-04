@@ -1,0 +1,1108 @@
+{
+ "registry": {
+  "keys": 635,
+  "schemas": 615
+ },
+ "dry_run": {
+  "checked": 635,
+  "problem_count": 0,
+  "problems": []
+ },
+ "live": {
+  "base_url": "https://moa-engineers.midasit.cn:443/civil",
+  "product": "",
+  "expected_product": "CIVIL_NX",
+  "profile": "NX_FAMILY",
+  "calls": 215,
+  "summary": {
+   "OK": 31,
+   "OK_EMPTY": 177,
+   "ENDPOINT_NOT_FOUND": 7
+  },
+  "results": [
+   [
+    "DB.ACTL",
+    "OK",
+    ""
+   ],
+   [
+    "DB.BCCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.BMLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.BNGR",
+    "OK",
+    ""
+   ],
+   [
+    "DB.BODF",
+    "OK",
+    ""
+   ],
+   [
+    "DB.BTMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.BUCK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CAMB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CCFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CGLP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CJFG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CLDR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CLWP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CMCS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CNLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CONS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CO_F",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CO_M",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CO_S",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CO_T",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CPSETTINGS",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CRGR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CRPC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.CSCS",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CUTL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.DCON",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.DOEL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.DYFG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.DYLA",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.DYNF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EDMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EFCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EIGV",
+    "OK",
+    ""
+   ],
+   [
+    "DB.ELEM",
+    "OK",
+    ""
+   ],
+   [
+    "DB.ELNK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EPMT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.ETFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.ETMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EWSF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.EXLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FBLA",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FBLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FIBR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FIMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FMLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.FRLS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GCMB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GRDP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GRUP",
+    "OK",
+    ""
+   ],
+   [
+    "DB.GSBG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GSPR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GSTP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.GTMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HAHS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HECB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HHCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HHND",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HPCE",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HSFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HSPT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.HSTG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IEHC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IEHG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IELC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IEPI",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IFGS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IMFM",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.IMPF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.INMF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-CONC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-GEN",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-SEISMIC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-SRC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-STEEL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LCOM-STLCOMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LDGR",
+    "OK",
+    ""
+   ],
+   [
+    "DB.LDSQ",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LLANCH",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LLANOP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LLANTR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.LTOM",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MADO",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MATD",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MATL",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MCON",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MLFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MLSP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MLSR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVCD",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MVCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVCTBS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVCTCH",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVCTID",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVCTTR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVHC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVHL",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MVHLTR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDBS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDCH",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDEU",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDID",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDPL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.MVLDTR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NBOF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NLCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NLLP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NLNK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NMAS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NODE",
+    "OK",
+    ""
+   ],
+   [
+    "DB.NPLN",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NSPR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NTMP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.NUCS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.OFFS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PDEL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PHGE",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PJCF",
+    "OK",
+    ""
+   ],
+   [
+    "DB.PLCB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PNLA",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PNLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.POGD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.POLC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PRES",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PRLS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PRST",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PSLT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PSSF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PTNS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.PZEF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.RCHK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.RIGD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.RPSC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SBDO",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SDHY",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DB/SDHY 不存在（HTTP 404）"
+   ],
+   [
+    "DB.SDIS",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DB/SDIS 不存在（HTTP 404）"
+   ],
+   [
+    "DB.SDSP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SDST",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SDVE",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SDVI",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SECF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SECT",
+    "OK",
+    ""
+   ],
+   [
+    "DB.SINF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SKEW",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SLAN",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SLANCH",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SLANOP",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SMCT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SMLC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SMPT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SPAN",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SPFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SPLC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.SSPS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.STAG",
+    "OK",
+    ""
+   ],
+   [
+    "DB.STBK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.STCT",
+    "OK",
+    ""
+   ],
+   [
+    "DB.STLD",
+    "OK",
+    ""
+   ],
+   [
+    "DB.STMP",
+    "OK",
+    ""
+   ],
+   [
+    "DB.STRPSSM",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.STYP",
+    "OK",
+    ""
+   ],
+   [
+    "DB.TDCS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDGR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDME",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDMF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDMT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDNA",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDNT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TDPL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THGA",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THGC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THIK",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THIS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THMS",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THNL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THRG",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THRI",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.THRS",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DB/THRS 不存在（HTTP 404）"
+   ],
+   [
+    "DB.THSL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TMAT",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TMLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.TSGR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.UFTR",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DB/UFTR 不存在（HTTP 404）"
+   ],
+   [
+    "DB.ULFC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.UNIT",
+    "OK",
+    ""
+   ],
+   [
+    "DB.UTBL",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DB/UTBL 不存在（HTTP 404）"
+   ],
+   [
+    "DB.VBEM",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.VSEC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DB.WVLD",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.DRC",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.LCTB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.LLRF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.LMRR",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.MATD",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DESIGN/RC/KDS-41-20-2022/MATD 不存在（HTTP 404）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.MEMB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.RC.KDS-41-20-2022.SRDF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.SRC.AIK-SRC2K.DCTL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.SRC.AIK-SRC2K.LCTB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.SRC.AIK-SRC2K.LLRF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.SRC.AIK-SRC2K.MATD",
+    "ENDPOINT_NOT_FOUND",
+    "GET /DESIGN/SRC/AIK-SRC2K/MATD 不存在（HTTP 404）"
+   ],
+   [
+    "DESIGN.SRC.AIK-SRC2K.MEMB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.DSTL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.DCTL",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.LCTB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.LLRF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.MEMB",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.SMODI",
+    "OK",
+    ""
+   ],
+   [
+    "DESIGN.STEEL.KDS-41-30-2022.SRDF",
+    "OK_EMPTY",
+    "端点已路由，返回空 message（表存在但当前无数据）"
+   ],
+   [
+    "OPE.PROJECTSTATUS",
+    "OK",
+    ""
+   ],
+   [
+    "OPE.SECTPROP",
+    "OK",
+    ""
+   ],
+   [
+    "VIEW.SELECT",
+    "OK",
+    ""
+   ]
+  ],
+  "skipped_by_product": {
+   "GEN_NX": 98,
+   "CIVIL_DESIGNER": 24,
+   "CIVIL_DESIGNER|GEN_NX": 2
+  },
+  "skipped_disabled": [
+   "DB.SWIND"
+  ]
+ }
+}

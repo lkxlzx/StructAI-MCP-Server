@@ -1,0 +1,91 @@
+{
+  "key": "DB.REBB",
+  "uri": "DB/REBB",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "키는 단면 번호 문자열 (예: \"211\")",
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "CREATE_SUB_SECTION": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "ID": {
+                      "type": "integer",
+                      "description": "Sub Section ID (read only)"
+                    },
+                    "BAR_SECTOR_I": {
+                      "type": "object",
+                      "description": "I단 구간 철근"
+                    },
+                    "BAR_SECTOR_M": {
+                      "type": "object",
+                      "description": "중앙(M) 구간 철근"
+                    },
+                    "BAR_SECTOR_J": {
+                      "type": "object",
+                      "description": "J단 구간 철근"
+                    },
+                    "MAIN_BAR_DC_TOP": {
+                      "type": "number",
+                      "description": "상단 피복 dT"
+                    },
+                    "MAIN_BAR_DC_BOT": {
+                      "type": "number",
+                      "description": "하단 피복 dB"
+                    },
+                    "bSAME_SIZE_TOP_BOT": {
+                      "type": "boolean"
+                    },
+                    "bSAME_SIZE_IMJ": {
+                      "type": "boolean"
+                    },
+                    "bSAME_SIZE_LAYER": {
+                      "type": "boolean"
+                    },
+                    "ELEMS": {
+                      "type": "object",
+                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
+                      "properties": {
+                        "KEYS": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "TO": {
+                          "type": "string"
+                        },
+                        "STRUCTURE_GROUP_NAME": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

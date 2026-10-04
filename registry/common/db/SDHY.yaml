@@ -1,0 +1,50 @@
+key: DB.SDHY
+namespace: DB
+uri: /DB/SDHY
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SDHY
+schema_ref:
+  local: schema/common/db/SDHY.json
+  introspect: info/db/SDHY
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+unavailable_on: ["civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Seismic Device - Hysteretic Isolator(MSS)"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35948292269977-Seismic-Device-Hysteretic-Isolator-MSS"
+  retrieved_at: "2025-03-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 18
+  examples: 1
+  has_response_head: false
+notes: ["필드가 누락돼 있었다(아티클 id `35948292269977`). 원문 표에는 `MULTIPL`(Multiplier)도 있으나 JSON Schema·Request Example 어디에도 나타나지 않아(SDST/SDVE 표에서 반복적으로 발견된 것과 같은 원문 오류로 판단) 표에 넣지 않았다."]

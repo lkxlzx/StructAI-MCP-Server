@@ -1,0 +1,25 @@
+{
+  "key": "DB.MODULE",
+  "uri": "DB/MODULE",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "模块",
+    "type": "object",
+    "properties": {
+      "Module": {
+        "type": "integer",
+        "description": "模块类型<br>* 0-设计 1-评定 2-试验 3-加固"
+      },
+      "DgnCode": {
+        "type": "integer",
+        "description": "设计规范"
+      }
+    },
+    "required": [
+      "Module",
+      "DgnCode"
+    ]
+  },
+  "shape": "flat_object"
+}

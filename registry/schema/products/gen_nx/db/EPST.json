@@ -1,0 +1,100 @@
+{
+  "key": "DB.EPST",
+  "uri": "DB/EPST",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "LOADCASE": {
+          "description": " Load Case Name",
+          "type": "string"
+        },
+        "DIR": {
+          "description": " Direction",
+          "type": "string"
+        },
+        "ANGLE": {
+          "description": " Angle",
+          "type": "number"
+        },
+        "IN_PT": {
+          "description": " Inner Points(x,y,z)",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "SF": {
+          "description": " Scale Factor",
+          "type": "number"
+        },
+        "EP_TYPE": {
+          "description": " Static Earth Pressure Type",
+          "type": "string"
+        },
+        "SURCHARGE_LOAD": {
+          "description": " SurchargeMethod",
+          "type": "number"
+        },
+        "WATER_LEVEL": {
+          "description": " Water Level",
+          "type": "number"
+        },
+        "SOIL_PROP": {
+          "description": " Soil Property",
+          "type": "string"
+        },
+        "SEL_TYPE": {
+          "description": " Selection Type",
+          "type": "string"
+        },
+        "ELEM_TYPE": {
+          "description": " Element Type",
+          "type": "string"
+        },
+        "NODE_LIST": {
+          "description": " Elements Defining Loading Area (Node)",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "ELEM_LIST": {
+          "description": " Elements Defining Loading Area (Element)",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "LOADING_AREA_GROUP": {
+          "description": " Load Area Group",
+          "type": "integer"
+        },
+        "PRES_PROFILE_ITEMS": {
+          "description": " Pressure Profile Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LEVEL": {
+                "description": " Level",
+                "type": "number"
+              },
+              "SOIL_PRES": {
+                "description": " Soil Pressure",
+                "type": "number"
+              },
+              "ADD_PRES": {
+                "description": " Additional Pressure",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "key": "DB.FMLD",
+  "uri": "DB/FMLD",
+  "source": "help_center",
+  "schema": {
+    "FMLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "LoadGroupName",
+                "type": "string"
+              },
+              "COVERING_TYPE": {
+                "description": "CoveringType",
+                "type": "string"
+              },
+              "COVERING_RANGE": {
+                "description": "CoveringRange(Face)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "THICKNESS": {
+                "description": "Thickness",
+                "type": "number"
+              },
+              "DENSITY": {
+                "description": "Density",
+                "type": "number"
+              },
+              "DIR": {
+                "description": "Direction",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

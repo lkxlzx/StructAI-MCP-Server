@@ -1,0 +1,38 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.HCD-ANAL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/HCD-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Execute design calculation",
+        "additionalProperties": false,
+        "properties": {
+          "ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

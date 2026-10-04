@@ -1,0 +1,278 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.CDESIGN",
+  "uri": "DESIGN/RC/KDS-41-20-2022/CDESIGN",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "EXPORT_PATH",
+          "FIGURE_NAME",
+          "RESULT_GRAPHIC"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Image file save path and file name"
+          },
+          "FIGURE_NAME": {
+            "type": "string",
+            "description": "Smart report image name"
+          },
+          "WIDTH": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 100,
+            "maximum": 10000
+          },
+          "HEIGHT": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 100,
+            "maximum": 10000
+          },
+          "STAGE_NAME": {
+            "type": "string",
+            "description": "Construction stage name"
+          },
+          "SET_HIDDEN": {
+            "type": "boolean",
+            "default": false
+          },
+          "ACTIVE": {
+            "type": "object",
+            "description": "View/Active settings"
+          },
+          "ANGLE": {
+            "type": "object",
+            "description": "View/Angle settings"
+          },
+          "DISPLAY": {
+            "type": "object",
+            "description": "View/Display settings"
+          },
+          "PERSPECTIVE": {
+            "type": "boolean",
+            "default": false
+          },
+          "ZOOM_LEVEL": {
+            "type": "number",
+            "default": 100,
+            "minimum": 25,
+            "maximum": 200
+          },
+          "BGCOLOR_TOP": {
+            "type": "object",
+            "properties": {
+              "R": {
+                "type": "integer"
+              },
+              "G": {
+                "type": "integer"
+              },
+              "B": {
+                "type": "integer"
+              }
+            }
+          },
+          "BGCOLOR_BOTTOM": {
+            "type": "object",
+            "properties": {
+              "R": {
+                "type": "integer"
+              },
+              "G": {
+                "type": "integer"
+              },
+              "B": {
+                "type": "integer"
+              }
+            }
+          },
+          "RESULT_GRAPHIC": {
+            "type": "object",
+            "required": [
+              "LOAD_CASE_COMB"
+            ],
+            "properties": {
+              "LOAD_CASE_COMB": {
+                "type": "object",
+                "required": [
+                  "TYPE",
+                  "NAME"
+                ],
+                "properties": {
+                  "TYPE": {
+                    "type": "string",
+                    "oneOf": [
+                      {
+                        "title": "Concrete Design Load Combination",
+                        "const": "CBC"
+                      }
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string"
+                  }
+                }
+              },
+              "COMPONENTS": {
+                "type": "string",
+                "default": "Combined",
+                "oneOf": [
+                  {
+                    "const": "Axial"
+                  },
+                  {
+                    "const": "Shear-y"
+                  },
+                  {
+                    "const": "Shear-z"
+                  },
+                  {
+                    "const": "Bend-y"
+                  },
+                  {
+                    "const": "Bend-z"
+                  },
+                  {
+                    "const": "Combined"
+                  }
+                ]
+              },
+              "TYPE_OF_DISPLAY": {
+                "type": "object",
+                "properties": {
+                  "CONTOUR": {
+                    "type": "object"
+                  },
+                  "LEGEND": {
+                    "type": "object"
+                  },
+                  "VALUES": {
+                    "type": "object"
+                  }
+                }
+              },
+              "REINFORCEMENT": {
+                "type": "boolean",
+                "default": true
+              },
+              "REINFORCEMENT_TYPE": {
+                "type": "string",
+                "default": "REBAR",
+                "oneOf": [
+                  {
+                    "const": "REBAR"
+                  },
+                  {
+                    "const": "AREA"
+                  },
+                  {
+                    "const": "RATIO"
+                  }
+                ]
+              },
+              "DISPLAY_MEMBERS": {
+                "type": "object",
+                "properties": {
+                  "BEAM": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "COLUMN": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "BRACE": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "WALL": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "OUTPUT_COMPONENT": {
+                "type": "object",
+                "properties": {
+                  "RATIO_AXIAL_STRESS": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "MAIN_REBAR": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "SHEAR_REINFORCEMENT": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "COLUMN_SECTION_SIZE": {
+                "type": "object",
+                "properties": {
+                  "SCALE_FACTOR": {
+                    "type": "number",
+                    "default": 1,
+                    "minimum": 0.1,
+                    "maximum": 100
+                  }
+                }
+              },
+              "VALUE_OPTION": {
+                "type": "object",
+                "properties": {
+                  "DECIMAL_PLACES": {
+                    "type": "integer",
+                    "default": 2,
+                    "minimum": 0,
+                    "maximum": 15
+                  },
+                  "EXPONENTIAL": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              },
+              "OUTPUT_SECT_LOCATION": {
+                "type": "object",
+                "properties": {
+                  "OPT_I": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "OPT_CENTER_MID": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "OPT_J": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "OPT_MAX": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "OPT_ALL": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

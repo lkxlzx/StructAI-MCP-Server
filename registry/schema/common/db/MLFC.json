@@ -1,0 +1,46 @@
+{
+  "key": "DB.MLFC",
+  "uri": "DB/MLFC",
+  "source": "help_center",
+  "schema": {
+    "MLFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "FunctionName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "TypeofFunction(Force/Moment)",
+          "type": "string"
+        },
+        "SYMM": {
+          "description": "SymmetricBoolean",
+          "type": "boolean"
+        },
+        "FUNC_ID": {
+          "description": "FunctionID",
+          "type": "integer"
+        },
+        "ITEMS": {
+          "description": "FunctionItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "X": {
+                "description": "Disp,Radian",
+                "type": "number"
+              },
+              "Y": {
+                "description": "Force,Moment",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

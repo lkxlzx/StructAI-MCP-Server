@@ -1,0 +1,16 @@
+{
+  "key": "DOC.NEW",
+  "uri": "DOC/NEW",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "doc/NEW",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

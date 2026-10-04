@@ -1,0 +1,47 @@
+key: "DESIGN.RC.KDS-41-20-2022.MATD"
+namespace: DESIGN
+uri: "/DESIGN/RC/KDS-41-20-2022/MATD"
+methods: [GET]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: MATD
+schema_ref:
+  local: "schema/design/rc/KDS-41-20-2022/MATD.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+unavailable_on: ["civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Modify Concrete Material (콘크리트 재료 수정)
+title_zh: 修改混凝土材料
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 18
+  examples: 2
+  has_response_head: false
+notes: ["`\"STANDARD\"`(대문자)로, PUT 요청 예제·JSON Schema의 `oneOf`(\"Standard\")와 대소문자가 다르다 — 원문 자체의 모순이며, 예제 원문을 그대로 유지한다."]

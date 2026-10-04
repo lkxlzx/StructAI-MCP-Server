@@ -1,0 +1,40 @@
+key: POST.TABLE.TNDN_ARRANGEMENT
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/TNDN_ARRANGEMENT.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: TNDN_ARRANGEMENT
+title: Tendon Arrangement(Tendon Group)
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 3
+  has_response_head: false
+notes: ["`NODE_ELEMS`(요소 지정)를 쓰는 것으로 오기하고 있었으나, 공식 스키마에는 `NODE_ELEMS`가 아예 없고 `ADDITIONAL.SET_TENDON_PARAMS`(텐던 그룹명 + 시공단계명, 둘 다 Required)로 대상을 지정합니다 — 이전 예제로는 실제 데이터를 선택할 수 없었음."]

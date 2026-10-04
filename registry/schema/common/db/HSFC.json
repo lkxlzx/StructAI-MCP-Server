@@ -1,0 +1,74 @@
+{
+  "key": "DB.HSFC",
+  "uri": "DB/HSFC",
+  "source": "help_center",
+  "schema": {
+    "HSFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "TEMP_CONST": {
+          "description": "Temperature(Const)",
+          "type": "number"
+        },
+        "OPT_USE_CONC_DATA": {
+          "description": "UseConcreteData(Func)",
+          "type": "boolean"
+        },
+        "CEMENT_TYPE": {
+          "description": "CementType(Func)",
+          "type": "integer"
+        },
+        "TEMP_FUNC": {
+          "description": "Temperature(Func)",
+          "type": "integer"
+        },
+        "CEMENT_CONT": {
+          "description": "CementContent(Func)",
+          "type": "number"
+        },
+        "K": {
+          "description": "Maximizeadiabatictemp.rise(Func)",
+          "type": "number"
+        },
+        "ALPHA": {
+          "description": "Reactivevelocitycoefficient(Func)",
+          "type": "number"
+        },
+        "IS_ADIABATIC_TEMP": {
+          "description": "IsAdiabaticTemperature(User)",
+          "type": "boolean"
+        },
+        "SCALE_FACTOR": {
+          "description": "Scale(User)",
+          "type": "number"
+        },
+        "ITEM": {
+          "description": "FunctionData",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TIME": {
+                "description": "Time",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

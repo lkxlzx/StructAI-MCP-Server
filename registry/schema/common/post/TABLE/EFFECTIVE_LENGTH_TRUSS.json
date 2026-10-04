@@ -1,0 +1,87 @@
+{
+  "key": "POST.TABLE.EFFECTIVE_LENGTH_TRUSS",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "TABLE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "EffectiveSpanLength",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string",
+              "description": "ResponseTableTitle"
+            },
+            "TABLE_TYPE": {
+              "type": "string",
+              "description": "ResultTableType",
+              "enum": [
+                "EFFECTIVE_LENGTH_TRUSS",
+                "EFFECTIVE_LENGTH_BEAM",
+                "EFFECTIVE_LENGTH_PLATE"
+              ]
+            },
+            "EXPORT_PATH": {
+              "type": "string",
+              "description": "ResultTableSavePath"
+            },
+            "UNIT": {
+              "type": "object",
+              "description": "ResponseUnitSetting",
+              "properties": {
+                "FORCE": {
+                  "type": "string",
+                  "description": "Force"
+                },
+                "DIST": {
+                  "type": "string",
+                  "description": "Length"
+                },
+                "HEAT": {
+                  "type": "string",
+                  "description": "Heat"
+                },
+                "TEMP": {
+                  "type": "string",
+                  "description": "Temperature"
+                }
+              }
+            },
+            "STYLES": {
+              "type": "object",
+              "description": "ResponseNumberFormat",
+              "properties": {
+                "FORMAT": {
+                  "type": "string",
+                  "description": "Numberformat",
+                  "enum": [
+                    "Default",
+                    "Fixed",
+                    "Scientific",
+                    "General"
+                  ]
+                },
+                "PLACE": {
+                  "type": "integer",
+                  "description": "Digitplace",
+                  "minimum": 0,
+                  "maximum": 15
+                }
+              }
+            },
+            "COMPONENTS": {
+              "type": "array",
+              "description": "ComponentsofResultTable",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

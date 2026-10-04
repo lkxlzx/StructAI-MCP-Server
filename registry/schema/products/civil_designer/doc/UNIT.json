@@ -1,0 +1,25 @@
+{
+  "key": "DOC.UNIT",
+  "uri": "DOC/UNIT",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "单位",
+    "type": "object",
+    "properties": {
+      "Force": {
+        "type": "string",
+        "description": "力单位 (KG/TONF/N/KN/LBF/KIPS)"
+      },
+      "Length": {
+        "type": "string",
+        "description": "长度单位 (MM/CM/M/IN/FT)"
+      }
+    },
+    "required": [
+      "Force",
+      "Length"
+    ]
+  },
+  "shape": "flat_object"
+}

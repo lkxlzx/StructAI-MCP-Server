@@ -1,0 +1,50 @@
+{
+  "key": "DB.SSPS",
+  "uri": "DB/SSPS",
+  "source": "help_center",
+  "schema": {
+    "SSPS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "NameofBoundaryGroup",
+                "type": "string"
+              },
+              "ELEM_TYPE": {
+                "description": "TypeofElement",
+                "type": "string"
+              },
+              "EDGE_FACE": {
+                "description": "EdgeFace",
+                "type": "integer"
+              },
+              "WIDTH": {
+                "description": "Width",
+                "type": "number"
+              },
+              "SPRING_TYPE": {
+                "description": "TypeofSpring",
+                "type": "integer"
+              },
+              "MODULUS": {
+                "description": "ModulusofSubgradeReaction(Ks)",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

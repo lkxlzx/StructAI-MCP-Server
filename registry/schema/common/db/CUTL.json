@@ -1,0 +1,61 @@
+{
+  "key": "DB.CUTL",
+  "uri": "DB/CUTL",
+  "source": "help_center",
+  "schema": {
+    "CUTL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "DIR": {
+          "description": "Direction",
+          "type": "string"
+        },
+        "PT1X": {
+          "description": "Point1X",
+          "type": "number"
+        },
+        "PT1Y": {
+          "description": "Point1Y",
+          "type": "number"
+        },
+        "PT1Z": {
+          "description": "Point1Z",
+          "type": "number"
+        },
+        "PT2X": {
+          "description": "Point2X",
+          "type": "number"
+        },
+        "PT2Y": {
+          "description": "Point2Y",
+          "type": "number"
+        },
+        "PT2Z": {
+          "description": "Point2Z",
+          "type": "number"
+        },
+        "R": {
+          "description": "ColorRValue",
+          "type": "integer"
+        },
+        "G": {
+          "description": "ColorGValue",
+          "type": "integer"
+        },
+        "B": {
+          "description": "ColorBValue",
+          "type": "integer"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

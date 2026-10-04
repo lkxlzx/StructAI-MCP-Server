@@ -1,0 +1,21 @@
+{
+  "key": "DB.VBEM",
+  "uri": "DB/VBEM",
+  "source": "help_center",
+  "schema": {
+    "VBEM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "VSEC1": {
+          "description": "VirtualSection1",
+          "type": "integer"
+        },
+        "VSEC2": {
+          "description": "VirtualSection2",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

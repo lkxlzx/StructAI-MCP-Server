@@ -1,0 +1,37 @@
+{
+  "key": "DB.NMAS",
+  "uri": "DB/NMAS",
+  "source": "help_center",
+  "schema": {
+    "NMAS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "mX": {
+          "description": "NodalMassType",
+          "type": "number"
+        },
+        "mY": {
+          "description": "NodalMassType",
+          "type": "number"
+        },
+        "mZ": {
+          "description": "NodalMassType",
+          "type": "number"
+        },
+        "rmX": {
+          "description": "NodalMassType",
+          "type": "number"
+        },
+        "rmY": {
+          "description": "NodalMassType",
+          "type": "number"
+        },
+        "rmZ": {
+          "description": "NodalMassType",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

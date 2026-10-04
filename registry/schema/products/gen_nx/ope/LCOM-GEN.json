@@ -1,0 +1,1033 @@
+{
+  "key": "OPE.LCOM-GEN",
+  "uri": "OPE/LCOM-GEN",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "properties": {
+      "Argument": {
+        "description": "LCOM-GEN item for KDS 2022. Body structure is selected by CODE_SELECTION.",
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "OPTION",
+              "CODE_SELECTION",
+              "DGNCODE",
+              "RS_SCALE_FACTOR",
+              "ORTHO_EFFECT",
+              "ADDITIONAL_LOAD",
+              "CS_ANALYSIS",
+              "PRESTRESS_LOSS"
+            ],
+            "properties": {
+              "OPTION": {
+                "type": "string",
+                "enum": [
+                  "ADD",
+                  "REPLACE"
+                ]
+              },
+              "ADD_ENVELOPE": {
+                "type": "boolean",
+                "default": true,
+                "description": "Add envelope option for LCOM-GEN"
+              },
+              "CODE_SELECTION": {
+                "type": "string",
+                "const": "CONCRETE",
+                "description": "CONCRETE design code body"
+              },
+              "DGNCODE": {
+                "type": "string",
+                "const": "KDS 41 20 : 2022",
+                "default": "KDS 41 20 : 2022",
+                "description": "Concrete design code value. General group key: KDS_2022"
+              },
+              "RS_SCALE_FACTOR": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "LOAD_CASE",
+                    "FACTOR"
+                  ],
+                  "properties": {
+                    "LOAD_CASE": {
+                      "type": "string",
+                      "description": "Response Spectrum Load Case"
+                    },
+                    "FACTOR": {
+                      "type": "number",
+                      "description": "Scale Factor"
+                    }
+                  }
+                }
+              },
+              "WIND_LOAD_COMB": {
+                "type": "object",
+                "required": [
+                  "PARAMETERS"
+                ],
+                "properties": {
+                  "PARAMETERS": {
+                    "type": "array",
+                    "description": "List of wind load combination sets",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "BUILDING_TYPE",
+                        "WIND_LOAD_CASE"
+                      ],
+                      "properties": {
+                        "BUILDING_TYPE": {
+                          "type": "string",
+                          "enum": [
+                            "MIDDLE",
+                            "HIGH"
+                          ],
+                          "description": "Wind Loads Group"
+                        },
+                        "WIND_LOAD_CASE": {
+                          "type": "object",
+                          "properties": {
+                            "ALONG": {
+                              "type": "string",
+                              "description": "Along Wind Load Case"
+                            },
+                            "ACROSS": {
+                              "type": "string",
+                              "description": "Across Wind Load Case"
+                            },
+                            "TORSION": {
+                              "type": "string",
+                              "description": "Torsional Wind Load Case"
+                            }
+                          }
+                        },
+                        "GUST_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "GD"
+                        },
+                        "KAPPA_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "Kappa"
+                        }
+                      }
+                    }
+                  },
+                  "TORSION_DIR": {
+                    "type": "string",
+                    "enum": [
+                      "BOTH",
+                      "POSITIVE",
+                      "NEGATIVE"
+                    ],
+                    "default": "BOTH",
+                    "description": "Torsion Wind Direction"
+                  }
+                }
+              },
+              "ORTHO_EFFECT": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Consider Orthogonal Effect"
+                  },
+                  "TYPE": {
+                    "type": "string",
+                    "enum": [
+                      "100_30",
+                      "SRSS"
+                    ],
+                    "description": "Orthogonal Effect Type"
+                  },
+                  "LOAD_GROUP": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Load Case1, Load Case2"
+                  }
+                }
+              },
+              "ADDITIONAL_LOAD": {
+                "type": "object",
+                "required": [
+                  "SPECIAL_LOAD",
+                  "VERTICAL_LOAD"
+                ],
+                "properties": {
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Special Seismic Load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "VERTICAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Vertical Seismic Forces"
+                      },
+                      "FORCE_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Force Factor"
+                      }
+                    }
+                  }
+                }
+              },
+              "UNDERGROUND_LOAD": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "description": "for Underground Load"
+                  },
+                  "SCALE_FACTOR": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "FACTOR"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Load Case"
+                        },
+                        "FACTOR": {
+                          "type": "number",
+                          "description": "Scale Factor"
+                        }
+                      }
+                    }
+                  },
+                  "LOAD_CASE_LIST": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "DIRECTION",
+                        "LOAD_CASE_SEISMIC",
+                        "LOAD_CASE_STATIC"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Seismic Load Case List - LoadCase"
+                        },
+                        "DIRECTION": {
+                          "type": "string",
+                          "enum": [
+                            "POSITIVE",
+                            "NEGATIVE"
+                          ],
+                          "description": "Seismic Load Case List - Direction"
+                        },
+                        "LOAD_CASE_SEISMIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Seismic"
+                        },
+                        "LOAD_CASE_STATIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Static"
+                        }
+                      }
+                    }
+                  },
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "Whether to use special load for underground load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        },
+                        "description": "Over-strength factors for underground special load"
+                      }
+                    }
+                  }
+                }
+              },
+              "CS_ANALYSIS": {
+                "type": "boolean"
+              },
+              "PRESTRESS_LOSS": {
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "OPTION",
+              "CODE_SELECTION",
+              "DGNCODE",
+              "RS_SCALE_FACTOR",
+              "ORTHO_EFFECT",
+              "ADDITIONAL_LOAD"
+            ],
+            "properties": {
+              "OPTION": {
+                "type": "string",
+                "enum": [
+                  "ADD",
+                  "REPLACE"
+                ]
+              },
+              "ADD_ENVELOPE": {
+                "type": "boolean",
+                "default": true,
+                "description": "Add envelope option for LCOM-GEN"
+              },
+              "CODE_SELECTION": {
+                "type": "string",
+                "const": "STEEL",
+                "description": "STEEL design code body"
+              },
+              "DGNCODE": {
+                "type": "string",
+                "const": "KDS 41 30 : 2022",
+                "default": "KDS 41 30 : 2022",
+                "description": "Steel design code value. General group key: KDS_2022"
+              },
+              "RS_SCALE_FACTOR": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "LOAD_CASE",
+                    "FACTOR"
+                  ],
+                  "properties": {
+                    "LOAD_CASE": {
+                      "type": "string",
+                      "description": "Response Spectrum Load Case"
+                    },
+                    "FACTOR": {
+                      "type": "number",
+                      "description": "Scale Factor"
+                    }
+                  }
+                }
+              },
+              "WIND_LOAD_COMB": {
+                "type": "object",
+                "required": [
+                  "PARAMETERS"
+                ],
+                "properties": {
+                  "PARAMETERS": {
+                    "type": "array",
+                    "description": "List of wind load combination sets",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "BUILDING_TYPE",
+                        "WIND_LOAD_CASE"
+                      ],
+                      "properties": {
+                        "BUILDING_TYPE": {
+                          "type": "string",
+                          "enum": [
+                            "MIDDLE",
+                            "HIGH"
+                          ],
+                          "description": "Wind Loads Group"
+                        },
+                        "WIND_LOAD_CASE": {
+                          "type": "object",
+                          "properties": {
+                            "ALONG": {
+                              "type": "string",
+                              "description": "Along Wind Load Case"
+                            },
+                            "ACROSS": {
+                              "type": "string",
+                              "description": "Across Wind Load Case"
+                            },
+                            "TORSION": {
+                              "type": "string",
+                              "description": "Torsional Wind Load Case"
+                            }
+                          }
+                        },
+                        "GUST_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "GD"
+                        },
+                        "KAPPA_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "Kappa"
+                        }
+                      }
+                    }
+                  },
+                  "TORSION_DIR": {
+                    "type": "string",
+                    "enum": [
+                      "BOTH",
+                      "POSITIVE",
+                      "NEGATIVE"
+                    ],
+                    "default": "BOTH",
+                    "description": "Torsion Wind Direction"
+                  }
+                }
+              },
+              "ORTHO_EFFECT": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Consider Orthogonal Effect"
+                  },
+                  "TYPE": {
+                    "type": "string",
+                    "enum": [
+                      "100_30",
+                      "SRSS"
+                    ],
+                    "description": "Orthogonal Effect Type"
+                  },
+                  "LOAD_GROUP": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Load Case1, Load Case2"
+                  }
+                }
+              },
+              "ADDITIONAL_LOAD": {
+                "type": "object",
+                "required": [
+                  "SPECIAL_LOAD",
+                  "VERTICAL_LOAD"
+                ],
+                "properties": {
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Special Seismic Load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "VERTICAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Vertical Seismic Forces"
+                      },
+                      "FORCE_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Force Factor"
+                      }
+                    }
+                  }
+                }
+              },
+              "UNDERGROUND_LOAD": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "description": "for Underground Load"
+                  },
+                  "SCALE_FACTOR": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "FACTOR"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Load Case"
+                        },
+                        "FACTOR": {
+                          "type": "number",
+                          "description": "Scale Factor"
+                        }
+                      }
+                    }
+                  },
+                  "LOAD_CASE_LIST": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "DIRECTION",
+                        "LOAD_CASE_SEISMIC",
+                        "LOAD_CASE_STATIC"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Seismic Load Case List - LoadCase"
+                        },
+                        "DIRECTION": {
+                          "type": "string",
+                          "enum": [
+                            "POSITIVE",
+                            "NEGATIVE"
+                          ],
+                          "description": "Seismic Load Case List - Direction"
+                        },
+                        "LOAD_CASE_SEISMIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Seismic"
+                        },
+                        "LOAD_CASE_STATIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Static"
+                        }
+                      }
+                    }
+                  },
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "Whether to use special load for underground load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        },
+                        "description": "Over-strength factors for underground special load"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "OPTION",
+              "CODE_SELECTION",
+              "DGNCODE",
+              "RS_SCALE_FACTOR",
+              "WIND_LOAD_COMB",
+              "ORTHO_EFFECT",
+              "ADDITIONAL_LOAD",
+              "UNDERGROUND_LOAD"
+            ],
+            "properties": {
+              "OPTION": {
+                "type": "string",
+                "enum": [
+                  "ADD",
+                  "REPLACE"
+                ]
+              },
+              "ADD_ENVELOPE": {
+                "type": "boolean",
+                "default": true,
+                "description": "Add envelope option for LCOM-GEN"
+              },
+              "CODE_SELECTION": {
+                "type": "string",
+                "const": "SRC",
+                "description": "SRC design code body"
+              },
+              "DGNCODE": {
+                "type": "string",
+                "const": "KDS 41 SRC : 2022",
+                "default": "KDS 41 SRC : 2022",
+                "description": "SRC design code value. General group key: KDS_2022"
+              },
+              "RS_SCALE_FACTOR": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "LOAD_CASE",
+                    "FACTOR"
+                  ],
+                  "properties": {
+                    "LOAD_CASE": {
+                      "type": "string",
+                      "description": "Response Spectrum Load Case"
+                    },
+                    "FACTOR": {
+                      "type": "number",
+                      "description": "Scale Factor"
+                    }
+                  }
+                }
+              },
+              "WIND_LOAD_COMB": {
+                "type": "object",
+                "required": [
+                  "PARAMETERS"
+                ],
+                "properties": {
+                  "PARAMETERS": {
+                    "type": "array",
+                    "description": "List of wind load combination sets",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "BUILDING_TYPE",
+                        "WIND_LOAD_CASE"
+                      ],
+                      "properties": {
+                        "BUILDING_TYPE": {
+                          "type": "string",
+                          "enum": [
+                            "MIDDLE",
+                            "HIGH"
+                          ],
+                          "description": "Wind Loads Group"
+                        },
+                        "WIND_LOAD_CASE": {
+                          "type": "object",
+                          "properties": {
+                            "ALONG": {
+                              "type": "string",
+                              "description": "Along Wind Load Case"
+                            },
+                            "ACROSS": {
+                              "type": "string",
+                              "description": "Across Wind Load Case"
+                            },
+                            "TORSION": {
+                              "type": "string",
+                              "description": "Torsional Wind Load Case"
+                            }
+                          }
+                        },
+                        "GUST_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "GD"
+                        },
+                        "KAPPA_FACTOR": {
+                          "type": "number",
+                          "minimum": 0,
+                          "description": "Kappa"
+                        }
+                      }
+                    }
+                  },
+                  "TORSION_DIR": {
+                    "type": "string",
+                    "enum": [
+                      "BOTH",
+                      "POSITIVE",
+                      "NEGATIVE"
+                    ],
+                    "default": "BOTH",
+                    "description": "Torsion Wind Direction"
+                  }
+                }
+              },
+              "ORTHO_EFFECT": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Consider Orthogonal Effect"
+                  },
+                  "TYPE": {
+                    "type": "string",
+                    "enum": [
+                      "100_30",
+                      "SRSS"
+                    ],
+                    "description": "Orthogonal Effect Type"
+                  },
+                  "LOAD_GROUP": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Load Case1, Load Case2"
+                  }
+                }
+              },
+              "ADDITIONAL_LOAD": {
+                "type": "object",
+                "required": [
+                  "SPECIAL_LOAD",
+                  "VERTICAL_LOAD"
+                ],
+                "properties": {
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Special Seismic Load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "VERTICAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "for Vertical Seismic Forces"
+                      },
+                      "FORCE_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Force Factor"
+                      }
+                    }
+                  }
+                }
+              },
+              "UNDERGROUND_LOAD": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "description": "for Underground Load"
+                  },
+                  "SCALE_FACTOR": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "FACTOR"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Load Case"
+                        },
+                        "FACTOR": {
+                          "type": "number",
+                          "description": "Scale Factor"
+                        }
+                      }
+                    }
+                  },
+                  "LOAD_CASE_LIST": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "LOAD_CASE",
+                        "DIRECTION",
+                        "LOAD_CASE_SEISMIC",
+                        "LOAD_CASE_STATIC"
+                      ],
+                      "properties": {
+                        "LOAD_CASE": {
+                          "type": "string",
+                          "description": "Seismic Load Case List - LoadCase"
+                        },
+                        "DIRECTION": {
+                          "type": "string",
+                          "enum": [
+                            "POSITIVE",
+                            "NEGATIVE"
+                          ],
+                          "description": "Seismic Load Case List - Direction"
+                        },
+                        "LOAD_CASE_SEISMIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Seismic"
+                        },
+                        "LOAD_CASE_STATIC": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Earth Pressure Load Case - Static"
+                        }
+                      }
+                    }
+                  },
+                  "SPECIAL_LOAD": {
+                    "type": "object",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "description": "Whether to use special load for underground load"
+                      },
+                      "VERTICAL_LOAD_FACTOR": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Vertical Load Factor"
+                      },
+                      "SDS": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Sds"
+                      },
+                      "OVER_STRENGTH_FACTOR": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "LOAD_CASE",
+                            "FACTOR"
+                          ],
+                          "properties": {
+                            "LOAD_CASE": {
+                              "type": "string",
+                              "description": "Load Case"
+                            },
+                            "FACTOR": {
+                              "type": "number",
+                              "description": "Scale Factor"
+                            }
+                          }
+                        },
+                        "description": "Over-strength factors for underground special load"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

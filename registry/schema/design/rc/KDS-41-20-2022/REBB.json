@@ -1,0 +1,288 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.REBB",
+  "uri": "DESIGN/RC/KDS-41-20-2022/REBB",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "단면 번호 문자열을 키로 갖는 맵 (예: \"211\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "description": "콘크리트 보 철근 항목",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "BAR_SECTOR_I",
+                    "BAR_SECTOR_M",
+                    "BAR_SECTOR_J",
+                    "DT",
+                    "DB"
+                  ],
+                  "properties": {
+                    "CREATE_SUB_SECTION": {
+                      "type": "boolean",
+                      "description": "서브 단면 생성",
+                      "default": false
+                    },
+                    "ID": {
+                      "type": "integer",
+                      "description": "서브 단면 ID (읽기 전용)"
+                    },
+                    "ELEMS": {
+                      "type": "object",
+                      "description": "요소 번호 입력 (CREATE_SUB_SECTION=true 일 때 필수). KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
+                      "properties": {
+                        "KEYS": {
+                          "type": "array",
+                          "description": "각 요소 ID 지정",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "TO": {
+                          "type": "string",
+                          "description": "ID 범위 (예: '1to160')"
+                        },
+                        "STRUCTURE_GROUP_NAME": {
+                          "type": "string",
+                          "description": "구조 그룹 이름 지정"
+                        }
+                      }
+                    },
+                    "BAR_SECTOR_I": {
+                      "type": "object",
+                      "description": "I단 구간 철근",
+                      "required": [
+                        "MAIN_BAR_TOP",
+                        "MAIN_BAR_BOT",
+                        "SHEAR_BAR"
+                      ],
+                      "properties": {
+                        "MAIN_BAR_TOP": {
+                          "type": "object",
+                          "description": "상단 주철근 (레이어별)",
+                          "required": [
+                            "LAYER1"
+                          ],
+                          "properties": {
+                            "LAYER1": {
+                              "type": "object",
+                              "required": [
+                                "NAME",
+                                "NUM"
+                              ],
+                              "properties": {
+                                "NAME": {
+                                  "type": "string",
+                                  "description": "규격 (전체 19종: D4 ~ D57)",
+                                  "enum": [
+                                    "D4",
+                                    "D5",
+                                    "D6",
+                                    "D7",
+                                    "D8"
+                                  ]
+                                },
+                                "NUM": {
+                                  "type": "integer",
+                                  "description": "철근 개수"
+                                }
+                              }
+                            },
+                            "LAYER2": {
+                              "type": "object",
+                              "required": [
+                                "NAME",
+                                "NUM"
+                              ],
+                              "properties": {
+                                "NAME": {
+                                  "type": "string",
+                                  "description": "규격 (전체 19종: D4 ~ D57)",
+                                  "enum": [
+                                    "D4",
+                                    "D5",
+                                    "D6",
+                                    "D7",
+                                    "D8"
+                                  ]
+                                },
+                                "NUM": {
+                                  "type": "integer",
+                                  "description": "철근 개수"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "MAIN_BAR_BOT": {
+                          "type": "object",
+                          "description": "하단 주철근 (레이어별, MAIN_BAR_TOP과 동일 구조: LAYER1 필수 / LAYER2 선택)",
+                          "required": [
+                            "LAYER1"
+                          ],
+                          "properties": {
+                            "LAYER1": {
+                              "type": "object",
+                              "required": [
+                                "NAME",
+                                "NUM"
+                              ],
+                              "properties": {
+                                "NAME": {
+                                  "type": "string",
+                                  "enum": [
+                                    "D4",
+                                    "D5",
+                                    "D6",
+                                    "D7",
+                                    "D8"
+                                  ]
+                                },
+                                "NUM": {
+                                  "type": "integer"
+                                }
+                              }
+                            },
+                            "LAYER2": {
+                              "type": "object",
+                              "required": [
+                                "NAME",
+                                "NUM"
+                              ],
+                              "properties": {
+                                "NAME": {
+                                  "type": "string",
+                                  "enum": [
+                                    "D4",
+                                    "D5",
+                                    "D6",
+                                    "D7",
+                                    "D8"
+                                  ]
+                                },
+                                "NUM": {
+                                  "type": "integer"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "SHEAR_BAR": {
+                          "type": "object",
+                          "description": "스터럽 데이터",
+                          "required": [
+                            "NAME",
+                            "LEG",
+                            "DIST"
+                          ],
+                          "properties": {
+                            "NAME": {
+                              "type": "string",
+                              "description": "스터럽 규격 (전체 19종: D4 ~ D57)",
+                              "enum": [
+                                "D4",
+                                "D5",
+                                "D6",
+                                "D7",
+                                "D8"
+                              ]
+                            },
+                            "LEG": {
+                              "type": "integer",
+                              "description": "다리 수"
+                            },
+                            "DIST": {
+                              "type": "number",
+                              "description": "스터럽 간격 @"
+                            }
+                          }
+                        },
+                        "SKIN_BAR": {
+                          "type": "object",
+                          "description": "표피철근 (이 객체가 있으면 사용)",
+                          "required": [
+                            "NAME",
+                            "NUM"
+                          ],
+                          "properties": {
+                            "NAME": {
+                              "type": "string",
+                              "description": "표피철근 규격 (전체 19종: D4 ~ D57)",
+                              "enum": [
+                                "D4",
+                                "D5",
+                                "D6",
+                                "D7",
+                                "D8"
+                              ]
+                            },
+                            "NUM": {
+                              "type": "integer",
+                              "description": "철근 개수"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "BAR_SECTOR_M": {
+                      "type": "object",
+                      "description": "중앙(M) 구간 철근 — BAR_SECTOR_I와 동일 구조 (반복 구조, 지면상 생략)"
+                    },
+                    "BAR_SECTOR_J": {
+                      "type": "object",
+                      "description": "J단 구간 철근 — BAR_SECTOR_I와 동일 구조 (반복 구조, 지면상 생략)"
+                    },
+                    "DT": {
+                      "type": "number",
+                      "description": "상단 콘크리트면~상단 철근중심 거리"
+                    },
+                    "DB": {
+                      "type": "number",
+                      "description": "하단 콘크리트면~하단 철근중심 거리"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "CREATE_SUB_SECTION": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "CREATE_SUB_SECTION"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "ELEMS"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "key": "DB.SECT",
+  "uri": "DB/SECT",
+  "source": "help_center",
+  "schema": {
+    "SECT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "SECTTYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "SECT_NAME": {
+          "description": "SectName",
+          "type": "string"
+        },
+        "SECT_BEFORE": {
+          "description": "SectBefore",
+          "type": "object",
+          "properties": {
+            "OFFSET_PT": {
+              "description": "CardinalPoint",
+              "type": "string"
+            },
+            "OFFSET_CENTER": {
+              "description": "OffsetCenter",
+              "type": "integer"
+            },
+            "USER_OFFSET_REF": {
+              "description": "UserOffsetRef",
+              "type": "integer"
+            },
+            "HORZ_OFFSET_OPT": {
+              "description": "HorizonoffsetOption",
+              "type": "integer"
+            },
+            "USERDEF_OFFSET_YI": {
+              "description": "UserOffsetYI",
+              "type": "number"
+            },
+            "USERDEF_OFFSET_YJ": {
+              "description": "UserOffsetYJ",
+              "type": "number"
+            },
+            "VERT_OFFSET_OPT": {
+              "description": "VerticalOffsetOption",
+              "type": "integer"
+            },
+            "USERDEF_OFFSET_ZI": {
+              "description": "UserOffsetZI",
+              "type": "number"
+            },
+            "USERDEF_OFFSET_ZJ": {
+              "description": "UserOffsetZJ",
+              "type": "number"
+            },
+            "USE_SHEAR_DEFORM": {
+              "description": "UseConsiderShearDeform",
+              "type": "boolean"
+            },
+            "USE_WARPING_EFFECT": {
+              "description": "UseConsiderWarpingEffect",
+              "type": "boolean"
+            },
+            "SHAPE": {
+              "description": "Shape",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

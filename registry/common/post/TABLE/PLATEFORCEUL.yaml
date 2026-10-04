@@ -1,0 +1,40 @@
+key: POST.TABLE.PLATEFORCEUL
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/PLATEFORCEUL.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: PLATEFORCEUL
+title: "内力（单位长度：局部）Plate Force(Unit Length:Local)"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 7
+  has_response_head: false
+notes: ["`NODE_FLAG`(공통 사항 참조)에 더해 `ULVBM`/`UGVBM` 전용 `\"ITEM_TO_DISPLAY\"`(Array [String], enum: `Fxx`/`Fyy`/`Fxy`/`Mxx`/`Myy`/`Mxy`/`Vxx`/`Vyy`, 기본값 All, Optional)를 지원합니다. 또한 이전 버전 문서는 `PLATEFORCEUL`/`UG`용 Response HEAD 하나만 표기해 `ULVBM`/`UGVBM`·`WA`도 같은 구조인 것으로 오인될 수 있었음 — 실제로는 아래처럼 3종류의 서로 다른 응답 구조를 가짐."]

@@ -1,0 +1,49 @@
+key: DB.THIS
+namespace: DB
+uri: /DB/THIS
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: THIS
+schema_ref:
+  local: schema/common/db/THIS.json
+  introspect: info/db/THIS
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Time History Load Cases
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35963903917593-Time-History-Load-Cases"
+  retrieved_at: "2025-08-20"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 113
+  examples: 6
+  has_response_head: false
+notes: [실제 하위 필드가 전혀 문서화돼 있지 않았음., "공통 반복 제어 필드(`iMAXITER`~`dTOL`)가 이전 문서에 전혀 없었음. 원문 [Time History Load Cases](https://support.midasuser.com/hc/en-us/articles/35963903917593)의 \"Iteration Control for Nonlinear Type\" 각주 기준으로 보강.", "Request 예제 모두 `aDAMP`). 실제 API 호출 시 필드가 무시될 수 있는 오류였음.", 않았음(§2 SPLC의 동일 항목만 문서화돼 있었음).]

@@ -1,0 +1,259 @@
+{
+  "key": "DB.MVLD",
+  "uri": "DB/MVLD",
+  "source": "help_center",
+  "schema": {
+    "MVLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "LoadCaseType",
+          "type": "integer"
+        },
+        "AUTO_OPTIMIZE": {
+          "description": "AutoOptimize",
+          "type": "object",
+          "properties": {
+            "VEHICLE_LOAD_NAME": {
+              "description": "SampleDescription",
+              "type": "string"
+            },
+            "LANE_NAME": {
+              "description": "SampleDescription",
+              "type": "string"
+            },
+            "SCALE_FACTORS": {
+              "description": "SetofScaleFactor",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "FATIGUE": {
+              "description": "fatigue",
+              "type": "boolean"
+            },
+            "MIN_VEHL_DIST": {
+              "description": "MinVehlDist",
+              "type": "number"
+            },
+            "MIN_NUM_VEHICLE": {
+              "description": "MinNumVehicle",
+              "type": "integer"
+            },
+            "MAX_NUM_VEHICLE": {
+              "description": "MaxNumVehicle",
+              "type": "integer"
+            },
+            "NUM_LOADED_LANES": {
+              "description": "NumLoadedLanes",
+              "type": "integer"
+            },
+            "LOAD_MODEL": {
+              "description": "LoadModel",
+              "type": "integer"
+            },
+            "OPTIMIZE_ITEMS": {
+              "description": "",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "VEHICLE_TYPE": {
+                    "description": "VehicleType",
+                    "type": "string"
+                  },
+                  "VEHICLE_NAME": {
+                    "description": "VehicleName",
+                    "type": "string"
+                  },
+                  "SCALE_FACTOR": {
+                    "description": "VehicleScaleFactor",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "PERMIT_LOAD": {
+          "description": "Permitload",
+          "type": "object",
+          "properties": {
+            "VEHICLE_LOAD_NAME": {
+              "description": "VehicleLoadName",
+              "type": "string"
+            },
+            "REF_LANE": {
+              "description": "SampleDescription",
+              "type": "string"
+            },
+            "ECC": {
+              "description": "Eccentricity",
+              "type": "number"
+            },
+            "SCALE_FACTOR": {
+              "description": "PermitScaleFactor",
+              "type": "number"
+            }
+          }
+        },
+        "ASL": {
+          "description": "AssignedLine",
+          "type": "object",
+          "properties": {
+            "MULTIPLE_FACTOR": {
+              "description": "MultipleFactor",
+              "type": "number"
+            },
+            "VEHICLE_LOAD_NAME": {
+              "description": "VehicleLoadName",
+              "type": "string"
+            },
+            "VEHICLE_LOAD_NAME2": {
+              "description": "VehicleLoadName2",
+              "type": "string"
+            },
+            "MIN_LOADED_LANE": {
+              "description": "MinLoadedLanes",
+              "type": "integer"
+            },
+            "MAX_LOADED_LANE": {
+              "description": "MaxLoadedLanes",
+              "type": "integer"
+            },
+            "LINE_ITEMS": {
+              "description": "Lineitems",
+              "type": "object",
+              "properties": {
+                "NA_LLAN_NAMES": {
+                  "description": "SelectedLine",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "STRAD_LLAN1_NAMES": {
+                  "description": "StraddingLane1",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "STRAD_LLAN2_NAMES": {
+                  "description": "StraddingLane2",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "DEFAULT": {
+          "description": "Default",
+          "type": "object",
+          "properties": {
+            "SCALE_FACTORS": {
+              "description": "SetofScaleFactor",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "COMB_OPTION": {
+              "description": "CombinationOption",
+              "type": "string"
+            },
+            "LOAD_COMB_TYPE": {
+              "description": "LoadCombinationType",
+              "type": "integer"
+            },
+            "FATIGUE": {
+              "description": "fatigue",
+              "type": "boolean"
+            },
+            "LOAD_MODEL": {
+              "description": "LoadModel",
+              "type": "integer"
+            },
+            "LANE_FACTOR_TYPE": {
+              "description": "LaneFactorType",
+              "type": "integer"
+            },
+            "_2_LANE_FACTOR_1": {
+              "description": "2LaneFactor1",
+              "type": "number"
+            },
+            "_2_LANE_FACTOR_2": {
+              "description": "2LaneFactor2",
+              "type": "number"
+            },
+            "_3_LANE_FACTOR_1": {
+              "description": "3LaneFactor1",
+              "type": "number"
+            },
+            "_3_LANE_FACTOR_2": {
+              "description": "3LaneFactor2",
+              "type": "number"
+            },
+            "_3_LANE_FACTOR_3": {
+              "description": "3LaneFactor3",
+              "type": "number"
+            },
+            "_3_LANE_FACTOR_4": {
+              "description": "3LaneFactor4",
+              "type": "number"
+            },
+            "SUB_LOAD_DATAS": {
+              "description": "SetofSubLoadData",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "VEHICLE_TYPE": {
+                    "description": "VehicleType",
+                    "type": "string"
+                  },
+                  "VEHICLE_NAME": {
+                    "description": "VehicleType",
+                    "type": "string"
+                  },
+                  "SCALE_FACTOR": {
+                    "description": "VehicleScaleFactor",
+                    "type": "number"
+                  },
+                  "MIN_LOADED_LANE": {
+                    "description": "MinLoadedLanes",
+                    "type": "integer"
+                  },
+                  "MAX_LOADED_LANE": {
+                    "description": "MaxLoadedLanes",
+                    "type": "integer"
+                  },
+                  "LANE_NAMES": {
+                    "description": "LaneName",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

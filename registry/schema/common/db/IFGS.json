@@ -1,0 +1,21 @@
+{
+  "key": "DB.IFGS",
+  "uri": "DB/IFGS",
+  "source": "help_center",
+  "schema": {
+    "IFGS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "DIR": {
+          "description": "Direction",
+          "type": "string"
+        },
+        "INIT_FORCE": {
+          "description": "InitialForce",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

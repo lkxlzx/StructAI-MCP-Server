@@ -1,0 +1,50 @@
+key: OPRT.LCOM
+namespace: OPRT
+uri: /OPRT/LCOM
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: none
+  shape: flat
+  body_kind: object
+schema_ref:
+  local: schema/products/civil_designer/oprt/LCOM.json
+  introspect: null
+  source: civil_designer_manual
+  params_ref: "designer_params.json#OPRT/LCOM"
+  shape: flat_object
+parser: generic
+products: [CIVIL_DESIGNER]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: OPRT/LCOM
+    methods: POST
+    title: 自动生成荷载组合
+    spec_rows: 47
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+availability: untested
+table_type: null
+title: 自动生成荷载组合
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL]
+source:
+  url: "G:\\midas Civil Designer - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_designer_manual]
+stats:
+  spec_rows: 46
+  examples: 1
+  has_response_head: false

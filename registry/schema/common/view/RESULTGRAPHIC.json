@@ -1,0 +1,362 @@
+{
+  "key": "VIEW.RESULTGRAPHIC",
+  "uri": "VIEW/RESULTGRAPHIC",
+  "source": "help_center",
+  "schema": {
+    "RESULTGRAPHIC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ArgumentSchema",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TYPE_OF_DISPLAY": {
+              "type": "object",
+              "description": "TypeofDisplay",
+              "properties": {
+                "CONTOUR": {
+                  "type": "object",
+                  "description": "ContourDetails",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "NUM_OF_COLOR": {
+                      "type": "integer",
+                      "description": "SelecttheNumberofColortoDrawtheContour"
+                    },
+                    "COLOR_TYPE": {
+                      "type": "string",
+                      "description": "SelecttheTypeofColors",
+                      "enum": [
+                        "vrgb",
+                        "rgb",
+                        "brg",
+                        "grayscaled"
+                      ]
+                    },
+                    "OPTIONS": {
+                      "type": "object",
+                      "description": "SpecifyOptionsforContourRepresentation",
+                      "properties": {
+                        "CONTOUR_FILL": {
+                          "type": "boolean",
+                          "description": "SelecttheTypeofFill"
+                        },
+                        "GRADIENT_FILL": {
+                          "type": "boolean",
+                          "description": "GradientFill"
+                        }
+                      }
+                    }
+                  }
+                },
+                "VALUES": {
+                  "type": "object",
+                  "description": "ValuesOutputDetails",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "VALUE_EXP": {
+                      "type": "boolean",
+                      "description": "SelectExponentialorFixedValue"
+                    },
+                    "DECIMAL_PT": {
+                      "type": "integer",
+                      "description": "SelecttheNumberofDecimalPlacestoDisplay"
+                    },
+                    "SET_ORIENT": {
+                      "type": "integer",
+                      "description": "SetstheOrientationoftheValue"
+                    },
+                    "MINMAX_ONLY": {
+                      "type": "object",
+                      "description": "Enable'MinMaxOnly'",
+                      "properties": {
+                        "MAXMIN": {
+                          "type": "string",
+                          "description": "MinMaxTypeofValues",
+                          "enum": [
+                            "Min&Max",
+                            "AbsMax",
+                            "Max",
+                            "Min"
+                          ]
+                        },
+                        "LIMIT_SCALE": {
+                          "type": "integer",
+                          "description": "LimitScale"
+                        }
+                      }
+                    }
+                  }
+                },
+                "LEGEND": {
+                  "type": "object",
+                  "description": "LegendDetails",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "POSITION": {
+                      "type": "string",
+                      "description": "Positionofthelegendinthedisplaywindow",
+                      "enum": [
+                        "right",
+                        "left"
+                      ]
+                    },
+                    "VALUE_EXP": {
+                      "type": "boolean",
+                      "description": "SelectExponentialorFixedValue"
+                    },
+                    "DECIMAL_PT": {
+                      "type": "integer",
+                      "description": "SelecttheNumberofDecimalPlacestoDisplay"
+                    }
+                  }
+                },
+                "DEFORM": {
+                  "type": "object",
+                  "description": "DeformationDetails",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "SCALE_FACTOR": {
+                      "type": "number",
+                      "description": "DeformationScaleFactor"
+                    },
+                    "REAL_DEFORM": {
+                      "type": "boolean",
+                      "description": "DeformationType"
+                    },
+                    "REL_DISP": {
+                      "type": "boolean",
+                      "description": "RelativeDeformation"
+                    },
+                    "REAL_DISP": {
+                      "type": "boolean",
+                      "description": "RealStructuralDeformation"
+                    }
+                  }
+                },
+                "DISP_OPT": {
+                  "type": "object",
+                  "description": "DisplayOptionDetails",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "ELEMENT_CENTER": {
+                      "type": "boolean",
+                      "description": "PlaceContourinElementCenter"
+                    },
+                    "VALUE_MAX": {
+                      "type": "boolean",
+                      "description": "SelectShowingValuesofMaximumorElementCenter"
+                    }
+                  }
+                },
+                "MIRRORED": {
+                  "type": "object",
+                  "description": "SymmetricModelMirrorDetail",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "MIRROR_BY_1": {
+                      "type": "object",
+                      "description": "MirrorByHalfModel",
+                      "properties": {
+                        "DIRECTION": {
+                          "type": "string",
+                          "description": "MirrorByDirection(Half)",
+                          "enum": [
+                            "XY",
+                            "YZ",
+                            "XZ"
+                          ]
+                        },
+                        "OFFSET": {
+                          "type": "number",
+                          "description": "MirrorByOffsetDistance(Half)"
+                        }
+                      }
+                    },
+                    "MIRROR_BY_2": {
+                      "type": "object",
+                      "description": "MirrorByHalfModel",
+                      "properties": {
+                        "DIRECTION": {
+                          "type": "string",
+                          "description": "MirrorByDirection(Quarter)",
+                          "enum": [
+                            "XY",
+                            "YZ",
+                            "XZ"
+                          ]
+                        },
+                        "OFFSET": {
+                          "type": "number",
+                          "description": "MirrorByOffsetDistance(Quarter)"
+                        }
+                      }
+                    }
+                  }
+                },
+                "CUTTING_DIAGRAM": {
+                  "type": "object",
+                  "description": "CuttingDiagram",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "CUTTING_MODE": {
+                      "type": "string",
+                      "description": "CuttingDiagramMode",
+                      "enum": [
+                        "line",
+                        "plane"
+                      ]
+                    },
+                    "CUTTING_NAME": {
+                      "type": "array",
+                      "description": "SelectCuttingLineorPlane",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "NORMAL_TO_PLANE": {
+                      "type": "boolean",
+                      "description": "DisplaytheGraphDirectionOptionofPlateElements"
+                    },
+                    "SCALE_FACTOR": {
+                      "type": "number",
+                      "description": "ScaleFactorforDiagramOutputRatio"
+                    },
+                    "REVERSE": {
+                      "type": "boolean",
+                      "description": "ExpresstheDiagramintheReverseDirection"
+                    },
+                    "VALUE_OUTPUT": {
+                      "type": "boolean",
+                      "description": "ProducetheOutputinValues"
+                    },
+                    "MINMAX_ONLY": {
+                      "type": "boolean",
+                      "description": "ShowonlytheMaximumandMinimumvalues"
+                    }
+                  }
+                },
+                "CUTTING_PLANE": {
+                  "type": "object",
+                  "description": "CuttingPlaneDetailDialog",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "PLANE_NAME": {
+                      "type": "array",
+                      "description": "SelecttheCuttingPlanes",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "FREE_EDGE": {
+                      "type": "boolean",
+                      "description": "DrawtheOutlineOption"
+                    }
+                  }
+                },
+                "APPLIED_LOADS": {
+                  "type": "object",
+                  "description": "AppliedLoads(MovingLoadTracerDetail)",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "SCALE_FACTOR": {
+                      "type": "number",
+                      "description": "LoadScaleFactor"
+                    },
+                    "OPT_LOAD_VALUES": {
+                      "type": "boolean",
+                      "description": "ShowLoadValues"
+                    },
+                    "VALUE_TYPE": {
+                      "type": "string",
+                      "description": "SelecttheValueOutputType",
+                      "enum": [
+                        "Exponential",
+                        "Fixed"
+                      ]
+                    },
+                    "VALUE_DECIMAL_PT": {
+                      "type": "integer",
+                      "description": "ValueOutputDecimalPoint"
+                    }
+                  }
+                },
+                "ISO_SURFACE": {
+                  "type": "object",
+                  "description": "IsoSurfaceDetailDialog",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean",
+                      "description": "ControltheTypeofDisplay"
+                    },
+                    "DRAW_POLYLINE": {
+                      "type": "boolean",
+                      "description": "DrawPolygonOutline"
+                    },
+                    "TRANSPARENCY": {
+                      "type": "number",
+                      "description": "Transparent(ScreenOnly)"
+                    },
+                    "FREE_EDGE": {
+                      "type": "boolean",
+                      "description": "Outline(highlight)theSolidElementMode"
+                    },
+                    "VALUE_MODE": {
+                      "type": "object",
+                      "description": "SelecttheValuestobeDisplayedforStress",
+                      "properties": {
+                        "VALUE_TYPE": {
+                          "type": "string",
+                          "enum": [
+                            "relative",
+                            "values"
+                          ],
+                          "description": "IsoSurfaceValuesType"
+                        },
+                        "VALUE": {
+                          "type": "array",
+                          "items": {
+                            "type": "number"
+                          },
+                          "description": "IsoSurfaceValues"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+key: POST.TABLE.BEAMFORCE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/BEAMFORCE.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: BEAMFORCE
+title: "Beam Force - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36011262919705-Beam-Force-Analysis-Result-Table"
+  retrieved_at: "2026-09-01"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 26
+  examples: 10
+  has_response_head: false
+notes: ["적었고, JSON Schema의 `enum`은 `\"Part1\"`(자릿수 1, I가 아님)처럼 표기했으나, 실제 Request Example은 둘 다와 다른 공백 없는 `\"PartI\"`/`\"PartJ\"`를 사용한다. 예제 기준으로 채택.", "`Torsion`/`Moment-y`/`Moment-z`)는 이전 버전 문서에 누락되어 있었음 — 최댓값을 계산할 대상 성분을 지정하는 필드로, 표시된 `Component` 값과 대응합니다."]

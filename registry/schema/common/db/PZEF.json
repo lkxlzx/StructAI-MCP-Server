@@ -1,0 +1,25 @@
+{
+  "key": "DB.PZEF",
+  "uri": "DB/PZEF",
+  "source": "help_center",
+  "schema": {
+    "PZEF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "OPT_OFFSET": {
+          "description": "AutoCalculatePanelZoneOffsetDistances",
+          "type": "boolean"
+        },
+        "OFFS_FACTOR": {
+          "description": "OffsetFactor",
+          "type": "number"
+        },
+        "OUTPUT_POSITION": {
+          "description": "OutputPosition",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

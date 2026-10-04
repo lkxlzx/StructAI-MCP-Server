@@ -1,0 +1,21 @@
+{
+  "key": "DB.TRPT",
+  "uri": "DB/TRPT",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "整体计算书设置",
+    "type": "object",
+    "properties": {
+      "ProjInfo": {
+        "type": "object",
+        "description": "项目信息"
+      },
+      "taMembs": {
+        "type": "array",
+        "description": "构件信息"
+      }
+    }
+  },
+  "shape": "flat_object"
+}

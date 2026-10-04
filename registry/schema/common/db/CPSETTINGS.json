@@ -1,0 +1,29 @@
+{
+  "key": "DB.CPSETTINGS",
+  "uri": "DB/CPSETTINGS",
+  "source": "instance_introspect",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "MODULE": {
+          "description": " Module Type",
+          "type": "integer"
+        },
+        "CODE": {
+          "description": " Code Type",
+          "type": "integer"
+        },
+        "TYPE": {
+          "description": " Export File Type",
+          "type": "integer"
+        },
+        "INFULENCE": {
+          "description": " Infulence",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

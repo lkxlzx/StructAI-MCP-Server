@@ -1,0 +1,44 @@
+# StructAI Registry 实测实例矩阵
+#
+# 记录每个实例的实测结果，供 Registry 的 availability / verified_on / unavailable_on 字段溯源。
+# 冒烟脚本按此基线比对，差异即告警。凭据（MAPI-Key）绝不写入本文件。
+instances:
+  - alias: gen-local
+    product: GEN_NX
+    base_url: http://localhost:3030/gen
+    profile: NX_FAMILY
+    tested_at: "2026-05-07"
+    loaded_project: portrait_truss_80m
+    get_endpoints_tested: 253
+    routed_ok: 217
+    routed_empty: 0
+    not_found: 36
+    note: 本地部署实例。缺 21 个 Hyper-S 变体与 15 个桥梁/铁路专项表，版本明显落后于云实例。
+
+  - alias: civil-cloud
+    product: CIVIL_NX
+    base_url: https://moa-engineers.midasit.cn:443/civil
+    profile: NX_FAMILY
+    tested_at: "2026-05-07"
+    loaded_project: (共享云账号，会话状态在测试期间变化过)
+    get_endpoints_tested: 215
+    routed_ok: 29
+    routed_empty: 179
+    not_found: 7
+    note: 未知 URI 返回 404（可靠）；空表返回 200 + {"message": ""}。缺 DB.SDHY/SDIS/THRS/UFTR/UTBL 与 2 个 DESIGN.*.MATD。
+
+  - alias: designer-cloud
+    product: CIVIL_DESIGNER
+    base_url: https://moa-engineers.midasit.cn:443/cdn
+    profile: DESIGNER
+    tested_at: "2026-05-07"
+    get_endpoints_tested: 13
+    routed_ok: 13
+    routed_empty: 0
+    not_found: 0
+    note: >
+      响应封装为 {command, function, result:{return_value, message}}；
+      **任何 URI 都返回 HTTP 200**（/foo/BAR 亦然），HTTP 状态码不可用于判定可用性。
+      唯一可靠错误信号是 result.message[].type == "错误"。
+      因此该产品的「端点不存在」无法通过 GET 验证，可用性只能以官方手册为准。
+      单位约定：返回 mm（NX 系返回 m）。

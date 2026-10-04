@@ -1,0 +1,629 @@
+{
+  "key": "DB.HHCT-M1",
+  "uri": "DB/HHCT-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Key is a string (e.g. \"1\"), and each item is a Heat of Hydration Analysis Control input object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "FINAL_STAGE": {
+                  "type": "boolean",
+                  "enum": [
+                    true,
+                    false
+                  ],
+                  "default": true,
+                  "description": "Last Stage / Other Stage (2 radio buttons merged into one boolean)"
+                },
+                "STAGE_NAME": {
+                  "type": "string",
+                  "description": "Stage Selector (HSTG name; server resolves and sets FinalHstgKey)"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INIT_TEMP": {
+                  "type": "number",
+                  "default": 20,
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "Initial Temperature"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "EVAL": {
+                  "type": "string",
+                  "enum": [
+                    "CENTER",
+                    "GAUSS",
+                    "NODAL"
+                  ],
+                  "default": "GAUSS",
+                  "description": "Center / Gauss / Nodal Point (3 radio buttons merged into one enum)"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "OPT_IS_CREEP_SHRINKAGE": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Creep && Shrinkage (true then ITEM block is required)"
+                },
+                "ITEM": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "TYPE": {
+                      "type": "string",
+                      "enum": [
+                        "CREEP",
+                        "SHRINKAGE",
+                        "BOTH"
+                      ],
+                      "default": "BOTH",
+                      "description": "Creep / Shrinkage / Creep && Shrinkage (SHRINKAGE ignores CREEP_CALC_METHOD / ITER)"
+                    },
+                    "CREEP_CALC_METHOD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "default": 0,
+                      "description": "General / Effective Modulus (Selecting 1 requires M_EFF_MOD)"
+                    },
+                    "M_EFF_MOD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "PHI1",
+                        "DAY1",
+                        "PHI2",
+                        "DAY2"
+                      ],
+                      "properties": {
+                        "PHI1": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "phi1 / t < day(s) / phi2 / t > day(s) (PHI1 > 0)"
+                        },
+                        "DAY1": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "description": "phi1 / t < day(s) / phi2 / t > day(s) (DAY1 > 0)"
+                        },
+                        "PHI2": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "phi1 / t < day(s) / phi2 / t > day(s) (PHI2 > 0)"
+                        },
+                        "DAY2": {
+                          "type": "integer",
+                          "exclusiveMinimum": 0,
+                          "description": "phi1 / t < day(s) / phi2 / t > day(s) (DAY2 > 0)"
+                        }
+                      },
+                      "description": "phi1 / t < day(s) / phi2 / t > day(s) (PHI1 < PHI2, DAY1 < DAY2, all > 0)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "If CREEP_CALC_METHOD = 1, M_EFF_MOD is required.",
+                      "if": {
+                        "properties": {
+                          "CREEP_CALC_METHOD": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "CREEP_CALC_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "M_EFF_MOD"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "If CREEP_CALC_METHOD is omitted or 0, M_EFF_MOD is not allowed.",
+                      "if": {
+                        "anyOf": [
+                          {
+                            "not": {
+                              "required": [
+                                "CREEP_CALC_METHOD"
+                              ]
+                            }
+                          },
+                          {
+                            "properties": {
+                              "CREEP_CALC_METHOD": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "CREEP_CALC_METHOD"
+                            ]
+                          }
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "M_EFF_MOD"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "If TYPE = SHRINKAGE, CREEP_CALC_METHOD can only be 0.",
+                      "if": {
+                        "properties": {
+                          "TYPE": {
+                            "const": "SHRINKAGE"
+                          }
+                        },
+                        "required": [
+                          "TYPE"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "CREEP_CALC_METHOD": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Creep && Shrinkage Settings"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "OPT_USE_EQUI_AGE": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Use Equivalent Age by Time && Temperature"
+                },
+                "OPT_INCL_SELF_WEIGHT": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Include Selfweight Load"
+                },
+                "SELF_WEIGHT_FACTOR": {
+                  "type": "number",
+                  "description": "Self Weight Factor"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ITER": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 50,
+                  "description": "Max. No. of Iterations per Increment"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "CONVERGENCE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "DISP": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_CHECK"
+                      ],
+                      "properties": {
+                        "OPT_CHECK": {
+                          "type": "boolean",
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_CHECK = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_CHECK = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement(U) / Load(P) / Work(W)"
+                    },
+                    "LOAD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_CHECK"
+                      ],
+                      "properties": {
+                        "OPT_CHECK": {
+                          "type": "boolean",
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_CHECK = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_CHECK = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement(U) / Load(P) / Work(W)"
+                    },
+                    "WORK": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_CHECK"
+                      ],
+                      "properties": {
+                        "OPT_CHECK": {
+                          "type": "boolean",
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "exclusiveMinimum": 0,
+                          "description": "Displacement(U) / Load(P) / Work(W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_CHECK = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_CHECK = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_CHECK": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_CHECK"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement(U) / Load(P) / Work(W)"
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "DISP": {
+                          "properties": {
+                            "OPT_CHECK": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_CHECK"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "LOAD": {
+                          "properties": {
+                            "OPT_CHECK": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_CHECK"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "LOAD"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "WORK": {
+                          "properties": {
+                            "OPT_CHECK": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_CHECK"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "WORK"
+                      ]
+                    }
+                  ],
+                  "description": "Displacement(U) / Load(P) / Work(W)"
+                }
+              }
+            },
+            {
+              "description": "If FINAL_STAGE = false, STAGE_NAME is required.",
+              "if": {
+                "properties": {
+                  "FINAL_STAGE": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "FINAL_STAGE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "STAGE_NAME"
+                ]
+              }
+            },
+            {
+              "description": "If FINAL_STAGE is omitted or true, STAGE_NAME is not allowed.",
+              "if": {
+                "anyOf": [
+                  {
+                    "not": {
+                      "required": [
+                        "FINAL_STAGE"
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "FINAL_STAGE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "FINAL_STAGE"
+                    ]
+                  }
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "STAGE_NAME"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "If OPT_IS_CREEP_SHRINKAGE is omitted or true, ITEM is required.",
+              "if": {
+                "anyOf": [
+                  {
+                    "not": {
+                      "required": [
+                        "OPT_IS_CREEP_SHRINKAGE"
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "OPT_IS_CREEP_SHRINKAGE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "OPT_IS_CREEP_SHRINKAGE"
+                    ]
+                  }
+                ]
+              },
+              "then": {
+                "required": [
+                  "ITEM"
+                ]
+              }
+            },
+            {
+              "description": "If OPT_IS_CREEP_SHRINKAGE = false, ITEM is not allowed.",
+              "if": {
+                "properties": {
+                  "OPT_IS_CREEP_SHRINKAGE": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "OPT_IS_CREEP_SHRINKAGE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "ITEM"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "If OPT_INCL_SELF_WEIGHT = true, SELF_WEIGHT_FACTOR is required.",
+              "if": {
+                "properties": {
+                  "OPT_INCL_SELF_WEIGHT": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "OPT_INCL_SELF_WEIGHT"
+                ]
+              },
+              "then": {
+                "required": [
+                  "SELF_WEIGHT_FACTOR"
+                ]
+              }
+            },
+            {
+              "description": "If OPT_INCL_SELF_WEIGHT is omitted or false, SELF_WEIGHT_FACTOR is not allowed.",
+              "if": {
+                "anyOf": [
+                  {
+                    "not": {
+                      "required": [
+                        "OPT_INCL_SELF_WEIGHT"
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "OPT_INCL_SELF_WEIGHT": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "OPT_INCL_SELF_WEIGHT"
+                    ]
+                  }
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "SELF_WEIGHT_FACTOR"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

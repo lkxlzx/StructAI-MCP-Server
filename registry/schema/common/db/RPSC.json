@@ -1,0 +1,168 @@
+{
+  "key": "DB.RPSC",
+  "uri": "DB/RPSC",
+  "source": "help_center",
+  "schema": {
+    "RPSC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "OPT_MBAR_J": {
+          "description": "MBarJBoolean",
+          "type": "boolean"
+        },
+        "OPT_SBAR_J": {
+          "description": "SBarJBoolean",
+          "type": "boolean"
+        },
+        "OPT_CRACKED": {
+          "description": "CrackedBoolean",
+          "type": "boolean"
+        },
+        "SBAR_ITEMS": {
+          "description": "ShearReinforcementProperties",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "OPT_DR": {
+                "description": "DiagonalReinforcement",
+                "type": "boolean"
+              },
+              "DR_PITCH": {
+                "description": "[DR]Pitch",
+                "type": "number"
+              },
+              "DR_THETA": {
+                "description": "[DR]Angle",
+                "type": "number"
+              },
+              "DR_AW": {
+                "description": "[DR]Aw",
+                "type": "number"
+              },
+              "OPT_SBW": {
+                "description": "SteelBarforWeb",
+                "type": "boolean"
+              },
+              "SBW_PITCH": {
+                "description": "[SBW]Pitch",
+                "type": "number"
+              },
+              "SBW_ANGLE": {
+                "description": "[SBW]Angle",
+                "type": "number"
+              },
+              "SBW_AP": {
+                "description": "[SBW]Ap",
+                "type": "number"
+              },
+              "SBW_PS": {
+                "description": "[SBW]Pe",
+                "type": "number"
+              },
+              "SBW_FACTOR": {
+                "description": "[SBW]ShearReductionFactor",
+                "type": "number"
+              },
+              "OPT_TR": {
+                "description": "TorsionalReinforcement",
+                "type": "boolean"
+              },
+              "TR_PITCH": {
+                "description": "[TR]Pitch",
+                "type": "number"
+              },
+              "TR_AWT": {
+                "description": "[TR]Awt",
+                "type": "number"
+              },
+              "TR_ALT": {
+                "description": "[TR]Alt",
+                "type": "number"
+              },
+              "OPT_SR": {
+                "description": "StirExist",
+                "type": "boolean"
+              },
+              "SR_PITCH": {
+                "description": "[SR]Pitch",
+                "type": "number"
+              },
+              "SR_AW": {
+                "description": "[SR]Aw",
+                "type": "number"
+              },
+              "OPT_LBAR_FLG": {
+                "description": "EnclosingStirrup",
+                "type": "boolean"
+              },
+              "LBAR_THICK": {
+                "description": "forEnclosedSectionAreaCoverThickness",
+                "type": "number"
+              },
+              "LBAR_INC_FC": {
+                "description": "IncludeFlange/Cantilever",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "MBARS": {
+          "description": "LongitudinalReinforcementProperties",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "MBAR_ITEMS": {
+                "description": "LongitudinalReinforcementPropertyDetail",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "IJ": {
+                      "description": "I/J",
+                      "type": "string"
+                    },
+                    "NAME": {
+                      "description": "BarName",
+                      "type": "string"
+                    },
+                    "REF_Y": {
+                      "description": "Ref.Y",
+                      "type": "integer"
+                    },
+                    "Y": {
+                      "description": "Y",
+                      "type": "number"
+                    },
+                    "REF_Z": {
+                      "description": "Ref.Z",
+                      "type": "integer"
+                    },
+                    "Z": {
+                      "description": "Z",
+                      "type": "number"
+                    },
+                    "NUM": {
+                      "description": "Num",
+                      "type": "integer"
+                    },
+                    "SPACING": {
+                      "description": "Spacing",
+                      "type": "number"
+                    },
+                    "PART": {
+                      "description": "Part",
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

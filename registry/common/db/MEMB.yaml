@@ -1,0 +1,61 @@
+key: DB.MEMB
+namespace: DB
+uri: /DB/MEMB
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MEMB
+schema_ref:
+  local: schema/common/db/MEMB.json
+  introspect: info/db/MEMB
+  source: help_center
+  params_ref: "designer_params.json#DB/MEMB"
+parser: db_generic
+products: [CIVIL_DESIGNER, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DB/MEMB
+    methods: "GET, POST, DELETE"
+    title: 构件
+    spec_rows: 6
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: array
+    delete_all_via_body: true
+availability: verified
+verified_on: ["gen-local", "designer-cloud"]
+path_key_supported: true
+table_type: null
+title: Member Assignment
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513603328793-Member-Assignment"
+  retrieved_at: "2026-07-02"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 2
+  examples: 3
+  has_response_head: false

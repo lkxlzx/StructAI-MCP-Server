@@ -1,0 +1,54 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.HCD-REPORT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/HCD-REPORT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "CURRENT_MODE",
+          "EXPORT_PATH",
+          "OUTPUT_NAME"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "CURRENT_MODE": {
+            "type": "string",
+            "enum": [
+              "Graphic"
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            }
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "OUTPUT_NAME": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

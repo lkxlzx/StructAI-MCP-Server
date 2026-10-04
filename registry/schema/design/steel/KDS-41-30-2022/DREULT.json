@@ -1,0 +1,457 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.DREULT",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/DREULT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "EXPORT_PATH",
+          "RESULT_GRAPHIC"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Image file save path and file name."
+          },
+          "FIGURE_NAME": {
+            "type": "string",
+            "description": "Smart report image name."
+          },
+          "SET_HIDDEN": {
+            "type": "boolean",
+            "description": "Hidden option.",
+            "default": false
+          },
+          "ACTIVE": {
+            "type": "object",
+            "description": "View/Active settings. For detailed field specifications, refer to the Active documentation."
+          },
+          "WIDTH": {
+            "type": "integer",
+            "description": "Image width in pixels.",
+            "default": 1000,
+            "minimum": 100,
+            "maximum": 10000
+          },
+          "HEIGHT": {
+            "type": "integer",
+            "description": "Image height in pixels.",
+            "default": 1000,
+            "minimum": 100,
+            "maximum": 10000
+          },
+          "STAGE_NAME": {
+            "type": "string",
+            "description": "Construction stage name."
+          },
+          "ANGLE": {
+            "type": "object",
+            "description": "View angle settings.",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "HORIZONTAL": {
+                "type": "number",
+                "description": "Horizontal rotation angle.",
+                "default": 0
+              },
+              "VERTICAL": {
+                "type": "number",
+                "description": "Vertical rotation angle.",
+                "default": 0
+              }
+            }
+          },
+          "DISPLAY": {
+            "type": "object",
+            "description": "View/Display settings. For detailed field specifications, refer to the Display documentation."
+          },
+          "PERSPECTIVE": {
+            "type": "boolean",
+            "description": "Enable perspective view.",
+            "default": false
+          },
+          "ZOOM_LEVEL": {
+            "type": "number",
+            "description": "Zoom level.",
+            "default": 100,
+            "minimum": 25,
+            "maximum": 200
+          },
+          "BGCOLOR_TOP": {
+            "type": "object",
+            "description": "Top background color.",
+            "additionalProperties": false,
+            "properties": {
+              "R": {
+                "type": "integer",
+                "description": "Red component.",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "G": {
+                "type": "integer",
+                "description": "Green component.",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "B": {
+                "type": "integer",
+                "description": "Blue component.",
+                "minimum": 0,
+                "maximum": 255
+              }
+            }
+          },
+          "RESULT_GRAPHIC": {
+            "type": "object",
+            "description": "Result graphic display settings.",
+            "required": [
+              "CURRENT_MODE",
+              "LOAD_CASE_COMB"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "CURRENT_MODE": {
+                "type": "string",
+                "description": "Current mode.",
+                "oneOf": [
+                  {
+                    "title": "Steel Design",
+                    "const": "INFLL_DESIGN_STEEL"
+                  }
+                ]
+              },
+              "LOAD_CASE_COMB": {
+                "type": "object",
+                "description": "Load cases and combinations.",
+                "required": [
+                  "TYPE",
+                  "NAME"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "TYPE": {
+                    "type": "string",
+                    "description": "Load case type.",
+                    "oneOf": [
+                      {
+                        "title": "Steel Design Load Combination",
+                        "const": "CBS"
+                      }
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string",
+                    "description": "Load case or combination name."
+                  }
+                }
+              },
+              "COMPONENTS": {
+                "type": "object",
+                "description": "Component selection for design result display.",
+                "required": [],
+                "additionalProperties": false,
+                "properties": {
+                  "COMP": {
+                    "type": "string",
+                    "description": "Design component to display.",
+                    "default": "Combined",
+                    "oneOf": [
+                      {
+                        "title": "Axial",
+                        "const": "Axial"
+                      },
+                      {
+                        "title": "Shear-y",
+                        "const": "Shear-y"
+                      },
+                      {
+                        "title": "Shear-z",
+                        "const": "Shear-z"
+                      },
+                      {
+                        "title": "Bend-y",
+                        "const": "Bend-y"
+                      },
+                      {
+                        "title": "Bend-z",
+                        "const": "Bend-z"
+                      },
+                      {
+                        "title": "Combined",
+                        "const": "Combined"
+                      }
+                    ]
+                  }
+                }
+              },
+              "TYPE_OF_DISPLAY": {
+                "type": "object",
+                "description": "Display options for design result visualization.",
+                "required": [],
+                "additionalProperties": false,
+                "properties": {
+                  "CONTOUR": {
+                    "type": "object",
+                    "description": "Contour display settings.",
+                    "required": [],
+                    "additionalProperties": false,
+                    "properties": {
+                      "OPT_CHECK": {
+                        "type": "boolean",
+                        "description": "Enable contour display.",
+                        "default": false
+                      },
+                      "NUM_OF_COLOR": {
+                        "type": "integer",
+                        "description": "Number of contour colors.",
+                        "default": 12,
+                        "minimum": 2,
+                        "maximum": 20
+                      },
+                      "COLOR_TYPE": {
+                        "type": "string",
+                        "description": "Contour color type.",
+                        "default": "vrgb",
+                        "oneOf": [
+                          {
+                            "title": "V->R->G->B",
+                            "const": "vrgb"
+                          },
+                          {
+                            "title": ">R->G->B",
+                            "const": "rgb"
+                          },
+                          {
+                            "title": "R->B->G",
+                            "const": "rbg"
+                          },
+                          {
+                            "title": "Gray Scaled",
+                            "const": "gray scaled"
+                          }
+                        ]
+                      },
+                      "OPTIONS": {
+                        "type": "object",
+                        "description": "Contour options.",
+                        "required": [],
+                        "additionalProperties": false,
+                        "properties": {
+                          "GRADIENT_FILL": {
+                            "type": "boolean",
+                            "description": "Use gradient fill.",
+                            "default": false
+                          },
+                          "CONTOUR_FILL": {
+                            "type": "boolean",
+                            "description": "Use contour fill.",
+                            "default": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "VALUES": {
+                    "type": "object",
+                    "description": "Value display settings.",
+                    "required": [],
+                    "additionalProperties": false,
+                    "properties": {
+                      "OPT_CHECK": {
+                        "type": "boolean",
+                        "description": "Enable value display.",
+                        "default": false
+                      },
+                      "DECIMAL_PT": {
+                        "type": "integer",
+                        "description": "Decimal places.",
+                        "default": 0,
+                        "minimum": 0,
+                        "maximum": 15
+                      },
+                      "VALUE_EXP": {
+                        "type": "boolean",
+                        "description": "Use exponential notation.",
+                        "default": false
+                      },
+                      "MINMAX_ONLY": {
+                        "type": "object",
+                        "description": "Min/max display settings.",
+                        "required": [],
+                        "additionalProperties": false,
+                        "properties": {
+                          "MAXMIN": {
+                            "type": "string",
+                            "description": "Min/max display mode.",
+                            "default": "Min & Max",
+                            "oneOf": [
+                              {
+                                "title": "Min. & Max",
+                                "const": "Min & Max"
+                              },
+                              {
+                                "title": "Absolut Max",
+                                "const": "Abs Max"
+                              },
+                              {
+                                "title": "Maximum",
+                                "const": "max"
+                              },
+                              {
+                                "title": "MMinimumin",
+                                "const": "min"
+                              }
+                            ]
+                          },
+                          "LIMIT_SCALE": {
+                            "type": "integer",
+                            "description": "Scale limit.",
+                            "default": 0
+                          }
+                        }
+                      },
+                      "SET_ORIENT": {
+                        "type": "integer",
+                        "description": "Value text orientation.",
+                        "default": 0
+                      }
+                    }
+                  },
+                  "LEGEND": {
+                    "type": "object",
+                    "description": "Legend display settings.",
+                    "required": [],
+                    "additionalProperties": false,
+                    "properties": {
+                      "OPT_CHECK": {
+                        "type": "boolean",
+                        "description": "Enable legend display.",
+                        "default": false
+                      },
+                      "POSITION": {
+                        "type": "string",
+                        "description": "Legend position.",
+                        "default": "left",
+                        "oneOf": [
+                          {
+                            "title": "Right",
+                            "const": "right"
+                          },
+                          {
+                            "title": "Left",
+                            "const": "left"
+                          },
+                          {
+                            "title": "Top",
+                            "const": "top"
+                          },
+                          {
+                            "title": "Bottom",
+                            "const": "bottom"
+                          }
+                        ]
+                      },
+                      "VALUE_EXP": {
+                        "type": "boolean",
+                        "description": "Use exponential notation for legend values.",
+                        "default": true
+                      },
+                      "DECIMAL_PT": {
+                        "type": "integer",
+                        "description": "Decimal places for legend values.",
+                        "default": 0,
+                        "minimum": 0,
+                        "maximum": 15
+                      }
+                    }
+                  },
+                  "CODE_CHECKING_RATIO": {
+                    "type": "object",
+                    "description": "Steel code checking ratio display settings.",
+                    "required": [],
+                    "additionalProperties": false,
+                    "properties": {
+                      "CHECK": {
+                        "type": "boolean",
+                        "description": "Enable code checking ratio display.",
+                        "default": true
+                      },
+                      "DISPLAY_MEMBERS": {
+                        "type": "object",
+                        "description": "Steel member types to display.",
+                        "required": [],
+                        "additionalProperties": false,
+                        "properties": {
+                          "BEAM": {
+                            "type": "boolean",
+                            "description": "Display beam members.",
+                            "default": true
+                          },
+                          "COLUMN": {
+                            "type": "boolean",
+                            "description": "Display column members.",
+                            "default": true
+                          },
+                          "BRACE": {
+                            "type": "boolean",
+                            "description": "Display brace members.",
+                            "default": true
+                          }
+                        }
+                      },
+                      "COLUMN_SECTION_SIZE": {
+                        "type": "object",
+                        "description": "Column section size display settings.",
+                        "required": [],
+                        "additionalProperties": false,
+                        "properties": {
+                          "SCALE_FACTOR": {
+                            "type": "number",
+                            "description": "Scale factor for column section visualization.",
+                            "default": 1,
+                            "minimum": 0.1,
+                            "maximum": 100
+                          }
+                        }
+                      },
+                      "VALUE_OPTION": {
+                        "type": "object",
+                        "description": "Value display format settings.",
+                        "required": [],
+                        "additionalProperties": false,
+                        "properties": {
+                          "DECIMAL_PLACES": {
+                            "type": "integer",
+                            "description": "Number of decimal places.",
+                            "default": 2,
+                            "minimum": 0,
+                            "maximum": 15
+                          },
+                          "EXPONENTIAL": {
+                            "type": "boolean",
+                            "description": "Use exponential notation.",
+                            "default": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

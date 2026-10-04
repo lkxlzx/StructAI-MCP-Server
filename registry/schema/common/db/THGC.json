@@ -1,0 +1,130 @@
+{
+  "key": "DB.THGC",
+  "uri": "DB/THGC",
+  "source": "help_center",
+  "schema": {
+    "THGC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ENERGYRESULT": {
+          "description": "Timehistoryenergyresult",
+          "type": "boolean"
+        },
+        "SDVI": {
+          "description": "Viscousdamper/Oildamperresult",
+          "type": "boolean"
+        },
+        "SDVE": {
+          "description": "Viscoelasticdamperresult",
+          "type": "boolean"
+        },
+        "SDST": {
+          "description": "Steeldamperresult",
+          "type": "boolean"
+        },
+        "SDHY": {
+          "description": "Hystereticisolatorresult",
+          "type": "boolean"
+        },
+        "SDIS": {
+          "description": "Isolatorresult",
+          "type": "boolean"
+        },
+        "bMSSSTATUS": {
+          "description": "MSSModelYieldstatus",
+          "type": "boolean"
+        },
+        "GNT": {
+          "description": "Geometrynonlinearitytype",
+          "type": "integer"
+        },
+        "ILT": {
+          "description": "Initialloadtype",
+          "type": "integer"
+        },
+        "IEPI": {
+          "description": "Consider��IgnoreElementsforNL.AnslysisInitialLoad��",
+          "type": "boolean"
+        },
+        "NSTEP": {
+          "description": "Incrementstep[nstep]",
+          "type": "integer"
+        },
+        "bROT": {
+          "description": "Resultoutputtype",
+          "type": "boolean"
+        },
+        "SNIO": {
+          "description": "Stepnumberincrementforoutput",
+          "type": "integer"
+        },
+        "bPCF": {
+          "description": "Permitconvergencefailure",
+          "type": "boolean"
+        },
+        "MAXNS": {
+          "description": "Max.numberofsubsteps",
+          "type": "integer"
+        },
+        "MAXIT": {
+          "description": "Maximumiteration",
+          "type": "integer"
+        },
+        "bDN": {
+          "description": "Displacementnorm",
+          "type": "boolean"
+        },
+        "bFN": {
+          "description": "Forcenorm",
+          "type": "boolean"
+        },
+        "bEN": {
+          "description": "EnergyNorm",
+          "type": "boolean"
+        },
+        "DN": {
+          "description": "Displacementnorm-Value",
+          "type": "number"
+        },
+        "FN": {
+          "description": "Forcenorm-Value",
+          "type": "number"
+        },
+        "EN": {
+          "description": "EnergyNorm-Value",
+          "type": "number"
+        },
+        "bULSM": {
+          "description": "Uselinesearchmethod",
+          "type": "boolean"
+        },
+        "ULSM": {
+          "description": "Numberofiterationtostartlinesearch",
+          "type": "integer"
+        },
+        "aILL": {
+          "description": "InitLoadList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "SLC": {
+                "description": "Staticloadcasename",
+                "type": "string"
+              },
+              "SF": {
+                "description": "ScaleFactor",
+                "type": "number"
+              },
+              "LCT": {
+                "description": "LoadCaseType",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

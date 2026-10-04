@@ -1,0 +1,39 @@
+key: POST.TABLE.IEHG_DUCT_D2_SPRING
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/IEHG_DUCT_D2_SPRING.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: IEHG_DUCT_D2_SPRING
+title: "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36020877017497-Inelastic-Hinge-Ductility-Factor-D-D2-TH-Result-Table"
+  retrieved_at: "2025-04-27"
+  provenance: [help_center]
+stats:
+  spec_rows: 13
+  examples: 10
+  has_response_head: false

@@ -1,0 +1,43 @@
+key: OPE.STORY_IRR_PARAM
+namespace: OPE
+uri: /OPE/STORY_IRR_PARAM
+methods: [GET, POST]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+parser: generic
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+table_type: null
+title: Story Irregularity Check Parameter
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49514751862425-Story-Irregularity-Check-Parameter"
+  retrieved_at: "2026-07-30"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 5
+  examples: 2
+  has_response_head: false

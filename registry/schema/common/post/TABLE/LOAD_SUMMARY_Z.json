@@ -1,0 +1,28 @@
+{
+  "key": "POST.TABLE.LOAD_SUMMARY_Z",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "TABLE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "LoadSummaryTable",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string"
+            },
+            "TABLE_TYPE": {
+              "type": "string"
+            },
+            "EXPORT_PATH": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

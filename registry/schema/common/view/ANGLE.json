@@ -1,0 +1,24 @@
+{
+  "key": "VIEW.ANGLE",
+  "uri": "VIEW/ANGLE",
+  "source": "help_center",
+  "schema": {
+    "ANGLE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "HORIZONTAL": {
+              "type": "number"
+            },
+            "VERTICAL": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

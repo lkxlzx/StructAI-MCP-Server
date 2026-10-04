@@ -1,0 +1,97 @@
+{
+  "key": "DB.MATD",
+  "uri": "DB/MATD",
+  "source": "help_center",
+  "schema": {
+    "MATD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "DATA1": {
+          "description": "Data1",
+          "type": "object",
+          "properties": {
+            "CODENAME": {
+              "description": "CodeName",
+              "type": "string"
+            },
+            "CODEMATLNAME": {
+              "description": "CodeMatlName",
+              "type": "string"
+            },
+            "DESIGN": {
+              "description": "DesignData",
+              "type": "object",
+              "properties": {
+                "C_FC": {
+                  "description": "DesignC_fc",
+                  "type": "number"
+                },
+                "bLAMBDA": {
+                  "description": "Lambdacheck",
+                  "type": "boolean"
+                },
+                "dLAMBDA": {
+                  "description": "Lambdavalue",
+                  "type": "number"
+                },
+                "C_FCI": {
+                  "description": "fci",
+                  "type": "number"
+                },
+                "bTRANSFER": {
+                  "description": "Transfercheck",
+                  "type": "boolean"
+                },
+                "dTRANSFERFCI": {
+                  "description": "Transferfcivalue",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "REBAR_CODENAME": {
+          "description": "RebarCodeName",
+          "type": "string"
+        },
+        "MAINREBAR_REBARNAME": {
+          "description": "MainRebarName",
+          "type": "string"
+        },
+        "SUBREBAR_REBARNAME": {
+          "description": "SubRebarName",
+          "type": "string"
+        },
+        "MAINREBAR_B_FY": {
+          "description": "MainRebarb_fy",
+          "type": "number"
+        },
+        "SUBREBAR_B_FY": {
+          "description": "SubRebarb_fy",
+          "type": "number"
+        },
+        "bSERVCHECK": {
+          "description": "ServiceabilityCheck",
+          "type": "boolean"
+        },
+        "dSHORTTERM": {
+          "description": "ShortTerm",
+          "type": "number"
+        },
+        "dLONGTERM": {
+          "description": "LongTerm",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,380 @@
+﻿registry_key,namespace,uri,methods,table_type,solver,schema,spec_rows,section,group,page
+DB.ACTL,DB,/DB/ACTL,"POST, GET, PUT, DELETE",,,yes,11,分析Analysis,分析控制Analysis Control,[ACTL]Main Control Data
+DB.BCCT,DB,/DB/BCCT,"POST, GET, PUT, DELETE",,,yes,20,分析Analysis,分析控制Analysis Control,[BCCT]Boundary Change Assignment
+DB.BMLD,DB,/DB/BMLD,"POST, GET, PUT, DELETE",,,yes,24,荷载Load,静力荷载Static Loads,梁荷载(单元）[BMLD]Beam Loads
+DB.BNGR,DB,/DB/BNGR,"POST, GET, PUT",,,yes,2,项目Project,组Group,边界组[BNGR]Boundary Group
+DB.BODF,DB,/DB/BODF,"POST, GET, PUT, DELETE",,,yes,4,荷载Load,静力荷载Static Loads,自重[BODF]Self Weight
+DB.BTMP,DB,/DB/BTMP,"POST, GET, PUT, DELETE",,,yes,23,荷载Load,温度荷载Temperature,梁截面温度[BTMP]Beam Section Temp.
+DB.BUCK,DB,/DB/BUCK,"POST, GET, PUT, DELETE",,,yes,10,分析Analysis,分析控制Analysis Control,[BUCK]Buckling Analysis Control
+DB.CAMB,DB,/DB/CAMB,"POST, GET, PUT, DELETE",,,yes,3,结果Results,特殊桥梁Bridge Specialization,[CAMB]FCM Camber Control
+DB.CCFC,DB,/DB/CCFC,"POST, GET, PUT, DELETE",,,yes,10,荷载Load,水化热Heat of Hydration,[CCFC]Convection : Convection Coefficient Functions
+DB.CGLP,DB,/DB/CGLP,"POST, GET, PUT, DELETE",,,yes,3,边界Boundary,连接Links,修改一般连接特性值[CGLP]Change General Link Properties
+DB.CJFG,DB,/DB/CJFG,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,移动荷载Moving Load,[CJFG]Concurrent Joint Force Group
+DB.CLDR,DB,/DB/CLDR,"POST, GET, PUT",,,yes,3,边界Boundary,高级Advanced,定义标签方向[CLDR]Define Constraints Label Direction
+DB.CLWP,DB,/DB/CLWP,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,[CLWP]Plate Cutting Line Diagram
+DB.CMCS,DB,/DB/CMCS,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,施工阶段荷载Construction Stage,[CMCS]Camber for Construction Stage
+DB.CNLD,DB,/DB/CNLD,"POST, GET, PUT, DELETE",,,yes,11,荷载Load,静力荷载Static Loads,节点荷载[CNLD]Nodal Loads
+DB.CONS,DB,/DB/CONS,"POST, GET, PUT, DELETE",,,yes,5,边界Boundary,一般支承Supports,一般支承[CONS]Define Supports
+DB.CO_F,DB,/DB/CO_F,"GET, PUT",,,yes,13,视图View,显示Display,[CO_F]Floor Load Color
+DB.CO_M,DB,/DB/CO_M,"GET, PUT",,,yes,12,视图View,显示Display,[CO_M]Material Color
+DB.CO_S,DB,/DB/CO_S,"GET, PUT",,,yes,12,视图View,显示Display,[CO_S]Section Color
+DB.CO_T,DB,/DB/CO_T,"GET, PUT",,,yes,12,视图View,显示Display,[CO_T]Thickness Color
+DB.CPSETTINGS,DB,/DB/CPSETTINGS,"GET, POST, PUT",,,,8,协同Collaboration,设置 Settings,
+DB.CRGR,DB,/DB/CRGR,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,移动荷载Moving Load,[CRGR]Concurrent Reaction Group
+DB.CRPC,DB,/DB/CRPC,"POST, GET, PUT, DELETE",,,yes,5,荷载Load,施工阶段荷载Construction Stage,[CRPC]Creep Coefficient for Construction Stage
+DB.CSCS,DB,/DB/CSCS,"POST, GET, PUT, DELETE",,,yes,22,荷载Load,施工阶段荷载Construction Stage,[CSCS]Composite Section for Construction Stage
+DB.CUTL,DB,/DB/CUTL,"POST, GET, PUT, DELETE",,,yes,12,结果Results,分析结果Analysis result,[CUTL]Cutting Line
+DB.DCON,DB,/DB/DCON,"POST, GET, PUT, DELETE",,,yes,42,设计Design,RC Design,[DCON]RC Design Code
+DB.DOEL,DB,/DB/DOEL,"POST, GET, PUT, DELETE",,,yes,4,节点/单元Node/Element,网格Mesh,区域-单元[DOEL]Domain-Element
+DB.DYFG,DB,/DB/DYFG,"POST, GET, PUT, DELETE",,,yes,0,荷载Load,移动荷载Moving Load,[DYFG]Railway Dynamic Factor - EUROCODE
+DB.DYLA,DB,/DB/DYLA,"POST, GET, PUT, DELETE",,,yes,0,荷载Load,移动荷载Moving Load,[DYLA]Dynamic Load Allowance
+DB.DYNF,DB,/DB/DYNF,"POST, GET, PUT, DELETE",,,yes,0,荷载Load,移动荷载Moving Load,[DYNF]Railway Dynamic Factor by Element- EUROCODE
+DB.EDMP,DB,/DB/EDMP,"POST, GET, PUT, DELETE",,,yes,3,特性Properties,材料特性Material Properties,修改特性[EDMP]Change Property
+DB.EFCT,DB,/DB/EFCT,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,其它Misc.,[EFCT]Small Displacement/Initial Force Control Data
+DB.EIGV,DB,/DB/EIGV,"POST, GET, PUT, DELETE",,,yes,20,分析Analysis,分析控制Analysis Control,[EIGV]Eigenvalue Analysis Control
+DB.ELEM,DB,/DB/ELEM,"POST, GET, PUT, DELETE",,,yes,64,节点/单元Node/Element,通用General,单元[ELEM]Element
+DB.ELNK,DB,/DB/ELNK,"POST, GET, PUT, DELETE",,,yes,16,边界Boundary,连接Links,弹性连接[ELNK]Elastic Link
+DB.EPMT,DB,/DB/EPMT,"POST, GET, PUT, DELETE",,,yes,78,特性Properties,材料特性Material Properties,塑性材料[EPMT]Plastic Material
+DB.ETFC,DB,/DB/ETFC,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,水化热Heat of Hydration,[ETFC]Ambient Temperature Functions
+DB.ETMP,DB,/DB/ETMP,"POST, GET, PUT, DELETE",,,yes,6,荷载Load,温度荷载Temperature,单元温度[ETMP]Element Temp.
+DB.EWSF,DB,/DB/EWSF,"POST, GET, PUT, DELETE",,,yes,12,特性Properties,截面特性Section Properties,有效宽度系数[EWSF]Effective Width Scale Factor
+DB.EXLD,DB,/DB/EXLD,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,预应力Prestress,体外力类型荷载[EXLD]External Type Load Case for Pretension
+DB.FBLA,DB,/DB/FBLA,"POST, GET, PUT, DELETE",,,yes,13,荷载Load,静力荷载Static Loads,分配楼面荷载[FBLA]Assign Floor Loads
+DB.FBLD,DB,/DB/FBLD,"POST, GET, PUT, DELETE",,,yes,6,荷载Load,静力荷载Static Loads,定义楼面荷载类型[FBLD]Define Floor Load Type
+DB.FIBR,DB,/DB/FIBR,"POST, GET, PUT, DELETE",,,yes,17,特性Properties,塑性材料Inelastic Properties,纤维截面分割[FIBR]Fiber Division of Section
+DB.FIMP,DB,/DB/FIMP,"POST, GET, PUT, DELETE",,,yes,213,特性Properties,塑性材料Inelastic Properties,非线性材料特性[FIMP]Inelastic Material Properties
+DB.FMLD,DB,/DB/FMLD,"POST, GET, PUT, DELETE",,,yes,11,荷载Load,静力荷载Static Loads,装修材料荷载[FMLD]Finishing Material Loads
+DB.FRLS,DB,/DB/FRLS,"POST, GET, PUT, DELETE",,,yes,9,边界Boundary,释放/偏心Release/Offset,释放梁端约束[FRLS]Beam End Release
+DB.GCMB,DB,/DB/GCMB,"POST, GET, PUT, DELETE",,,yes,4,结果Results,特殊桥梁Bridge Specialization,[GCMB]General Camber Control
+DB.GRDP,DB,/DB/GRDP,"POST, GET, PUT, DELETE",,,yes,39,特性Properties,阻尼Damping,组阻尼[GRDP]Group Damping
+DB.GRUP,DB,/DB/GRUP,"POST, GET, PUT",,,yes,4,项目Project,组Group,结构组[GRUP]Structure Group
+DB.GSBG,DB,/DB/GSBG,"POST, GET, PUT, DELETE",,,yes,13,结果Results,特殊桥梁Bridge Specialization,[GSBG]Bridge Girder Diagrams
+DB.GSPR,DB,/DB/GSPR,"POST, GET, PUT, DELETE",,,yes,5,边界Boundary,弹簧Springs,分配一般弹性支承[GSPR]Assign General Spring Supports
+DB.GSTP,DB,/DB/GSTP,"POST, GET, PUT, DELETE",,,yes,8,边界Boundary,弹簧Springs,定义一般弹性支承[GSTP]Define General Spring Type
+DB.GTMP,DB,/DB/GTMP,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,温度荷载Temperature,温度梯度[GTMP]Temperature Gradient
+DB.HAHS,DB,/DB/HAHS,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,水化热Heat of Hydration,[HAHS]Heat Source/Assign Heat Source
+DB.HECB,DB,/DB/HECB,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,水化热Heat of Hydration,[HECB]Convection/Element Convection Boundary
+DB.HHCT,DB,/DB/HHCT,"POST, GET, PUT, DELETE",,,yes,24,分析Analysis,分析控制Analysis Control,[HHCT]Heat of Hydration Analysis Control
+DB.HHND,DB,/DB/HHND,"POST, GET, PUT, DELETE",,,yes,5,结果Results,水化热Heat of Hydration,[HHND]Heat of Hydaration Result Graph
+DB.HPCE,DB,/DB/HPCE,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,水化热Heat of Hydration,[HPCE]Pipe Cooling
+DB.HSFC,DB,/DB/HSFC,"POST, GET, PUT, DELETE",,,yes,18,荷载Load,水化热Heat of Hydration,[HSFC]Heat Source/Heat Source Functions
+DB.HSPT,DB,/DB/HSPT,"POST, GET, PUT, DELETE",,,yes,5,荷载Load,水化热Heat of Hydration,[HSPT]Prescribed Temperature
+DB.HSTG,DB,/DB/HSTG,"POST, GET, PUT, DELETE",,,yes,13,荷载Load,水化热Heat of Hydration,[HSTG]Define Construction Stage for Hydration
+DB.IEHC,DB,/DB/IEHC,"POST, GET, PUT, DELETE",,,yes,17,特性Properties,塑性材料Inelastic Properties,非弹性特性控制数据[IEHC]Inealstic Hinge Control Data
+DB.IEHG,DB,/DB/IEHG,"POST, GET, PUT, DELETE",,,yes,2,特性Properties,塑性材料Inelastic Properties,分配非弹性铰特性值[IEHG]Assign Inelastic Hinge Properties
+DB.IELC,DB,/DB/IELC,"POST, GET, PUT, DELETE",,,yes,5,荷载Load,其它Misc.,[IELC]Ignore Elements for Load Cases
+DB.IEPI,DB,/DB/IEPI,"POST, GET, PUT, DELETE",,,yes,1,Pushover,忽略非线性分析初始荷载的单元[IEPI]Ignore Elements for NL. Analysis Intial Load,
+DB.IFGS,DB,/DB/IFGS,"POST, GET, PUT",,,yes,2,荷载Load,其它Misc.,[IFGS]Large Displacement/Initial Forces for Geometric Stiffness
+DB.IMFM,DB,/DB/IMFM,"POST, GET, PUT, DELETE",,,yes,5,特性Properties,材料特性Material Properties,纤维模型的弹塑性材料特性[IMFM]Inelastic Material Properties for Fiber Model
+DB.IMPF,DB,/DB/IMPF,"POST, GET, PUT, DELETE",,,yes,11,荷载Load,移动荷载Moving Load,[IMPF]Additional Impact Factor
+DB.INMF,DB,/DB/INMF,"POST, GET, PUT, DELETE",,,yes,3,荷载Load,其它Misc.,[INMF]Small Displacement/Initial Element Force
+DB.LCOM-CONC,DB,/DB/LCOM-CONC,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,混凝土设计[LCOM-CONC]Load Combinations (Concrete Design)
+DB.LCOM-GEN,DB,/DB/LCOM-GEN,"POST, GET, PUT, DELETE",,,yes,18,结果Results,分析结果Analysis result,一般[LCOM-GEN]Load Combinations (General)
+DB.LCOM-SEISMIC,DB,/DB/LCOM-SEISMIC,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,地震[LCOM-SEISMIC]Load Combinations (Seismic)
+DB.LCOM-SRC,DB,/DB/LCOM-SRC,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,SRC设计[LCOM-SRC]Load Combinations (SRC Design)
+DB.LCOM-STEEL,DB,/DB/LCOM-STEEL,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,钢结构设计[LCOM-STEEL]Load Combinations (Steel Design)
+DB.LCOM-STLCOMP,DB,/DB/LCOM-STLCOMP,"POST, GET, PUT, DELETE",,,yes,14,结果Results,分析结果Analysis result,组合钢梁设计[LCOM-STLCOMP]Load Combinations (Composite Steel Girder Design)
+DB.LDGR,DB,/DB/LDGR,"POST, GET, PUT, DELETE",,,yes,1,项目Project,组Group,荷载组[LDGR]Define Load Group
+DB.LDSQ,DB,/DB/LDSQ,"POST, GET, PUT, DELETE",,,yes,1,荷载Load,其它Misc.,[LDSQ]Load Sequence for Nonlinear
+DB.LLANCH,DB,/DB/LLANCH,"POST, GET, PUT, DELETE",,,yes,29,荷载Load,移动荷载Moving Load,交通车道线-China[LLANch]Traffic Line Lanes - China
+DB.LLANOP,DB,/DB/LLANOP,"POST, GET, PUT, DELETE",,,yes,38,荷载Load,移动荷载Moving Load,移动荷载优化[LLANop]Traffic Line Lanes - Moving Load Optimizaion
+DB.LLANTR,DB,/DB/LLANTR,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,移动荷载Moving Load,交通车道线-横向移动荷载[LLANtr]Traffic Line Lane - Transverse
+DB.LTOM,DB,/DB/LTOM,"POST, GET, PUT, DELETE",,,yes,12,荷载Load,静力荷载Static Loads,荷载转换为质量[LTOM]Loads to Masses
+DB.MADO,DB,/DB/MADO,"POST, GET, PUT, DELETE",,,yes,6,节点/单元Node/Element,网格Mesh,定义区域[MADO]Define Domain
+DB.MATD,DB,/DB/MATD,"GET, PUT",,,yes,219,设计Design,RC Design,[MATD]Modify Concrete Materials
+DB.MATL,DB,/DB/MATL,"POST, GET, PUT, DELETE",,,yes,32,特性Properties,材料特性Material Properties,材料特性值[MATL]Material Data
+DB.MCON,DB,/DB/MCON,"POST, GET, PUT, DELETE",,,yes,13,边界Boundary,高级Advanced,线性约束[MCON]Linear Constraints
+DB.MLFC,DB,/DB/MLFC,"POST, GET, PUT, DELETE",,,yes,7,边界Boundary,高级Advanced,变形-内力函数[MLFC]Force-Deformation Function
+DB.MLSP,DB,/DB/MLSP,"POST, GET, PUT, DELETE",,,yes,5,荷载Load,移动荷载Moving Load,[MLSP] Lane Support - Negative Moments at Interior Piers
+DB.MLSR,DB,/DB/MLSR,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,移动荷载Moving Load,[MLSR]Lane Support Reactions at Interior Piers
+DB.MVCD,DB,/DB/MVCD,"POST, GET, PUT, DELETE",,,yes,19,荷载Load,移动荷载Moving Load,移动荷载规范[MVCD]Moving Load Code
+DB.MVCT,DB,/DB/MVCT,"POST, GET, PUT, DELETE",,,yes,40,分析Analysis,分析控制Analysis Control,[MVCT]Moving Load Analysis Control
+DB.MVCTBS,DB,/DB/MVCTBS,"POST, GET, PUT, DELETE",,,yes,21,分析Analysis,分析控制Analysis Control,[MVCTbs] Moving Load Analysis Control(BS)
+DB.MVCTCH,DB,/DB/MVCTCH,"POST, GET, PUT, DELETE",,,yes,117,分析Analysis,分析控制Analysis Control,[MVCTch]Moving Load Analysis Control(China)
+DB.MVCTID,DB,/DB/MVCTID,"POST, GET, PUT, DELETE",,,yes,24,分析Analysis,分析控制Analysis Control,[MVCTid]Moving Load Analysis Control(India)
+DB.MVCTTR,DB,/DB/MVCTTR,"POST, GET, PUT, DELETE",,,yes,12,分析Analysis,分析控制Analysis Control,[MVCTTR]Moving Load Analysis Control(Transverse)
+DB.MVHC,DB,/DB/MVHC,"POST, GET, PUT, DELETE",,,yes,0,荷载Load,移动荷载Moving Load,[MVHC]Vehicles Classes
+DB.MVHL,DB,/DB/MVHL,"POST, GET, PUT, DELETE",,,yes,194,荷载Load,移动荷载Moving Load,车辆-China[MVHL]Vehicles - China
+DB.MVHLTR,DB,/DB/MVHLTR,"POST, GET, PUT, DELETE",,,yes,38,荷载Load,移动荷载Moving Load,车辆-横向移动荷载[MVHLtr]Vehicles - Transverse
+DB.MVLD,DB,/DB/MVLD,"POST, GET, PUT, DELETE",,,yes,17,荷载Load,移动荷载Moving Load,[MVLD]Moving Load Cases
+DB.MVLDBS,DB,/DB/MVLDBS,"POST, GET, PUT, DELETE",,,yes,57,荷载Load,移动荷载Moving Load,[MVLDbs]Moving Load Cases(BS)
+DB.MVLDCH,DB,/DB/MVLDCH,"POST, GET, PUT, DELETE",,,yes,28,荷载Load,移动荷载Moving Load,[MVLDch]Moving Load Cases(China)
+DB.MVLDEU,DB,/DB/MVLDEU,"POST, GET, PUT, DELETE",,,yes,44,荷载Load,移动荷载Moving Load,[MVLDeu]Moving Load Cases - EUROCODE
+DB.MVLDID,DB,/DB/MVLDID,"POST, GET, PUT, DELETE",,,yes,21,荷载Load,移动荷载Moving Load,[MVLDid]Moving Load Cases(India)
+DB.MVLDPL,DB,/DB/MVLDPL,"POST, GET, PUT, DELETE",,,yes,31,荷载Load,移动荷载Moving Load,[MVLDpl] Moving Load Cases(Plond)
+DB.MVLDTR,DB,/DB/MVLDTR,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,移动荷载Moving Load,[MVLDtr]Moving Load Case(Transverse)
+DB.NBOF,DB,/DB/NBOF,"POST, GET, PUT, DELETE",,,yes,13,荷载Load,静力荷载Static Loads,节点体力[NBOF]Nodal Body Force
+DB.NLCT,DB,/DB/NLCT,"POST, GET, PUT, DELETE",,,yes,36,分析Analysis,分析控制Analysis Control,[NLCT]Nonlinear Analysis Control Data
+DB.NLLP,DB,/DB/NLLP,"POST, GET, PUT, DELETE",,,yes,1,边界Boundary,连接Links,一般连接特性值[NLLP]General Link Property
+DB.NLNK,DB,/DB/NLNK,"POST, GET, PUT, DELETE",,,yes,14,边界Boundary,连接Links,一般连接[NLNK]General Link
+DB.NMAS,DB,/DB/NMAS,"POST, GET, PUT, DELETE",,,yes,9,荷载Load,静力荷载Static Loads,节点质量[NMAS]Nodal Masses
+DB.NODE,DB,/DB/NODE,"POST, GET, PUT, DELETE",,,yes,4,节点/单元Node/Element,通用General,节点[NODE]Node
+DB.NPLN,DB,/DB/NPLN,"POST, GET, PUT, DELETE",,,yes,10,视图View,视图View,命名的平面[NPLN]Named Plane
+DB.NSPR,DB,/DB/NSPR,"POST, GET, PUT, DELETE",,,yes,21,边界Boundary,弹簧Springs,节点弹性支承[NSPR]Point Spring
+DB.NTMP,DB,/DB/NTMP,"POST, GET, PUT, DELETE",,,yes,6,荷载Load,温度荷载Temperature,节点温度[NTMP]Nodal Temp.
+DB.NUCS,DB,/DB/NUCS,"DELETE, GET, POST, PUT",,,yes,4,视图View,坐标系Coordinate System,定义用户坐标系[NUCS]Named UCS
+DB.OFFS,DB,/DB/OFFS,"POST, GET, PUT, DELETE",,,yes,11,边界Boundary,释放/偏心Release/Offset,梁端刚域[OFFS]Beam End Offsets
+DB.PDEL,DB,/DB/PDEL,"POST, GET, PUT, DELETE",,,yes,5,分析Analysis,分析控制Analysis Control,[PDEL]P-Delta Analysis Control
+DB.PHGE,DB,/DB/PHGE,"POST, GET, PUT, DELETE",,,yes,4,Pushover,分配Pushover铰特性[PHGE]Assign Pushover Hinge Properties,
+DB.PJCF,DB,/DB/PJCF,"POST, GET, PUT, DELETE",,,yes,20,项目Project,管理Management,项目信息[PJCF]Project Information
+DB.PLCB,DB,/DB/PLCB,"POST, GET, PUT, DELETE",,,yes,1,荷载Load,其它Misc.,[PLCB]Pre-composite Section
+DB.PNLA,DB,/DB/PNLA,"POST, GET, PUT, DELETE",,,yes,16,荷载Load,静力荷载Static Loads,分配平面荷载[PNLA]Assign Plane Loads
+DB.PNLD,DB,/DB/PNLD,"POST, GET, PUT, DELETE",,,yes,21,荷载Load,静力荷载Static Loads,定义平面荷载类型[PNLD]Define Plane Load Type
+DB.POGD,DB,/DB/POGD,"POST, GET, PUT, DELETE",,,yes,72,Pushover,整体控制[POGD]Global Control,
+DB.POLC,DB,/DB/POLC,"POST, GET, PUT, DELETE",,,yes,27,Pushover,Pushover荷载工况[POLC]Pushover Load Cases,
+DB.PRES,DB,/DB/PRES,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,静力荷载Static Loads,指定压力荷载[PRES]Assign Pressure Loads
+DB.PRLS,DB,/DB/PRLS,"POST, GET, PUT, DELETE",,,yes,8,边界Boundary,释放/偏心Release/Offset,释放板端约束[PRLS]Plate End Release
+DB.PRST,DB,/DB/PRST,"POST, GET, PUT, DELETE",,,yes,10,荷载Load,预应力Prestress,梁单元预应力荷载[PRST]Prestress Beam Loads
+DB.PSLT,DB,/DB/PSLT,"POST, GET, PUT, DELETE",,,yes,10,荷载Load,静力荷载Static Loads,定义压力荷载类型[PSLT]Define Pressure Load Type
+DB.PSSF,DB,/DB/PSSF,"POST, GET, PUT, DELETE",,,yes,14,特性Properties,截面特性Section Properties,板刚度修改系数[PSSF]Plate Stiffness Scale Factor
+DB.PTNS,DB,/DB/PTNS,"POST, GET, PUT, DELETE",,,yes,6,荷载Load,预应力Prestress,初拉力[PTNS]Pretension Loads
+DB.PZEF,DB,/DB/PZEF,"POST, GET, PUT",,,yes,3,边界Boundary,高级Advanced,刚域效果[PZEF]Panel Zone Effects
+DB.RCHK,DB,/DB/RCHK,"POST, GET, PUT, DELETE",,,yes,81,设计Design,RC Design,[RCHK]Rebar Input for Beam Section
+DB.RIGD,DB,/DB/RIGD,"POST, GET, PUT, DELETE",,,yes,6,边界Boundary,连接Links,刚性连接[RIGD]Rigid Link
+DB.RPSC,DB,/DB/RPSC,"POST, GET, PUT, DELETE",,,yes,37,特性Properties,截面特性Section Properties,钢筋[RPSC]Reinforcements
+DB.SBDO,DB,/DB/SBDO,"POST, GET, PUT, DELETE",,,yes,37,节点/单元Node/Element,网格Mesh,定义子区域[SBDO]Define Sub-Domain
+DB.SDHY,DB,/DB/SDHY,"POST, GET, PUT, DELETE",,,yes,19,边界Boundary,高级-地震装置Advanced - Seismic Device,滞回阻尼器(MSS)[SDHY]Hysteretic Isolator(MSS)
+DB.SDIS,DB,/DB/SDIS,"POST, GET, PUT, DELETE",,,yes,40,边界Boundary,高级-地震装置Advanced - Seismic Device,隔震器(MSS)[SDIS]Isolator(MSS)
+DB.SDSP,DB,/DB/SDSP,"POST, GET, PUT, DELETE",,,yes,8,荷载Load,静力荷载Static Loads,强制位移[SDSP]Specified Displacements of Support
+DB.SDST,DB,/DB/SDST,"POST, GET, PUT, DELETE",,,yes,25,边界Boundary,高级-地震装置Advanced - Seismic Device,钢阻尼器[SDST]Steel Damper
+DB.SDVE,DB,/DB/SDVE,"POST, GET, PUT, DELETE",,,yes,24,边界Boundary,高级-地震装置Advanced - Seismic Device,粘弹性阻尼器[SDVE]Viscoelastic Damper
+DB.SDVI,DB,/DB/SDVI,"POST, GET, PUT, DELETE",,,yes,26,边界Boundary,高级-地震装置Advanced - Seismic Device,黏滞阻尼器/油阻尼器[SDVI]Viscous Damper/Oil Damper
+DB.SECF,DB,/DB/SECF,"POST, GET, PUT, DELETE",,,yes,24,特性Properties,截面特性Section Properties,刚度[SECF]Stiffness
+DB.SECT,DB,/DB/SECT,"POST, GET, PUT, DELETE",,,yes,107,特性Properties,截面特性Section Properties,截面特性值（共同）[SECT]Section Properteis(Common)
+DB.SINF,DB,/DB/SINF,"POST, GET, PUT, DELETE",,,yes,2,荷载Load,移动荷载Moving Load,[SINF]Plate Element for Influence Surface
+DB.SKEW,DB,/DB/SKEW,"POST, GET, PUT, DELETE",,,yes,36,节点/单元Node/Element,节点详细Node Detail,节点局部坐标轴[SKEW]Node Local Axis
+DB.SLAN,DB,/DB/SLAN,"POST, GET, PUT, DELETE",,,yes,28,荷载Load,移动荷载Moving Load,交通车道面[SLAN]Traffic Surface Lanes
+DB.SLANCH,DB,/DB/SLANCH,"POST, GET, PUT, DELETE",,,yes,17,荷载Load,移动荷载Moving Load,交通车道面-China[SLANch]Traffic Surface Lanes - China
+DB.SLANOP,DB,/DB/SLANOP,"POST, GET, PUT, DELETE",,,yes,31,荷载Load,移动荷载Moving Load,移动荷载优化[SLANop]Traffic Surface Lanes - Moving Load Optimization
+DB.SMCT,DB,/DB/SMCT,"POST, GET, PUT, DELETE",,,yes,3,分析Analysis,分析控制Analysis Control,[SMCT]Settlement Analysis Control Data
+DB.SMLC,DB,/DB/SMLC,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,支座沉降Settlement,[SMLC]Settlement Load Cases
+DB.SMPT,DB,/DB/SMPT,"POST, GET, PUT, DELETE",,,yes,4,荷载Load,支座沉降Settlement,[SMPT]Settlement Group
+DB.SPAN,DB,/DB/SPAN,"POST, GET, PUT, DELETE",,,yes,11,结构Structure,PSC桥梁,跨度信息[SPAN]Span Information
+DB.SPFC,DB,/DB/SPFC,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,动力荷载Dynamic Loads,[SPFC]Response Spectrum Functions
+DB.SPLC,DB,/DB/SPLC,"POST, GET, PUT, DELETE",,,yes,47,荷载Load,动力荷载Dynamic Loads,[SPLC]Response Spectrum Load Cases
+DB.SSPS,DB,/DB/SSPS,"POST, GET, PUT, DELETE",,,yes,10,边界Boundary,弹簧Springs,面弹性支承[SSPS]Surface Spring
+DB.STAG,DB,/DB/STAG,"POST, GET, PUT, DELETE",,,yes,26,荷载Load,施工阶段荷载Construction Stage,[STAG]Define Construction Stage
+DB.STBK,DB,/DB/STBK,"POST, GET, PUT, DELETE",,,yes,7,荷载Load,施工阶段荷载Construction Stage,[STBK]CS Loads : Set-Back Loads for Nonlinear Construction Stage
+DB.STCT,DB,/DB/STCT,"POST, GET, PUT, DELETE",,,yes,91,分析Analysis,分析控制Analysis Control,[STCT]Construction Stage Analysis Control Data
+DB.STLD,DB,/DB/STLD,"POST, GET, PUT, DELETE",,,yes,72,荷载Load,静力荷载Static Loads,静力荷载工况[STLD]Static Load Cases
+DB.STMP,DB,/DB/STMP,"POST, GET, PUT, DELETE",,,yes,4,荷载Load,温度荷载Temperature,系统温度[STMP]System Temp.
+DB.STRPSSM,DB,/DB/STRPSSM,"POST, GET, PUT, DELETE",,,yes,9,特性Properties,截面特性Section Properties,应力点[STRPSSM]Stress Points
+DB.STYP,DB,/DB/STYP,"GET, PUT",,,yes,14,项目Project,设置Settings,结构类型[STYP]Structure Type
+DB.TDCS,DB,/DB/TDCS,"POST, GET, PUT, DELETE",,,yes,4,荷载Load,预应力Prestress,组合截面钢束的位置[TDCS]Tendon Location for Composite Section
+DB.TDGR,DB,/DB/TDGR,"POST, GET, PUT, DELETE",,,yes,1,项目Project,组Group,钢束组[TDGR]Tendon Group
+DB.TDME,DB,/DB/TDME,"POST, GET, PUT, DELETE",,,yes,36,特性Properties,材料特性Material Properties,抗压强度[TDME]Comp. Strength
+DB.TDMF,DB,/DB/TDMF,"POST, GET, PUT, DELETE",,,yes,10,特性Properties,材料特性Material Properties,用户定义[TDMF]User Define
+DB.TDMT,DB,/DB/TDMT,"POST, GET, PUT, DELETE",,,yes,9,特性Properties,材料特性Material Properties,徐变/收缩[TDMT]Creep/Shrinkage
+DB.TDNA,DB,/DB/TDNA,"POST, GET, PUT, DELETE",,,yes,56,荷载Load,预应力Prestress,钢束形状[TDNA]Tendon Profile
+DB.TDNT,DB,/DB/TDNT,"POST, GET, PUT, DELETE",,,yes,49,荷载Load,预应力Prestress,钢束特性[TDNT]Tendon Property
+DB.TDPL,DB,/DB/TDPL,"POST, GET, PUT, DELETE",,,yes,11,荷载Load,预应力Prestress,钢束预应力[TDPL]Tendon Prestress
+DB.THFC,DB,/DB/THFC,"POST, GET, PUT, DELETE",,,yes,17,荷载Load,动力荷载Dynamic Loads,[THFC]Time History Functions
+DB.THGA,DB,/DB/THGA,"POST, GET, PUT, DELETE",,,yes,12,荷载Load,动力荷载Dynamic Loads,[THGA]Ground Acceleration
+DB.THGC,DB,/DB/THGC,"POST, GET, PUT, DELETE",,,yes,34,荷载Load,动力荷载Dynamic Loads,[THGC]Time History Global Control
+DB.THIK,DB,/DB/THIK,"POST, GET, PUT, DELETE",,,yes,59,特性Properties,截面特性Section Properties,数值[THIK]Thickness-Value
+DB.THIS,DB,/DB/THIS,"POST, GET, PUT, DELETE",,,yes,78,荷载Load,动力荷载Dynamic Loads,[THIS]Time History Load Cases
+DB.THMS,DB,/DB/THMS,"POST, GET, PUT, DELETE",,,yes,14,荷载Load,动力荷载Dynamic Loads,[THMS]Multiple Support Excitation
+DB.THNL,DB,/DB/THNL,"POST, GET, PUT, DELETE",,,yes,8,荷载Load,动力荷载Dynamic Loads,[THNL]Dynamic Nodal Loads
+DB.THRG,DB,/DB/THRG,"POST, GET, PUT, DELETE",,,yes,5,结果Results,时程分析Time History Analysis,[THRG]General Link Result
+DB.THRI,DB,/DB/THRI,"POST, GET, PUT, DELETE",,,yes,7,结果Results,时程分析Time History Analysis,[THRI]Inelastic Hinge
+DB.THRS,DB,/DB/THRS,"POST, GET, PUT, DELETE",,,yes,8,结果Results,时程分析Time History Analysis,[THRS]Seismic Control Devices
+DB.THSL,DB,/DB/THSL,"POST, GET, PUT, DELETE",,,yes,6,荷载Load,动力荷载Dynamic Loads,[THSL]Time Varying Static Loads
+DB.TMAT,DB,/DB/TMAT,"POST, GET, PUT, DELETE",,,yes,3,特性Properties,材料特性Material Properties,时间依存性材料连接[TMAT]Time Dependent Material Link
+DB.TMLD,DB,/DB/TMLD,"POST, GET, PUT, DELETE",,,yes,5,荷载Load,施工阶段荷载Construction Stage,[TMLD]CS-Loads : Time Loads for Construction Stage
+DB.TSGR,DB,/DB/TSGR,"POST, GET, PUT, DELETE",,,yes,13,特性Properties,截面特性Section Properties,变截面组[TSGR]Tapered Group
+DB.UFTR,DB,/DB/UFTR,"DELETE, GET, POST, PUT",,,yes,2,工具Apps,Smart Report（表格工具）,[UFTR] Define Header and Footer
+DB.ULFC,DB,/DB/ULFC,"POST, GET, PUT, DELETE",,,yes,13,结果Results,特殊桥梁Bridge Specialization,[ULFC]Cable Control/Unknown Load Factor Constraints
+DB.UNIT,DB,/DB/UNIT,"GET, PUT",,,yes,4,项目Project,设置Settings,单位系统[UNIT]Unit System
+DB.UTBL,DB,/DB/UTBL,"DELETE, GET, POST, PUT",,,yes,90,工具Apps,Smart Report（表格工具）,[UTBL] User Defined Table
+DB.VBEM,DB,/DB/VBEM,"POST, GET, PUT, DELETE",,,yes,2,特性Properties,截面特性Section Properties,合力截面 - 定义虚梁[VBEM]Section for Resultant Forces - Define Virtual Beam
+DB.VSEC,DB,/DB/VSEC,"POST, GET, PUT, DELETE",,,yes,10,特性Properties,截面特性Section Properties,合力截面 - 定义虚拟截面[VSEC]Section for Resultant Forces - Define Virtual Section
+DB.WVLD,DB,/DB/WVLD,"POST, GET, PUT, DELETE",,,yes,97,荷载Load,其它Misc.,[WVLD]Wave Loads
+DOC.ANAL,DOC,/DOC/ANAL,POST,,,,0,分析Analysis,运行Perform,[Anal] Perform Analysis
+DOC.CLOSE,DOC,/DOC/CLOSE,POST,,,yes,0,文件Documents,项目Project,关闭项目[CLOSE]Close Project
+DOC.EXPORT,DOC,/DOC/EXPORT,POST,,,yes,0,文件Documents,导出Export,导出[EXPORT]Export to Json
+DOC.EXPORTMXT,DOC,/DOC/EXPORTMXT,POST,,,yes,0,文件Documents,导出Export,导出mct/mgt[EXPORTMXT]Export to mct/mgt
+DOC.IMPORT,DOC,/DOC/IMPORT,POST,,,yes,0,文件Documents,导入Import,导入[IMPORT]Import to Json
+DOC.IMPORTMXT,DOC,/DOC/IMPORTMXT,POST,,,yes,0,文件Documents,导入Import,导入mct/mgt[IMPORTMXT]Import to mct/mgt
+DOC.NEW,DOC,/DOC/NEW,POST,,,yes,0,文件Documents,项目Project,新项目[NEW]New Project
+DOC.OPEN,DOC,/DOC/OPEN,POST,,,yes,0,文件Documents,项目Project,打开项目[OPEN]Open Project...
+DOC.SAVE,DOC,/DOC/SAVE,POST,,,yes,0,文件Documents,保存Save,保存[SAVE]Save
+DOC.SAVEAS,DOC,/DOC/SAVEAS,POST,,,yes,0,文件Documents,保存Save,另存为[SAVEAS]Save As...
+OPE.AUTOMESH,OPE,/OPE/AUTOMESH,POST,,,yes,28,节点/单元Node/Element,网格Mesh,自动网格[AUTOMESH] Auto-Mesh Planar Area
+OPE.BMLD,OPE,/OPE/BMLD,POST,,,yes,39,结果Results,分析结果Analysis result,Beam Detail Analysis
+OPE.CPCREATE,OPE,/OPE/CPCREATE,POST,,,,0,协同Collaboration,创建模型 Create Model,
+OPE.CPEXPORT,OPE,/OPE/CPEXPORT,POST,,,,1,协同Collaboration,导出模型文件 Export Model File,
+OPE.CPUPDATEMODEL,OPE,/OPE/CPUPDATEMODEL,POST,,,,0,协同Collaboration,更新模型数据 Update Model,
+OPE.CPUPDATERESULT,OPE,/OPE/CPUPDATERESULT,POST,,,,0,协同Collaboration,更新分析结果 Update Analysis Results,
+OPE.DIVIDEELEM,OPE,/OPE/DIVIDEELEM,POST,,,yes,45,节点/单元Node/Element,通用General,分割单元[DIVIDEELEM] Divide Elements
+OPE.IBFD,OPE,/OPE/IBFD,POST,,,yes,13,结果Results,分析结果Analysis result,Beam Forces/Moments
+OPE.IBSD,OPE,/OPE/IBSD,POST,,,yes,14,结果Results,分析结果Analysis result,Beam Stresses
+OPE.IDSD,OPE,/OPE/IDSD,POST,,,yes,12,结果Results,分析结果Analysis result,Displacements
+OPE.IELD,OPE,/OPE/IELD,POST,,,yes,13,结果Results,分析结果Analysis result,Elastic Link Forces/Momnets
+OPE.IGLD,OPE,/OPE/IGLD,POST,,,yes,13,结果Results,分析结果Analysis result,General Link Forces/Momnets
+OPE.IPLD,OPE,/OPE/IPLD,POST,,,yes,13,结果Results,分析结果Analysis result,Plate Forces/Moments
+OPE.IRED,OPE,/OPE/IRED,POST,,,yes,13,结果Results,分析结果Analysis result,Reactions
+OPE.ISSD,OPE,/OPE/ISSD,POST,,,yes,14,结果Results,分析结果Analysis result,Solid Stresses
+OPE.ITRD,OPE,/OPE/ITRD,POST,,,yes,10,结果Results,分析结果Analysis result,Truss Forces
+OPE.LINEBMLD,OPE,/OPE/LINEBMLD,POST,,,yes,34,荷载Load,静力荷载Static Loads,梁荷载(连续)[LINEBMLD] Line Beam Load
+OPE.PROJECTSTATUS,OPE,/OPE/PROJECTSTATUS,GET,,,,0,项目Project,管理Management,项目状态[PROJECTSTATUS]Project Status
+OPE.SECTPROP,OPE,/OPE/SECTPROP,GET,,,,0,特性Properties,截面特性Section Properties,获取截面特性值˙[SECTPROP]Show Calculation Results
+OPE.USLC,OPE,/OPE/USLC,POST,,,,25,荷载Load,静力荷载Static Loads,使用荷载组合[USLC]Using Load Combinations
+POST.PM,POST,/POST/PM,POST,,,,20,设计Design,RC Design,[PM]P-M Interaction Diagram (DB Section)
+POST.TABLE,POST,/POST/TABLE,POST,,,,158,结果Results,分析结果Analysis result,结果表格Result Tables (generic: TABLE_TYPE required)
+POST.TABLE.AXISYMMETRICFG,POST,/POST/TABLE,POST,AXISYMMETRICFG,,,25,结果Results,分析结果Analysis result,Axisymmetric Force(Global)
+POST.TABLE.AXISYMMETRICFL,POST,/POST/TABLE,POST,AXISYMMETRICFL,,,25,结果Results,分析结果Analysis result,Axisymmetric Force(Local)
+POST.TABLE.AXISYMMETRICSG,POST,/POST/TABLE,POST,AXISYMMETRICSG,,,28,结果Results,分析结果Analysis result,Axisymmetric Stress(Global)
+POST.TABLE.AXISYMMETRICSL,POST,/POST/TABLE,POST,AXISYMMETRICSL,,,28,结果Results,分析结果Analysis result,Axisymmetric Stress(Local)
+POST.TABLE.BEAMFORCE,POST,/POST/TABLE,POST,BEAMFORCE,,,24,结果Results,分析结果Analysis result,内力Beam Force
+POST.TABLE.BEAMFORCESTP,POST,/POST/TABLE,POST,BEAMFORCESTP,,,22,结果Results,分析结果Analysis result,内力（预应力）Beam Forces(Static Prestress)
+POST.TABLE.BEAMFORCEVBM,POST,/POST/TABLE,POST,BEAMFORCEVBM,,,24,结果Results,分析结果Analysis result,内力 - 按最大值查看Beam Force - View By Max Value Items
+POST.TABLE.BEAMSTRESS,POST,/POST/TABLE,POST,BEAMSTRESS,,,24,结果Results,分析结果Analysis result,应力Beam Stress
+POST.TABLE.BEAMSTRESS7DOF,POST,/POST/TABLE,POST,BEAMSTRESS7DOF,,,27,结果Results,分析结果Analysis result,应力（7th自由度）Beam Stress(7th DOF)
+POST.TABLE.BEAMSTRESS7DOFPSC,POST,/POST/TABLE,POST,BEAMSTRESS7DOFPSC,,,27,结果Results,分析结果Analysis result,应力（7th自由度）（PSC）Beam Stress(7th DOF)(PSC)
+POST.TABLE.BEAMSTRESSDETAIL,POST,/POST/TABLE,POST,BEAMSTRESSDETAIL,,,27,结果Results,分析结果Analysis result,应力（等效）Beam Stress(Equivalent)
+POST.TABLE.BEAMSTRESSPSC,POST,/POST/TABLE,POST,BEAMSTRESSPSC,,,27,结果Results,分析结果Analysis result,应力（PSC）Beam Stress(PSC)
+POST.TABLE.BEAMSTRESSVBM,POST,/POST/TABLE,POST,BEAMSTRESSVBM,,,24,结果Results,分析结果Analysis result,应力 - 按最大值查看Beam Stress - View By Max Value Items
+POST.TABLE.BUCKLINGMODE,POST,/POST/TABLE,POST,BUCKLINGMODE,,,20,结果Results,分析结果Analysis result,Buckling Mode
+POST.TABLE.CABLECONFIG,POST,/POST/TABLE,POST,CABLECONFIG,,,23,结果Results,分析结果Analysis result,信息Cable Configuration
+POST.TABLE.CABLEEFFIENCY,POST,/POST/TABLE,POST,CABLEEFFIENCY,,,23,结果Results,分析结果Analysis result,索效应Cable Efficiency
+POST.TABLE.CABLEFORCE,POST,/POST/TABLE,POST,CABLEFORCE,,,23,结果Results,分析结果Analysis result,内力Cable Force
+POST.TABLE.COMPSECTBEAMFORCE,POST,/POST/TABLE,POST,COMPSECTBEAMFORCE,,,25,结果Results,分析结果Analysis result,Composite Section-Beam Force
+POST.TABLE.COMPSECTBEAMSTRESS,POST,/POST/TABLE,POST,COMPSECTBEAMSTRESS,,,25,结果Results,分析结果Analysis result,Composite Section-Beam Stress
+POST.TABLE.DISPLACEMENTG,POST,/POST/TABLE,POST,DISPLACEMENTG,,,24,结果Results,分析结果Analysis result,位移（整体）Displacements(Global)
+POST.TABLE.DISPLACEMENTL,POST,/POST/TABLE,POST,DISPLACEMENTL,,,24,结果Results,分析结果Analysis result,位移（局部）Displacements(Local)
+POST.TABLE.EFFECTIVE_LENGTH_BEAM,POST,/POST/TABLE,POST,EFFECTIVE_LENGTH_BEAM,,,27,结果Results,分析结果Analysis result,Effective Span Length-Beam
+POST.TABLE.EFFECTIVE_LENGTH_PLATE,POST,/POST/TABLE,POST,EFFECTIVE_LENGTH_PLATE,,,13,结果Results,分析结果Analysis result,Effective Span Length-Plate
+POST.TABLE.EFFECTIVE_LENGTH_TRUSS,POST,/POST/TABLE,POST,EFFECTIVE_LENGTH_TRUSS,,,13,结果Results,分析结果Analysis result,Effective Span Length-Truss
+POST.TABLE.EIGENVALUEMODE,POST,/POST/TABLE,POST,EIGENVALUEMODE,,,20,结果Results,分析结果Analysis result,Eigenvalue Mode
+POST.TABLE.ELASTICLINK,POST,/POST/TABLE,POST,ELASTICLINK,,,23,结果Results,分析结果Analysis result,Elastic Link
+POST.TABLE.ELASTICLINKVBM,POST,/POST/TABLE,POST,ELASTICLINKVBM,,,22,结果Results,分析结果Analysis result,Elastic Link - View By Max Value Items
+POST.TABLE.ELEMENTWEIGHT,POST,/POST/TABLE,POST,ELEMENTWEIGHT,,yes,7,节点/单元Node/Element,单元详细Element Detail,单元重量表格[TABLE]Element Weight Table
+POST.TABLE.ELEM_PROP_EACH_STAGE,POST,/POST/TABLE,POST,ELEM_PROP_EACH_STAGE,,,17,结果Results,分析结果Analysis result,Element Properties at Each Stage
+POST.TABLE.EQUILIBRIUM_ELEM_FORCE,POST,/POST/TABLE,POST,EQUILIBRIUM_ELEM_FORCE,,,13,结果Results,分析结果Analysis result,Equilibrium Element Nodal Force
+POST.TABLE.GENERAL_LINK_DEFORM,POST,/POST/TABLE,POST,GENERAL_LINK_DEFORM,,,23,结果Results,分析结果Analysis result,General Link-Deformation
+POST.TABLE.GENERAL_LINK_FORCE,POST,/POST/TABLE,POST,GENERAL_LINK_FORCE,,,23,结果Results,分析结果Analysis result,General Link-Force
+POST.TABLE.GENERAL_LINK_FORCEVBM,POST,/POST/TABLE,POST,GENERAL_LINK_FORCEVBM,,,22,结果Results,分析结果Analysis result,General Link-Force-View By Max Value Items
+POST.TABLE.HEAT_HYDR_DISPLACEMENT,POST,/POST/TABLE,POST,HEAT_HYDR_DISPLACEMENT,,,20,结果Results,水化热Heat of Hydration,Hydration Displacement
+POST.TABLE.HEAT_HYDR_PIPE_NODE_TEMP,POST,/POST/TABLE,POST,HEAT_HYDR_PIPE_NODE_TEMP,,,15,结果Results,水化热Heat of Hydration,Pipe Cooling Nodal Temperature
+POST.TABLE.HEAT_HYDR_STRESS_G,POST,/POST/TABLE,POST,HEAT_HYDR_STRESS_G,,,24,结果Results,水化热Heat of Hydration,Hydration Stress(Global)
+POST.TABLE.HEAT_HYDR_STRESS_L,POST,/POST/TABLE,POST,HEAT_HYDR_STRESS_L,,,24,结果Results,水化热Heat of Hydration,Hydration Stress(Local)
+POST.TABLE.HEAT_HYDR_TEMPERATURE,POST,/POST/TABLE,POST,HEAT_HYDR_TEMPERATURE,,,20,结果Results,水化热Heat of Hydration,Hydration Temperature
+POST.TABLE.HEAT_HYDR_TENS_STRESS,POST,/POST/TABLE,POST,HEAT_HYDR_TENS_STRESS,,,20,结果Results,水化热Heat of Hydration,Hydration Tensile Stress
+POST.TABLE.IEHG_BEAM_SUM_DX,POST,/POST/TABLE,POST,IEHG_BEAM_SUM_DX,,,15,结果Results,时程分析Time History Analysis,Dx
+POST.TABLE.IEHG_BEAM_SUM_DY,POST,/POST/TABLE,POST,IEHG_BEAM_SUM_DY,,,15,结果Results,时程分析Time History Analysis,Dy
+POST.TABLE.IEHG_BEAM_SUM_DZ,POST,/POST/TABLE,POST,IEHG_BEAM_SUM_DZ,,,15,结果Results,时程分析Time History Analysis,Dz
+POST.TABLE.IEHG_BEAM_SUM_RY,POST,/POST/TABLE,POST,IEHG_BEAM_SUM_RY,,,15,结果Results,时程分析Time History Analysis,Ry
+POST.TABLE.IEHG_BEAM_SUM_RZ,POST,/POST/TABLE,POST,IEHG_BEAM_SUM_RZ,,,15,结果Results,时程分析Time History Analysis,Rz
+POST.TABLE.IEHG_DEFORM_DIST,POST,/POST/TABLE,POST,IEHG_DEFORM_DIST,,,15,结果Results,时程分析Time History Analysis,Distributed
+POST.TABLE.IEHG_DEFORM_LUMPED,POST,/POST/TABLE,POST,IEHG_DEFORM_LUMPED,,,15,结果Results,时程分析Time History Analysis,Lumped
+POST.TABLE.IEHG_DEFORM_SPRING,POST,/POST/TABLE,POST,IEHG_DEFORM_SPRING,,,15,结果Results,时程分析Time History Analysis,Spring
+POST.TABLE.IEHG_DEFORM_TRUSS,POST,/POST/TABLE,POST,IEHG_DEFORM_TRUSS,,,15,结果Results,时程分析Time History Analysis,Truss
+POST.TABLE.IEHG_DEFORM_WALL,POST,/POST/TABLE,POST,IEHG_DEFORM_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_DUCT_D1_DIST,POST,/POST/TABLE,POST,IEHG_DUCT_D1_DIST,,,15,结果Results,时程分析Time History Analysis,Distributed
+POST.TABLE.IEHG_DUCT_D1_LUMPED,POST,/POST/TABLE,POST,IEHG_DUCT_D1_LUMPED,,,15,结果Results,时程分析Time History Analysis,Lumped
+POST.TABLE.IEHG_DUCT_D1_SPRING,POST,/POST/TABLE,POST,IEHG_DUCT_D1_SPRING,,,15,结果Results,时程分析Time History Analysis,Spring
+POST.TABLE.IEHG_DUCT_D1_TRUSS,POST,/POST/TABLE,POST,IEHG_DUCT_D1_TRUSS,,,15,结果Results,时程分析Time History Analysis,Truss
+POST.TABLE.IEHG_DUCT_D1_WALL,POST,/POST/TABLE,POST,IEHG_DUCT_D1_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_DUCT_D2_DIST,POST,/POST/TABLE,POST,IEHG_DUCT_D2_DIST,,,15,结果Results,时程分析Time History Analysis,Distributed
+POST.TABLE.IEHG_DUCT_D2_LUMPED,POST,/POST/TABLE,POST,IEHG_DUCT_D2_LUMPED,,,15,结果Results,时程分析Time History Analysis,Lumped
+POST.TABLE.IEHG_DUCT_D2_SPRING,POST,/POST/TABLE,POST,IEHG_DUCT_D2_SPRING,,,15,结果Results,时程分析Time History Analysis,Spring
+POST.TABLE.IEHG_DUCT_D2_TRUSS,POST,/POST/TABLE,POST,IEHG_DUCT_D2_TRUSS,,,15,结果Results,时程分析Time History Analysis,Truss
+POST.TABLE.IEHG_DUCT_D2_WALL,POST,/POST/TABLE,POST,IEHG_DUCT_D2_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_ELEM_ROT_BEAM,POST,/POST/TABLE,POST,IEHG_ELEM_ROT_BEAM,,,15,结果Results,时程分析Time History Analysis,Beam
+POST.TABLE.IEHG_ELEM_ROT_WALL,POST,/POST/TABLE,POST,IEHG_ELEM_ROT_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_EVENT_TIME_DIST,POST,/POST/TABLE,POST,IEHG_EVENT_TIME_DIST,,,15,结果Results,时程分析Time History Analysis,Distributed
+POST.TABLE.IEHG_EVENT_TIME_LUMPED,POST,/POST/TABLE,POST,IEHG_EVENT_TIME_LUMPED,,,15,结果Results,时程分析Time History Analysis,Lumped
+POST.TABLE.IEHG_EVENT_TIME_SPRING,POST,/POST/TABLE,POST,IEHG_EVENT_TIME_SPRING,,,15,结果Results,时程分析Time History Analysis,Spring
+POST.TABLE.IEHG_EVENT_TIME_TRUSS,POST,/POST/TABLE,POST,IEHG_EVENT_TIME_TRUSS,,,15,结果Results,时程分析Time History Analysis,Truss
+POST.TABLE.IEHG_EVENT_TIME_WALL,POST,/POST/TABLE,POST,IEHG_EVENT_TIME_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_FORCE_DIST,POST,/POST/TABLE,POST,IEHG_FORCE_DIST,,,15,结果Results,时程分析Time History Analysis,Distributed
+POST.TABLE.IEHG_FORCE_LUMPED,POST,/POST/TABLE,POST,IEHG_FORCE_LUMPED,,,15,结果Results,时程分析Time History Analysis,Lumped
+POST.TABLE.IEHG_FORCE_SPRING,POST,/POST/TABLE,POST,IEHG_FORCE_SPRING,,,15,结果Results,时程分析Time History Analysis,Spring
+POST.TABLE.IEHG_FORCE_TRUSS,POST,/POST/TABLE,POST,IEHG_FORCE_TRUSS,,,15,结果Results,时程分析Time History Analysis,Truss
+POST.TABLE.IEHG_FORCE_WALL,POST,/POST/TABLE,POST,IEHG_FORCE_WALL,,,15,结果Results,时程分析Time History Analysis,Wall
+POST.TABLE.IEHG_GL_LINK_SUM_DX,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_DX,,,15,结果Results,时程分析Time History Analysis,Dx
+POST.TABLE.IEHG_GL_LINK_SUM_DY,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_DY,,,15,结果Results,时程分析Time History Analysis,Dy
+POST.TABLE.IEHG_GL_LINK_SUM_DZ,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_DZ,,,15,结果Results,时程分析Time History Analysis,Dz
+POST.TABLE.IEHG_GL_LINK_SUM_RX,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_RX,,,15,结果Results,时程分析Time History Analysis,Rx
+POST.TABLE.IEHG_GL_LINK_SUM_RY,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_RY,,,15,结果Results,时程分析Time History Analysis,Ry
+POST.TABLE.IEHG_GL_LINK_SUM_RZ,POST,/POST/TABLE,POST,IEHG_GL_LINK_SUM_RZ,,,15,结果Results,时程分析Time History Analysis,Rz
+POST.TABLE.IEHG_TRUSS_SUM_DX,POST,/POST/TABLE,POST,IEHG_TRUSS_SUM_DX,,,20,结果Results,时程分析Time History Analysis,Dx
+POST.TABLE.INITIAL_ELEM_FORCE,POST,/POST/TABLE,POST,INITIAL_ELEM_FORCE,,,13,结果Results,分析结果Analysis result,Initial Element Force
+POST.TABLE.LACK_OF_FIT_FORCE_BEAM,POST,/POST/TABLE,POST,LACK_OF_FIT_FORCE_BEAM,,,13,结果Results,分析结果Analysis result,Lack-of-Fit-Force-Beam
+POST.TABLE.LACK_OF_FIT_FORCE_PLATE,POST,/POST/TABLE,POST,LACK_OF_FIT_FORCE_PLATE,,,13,结果Results,分析结果Analysis result,Lack-of-Fit-Force-Plate
+POST.TABLE.LACK_OF_FIT_FORCE_TRUSS,POST,/POST/TABLE,POST,LACK_OF_FIT_FORCE_TRUSS,,,13,结果Results,分析结果Analysis result,Lack-of-Fit-Force-Truss
+POST.TABLE.LOAD_SUMMARY_X,POST,/POST/TABLE,POST,LOAD_SUMMARY_X|LOAD_SUMMARY_Y|LOAD_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,荷载统计表格[LOAD_SUMMARY]Load Summery Table
+POST.TABLE.LOAD_SUMMARY_Y,POST,/POST/TABLE,POST,LOAD_SUMMARY_X|LOAD_SUMMARY_Y|LOAD_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,荷载统计表格[LOAD_SUMMARY]Load Summery Table
+POST.TABLE.LOAD_SUMMARY_Z,POST,/POST/TABLE,POST,LOAD_SUMMARY_X|LOAD_SUMMARY_Y|LOAD_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,荷载统计表格[LOAD_SUMMARY]Load Summery Table
+POST.TABLE.MASS_SUMMARY_X,POST,/POST/TABLE,POST,MASS_SUMMARY_X|MASS_SUMMARY_Y|MASS_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,质量统计表格[MASS_SUMMARY]Mass Summary Table
+POST.TABLE.MASS_SUMMARY_Y,POST,/POST/TABLE,POST,MASS_SUMMARY_X|MASS_SUMMARY_Y|MASS_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,质量统计表格[MASS_SUMMARY]Mass Summary Table
+POST.TABLE.MASS_SUMMARY_Z,POST,/POST/TABLE,POST,MASS_SUMMARY_X|MASS_SUMMARY_Y|MASS_SUMMARY_Z,,,3,荷载Load,静力荷载Static Loads,质量统计表格[MASS_SUMMARY]Mass Summary Table
+POST.TABLE.NODALBODYFORCE,POST,/POST/TABLE,POST,NODALBODYFORCE,,,3,荷载Load,静力荷载Static Loads,节点体力[NODALBODYFORCE]Nodal Body Force Table
+POST.TABLE.PARTICIPATIONVECTORMODE,POST,/POST/TABLE,POST,PARTICIPATIONVECTORMODE,,,20,结果Results,分析结果Analysis result,Participation Vector Mode
+POST.TABLE.PLANESTRAINFG,POST,/POST/TABLE,POST,PLANESTRAINFG,,,25,结果Results,分析结果Analysis result,Plane Strain Force(Global)
+POST.TABLE.PLANESTRAINFL,POST,/POST/TABLE,POST,PLANESTRAINFL,,,25,结果Results,分析结果Analysis result,Plane Strain Force(Local)
+POST.TABLE.PLANESTRAINSG,POST,/POST/TABLE,POST,PLANESTRAINSG,,,28,结果Results,分析结果Analysis result,Plane Strain Stress(Global)
+POST.TABLE.PLANESTRAINSL,POST,/POST/TABLE,POST,PLANESTRAINSL,,,28,结果Results,分析结果Analysis result,Plane Strain Stress(Local)
+POST.TABLE.PLANESTRESSFG,POST,/POST/TABLE,POST,PLANESTRESSFG,,,25,结果Results,分析结果Analysis result,Plane Force(Global)
+POST.TABLE.PLANESTRESSFL,POST,/POST/TABLE,POST,PLANESTRESSFL,,,25,结果Results,分析结果Analysis result,Plane Force(Local)
+POST.TABLE.PLANESTRESSSG,POST,/POST/TABLE,POST,PLANESTRESSSG,,,28,结果Results,分析结果Analysis result,Plane Stress(Global)
+POST.TABLE.PLANESTRESSSL,POST,/POST/TABLE,POST,PLANESTRESSSL,,,28,结果Results,分析结果Analysis result,Plane Stress(Local)
+POST.TABLE.PLATEFORCEG,POST,/POST/TABLE,POST,PLATEFORCEG,,,25,结果Results,分析结果Analysis result,内力（整体）Plate Force(Global)
+POST.TABLE.PLATEFORCEL,POST,/POST/TABLE,POST,PLATEFORCEL,,,25,结果Results,分析结果Analysis result,内力（局部）Plate Force(Local)
+POST.TABLE.PLATEFORCEUG,POST,/POST/TABLE,POST,PLATEFORCEUG,,,28,结果Results,分析结果Analysis result,内力（单位长度：用户）Plate Force(Unit Length:UCS)
+POST.TABLE.PLATEFORCEUGVBM,POST,/POST/TABLE,POST,PLATEFORCEUGVBM,,,27,结果Results,分析结果Analysis result,内力（单位长度：用户）- 按最大值查看Plate Force(Unit Length:UCS) - View By Max Value Items
+POST.TABLE.PLATEFORCEUL,POST,/POST/TABLE,POST,PLATEFORCEUL,,,28,结果Results,分析结果Analysis result,内力（单位长度：局部）Plate Force(Unit Length:Local)
+POST.TABLE.PLATEFORCEULVBM,POST,/POST/TABLE,POST,PLATEFORCEULVBM,,,27,结果Results,分析结果Analysis result,内力（单位长度：局部）- 按最大值查看Plate Force(Unit Length:Local) - View By Max Value Items
+POST.TABLE.PLATEFORCEWA,POST,/POST/TABLE,POST,PLATEFORCEWA,,,28,结果Results,分析结果Analysis result,内力（单位长度：W-A弯矩）Plate Force(Unit Length:W-A Moment)
+POST.TABLE.PLATESTRAINPG,POST,/POST/TABLE,POST,PLATESTRAINPG,,,28,结果Results,分析结果Analysis result,应变（整体：板塑性应变）Plate Plastic Strain(Global)
+POST.TABLE.PLATESTRAINPL,POST,/POST/TABLE,POST,PLATESTRAINPL,,,28,结果Results,分析结果Analysis result,应变（局部：板塑性应变）Plate Plastic Strain(Local)
+POST.TABLE.PLATESTRAINTG,POST,/POST/TABLE,POST,PLATESTRAINTG,,,28,结果Results,分析结果Analysis result,应变（整体：板总体应变）Plate Total Strain(Global)
+POST.TABLE.PLATESTRAINTL,POST,/POST/TABLE,POST,PLATESTRAINTL,,,28,结果Results,分析结果Analysis result,应变（局部：板总应变）Plate Total Strain(Local)
+POST.TABLE.PLATESTRESSG,POST,/POST/TABLE,POST,PLATESTRESSG,,,28,结果Results,分析结果Analysis result,应力（整体）Plate Stress(Global)
+POST.TABLE.PLATESTRESSL,POST,/POST/TABLE,POST,PLATESTRESSL,,,28,结果Results,分析结果Analysis result,应力（局部）Plate Stress(Local)
+POST.TABLE.REACTIONG,POST,/POST/TABLE,POST,REACTIONG,,,23,结果Results,分析结果Analysis result,反力（整体）Reaction(Global)
+POST.TABLE.REACTIONL,POST,/POST/TABLE,POST,REACTIONL,,,23,结果Results,分析结果Analysis result,反力（局部）Reaction(Local)
+POST.TABLE.REACTIONLSURFACESPRING,POST,/POST/TABLE,POST,REACTIONLSURFACESPRING,,,20,结果Results,分析结果Analysis result,反力（局部-面弹性支承）Reaction(Local-Surface Spring)
+POST.TABLE.RESULTANT_FORCES,POST,/POST/TABLE,POST,RESULTANT_FORCES,,,25,结果Results,分析结果Analysis result,Resultant Forces
+POST.TABLE.RESULTANT_FORCESVBM,POST,/POST/TABLE,POST,RESULTANT_FORCESVBM,,,24,结果Results,分析结果Analysis result,Resultant Forces-View By Max Value Items
+POST.TABLE.RS_NODAL_ACCEL,POST,/POST/TABLE,POST,RS_NODAL_ACCEL,,,22,结果Results,分析结果Analysis result,Nodal Acceleration
+POST.TABLE.RS_NODAL_INERTIA,POST,/POST/TABLE,POST,RS_NODAL_INERTIA,,,22,结果Results,分析结果Analysis result,Nodal Inertia force
+POST.TABLE.SECT_PROP_LAST_STAGE,POST,/POST/TABLE,POST,SECT_PROP_LAST_STAGE,,,15,结果Results,分析结果Analysis result,Beam Section Properties at Last Stage
+POST.TABLE.SELF_CONST_BEAM_FORCE,POST,/POST/TABLE,POST,SELF_CONST_BEAM_FORCE,,,25,结果Results,分析结果Analysis result,Self-Constraint Beam Force
+POST.TABLE.SELF_CONST_BEAM_STRESS,POST,/POST/TABLE,POST,SELF_CONST_BEAM_STRESS,,,25,结果Results,分析结果Analysis result,Self-Constraint Beam Stress
+POST.TABLE.SOLIDFG,POST,/POST/TABLE,POST,SOLIDFG,,,23,结果Results,分析结果Analysis result,Solid Force(Global)
+POST.TABLE.SOLIDFL,POST,/POST/TABLE,POST,SOLIDFL,,,23,结果Results,分析结果Analysis result,Solid Force(Local)
+POST.TABLE.SOLIDSG,POST,/POST/TABLE,POST,SOLIDSG,,,27,结果Results,分析结果Analysis result,Solid Stress(Global)
+POST.TABLE.SOLIDSL,POST,/POST/TABLE,POST,SOLIDSL,,,27,结果Results,分析结果Analysis result,Solid Stress(Local)
+POST.TABLE.SOLID_GLOB_PLAST_STRAIN,POST,/POST/TABLE,POST,SOLID_GLOB_PLAST_STRAIN,,,28,结果Results,分析结果Analysis result,Solid Plastic Strain(Global)
+POST.TABLE.SOLID_GLOB_TOTAL_STRAIN,POST,/POST/TABLE,POST,SOLID_GLOB_TOTAL_STRAIN,,,28,结果Results,分析结果Analysis result,Solid Total Strain(Global)
+POST.TABLE.SOLID_LOCA_PLAST_STRAIN,POST,/POST/TABLE,POST,SOLID_LOCA_PLAST_STRAIN,,,28,结果Results,分析结果Analysis result,Solid Plastic Strain(Local)
+POST.TABLE.SOLID_LOCA_TOTAL_STRAIN,POST,/POST/TABLE,POST,SOLID_LOCA_TOTAL_STRAIN,,,28,结果Results,分析结果Analysis result,Solid Total Strain(Local)
+POST.TABLE.TABLE,POST,/POST/TABLE,POST,,,,2,工具Apps,Smart Report（表格工具）,[TABLE]Get Result Table from Smart Report Table
+POST.TABLE.THISABSOLUTEACCEL,POST,/POST/TABLE,POST,THISABSOLUTEACCEL,,,20,结果Results,时程分析Time History Analysis,Absolute Acceleration
+POST.TABLE.THISBEAMFORCE,POST,/POST/TABLE,POST,THISBEAMFORCE,,,22,结果Results,时程分析Time History Analysis,Beam Force
+POST.TABLE.THISDISPLACEMENT,POST,/POST/TABLE,POST,THISDISPLACEMENT,,,20,结果Results,时程分析Time History Analysis,Displacement
+POST.TABLE.THISGLINKDEFORMATION,POST,/POST/TABLE,POST,THISGLINKDEFORMATION,,,22,结果Results,时程分析Time History Analysis,General Link-Deformation
+POST.TABLE.THISGLINKFORCE,POST,/POST/TABLE,POST,THISGLINKFORCE,,,22,结果Results,时程分析Time History Analysis,General Link-Force
+POST.TABLE.THISRELATIVEACCEL,POST,/POST/TABLE,POST,THISRELATIVEACCEL,,,20,结果Results,时程分析Time History Analysis,Relative Acceleration
+POST.TABLE.THISTRUSSFORCE,POST,/POST/TABLE,POST,THISTRUSSFORCE,,,20,结果Results,时程分析Time History Analysis,Truss Force
+POST.TABLE.THISVELOCITY,POST,/POST/TABLE,POST,THISVELOCITY,,,20,结果Results,时程分析Time History Analysis,Velocity
+POST.TABLE.TNDN_APPROX_LOSS_FORCE,POST,/POST/TABLE,POST,TNDN_APPROX_LOSS_FORCE,,,13,结果Results,分析结果Analysis result,Tendon Approximate Loss(Force)
+POST.TABLE.TNDN_APPROX_LOSS_STRESS,POST,/POST/TABLE,POST,TNDN_APPROX_LOSS_STRESS,,,13,结果Results,分析结果Analysis result,Tendon Approximate Loss(Stress)
+POST.TABLE.TNDN_ARRANGEMENT,POST,/POST/TABLE,POST,TNDN_ARRANGEMENT,,,18,结果Results,分析结果Analysis result,Tendon Arrangement(Tendon Group)
+POST.TABLE.TNDN_COORDINATES,POST,/POST/TABLE,POST,TNDN_COORDINATES,,,13,结果Results,分析结果Analysis result,Tendon Coordinates
+POST.TABLE.TNDN_ELONGATION,POST,/POST/TABLE,POST,TNDN_ELONGATION,,,13,结果Results,分析结果Analysis result,Tendon Elongation
+POST.TABLE.TNDN_LOSS_FORCE,POST,/POST/TABLE,POST,TNDN_LOSS_FORCE,,,18,结果Results,分析结果Analysis result,Tendon Loss(Force)
+POST.TABLE.TNDN_LOSS_STRESS,POST,/POST/TABLE,POST,TNDN_LOSS_STRESS,,,18,结果Results,分析结果Analysis result,Tendon Loss(Stress)
+POST.TABLE.TNDN_STRS_LIMIT_CHECK,POST,/POST/TABLE,POST,TNDN_STRS_LIMIT_CHECK,,,13,结果Results,分析结果Analysis result,Tendon Stress Limit Check
+POST.TABLE.TNDN_WEIGHT_GROUP,POST,/POST/TABLE,POST,TNDN_WEIGHT_GROUP,,,13,结果Results,分析结果Analysis result,Tendon Group
+POST.TABLE.TNDN_WEIGHT_PROFILE,POST,/POST/TABLE,POST,TNDN_WEIGHT_PROFILE,,,13,结果Results,分析结果Analysis result,Tendon Profile
+POST.TABLE.TNDN_WEIGHT_PROPERTY,POST,/POST/TABLE,POST,TNDN_WEIGHT_PROPERTY,,,13,结果Results,分析结果Analysis result,Tendon Property
+POST.TABLE.TRUSSFORCE,POST,/POST/TABLE,POST,TRUSSFORCE,,,23,结果Results,分析结果Analysis result,内力Truss Force
+POST.TABLE.TRUSSSTRESS,POST,/POST/TABLE,POST,TRUSSSTRESS,,,23,结果Results,分析结果Analysis result,应力Truss Stress
+VIEW.ACTIVE,VIEW,/VIEW/ACTIVE,POST,,,yes,7,视图View,激活Activations,激活[ACTIVE]Active
+VIEW.ANGLE,VIEW,/VIEW/ANGLE,POST,,,yes,2,视图View,视图View,视点[ANGLE]View Point
+VIEW.CAPTURE,VIEW,/VIEW/CAPTURE,POST,,,yes,18,视图View,视图View,截图[CAPTURE]Capture
+VIEW.DISPLAY,VIEW,/VIEW/DISPLAY,POST,,,yes,0,视图View,显示Display,显示[DISPLAY]Display
+VIEW.RESULTGRAPHIC,VIEW,/VIEW/RESULTGRAPHIC,POST,,,yes,34,结果Results,分析结果Analysis result,[RESULTGRAPHIC] Type of Display-Contour
+VIEW.SELECT,VIEW,/VIEW/SELECT,GET,,,,0,视图View,选择Select,选择[SELECT] Select

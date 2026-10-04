@@ -1,0 +1,62 @@
+{
+  "key": "DB.PSSF",
+  "uri": "DB/PSSF",
+  "source": "help_center",
+  "schema": {
+    "PSSF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "NameofBoundaryGroup",
+                "type": "string"
+              },
+              "AXIAL_X": {
+                "description": "Axial(Fxx)",
+                "type": "number"
+              },
+              "AXIAL_Y": {
+                "description": "Axial(Fyy)",
+                "type": "number"
+              },
+              "SHEAR": {
+                "description": "Shear(Fxy)",
+                "type": "number"
+              },
+              "OUT_BENDING_X": {
+                "description": "Bending(Mxx)",
+                "type": "number"
+              },
+              "OUT_BENDING_Y": {
+                "description": "Bending(Myy)",
+                "type": "number"
+              },
+              "OUT_TORSION": {
+                "description": "Bending(Mxy)",
+                "type": "number"
+              },
+              "OUT_SHEAR_X": {
+                "description": "Shear(Vxx)",
+                "type": "number"
+              },
+              "OUT_SHEAR_Y": {
+                "description": "Shear(Vyy)",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

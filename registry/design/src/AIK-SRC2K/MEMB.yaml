@@ -1,0 +1,45 @@
+key: "DESIGN.SRC.AIK-SRC2K.MEMB"
+namespace: DESIGN
+uri: "/DESIGN/SRC/AIK-SRC2K/MEMB"
+methods: [GET]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: MEMB
+schema_ref:
+  local: "schema/design/src/AIK-SRC2K/MEMB.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Member Assignment (부재 배정)
+title_zh: 设计构件指定
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 2
+  examples: 2
+  has_response_head: false

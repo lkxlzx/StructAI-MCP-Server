@@ -1,0 +1,49 @@
+key: DB.ACTL
+namespace: DB
+uri: /DB/ACTL
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: ACTL
+schema_ref:
+  local: schema/common/db/ACTL.json
+  introspect: info/db/ACTL
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Main Control Data
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35409287717657-Main-Control-Data"
+  retrieved_at: "2026-09-29"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 9
+  examples: 1
+  has_response_head: false
+notes: ["원문 아티클(id `35409287717657`)의 **일본어 번역본이 2026-09-24에 갱신되면서** `| 5 | Auto Constraint for Wall Elements Connectivity | \"ACWC\" | Boolean | false | Optional |` 행이 추가됐다(ja 10행 / en-us·ko 9행). ja에서는 이 행이 5번에 삽입돼 기존 5~9번이 6~10번으로 밀린다. | 로케일 | 마지막 편집 | 표 행 수 | `ACWC` | | --- | --- | --- | --- | | ja | 2026-09-24 | 10 | 있음 (5행) | | en-us | 2025-11-04 | 9 | 없음 | | ko | 2025-09-17 | 9 | 없음 | 이 저장소는 en-us를 기준으"]

@@ -1,0 +1,29 @@
+{
+  "key": "DB.STLD",
+  "uri": "DB/STLD",
+  "source": "help_center",
+  "schema": {
+    "STLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NO": {
+          "description": "No",
+          "type": "integer"
+        },
+        "NAME": {
+          "description": "StaticLoadCaseName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "StaticLoadCaseType",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

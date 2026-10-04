@@ -1,0 +1,49 @@
+key: DB.FIMP
+namespace: DB
+uri: /DB/FIMP
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: FIMP
+schema_ref:
+  local: schema/common/db/FIMP.json
+  introspect: info/db/FIMP
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Inelastic Material Properties
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35944335180569-Inelastic-Material-Properties"
+  retrieved_at: "2025-03-05"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 222
+  examples: 15
+  has_response_head: false
+notes: ["강재(Bilinear·Menegotto-Pinto 등) 다수의 이력 모델을 다루는 5900줄 이상의 방대한 문서다. 이 저장소는 그중 가장 많이 쓰이는 **Kent & Park 모델만 대표로 상세 기재**하며, 나머지 모델은 `MATL_TYPE`/`HYS_MODEL` 조합으로 존재한다는 사실만 남기고 전수 기재하지 않는다."]

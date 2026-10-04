@@ -1,0 +1,45 @@
+key: DB.BNGR
+namespace: DB
+uri: /DB/BNGR
+methods: [POST, GET, PUT]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: BNGR
+schema_ref:
+  local: schema/common/db/BNGR.json
+  introspect: info/db/BNGR
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Boundary Group
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35804937452313-Boundary-Group"
+  retrieved_at: "2025-02-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 2
+  examples: 1
+  has_response_head: false

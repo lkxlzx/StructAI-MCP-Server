@@ -1,0 +1,62 @@
+{
+  "key": "DB.IMPF",
+  "uri": "DB/IMPF",
+  "source": "help_center",
+  "schema": {
+    "IMPF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LANE_TYPE": {
+                "description": "LaneType",
+                "type": "string"
+              },
+              "LANE_NAME": {
+                "description": "LaneName",
+                "type": "string"
+              },
+              "ELEMTYPE": {
+                "description": "ElementType",
+                "type": "string"
+              },
+              "FACT_TYPE": {
+                "description": "FactorType",
+                "type": "string"
+              },
+              "FACTOR": {
+                "description": "Impact/EffectiveSpanLengthFactor",
+                "type": "number"
+              },
+              "PARTS": {
+                "description": "PartArray",
+                "type": "array",
+                "items": {
+                  "type": "boolean",
+                  "maxItems": 5
+                }
+              },
+              "COMPONENTS": {
+                "description": "ComponentArray",
+                "type": "array",
+                "items": {
+                  "type": "boolean",
+                  "maxItems": 8
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

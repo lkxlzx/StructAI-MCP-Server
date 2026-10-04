@@ -1,0 +1,45 @@
+key: "DESIGN.RC.KDS-41-20-2022.WD-TABLE"
+namespace: DESIGN
+uri: "/DESIGN/RC/KDS-41-20-2022/WD-TABLE"
+methods: [POST]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: "WD-TABLE"
+schema_ref:
+  local: "schema/design/rc/KDS-41-20-2022/WD-TABLE.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+path_key_supported: true
+table_type: null
+title: RC Wall Design Table (RC 벽체 설계 테이블)
+title_zh: RC 墙设计表
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: LONG
+  timeout_ms: 3600000
+  retryable: false
+  idempotent: false
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 14
+  examples: 2
+  has_response_head: false
+notes: ["13개 열보다 훨씬 많은 **35개** 선택 가능 열을 정의합니다 — 위 13개 외에 `Lw`, `HTw`, `hw`, `phiPn.max`, `phiPny`, `phiPnz`, `LCB_Mc`, `phiMny`, `phiMnz`, `BE`, `BEREBAR`, `BEL`, `LCB_Vu`, `phiVn`, `As-V`, `V-Rebar`, `As-H`, `H-Rebar`, `End-Rebar`, `BarLayer`, `fck`, `fy`, `fys`, `WallMark`(스키마 enum 표기, 아래 Request/Response 예제는 공백이 있는 `\"Wall Mark\"`를 사용 — 원문 자체의 표기 불일치)도 지정할 수 있다. 이 표는 예제에서 실제로 쓰인 13개 열만 설명하며, 나머지 22개 열은 원문"]

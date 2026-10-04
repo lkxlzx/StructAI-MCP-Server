@@ -1,0 +1,25 @@
+{
+  "key": "DOC.EXPORTFILE",
+  "uri": "DOC/EXPORTFILE",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "导出文件至mct",
+    "type": "object",
+    "properties": {
+      "ExportType": {
+        "type": "integer",
+        "description": "导出数据类型<br>* 0-所有数据 1-钢筋信息 2-截面信息 3-钢束信息 4-试验车辆布载方案"
+      },
+      "ExportPath": {
+        "type": "string",
+        "description": "导出文件路径"
+      }
+    },
+    "required": [
+      "ExportType",
+      "ExportPath"
+    ]
+  },
+  "shape": "flat_object"
+}

@@ -1,0 +1,63 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.LCTB",
+  "uri": "DESIGN/RC/KDS-41-20-2022/LCTB",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "NAME",
+              "BASE_ITEM"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "NAME": {
+                "type": "string",
+                "description": "Load Contribution Name"
+              },
+              "DESC": {
+                "type": "string",
+                "description": "Description",
+                "default": ""
+              },
+              "BASE_ITEM": {
+                "type": "array",
+                "description": "Load Contribution Items",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "FACTOR",
+                    "LOAD_CASE_NAME"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "FACTOR": {
+                      "type": "number",
+                      "description": "Factor"
+                    },
+                    "LOAD_CASE_NAME": {
+                      "type": "string",
+                      "description": "Load Case Name"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

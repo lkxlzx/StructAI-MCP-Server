@@ -1,0 +1,38 @@
+{
+  "key": "DB.PDEL",
+  "uri": "DB/PDEL",
+  "source": "help_center",
+  "schema": {
+    "PDEL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITER": {
+          "description": "IterationInteger",
+          "type": "integer"
+        },
+        "TOL": {
+          "description": "ToleranceDouble",
+          "type": "number"
+        },
+        "PDEL_CASES": {
+          "description": "LoadCases",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LCNAME": {
+                "description": "LoadCaseName(Const)",
+                "type": "string"
+              },
+              "FACTOR": {
+                "description": "Factor",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

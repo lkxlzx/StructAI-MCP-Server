@@ -1,0 +1,51 @@
+key: DOC.SAVEAS
+namespace: DOC
+uri: /DOC/SAVEAS
+methods: [POST]
+tool_map:
+  doc: midas_doc
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/doc/SAVEAS.json
+  introspect: null
+  source: help_center
+  params_ref: "designer_params.json#DOC/SAVEAS"
+parser: generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DOC/SAVEAS
+    methods: POST
+    title: 另存为
+    spec_rows: 2
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: untested
+table_type: null
+title: Save As
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [PROJECT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35994277012377-Save-As"
+  retrieved_at: "2025-09-17"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 1
+  examples: 1
+  has_response_head: false

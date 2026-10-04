@@ -1,0 +1,39 @@
+key: POST.PM
+namespace: POST
+uri: /POST/PM
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/PM.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: null
+title: "P-M Interaction Diagram"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36021337973017-P-M-Interaction-Diagram"
+  retrieved_at: "2026-08-05"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 1
+  examples: 2
+  has_response_head: false

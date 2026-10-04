@@ -1,0 +1,93 @@
+{
+  "key": "DB.PJCF",
+  "uri": "DB/PJCF",
+  "source": "help_center",
+  "schema": {
+    "PJCF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "PROJECT": {
+          "description": "ProjectName",
+          "type": "string"
+        },
+        "REVISION": {
+          "description": "RevisionInfo",
+          "type": "string"
+        },
+        "USER": {
+          "description": "User",
+          "type": "string"
+        },
+        "EMAIL": {
+          "description": "E-mail",
+          "type": "string"
+        },
+        "ADDRESS": {
+          "description": "Address",
+          "type": "string"
+        },
+        "TEL": {
+          "description": "Telephone",
+          "type": "string"
+        },
+        "FAX": {
+          "description": "Fax",
+          "type": "string"
+        },
+        "CLIENT": {
+          "description": "Client",
+          "type": "string"
+        },
+        "TITLE": {
+          "description": "Title",
+          "type": "string"
+        },
+        "ENGINEER": {
+          "description": "ReviewName",
+          "type": "string"
+        },
+        "EDATE": {
+          "description": "ReviewData",
+          "type": "string"
+        },
+        "CHECK1": {
+          "description": "ReviewName",
+          "type": "string"
+        },
+        "CDATE1": {
+          "description": "ReviewData",
+          "type": "string"
+        },
+        "CHECK2": {
+          "description": "ReviewName",
+          "type": "string"
+        },
+        "CDATE2": {
+          "description": "ReviewData",
+          "type": "string"
+        },
+        "CHECK3": {
+          "description": "ReviewName",
+          "type": "string"
+        },
+        "CDATE3": {
+          "description": "ReviewData",
+          "type": "string"
+        },
+        "APPROVE": {
+          "description": "ReviewName",
+          "type": "string"
+        },
+        "ADATE": {
+          "description": "ReviewData",
+          "type": "string"
+        },
+        "COMMENT": {
+          "description": "Comments",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

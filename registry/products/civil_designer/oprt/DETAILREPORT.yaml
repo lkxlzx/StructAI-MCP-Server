@@ -1,0 +1,50 @@
+key: OPRT.DETAILREPORT
+namespace: OPRT
+uri: /OPRT/DETAILREPORT
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: none
+  shape: flat
+  body_kind: object
+schema_ref:
+  local: schema/products/civil_designer/oprt/DETAILREPORT.json
+  introspect: null
+  source: civil_designer_manual
+  params_ref: "designer_params.json#OPRT/DETAILREPORT"
+  shape: flat_object
+parser: generic
+products: [CIVIL_DESIGNER]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: OPRT/DETAILREPORT
+    methods: POST
+    title: 生成详细计算书
+    spec_rows: 17
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+availability: untested
+table_type: null
+title: 生成详细计算书
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: LONG
+  timeout_ms: 3600000
+  retryable: false
+  idempotent: false
+capability: [MODEL]
+source:
+  url: "G:\\midas Civil Designer - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_designer_manual]
+stats:
+  spec_rows: 16
+  examples: 1
+  has_response_head: false

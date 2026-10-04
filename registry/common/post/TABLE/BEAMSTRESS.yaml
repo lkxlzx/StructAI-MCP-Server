@@ -1,0 +1,40 @@
+key: POST.TABLE.BEAMSTRESS
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/BEAMSTRESS.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: BEAMSTRESS
+title: 应力Beam Stress
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 2
+  examples: 11
+  has_response_head: false
+notes: ["있었음 — 공식 JSON Schema의 enum에는 없으나 Specifications 표와 완전한 Request/Response 예제가 존재해 실존하는 값으로 판단, 보강함(스키마가 예제·표보다 뒤처진 사례).", 버전 문서에 누락되어 있었음., "`BEAMSTRESS7DOF` 시공단계(CS) 조회 예제가 원문에 추가/보강되어 있었으나 이전 버전 문서에는 반영되지 않았음 — `OPT_CS`/`STAGE_STEP`(공통 파라미터)로 시공단계 스텝별 결과를 조회하며, `BEAMSTRESSVBM`은 원문에 CS 전용 예제가 없음(비-CS 예제만 존재).", "오해할 수 있게 단일 HEAD만 표기했으나, 실제로는 7th DOF 전용 컬럼(`SectionPosition`, `Sax(Warping)`, `Ssy/Ssz(Mt/Mw)`, `Cb(Ssy/Ssz)`)을 쓰는 별개 구조임을 명시."]

@@ -1,0 +1,49 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WD-ANAL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WD-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "SELECTIONS": {
+            "type": "array",
+            "description": "Wall ID and Story pairs to design",
+            "items": {
+              "type": "object",
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

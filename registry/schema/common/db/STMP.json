@@ -1,0 +1,25 @@
+{
+  "key": "DB.STMP",
+  "uri": "DB/STMP",
+  "source": "help_center",
+  "schema": {
+    "STMP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TEMPER": {
+          "description": "SystemTemperature",
+          "type": "number"
+        },
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "GROUP_NAME": {
+          "description": "LoadGroupName",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

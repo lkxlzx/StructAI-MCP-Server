@@ -1,0 +1,41 @@
+{
+  "key": "DB.THRE",
+  "uri": "DB/THRE",
+  "source": "help_center",
+  "schema": {
+    "THRE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "THIS_NAME": {
+          "description": "Time History Load Cases",
+          "type": "string"
+        },
+        "TYPE_ELEMENT": {
+          "description": "Type of Element",
+          "type": "integer"
+        },
+        "PROPERTY_KEY": {
+          "description": "Element No.",
+          "type": "integer"
+        },
+        "STORY_NAME": {
+          "description": "StoryName",
+          "type": "string"
+        },
+        "TYPE_RES": {
+          "description": "Type of Result",
+          "type": "integer"
+        },
+        "LOCATION": {
+          "description": "Location",
+          "type": "integer"
+        },
+        "COMP": {
+          "description": "Component",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "key": "DB.TSGR",
+  "uri": "DB/TSGR",
+  "source": "help_center",
+  "schema": {
+    "TSGR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "GroupName",
+          "type": "string"
+        },
+        "ELEMLIST": {
+          "description": "ElementKeyList",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "ZVAR": {
+          "description": "Sectionshapez-axisvariation",
+          "type": "string"
+        },
+        "ZEXP": {
+          "description": "z-axisPolynomialvalue",
+          "type": "number"
+        },
+        "ZFROM": {
+          "description": "z-axissymmetricplanefrom",
+          "type": "string"
+        },
+        "ZDIST": {
+          "description": "z-axisdistance",
+          "type": "number"
+        },
+        "YVAR": {
+          "description": "Sectionshapey-axisvariation",
+          "type": "string"
+        },
+        "YEXP": {
+          "description": "y-axisPolynomialvalue",
+          "type": "number"
+        },
+        "YFROM": {
+          "description": "y-axissymmetricplanefrom",
+          "type": "string"
+        },
+        "YDIST": {
+          "description": "y-axisdistance",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

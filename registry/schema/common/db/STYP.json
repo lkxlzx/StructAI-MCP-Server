@@ -1,0 +1,53 @@
+{
+  "key": "DB.STYP",
+  "uri": "DB/STYP",
+  "source": "help_center",
+  "schema": {
+    "STYP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "STYP": {
+          "description": "StructureType",
+          "type": "integer"
+        },
+        "MASS": {
+          "description": "MassType",
+          "type": "integer"
+        },
+        "bMASSOFFSET": {
+          "description": "ConsiderOffset",
+          "type": "boolean"
+        },
+        "bSELFWEIGHT": {
+          "description": "ConvertSelfWeigth",
+          "type": "boolean"
+        },
+        "SMASS": {
+          "description": "StructureMassType",
+          "type": "integer"
+        },
+        "GRAV": {
+          "description": "Gravity",
+          "type": "number"
+        },
+        "TEMP": {
+          "description": "InitialTemperature",
+          "type": "number"
+        },
+        "bALIGNBEAM": {
+          "description": "AlignTopofBeamSection",
+          "type": "boolean"
+        },
+        "bALIGNSLAB": {
+          "description": "AlignTopofSlab(Plate)",
+          "type": "boolean"
+        },
+        "bROTRIGID": {
+          "description": "ConsideringRotationalRigid",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

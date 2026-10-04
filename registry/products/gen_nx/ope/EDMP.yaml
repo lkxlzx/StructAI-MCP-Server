@@ -1,0 +1,39 @@
+key: OPE.EDMP
+namespace: OPE
+uri: /OPE/EDMP
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/ope/EDMP.json
+  introspect: null
+  source: help_center
+parser: generic
+products: [GEN_NX]
+availability: untested
+table_type: null
+title: Change Property
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/39772649347865-Change-Property"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 9
+  examples: 5
+  has_response_head: false

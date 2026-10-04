@@ -1,0 +1,203 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.REBR",
+  "uri": "DESIGN/RC/KDS-41-20-2022/REBR",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "단면 번호 문자열을 키로 갖는 맵 (예: \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "description": "콘크리트 가새 철근 항목",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "MAIN_BAR",
+                    "SHEAR_BAR_END",
+                    "SHEAR_BAR_CEN",
+                    "DO"
+                  ],
+                  "properties": {
+                    "CREATE_SUB_SECTION": {
+                      "type": "boolean",
+                      "description": "서브 단면 생성",
+                      "default": false
+                    },
+                    "ID": {
+                      "type": "integer",
+                      "description": "서브 단면 ID (읽기 전용)"
+                    },
+                    "ELEMS": {
+                      "type": "object",
+                      "description": "요소 번호 입력 (CREATE_SUB_SECTION=true 일 때 필수). KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
+                      "properties": {
+                        "KEYS": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "TO": {
+                          "type": "string",
+                          "description": "ID 범위 (예: '1to160')"
+                        },
+                        "STRUCTURE_GROUP_NAME": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "MAIN_BAR": {
+                      "type": "object",
+                      "description": "주철근 데이터",
+                      "required": [
+                        "NAME",
+                        "NUM",
+                        "ROW"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "주철근 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "NUM": {
+                          "type": "integer",
+                          "description": "철근 총 개수",
+                          "minItems": 4
+                        },
+                        "ROW": {
+                          "type": "integer",
+                          "description": "철근 열(row) 수"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_END": {
+                      "type": "object",
+                      "description": "단부 전단철근 데이터",
+                      "required": [
+                        "NAME",
+                        "LEG_Y",
+                        "LEG_Z",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "후프 규격 (전체 19종: D4 ~ D57)",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "LEG_Y": {
+                          "type": "integer",
+                          "description": "다리 수 (local Y)"
+                        },
+                        "LEG_Z": {
+                          "type": "integer",
+                          "description": "다리 수 (local Z)"
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "철근 간격 @"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_CEN": {
+                      "type": "object",
+                      "description": "중앙부 전단철근 데이터 (SHEAR_BAR_END와 동일 구조)",
+                      "required": [
+                        "NAME",
+                        "LEG_Y",
+                        "LEG_Z",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "enum": [
+                            "D4",
+                            "D5",
+                            "D6",
+                            "D7",
+                            "D8"
+                          ]
+                        },
+                        "LEG_Y": {
+                          "type": "integer"
+                        },
+                        "LEG_Z": {
+                          "type": "integer"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "DO": {
+                      "type": "number",
+                      "description": "콘크리트면~철근중심 거리"
+                    },
+                    "HOOP_TYPE": {
+                      "type": "string",
+                      "description": "후프 철근 타입",
+                      "default": "Ties",
+                      "enum": [
+                        "Ties",
+                        "Spirals"
+                      ]
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "CREATE_SUB_SECTION": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "CREATE_SUB_SECTION"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "ELEMS"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

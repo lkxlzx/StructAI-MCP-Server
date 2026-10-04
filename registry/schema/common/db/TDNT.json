@@ -1,0 +1,113 @@
+{
+  "key": "DB.TDNT",
+  "uri": "DB/TDNT",
+  "source": "help_center",
+  "schema": {
+    "TDNT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "MATL": {
+          "description": "MatlKey",
+          "type": "integer"
+        },
+        "AREA": {
+          "description": "TendonArea",
+          "type": "number"
+        },
+        "D_AREA": {
+          "description": "DuctArea",
+          "type": "number"
+        },
+        "RM": {
+          "description": "RelaxMethod",
+          "type": "integer"
+        },
+        "RV": {
+          "description": "RelaxValue",
+          "type": "number"
+        },
+        "US": {
+          "description": "UltimateStrength",
+          "type": "number"
+        },
+        "YS": {
+          "description": "YieldStrength",
+          "type": "number"
+        },
+        "LT": {
+          "description": "LoadType",
+          "type": "string"
+        },
+        "ASB": {
+          "description": "AnchoSlipBegin",
+          "type": "number"
+        },
+        "ASE": {
+          "description": "AnchoSlipEnd",
+          "type": "number"
+        },
+        "bBONDED": {
+          "description": "UseBonded",
+          "type": "boolean"
+        },
+        "ALPHA": {
+          "description": "AlphaExternalCable",
+          "type": "number"
+        },
+        "bOSRF": {
+          "description": "UseOverStressRedFactor",
+          "type": "boolean"
+        },
+        "FT": {
+          "description": "JTG04Factor",
+          "type": "number"
+        },
+        "LR": {
+          "description": "LowRelaxation-CheckBox",
+          "type": "boolean"
+        },
+        "FPK": {
+          "description": "Fpk",
+          "type": "number"
+        },
+        "bRELAX": {
+          "description": "Relaxationcoefficient-CheckBox",
+          "type": "boolean"
+        },
+        "TDMFNAME": {
+          "description": "Timedependentmaterial-Relaxationfunctionname",
+          "type": "string"
+        },
+        "TDMFK": {
+          "description": "TDMFKey",
+          "type": "integer"
+        },
+        "FF": {
+          "description": "FrictionFactor",
+          "type": "number"
+        },
+        "W_TYPE": {
+          "description": "WobbleType",
+          "type": "integer"
+        },
+        "WF": {
+          "description": "WobbleFactor",
+          "type": "number"
+        },
+        "W_ANGLE": {
+          "description": "WobbleAngle",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

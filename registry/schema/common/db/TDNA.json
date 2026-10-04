@@ -1,0 +1,283 @@
+{
+  "key": "DB.TDNA",
+  "uri": "DB/TDNA",
+  "source": "help_center",
+  "schema": {
+    "TDNA": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TDN_PROP": {
+          "description": "TendonPropertyKey",
+          "type": "integer"
+        },
+        "ELEM": {
+          "description": "ElementKeyList",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "BELENG": {
+          "description": "BeginLength",
+          "type": "number"
+        },
+        "ELENG": {
+          "description": "EndLength",
+          "type": "number"
+        },
+        "CURVE": {
+          "description": "CurveType",
+          "type": "string"
+        },
+        "INPUT": {
+          "description": "InputType",
+          "type": "string"
+        },
+        "TDN_GRUP": {
+          "description": "TendonGroupKey",
+          "type": "integer"
+        },
+        "LENG_OPT": {
+          "description": "NoTensionCalcOption",
+          "type": "string"
+        },
+        "BLEN": {
+          "description": "NoTensionBeginLength",
+          "type": "number"
+        },
+        "ELEN": {
+          "description": "NoTensionEndLength",
+          "type": "number"
+        },
+        "bTP": {
+          "description": "IsTypicalTendon?",
+          "type": "boolean"
+        },
+        "CNT": {
+          "description": "TendonCount",
+          "type": "number"
+        },
+        "DeBondBLEN": {
+          "description": "DebondedLength-Begin",
+          "type": "number"
+        },
+        "DeBondELEN": {
+          "description": "DebondedLength-End",
+          "type": "number"
+        },
+        "SHAPE": {
+          "description": "TendonShape",
+          "type": "string"
+        },
+        "IP": {
+          "description": "InsertPointX,Y,Z",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "AXIS": {
+          "description": "XAxisDirection",
+          "type": "string"
+        },
+        "VEC": {
+          "description": "AxisVector",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 2
+          }
+        },
+        "RC": {
+          "description": "CentorX&Y",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 2
+          }
+        },
+        "OFFSET": {
+          "description": "Offset",
+          "type": "number"
+        },
+        "DIR": {
+          "description": "CurveDirection",
+          "type": "string"
+        },
+        "INS_PT": {
+          "description": "InsertPoint",
+          "type": "string"
+        },
+        "INS_ELEM": {
+          "description": "InsertElementKey",
+          "type": "integer"
+        },
+        "AXIS_IJ": {
+          "description": "XAxisDirectionIJ",
+          "type": "string"
+        },
+        "XAR_ANGLE": {
+          "description": "XAxisRotateAngle",
+          "type": "number"
+        },
+        "bPJ": {
+          "description": "IsProjection?",
+          "type": "boolean"
+        },
+        "OFF_YZ": {
+          "description": "OffsetYZ",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 2
+          }
+        },
+        "GR_AXIS": {
+          "description": "GradRotateAxis",
+          "type": "string"
+        },
+        "GR_ANGLE": {
+          "description": "GradRotateAngle",
+          "type": "number"
+        },
+        "PROF": {
+          "description": "Profile",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PT": {
+                "description": "LocalCoordinate",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "bFIX": {
+                "description": "Fix?",
+                "type": "boolean"
+              },
+              "R": {
+                "description": "R",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 2
+                }
+              },
+              "RADIUS": {
+                "description": "Radius",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "PROFY": {
+          "description": "ProfileY",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PT": {
+                "description": "LocalCoordinate",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 2
+                }
+              },
+              "bFIX": {
+                "description": "Fix?",
+                "type": "boolean"
+              },
+              "R": {
+                "description": "R",
+                "type": "number"
+              },
+              "RADIUS": {
+                "description": "Radius",
+                "type": "number"
+              },
+              "OPT": {
+                "description": "AddOption",
+                "type": "string"
+              },
+              "ANGLE": {
+                "description": "Angle",
+                "type": "number"
+              },
+              "HEIGHT": {
+                "description": "Height",
+                "type": "number"
+              },
+              "RADIUS2": {
+                "description": "Radius",
+                "type": "number"
+              },
+              "bBOTZ": {
+                "description": "BottomZ",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "PROFZ": {
+          "description": "ProfileZ",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PT": {
+                "description": "LocalCoordinate",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 2
+                }
+              },
+              "bFIX": {
+                "description": "Fix?",
+                "type": "boolean"
+              },
+              "R": {
+                "description": "R",
+                "type": "number"
+              },
+              "RADIUS": {
+                "description": "Radius",
+                "type": "number"
+              },
+              "OPT": {
+                "description": "AddOption",
+                "type": "string"
+              },
+              "ANGLE": {
+                "description": "Angle",
+                "type": "number"
+              },
+              "HEIGHT": {
+                "description": "Height",
+                "type": "number"
+              },
+              "RADIUS2": {
+                "description": "Radius",
+                "type": "number"
+              },
+              "bBOTZ": {
+                "description": "BottomZ",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "key": "DB.FIBR",
+  "uri": "DB/FIBR",
+  "source": "help_center",
+  "schema": {
+    "FIBR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "SECT_KEY": {
+          "description": "Section Key",
+          "type": "integer"
+        },
+        "ASSIGN_TYPE": {
+          "description": "Assign Type",
+          "type": "integer"
+        },
+        "FIMP_NAME": {
+          "description": "Fiber Material Name",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "FIMP_COLOR": {
+          "description": "Inelastic Material Color",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "R": {
+                "description": "Red",
+                "type": "integer"
+              },
+              "G": {
+                "description": "Green",
+                "type": "integer"
+              },
+              "B": {
+                "description": "Blue",
+                "type": "integer"
+              }
+            },
+            "maxItems": 6
+          }
+        },
+        "FIBR_BASE": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "FIBR_BASE_KEY": {
+                "description": "FIBR ",
+                "type": "integer"
+              },
+              "REBAR_NAME": {
+                "description": "Rebar Name",
+                "type": "string"
+              },
+              "AREA": {
+                "description": "Area",
+                "type": "number"
+              },
+              "CENTER_Y": {
+                "description": "Center Y",
+                "type": "number"
+              },
+              "CENTER_Z": {
+                "description": "Center Z",
+                "type": "number"
+              },
+              "FIBER_MATL_ID": {
+                "description": "Fiber Material ID",
+                "type": "number"
+              },
+              "AREA_CONSIDER_REBAR": {
+                "description": "Area Consider Rebar",
+                "type": "number"
+              },
+              "OPT_IS_REBAR": {
+                "description": "Is Rebar",
+                "type": "boolean"
+              },
+              "POINT_Y": {
+                "description": "Point Y",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "POINT_Z": {
+                "description": "Point Z",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "OPT_MONITORED_FIBER": {
+          "description": "Is Monitored Fiber",
+          "type": "boolean"
+        },
+        "MONITORED_FIBER": {
+          "description": "Monitored Fiber",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

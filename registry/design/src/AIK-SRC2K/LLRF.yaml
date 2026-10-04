@@ -1,0 +1,45 @@
+key: "DESIGN.SRC.AIK-SRC2K.LLRF"
+namespace: DESIGN
+uri: "/DESIGN/SRC/AIK-SRC2K/LLRF"
+methods: [GET]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: LLRF
+schema_ref:
+  local: "schema/design/src/AIK-SRC2K/LLRF.json"
+  introspect: null
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Live Load Reduction Factor (활하중 저감계수)
+title_zh: 活荷载折减系数
+title_zh_official: false
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [DESIGN]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 11
+  examples: 2
+  has_response_head: false

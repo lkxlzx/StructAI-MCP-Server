@@ -1,0 +1,124 @@
+{
+  "key": "OPE.USLC",
+  "uri": "OPE/USLC",
+  "source": "help_center",
+  "schema": {
+    "USLC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "PREFIX": {
+              "type": "string"
+            },
+            "POSITION": {
+              "type": "string",
+              "enum": [
+                "STEEL",
+                "CONC",
+                "SRC"
+              ]
+            },
+            "LCOM_LIST": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "TYPE": {
+                    "type": "string",
+                    "enum": [
+                      "GEN",
+                      "STEEL",
+                      "CONC",
+                      "SRC",
+                      "STLCOMP",
+                      "SEISMIC"
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "LOADS": {
+              "type": "object",
+              "properties": {
+                "SELF_WEIGHT": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "NODAL_BODY_FROCE": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "NODAL_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "SPECIFIED_DISPLACEMENT": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "BEAM_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "FLOOR_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "FINISHING_MATERIAL_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "PRESSURE_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "PLANE_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "SYSTEM_TEMPERATURE": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "NODAL_TEMPERATURE": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "ELEMENT_TEMPERATURE": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "TEMPERATURE_GRADIENT": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "BEAM_SECTION_TEMPERATURE": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "PRESTRESS_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "PRETENSION_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "TENDON_PRESTRESS_LOAD": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

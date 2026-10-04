@@ -1,0 +1,45 @@
+{
+  "key": "DB.NPLN",
+  "uri": "DB/NPLN",
+  "source": "help_center",
+  "schema": {
+    "NPLN": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "PlaneName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "PlaneType",
+          "type": "integer"
+        },
+        "TOL": {
+          "description": "Tolerance",
+          "type": "number"
+        },
+        "POINT": {
+          "description": "Point",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ITEM": {
+                "description": "PointItem",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "COORD": {
+          "description": "Coord",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

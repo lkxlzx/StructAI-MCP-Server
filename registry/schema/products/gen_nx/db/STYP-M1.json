@@ -1,0 +1,222 @@
+{
+  "key": "DB.STYP-M1",
+  "uri": "DB/STYP-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Key is a string (e.g. \"1\"), and each item is a Structure Type input object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "STYPE": {
+                  "type": "string",
+                  "enum": [
+                    "_3D",
+                    "XZ",
+                    "YZ",
+                    "XY",
+                    "RZ"
+                  ],
+                  "default": "_3D",
+                  "description": "3-D / X-Z Plane / Y-Z Plane / X-Y Plane / Constraint RZ (UI 5 radio buttons are merged into one DTO enum field)"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "MASS_CONTROL"
+              ],
+              "properties": {
+                "MASS_CONTROL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "MASS_TYPE",
+                    "SELFWEIGHT"
+                  ],
+                  "properties": {
+                    "MASS_TYPE": {
+                      "type": "string",
+                      "enum": [
+                        "LUMPED",
+                        "CONSISTENT"
+                      ],
+                      "description": "Lumped Mass / Consistent Mass (2 radio buttons are merged into one enum field)"
+                    },
+                    "MASS_POS": {
+                      "type": "string",
+                      "enum": [
+                        "CENTROID",
+                        "OFFSET"
+                      ],
+                      "description": "Consider Mass at the Centroid of Section / Consider Mass at the Offset Position"
+                    },
+                    "SELFWEIGHT": {
+                      "type": "boolean",
+                      "description": "Convert Self-weight into Masses (true then MASS_AXIS is required)"
+                    },
+                    "MASS_AXIS": {
+                      "type": "string",
+                      "enum": [
+                        "XYZ",
+                        "XY",
+                        "Z"
+                      ],
+                      "description": "Convert to X, Y, Z / Convert to X, Y / Convert to Z"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "If MASS_TYPE = LUMPED, MASS_POS is required.",
+                      "if": {
+                        "properties": {
+                          "MASS_TYPE": {
+                            "const": "LUMPED"
+                          }
+                        },
+                        "required": [
+                          "MASS_TYPE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "MASS_POS"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "If MASS_TYPE = CONSISTENT, MASS_POS is not allowed.",
+                      "if": {
+                        "properties": {
+                          "MASS_TYPE": {
+                            "const": "CONSISTENT"
+                          }
+                        },
+                        "required": [
+                          "MASS_TYPE"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "MASS_POS"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "If SELFWEIGHT = true, MASS_AXIS is required.",
+                      "if": {
+                        "properties": {
+                          "SELFWEIGHT": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "SELFWEIGHT"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "MASS_AXIS"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "If SELFWEIGHT = false, MASS_AXIS is not allowed.",
+                      "if": {
+                        "properties": {
+                          "SELFWEIGHT": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "SELFWEIGHT"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "MASS_AXIS"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "If MASS_TYPE = CONSISTENT and SELFWEIGHT = true, MASS_AXIS must be XYZ.",
+                      "if": {
+                        "properties": {
+                          "MASS_TYPE": {
+                            "const": "CONSISTENT"
+                          },
+                          "SELFWEIGHT": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "MASS_TYPE",
+                          "SELFWEIGHT"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "MASS_AXIS": {
+                            "const": "XYZ"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Mass Control Parameter"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "GRAV": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "description": "Gravity Acceleration"
+                },
+                "TEMP": {
+                  "type": "number",
+                  "default": 0,
+                  "description": "Initial Temperature"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ALIGNBEAM": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Align Top of Beam Section with Center Line (X-Y Plane) for Display"
+                },
+                "ALIGNSLAB": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Align Top of Slab(Plate) Section with Center Line (X-Y Plane) for Display"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

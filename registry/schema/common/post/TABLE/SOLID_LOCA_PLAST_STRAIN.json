@@ -1,0 +1,71 @@
+{
+  "key": "POST.TABLE.SOLID_LOCA_PLAST_STRAIN",
+  "uri": "POST/TABLE",
+  "source": "civil_nx_manual",
+  "schema": {
+    "TABLE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ElementWeightTable",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string"
+            },
+            "TABLE_TYPE": {
+              "type": "string"
+            },
+            "EXPORT_PATH": {
+              "type": "string"
+            },
+            "NODE_ELEMS": {
+              "type": "object",
+              "properties": {
+                "TO": {
+                  "type": "string"
+                },
+                "KEYS": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "STRUCTURE_GROUP_NAME": {
+                  "type": "string"
+                }
+              },
+              "anyOf": [
+                {
+                  "required": [
+                    "TO"
+                  ]
+                },
+                {
+                  "required": [
+                    "KEYS"
+                  ]
+                },
+                {
+                  "required": [
+                    "STRUCTURE_GROUP_NAME"
+                  ]
+                },
+                {
+                  "not": {
+                    "required": [
+                      "TO",
+                      "KEYS",
+                      "STRUCTURE_GROUP_NAME"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

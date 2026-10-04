@@ -1,0 +1,58 @@
+{
+  "key": "DB.EWSF",
+  "uri": "DB/EWSF",
+  "source": "help_center",
+  "schema": {
+    "EWSF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "Boundarygroupname",
+                "type": "string"
+              },
+              "LYSCALE": {
+                "description": "lyscalefactorforSbz",
+                "type": "number"
+              },
+              "ZTSCALE": {
+                "description": "z_topscalefactor",
+                "type": "number"
+              },
+              "ZBSCALE": {
+                "description": "z_botscalefactor",
+                "type": "number"
+              },
+              "bJ": {
+                "description": "J-Endcheckbox",
+                "type": "boolean"
+              },
+              "LYSCALE_J": {
+                "description": "J-Endlyscalefactor",
+                "type": "number"
+              },
+              "ZTSCALE_J": {
+                "description": "J-Endz_topscalefactor",
+                "type": "number"
+              },
+              "ZBSCALE_J": {
+                "description": "J-Endz_botscalefactor",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

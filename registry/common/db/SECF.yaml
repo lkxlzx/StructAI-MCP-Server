@@ -1,0 +1,49 @@
+key: DB.SECF
+namespace: DB
+uri: /DB/SECF
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SECF
+schema_ref:
+  local: schema/common/db/SECF.json
+  introspect: info/db/SECF
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Section Manager - Stiffness"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35943174833177-Section-Manager-Stiffness"
+  retrieved_at: "2025-03-05"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 23
+  examples: 2
+  has_response_head: false
+notes: ["`J1`~`J8`)가 통째로 빠져 있었다(아티클 id `35943174833177`). J단 필드는 I단과 이름 규칙이 달라 `AREA_SF_J`가 아니라 **`J1`~`J8`**(순서대로 Area/Asy/Asz/Ixx/Iyy/Izz/Weight/Warping)로 표기되므로 원문 그대로 옮겼다."]

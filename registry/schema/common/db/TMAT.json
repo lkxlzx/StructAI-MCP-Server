@@ -1,0 +1,21 @@
+{
+  "key": "DB.TMAT",
+  "uri": "DB/TMAT",
+  "source": "help_center",
+  "schema": {
+    "TMAT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TDMT_NAME": {
+          "description": "TDM-TYPE1(CREEP/SHRINKAGE)",
+          "type": "string"
+        },
+        "TDME_NAME": {
+          "description": "TDM-TYPE2(ELASTICITY)",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

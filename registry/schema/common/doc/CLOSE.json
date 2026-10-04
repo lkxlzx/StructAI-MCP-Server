@@ -1,0 +1,16 @@
+{
+  "key": "DOC.CLOSE",
+  "uri": "DOC/CLOSE",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "doc/CLOSE",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

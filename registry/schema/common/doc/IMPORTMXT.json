@@ -1,0 +1,15 @@
+{
+  "key": "DOC.IMPORTMXT",
+  "uri": "DOC/IMPORTMXT",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "doc/IMPORTMXT",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "string"
+      }
+    }
+  }
+}

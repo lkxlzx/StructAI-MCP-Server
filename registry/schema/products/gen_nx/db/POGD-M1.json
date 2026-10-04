@@ -1,0 +1,1070 @@
+{
+  "key": "DB.POGD-M1",
+  "uri": "DB/POGD-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices (e.g. \"1\"); each value is a Pushover Global Control settings object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "required": [
+            "GEO_NONL_TYPE",
+            "INIT_LOAD_TYPE",
+            "ITER_CTRL"
+          ],
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "GEO_NONL_TYPE": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "description": "None / P-Delta / Large Displacements"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INIT_LOAD_TYPE": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ],
+                  "description": "Perform Nonlinear Static Analysis for Initial Load / Import Static Analysis / Construction Stage Analysis Results"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INIT_LOAD_LIST": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "LC_NAME",
+                      "LC_TYPE",
+                      "SF"
+                    ],
+                    "properties": {
+                      "LC_NAME": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Load Case / Scale Factor / 목록"
+                      },
+                      "LC_TYPE": {
+                        "type": "string",
+                        "enum": [
+                          "STATIC",
+                          "STAGE"
+                        ],
+                        "description": "Load Case / Scale Factor / 목록"
+                      },
+                      "SF": {
+                        "type": "number",
+                        "not": {
+                          "const": 0
+                        },
+                        "description": "Load Case / Scale Factor / 목록"
+                      }
+                    }
+                  },
+                  "description": "Load Case / Scale Factor / 목록 (각 엔트리 {LC_NAME, LC_TYPE, SF}. LC_TYPE='STATIC' 또는 'STAGE')"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "IGNORE_ELEM": {
+                  "type": "boolean",
+                  "description": "Consider 'Ignore Elements for Initial Load'"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ANALYSIS_STOP": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "SHEAR_YIELD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Shear Component Yield / Axial Component Collapse / Support Uplifting-Collapse"
+                        },
+                        "BEAM_COLUMN": {
+                          "type": "boolean",
+                          "description": "Beam/Column"
+                        },
+                        "WALL": {
+                          "type": "boolean",
+                          "description": "Wall"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE is true, at least one of BEAM_COLUMN or WALL must be true.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "anyOf": [
+                              {
+                                "properties": {
+                                  "BEAM_COLUMN": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "BEAM_COLUMN"
+                                ]
+                              },
+                              {
+                                "properties": {
+                                  "WALL": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "WALL"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE is false, BEAM_COLUMN and WALL must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "BEAM_COLUMN"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "WALL"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "AXIAL_YIELD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Shear Component Yield / Axial Component Collapse / Support Uplifting-Collapse"
+                        },
+                        "BEAM": {
+                          "type": "boolean",
+                          "description": "Beam"
+                        },
+                        "WALL": {
+                          "type": "boolean",
+                          "description": "Wall"
+                        },
+                        "TRUSS": {
+                          "type": "boolean",
+                          "description": "Truss"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE is true, at least one of BEAM, WALL, or TRUSS must be true.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "anyOf": [
+                              {
+                                "properties": {
+                                  "BEAM": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "BEAM"
+                                ]
+                              },
+                              {
+                                "properties": {
+                                  "WALL": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "WALL"
+                                ]
+                              },
+                              {
+                                "properties": {
+                                  "TRUSS": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "TRUSS"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE is false, BEAM, WALL, and TRUSS must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "BEAM"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "WALL"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "TRUSS"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "SUPPORT_DZ_DIR": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Shear Component Yield / Axial Component Collapse / Support Uplifting-Collapse"
+                        },
+                        "UPLIFT": {
+                          "type": "boolean",
+                          "description": "Uplift"
+                        },
+                        "COLLAPSE": {
+                          "type": "boolean",
+                          "description": "Collapse"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE is true, at least one of UPLIFT or COLLAPSE must be true.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "anyOf": [
+                              {
+                                "properties": {
+                                  "UPLIFT": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "UPLIFT"
+                                ]
+                              },
+                              {
+                                "properties": {
+                                  "COLLAPSE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "COLLAPSE"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE is false, UPLIFT and COLLAPSE must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "UPLIFT"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "COLLAPSE"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "description": "Shear Component Yield / Axial Component Collapse / Support Uplifting-Collapse"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "ITER_CTRL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "MAX_ITER",
+                    "NORM_CTRL",
+                    "STIFF_UPD_SCHEME"
+                  ],
+                  "properties": {
+                    "PERMIT_FAIL": {
+                      "type": "boolean",
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "MAX_ITER": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "NORM_CTRL": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "DISP",
+                        "FORCE",
+                        "ENERGY"
+                      ],
+                      "properties": {
+                        "DISP": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "description": "Norm option on/off"
+                            },
+                            "VALUE": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "description": "Norm tolerance value"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "If OPT_USE is true, VALUE is required.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "VALUE"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "If OPT_USE is false, VALUE must not be provided.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "required": [
+                                    "VALUE"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "description": "Displacement norm"
+                        },
+                        "FORCE": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "description": "Norm option on/off"
+                            },
+                            "VALUE": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "description": "Norm tolerance value"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "If OPT_USE is true, VALUE is required.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "VALUE"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "If OPT_USE is false, VALUE must not be provided.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "required": [
+                                    "VALUE"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "description": "Force norm"
+                        },
+                        "ENERGY": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "description": "Norm option on/off"
+                            },
+                            "VALUE": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "description": "Norm tolerance value"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "If OPT_USE is true, VALUE is required.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "VALUE"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "If OPT_USE is false, VALUE must not be provided.",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "required": [
+                                    "VALUE"
+                                  ]
+                                }
+                              }
+                            }
+                          ],
+                          "description": "Energy norm"
+                        }
+                      },
+                      "anyOf": [
+                        {
+                          "properties": {
+                            "DISP": {
+                              "properties": {
+                                "OPT_USE": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "FORCE": {
+                              "properties": {
+                                "OPT_USE": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "ENERGY": {
+                              "properties": {
+                                "OPT_USE": {
+                                  "const": true
+                                }
+                              },
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "STIFF_UPD_SCHEME": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "ITER_BEF_UPDATE": {
+                      "type": "integer",
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "MAX_BISECT_LEVEL": {
+                      "type": "integer",
+                      "default": 5,
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "SMART_BISECT": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "DIVERGENCE_THRESHOLD": {
+                      "type": "number",
+                      "default": 3,
+                      "description": "Permit Convergence Failure / Maximum Iteration / Norm 3종 / Stiffness Update / Bisection / Divergence"
+                    },
+                    "LINE_SEARCH": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                        },
+                        "LINE_SEARCH_OPT": {
+                          "type": "string",
+                          "enum": [
+                            "AUTO",
+                            "USER"
+                          ],
+                          "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                        },
+                        "START_ITER_NO": {
+                          "type": "integer",
+                          "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                        },
+                        "MAX_LINE_SEARCH_ITER": {
+                          "type": "integer",
+                          "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                        },
+                        "LINE_SEARCH_TOL": {
+                          "type": "number",
+                          "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE is false, LINE_SEARCH detail fields must not be provided.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "LINE_SEARCH_OPT"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "START_ITER_NO"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MAX_LINE_SEARCH_ITER"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "LINE_SEARCH_TOL"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE is true, LINE_SEARCH_OPT is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "LINE_SEARCH_OPT"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If LINE_SEARCH_OPT is AUTO, START_ITER_NO, MAX_LINE_SEARCH_ITER, and LINE_SEARCH_TOL must not be provided.",
+                          "if": {
+                            "properties": {
+                              "LINE_SEARCH_OPT": {
+                                "const": "AUTO"
+                              }
+                            },
+                            "required": [
+                              "LINE_SEARCH_OPT"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "START_ITER_NO"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MAX_LINE_SEARCH_ITER"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "LINE_SEARCH_TOL"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "If LINE_SEARCH_OPT is USER, START_ITER_NO, MAX_LINE_SEARCH_ITER, and LINE_SEARCH_TOL are required.",
+                          "if": {
+                            "properties": {
+                              "LINE_SEARCH_OPT": {
+                                "const": "USER"
+                              }
+                            },
+                            "required": [
+                              "LINE_SEARCH_OPT"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "START_ITER_NO",
+                              "MAX_LINE_SEARCH_ITER",
+                              "LINE_SEARCH_TOL"
+                            ]
+                          }
+                        }
+                      ],
+                      "description": "Enable Line Search / Auto·User / Max Line Search Iter / Tol"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "If STIFF_UPD_SCHEME is 0, ITER_BEF_UPDATE is required.",
+                      "if": {
+                        "properties": {
+                          "STIFF_UPD_SCHEME": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "STIFF_UPD_SCHEME"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "ITER_BEF_UPDATE"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "If STIFF_UPD_SCHEME is 1 or 2, ITER_BEF_UPDATE must not be provided.",
+                      "if": {
+                        "properties": {
+                          "STIFF_UPD_SCHEME": {
+                            "enum": [
+                              1,
+                              2
+                            ]
+                          }
+                        },
+                        "required": [
+                          "STIFF_UPD_SCHEME"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "ITER_BEF_UPDATE"
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "description": "(복합) (세부 필드는 서브 §4 Iteration Control 과 중복 — 메인 대화상자에서 접근 가능)"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "PO_HINGE_OPT": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "ASSIGN_BY_MEMBER",
+                    "NONL_TYPE",
+                    "TRILINEAR",
+                    "BILINEAR",
+                    "LOC_BEAM",
+                    "CALC_YIELDS"
+                  ],
+                  "properties": {
+                    "ASSIGN_BY_MEMBER": {
+                      "type": "boolean",
+                      "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                    },
+                    "NONL_TYPE": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "PSPRING_SUP",
+                        "EL"
+                      ],
+                      "properties": {
+                        "PSPRING_SUP": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ],
+                          "description": "Apply nonlinear / Linear"
+                        },
+                        "EL": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ],
+                          "description": "Apply nonlinear / Linear"
+                        }
+                      },
+                      "description": "Apply nonlinear / Linear"
+                    },
+                    "TRILINEAR": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "TENS_A1",
+                        "TENS_A2",
+                        "COMP_A1",
+                        "COMP_A2",
+                        "SYMMETRIC"
+                      ],
+                      "properties": {
+                        "TENS_A1": {
+                          "type": "number",
+                          "description": "Trilinear default stiffness reduction"
+                        },
+                        "TENS_A2": {
+                          "type": "number",
+                          "description": "Trilinear default stiffness reduction"
+                        },
+                        "COMP_A1": {
+                          "type": "number",
+                          "description": "Trilinear default stiffness reduction"
+                        },
+                        "COMP_A2": {
+                          "type": "number",
+                          "description": "Trilinear default stiffness reduction"
+                        },
+                        "SYMMETRIC": {
+                          "type": "boolean",
+                          "description": "Trilinear default stiffness reduction"
+                        }
+                      },
+                      "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                    },
+                    "BILINEAR": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "TENS_A1",
+                        "COMP_A1",
+                        "SYMMETRIC"
+                      ],
+                      "properties": {
+                        "TENS_A1": {
+                          "type": "number",
+                          "description": "Bilinear default stiffness reduction"
+                        },
+                        "COMP_A1": {
+                          "type": "number",
+                          "description": "Bilinear default stiffness reduction"
+                        },
+                        "SYMMETRIC": {
+                          "type": "boolean",
+                          "description": "Bilinear default stiffness reduction"
+                        }
+                      },
+                      "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                    },
+                    "LOC_BEAM": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                    },
+                    "CALC_YIELDS": {
+                      "type": "boolean",
+                      "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                    }
+                  },
+                  "description": "Hinge Property 옵션 그룹 (TRILINEAR/BILINEAR 강성 저감, LOC_BEAM (I/Mid/J), CALC_YIELDS (Buckling))"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "MISC": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "SHOW_GRAPH_AFTER",
+                    "SHOW_GRAPH_DURING"
+                  ],
+                  "properties": {
+                    "SHOW_GRAPH_AFTER": {
+                      "type": "boolean",
+                      "description": "Show Pushover Curve Result After Analysis"
+                    },
+                    "SHOW_GRAPH_DURING": {
+                      "type": "boolean",
+                      "description": "Show Pushover Curve during Analyzing"
+                    }
+                  },
+                  "description": "Pushover Misc Options"
+                }
+              }
+            },
+            {
+              "description": "If GEO_NONL_TYPE is Large Displacements or P-Delta, INIT_LOAD_TYPE must be 0.",
+              "if": {
+                "properties": {
+                  "GEO_NONL_TYPE": {
+                    "enum": [
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "required": [
+                  "GEO_NONL_TYPE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "INIT_LOAD_TYPE": {
+                    "const": 0
+                  }
+                }
+              }
+            },
+            {
+              "description": "If INIT_LOAD_TYPE is 1, IGNORE_ELEM must not be provided.",
+              "if": {
+                "properties": {
+                  "INIT_LOAD_TYPE": {
+                    "const": 1
+                  }
+                },
+                "required": [
+                  "INIT_LOAD_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "IGNORE_ELEM"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

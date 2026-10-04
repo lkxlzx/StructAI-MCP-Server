@@ -1,0 +1,32 @@
+{
+  "key": "POST.TABLE.string",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "Argument": {
+      "EXPORT_PATH": "string",
+      "TABLE_NAME": "BEAMDESIGNFORCES",
+      "TABLE_TYPE": "string",
+      "UNIT": {
+        "FORCE": "KGF",
+        "DIST": "MM",
+        "HEAT": "CAL",
+        "TEMP": "C"
+      },
+      "STYLES": {
+        "FORMAT": "DEFAULT",
+        "PLACE": 0
+      },
+      "NODE_ELEMS": {
+        "KEYS": [
+          0
+        ],
+        "TO": "string",
+        "STRUCTURE_GROUP_NAME": "string"
+      },
+      "PARTS": [
+        "string"
+      ]
+    }
+  }
+}

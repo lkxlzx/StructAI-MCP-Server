@@ -1,0 +1,1198 @@
+{
+  "key": "DB.SWIND",
+  "uri": "DB/SWIND",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices; each value is a SWIND request item.",
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "SWIND request item. DESC and ADDITIONAL_LOAD are optional; WIND_CODE, SCALE_FACTOR_X, SCALE_FACTOR_Y, and PARAMETERS are required.",
+            "required": [
+              "WIND_CODE",
+              "SCALE_FACTOR_X",
+              "SCALE_FACTOR_Y",
+              "PARAMETERS"
+            ],
+            "properties": {
+              "WIND_CODE": {
+                "type": "string",
+                "const": "KDS(41-12: 2022)",
+                "description": "Wind load code. Currently only KDS(41-12: 2022) is supported by this schema.",
+                "enum": [
+                  "KDS(41-12: 2022)"
+                ]
+              },
+              "DESC": {
+                "type": "string",
+                "default": "",
+                "description": "Optional description."
+              },
+              "SCALE_FACTOR_X": {
+                "type": "number",
+                "description": "Scale factor for X direction."
+              },
+              "SCALE_FACTOR_Y": {
+                "type": "number",
+                "description": "Scale factor for Y direction."
+              },
+              "PARAMETERS": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "KDS(41-12: 2022) wind parameters. INPUT_METHOD selects method-specific fields.",
+                "required": [
+                  "INPUT_METHOD"
+                ],
+                "properties": {
+                  "INPUT_METHOD": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1,
+                      2
+                    ],
+                    "description": "Input method for KDS(41-12: 2022) wind parameters."
+                  },
+                  "EXP_CATEGORY": {
+                    "type": "integer",
+                    "description": "Exposure category.",
+                    "enum": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  },
+                  "WIND_SPEED": {
+                    "type": "number",
+                    "description": "Basic wind speed."
+                  },
+                  "IMPORTANCE_FACTOR": {
+                    "type": "number",
+                    "description": "Importance factor."
+                  },
+                  "ROOF_HEIGHT": {
+                    "type": "number",
+                    "description": "Roof height. If omitted, the product system value is used.",
+                    "default": "system"
+                  },
+                  "CE": {
+                    "type": "number",
+                    "description": "Exposure coefficient. If omitted, default 1.0 is used.",
+                    "default": 1
+                  },
+                  "TOPOGRAPHIC_EFFECT": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Optional topographic effect. Omission means OPT_USE=false.",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether to use topographic effect."
+                      },
+                      "KZT": {
+                        "type": "number",
+                        "description": "Topographic factor."
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "description": "OPT_USE=true then KZT is required.",
+                        "if": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        },
+                        "then": {
+                          "required": [
+                            "KZT"
+                          ]
+                        }
+                      },
+                      {
+                        "description": "OPT_USE=false then KZT must not be provided.",
+                        "if": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        },
+                        "then": {
+                          "not": {
+                            "required": [
+                              "KZT"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "DIRECTION_FACTOR_X": {
+                    "type": "number",
+                    "description": "Direction factor for X direction."
+                  },
+                  "DIRECTION_FACTOR_Y": {
+                    "type": "number",
+                    "description": "Direction factor for Y direction."
+                  },
+                  "RIGIDITY": {
+                    "type": "integer",
+                    "description": "Rigidity classification."
+                  },
+                  "GUST_FACTOR_X": {
+                    "type": "number",
+                    "description": "Gust factor for X direction."
+                  },
+                  "GUST_FACTOR_Y": {
+                    "type": "number",
+                    "description": "Gust factor for Y direction."
+                  },
+                  "FORCE_COEF": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Optional force coefficient. Omission means OPT_USE=false.",
+                    "required": [
+                      "OPT_USE"
+                    ],
+                    "properties": {
+                      "OPT_USE": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether to use user-defined force coefficient."
+                      },
+                      "FORCE_COEF": {
+                        "type": "number",
+                        "description": "Force coefficient value."
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "description": "OPT_USE=true then FORCE_COEF is required.",
+                        "if": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        },
+                        "then": {
+                          "required": [
+                            "FORCE_COEF"
+                          ]
+                        }
+                      },
+                      {
+                        "description": "OPT_USE=false then FORCE_COEF must not be provided.",
+                        "if": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        },
+                        "then": {
+                          "not": {
+                            "required": [
+                              "FORCE_COEF"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "BUILDING_TYPE": {
+                    "type": "integer",
+                    "description": "Building type.",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "VIBRATION_PARAMS": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Conditional vibration parameters.",
+                    "required": [
+                      "ACROSS_WIND",
+                      "TORSIONAL_WIND",
+                      "WIND_RESPONSE"
+                    ],
+                    "properties": {
+                      "ACROSS_WIND": {
+                        "type": "boolean",
+                        "description": "Across-wind vibration option. For BUILDING_TYPE=0, this value is fixed to true."
+                      },
+                      "TORSIONAL_WIND": {
+                        "type": "boolean",
+                        "description": "Torsional-wind vibration option. For BUILDING_TYPE=0, this value is fixed to false."
+                      },
+                      "WIND_RESPONSE": {
+                        "type": "boolean",
+                        "description": "Wind response option."
+                      },
+                      "BL_X": {
+                        "type": "number",
+                        "description": "Building Length X. Common required field when VIBRATION_PARAMS is provided."
+                      },
+                      "BL_Y": {
+                        "type": "number",
+                        "description": "Building Length Y. Common required field when VIBRATION_PARAMS is provided."
+                      },
+                      "NO_X": {
+                        "type": "number",
+                        "description": "Natural frequency in X direction."
+                      },
+                      "NO_Y": {
+                        "type": "number",
+                        "description": "Natural frequency in Y direction."
+                      },
+                      "NO_T": {
+                        "type": "number",
+                        "description": "Torsional natural frequency."
+                      },
+                      "M": {
+                        "type": "number",
+                        "description": "Mass. If omitted in supported cases, the product system value is used.",
+                        "default": "system"
+                      },
+                      "MX": {
+                        "type": "number",
+                        "description": "Mass in X direction.",
+                        "default": "system"
+                      },
+                      "MY": {
+                        "type": "number",
+                        "description": "Mass in Y direction.",
+                        "default": "system"
+                      },
+                      "MI": {
+                        "type": "number",
+                        "description": "Mass moment of inertia.",
+                        "default": "system"
+                      },
+                      "ZF": {
+                        "type": "number",
+                        "description": "Damping ratio."
+                      },
+                      "VIBRATION_MODE": {
+                        "type": "number",
+                        "description": "Vibration mode coefficient."
+                      }
+                    }
+                  },
+                  "DM": {
+                    "type": "number",
+                    "description": "Vortex shedding parameter DM."
+                  },
+                  "DB": {
+                    "type": "number",
+                    "description": "Vortex shedding parameter DB."
+                  },
+                  "N": {
+                    "type": "number",
+                    "description": "Natural frequency for vortex shedding check."
+                  },
+                  "M": {
+                    "type": "number",
+                    "description": "Mass for vortex shedding check. If omitted, the product system value is used.",
+                    "default": "system"
+                  },
+                  "ZF": {
+                    "type": "number",
+                    "description": "Damping ratio for vortex shedding check."
+                  }
+                },
+                "allOf": [
+                  {
+                    "description": "INPUT_METHOD=0 (Simplified Method) then WIND_SPEED is required. ROOF_HEIGHT may be omitted to use system value, and CE may be omitted to use default 1.0.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 0
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "WIND_SPEED"
+                      ],
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "BL_X_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "BL_Y_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "BUILDING_TYPE"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DB"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DIRECTION_FACTOR_X"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DIRECTION_FACTOR_Y"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DM"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "EXP_CATEGORY"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "FORCE_COEF"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "GUST_FACTOR_X"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "GUST_FACTOR_Y"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "IMPORTANCE_FACTOR"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "M"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "N"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "RIGIDITY"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "TOPOGRAPHIC_EFFECT"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "VIBRATION_PARAMS"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "ZF"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "INPUT_METHOD=1 (General Method) then general method base fields are required. BUILDING_TYPE is conditionally required when FORCE_COEF.OPT_USE=false or FORCE_COEF is omitted.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "EXP_CATEGORY",
+                        "WIND_SPEED",
+                        "IMPORTANCE_FACTOR",
+                        "DIRECTION_FACTOR_X",
+                        "DIRECTION_FACTOR_Y",
+                        "RIGIDITY",
+                        "GUST_FACTOR_X",
+                        "GUST_FACTOR_Y"
+                      ],
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "BL_X_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "BL_Y_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "CE"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DB"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DM"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "M"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "N"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "ZF"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1 and FORCE_COEF.OPT_USE=true, BUILDING_TYPE and VIBRATION_PARAMS are optional.",
+                    "$comment": "BUILDING_TYPE and VIBRATION_PARAMS are not required when user-defined FORCE_COEF is used.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "FORCE_COEF": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "FORCE_COEF"
+                      ]
+                    },
+                    "then": {}
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1 and FORCE_COEF.OPT_USE=false or FORCE_COEF omitted, BUILDING_TYPE is required.",
+                    "$comment": "FORCE_COEF omission behaves as OPT_USE=false, so BUILDING_TYPE is required in both cases.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ],
+                      "anyOf": [
+                        {
+                          "not": {
+                            "required": [
+                              "FORCE_COEF"
+                            ]
+                          }
+                        },
+                        {
+                          "properties": {
+                            "FORCE_COEF": {
+                              "properties": {
+                                "OPT_USE": {
+                                  "const": false
+                                }
+                              },
+                              "required": [
+                                "OPT_USE"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "FORCE_COEF"
+                          ]
+                        }
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "BUILDING_TYPE"
+                      ]
+                    }
+                  },
+                  {
+                    "description": "INPUT_METHOD=2 (General Method - Vortex Shedding) then DM, DB, N, and ZF are required. ROOF_HEIGHT and M may be omitted to use system values.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 2
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "DM",
+                        "DB",
+                        "N",
+                        "ZF"
+                      ],
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "BL_X_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "BL_Y_MIN"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "BUILDING_TYPE"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "CE"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DIRECTION_FACTOR_X"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "DIRECTION_FACTOR_Y"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "EXP_CATEGORY"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "FORCE_COEF"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "GUST_FACTOR_X"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "GUST_FACTOR_Y"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "IMPORTANCE_FACTOR"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "RIGIDITY"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "TOPOGRAPHIC_EFFECT"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "VIBRATION_PARAMS"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "WIND_SPEED"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1, when BUILDING_TYPE=0 and VIBRATION_PARAMS is provided, ACROSS_WIND is fixed true and TORSIONAL_WIND is fixed false.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "BUILDING_TYPE": {
+                          "const": 0
+                        },
+                        "VIBRATION_PARAMS": {
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "BUILDING_TYPE",
+                        "VIBRATION_PARAMS"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "ACROSS_WIND": {
+                              "const": true
+                            },
+                            "TORSIONAL_WIND": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "ACROSS_WIND",
+                            "TORSIONAL_WIND"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1 and BUILDING_TYPE=1, ACROSS_WIND=true then NO_X, NO_Y, ZF, and VIBRATION_MODE are required. BL_X and BL_Y may be omitted to use system values; M, MX, and MY may be omitted to use system values.",
+                    "$comment": "BL_X, BL_Y는 입력하지 않을 경우 시스템 값이 자동적용입니다. M, MX, MY는 입력하지 않을 경우 시스템 값이 자동적용입니다.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "BUILDING_TYPE": {
+                          "const": 1
+                        },
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "ACROSS_WIND": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "ACROSS_WIND"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "BUILDING_TYPE",
+                        "VIBRATION_PARAMS"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "VIBRATION_PARAMS": {
+                          "required": [
+                            "NO_X",
+                            "NO_Y",
+                            "ZF",
+                            "VIBRATION_MODE"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1, TORSIONAL_WIND=true then NO_T, ZF, and VIBRATION_MODE are required. BL_X and BL_Y may be omitted to use system values; M and MI may be omitted to use system values.",
+                    "$comment": "BL_X, BL_Y는 입력하지 않을 경우 시스템 값이 자동적용입니다. M, MI는 입력하지 않을 경우 시스템 값이 자동적용입니다.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "TORSIONAL_WIND": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "TORSIONAL_WIND"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "VIBRATION_PARAMS"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "VIBRATION_PARAMS": {
+                          "required": [
+                            "NO_T",
+                            "ZF",
+                            "VIBRATION_MODE"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "For INPUT_METHOD=1, WIND_RESPONSE=true then NO_X, NO_Y, ZF, and VIBRATION_MODE are required. BL_X and BL_Y may be omitted to use system values; M, MX, and MY may be omitted to use system values.",
+                    "$comment": "BL_X, BL_Y는 입력하지 않을 경우 시스템 값이 자동적용입니다. M, MX, MY는 입력하지 않을 경우 시스템 값이 자동적용입니다.",
+                    "if": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "WIND_RESPONSE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "WIND_RESPONSE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "VIBRATION_PARAMS"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "VIBRATION_PARAMS": {
+                          "required": [
+                            "NO_X",
+                            "NO_Y",
+                            "ZF",
+                            "VIBRATION_MODE"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "ADDITIONAL_LOAD": {
+                "type": "array",
+                "description": "Additional story-level wind load list. Each item is validated according to PARAMETERS.INPUT_METHOD and vibration options.",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Additional story-level wind load item. Required and active fields are controlled by the parent PARAMETERS.INPUT_METHOD and vibration options.",
+                  "properties": {
+                    "STORY_NAME": {
+                      "type": "string",
+                      "description": "Story name."
+                    },
+                    "ALONG_X": {
+                      "type": "number",
+                      "description": "Additional along-wind load in X direction."
+                    },
+                    "ALONG_Y": {
+                      "type": "number",
+                      "description": "Additional along-wind load in Y direction."
+                    },
+                    "ACROSS_X": {
+                      "type": "number",
+                      "description": "Additional across-wind load in X direction. Active only when INPUT_METHOD=1 and VIBRATION_PARAMS.ACROSS_WIND=true."
+                    },
+                    "ACROSS_Y": {
+                      "type": "number",
+                      "description": "Additional across-wind load in Y direction. Active only when INPUT_METHOD=1 and VIBRATION_PARAMS.ACROSS_WIND=true."
+                    },
+                    "TORSIONAL_RZ": {
+                      "type": "number",
+                      "description": "Additional torsional wind load RZ. Required when INPUT_METHOD is 0 or 2."
+                    },
+                    "TORSIONAL_RZ_X": {
+                      "type": "number",
+                      "description": "Additional torsional wind load RZ for X direction. Active only when INPUT_METHOD=1 and VIBRATION_PARAMS.TORSIONAL_WIND=true."
+                    },
+                    "TORSIONAL_RZ_Y": {
+                      "type": "number",
+                      "description": "Additional torsional wind load RZ for Y direction. Active only when INPUT_METHOD=1 and VIBRATION_PARAMS.TORSIONAL_WIND=true."
+                    }
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "description": "For INPUT_METHOD=0 or 2, each ADDITIONAL_LOAD item requires STORY_NAME, ALONG_X, ALONG_Y, and TORSIONAL_RZ. Method-1-only fields must not be provided.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "enum": [
+                            0,
+                            2
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "required": [
+                          "STORY_NAME",
+                          "ALONG_X",
+                          "ALONG_Y",
+                          "TORSIONAL_RZ"
+                        ],
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "ACROSS_X"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "ACROSS_Y"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "TORSIONAL_RZ_X"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "TORSIONAL_RZ_Y"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "description": "For INPUT_METHOD=1, each ADDITIONAL_LOAD item always requires STORY_NAME, ALONG_X, and ALONG_Y. TORSIONAL_RZ is not used for this method.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "required": [
+                          "STORY_NAME",
+                          "ALONG_X",
+                          "ALONG_Y"
+                        ],
+                        "not": {
+                          "required": [
+                            "TORSIONAL_RZ"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "description": "For INPUT_METHOD=1, ACROSS_X and ACROSS_Y are required only when VIBRATION_PARAMS.ACROSS_WIND=true.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "ACROSS_WIND": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "ACROSS_WIND"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "VIBRATION_PARAMS"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "required": [
+                          "ACROSS_X",
+                          "ACROSS_Y"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "description": "For INPUT_METHOD=1, ACROSS_X and ACROSS_Y must not be provided unless VIBRATION_PARAMS.ACROSS_WIND=true.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ],
+                      "not": {
+                        "properties": {
+                          "VIBRATION_PARAMS": {
+                            "properties": {
+                              "ACROSS_WIND": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "ACROSS_WIND"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "VIBRATION_PARAMS"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "ACROSS_X"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "ACROSS_Y"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "description": "For INPUT_METHOD=1, TORSIONAL_RZ_X and TORSIONAL_RZ_Y are required only when VIBRATION_PARAMS.TORSIONAL_WIND=true.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        },
+                        "VIBRATION_PARAMS": {
+                          "properties": {
+                            "TORSIONAL_WIND": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "TORSIONAL_WIND"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD",
+                        "VIBRATION_PARAMS"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "required": [
+                          "TORSIONAL_RZ_X",
+                          "TORSIONAL_RZ_Y"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "description": "For INPUT_METHOD=1, TORSIONAL_RZ_X and TORSIONAL_RZ_Y must not be provided unless VIBRATION_PARAMS.TORSIONAL_WIND=true.",
+                "if": {
+                  "properties": {
+                    "PARAMETERS": {
+                      "properties": {
+                        "INPUT_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "INPUT_METHOD"
+                      ],
+                      "not": {
+                        "properties": {
+                          "VIBRATION_PARAMS": {
+                            "properties": {
+                              "TORSIONAL_WIND": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "TORSIONAL_WIND"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "VIBRATION_PARAMS"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "PARAMETERS"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "ADDITIONAL_LOAD": {
+                      "items": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "TORSIONAL_RZ_X"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "TORSIONAL_RZ_Y"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

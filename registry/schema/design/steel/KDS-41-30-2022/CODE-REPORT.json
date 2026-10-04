@@ -1,0 +1,160 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.CODE-REPORT",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/CODE-REPORT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "REPORT_TYPE",
+          "CURRENT_MODE",
+          "EXPORT_PATH",
+          "OUTPUT_NAME"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "REPORT_TYPE": {
+            "type": "string",
+            "description": "Report Table Type",
+            "enum": [
+              "MEMB",
+              "PROP"
+            ]
+          },
+          "CURRENT_MODE": {
+            "type": "string",
+            "description": "Report output mode",
+            "oneOf": [
+              {
+                "title": "Graphic (JPG image)",
+                "const": "Graphic"
+              },
+              {
+                "title": "Detail (DOC document)",
+                "const": "Detail"
+              },
+              {
+                "title": "Summary (TXT text)",
+                "const": "Summary"
+              }
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "description": "Element No. Input.",
+            "additionalProperties": false,
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "description": "Specify Each ID",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify ID Range (e.g., '1to160')"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify Structure Group Name"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "KEYS"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "TO"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "STRUCTURE_GROUP_NAME"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "SECTIONS": {
+            "type": "array",
+            "description": "List of section numbers to include in the report",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Directory path to save the report files"
+          },
+          "OUTPUT_NAME": {
+            "type": "string",
+            "description": "Output file base name. For multiple elements, files are prefixed with index and element number (e.g. 001_E859_filename.jpg, 002_E1_filename.jpg)"
+          }
+        }
+      }
+    }
+  }
+}

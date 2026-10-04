@@ -1,0 +1,49 @@
+key: DB.TDNA
+namespace: DB
+uri: /DB/TDNA
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: TDNA
+schema_ref:
+  local: schema/common/db/TDNA.json
+  introspect: info/db/TDNA
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Tendon Profile
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35954555962137-Tendon-Profile"
+  retrieved_at: "2026-09-28"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 78
+  examples: 12
+  has_response_head: false
+notes: ["추가했다 — 원문 JSON Schema(`\"bPJ\": {\"description\": \"IsProjection?\", \"type\": \"boolean\"}`), CURVE 예제 4종 전부(`\"bPJ\": true`), 그리고 원문 Specifications 표 모두에 존재한다(같은 필드가 ELEMENT·STRAIGHT 블록에는 이미 있었다). 20번이 `DIR`·`XAR_ANGLE` 두 행에 중복 부여된 것은 원문 번호 오류를 그대로 옮긴 것이다(원문 표기 유지 — 되돌리지 말 것).", "누락되어 있었다(원문 [Tendon Profile](https://support.midasuser.com/hc/en-us/articles/35954555962137) 재대조로 발견). Round 타입은 `bFIX`/`R` 대신 `RADIUS`·`OPT`·`ANGLE`·`HEIGHT`·`RADIUS2`를 쓴다. 원문 Specifications 표는 `RADIUS`의 Value Type을 \"Boolean\"으로 표기했으나, 예제(`RADIUS\": 0, 20` 등 숫자값)와 모순되므로 CLAUDE.md 원칙(예제 우선)에 따라 Number로 기재한다. ✅ **2026-09-18 라이브 검증으로 확정(추정 아님).** Gen NX 2026 v2.1 · Civil NX 2026 v2.2 (Build 09/15/2026"]

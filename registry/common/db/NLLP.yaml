@@ -1,0 +1,49 @@
+key: DB.NLLP
+namespace: DB
+uri: /DB/NLLP
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: NLLP
+schema_ref:
+  local: schema/common/db/NLLP.json
+  introspect: info/db/NLLP
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: General Link Properties
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35946764618905-General-Link-Properties"
+  retrieved_at: "2026-02-23"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 105
+  examples: 3
+  has_response_head: false
+notes: ["`COUPLED_INPUT_METHOD` 3개가 누락돼 있었다(아티클 id `35946764618905`). 이 원문은 `APPLICATION_TYPE`/`APPLICATION_TYPE_D` 조합 14가지마다 별도 파라미터 세트(장치별 상세 물성)를 갖는 6000줄 이상의 방대한 문서라, 위 \"APPLICATION_TYPE 조합표\"에 정리한 개요 수준으로만 다루고 조합별 상세 필드는(SDVI/SDVE/SDST/SDHY/SDIS로 참조되는 것 외의 FORCE 계열 GAP/HOOK/HS/LRBI/FPSI/TFPSI 등) 전수 기재하지 않는다(SECT/TDMT/FIMP와 동일 원칙)."]

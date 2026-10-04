@@ -1,0 +1,39 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.CBFT",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/CBFT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "AUTO_CAL": {
+                "type": "boolean",
+                "description": "Auto Calculate by Program",
+                "default": false
+              },
+              "VALUE": {
+                "type": "number",
+                "description": "Bending Coefficient (Cb) Value",
+                "default": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

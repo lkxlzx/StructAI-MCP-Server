@@ -1,0 +1,278 @@
+{
+  "key": "DB.TDMT",
+  "uri": "DB/TDMT",
+  "source": "help_center",
+  "schema": {
+    "TDMT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "MaterialName",
+          "type": "string"
+        },
+        "CODE": {
+          "description": "CodeName",
+          "type": "string"
+        },
+        "STR": {
+          "description": "CompressionStrength",
+          "type": "number"
+        },
+        "HU": {
+          "description": "RelativeHumidity",
+          "type": "number"
+        },
+        "HTYPE": {
+          "description": "RelativeHumidity",
+          "type": "string"
+        },
+        "AGE": {
+          "description": "ConcreteAge",
+          "type": "number"
+        },
+        "UCS": {
+          "description": "UltimateCreepStrain",
+          "type": "number"
+        },
+        "VOL": {
+          "description": "VolumeSurfaceRatio",
+          "type": "number"
+        },
+        "RR": {
+          "description": "ReinforcementRatio",
+          "type": "number"
+        },
+        "MOD": {
+          "description": "ModulusofElasticity",
+          "type": "number"
+        },
+        "MSIZE": {
+          "description": "MemberSize",
+          "type": "number"
+        },
+        "CTYPE": {
+          "description": "CementType",
+          "type": "string"
+        },
+        "VSR": {
+          "description": "ShrinkVolumeSurfaceRatio",
+          "type": "string"
+        },
+        "THIK": {
+          "description": "Thickness",
+          "type": "number"
+        },
+        "iEPS_DRY": {
+          "description": "EpsDryMethod",
+          "type": "integer"
+        },
+        "EPS_DRY": {
+          "description": "EpsDryValue",
+          "type": "number"
+        },
+        "CEMCONTENT": {
+          "description": "CementContent",
+          "type": "number"
+        },
+        "WATERCONTENT": {
+          "description": "WaterContent",
+          "type": "number"
+        },
+        "BSC": {
+          "description": "CementTypeofCoeff",
+          "type": "number"
+        },
+        "CFACTA": {
+          "description": "ConcreteFactorA",
+          "type": "number"
+        },
+        "CFACTB": {
+          "description": "ConcreteFactorB",
+          "type": "number"
+        },
+        "TYPE": {
+          "description": "CodeorUser",
+          "type": "string"
+        },
+        "CMETHOD": {
+          "description": "CuringMethod",
+          "type": "string"
+        },
+        "SLUMP": {
+          "description": "Slump",
+          "type": "number"
+        },
+        "FAPERCENT": {
+          "description": "FineAggPercent",
+          "type": "number"
+        },
+        "AIRCONTENT": {
+          "description": "AirContent",
+          "type": "number"
+        },
+        "CREEPCOEFF": {
+          "description": "CreepCoeff",
+          "type": "number"
+        },
+        "SHRINKSTRAIN": {
+          "description": "ShrinkStrain",
+          "type": "number"
+        },
+        "TYPEOFAFFR": {
+          "description": "TypeofAggregate",
+          "type": "integer"
+        },
+        "USS": {
+          "description": "UltimateShrinkageStrain",
+          "type": "number"
+        },
+        "VSR1": {
+          "description": "CreepVolumeSurfaceRatio",
+          "type": "string"
+        },
+        "LAF": {
+          "description": "LoadingAgedFactor",
+          "type": "string"
+        },
+        "US": {
+          "description": "Shrinkage",
+          "type": "number"
+        },
+        "PST": {
+          "description": "ShrinkProgressofShrinkage",
+          "type": "string"
+        },
+        "bRCE": {
+          "description": "ReinforcedConcreteEffect",
+          "type": "boolean"
+        },
+        "CM": {
+          "description": "CalculationMethodforE",
+          "type": "string"
+        },
+        "LAMBDA": {
+          "description": "Lambda",
+          "type": "number"
+        },
+        "bEXPOSE": {
+          "description": "BooleanExpose",
+          "type": "boolean"
+        },
+        "TCODE": {
+          "description": "TypeofCode",
+          "type": "integer"
+        },
+        "bSILICA": {
+          "description": "SilicaFume",
+          "type": "boolean"
+        },
+        "ALPHAFACT": {
+          "description": "AlphaFactor",
+          "type": "number"
+        },
+        "bAUTO": {
+          "description": "BooleanAutoShrankage",
+          "type": "boolean"
+        },
+        "GAMMAFACT": {
+          "description": "GammaFactor",
+          "type": "number"
+        },
+        "AFACT": {
+          "description": "AFactor",
+          "type": "number"
+        },
+        "BFACT": {
+          "description": "BFactor",
+          "type": "number"
+        },
+        "bGEN": {
+          "description": "BooleanGeneralShrankage",
+          "type": "boolean"
+        },
+        "EXPOSURE": {
+          "description": "ExposureEnv",
+          "type": "integer"
+        },
+        "M": {
+          "description": "ExposeSurfaceM",
+          "type": "number"
+        },
+        "CMETH": {
+          "description": "CuringMeth",
+          "type": "integer"
+        },
+        "iCTYPE": {
+          "description": "CementType",
+          "type": "integer"
+        },
+        "CREEP": {
+          "description": "BooleanCreep",
+          "type": "boolean"
+        },
+        "CONCT": {
+          "description": "ConcreteType",
+          "type": "integer"
+        },
+        "W": {
+          "description": "Water",
+          "type": "number"
+        },
+        "MAXS": {
+          "description": "MaxSize",
+          "type": "number"
+        },
+        "A": {
+          "description": "Air",
+          "type": "number"
+        },
+        "PZ": {
+          "description": "P-z",
+          "type": "number"
+        },
+        "FLYASH": {
+          "description": "AddFlyAsh",
+          "type": "number"
+        },
+        "FS": {
+          "description": "RFactorShrink",
+          "type": "number"
+        },
+        "DENSITY": {
+          "description": "Density",
+          "type": "number"
+        },
+        "IPFACT": {
+          "description": "ImpactFactor",
+          "type": "number"
+        },
+        "AGESOL": {
+          "description": "ConreteAgeSol",
+          "type": "number"
+        },
+        "SSFNAME": {
+          "description": "MaterialFunctionName",
+          "type": "string"
+        },
+        "vCREEP_AGE": {
+          "description": "CreepFunction,AgeList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "NAME": {
+                "description": "MaterialFunctionName",
+                "type": "string"
+              },
+              "AGE": {
+                "description": "Age",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

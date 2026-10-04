@@ -1,0 +1,37 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.MRFT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/MRFT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "description": "Design Parameters - Moment Redistribution Factor (MRFT). Only Beam Member Type is applicable. Supported methods: POST, GET, PUT, DELETE.",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by beam member ID strings (e.g., \"859\"), where each entry represents a moment redistribution factor assigned to the member. Only Beam Member Type is applicable.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "FACTOR": {
+                "type": "number",
+                "description": "Moment redistribution factor assigned to the member.",
+                "default": 1,
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "key": "VIEW.CAPTURE",
+  "uri": "VIEW/CAPTURE",
+  "source": "help_center",
+  "schema": {
+    "CAPTURE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "FIGURE_NAME": {
+              "type": "string"
+            },
+            "EXPORT_PATH": {
+              "type": "string"
+            },
+            "WIDTH": {
+              "type": "integer"
+            },
+            "HEIGHT": {
+              "type": "integer"
+            },
+            "STAGE_NAME": {
+              "type": "string"
+            },
+            "SET_MODE": {
+              "type": "string"
+            },
+            "SET_HIDDEN": {
+              "type": "boolean"
+            },
+            "ACTIVE": {
+              "type": "object",
+              "description": "Veiw/Active"
+            },
+            "ANGLE": {
+              "type": "object",
+              "description": "Veiw/Angle"
+            },
+            "DISPLAY": {
+              "type": "object",
+              "description": "Veiw/Display"
+            },
+            "RESULT_GRAPHIC": {
+              "type": "object",
+              "description": "Veiw/Result Graphic"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "key": "OPE.GUSTFACTOR",
+  "uri": "OPE/GUSTFACTOR",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "GUSTFACTOR request item. STRUCTURE_TYPE controls whether RIGID_PARAM or FLEXIBLE_PARAM is required.",
+        "required": [
+          "WIND_CODE",
+          "STRUCTURE_TYPE"
+        ],
+        "properties": {
+          "WIND_CODE": {
+            "type": "string",
+            "enum": [
+              "KDS(41-12:2022)"
+            ]
+          },
+          "STRUCTURE_TYPE": {
+            "type": "string",
+            "enum": [
+              "RIGID",
+              "FLEXIBLE"
+            ],
+            "description": "Structure type classification."
+          },
+          "RIGID_PARAM": {
+            "type": "object",
+            "required": [
+              "EXP_CATEGORY",
+              "ROOF_HEIGHT",
+              "BREADTH_X",
+              "BREADTH_Y"
+            ],
+            "properties": {
+              "EXP_CATEGORY": {
+                "type": "string",
+                "description": "Exposure category."
+              },
+              "ROOF_HEIGHT": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Roof height."
+              },
+              "BREADTH_X": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Plan breadth in global X direction."
+              },
+              "BREADTH_Y": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Plan breadth in global Y direction."
+              }
+            }
+          },
+          "FLEXIBLE_PARAM": {
+            "type": "object",
+            "required": [
+              "EXP_CATEGORY",
+              "BASIC_WIND_SPEED",
+              "IMPORTANCE_FACTOR",
+              "DIRECTION_FACTOR_X",
+              "DIRECTION_FACTOR_Y",
+              "BREADTH_X",
+              "BREADTH_Y",
+              "STORY_HEIGHT_MAX",
+              "FREQUENCY_X",
+              "FREQUENCY_Y",
+              "DAMPING",
+              "TOTAL_MASS",
+              "MX",
+              "MY",
+              "VIBRATION"
+            ],
+            "properties": {
+              "EXP_CATEGORY": {
+                "type": "string",
+                "description": "Exposure category."
+              },
+              "BASIC_WIND_SPEED": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Basic wind speed."
+              },
+              "IMPORTANCE_FACTOR": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Importance factor."
+              },
+              "TOPOGRAPHIC_EFFECT": {
+                "type": "object",
+                "required": [
+                  "OPT_USE"
+                ],
+                "properties": {
+                  "OPT_USE": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether to use topographic effect."
+                  },
+                  "KZT": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Topographic factor Kzt. Required only if OPT_USE=true."
+                  }
+                },
+                "description": "Optional. If omitted, treated as OPT_USE=false."
+              },
+              "DIRECTION_FACTOR_X": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Direction factor in X."
+              },
+              "DIRECTION_FACTOR_Y": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Direction factor in Y."
+              },
+              "BREADTH_X": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Plan breadth in global X direction."
+              },
+              "BREADTH_Y": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Plan breadth in global Y direction."
+              },
+              "STORY_HEIGHT_MAX": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Maximum story or roof height used for flexible response."
+              },
+              "FREQUENCY_X": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Fundamental frequency in X."
+              },
+              "FREQUENCY_Y": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Fundamental frequency in Y."
+              },
+              "DAMPING": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Damping ratio, for example 0.03."
+              },
+              "TOTAL_MASS": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Total mass."
+              },
+              "MX": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Mass term in X."
+              },
+              "MY": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Mass term in Y."
+              },
+              "VIBRATION": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Vibration-related factor or flag."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WMAK",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WMAK",
+  "source": "repo_midas_api",
+  "schema": {
+    "title": "Modify Wall Mark Data (WMAK)",
+    "description": "POST /DESIGN/RC/KDS-41-20-2022/WMAK — Design Parameters - Modify Wall Mark Data",
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "title": "Modify Wall Mark Data",
+            "type": "object",
+            "required": [
+              "MARKNAME",
+              "WID_LIST"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "MARKNAME": {
+                "type": "string",
+                "description": "Wall mark name",
+                "minLength": 1
+              },
+              "WID_LIST": {
+                "type": "array",
+                "description": "Target wall IDs",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

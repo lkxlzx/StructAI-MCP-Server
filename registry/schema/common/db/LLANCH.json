@@ -1,0 +1,127 @@
+{
+  "key": "DB.LLANCH",
+  "uri": "DB/LLANCH",
+  "source": "help_center",
+  "schema": {
+    "LLANCH": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "LL_NAME": {
+              "description": "NameofLineLane",
+              "type": "string"
+            },
+            "LOAD_DIST": {
+              "description": "LoadDistribution",
+              "type": "string"
+            },
+            "GROUP_NAME": {
+              "description": "NameofLoadGroup",
+              "type": "string"
+            },
+            "SKEW_START": {
+              "description": "SkewStart",
+              "type": "number"
+            },
+            "SKEW_END": {
+              "description": "SkewEnd",
+              "type": "number"
+            },
+            "MOVING": {
+              "description": "MovingDirection",
+              "type": "string"
+            },
+            "WHEEL_SPACE": {
+              "description": "WheelSpace",
+              "type": "number"
+            },
+            "WIDTH": {
+              "description": "Width",
+              "type": "number"
+            },
+            "OPT_AUTO_LANE": {
+              "description": "AutoLaneOptimize",
+              "type": "boolean"
+            },
+            "ALLOW_WIDTH": {
+              "description": "AllowWidth",
+              "type": "number"
+            }
+          }
+        },
+        "LANE_ITEMS": {
+          "description": "LaneData(China)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ELEM": {
+                "description": "KeyElement",
+                "type": "integer"
+              },
+              "ECC": {
+                "description": "Eccentricity",
+                "type": "number"
+              },
+              "SPAN": {
+                "description": "Span",
+                "type": "number"
+              },
+              "SPAN_START": {
+                "description": "SpanStart",
+                "type": "boolean"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "SPECIAL_LANE_ITEMS": {
+          "description": "Usedonlywhenimporting",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ELEMS": {
+                "description": "KeyElements",
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "ECC": {
+                "description": "Eccentricity",
+                "type": "number"
+              },
+              "SPAN": {
+                "description": "Span",
+                "type": "number"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              },
+              "SPAN_START": {
+                "description": "SpanStart",
+                "type": "boolean"
+              },
+              "SPAN_START_NO_LIST": {
+                "description": "SpanStartNo",
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "key": "DB.SECF",
+  "uri": "DB/SECF",
+  "source": "help_center",
+  "schema": {
+    "SECF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "NameofBoundaryGroup",
+                "type": "string"
+              },
+              "AREA_SF": {
+                "description": "Area",
+                "type": "number"
+              },
+              "ASY_SF": {
+                "description": "AxisYEffectiveShearArea",
+                "type": "number"
+              },
+              "ASZ_SF": {
+                "description": "AxisZEffectiveShearArea",
+                "type": "number"
+              },
+              "IXX_SF": {
+                "description": "TorsionalResistance",
+                "type": "number"
+              },
+              "IYY_SF": {
+                "description": "AxisYAreaMomentofInertia",
+                "type": "number"
+              },
+              "IZZ_SF": {
+                "description": "AxisZAreaMomentofInertia",
+                "type": "number"
+              },
+              "WGT_SF": {
+                "description": "Weight",
+                "type": "number"
+              },
+              "W_SF": {
+                "description": "W",
+                "type": "number"
+              },
+              "IPART": {
+                "description": "Part",
+                "type": "integer"
+              },
+              "bDiffIJ": {
+                "description": "DifferentI=JBoolean",
+                "type": "boolean"
+              },
+              "J1": {
+                "description": "J1",
+                "type": "number"
+              },
+              "J2": {
+                "description": "J2",
+                "type": "number"
+              },
+              "J3": {
+                "description": "J3",
+                "type": "number"
+              },
+              "J4": {
+                "description": "J4",
+                "type": "number"
+              },
+              "J5": {
+                "description": "J5",
+                "type": "number"
+              },
+              "J6": {
+                "description": "J6",
+                "type": "number"
+              },
+              "J7": {
+                "description": "J7",
+                "type": "number"
+              },
+              "J8": {
+                "description": "J8",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.SCOL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/SCOL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by member ID strings (e.g., \"1059\"), where each value is a story type setting object.",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "TYPE"
+            ],
+            "properties": {
+              "TYPE": {
+                "type": "string",
+                "description": "Story type classification.",
+                "oneOf": [
+                  {
+                    "title": "PILOTI",
+                    "const": "PILOTI"
+                  },
+                  {
+                    "title": "SOFT_STORY",
+                    "const": "SOFT_STORY"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

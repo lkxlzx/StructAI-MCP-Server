@@ -1,0 +1,49 @@
+{
+  "key": "DB.ACTL",
+  "uri": "DB/ACTL",
+  "source": "help_center",
+  "schema": {
+    "ACTL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ARDC": {
+          "description": "AutoConstraintRotation",
+          "type": "boolean"
+        },
+        "ANRC": {
+          "description": "AutoConstraintNormal",
+          "type": "boolean"
+        },
+        "ITER": {
+          "description": "Maximumnumberofiterations",
+          "type": "integer"
+        },
+        "TOL": {
+          "description": "Trusstolerance",
+          "type": "number"
+        },
+        "CSECF": {
+          "description": "ConsiderSecfBoolean",
+          "type": "boolean"
+        },
+        "TRS": {
+          "description": "TransferReacBoolean",
+          "type": "boolean"
+        },
+        "CRBAR": {
+          "description": "ConsiderRbarBoolean",
+          "type": "boolean"
+        },
+        "BMSTRESS": {
+          "description": "Calculateequivalentbeamstresses",
+          "type": "boolean"
+        },
+        "CLATS": {
+          "description": "ChangeLcAxOfTapSectBoolean",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

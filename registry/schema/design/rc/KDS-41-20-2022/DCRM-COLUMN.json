@@ -1,0 +1,99 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "부재 ID 문자열을 키로 갖는 맵 (예: \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "description": "기둥 부재별 철근 규격·배근",
+            "required": [
+              "MAIN_REBAR",
+              "TIES_SPIRALS",
+              "ARRANGEMENT_Y",
+              "ARRANGEMENT_Z"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "MAIN_REBAR": {
+                "type": "string",
+                "description": "주철근 규격 (전체 19종: D4 ~ D57)",
+                "enum": [
+                  "D4",
+                  "D5",
+                  "D6",
+                  "D7",
+                  "D8"
+                ]
+              },
+              "TIES_SPIRALS": {
+                "type": "string",
+                "description": "띠철근/나선철근 규격 (전체 19종: D4 ~ D57)",
+                "enum": [
+                  "D4",
+                  "D5",
+                  "D6",
+                  "D7",
+                  "D8"
+                ]
+              },
+              "ARRANGEMENT_Y": {
+                "type": "integer",
+                "description": "띠철근 다리 수 (local Y) (전체 19종: 2 ~ 20)",
+                "enum": [
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "ARRANGEMENT_Z": {
+                "type": "integer",
+                "description": "띠철근 다리 수 (local Z) (전체 19종: 2 ~ 20)",
+                "enum": [
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "DO": {
+                "type": "number",
+                "description": "주철근 중심까지 피복 거리 do",
+                "default": 0
+              },
+              "SPACING_LIMIT": {
+                "type": "boolean",
+                "description": "철근 간격 제한 고려",
+                "default": true
+              },
+              "SPLICED_BARS": {
+                "type": "string",
+                "description": "이음 옵션",
+                "default": "50%",
+                "enum": [
+                  "None",
+                  "50%",
+                  "100%"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

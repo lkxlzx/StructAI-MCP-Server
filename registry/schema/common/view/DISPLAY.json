@@ -1,0 +1,426 @@
+{
+  "key": "VIEW.DISPLAY",
+  "uri": "VIEW/DISPLAY",
+  "source": "help_center",
+  "schema": {
+    "DISPLAY": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "NODE": {
+              "type": "object",
+              "properties": {
+                "NODE": {
+                  "type": "boolean"
+                },
+                "NODE_NUMBER": {
+                  "type": "boolean"
+                },
+                "STORY_NAME": {
+                  "type": "boolean"
+                },
+                "NODE_LOCAL_AXIS": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "ELEMENT": {
+              "type": "object",
+              "properties": {
+                "ELEM_NUMBER": {
+                  "type": "boolean"
+                },
+                "ELEM_NUMBER_WITH_BORDER": {
+                  "type": "boolean"
+                },
+                "ELEM_TYPE_NUMBER": {
+                  "type": "boolean"
+                },
+                "ELEM_TYPE_NAME": {
+                  "type": "boolean"
+                },
+                "WALL_ID": {
+                  "type": "boolean"
+                },
+                "GAP": {
+                  "type": "boolean"
+                },
+                "HOOK": {
+                  "type": "boolean"
+                },
+                "CABLE": {
+                  "type": "boolean"
+                },
+                "LOCAL_AXIS": {
+                  "type": "boolean"
+                },
+                "LOCAL_AXIS_LABEL": {
+                  "type": "boolean"
+                },
+                "LOCAL_DIRECTION": {
+                  "type": "boolean"
+                },
+                "SUB_DOMAIN_REBAR_DIRECTION": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "PROPERTY": {
+              "type": "object",
+              "properties": {
+                "MATERIAL_NUMBER": {
+                  "type": "boolean"
+                },
+                "MATERIAL_NAME": {
+                  "type": "boolean"
+                },
+                "PROPERTY_NUMBER": {
+                  "type": "boolean"
+                },
+                "PROPERTY_NAME": {
+                  "type": "boolean"
+                },
+                "SECTION_SHAPE": {
+                  "type": "boolean"
+                },
+                "TAPERED_SECTION_GROUP": {
+                  "type": "boolean"
+                },
+                "TIME_DEPENDENT_MATERIAL_LINK": {
+                  "type": "boolean"
+                },
+                "INELASTIC_HINGE_NAME": {
+                  "type": "boolean"
+                },
+                "INELASTIC_HINGE_SYMBOL": {
+                  "type": "boolean"
+                },
+                "REINFORCEMENT_OF_SECTIONS": {
+                  "type": "boolean"
+                },
+                "VIRTUAL_SECTION_LOCAL_AXIS": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "GROUP_SELECTION": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "BOUNDARY": {
+              "type": "object",
+              "properties": {
+                "SUPPORT": {
+                  "type": "boolean"
+                },
+                "SUPPORT_BY_DIRECTION": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT_COMP_TENS": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT_MULTI_LINEAR": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT_BY_DIRECTION": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT_BY_DIRECTION_COMP_TENS": {
+                  "type": "boolean"
+                },
+                "POINT_SPRING_SUPPORT_BY_DIRECTION_MULTI_LINEAR": {
+                  "type": "boolean"
+                },
+                "SURFACE_SPRING_SUPPORT_TYPE": {
+                  "type": "boolean"
+                },
+                "SURFACE_SPRING_SUPPORT_LINEAR": {
+                  "type": "boolean"
+                },
+                "SURFACE_SPRING_SUPPORT_COMP_TENS": {
+                  "type": "boolean"
+                },
+                "GENERAL_SPRING_SUPPORT": {
+                  "type": "boolean"
+                },
+                "ELASTIC_LINK": {
+                  "type": "boolean"
+                },
+                "ELASTIC_LINK_LOCAL_AXIS": {
+                  "type": "boolean"
+                },
+                "ELASTIC_LINK_TYPE": {
+                  "type": "boolean"
+                },
+                "ELASTIC_LINK_NUMBER": {
+                  "type": "boolean"
+                },
+                "GENERAL_LINK": {
+                  "type": "boolean"
+                },
+                "GENERAL_LINK_NUMBER": {
+                  "type": "boolean"
+                },
+                "GENERAL_LINK_LOCAL_AXIS": {
+                  "type": "boolean"
+                },
+                "GENERAL_LINK_TYPE": {
+                  "type": "boolean"
+                },
+                "CHANGE_GENERAL_LINK_PROPERTIES": {
+                  "type": "boolean"
+                },
+                "BEAM_END_RELEASE_SYMBOL": {
+                  "type": "boolean"
+                },
+                "BEAM_END_RELEASE_DIGIT": {
+                  "type": "boolean"
+                },
+                "BEAM_END_OFFSET_SYMBOL": {
+                  "type": "boolean"
+                },
+                "BEAM_END_OFFSET_DIGIT": {
+                  "type": "boolean"
+                },
+                "PLATE_END_RELEASE_SYMBOL": {
+                  "type": "boolean"
+                },
+                "PLATE_END_RELEASE_DIGIT": {
+                  "type": "boolean"
+                },
+                "RIGID_LINK": {
+                  "type": "boolean"
+                },
+                "LINEAR_CONSTRAINTS": {
+                  "type": "boolean"
+                },
+                "REACTION_POSITION": {
+                  "type": "boolean"
+                },
+                "STORY_DIAPHRAGM": {
+                  "type": "boolean"
+                },
+                "DIAPHRAGM_DISCONNECT": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "LOAD": {
+              "type": "object",
+              "properties": {
+                "CASE_SELECTION": {
+                  "type": "object",
+                  "properties": {
+                    "TYPE": {
+                      "type": "string"
+                    },
+                    "NAME": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "GROUP_SELECTION": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "LOAD_VALUE": {
+                  "type": "object",
+                  "properties": {
+                    "FORMAT": {
+                      "type": "string"
+                    },
+                    "PLACE": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "NODAL_BODY_FORCE": {
+                  "type": "boolean"
+                },
+                "NODAL_LOAD": {
+                  "type": "boolean"
+                },
+                "SPECIFIED_DISPLACEMENT": {
+                  "type": "boolean"
+                },
+                "BEAM_LOAD": {
+                  "type": "boolean"
+                },
+                "PRESTRESS_LOAD": {
+                  "type": "boolean"
+                },
+                "PRETENSION_LOAD": {
+                  "type": "boolean"
+                },
+                "FLOOR_LOAD": {
+                  "type": "boolean"
+                },
+                "FLOOR_LOAD_NAME": {
+                  "type": "boolean"
+                },
+                "FLOOR_LOAD_AREA": {
+                  "type": "boolean"
+                },
+                "LOADING_AREA_PLANE": {
+                  "type": "boolean"
+                },
+                "FINISHING_MATERIAL_LOAD": {
+                  "type": "boolean"
+                },
+                "PRESSURE_LOAD": {
+                  "type": "boolean"
+                },
+                "AREA_PRESSURE_LOADS": {
+                  "type": "boolean"
+                },
+                "PLANE_LOAD": {
+                  "type": "boolean"
+                },
+                "PLANE_LOAD_NAME": {
+                  "type": "boolean"
+                },
+                "NODAL_TEMPERATURE": {
+                  "type": "boolean"
+                },
+                "ELEMENT_TEMPERATURE": {
+                  "type": "boolean"
+                },
+                "TEMPERATURE_GRADIENT": {
+                  "type": "boolean"
+                },
+                "BEAM_SECTION_TEMPERATURE": {
+                  "type": "boolean"
+                },
+                "TENDON_PRESTRESS": {
+                  "type": "boolean"
+                },
+                "WIND_LOAD": {
+                  "type": "boolean"
+                },
+                "AREA_WIND_PRESSURE": {
+                  "type": "boolean"
+                },
+                "AREA_WIND_PRESSURE_NAME": {
+                  "type": "boolean"
+                },
+                "BEAM_WIND_PRESSURE": {
+                  "type": "boolean"
+                },
+                "NODAL_WIND_PRESSURE": {
+                  "type": "boolean"
+                },
+                "FUNCTION_WIND_PRESSURE": {
+                  "type": "boolean"
+                },
+                "FUNCTION_WIND_PRESSURE_NAME": {
+                  "type": "boolean"
+                },
+                "SEISMIC_EARTH_PRESSURE": {
+                  "type": "boolean"
+                },
+                "STATIC_EARTH_PRESSURE": {
+                  "type": "boolean"
+                },
+                "SEISMIC_LOAD": {
+                  "type": "boolean"
+                },
+                "DYNAMIC_NODAL_LOAD": {
+                  "type": "boolean"
+                },
+                "MULTIPLE_SUPPORT_EXCITATION": {
+                  "type": "boolean"
+                },
+                "MULTIPLE_SUPPORT_EXCITATION_FUNCTION_NAME": {
+                  "type": "boolean"
+                },
+                "DIR_X": {
+                  "type": "boolean"
+                },
+                "DIR_Y": {
+                  "type": "boolean"
+                },
+                "DIR_Z": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "MISC": {
+              "type": "object",
+              "properties": {
+                "NODAL_MASS": {
+                  "type": "boolean"
+                },
+                "LOAD_TO_MASS": {
+                  "type": "boolean"
+                },
+                "TENDON_PROFILE_NAMES": {
+                  "type": "boolean"
+                },
+                "TENDON_PROFILE_POINT": {
+                  "type": "boolean"
+                },
+                "INITIAL_FORCES_FOR_GEOMETRIC_STIFFNESS": {
+                  "type": "boolean"
+                },
+                "SETTLEMENT_GROUP": {
+                  "type": "boolean"
+                },
+                "SETTLEMENT_GROUP_VALUE": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_VALUE": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_FUNC_NAME": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_ELEMENT_CONVECTION_BOUNDARY": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_PRESCRIBED_TEMPERATURE": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_HEAT_SOURCE": {
+                  "type": "boolean"
+                },
+                "HEAT_OF_HYDRATION_PIPE_COOLING_ELEMENT": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "VIEW": {
+              "type": "object",
+              "properties": {
+                "UCS_AXIS": {
+                  "type": "boolean"
+                },
+                "VIEWPPORT_GIZMO": {
+                  "type": "boolean"
+                },
+                "VIEW_POINT": {
+                  "type": "boolean"
+                },
+                "DESCRIPTION": {
+                  "type": "string"
+                },
+                "LABEL_ORIENTATION": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

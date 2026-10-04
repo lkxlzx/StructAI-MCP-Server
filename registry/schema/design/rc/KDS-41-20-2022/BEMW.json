@@ -1,0 +1,55 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.BEMW",
+  "uri": "DESIGN/RC/KDS-41-20-2022/BEMW",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by index strings (e.g., \"1\"), where each value is a boundary element wall setting object.",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "BBNDR_ELEM_METHOD": {
+                "type": "boolean",
+                "description": "Whether to use boundary element method."
+              },
+              "NMETHOD_TYPE": {
+                "type": "string",
+                "description": "Boundary element method type.",
+                "oneOf": [
+                  {
+                    "title": "Displacement Based Method",
+                    "const": "Displacement Based Method"
+                  },
+                  {
+                    "title": "Stress Based Method",
+                    "const": "Stress Based Method"
+                  }
+                ]
+              },
+              "BBOT_STOR": {
+                "type": "boolean",
+                "description": "Whether to use bottom story setting."
+              },
+              "STOR_NAME": {
+                "type": "string",
+                "description": "Story name."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

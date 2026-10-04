@@ -1,0 +1,721 @@
+{
+  "key": "DB.THGC-M1",
+  "uri": "DB/THGC-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices (e.g. \"1\"); each value is a Time History Global Control settings object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "GEO_NONL_TYPE",
+            "INIT_LOAD_TYPE",
+            "ITER_PARAM"
+          ],
+          "description": "Time History Global Control entry.",
+          "properties": {
+            "GEO_NONL_TYPE": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ],
+              "description": "Geometric Nonlinearity Type (None: 0, Large Displacements: 1, P-Delta: 2)"
+            },
+            "INIT_LOAD_TYPE": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "description": "Initial Load Type (Perform Nonlinear Static Analysis: 0, Import Static Analysis/Construction Stage: 1)"
+            },
+            "INIT_LOAD_LIST": {
+              "type": "array",
+              "description": "Initial Load List",
+              "default": [],
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "LC_NAME",
+                  "SF",
+                  "LC_TYPE"
+                ],
+                "properties": {
+                  "LC_NAME": {
+                    "type": "string",
+                    "description": "Static Load Case Name"
+                  },
+                  "SF": {
+                    "type": "number",
+                    "description": "Scale Factor"
+                  },
+                  "LC_TYPE": {
+                    "type": "string",
+                    "description": "Load Case Type (e.g. ST, CS)"
+                  }
+                }
+              }
+            },
+            "INCREMENT_STEP": {
+              "type": "object",
+              "description": "Increment Step for Initial Load Case",
+              "additionalProperties": false,
+              "properties": {
+                "NSTEP": {
+                  "type": "integer",
+                  "default": 1,
+                  "description": "Increment Step [nstep]"
+                },
+                "OUT_TYPE": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ],
+                  "default": 0,
+                  "description": "Result Output Type (Final Step Only: 0, Step Number Increment for Output: 1)"
+                },
+                "STEP_INC": {
+                  "type": "integer",
+                  "default": 1,
+                  "description": "Step Number Increment for Output"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "When OUT_TYPE=1, STEP_INC is required.",
+                  "if": {
+                    "properties": {
+                      "OUT_TYPE": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "OUT_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "STEP_INC"
+                    ]
+                  }
+                },
+                {
+                  "description": "When OUT_TYPE=0, STEP_INC must not be provided.",
+                  "if": {
+                    "properties": {
+                      "OUT_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "OUT_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "STEP_INC"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "ITER_PARAM": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "MAX_ITER"
+              ],
+              "properties": {
+                "PERMIT_FAIL": {
+                  "type": "boolean",
+                  "description": "Permit Convergence Failure",
+                  "default": true
+                },
+                "MAX_ITER": {
+                  "type": "integer",
+                  "description": "Maximum Iteration"
+                },
+                "NORM_CTRL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "DISP": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Norm Option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Norm Value"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "When OPT_USE = true, VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When OPT_USE = false, VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement Norm",
+                      "default": {
+                        "OPT_USE": true,
+                        "VALUE": 0.001
+                      }
+                    },
+                    "FORCE": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Norm Option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Norm Value"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "When OPT_USE = true, VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When OPT_USE = false, VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Force Norm",
+                      "default": {
+                        "OPT_USE": false
+                      }
+                    },
+                    "ENERGY": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Norm Option on/off"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Norm Value"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "When OPT_USE = true, VALUE is required",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When OPT_USE = false, VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Energy Norm",
+                      "default": {
+                        "OPT_USE": false
+                      }
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "DISP": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "DISP"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "FORCE": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "FORCE"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "ENERGY": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "ENERGY"
+                      ]
+                    }
+                  ]
+                },
+                "STIFF_UPD_SCHEME": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "description": "Stiffness Update Scheme (Custom: 0, Full Newton-Raphson: 1, Initial Stiffness: 2)",
+                  "default": 1
+                },
+                "ITER_BEF_UPDATE": {
+                  "type": "integer",
+                  "description": "No. of Iterations before Stiffness Update",
+                  "default": 5
+                },
+                "MAX_BISECT_LEVEL": {
+                  "type": "integer",
+                  "description": "Maximum Bisection Level",
+                  "default": 5
+                },
+                "SMART_BISECT": {
+                  "type": "boolean",
+                  "description": "Smart Bisection",
+                  "default": false
+                },
+                "DIVERGENCE_THRESHOLD": {
+                  "type": "number",
+                  "description": "Divergence Threshold",
+                  "default": 3
+                },
+                "LINE_SEARCH": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "OPT_USE"
+                  ],
+                  "properties": {
+                    "OPT_USE": {
+                      "type": "boolean",
+                      "description": "Line Search Option on/off",
+                      "default": true
+                    },
+                    "LINE_SEARCH_OPT": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Line Search Option (Automatic: 0, User-defined: 1)",
+                      "default": 0
+                    },
+                    "START_ITER_NO": {
+                      "type": "integer",
+                      "description": "Number of Iteration to Start Line Search",
+                      "default": 3
+                    },
+                    "MAX_LINE_SEARCH_ITER": {
+                      "type": "integer",
+                      "description": "Maximum Number of Line Search Iterations",
+                      "default": 4
+                    },
+                    "LINE_SEARCH_TOL": {
+                      "type": "number",
+                      "description": "Line Search Tolerance",
+                      "default": 0.5
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When OPT_USE = false, all child keys must not be provided",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "LINE_SEARCH_OPT"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "START_ITER_NO"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "MAX_LINE_SEARCH_ITER"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "LINE_SEARCH_TOL"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When OPT_USE = true, LINE_SEARCH_OPT is required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "LINE_SEARCH_OPT"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "When OPT_USE = true and LINE_SEARCH_OPT = 0 (AUTO), detailed keys must not be provided",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "LINE_SEARCH_OPT": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "LINE_SEARCH_OPT"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "START_ITER_NO"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "MAX_LINE_SEARCH_ITER"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "LINE_SEARCH_TOL"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When OPT_USE = true and LINE_SEARCH_OPT = 1 (USER), detailed keys are required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "LINE_SEARCH_OPT": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "LINE_SEARCH_OPT"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "START_ITER_NO",
+                          "MAX_LINE_SEARCH_ITER",
+                          "LINE_SEARCH_TOL"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "allOf": [
+                {
+                  "description": "When STIFF_UPD_SCHEME = 0, ITER_BEF_UPDATE is required",
+                  "if": {
+                    "properties": {
+                      "STIFF_UPD_SCHEME": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "STIFF_UPD_SCHEME"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "ITER_BEF_UPDATE"
+                    ]
+                  }
+                },
+                {
+                  "description": "When STIFF_UPD_SCHEME != 0, ITER_BEF_UPDATE must not be provided",
+                  "if": {
+                    "properties": {
+                      "STIFF_UPD_SCHEME": {
+                        "enum": [
+                          1,
+                          2
+                        ]
+                      }
+                    },
+                    "required": [
+                      "STIFF_UPD_SCHEME"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "ITER_BEF_UPDATE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "IGNORE_ELEM": {
+              "type": "boolean",
+              "default": false,
+              "description": "Consider 'Ignore Elements for NL. Analysis Initial Load' (INIT_LOAD_TYPE=0only when enabled, defaults to false if omitted)"
+            },
+            "SEQ_LOAD_TYPE": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ],
+              "default": 1,
+              "description": "Apply Specified Displacement - with respect to (Undisplaced Position: 0, Displaced Position: 1)"
+            },
+            "HINGE_OPT": {
+              "type": "object",
+              "description": "Inelastic Hinge Data Option (Point Spring Support / Elastic Link : Nonlinear Type modal)",
+              "additionalProperties": false,
+              "properties": {
+                "PSPRING_SUP": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ],
+                  "default": 0,
+                  "description": "Point Spring Support (Apply nonlinear: 0, Linear: 1)"
+                },
+                "EL": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ],
+                  "default": 1,
+                  "description": "Elastic Link (Apply nonlinear: 0, Linear: 1)"
+                }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "description": "When GEO_NONL_TYPE is Large Displacements (1) or P-Delta (2), only INIT_LOAD_TYPE=0 is allowed.",
+              "if": {
+                "properties": {
+                  "GEO_NONL_TYPE": {
+                    "enum": [
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "required": [
+                  "GEO_NONL_TYPE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "INIT_LOAD_TYPE": {
+                    "enum": [
+                      0
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "description": "When INIT_LOAD_TYPE=Import (1), IGNORE_ELEM must not be provided.",
+              "if": {
+                "properties": {
+                  "INIT_LOAD_TYPE": {
+                    "const": 1
+                  }
+                },
+                "required": [
+                  "INIT_LOAD_TYPE"
+                ]
+              },
+              "then": {
+                "not": {
+                  "required": [
+                    "IGNORE_ELEM"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

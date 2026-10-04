@@ -1,0 +1,29 @@
+{
+  "key": "DB.UNIT",
+  "uri": "DB/UNIT",
+  "source": "help_center",
+  "schema": {
+    "UNIT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "FORCE": {
+          "description": "Force",
+          "type": "string"
+        },
+        "DIST": {
+          "description": "Distance",
+          "type": "string"
+        },
+        "HEAT": {
+          "description": "Heat",
+          "type": "string"
+        },
+        "TEMPER": {
+          "description": "TemperUnit",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+key: DB.KFAC
+namespace: DB
+uri: /DB/KFAC
+methods: [GET, PUT]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: none
+  shape: flat
+  body_kind: array
+schema_ref:
+  local: schema/products/civil_designer/db/KFAC.json
+  introspect: info/db/KFAC
+  source: civil_designer_manual
+  shape: flat_array
+parser: db_generic
+products: [CIVIL_DESIGNER]
+availability: verified
+verified_on: ["designer-cloud"]
+table_type: null
+title: "参数-计算长度系数"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL]
+source:
+  url: "G:\\midas Civil Designer - API (wolai snapshot)"
+  retrieved_at: "2026-05-07"
+  provenance: [civil_designer_manual]
+stats:
+  spec_rows: 3
+  examples: 0
+  has_response_head: false
+notes: ["源手册该小节的「接口URL」误写为 /DB/LENG；真实 URI 由同页注记与实测确认（GET /db/KFAC/1,2,3 可用；PUT 修改 Ky/Kz 实测生效）。", GEN / CIVIL NX 实例对该 URI 亦返回 200（空数据），路由存在但语义未确认。]

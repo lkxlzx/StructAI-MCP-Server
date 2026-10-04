@@ -1,0 +1,40 @@
+key: POST.TABLE.STIFFNESS_IRREGULARITY_X
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/STIFFNESS_IRREGULARITY_X.json
+  introspect: null
+  source: help_center_spec_table
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: STIFFNESS_IRREGULARITY_X
+title: "Stiffness Irregularity Check (Soft Story) - Analysis Story Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513107644057-Stiffness-Irregularity-Check-Soft-Story-Story-Result-Table"
+  retrieved_at: "2026-07-29"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 17
+  examples: 6
+  has_response_head: true
+notes: ["`\"Max. Drfit of All Vertical Elements\"` 오타(`Drfit`→`Drift`)를 지적하는 주석이 있었으나, 재확인 결과 공식 원문이 이미 `\"Drift\"`로 정정되어 있습니다(더 이상 오타 아님 — 지난 동기화 이후 공식 측이 수정한 것으로 보임). 또한 두 항목의 `기본값`이 이전 버전에는 각각 `\"Drift at the Center of Mass\"`/`\"1 / Story Drift Ratio\"`로 잘못 기재되어 있었는데, 공식 표는 둘 다 `Default: System`으로 명시하므로 정정했습니다."]

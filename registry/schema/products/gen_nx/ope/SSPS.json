@@ -1,0 +1,120 @@
+{
+  "key": "OPE.SSPS",
+  "uri": "OPE/SSPS",
+  "source": "help_center",
+  "schema": {
+    "SSPS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "CONVERT_TO": {
+              "type": "string",
+              "enum": [
+                "POINT_SPRING",
+                "ELASTIC_LINK"
+              ]
+            },
+            "GROUP_NAME": {
+              "type": "string"
+            },
+            "NODE_ELEMS": {
+              "type": "object",
+              "properties": {
+                "KEYS": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "ELEMENT": {
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "enum": [
+                    "FRAME",
+                    "PLANAR",
+                    "SOLID_FACE",
+                    "SOLID_NODE"
+                  ]
+                },
+                "FACE": {
+                  "type": "integer",
+                  "enum": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                  ]
+                },
+                "WIDTH": {
+                  "type": "number"
+                }
+              }
+            },
+            "BOUNDARY": {
+              "type": "object",
+              "properties": {
+                "TYPE": {
+                  "type": "string",
+                  "enum": [
+                    "LINEAR",
+                    "COMP",
+                    "TENS",
+                    "MULTI"
+                  ]
+                },
+                "DIR": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ]
+                },
+                "STIFF": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "maxItems": 3
+                  }
+                },
+                "PHU": {
+                  "type": "number"
+                },
+                "SUBGRADE": {
+                  "type": "number"
+                },
+                "LENGTH": {
+                  "type": "number"
+                },
+                "bDAMP": {
+                  "type": "boolean"
+                },
+                "DAMP": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "maxItems": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

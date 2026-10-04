@@ -1,0 +1,478 @@
+{
+  "key": "DB.MATL-M1",
+  "uri": "DB/MATL-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Assign",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "MATL_NAME",
+            "MATL_TYPE",
+            "PARAM"
+          ],
+          "properties": {
+            "MATL_NAME": {
+              "type": "string",
+              "description": "Name (공백 불가 (UI 제약과 동일))"
+            },
+            "MATL_TYPE": {
+              "type": "string",
+              "enum": [
+                "STEEL",
+                "CONC",
+                "SRC",
+                "USER"
+              ],
+              "description": "Type of Design (Aluminium / Timber 는 M1 API 미지원 — API 로는 해당 재료 생성/수정 불가)"
+            },
+            "PARAM": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "P_TYPE"
+                ],
+                "properties": {
+                  "P_TYPE": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1,
+                      2
+                    ],
+                    "description": "Isotropic / Orthotropic (SRC 타입은 P_TYPE=2 (Orthotropic) 불가. RC 실제 Y=163 (Concrete 프레임 바로 아래))"
+                  },
+                  "STANDARD": {
+                    "type": "string",
+                    "description": "Standard (SRC 에서 Steel (PARAM[0]) 과 독립적으로 지정)"
+                  },
+                  "CODE": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Code (기본값 빈 문자열)"
+                  },
+                  "DB": {
+                    "type": "string",
+                    "description": "DB"
+                  },
+                  "PLASTIC_MATL_NAME": {
+                    "type": "string",
+                    "description": "Plastic Material Name"
+                  },
+                  "USER_DEFINED": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "bELAST": {
+                        "type": "number",
+                        "description": "Modulus of Elasticity (UI 의 '사용자 정의 탄성계수(JTG3362-18)' 체크는 API 에서 Analysis.bUserElast 필드에 반영되지만 DTO 에 직접 노출되지 않음 (서버 내부 복원 로직))"
+                      },
+                      "POISN": {
+                        "type": "number",
+                        "description": "Poisson's Ratio"
+                      },
+                      "THERMAL": {
+                        "type": "number",
+                        "description": "Thermal Coefficient (UI 의 Thermal Unit 라디오 (Celsius/Fahrenheit) 는 API 에 노출되지 않음 — 서버는 항상 내부 기본 단위)"
+                      },
+                      "DEN": {
+                        "type": "number",
+                        "description": "Weight Density (Iso/Ort 공용 필드 (USER_DEFINED.DEN))"
+                      },
+                      "ELAST_M": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "Modulus of Elasticity (Local-x)"
+                      },
+                      "THERMAL_M": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "Thermal Coefficient (Local-x)"
+                      },
+                      "SHEAR_M": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "Shear Modulus (Local-xy)"
+                      },
+                      "POISN_M": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "Poisson's Ratio (Local-xy)"
+                      },
+                      "bMASS_DENS": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Use Mass Density (UI 3개 체크 동기화는 API 레벨에서는 무의미 — 각 PARAM 별로 개별 bMASS_DENS 설정)"
+                      },
+                      "MASS": {
+                        "type": "number",
+                        "description": "Mass Density"
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "description": "bMASS_DENS = true 이면 MASS 가 필요합니다.",
+                        "if": {
+                          "properties": {
+                            "bMASS_DENS": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "bMASS_DENS"
+                          ]
+                        },
+                        "then": {
+                          "required": [
+                            "MASS"
+                          ]
+                        }
+                      },
+                      {
+                        "description": "bMASS_DENS = false 이면 MASS 를 전달하지 않습니다.",
+                        "if": {
+                          "properties": {
+                            "bMASS_DENS": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "bMASS_DENS"
+                          ]
+                        },
+                        "then": {
+                          "not": {
+                            "required": [
+                              "MASS"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "THERMAL_TRANS": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "HE_SPEC": {
+                        "type": "number",
+                        "default": 0,
+                        "description": "Specific Heat (UI 에서 MEC 숨김. API 에는 PARAM[].THERMAL_TRANS.HE_SPEC 으로 노출 — 기본 0)"
+                      },
+                      "HE_COND": {
+                        "type": "number",
+                        "default": 0,
+                        "description": "Heat Conduction (UI 에서 MEC 숨김. API 에는 PARAM[].THERMAL_TRANS.HE_COND 으로 노출 — 기본 0)"
+                      }
+                    }
+                  }
+                },
+                "allOf": [
+                  {
+                    "description": "P_TYPE = 0(Standard)이면 STANDARD 와 DB 가 필요합니다.",
+                    "if": {
+                      "properties": {
+                        "P_TYPE": {
+                          "const": 0
+                        }
+                      },
+                      "required": [
+                        "P_TYPE"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "STANDARD": {
+                          "type": "string",
+                          "description": "Standard (P_TYPE = 0(Standard) branch)"
+                        },
+                        "CODE": {
+                          "type": "string",
+                          "default": "",
+                          "description": "Code (branch-visible under P_TYPE = 0)"
+                        },
+                        "DB": {
+                          "type": "string",
+                          "description": "DB (P_TYPE = 0(Standard) branch)"
+                        }
+                      },
+                      "required": [
+                        "STANDARD",
+                        "DB"
+                      ]
+                    }
+                  },
+                  {
+                    "description": "P_TYPE = 1(Isotropic User) 이면 USER_DEFINED 의 등방성 속성이 필요합니다.",
+                    "if": {
+                      "properties": {
+                        "P_TYPE": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "P_TYPE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "USER_DEFINED"
+                      ],
+                      "properties": {
+                        "USER_DEFINED": {
+                          "type": "object",
+                          "properties": {
+                            "bELAST": {
+                              "type": "number",
+                              "description": "Modulus of Elasticity (P_TYPE = 1)"
+                            },
+                            "POISN": {
+                              "type": "number",
+                              "description": "Poisson's Ratio (P_TYPE = 1)"
+                            },
+                            "THERMAL": {
+                              "type": "number",
+                              "description": "Thermal Coefficient (P_TYPE = 1)"
+                            },
+                            "DEN": {
+                              "type": "number",
+                              "description": "Weight Density (P_TYPE = 1)"
+                            },
+                            "bMASS_DENS": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Use Mass Density (common USER_DEFINED field)"
+                            },
+                            "MASS": {
+                              "type": "number",
+                              "description": "Mass Density (required if bMASS_DENS = true)"
+                            }
+                          },
+                          "required": [
+                            "bELAST",
+                            "POISN",
+                            "THERMAL",
+                            "DEN"
+                          ],
+                          "not": {
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "ELAST_M"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "THERMAL_M"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "SHEAR_M"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "POISN_M"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "P_TYPE = 2(Orthotropic User) 이면 USER_DEFINED 의 이방성 배열 속성이 필요합니다.",
+                    "if": {
+                      "properties": {
+                        "P_TYPE": {
+                          "const": 2
+                        }
+                      },
+                      "required": [
+                        "P_TYPE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "USER_DEFINED"
+                      ],
+                      "properties": {
+                        "USER_DEFINED": {
+                          "type": "object",
+                          "properties": {
+                            "DEN": {
+                              "type": "number",
+                              "description": "Weight Density (Iso/Ort common field)"
+                            },
+                            "ELAST_M": {
+                              "type": "array",
+                              "description": "Modulus of Elasticity (P_TYPE = 2)"
+                            },
+                            "THERMAL_M": {
+                              "type": "array",
+                              "description": "Thermal Coefficient (P_TYPE = 2)"
+                            },
+                            "SHEAR_M": {
+                              "type": "array",
+                              "description": "Shear Modulus (P_TYPE = 2)"
+                            },
+                            "POISN_M": {
+                              "type": "array",
+                              "description": "Poisson's Ratio (P_TYPE = 2)"
+                            },
+                            "bMASS_DENS": {
+                              "type": "boolean",
+                              "default": false,
+                              "description": "Use Mass Density (common USER_DEFINED field)"
+                            },
+                            "MASS": {
+                              "type": "number",
+                              "description": "Mass Density (required if bMASS_DENS = true)"
+                            }
+                          },
+                          "required": [
+                            "DEN",
+                            "ELAST_M",
+                            "THERMAL_M",
+                            "SHEAR_M",
+                            "POISN_M"
+                          ],
+                          "not": {
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "bELAST"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "POISN"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "THERMAL"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "description": "PARAM"
+            },
+            "DAMP_RAT": {
+              "type": "number",
+              "default": 0,
+              "description": "Damping Ratio (UI 에서 Type 변경 시 자동 채워지는 기본값 (Steel=0.02 등) 은 API 에서는 적용되지 않음 — 클라이언트가 명시적으로 전달해야 함)"
+            }
+          },
+          "allOf": [
+            {
+              "description": "MATL_TYPE 이 SRC 가 아니면 PARAM 길이는 1이어야 합니다.",
+              "if": {
+                "properties": {
+                  "MATL_TYPE": {
+                    "enum": [
+                      "CONC",
+                      "STEEL",
+                      "USER"
+                    ]
+                  }
+                },
+                "required": [
+                  "MATL_TYPE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "PARAM": {
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                }
+              }
+            },
+            {
+              "description": "MATL_TYPE 이 SRC 이면 PARAM 길이는 2(0=Steel, 1=Concrete)여야 합니다.",
+              "if": {
+                "properties": {
+                  "MATL_TYPE": {
+                    "const": "SRC"
+                  }
+                },
+                "required": [
+                  "MATL_TYPE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "PARAM": {
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "allOf": [
+                        {
+                          "description": "SRC 타입에서 PARAM[].P_TYPE 은 0 또는 1만 허용됩니다.",
+                          "if": {
+                            "required": [
+                              "P_TYPE"
+                            ]
+                          },
+                          "then": {
+                            "properties": {
+                              "P_TYPE": {
+                                "enum": [
+                                  0,
+                                  1
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+key: DB.TDME
+namespace: DB
+uri: /DB/TDME
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: TDME
+schema_ref:
+  local: schema/common/db/TDME.json
+  introspect: info/db/TDME
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Time Dependent Material Properties - Compressive Strength"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35808102389401-Time-Dependent-Material-Properties-Compressive-Strength"
+  retrieved_at: "2025-08-12"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 97
+  examples: 21
+  has_response_head: false
+notes: ["묶어 **`KDS-2016`도 A/B 계수를 쓰는 것처럼 잘못 기재**하고 있었다. 원문(아티클 id `35808102389401`) 대조 결과 A/B 계수 그룹은 **`ACI`·`Korean Standard`**(CODENAME `\"Korean Standard\"`, 20번 — `KDS-2016`과는 다른 별개 코드)이며, **`KDS-2016`은 실제로는 `iCTYPE`(Cement Type) + `DENSITY`(Weight Density) 그룹**(`GILBERT AND RANZI`와 동일 구조)에 속한다. 한국 사용자가 가장 많이 쓸 코드에서 필수 필드가 틀려 있던 것이라 전체 표를 코드 그룹별로 다시 작성했다.", 이름이 겹치지만 다른 필드다. 원문 그대로 옮겼다., "필드 모두에 Key `\"SCALE\"`을 중복 표기하고 있다. 오타로 보이나 실제 키 이름이 무엇인지 확인할 예제가 없어 원문 그대로 옮기고 이 주석으로 남긴다(오류제보 대상).", "이전 버전 문서와 아래 예제가 잘못 표기되어 있었습니다. `/db/TDMT`(§6)의 `CODE` 필드는 같은 한국 기준을 언더스코어 표기 `\"KDS_2016\"`으로 쓰므로, 두 엔드포인트의 표기가 서로 다릅니다 — 엔드포인트별로 정확한 리터럴을 확인하십시오.", "`DENSITY`(Weight Density)가 함께 **Required**다. 위 예제는 원문 Request Example (아티클 id `35808102389401`)의 실제 페이로드를 그대로 옮긴 것이다."]

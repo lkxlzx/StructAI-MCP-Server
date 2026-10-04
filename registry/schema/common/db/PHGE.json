@@ -1,0 +1,29 @@
+{
+  "key": "DB.PHGE",
+  "uri": "DB/PHGE",
+  "source": "help_center",
+  "schema": {
+    "PHGE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "ID",
+          "type": "integer"
+        },
+        "TYPE": {
+          "description": "ElementType",
+          "type": "string"
+        },
+        "HINGE_TYPE": {
+          "description": "PushoverHingeType",
+          "type": "string"
+        },
+        "FIBER_KEY": {
+          "description": "FiberKey",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

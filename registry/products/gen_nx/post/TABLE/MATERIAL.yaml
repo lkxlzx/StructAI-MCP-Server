@@ -1,0 +1,39 @@
+key: POST.TABLE.MATERIAL
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/MATERIAL.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: MATERIAL
+title: Material Table
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/43835303404825-Material-Table"
+  retrieved_at: "2026-08-05"
+  provenance: [help_center]
+stats:
+  spec_rows: 3
+  examples: 2
+  has_response_head: false

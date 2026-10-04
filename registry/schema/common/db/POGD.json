@@ -1,0 +1,314 @@
+{
+  "key": "DB.POGD",
+  "uri": "DB/POGD",
+  "source": "help_center",
+  "schema": {
+    "POGD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "GEOMNONLINEAR_TYPE": {
+          "description": "GeometricNonlinearityType",
+          "type": "string"
+        },
+        "INITLOADMETHOD": {
+          "description": "InitialLoadAnalysisMethod",
+          "type": "string"
+        },
+        "INITLOAD": {
+          "description": "InitialLoadCaseList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LC_NAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "LC_TYPE": {
+                "description": "LoadCaseType",
+                "type": "string"
+              },
+              "SF": {
+                "description": "ScaleFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "bCONSIGNOREELEM": {
+          "description": "ConsiderignoreElementsforNL.AnalysisInitialLoad",
+          "type": "boolean"
+        },
+        "NONL_OPT": {
+          "description": "NonlinearAnalysisOption",
+          "type": "object",
+          "properties": {
+            "bPERMITFAIL": {
+              "description": "NonlinearAnalysisPermitConvergenceFailure",
+              "type": "boolean"
+            },
+            "SUBSTEP": {
+              "description": "NonlinearAnalysisMaxNum.ofSubsteps",
+              "type": "integer"
+            },
+            "MAXITER": {
+              "description": "MaximumIteration",
+              "type": "integer"
+            },
+            "bDISPLNORM": {
+              "description": "UseConvergenceCriteriaDisplacementNorm",
+              "type": "boolean"
+            },
+            "bFORCENORM": {
+              "description": "UseConvergenceCriteriaForceNorm",
+              "type": "boolean"
+            },
+            "bENERGYNORM": {
+              "description": "UseConvergenceCriteriaEnergyNorm",
+              "type": "boolean"
+            },
+            "DISPLNORM": {
+              "description": "DisplacementNorm",
+              "type": "number"
+            },
+            "FORCENORM": {
+              "description": "ForceNorm",
+              "type": "number"
+            },
+            "ENERGYNORM": {
+              "description": "EnergyNorm",
+              "type": "number"
+            },
+            "bSHEARYIELDSTOP": {
+              "description": "UseAnalysisStop-ShearComp.Yield",
+              "type": "boolean"
+            },
+            "BSHEARYIELDSTOPBEAM": {
+              "description": "UseAnalysisStop-ShearComp.Yield-Beam/Column",
+              "type": "boolean"
+            },
+            "bSHEARYIELDSTOPWALL": {
+              "description": "UseAnalysisStop-ShearComp.Yield-Wall",
+              "type": "boolean"
+            },
+            "bAXIALYIELDSTOP": {
+              "description": "UseAnalysisStop-AxialComp.Collapse/Buckling",
+              "type": "boolean"
+            },
+            "bAXIALYIELDSTOPBEAM": {
+              "description": "UseAnalysisStop-AxialComp.Collapse/Buckling-Beam/Column",
+              "type": "boolean"
+            },
+            "bAXIALYIELDSTOPWALL": {
+              "description": "UseAnalysisStop-AxialComp.Collapse/Buckling-Wall",
+              "type": "boolean"
+            },
+            "bAXIALYIELDSTOPTRUSS": {
+              "description": "UseAnalysisStop-AxialComp.Collapse/Buckling-Truss",
+              "type": "boolean"
+            },
+            "bSUPPORTDZDIRSTOP": {
+              "description": "UseAnalysisStop-SupportUplifting/Collapse:Dz-Direction",
+              "type": "boolean"
+            },
+            "bSUPPORTSTOPUPLIFTING": {
+              "description": "UseAnalysisStop-Uplifting:Dz-Direction",
+              "type": "boolean"
+            },
+            "bSUPPORTSTOPCOLLAPSE": {
+              "description": "UseAnalysisStop-Collapse:Dz-Direction",
+              "type": "boolean"
+            }
+          }
+        },
+        "PHOP_OPT": {
+          "description": "NonlinearAnalysisOption",
+          "type": "object",
+          "properties": {
+            "bCONSREBARAREA1D": {
+              "description": "FiberModelOption-ConsiderBeam/ColumnReinforcementArea",
+              "type": "boolean"
+            },
+            "BEAM_CORE_SIZE": {
+              "description": "FiberModelOption-Beam-ColumnCoreAreasSizeType",
+              "type": "string"
+            },
+            "BEAM_CORE_DIV_Y": {
+              "description": "FiberModelOption-Beam-ColumnCoreDivision(y-dir)",
+              "type": "integer"
+            },
+            "BEAM_CORE_DIV_Z": {
+              "description": "FiberModelOption-Beam-ColumnCoreDivision(z-dir)",
+              "type": "integer"
+            },
+            "BEAM_COVER_SIZE": {
+              "description": "FiberModelOption-Beam-ColumnCoverAreasSizeType",
+              "type": "string"
+            },
+            "BEAM_COVER_DIV_Y": {
+              "description": "FiberModelOption-Beam-ColumnCoverDivision(y-dir)",
+              "type": "integer"
+            },
+            "BEAM_COVER_DIV_Z": {
+              "description": "FiberModelOption-Beam-ColumnCoverDivision(z-dir)",
+              "type": "integer"
+            },
+            "bCONSREBARAREAWALL": {
+              "description": "FiberModelOption-ConsiderWallReinforcementArea",
+              "type": "boolean"
+            },
+            "bWALLCONSOUT": {
+              "description": "FiberModelOption-WallConsiderOut-of-planeNonlinearityofPlateType",
+              "type": "boolean"
+            },
+            "WALL_CORE_SIZE": {
+              "description": "FiberModelOption-WallCoreFiberAreasSizeType",
+              "type": "string"
+            },
+            "WALL_CORE_DIV_Z": {
+              "description": "FiberModelOption-WallCoreDivision(z-dir)",
+              "type": "integer"
+            },
+            "WALL_CORE_DIV_Y": {
+              "description": "FiberModelOption-WallCoreDivision(y-dir)",
+              "type": "integer"
+            },
+            "WALL_COVER_SIZE": {
+              "description": "FiberModelOption-WallCoverAreasSizeType",
+              "type": "string"
+            },
+            "WALL_COVER_DIV_Z": {
+              "description": "FiberModelOption-WallCoverDivision(z-dir)",
+              "type": "integer"
+            },
+            "WALL_COVER_DIV_Y": {
+              "description": "FiberModelOption-WallCoverDivision(y-dir)",
+              "type": "integer"
+            },
+            "SHEAR_R": {
+              "description": "FiberModelOption-SpringShear",
+              "type": "number"
+            },
+            "bASSIGNBYMEMBER": {
+              "description": "AssignHingePropertiestoMemberonlyforMoment-RotationBeam/Column",
+              "type": "boolean"
+            },
+            "bTRI_SYM": {
+              "description": "UseTrilinearDefaultStiffnessReductionSymmetrical",
+              "type": "boolean"
+            },
+            "TRI_TENS_A1": {
+              "description": "TrilinearDefaultStiffnessReduction-Tens.a1",
+              "type": "number"
+            },
+            "TRI_TENS_A2": {
+              "description": "TrilinearDefaultStiffnessReduction-Tens.a2",
+              "type": "number"
+            },
+            "TRI_COMP_A1": {
+              "description": "TrilinearDefaultStiffnessReduction-Comp.a1",
+              "type": "number"
+            },
+            "TRI_COMP_A2": {
+              "description": "TrilinearDefaultStiffnessReduction-Comp.a2",
+              "type": "number"
+            },
+            "bBI_SYM": {
+              "description": "UseBilinearDefaultStiffnessReductionSymmetrical",
+              "type": "boolean"
+            },
+            "BI_TENS_A1": {
+              "description": "BilinearDefaultStiffnessReduction-Tens.a1",
+              "type": "number"
+            },
+            "BI_COMP_A1": {
+              "description": "BilinearDefaultStiffnessReduction-Comp.a1",
+              "type": "number"
+            },
+            "PSPR_APPLY_TYPE": {
+              "description": "PointSpringSupportApplyType",
+              "type": "string"
+            },
+            "ELNK_APPLY_TYPE": {
+              "description": "ElasticLinkApplyType",
+              "type": "string"
+            },
+            "bUSEAUTOCALCREFERENCE": {
+              "description": "ReferenceCode/ManualforAuto-Calculation",
+              "type": "boolean"
+            },
+            "RCDGNCODE": {
+              "description": "RCReferenceDesignCode",
+              "type": "string"
+            },
+            "LOC_BEAM": {
+              "description": "ReferenceLocationofBeam/DistributedHinges",
+              "type": "string"
+            },
+            "LOC_COLUMN": {
+              "description": "ReferenceLocationofColumn",
+              "type": "string"
+            },
+            "SF_WALL": {
+              "description": "ScaleFactorforUltimateRotation-WallScaleFactor",
+              "type": "number"
+            },
+            "bSF_BRITTLE": {
+              "description": "ScaleFactorforUltimateRotation-UseBrittleScaleFactor",
+              "type": "boolean"
+            },
+            "SF_BRITTLE": {
+              "description": "ScaleFactorforUltimateRotation-BrittleScaleFactor",
+              "type": "number"
+            },
+            "bSF_EARTHQUAKE": {
+              "description": "ScaleFactorforUltimateRotation-UseEarthquakeScaleFactor",
+              "type": "boolean"
+            },
+            "SF_EARTHQUAKE": {
+              "description": "ScaleFactorforUltimateRotation-EarthquakeScaleFactor",
+              "type": "number"
+            },
+            "bSF_SMOOTH_BAR": {
+              "description": "ScaleFactorforUltimateRotation-UseSmoothbarScaleFactor",
+              "type": "boolean"
+            },
+            "SF_SMOOTH_BAR": {
+              "description": "ScaleFactorforUltimateRotation-SmoothbarScaleFactor",
+              "type": "number"
+            },
+            "SND_SEIS_GRUP": {
+              "description": "SecondarySeismicElementsGroupName",
+              "type": "string"
+            },
+            "CONFIDENCE": {
+              "description": "ConfidenceFactor",
+              "type": "number"
+            },
+            "bBUCKLING": {
+              "description": "CalcYieldSurfaceofBeamconsideringBuckling",
+              "type": "boolean"
+            },
+            "bCALCAXIALFORCE": {
+              "description": "CalcMcConsideringAxialForce(AIJ)",
+              "type": "boolean"
+            }
+          }
+        },
+        "NODECONNECTIVITY": {
+          "description": "WallNodeConnectivity",
+          "type": "string"
+        },
+        "bSHOWGRAPHAFTER": {
+          "description": "Misc...-ShowPushoverCurveResultAfterAnalysis",
+          "type": "boolean"
+        },
+        "bSHOWGRAPGHDURING": {
+          "description": "Misc...-ShowPushoverCurveduringAnalysis",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

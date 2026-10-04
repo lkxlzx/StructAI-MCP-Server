@@ -1,0 +1,39 @@
+key: POST.TABLE.HEAT_HYDR_STRESS_G
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/HEAT_HYDR_STRESS_G.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: HEAT_HYDR_STRESS_G
+title: "Stress - HY Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36020924196249-Stress-HY-Result-Table"
+  retrieved_at: "2025-04-27"
+  provenance: [help_center]
+stats:
+  spec_rows: 23
+  examples: 4
+  has_response_head: false

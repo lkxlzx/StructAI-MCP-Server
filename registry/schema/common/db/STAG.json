@@ -1,0 +1,136 @@
+{
+  "key": "DB.STAG",
+  "uri": "DB/STAG",
+  "source": "help_center",
+  "schema": {
+    "STAG": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "ConstructionStageName",
+          "type": "string"
+        },
+        "DURATION": {
+          "description": "ConstructionStageDuration",
+          "type": "number"
+        },
+        "bSV_RSLT": {
+          "description": "SaveResultStage?",
+          "type": "boolean"
+        },
+        "bSV_STEP": {
+          "description": "SaveResultStep?",
+          "type": "boolean"
+        },
+        "bLOAD_STEP": {
+          "description": "LoadIncrementalStepsforMaterialNonlinearAnalysis?",
+          "type": "boolean"
+        },
+        "INCRE_STEP": {
+          "description": "IncrementalStep",
+          "type": "integer"
+        },
+        "ADD_STEP": {
+          "description": "AdditionalStep",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "ACT_ELEM": {
+          "description": "ActivationElementList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "GRUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "AGE": {
+                "description": "Age",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "DACT_ELEM": {
+          "description": "DeactivationElementList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "GRUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "REDIST": {
+                "description": "Redistribution",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "ACT_BNGR": {
+          "description": "ActivationBoundaryGroupList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "BNGR_NAME": {
+                "description": "BoundaryGroupName",
+                "type": "string"
+              },
+              "POS": {
+                "description": "Position",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "DACT_BNGR": {
+          "description": "DeactivationBoundaryGroupList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ACT_LOAD": {
+          "description": "ActivationLoadGroupList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LOAD_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "DAY": {
+                "description": "ACTORDACTday",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "DACT_LOAD": {
+          "description": "DeactivationLoadGroupList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LOAD_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "DAY": {
+                "description": "ACTORDACTday",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "key": "DB.TDCS",
+  "uri": "DB/TDCS",
+  "source": "help_center",
+  "schema": {
+    "TDCS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TDNA": {
+          "description": "TendonProfile",
+          "type": "integer"
+        },
+        "CSCS": {
+          "description": "CompositeSectionforC.S",
+          "type": "integer"
+        },
+        "PART_NUM": {
+          "description": "PartNumber",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+key: POST.TABLE.COMPSECTBEAMFORCE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/COMPSECTBEAMFORCE.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: COMPSECTBEAMFORCE
+title: "Composite Section for C.S. (Force and Stress) - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36018521410457-Composite-Section-for-C-S-Force-and-Stress-Analysis-Result-Table"
+  retrieved_at: "2025-04-25"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 24
+  examples: 10
+  has_response_head: false
+notes: ["`\"PARTS\"`(Array [String], 값: `\"PartI\"`/`\"Part1/4\"`/`\"Part2/4\"`/`\"Part3/4\"`/`\"PartJ\"`, 기본값 All, Optional — 19장 8~12절의 PARTS와 동일 패턴)를 지원합니다. 이전 버전 문서에 누락되어 있었음."]

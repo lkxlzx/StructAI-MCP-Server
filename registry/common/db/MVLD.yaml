@@ -1,0 +1,49 @@
+key: DB.MVLD
+namespace: DB
+uri: /DB/MVLD
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MVLD
+schema_ref:
+  local: schema/common/db/MVLD.json
+  introspect: info/db/MVLD
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Moving Load Cases
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35959068573209-Moving-Load-Cases"
+  retrieved_at: "2025-11-04"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 95
+  examples: 9
+  has_response_head: false
+notes: ["Specifications 표 원문을 다시 보면 4개 필드 모두 Required로 표기돼 있어 보강함(원문 아티클 [Moving Load Cases](https://support.midasuser.com/hc/en-us/articles/35959068573209)).", "있었으나, 실제로는 `LOAD_MODEL`(0~3)·`LOAD_COMB_TYPE`(하중계수 종류)·`FATIGUE`(Load Model 1 전용) 3개 필드가 추가되고, Heavy Load Platform(`LOAD_MODEL=2`)은 `DEFAULT` 대신/함께 별도 `ASL` 객체를 씁니다.", (한계상태 그룹)이 추가됩니다.]

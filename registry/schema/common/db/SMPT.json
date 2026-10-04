@@ -1,0 +1,28 @@
+{
+  "key": "DB.SMPT",
+  "uri": "DB/SMPT",
+  "source": "help_center",
+  "schema": {
+    "SMPT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "SettlementGroupName",
+          "type": "string"
+        },
+        "SETTLE": {
+          "description": "Settle",
+          "type": "number"
+        },
+        "ITEMS": {
+          "description": "NODE_DATA",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

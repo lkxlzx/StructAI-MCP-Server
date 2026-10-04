@@ -1,0 +1,735 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.MRBD",
+  "uri": "DESIGN/SRC/AIK-SRC2K/MRBD",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a Section ID.",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "DT",
+              "DB",
+              "SHEAR_BAR"
+            ],
+            "anyOf": [
+              {
+                "required": [
+                  "BAR_SECTOR_I"
+                ]
+              },
+              {
+                "required": [
+                  "BAR_SECTOR_M"
+                ]
+              },
+              {
+                "required": [
+                  "BAR_SECTOR_J"
+                ]
+              }
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "BAR_SECTOR_I": {
+                "type": "object",
+                "description": "Rebar configuration at I-section.",
+                "required": [
+                  "TOP",
+                  "BOT",
+                  "STIRRUP_SPACE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "TOP": {
+                    "type": "object",
+                    "description": "Top rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "BOT": {
+                    "type": "object",
+                    "description": "Bottom rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "STIRRUP_SPACE": {
+                    "type": "number",
+                    "description": "Stirrup spacing at I-section.",
+                    "exclusiveMinimum": 0
+                  },
+                  "STIRRUP_NUM": {
+                    "type": "integer",
+                    "description": "Number of stirrup sets at I-section.",
+                    "default": 2,
+                    "minimum": 2,
+                    "maximum": 20
+                  }
+                }
+              },
+              "BAR_SECTOR_M": {
+                "type": "object",
+                "description": "Rebar configuration at M-section.",
+                "required": [
+                  "TOP",
+                  "BOT",
+                  "STIRRUP_SPACE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "TOP": {
+                    "type": "object",
+                    "description": "Top rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "BOT": {
+                    "type": "object",
+                    "description": "Bottom rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "STIRRUP_SPACE": {
+                    "type": "number",
+                    "description": "Stirrup spacing at M-section.",
+                    "exclusiveMinimum": 0
+                  },
+                  "STIRRUP_NUM": {
+                    "type": "integer",
+                    "description": "Number of stirrup sets at M-section.",
+                    "default": 2,
+                    "minimum": 2,
+                    "maximum": 20
+                  }
+                }
+              },
+              "BAR_SECTOR_J": {
+                "type": "object",
+                "description": "Rebar configuration at J-section.",
+                "required": [
+                  "TOP",
+                  "BOT",
+                  "STIRRUP_SPACE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "TOP": {
+                    "type": "object",
+                    "description": "Top rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of top rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of top rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of top rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "BOT": {
+                    "type": "object",
+                    "description": "Bottom rebar configuration.",
+                    "required": [
+                      "LAYER1"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "LAYER1": {
+                        "type": "object",
+                        "description": "First layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the first layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the first layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      },
+                      "LAYER2": {
+                        "type": "object",
+                        "description": "Second layer of bottom rebars.",
+                        "required": [
+                          "NAME",
+                          "NUM"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Rebar size designation for the second layer of bottom rebars.",
+                            "oneOf": [
+                              {
+                                "title": "D4",
+                                "const": "D4"
+                              },
+                              {
+                                "title": "D5",
+                                "const": "D5"
+                              },
+                              {
+                                "title": "D6",
+                                "const": "D6"
+                              },
+                              {
+                                "title": "D7",
+                                "const": "D7"
+                              },
+                              {
+                                "title": "D8",
+                                "const": "D8"
+                              },
+                              "...(전체 19개)"
+                            ]
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number of rebars in the second layer of bottom rebars.",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "STIRRUP_SPACE": {
+                    "type": "number",
+                    "description": "Stirrup spacing at J-section.",
+                    "exclusiveMinimum": 0
+                  },
+                  "STIRRUP_NUM": {
+                    "type": "integer",
+                    "description": "Number of stirrup sets at J-section.",
+                    "default": 2,
+                    "minimum": 2,
+                    "maximum": 20
+                  }
+                }
+              },
+              "DT": {
+                "type": "number",
+                "description": "Top rebar cover thickness.",
+                "exclusiveMinimum": 0
+              },
+              "DB": {
+                "type": "number",
+                "description": "Bottom rebar cover thickness.",
+                "exclusiveMinimum": 0
+              },
+              "SHEAR_BAR": {
+                "type": "string",
+                "description": "Stirrup rebar size designation.",
+                "oneOf": [
+                  {
+                    "title": "D4",
+                    "const": "D4"
+                  },
+                  {
+                    "title": "D5",
+                    "const": "D5"
+                  },
+                  {
+                    "title": "D6",
+                    "const": "D6"
+                  },
+                  {
+                    "title": "D7",
+                    "const": "D7"
+                  },
+                  {
+                    "title": "D8",
+                    "const": "D8"
+                  },
+                  "...(전체 19개)"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

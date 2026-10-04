@@ -1,0 +1,46 @@
+{
+  "key": "DB.CCFC",
+  "uri": "DB/CCFC",
+  "source": "help_center",
+  "schema": {
+    "CCFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "COEF": {
+          "description": "Coefficient(Const)",
+          "type": "number"
+        },
+        "SCALE_FACTOR": {
+          "description": "Scale(User)",
+          "type": "number"
+        },
+        "ITEM": {
+          "description": "FunctionData",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TIME": {
+                "description": "Time",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

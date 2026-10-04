@@ -1,0 +1,595 @@
+{
+  "key": "DB.UTBL",
+  "uri": "DB/UTBL",
+  "source": "civil_nx_manual",
+  "schema": {
+    "UTBL": {
+      "NAME": {
+        "__DESC__": "Name",
+        "__TYPE__": "String"
+      },
+      "MENUID": {
+        "__DESC__": "Menu ID",
+        "__TYPE__": "Integer"
+      },
+      "DSKIND": {
+        "__DESC__": "DS Kind",
+        "__TYPE__": "Integer"
+      },
+      "TBKIND": {
+        "__DESC__": "Table Kind",
+        "__TYPE__": "String"
+      },
+      "CAPTION": {
+        "__DESC__": "Caption",
+        "__TYPE__": "String"
+      },
+      "OPT_ALL": {
+        "__DESC__": "All",
+        "__TYPE__": "Bool"
+      },
+      "GROUP_NAME": {
+        "__DESC__": "Group Name",
+        "__TYPE__": "String"
+      },
+      "DATATYPE": {
+        "__DESC__": "DataType",
+        "__TYPE__": "Integer"
+      },
+      "TBMODE": {
+        "__DESC__": "TB Mode",
+        "__TYPE__": "Integer"
+      },
+      "UNIT": {
+        "__DESC__": "Defined Unit",
+        "__TYPE__": {
+          "OPT_DEFINED_UNIT": {
+            "__DESC__": "Use Defined Unit",
+            "__TYPE__": "Bool"
+          },
+          "UNIT_LENGTH": {
+            "__DESC__": "Unit Length",
+            "__TYPE__": "Integer"
+          },
+          "UNIT_FORCE": {
+            "__DESC__": "Unit Force",
+            "__TYPE__": "Integer"
+          },
+          "UNIT_HEAT": {
+            "__DESC__": "Unit Heat",
+            "__TYPE__": "Integer"
+          },
+          "UNIT_TEMP": {
+            "__DESC__": "Unit Temperature",
+            "__TYPE__": "Integer"
+          }
+        }
+      },
+      "HEADER": {
+        "__DESC__": "Header",
+        "__TYPE__": {
+          "ROW_COUNT": {
+            "__DESC__": "Header Row Count",
+            "__TYPE__": "Integer"
+          },
+          "ALL_COL_COUNT": {
+            "__DESC__": "Header All Column Count",
+            "__TYPE__": "Integer"
+          },
+          "SEL_COL_COUNT": {
+            "__DESC__": "Header Select Column Count",
+            "__TYPE__": "Integer"
+          },
+          "UNSEL_COL_COUNT": {
+            "__DESC__": "Header UnSelect Column Count",
+            "__TYPE__": "Integer"
+          },
+          "SEL_IDXS": {
+            "__DESC__": "Header Included Select Component",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "UNSEL_IDXS": {
+            "__DESC__": "Header Included UnSelect Component",
+            "__TYPE__": [
+              "Integer"
+            ]
+          }
+        }
+      },
+      "CELL": {
+        "__DESC__": "Cell",
+        "__TYPE__": {
+          "ROW_COUNT": {
+            "__DESC__": "Cell Row Count",
+            "__TYPE__": "Integer"
+          }
+        }
+      },
+      "SORT": {
+        "__DESC__": "Sort",
+        "__TYPE__": {
+          "SORT_COUNT": {
+            "__DESC__": "Sort Row Count",
+            "__TYPE__": "Integer"
+          },
+          "FLD_IDS": {
+            "__DESC__": "Column Numbers",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "ASCENDS": {
+            "__DESC__": "Ascend or Descending List",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "SORT_TYPES": {
+            "__DESC__": "Sort Type",
+            "__TYPE__": [
+              "Integer"
+            ]
+          }
+        }
+      },
+      "STYLE": {
+        "__DESC__": "Style",
+        "__TYPE__": {
+          "STYLE_COUNT": {
+            "__DESC__": "Style Count",
+            "__TYPE__": "Integer"
+          },
+          "PREF_COUNT": {
+            "__DESC__": "Style Preference Count",
+            "__TYPE__": "Integer"
+          },
+          "STYLE_COLUMNS": {
+            "__DESC__": "Style Columns",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "STYLE_TYPES": {
+            "__DESC__": "Style Type",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "STYLE_TITLES": {
+            "__DESC__": "Style Titles",
+            "__TYPE__": [
+              "String"
+            ]
+          },
+          "PREF_VAL_TYPES": {
+            "__DESC__": "Preference Value Types",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "PREF_FORMATS": {
+            "__DESC__": "Preference Formats",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "PREF_PLACES": {
+            "__DESC__": "Preference Places",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "PREF_WIDTHS": {
+            "__DESC__": "Preference Places",
+            "__TYPE__": [
+              "Integer"
+            ]
+          }
+        }
+      },
+      "ACTIVE": {
+        "__DESC__": "Active",
+        "__TYPE__": {
+          "KEY_TYPE": {
+            "__DESC__": "Key Type none/node/elem/etc",
+            "__TYPE__": "Integer"
+          },
+          "CHILD_TYPE": {
+            "__DESC__": "Child Type",
+            "__TYPE__": "Integer"
+          },
+          "OPT_IDX_CENTER": {
+            "__DESC__": "Index Center",
+            "__TYPE__": "Bool"
+          },
+          "OPT_IDX_NODE": {
+            "__DESC__": "Index Node",
+            "__TYPE__": "Bool"
+          },
+          "OPT_MEMB_MODE": {
+            "__DESC__": "Member Mode (for Beam Force)",
+            "__TYPE__": "Bool"
+          },
+          "KEYS": {
+            "__DESC__": "Node or Elem Keys",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "LOAD_CASE_KEYS": {
+            "__DESC__": "Load Case Keys",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "LOAD_CASE_TYPES": {
+            "__DESC__": "Load Case Types",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "MIN_MAXS": {
+            "__DESC__": "Min Maxs",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "STEPS": {
+            "__DESC__": "Steps",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "LOAD_STEPS": {
+            "__DESC__": "Load Steps",
+            "__TYPE__": [
+              {
+                "LOAD_CASE_IDX": {
+                  "__DESC__": "Load Case Index",
+                  "__TYPE__": "Integer"
+                },
+                "STEP": {
+                  "__DESC__": "Step",
+                  "__TYPE__": "Integer"
+                }
+              }
+            ]
+          },
+          "PARTS": {
+            "__DESC__": "Parts (i 1/4 1/2 3/4 j)",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "CUR_ETCS": {
+            "__DESC__": "Design Table Options",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "CUR_DATAS": {
+            "__DESC__": "Design Table Option Datas",
+            "__TYPE__": [
+              "Integer"
+            ]
+          }
+        }
+      },
+      "DESIGN": {
+        "__DESC__": "Design",
+        "__TYPE__": {
+          "OPT_RC_TYPE_KIND": {
+            "__DESC__": "RC Type Kind",
+            "__TYPE__": "Integer"
+          },
+          "OPT_LS_BEAM_CHK": {
+            "__DESC__": "Large/Small Beam Check",
+            "__TYPE__": "Integer"
+          },
+          "OPT_SORT": {
+            "__DESC__": "Sorted By Member or Section",
+            "__TYPE__": "Integer"
+          },
+          "OPT_RSLT_VIEW": {
+            "__DESC__": "Result View Option All / OK / NG",
+            "__TYPE__": "Integer"
+          },
+          "OPT_SORT_P": {
+            "__DESC__": "Primary Sorting Option Section or Member",
+            "__TYPE__": "Integer"
+          },
+          "OPT_RESULT": {
+            "__DESC__": "Results Strength / Serviceability",
+            "__TYPE__": "Integer"
+          },
+          "OPT_RC_DGN_KIND": {
+            "__DESC__": "RC Design Kind Flexure / Shear",
+            "__TYPE__": "Integer"
+          },
+          "OPT_STL_DGN_KIND": {
+            "__DESC__": "Steel Design Kind",
+            "__TYPE__": "Integer"
+          },
+          "OPT_REBAR_TYPE": {
+            "__DESC__": "Rebar Type Number / C.T.C",
+            "__TYPE__": "Integer"
+          },
+          "OPT_RSLT_VIEW_BE": {
+            "__DESC__": "Result View B.E. Option All/Req/Not Req",
+            "__TYPE__": "Integer"
+          },
+          "MESHED_DGN_ELEM_AVG": {
+            "__DESC__": "Mehsed Design Elem Average",
+            "__TYPE__": "Integer"
+          },
+          "RC_DESIGNS": {
+            "__DESC__": "RC Design Data",
+            "__TYPE__": [
+              {
+                "MEMB_KEY": {
+                  "__DESC__": "Member Key",
+                  "__TYPE__": "Integer"
+                },
+                "FLEX_DISTS": {
+                  "__DESC__": "Flexure Distance",
+                  "__TYPE__": [
+                    "Real"
+                  ]
+                },
+                "FLEX_BAR_DIAS_1": {
+                  "__DESC__": "Flexure Bar Dia 1",
+                  "__TYPE__": [
+                    "String"
+                  ]
+                },
+                "FLEX_BAR_DIAS_2": {
+                  "__DESC__": "Flexure Bar Dia 2",
+                  "__TYPE__": [
+                    "String"
+                  ]
+                },
+                "FLEX_NUMS": {
+                  "__DESC__": "Flexure Num",
+                  "__TYPE__": [
+                    "Real"
+                  ]
+                },
+                "FLEX_CTCS": {
+                  "__DESC__": "Flexure C.T.C",
+                  "__TYPE__": [
+                    "Real"
+                  ]
+                },
+                "SHEAR_DIAS": {
+                  "__DESC__": "Shear Dias",
+                  "__TYPE__": [
+                    "String"
+                  ]
+                },
+                "SHEAR_LEGS": {
+                  "__DESC__": "Shear Legs",
+                  "__TYPE__": [
+                    "Real"
+                  ]
+                },
+                "SHEAR_SPACINGS": {
+                  "__DESC__": "Shear Spacings",
+                  "__TYPE__": [
+                    "Real"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "PUSHOVER": {
+        "__DESC__": "Pushover",
+        "__TYPE__": {
+          "PUSHOVER_LC_KEY": {
+            "__DESC__": "Pushover Load Case Key",
+            "__TYPE__": "Integer"
+          },
+          "STEP_FOR_DEMAND": {
+            "__DESC__": "Step For Demand",
+            "__TYPE__": "Integer"
+          },
+          "STEP_FOR_DEMAND_USER": {
+            "__DESC__": "Step For Demand By User",
+            "__TYPE__": "Integer"
+          },
+          "USER_STEP": {
+            "__DESC__": "User Step",
+            "__TYPE__": "Integer"
+          },
+          "CONFIDENCE_FACTOR": {
+            "__DESC__": "Confidence Factor",
+            "__TYPE__": "Real"
+          },
+          "COMPONENTS": {
+            "__DESC__": "Components",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "GET_STEP": {
+            "__DESC__": "Get Step",
+            "__TYPE__": "Bool"
+          },
+          "DL": {
+            "__DESC__": "DL",
+            "__TYPE__": "Integer"
+          },
+          "SD": {
+            "__DESC__": "SD",
+            "__TYPE__": "Integer"
+          },
+          "NC": {
+            "__DESC__": "NC",
+            "__TYPE__": "Integer"
+          },
+          "MODE": {
+            "__DESC__": "Mode (Selected Elements or All)",
+            "__TYPE__": "Integer"
+          }
+        }
+      },
+      "STORY": {
+        "__DESC__": "Story",
+        "__TYPE__": {
+          "OPT_RESPONSE_MOD_FACTOR": {
+            "__DESC__": "Check Response Modification Factor",
+            "__TYPE__": "Bool"
+          },
+          "VAL_RESPONSE_MOD_FACTOR": {
+            "__DESC__": "Response Modification Factor",
+            "__TYPE__": "Real"
+          },
+          "DEFLECTION_AMP_FACTOR": {
+            "__DESC__": "Deflection Amplification Factor",
+            "__TYPE__": "Real"
+          },
+          "IMPORTANCE_FACTOR": {
+            "__DESC__": "Importance Factor",
+            "__TYPE__": "Real"
+          },
+          "SCALE_UP_FACTOR": {
+            "__DESC__": "Scale-up Factor",
+            "__TYPE__": "Real"
+          },
+          "ALLOWABLE_RATIO": {
+            "__DESC__": "Allowable Ratio",
+            "__TYPE__": "Real"
+          },
+          "ALLOWABLE_VALUE": {
+            "__DESC__": "Allowable Value",
+            "__TYPE__": "Real"
+          },
+          "OPT_FIX_USER": {
+            "__DESC__": "0:Fixed, 1:User",
+            "__TYPE__": "Integer"
+          },
+          "BETAS": {
+            "__DESC__": "Betas",
+            "__TYPE__": [
+              {
+                "STORY_KEY": {
+                  "__DESC__": "Story Key",
+                  "__TYPE__": "Integer"
+                },
+                "BETA": {
+                  "__DESC__": "Beta Value",
+                  "__TYPE__": "Real"
+                }
+              }
+            ]
+          },
+          "LCOMS": {
+            "__DESC__": "Lcoms",
+            "__TYPE__": [
+              {
+                "ANAL_TYPE": {
+                  "__DESC__": "Anal Type",
+                  "__TYPE__": "Integer"
+                },
+                "LC_KEY": {
+                  "__DESC__": "Load Case Key",
+                  "__TYPE__": "Integer"
+                },
+                "FACTOR": {
+                  "__DESC__": "Factor",
+                  "__TYPE__": "Real"
+                }
+              }
+            ]
+          },
+          "ANGLE": {
+            "__DESC__": "Story Drift Method",
+            "__TYPE__": "Real"
+          },
+          "DRIFT": {
+            "__DESC__": "Story Stiffness Method",
+            "__TYPE__": "Integer"
+          },
+          "STIFF": {
+            "__DESC__": "Torsional Irregularity Check",
+            "__TYPE__": "Integer"
+          },
+          "METHOD": {
+            "__DESC__": "Torsional Irregularity Check",
+            "__TYPE__": "Integer"
+          },
+          "NODE_KEYS": {
+            "__DESC__": "Node Keys",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "METHODS": {
+            "__DESC__": "METHODS",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "DRIFT_NODE_KEYS": {
+            "__DESC__": "In case of Drift of Selected Node Line, node key for each direction",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "SAME_SEL_NODES": {
+            "__DESC__": "Same for X-Dir, Y-Dir",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "AVER_NODE_KEYS_X": {
+            "__DESC__": "Average Node Keys X",
+            "__TYPE__": {
+              "KEYS": {
+                "__DESC__": "In case of Average Drift of Extreme Nodes Lines, node key for each direction",
+                "__TYPE__": [
+                  "Integer"
+                ]
+              }
+            }
+          },
+          "AVER_NODE_KEYS_Y": {
+            "__DESC__": "Average Node Keys Y",
+            "__TYPE__": {
+              "KEYS": {
+                "__DESC__": "In case of Average Drift of Extreme Nodes Lines, node key for each direction",
+                "__TYPE__": [
+                  "Integer"
+                ]
+              }
+            }
+          },
+          "AVER_NODE_KEYS_Z": {
+            "__DESC__": "Average Node Keys Z",
+            "__TYPE__": {
+              "KEYS": {
+                "__DESC__": "In case of Average Drift of Extreme Nodes Lines, node key for each direction",
+                "__TYPE__": [
+                  "Integer"
+                ]
+              }
+            }
+          },
+          "SAME_AVERAGES": {
+            "__DESC__": "Same for X-Dir, Y-Dir",
+            "__TYPE__": [
+              "Integer"
+            ]
+          },
+          "UP_STORY_NODE_KEY": {
+            "__DESC__": "maximum drift only (China Only)",
+            "__TYPE__": "Bool"
+          }
+        }
+      }
+    }
+  }
+}

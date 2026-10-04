@@ -1,0 +1,28 @@
+{
+  "key": "DB.INMF",
+  "uri": "DB/INMF",
+  "source": "help_center",
+  "schema": {
+    "INMF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ELEM_TYPE": {
+          "description": "ElementType",
+          "type": "string"
+        },
+        "ELEM_KEY": {
+          "description": "ElementID",
+          "type": "integer"
+        },
+        "ELEMENT_FORCES": {
+          "description": "ElementForces",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

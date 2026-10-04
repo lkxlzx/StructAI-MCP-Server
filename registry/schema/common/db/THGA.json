@@ -1,0 +1,57 @@
+{
+  "key": "DB.THGA",
+  "uri": "DB/THGA",
+  "source": "help_center",
+  "schema": {
+    "THGA": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Timehistoryloadcasename",
+          "type": "string"
+        },
+        "FUNCX": {
+          "description": "X-dir.functionname",
+          "type": "string"
+        },
+        "SCALEX": {
+          "description": "X-dir.scalefactor",
+          "type": "number"
+        },
+        "ATIMEX": {
+          "description": "X-dir.arrivaltime",
+          "type": "number"
+        },
+        "FUNCY": {
+          "description": "Y-dir.functionname",
+          "type": "string"
+        },
+        "SCALEY": {
+          "description": "Y-dir.scalefactor",
+          "type": "number"
+        },
+        "ATIMEY": {
+          "description": "Y-dir.arrivaltime",
+          "type": "number"
+        },
+        "FUNCZ": {
+          "description": "Z-dir.functionname",
+          "type": "string"
+        },
+        "SCALEZ": {
+          "description": "Z-dir.scalefactor",
+          "type": "number"
+        },
+        "ATIMEZ": {
+          "description": "Z-dir.arrivaltime",
+          "type": "number"
+        },
+        "ANGLE": {
+          "description": "Angleofhorizontalgroundacc.",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

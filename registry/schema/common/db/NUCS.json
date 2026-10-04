@@ -1,0 +1,31 @@
+{
+  "key": "DB.NUCS",
+  "uri": "DB/NUCS",
+  "source": "civil_nx_manual",
+  "schema": {
+    "NUCS": {
+      "NAME": {
+        "__DESC__": "UCS Name",
+        "__TYPE__": "String"
+      },
+      "ORG_ITEM": {
+        "__DESC__": "O(X, Y, Z)",
+        "__TYPE__": [
+          "Real"
+        ]
+      },
+      "VX_ITEM": {
+        "__DESC__": "V(XX, XY, XZ)",
+        "__TYPE__": [
+          "Real"
+        ]
+      },
+      "VY_ITEM": {
+        "__DESC__": "V(YX, YY, YZ)",
+        "__TYPE__": [
+          "Real"
+        ]
+      }
+    }
+  }
+}

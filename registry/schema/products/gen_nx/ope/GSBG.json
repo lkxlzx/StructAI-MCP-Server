@@ -1,0 +1,453 @@
+{
+  "key": "OPE.GSBG",
+  "uri": "OPE/GSBG",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Argument"
+    ],
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "GSBG OPE request argument for Bridge Girder Diagram image generation.",
+        "required": [
+          "LC_NAME",
+          "DGRM_TYPE",
+          "STAGE_LIST",
+          "EXPORT_PATH",
+          "EXTENSION"
+        ],
+        "properties": {
+          "LC_NAME": {
+            "type": "string",
+            "description": "Load Case/Combination name.",
+            "x-ui": {
+              "label": "Load Case/Combination",
+              "groupId": "DTO_GSBG_GENERAL"
+            },
+            "x-dto-group": "DTO_GSBG_GENERAL"
+          },
+          "DGRM_TYPE": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "description": "Diagram Type. 0: Stress, 1: Force.",
+            "x-ui": {
+              "label": "Diagram Type",
+              "groupId": "DTO_GSBG_GENERAL"
+            },
+            "x-dto-group": "DTO_GSBG_GENERAL"
+          },
+          "BATCH": {
+            "type": "boolean",
+            "default": true,
+            "description": "Batch option. When omitted, the default is treated as true.",
+            "x-ui": {
+              "label": "Batch",
+              "groupId": "DTO_GSBG_GENERAL"
+            },
+            "x-dto-group": "DTO_GSBG_GENERAL"
+          },
+          "X_AXIS_TYPE": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "default": 0,
+            "description": "X-Axis Type. 0: Distance, 1: Node.",
+            "x-ui": {
+              "label": "X-Axis Type",
+              "groupId": "DTO_GSBG_GENERAL"
+            },
+            "x-dto-group": "DTO_GSBG_GENERAL"
+          },
+          "BRDG_GROUP": {
+            "type": "string",
+            "description": "Bridge Girder Element Group. Used only when BATCH is false.",
+            "x-ui": {
+              "label": "Bridge Girder Element Group",
+              "groupId": "DTO_GSBG_GENERAL"
+            },
+            "x-dto-group": "DTO_GSBG_GENERAL"
+          },
+          "COMPONENTS": {
+            "type": "integer",
+            "default": 0,
+            "description": "Component. Available enum values depend on DGRM_TYPE.",
+            "x-ui": {
+              "label": "Components",
+              "groupId": "DTO_GSBG_COMPONENT"
+            },
+            "x-dto-group": "DTO_GSBG_COMPONENT"
+          },
+          "7TH_DOF_TYPE": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "default": 0,
+            "description": "7th DOF Type. Used only when DGRM_TYPE is Stress and COMPONENTS is 7th DOF.",
+            "x-ui": {
+              "label": "7th DOF Type",
+              "groupId": "DTO_GSBG_STRESS_OPTION"
+            },
+            "x-dto-group": "DTO_GSBG_STRESS_OPTION"
+          },
+          "COMBINED_COMP": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "default": 0,
+            "description": "Location for the Display of Stress. Used only when DGRM_TYPE is Stress and COMPONENTS is Combined.",
+            "x-ui": {
+              "label": "Location for the Display of Stress",
+              "groupId": "DTO_GSBG_STRESS_OPTION"
+            },
+            "x-dto-group": "DTO_GSBG_STRESS_OPTION"
+          },
+          "STRESS_LINE": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Allowable Stress Line. The unit of COMP and TENS follows the current system unit settings.",
+            "properties": {
+              "OPT_USE": {
+                "type": "boolean",
+                "default": false,
+                "description": "Draw Allowable Stress Line."
+              },
+              "COMP": {
+                "type": "integer",
+                "description": "Allowable compression stress. Unit follows the current system unit settings."
+              },
+              "TENS": {
+                "type": "integer",
+                "description": "Allowable tension stress. Unit follows the current system unit settings."
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "OPT_USE": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "OPT_USE"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "COMP",
+                    "TENS"
+                  ]
+                },
+                "x-branch-label": "When OPT_USE = True"
+              },
+              {
+                "if": {
+                  "not": {
+                    "properties": {
+                      "OPT_USE": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "OPT_USE"
+                    ]
+                  }
+                },
+                "then": {
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "COMP"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "TENS"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "x-branch-label": "When OPT_USE is false or omitted"
+              }
+            ]
+          },
+          "BATCH_LIST": {
+            "type": "array",
+            "description": "Batch output group-name list. When BATCH is true or omitted, each item is entered directly as a string.",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Batch output group name."
+            },
+            "x-ui": {
+              "label": "Batch List",
+              "groupId": "DTO_GSBG_BATCH_OPTION"
+            },
+            "x-dto-group": "DTO_GSBG_BATCH_OPTION"
+          },
+          "STAGE_LIST": {
+            "type": "array",
+            "description": "Stage list for diagram generation.",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "x-ui": {
+              "label": "Stages",
+              "groupId": "DTO_GSBG_STAGE"
+            },
+            "x-dto-group": "DTO_GSBG_STAGE"
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Export path for the generated diagram image.",
+            "x-ui": {
+              "label": "Export Path",
+              "groupId": "DTO_GSBG_EXPORT"
+            },
+            "x-dto-group": "DTO_GSBG_EXPORT"
+          },
+          "EXTENSION": {
+            "type": "string",
+            "enum": [
+              "bmp",
+              "jpg",
+              "emf"
+            ],
+            "description": "Export image file extension.",
+            "x-ui": {
+              "label": "Extension",
+              "groupId": "DTO_GSBG_EXPORT"
+            },
+            "x-dto-group": "DTO_GSBG_EXPORT"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "DGRM_TYPE": {
+                  "const": 0
+                }
+              },
+              "required": [
+                "DGRM_TYPE"
+              ]
+            },
+            "then": {
+              "properties": {
+                "COMPONENTS": {
+                  "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
+                  ],
+                  "description": "Stress Components. 0: Sax, 1: +Sby, 2: -Sby, 3: +Sbz, 4: -Sbz, 5: Combined, 6: 7th DOF."
+                }
+              }
+            },
+            "x-branch-label": "When Diagram Type is Stress"
+          },
+          {
+            "if": {
+              "properties": {
+                "DGRM_TYPE": {
+                  "const": 1
+                }
+              },
+              "required": [
+                "DGRM_TYPE"
+              ]
+            },
+            "then": {
+              "properties": {
+                "COMPONENTS": {
+                  "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                  ],
+                  "description": "Beam Forces/Moments Components. 0: Fx, 1: Fy, 2: Fz, 3: Mx, 4: My, 5: Mz, 6: Mb, 7: Mt, 8: Mw."
+                }
+              }
+            },
+            "x-branch-label": "When Diagram Type is Force"
+          },
+          {
+            "if": {
+              "not": {
+                "properties": {
+                  "BATCH": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "BATCH"
+                ]
+              }
+            },
+            "then": {
+              "required": [
+                "BATCH_LIST"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "BRDG_GROUP"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "COMPONENTS"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "7TH_DOF_TYPE"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "COMBINED_COMP"
+                    ]
+                  }
+                ]
+              }
+            },
+            "x-branch-label": "When BATCH is true or omitted, BATCH_LIST is required as an array of strings; BRDG_GROUP, COMPONENTS, COMBINED_COMP, and 7TH_DOF_TYPE are not allowed at the top level"
+          },
+          {
+            "if": {
+              "properties": {
+                "BATCH": {
+                  "const": false
+                }
+              },
+              "required": [
+                "BATCH"
+              ]
+            },
+            "then": {
+              "required": [
+                "BRDG_GROUP"
+              ],
+              "not": {
+                "required": [
+                  "BATCH_LIST"
+                ]
+              }
+            },
+            "x-branch-label": "When BATCH is false"
+          },
+          {
+            "if": {
+              "properties": {
+                "DGRM_TYPE": {
+                  "const": 1
+                }
+              },
+              "required": [
+                "DGRM_TYPE"
+              ]
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "STRESS_LINE"
+                ]
+              }
+            },
+            "x-branch-label": "STRESS_LINE is not allowed when Diagram Type is Force"
+          },
+          {
+            "if": {
+              "not": {
+                "properties": {
+                  "DGRM_TYPE": {
+                    "const": 0
+                  },
+                  "COMPONENTS": {
+                    "const": 6
+                  }
+                },
+                "required": [
+                  "DGRM_TYPE",
+                  "COMPONENTS"
+                ]
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "7TH_DOF_TYPE"
+                ]
+              }
+            },
+            "x-branch-label": "7TH_DOF_TYPE is allowed only when Diagram Type is Stress and Stress Component is 7th DOF"
+          },
+          {
+            "if": {
+              "not": {
+                "properties": {
+                  "DGRM_TYPE": {
+                    "const": 0
+                  },
+                  "COMPONENTS": {
+                    "const": 5
+                  }
+                },
+                "required": [
+                  "DGRM_TYPE",
+                  "COMPONENTS"
+                ]
+              }
+            },
+            "then": {
+              "not": {
+                "required": [
+                  "COMBINED_COMP"
+                ]
+              }
+            },
+            "x-branch-label": "COMBINED_COMP is allowed only when Diagram Type is Stress and Stress Component is Combined"
+          }
+        ]
+      }
+    }
+  }
+}

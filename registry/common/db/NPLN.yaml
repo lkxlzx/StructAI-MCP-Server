@@ -1,0 +1,49 @@
+key: DB.NPLN
+namespace: DB
+uri: /DB/NPLN
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: NPLN
+schema_ref:
+  local: schema/common/db/NPLN.json
+  introspect: info/db/NPLN
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Named Plane
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35805287066649-Named-Plane"
+  retrieved_at: "2025-02-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 8
+  examples: 1
+  has_response_head: false
+notes: ["Required가 아닌 **Optional(기본값 0)**로 명시돼 있어 정정(아티클 id `35805287066649`). TYPE=1일 때만 쓰이지 않는 값이므로 실무상 \"조건부 필수\"처럼 보이지만, 원문 표기는 Optional."]

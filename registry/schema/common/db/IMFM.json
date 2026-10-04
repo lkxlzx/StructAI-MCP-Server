@@ -1,0 +1,29 @@
+{
+  "key": "DB.IMFM",
+  "uri": "DB/IMFM",
+  "source": "help_center",
+  "schema": {
+    "IMFM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "CONC_NAME": {
+          "description": "FiberModelPropertyName(Concrete)",
+          "type": "string"
+        },
+        "CONFINED_CONC_NAME": {
+          "description": "FiberModelPropertyName(ConfinedConcrete)",
+          "type": "string"
+        },
+        "REBAR_NAME": {
+          "description": "FiberModelPropertyName(Rebar)",
+          "type": "string"
+        },
+        "STEEL_NAME": {
+          "description": "FiberModelPropertyName(Steel)",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

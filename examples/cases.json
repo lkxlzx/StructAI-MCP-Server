@@ -1,0 +1,9991 @@
+{
+ "source": "https://github.com/Dennis5882/MIDAS-API (docs/manual Python examples)",
+ "count": 505,
+ "cases": [
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/new",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.NEW"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/open",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.OPEN"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/close",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.CLOSE"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/save",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVE"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/saveas",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVEAS"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/stagas",
+   "payload": {
+    "Argument": {
+     "EXPORT_PATH": "C:\\MIDAS\\Stage1.mcb",
+     "STAGE_STEP": "Stage1"
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.STAGAS"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/import",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.IMPORT"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/importmxt",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.IMPORTMXT"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/importmxt",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.IMPORTMXT"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/export",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.EXPORT"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/exportmxt",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DOC.EXPORTMXT"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/anal",
+   "payload": {},
+   "payload_var": "inline",
+   "registry_key": "DOC.ANAL"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/anal",
+   "payload": {
+    "Argument": {
+     "TYPE": "Pushover"
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.ANAL"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/new",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.NEW"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/save",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVE"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/anal",
+   "payload": {},
+   "payload_var": "inline",
+   "registry_key": "DOC.ANAL"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/saveas",
+   "payload": {
+    "Argument": "C:\\MIDAS\\Result_v1.mcb"
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVEAS"
+  },
+  {
+   "file": "01_DOC.md",
+   "method": "POST",
+   "uri": "/doc/close",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.CLOSE"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/pjcf",
+   "payload": {
+    "Assign": {
+     "1": {
+      "PROJECT": "My Building Project",
+      "USER": "Dennis",
+      "CLIENT": "ABC Corp",
+      "TITLE": "10-Story RC Frame",
+      "ENGINEER": "Dennis",
+      "EDATE": "2026-06-29",
+      "COMMENT": "Initial modeling"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PJCF"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/unit",
+   "payload": {
+    "Assign": {
+     "1": {
+      "FORCE": "KN",
+      "DIST": "M",
+      "HEAT": "KJ",
+      "TEMPER": "C"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.UNIT"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/unit",
+   "payload": {
+    "Assign": {
+     "1": {
+      "FORCE": "TONF",
+      "DIST": "M",
+      "HEAT": "KCAL",
+      "TEMPER": "C"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.UNIT"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/styp",
+   "payload": {
+    "Assign": {
+     "1": {
+      "STYP": 0,
+      "MASS": 1,
+      "bMASSOFFSET": false,
+      "bSELFWEIGHT": false,
+      "GRAV": 9.806,
+      "TEMP": 0,
+      "bALIGNBEAM": false,
+      "bALIGNSLAB": false,
+      "bROTRIGID": false
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STYP"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/grup",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Column_Group",
+      "P_TYPE": 0,
+      "N_LIST": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "E_LIST": [
+       1,
+       2,
+       3,
+       4
+      ]
+     },
+     "2": {
+      "NAME": "Beam_Group",
+      "P_TYPE": 0,
+      "N_LIST": [
+       5,
+       6,
+       7,
+       8
+      ],
+      "E_LIST": [
+       5,
+       6,
+       7,
+       8
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.GRUP"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/bngr",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Foundation_BG",
+      "AUTOTYPE": 0
+     },
+     "2": {
+      "NAME": "Stage1_BG",
+      "AUTOTYPE": 0
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.BNGR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/ldgr",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Dead_Load_Group"
+     },
+     "2": {
+      "NAME": "Live_Load_Group"
+     },
+     "3": {
+      "NAME": "Wind_Load_Group"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.LDGR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "DELETE",
+   "uri": "/db/ldgr",
+   "payload": {
+    "Assign": {
+     "3": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.LDGR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/tdgr",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Tendon_Span1"
+     },
+     "2": {
+      "NAME": "Tendon_Span2"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDGR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/npln",
+   "payload": {
+    "NPLN": {
+     "1": {
+      "NAME": "FloorPlane_1F",
+      "TYPE": 2,
+      "TOL": 1,
+      "COORD": 0
+     },
+     "2": {
+      "NAME": "FloorPlane_2F",
+      "TYPE": 2,
+      "TOL": 1,
+      "COORD": 3200
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.NPLN"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/co_m",
+   "payload": {
+    "Assign": {
+     "1": {
+      "W_R": 131,
+      "W_G": 131,
+      "W_B": 131,
+      "HF_R": 178,
+      "HF_G": 178,
+      "HF_B": 178,
+      "HE_R": 131,
+      "HE_G": 131,
+      "HE_B": 131,
+      "bBLEMD": false,
+      "FACT": 0.5
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CO_M"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/co_s",
+   "payload": {
+    "Assign": {
+     "2": {
+      "W_R": 111,
+      "W_G": 142,
+      "W_B": 91,
+      "HF_R": 159,
+      "HF_G": 205,
+      "HF_B": 131,
+      "HE_R": 111,
+      "HE_G": 142,
+      "HE_B": 91,
+      "bBLEMD": false,
+      "FACT": 0.5
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CO_S"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/co_t",
+   "payload": {
+    "Assign": {
+     "1": {
+      "W_R": 111,
+      "W_G": 142,
+      "W_B": 91,
+      "HF_R": 159,
+      "HF_G": 205,
+      "HF_B": 131,
+      "HE_R": 111,
+      "HE_G": 142,
+      "HE_B": 91,
+      "bBLEMD": false,
+      "FACT": 0.5
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CO_T"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/co_f",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Residential_Floor",
+      "WF_R": 166,
+      "WF_G": 202,
+      "WF_B": 240,
+      "HF_R": 166,
+      "HF_G": 202,
+      "HF_B": 240,
+      "HE_R": 166,
+      "HE_G": 202,
+      "HE_B": 240,
+      "OPT_BLEND": true,
+      "BLEND_FACTOR": 0.25
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CO_F"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/span",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Main_Span",
+      "bEXACTSPAN": true,
+      "DIRECTION": 0,
+      "SECTTYPE": 0,
+      "SPAN_LIST": [
+       40.0,
+       60.0,
+       40.0
+      ],
+      "SPAN_BASE_ITEMS": [
+       {
+        "ELEM_KEY": 1,
+        "SUPPORT": 1
+       },
+       {
+        "ELEM_KEY": 5,
+        "SUPPORT": 2
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SPAN"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/stor",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DB.STOR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/doc/new",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.NEW"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/unit",
+   "payload": {
+    "Assign": {
+     "1": {
+      "FORCE": "KN",
+      "DIST": "M",
+      "HEAT": "KJ",
+      "TEMPER": "C"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.UNIT"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "PUT",
+   "uri": "/db/styp",
+   "payload": {
+    "Assign": {
+     "1": {
+      "STYP": 0,
+      "MASS": 1,
+      "bMASSOFFSET": false,
+      "bSELFWEIGHT": false,
+      "GRAV": 9.806,
+      "TEMP": 0,
+      "bALIGNBEAM": false,
+      "bALIGNSLAB": false,
+      "bROTRIGID": false
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STYP"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/pjcf",
+   "payload": {
+    "Assign": {
+     "1": {
+      "PROJECT": "10F RC Frame",
+      "USER": "Dennis",
+      "CLIENT": "ABC Corp",
+      "TITLE": "Structural Analysis"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PJCF"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/db/stor",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DB.STOR"
+  },
+  {
+   "file": "02_DB_Project_Structure.md",
+   "method": "POST",
+   "uri": "/doc/save",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVE"
+  },
+  {
+   "file": "03_DB_Node_Element.md",
+   "method": "POST",
+   "uri": "/doc/NEW",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.NEW"
+  },
+  {
+   "file": "03_DB_Node_Element.md",
+   "method": "PUT",
+   "uri": "/db/UNIT",
+   "payload": {
+    "Assign": {
+     "1": {
+      "FORCE": "KN",
+      "DIST": "M",
+      "HEAT": "KJ",
+      "TEMPER": "C"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.UNIT"
+  },
+  {
+   "file": "03_DB_Node_Element.md",
+   "method": "POST",
+   "uri": "/db/NODE",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DB.NODE"
+  },
+  {
+   "file": "03_DB_Node_Element.md",
+   "method": "POST",
+   "uri": "/db/ELEM",
+   "payload": null,
+   "payload_var": "inline",
+   "registry_key": "DB.ELEM"
+  },
+  {
+   "file": "03_DB_Node_Element.md",
+   "method": "POST",
+   "uri": "/doc/SAVE",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "inline",
+   "registry_key": "DOC.SAVE"
+  },
+  {
+   "file": "04_DB_Properties.md",
+   "method": "DELETE",
+   "uri": "/db/MATL",
+   "payload": {
+    "Assign": {
+     "3": null
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.MATL"
+  },
+  {
+   "file": "04_DB_Properties.md",
+   "method": "POST",
+   "uri": "/db/MATL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "TYPE": "CONC",
+      "NAME": "C24",
+      "bMASS_DENS": false,
+      "DAMP_RAT": 0.05,
+      "HE_SPEC": 0,
+      "HE_COND": 0,
+      "PLMT": 0,
+      "P_NAME": "",
+      "PARAM": [
+       {
+        "P_TYPE": 1,
+        "STANDARD": "KS21(RC)",
+        "CODE": "",
+        "DB": "C24",
+        "bELAST": false
+       }
+      ]
+     },
+     "2": {
+      "TYPE": "STEEL",
+      "NAME": "SS400",
+      "bMASS_DENS": false,
+      "DAMP_RAT": 0.02,
+      "HE_SPEC": 0,
+      "HE_COND": 0,
+      "PLMT": 0,
+      "P_NAME": "",
+      "PARAM": [
+       {
+        "P_TYPE": 1,
+        "STANDARD": "KS21(S)",
+        "CODE": "",
+        "DB": "SS400",
+        "bELAST": false
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.MATL"
+  },
+  {
+   "file": "04_DB_Properties.md",
+   "method": "POST",
+   "uri": "/db/SECT",
+   "payload": {
+    "Assign": {
+     "1": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "H300x150",
+      "SECT_BEFORE": {
+       "OFFSET_PT": "CC",
+       "OFFSET_CENTER": 0,
+       "USER_OFFSET_REF": 0,
+       "HORZ_OFFSET_OPT": 0,
+       "USERDEF_OFFSET_YI": 0,
+       "VERT_OFFSET_OPT": 0,
+       "USERDEF_OFFSET_ZI": 0,
+       "USE_SHEAR_DEFORM": true,
+       "USE_WARPING_EFFECT": true,
+       "SHAPE": "H",
+       "DATATYPE": 1,
+       "SECT_I": {
+        "DB_NAME": "KS21",
+        "SECT_NAME": "H300x150x6.5/9"
+       }
+      }
+     },
+     "2": {
+      "SECTTYPE": "DBUSER",
+      "SECT_NAME": "H400x200",
+      "SECT_BEFORE": {
+       "OFFSET_PT": "CC",
+       "OFFSET_CENTER": 0,
+       "USER_OFFSET_REF": 0,
+       "HORZ_OFFSET_OPT": 0,
+       "USERDEF_OFFSET_YI": 0,
+       "VERT_OFFSET_OPT": 0,
+       "USERDEF_OFFSET_ZI": 0,
+       "USE_SHEAR_DEFORM": true,
+       "USE_WARPING_EFFECT": true,
+       "SHAPE": "H",
+       "DATATYPE": 1,
+       "SECT_I": {
+        "DB_NAME": "KS21",
+        "SECT_NAME": "H400x200x8/13"
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SECT"
+  },
+  {
+   "file": "04_DB_Properties.md",
+   "method": "POST",
+   "uri": "/db/THIK",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Slab_200",
+      "TYPE": "VALUE",
+      "bINOUT": false,
+      "T_IN": 0.2,
+      "T_OUT": 0,
+      "O_VALUE": 0
+     },
+     "2": {
+      "NAME": "Wall_250",
+      "TYPE": "VALUE",
+      "bINOUT": false,
+      "T_IN": 0.25,
+      "T_OUT": 0,
+      "O_VALUE": 0
+     },
+     "3": {
+      "NAME": "Slab_150",
+      "TYPE": "VALUE",
+      "bINOUT": false,
+      "T_IN": 0.15,
+      "T_OUT": 0,
+      "O_VALUE": 0
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.THIK"
+  },
+  {
+   "file": "05_DB_Boundary.md",
+   "method": "DELETE",
+   "uri": "/db/CONS",
+   "payload": {
+    "Assign": {
+     "10": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CONS"
+  },
+  {
+   "file": "05_DB_Boundary.md",
+   "method": "DELETE",
+   "uri": "/db/DRLS",
+   "payload": {
+    "Assign": {
+     "5": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.DRLS"
+  },
+  {
+   "file": "05_DB_Boundary.md",
+   "method": "POST",
+   "uri": "/db/PZEF",
+   "payload": {
+    "Assign": {
+     "1": {
+      "OPT_OFFSET": true,
+      "OFFS_FACTOR": 1.0,
+      "OUTPUT_POSITION": 1
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PZEF"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/STLD",
+   "payload": {
+    "Assign": {
+     "5": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/BODF",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.BODF"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/CNLD",
+   "payload": {
+    "Assign": {
+     "8": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CNLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/BMLD",
+   "payload": {
+    "Assign": {
+     "115": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.BMLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/SDSP",
+   "payload": {
+    "Assign": {
+     "10": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SDSP"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/NMAS",
+   "payload": {
+    "Assign": {
+     "5": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.NMAS"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/LTOM",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.LTOM"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/NBOF",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.NBOF"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/PSLT",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PSLT"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/PRES",
+   "payload": {
+    "Assign": {
+     "116": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PRES"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/PNLD",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PNLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/PNLA",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PNLA"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/FBLD",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.FBLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/FBLA",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.FBLA"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/FMLD",
+   "payload": {
+    "Assign": {
+     "200": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.FMLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/POSP",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.POSP"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/EPST",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EPST"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/EPSE",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EPSE"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/POSL",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.POSL"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/SWIND",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SWIND"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/SSEIS",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SSEIS"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/BODF",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LCNAME": "DL",
+      "GROUP_NAME": "",
+      "FV": [
+       0,
+       0,
+       -1
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.BODF"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/LTOM",
+   "payload": {
+    "Assign": {
+     "1": {
+      "DIR": "XYZ",
+      "bNODAL": true,
+      "bBEAM": true,
+      "bFLOOR": true,
+      "bPRES": false,
+      "GRAV": 9.806,
+      "vLC": [
+       {
+        "LCNAME": "DL",
+        "FACTOR": 1.0
+       },
+       {
+        "LCNAME": "LL",
+        "FACTOR": 0.25
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.LTOM"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/CNLD",
+   "payload": {
+    "Assign": {
+     "50": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "LCNAME": "LL",
+        "GROUP_NAME": "",
+        "FX": 0,
+        "FY": 0,
+        "FZ": -200.0,
+        "MX": 0,
+        "MY": 0,
+        "MZ": 0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.CNLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/BMLD",
+   "payload": {
+    "Assign": {
+     "100": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "LCNAME": "LL",
+        "GROUP_NAME": "",
+        "CMD": "BEAM",
+        "TYPE": "UNILOAD",
+        "DIRECTION": "GZ",
+        "USE_PROJECTION": false,
+        "USE_ECCEN": false,
+        "D": [
+         0,
+         1,
+         0,
+         0
+        ],
+        "P": [
+         -25.0,
+         -25.0,
+         0,
+         0
+        ]
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.BMLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/FBLD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "TypFloor",
+      "DESC": "",
+      "ITEM": [
+       {
+        "LCNAME": "DL",
+        "FLOOR_LOAD": 3.5,
+        "OPT_SUB_BEAM_WEIGHT": true
+       },
+       {
+        "LCNAME": "LL",
+        "FLOOR_LOAD": 2.5,
+        "OPT_SUB_BEAM_WEIGHT": false
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.FBLD"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/FBLA",
+   "payload": {
+    "Assign": {
+     "1": {
+      "FLOOR_LOAD_TYPE_NAME": "TypFloor",
+      "FLOOR_DIST_TYPE": 2,
+      "DIR": "GZ",
+      "OPT_PROJECTION": false,
+      "GROUP_NAME": "FloorGroup",
+      "NODES": [
+       11,
+       12,
+       13,
+       14
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.FBLA"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/POSP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "SiteA",
+      "OPT_USE_N": false,
+      "GROUND_LEVEL": 0.0,
+      "BEDROCK_LEVEL": -20.0,
+      "FOOTING_LEVEL": -8.0,
+      "ITEMS": [
+       {
+        "HEIGHT": 8.0,
+        "ANGLE_OR_N": 30,
+        "DENSITY": 18.0,
+        "VS": 200,
+        "KH": 20000,
+        "DISP": 0.001
+       },
+       {
+        "HEIGHT": 12.0,
+        "ANGLE_OR_N": 35,
+        "DENSITY": 19.0,
+        "VS": 350,
+        "KH": 60000,
+        "DISP": 0.001
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.POSP"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/EPST",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LOADCASE": "EP",
+      "DIR": "XY",
+      "ANGLE": 0,
+      "IN_PT": [
+       0,
+       0,
+       0
+      ],
+      "SF": 1.0,
+      "EP_TYPE": "AT_REST",
+      "SURCHARGE_LOAD": 10.0,
+      "WATER_LEVEL": -3.0,
+      "SOIL_PROP": "SiteA",
+      "SEL_TYPE": "ELEMENT",
+      "ELEM_TYPE": "FRAME",
+      "ELEM_LIST": [
+       201,
+       202,
+       203
+      ],
+      "PRES_PROFILE_ITEMS": [
+       {
+        "LEVEL": 0.0,
+        "SOIL_PRES": 0.0,
+        "ADD_PRES": 5.0
+       },
+       {
+        "LEVEL": -8.0,
+        "SOIL_PRES": 72.0,
+        "ADD_PRES": 5.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EPST"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/POSL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "KDS2019",
+      "CODE": "KDS(41-17-00:2019)",
+      "METHOD": "EQV_STATIC",
+      "SZ": "1",
+      "EPA": 0.22,
+      "SC": "S2",
+      "FA": 1.0,
+      "FV": 1.4,
+      "SDS": 0.2933,
+      "SD1": 0.1467,
+      "USER_GROUP": "1",
+      "IF": 1.5,
+      "RMF": 5.0
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.POSL"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/SSEIS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "SEIS_CODE": "KDS(41-17-00:2019)",
+      "DESC": "EX",
+      "SCALE_FACTOR_X": 1.0,
+      "SCALE_FACTOR_Y": 0.0,
+      "ACCIDENT_ECCEN_X": 0,
+      "ACCIDENT_ECCEN_Y": 2,
+      "ACCIDENT_TORSION": true,
+      "PARAMETERS": {
+       "SEIS_ZONE": 0,
+       "EPA": 0.22,
+       "SITE_CLASS": 1,
+       "SEIS_USE_GROUP": 1,
+       "IMPORTANCE_FACTOR": 1.5,
+       "PERIOD_METHOD": 1,
+       "PERIOD_APPR_X": 1.2,
+       "PERIOD_APPR_Y": 1.0,
+       "RESPONSE_MOD_FACTOR_X": 5.0,
+       "RESPONSE_MOD_FACTOR_Y": 5.0
+      }
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SSEIS"
+  },
+  {
+   "file": "06_DB_Static_Loads.md",
+   "method": "POST",
+   "uri": "/db/SWIND",
+   "payload": {
+    "Assign": {
+     "1": {
+      "WIND_CODE": "KDS(41-12: 2022)",
+      "DESC": "Wind X+Y",
+      "SCALE_FACTOR_X": 1.0,
+      "SCALE_FACTOR_Y": 1.0,
+      "PARAMETERS": {
+       "INPUT_METHOD": 0,
+       "WIND_SPEED": 30.0,
+       "ROOF_HEIGHT": 45.0,
+       "CE": 1.0
+      }
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.SWIND"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/ETMP",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.ETMP"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "PUT",
+   "uri": "/db/STMP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "TEMPER": 15.0,
+      "LCNAME": "Temp(+)",
+      "GROUP_NAME": ""
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STMP"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/STMP",
+   "payload": {
+    "Assign": {
+     "2": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STMP"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/NTMP",
+   "payload": {
+    "Assign": {
+     "190": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.NTMP"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/TDNT",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDNT"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/TDCS",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDCS"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/TDPL",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDPL"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/PRST",
+   "payload": {
+    "Assign": {
+     "1101": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PRST"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/PTNS",
+   "payload": {
+    "Assign": {
+     "3431": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.PTNS"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "PUT",
+   "uri": "/db/EXLD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LCNAME_ITEM": [
+       "PrS1",
+       "PrS2",
+       "PrS3"
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EXLD"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "DELETE",
+   "uri": "/db/EXLD",
+   "payload": {
+    "Assign": {
+     "1": {}
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EXLD"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/STLD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "PS",
+      "TYPE": "PS",
+      "DESC": "Prestress"
+     },
+     "2": {
+      "NAME": "Temp+",
+      "TYPE": "T",
+      "DESC": "Temperature +"
+     },
+     "3": {
+      "NAME": "PrS1",
+      "TYPE": "PS",
+      "DESC": "Pretension LC1"
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.STLD"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/ETMP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "LCNAME": "Temp+",
+        "GROUP_NAME": "",
+        "TEMP": 25
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.ETMP"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/TDNT",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "TD1_KSCE",
+      "TYPE": "INTERNAL",
+      "MATL": 1,
+      "AREA": 0.00504,
+      "D_AREA": 0.1,
+      "RM": 6,
+      "RV": 2,
+      "US": 1860000,
+      "YS": 1570000,
+      "LT": "POST",
+      "ASB": 0.006,
+      "ASE": 0.006,
+      "bBONDED": true,
+      "FF": 0.3,
+      "WF": 0.0066
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDNT"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/TDNA",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "TD1_Profile",
+      "TDN_PROP": 1,
+      "ELEM": [
+       101,
+       102,
+       103,
+       104,
+       105
+      ],
+      "BELENG": 0,
+      "ELENG": 0,
+      "CURVE": "SPLINE",
+      "INPUT": "2D",
+      "TDN_GRUP": 1,
+      "LENG_OPT": "AUTO2",
+      "bTP": false,
+      "SHAPE": "ELEMENT",
+      "INS_PT": "END-I",
+      "INS_ELEM": 101,
+      "AXIS_IJ": "I-J",
+      "XAR_ANGLE": 0,
+      "bPJ": true,
+      "OFF_YZ": [
+       0,
+       0
+      ],
+      "PROFY": [
+       {
+        "PT": [
+         0,
+         0
+        ],
+        "bFIX": true,
+        "R": 0
+       },
+       {
+        "PT": [
+         12,
+         -0.5
+        ],
+        "bFIX": false,
+        "R": 0
+       },
+       {
+        "PT": [
+         24,
+         0
+        ],
+        "bFIX": true,
+        "R": 0
+       }
+      ],
+      "PROFZ": [
+       {
+        "PT": [
+         0,
+         -0.5
+        ],
+        "bFIX": true,
+        "R": 0,
+        "bBOTZ": false
+       },
+       {
+        "PT": [
+         12,
+         -0.05
+        ],
+        "bFIX": false,
+        "R": 0,
+        "bBOTZ": false
+       },
+       {
+        "PT": [
+         24,
+         -0.5
+        ],
+        "bFIX": true,
+        "R": 0,
+        "bBOTZ": false
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDNA"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/TDPL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "LCNAME": "PS",
+        "GROUP_NAME": "",
+        "TENDON_NAME": "TD1_Profile",
+        "TYPE": "FORCE",
+        "ORDER": "BOTH",
+        "BEGIN": 1360000,
+        "END": 1360000,
+        "GROUTING": 1
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.TDPL"
+  },
+  {
+   "file": "07_DB_Temperature_Prestress.md",
+   "method": "POST",
+   "uri": "/db/EXLD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LCNAME_ITEM": [
+       "PrS1"
+      ]
+     }
+    }
+   },
+   "payload_var": "inline",
+   "registry_key": "DB.EXLD"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/SPFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "RS_UserDefined",
+      "iTYPE": 1,
+      "iMETHOD": 0,
+      "SCALE": 1.0,
+      "GRAV": 9.806,
+      "DRATIO": 0.05,
+      "aFUNC": [
+       {
+        "PERIOD": 0.0,
+        "VALUE": 0.11
+       },
+       {
+        "PERIOD": 0.06,
+        "VALUE": 0.308
+       },
+       {
+        "PERIOD": 0.12,
+        "VALUE": 0.308
+       },
+       {
+        "PERIOD": 0.3,
+        "VALUE": 0.308
+       },
+       {
+        "PERIOD": 0.6,
+        "VALUE": 0.154
+       },
+       {
+        "PERIOD": 1.2,
+        "VALUE": 0.077
+       },
+       {
+        "PERIOD": 4.0,
+        "VALUE": 0.023
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload_user",
+   "registry_key": "DB.SPFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/SPFC",
+   "payload": {
+    "Assign": {
+     "2": {
+      "NAME": "RS_KDS2019",
+      "iTYPE": 1,
+      "iMETHOD": 0,
+      "SCALE": 1.0,
+      "GRAV": 9.806,
+      "DRATIO": 0.05,
+      "STR": {
+       "SPEC_CODE": "KDS(41-17-00:2019)"
+      },
+      "OPT": {
+       "SC_": 2,
+       "iSEISZONE": 0
+      },
+      "VAL": {
+       "aSRA": [
+        0.22,
+        0.154
+       ],
+       "aSCP": [
+        1.0,
+        1.5
+       ],
+       "PERIOD": 4.0,
+       "IE": 1.2,
+       "R_": 5.0,
+       "ZONEFACTOR": 0.22
+      }
+     }
+    }
+   },
+   "payload_var": "payload_kds",
+   "registry_key": "DB.SPFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/SPFC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.SPFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/SPFC/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/SPLC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "RS_EQ_X",
+      "DIR": "XY",
+      "ANGLE": 0.0,
+      "SCALE": 1.0,
+      "PMFT": 1.0,
+      "bDAMP": true,
+      "INTERP": "LOG",
+      "COMTYPE": "CQC",
+      "bADDSIGN": true,
+      "iSIGNTYPE": 0,
+      "bMODE": true,
+      "aFUNCNAME": [
+       "RS_KDS2019"
+      ],
+      "aUSEMODE": [
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       }
+      ],
+      "bCDAMP": true,
+      "iMDTYPE": 1,
+      "DALL": 0.05,
+      "aDAMPING": []
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.SPLC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "PUT",
+   "uri": "/db/SPLC/1",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "RS_EQ_X",
+      "DIR": "XY",
+      "ANGLE": 0.0,
+      "SCALE": 1.0,
+      "PMFT": 1.0,
+      "bDAMP": true,
+      "INTERP": "LOG",
+      "COMTYPE": "CQC",
+      "bADDSIGN": true,
+      "iSIGNTYPE": 0,
+      "bMODE": true,
+      "aFUNCNAME": [
+       "RS_KDS2019"
+      ],
+      "aUSEMODE": [
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       }
+      ],
+      "bCDAMP": true,
+      "iMDTYPE": 1,
+      "DALL": 0.05,
+      "aDAMPING": []
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/SPLC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.SPLC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THGC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "GNT": 0,
+      "ILT": 0,
+      "aILL": [
+       {
+        "SLC": "DL",
+        "SF": 1.0,
+        "LCT": 1
+       }
+      ],
+      "IEPI": true,
+      "NSTEP": 1,
+      "bROT": false,
+      "SNIO": 1,
+      "bPCF": true,
+      "MAXNS": 10,
+      "MAXIT": 30,
+      "bDN": true,
+      "bFN": true,
+      "bEN": false,
+      "DN": 0.001,
+      "FN": 0.001,
+      "EN": 0.001,
+      "bULSM": true,
+      "ULSM": 5,
+      "ENERGYRESULT": true,
+      "SDVI": true,
+      "SDVE": true,
+      "SDST": true,
+      "SDHY": true,
+      "SDIS": true,
+      "bMSSSTATUS": true
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THGC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "PUT",
+   "uri": "/db/THGC-M1",
+   "payload": {
+    "Assign": {
+     "1": {
+      "GEO_NONL_TYPE": 1,
+      "INIT_LOAD_TYPE": 0,
+      "INIT_LOAD_LIST": [
+       {
+        "LC_NAME": "DL",
+        "SF": 1.0,
+        "LC_TYPE": "ST"
+       }
+      ],
+      "INCREMENT_STEP": {
+       "NSTEP": 10,
+       "OUT_TYPE": 1,
+       "STEP_INC": 1
+      },
+      "ITER_PARAM": {
+       "PERMIT_FAIL": true,
+       "MAX_ITER": 30,
+       "NORM_CTRL": {
+        "DISP": {
+         "OPT_USE": true,
+         "VALUE": 0.001
+        }
+       },
+       "STIFF_UPD_SCHEME": 1,
+       "MAX_BISECT_LEVEL": 5,
+       "SMART_BISECT": false,
+       "DIVERGENCE_THRESHOLD": 3,
+       "LINE_SEARCH": {
+        "OPT_USE": false
+       }
+      },
+      "IGNORE_ELEM": false,
+      "SEQ_LOAD_TYPE": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THGC-M1"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "PUT",
+   "uri": "/db/THOO-M1",
+   "payload": {
+    "Assign": {
+     "1": {
+      "OUT_OPT": {
+       "HINGE_OUT": 0,
+       "COMMON_OPT": true
+      },
+      "RESULT_SELECTION": {
+       "ENERGY_RESULT": true,
+       "SDVI": true,
+       "SDVE": false,
+       "SDST": false,
+       "SDHY": true,
+       "SDIS": true
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THOO-M1"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THIS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "COMMON": {
+       "NAME": "TH01_Linear_Modal",
+       "iATYPE": 1,
+       "iAMETHOD": 1,
+       "iTHTYPE": 1,
+       "ENDTIME": 30.0,
+       "INC": 0.01,
+       "iOUT": 1,
+       "INITMETHOD": "INIT",
+       "INITLOAD": 0,
+       "bDVA": false,
+       "bKEEP": false,
+       "iMDTYPE": 1
+      },
+      "DALL": 0.05
+     }
+    }
+   },
+   "payload_var": "payload_linear_modal",
+   "registry_key": "DB.THIS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THIS",
+   "payload": {
+    "Assign": {
+     "2": {
+      "COMMON": {
+       "NAME": "TH02_NL_DI",
+       "iATYPE": 2,
+       "iAMETHOD": 2,
+       "iTHTYPE": 1,
+       "ENDTIME": 20.0,
+       "INC": 0.005,
+       "iOUT": 2,
+       "iGEOM": 0,
+       "INITMETHOD": "INIT",
+       "INITLOAD": 0,
+       "bDVA": false,
+       "bKEEP": false,
+       "iMDTYPE": 2
+      },
+      "iNMM": 1,
+      "bITER": true,
+      "DMUPDATE": false
+     }
+    }
+   },
+   "payload_var": "payload_nl_di",
+   "registry_key": "DB.THIS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THIS",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THIS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THIS-M1",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "HyperS_Linear_Modal",
+      "ANAL_CASE": {
+       "ANAL_TYPE": 0,
+       "ANAL_METHOD": 0,
+       "TH_TYPE": 0
+      },
+      "ENDTIME": 30.0,
+      "TIME_INC": 0.01,
+      "OUTPUT_STEP": 1,
+      "INIT_METHOD": "INIT",
+      "USE_INIT_LOAD": true,
+      "CUM_DVA": false,
+      "KEEP_LOAD": false,
+      "DAMPING": {
+       "DAMPING_METHOD": 0,
+       "ALL_DAMPING_RATIO": 0.05
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THIS-M1"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THIS-M1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THIS-M1"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "EQ_EW",
+      "FUNCTYPE": 1,
+      "iTYPE": 1,
+      "iMETHOD": 0,
+      "SCALE": 1.0,
+      "GRAV": 9.806,
+      "aFUNCDATA": [
+       {
+        "TIME": 0.02,
+        "VALUE": 0.00517
+       },
+       {
+        "TIME": 0.04,
+        "VALUE": 0.00421
+       },
+       {
+        "TIME": 0.06,
+        "VALUE": 0.00324
+       }
+      ],
+      "DESC": "El Centro EW Component"
+     }
+    }
+   },
+   "payload_var": "payload_tf",
+   "registry_key": "DB.THFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THFC",
+   "payload": {
+    "Assign": {
+     "2": {
+      "NAME": "SIN_1Hz",
+      "FUNCTYPE": 2,
+      "iTYPE": 3,
+      "GRAV": 9.806,
+      "CONS_A": 100.0,
+      "CONS_C": 0.0,
+      "FREQUENCY": 1.0,
+      "DAMP_FACTOR": 0.0,
+      "PHASE_ANGLE": 0.0
+     }
+    }
+   },
+   "payload_var": "payload_sin",
+   "registry_key": "DB.THFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THFC/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THGA",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "GA_3Dir",
+      "ANGLE": 0.0,
+      "FUNCX": "EQ_EW",
+      "SCALEX": 1.0,
+      "ATIMEX": 0.0,
+      "FUNCY": "EQ_NS",
+      "SCALEY": 1.0,
+      "ATIMEY": 0.0,
+      "FUNCZ": "EQ_UD",
+      "SCALEZ": 0.667,
+      "ATIMEZ": 0.0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THGA"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THGA",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THGA"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THNL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "THLCNAME": "TH01_Linear_Modal",
+        "FUNC_NAME": "SIN_1Hz",
+        "DIR": "Y",
+        "ARRIVAL_TIME": 0.0,
+        "SCALE_FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THNL"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THNL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THNL"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THSL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "THIS_LCNAME": "TH01_Linear_Modal",
+      "SLOAD": "SW",
+      "THIS_FUNCNAME": "NormFunc",
+      "ATIME": 0.0,
+      "SCALE": 1.0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THSL"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "DELETE",
+   "uri": "/db/THSL/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THMS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "LCNAME": "TH01_Linear_Modal",
+        "ANGLE": 0.0,
+        "FUNCX": "ElCentro_EW",
+        "SCALEX": 1.0,
+        "ATIMEX": 0.0,
+        "FUNCY": "ElCentro_NS",
+        "SCALEY": 1.0,
+        "ATIMEY": 0.0,
+        "FUNCZ": "ElCentro_UD",
+        "SCALEZ": 0.667,
+        "ATIMEZ": 0.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THMS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "GET",
+   "uri": "/db/THMS",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THMS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/SPFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "RS_KDS2019",
+      "iTYPE": 1,
+      "iMETHOD": 0,
+      "SCALE": 1.0,
+      "GRAV": 9.806,
+      "DRATIO": 0.05,
+      "STR": {
+       "SPEC_CODE": "KDS(41-17-00:2019)"
+      },
+      "OPT": {
+       "SC_": 2,
+       "iSEISZONE": 0
+      },
+      "VAL": {
+       "aSRA": [
+        0.22,
+        0.154
+       ],
+       "aSCP": [
+        1.0,
+        1.5
+       ],
+       "PERIOD": 4.0,
+       "IE": 1.2,
+       "R_": 5.0,
+       "ZONEFACTOR": 0.22
+      }
+     }
+    }
+   },
+   "payload_var": "spfc",
+   "registry_key": "DB.SPFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/SPLC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "RS_EQ_XY",
+      "DIR": "XY",
+      "ANGLE": 0.0,
+      "SCALE": 1.0,
+      "PMFT": 1.0,
+      "bDAMP": true,
+      "INTERP": "LOG",
+      "COMTYPE": "CQC",
+      "bADDSIGN": true,
+      "iSIGNTYPE": 0,
+      "bMODE": true,
+      "aFUNCNAME": [
+       "RS_KDS2019"
+      ],
+      "aUSEMODE": [
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       },
+       {
+        "bUSE": true,
+        "MSFACTOR": 1
+       }
+      ],
+      "bCDAMP": true,
+      "iMDTYPE": 1,
+      "DALL": 0.05
+     }
+    }
+   },
+   "payload_var": "splc",
+   "registry_key": "DB.SPLC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "ElCentro_EW",
+      "FUNCTYPE": 1,
+      "iTYPE": 1,
+      "iMETHOD": 1,
+      "MAXVALUE": 0.348,
+      "GRAV": 9.806,
+      "aFUNCDATA": [
+       {
+        "TIME": 0.02,
+        "VALUE": 0.00517
+       },
+       {
+        "TIME": 0.04,
+        "VALUE": 0.00421
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "thfc",
+   "registry_key": "DB.THFC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THGC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "GNT": 0,
+      "ILT": 0,
+      "aILL": [
+       {
+        "SLC": "DL",
+        "SF": 1.0,
+        "LCT": 1
+       }
+      ],
+      "IEPI": true,
+      "NSTEP": 1,
+      "bROT": false,
+      "SNIO": 1,
+      "bPCF": true,
+      "MAXNS": 10,
+      "MAXIT": 30,
+      "bDN": true,
+      "bFN": false,
+      "bEN": false,
+      "DN": 0.001,
+      "FN": 0.001,
+      "EN": 0.001,
+      "bULSM": false,
+      "ULSM": 5,
+      "ENERGYRESULT": true,
+      "SDVI": true,
+      "SDVE": true,
+      "SDST": true,
+      "SDHY": true,
+      "SDIS": true,
+      "bMSSSTATUS": true
+     }
+    }
+   },
+   "payload_var": "thgc",
+   "registry_key": "DB.THGC"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THIS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "COMMON": {
+       "NAME": "TH_EQ_Linear",
+       "iATYPE": 1,
+       "iAMETHOD": 1,
+       "iTHTYPE": 1,
+       "ENDTIME": 40.0,
+       "INC": 0.01,
+       "iOUT": 1,
+       "INITMETHOD": "INIT",
+       "INITLOAD": 0,
+       "bDVA": false,
+       "bKEEP": false,
+       "iMDTYPE": 1
+      },
+      "DALL": 0.05
+     }
+    }
+   },
+   "payload_var": "this",
+   "registry_key": "DB.THIS"
+  },
+  {
+   "file": "09_DB_Dynamic_Loads.md",
+   "method": "POST",
+   "uri": "/db/THGA",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "TH_EQ_Linear",
+      "ANGLE": 0.0,
+      "FUNCX": "ElCentro_EW",
+      "SCALEX": 1.0,
+      "ATIMEX": 0.0,
+      "FUNCY": "ElCentro_EW",
+      "SCALEY": 0.85,
+      "ATIMEY": 0.0,
+      "FUNCZ": "ElCentro_EW",
+      "SCALEZ": 0.667,
+      "ATIMEZ": 0.0
+     }
+    }
+   },
+   "payload_var": "thga",
+   "registry_key": "DB.THGA"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/STAG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "CS01",
+      "DURATION": 14,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_ELEM": [
+       {
+        "GRUP_NAME": "PIER_01",
+        "AGE": 14
+       }
+      ],
+      "ACT_BNGR": [
+       {
+        "BNGR_NAME": "FND_01",
+        "POS": "DEFORMED"
+       }
+      ],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SW_01",
+        "DAY": "FIRST"
+       }
+      ]
+     },
+     "2": {
+      "NAME": "CS02",
+      "DURATION": 28,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_ELEM": [
+       {
+        "GRUP_NAME": "GIRDER_01",
+        "AGE": 28
+       }
+      ],
+      "ACT_BNGR": [
+       {
+        "BNGR_NAME": "BRG_01",
+        "POS": "DEFORMED"
+       }
+      ],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SW_02",
+        "DAY": "FIRST"
+       }
+      ]
+     },
+     "3": {
+      "NAME": "CS03",
+      "DURATION": 60,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SDL",
+        "DAY": "FIRST"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "stages",
+   "registry_key": "DB.STAG"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "PUT",
+   "uri": "/db/STAG/1",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "CS01",
+      "DURATION": 21,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_ELEM": [
+       {
+        "GRUP_NAME": "PIER_01",
+        "AGE": 21
+       }
+      ],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SW_01",
+        "DAY": "FIRST"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "update",
+   "registry_key": ""
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/STAG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.STAG"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CSCS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "SEC": 1,
+      "ASTAGE": "CS01",
+      "TYPE": "GENERAL",
+      "bTAP": false,
+      "vPARTINFO": [
+       {
+        "PART": 1,
+        "MTYPE": "ELEM",
+        "MAT": "",
+        "CSTAGE": "",
+        "AGE": 3,
+        "PARTINFO_H": 1.2,
+        "PARTINFO_VS": 1.0,
+        "PARTINFO_M": 0.0,
+        "AREA": 1,
+        "ASY": 1,
+        "ASZ": 1,
+        "IXX": 1,
+        "IYY": 1,
+        "IZZ": 1,
+        "WAREA": 1,
+        "IW": 1
+       },
+       {
+        "PART": 2,
+        "MTYPE": "MATL",
+        "MAT": "2",
+        "CSTAGE": "CS02",
+        "AGE": 7,
+        "PARTINFO_H": 0.3,
+        "PARTINFO_VS": 0.0,
+        "PARTINFO_M": 0.0,
+        "AREA": 1,
+        "ASY": 1,
+        "ASZ": 1,
+        "IXX": 1,
+        "IYY": 1,
+        "IZZ": 1,
+        "WAREA": 1,
+        "IW": 1
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.CSCS"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/CSCS",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CSCS"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/TMLD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SDL",
+        "DAY": 30
+       }
+      ]
+     },
+     "2": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SDL",
+        "DAY": 45
+       },
+       {
+        "ID": 2,
+        "GROUP_NAME": "LIVE",
+        "DAY": 60
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.TMLD"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/TMLD/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/STBK",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NODE1": 10,
+      "NODE2": 20,
+      "DX": 0.0,
+      "DY": 0.005,
+      "DZ": 0.0,
+      "LCNAME": "DL",
+      "GROUP_NAME": "LG_CS01"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.STBK"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/STBK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.STBK"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CMCS",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.CMCS"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/CMCS/25",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CRPC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SW",
+        "CREEP": 1.5
+       },
+       {
+        "ID": 2,
+        "GROUP_NAME": "SDL",
+        "CREEP": 1.2
+       }
+      ]
+     },
+     "2": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SW",
+        "CREEP": 2.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.CRPC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/ETFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "AT_Summer",
+      "TYPE": "SINE",
+      "MAX_TEMP": 35.0,
+      "MEAN_TEMP": 20.0,
+      "DELAY_TIME": 6.0
+     },
+     "2": {
+      "NAME": "AT_Winter",
+      "TYPE": "CONST",
+      "TEMP": 5.0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.ETFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CCFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "CC_Standard",
+      "TYPE": "CONST",
+      "COEF": 12.0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.CCFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HECB",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "BG_SURF",
+        "FACE_NO": 1,
+        "CCFC_NAME": "CC_Standard",
+        "ETFC_NAME": "AT_Summer"
+       },
+       {
+        "ID": 2,
+        "GROUP_NAME": "BG_SIDE",
+        "FACE_NO": 2,
+        "CCFC_NAME": "CC_Standard",
+        "ETFC_NAME": "AT_Summer"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.HECB"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HSPT",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "BG_BASE",
+        "TEMPER": 15.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.HSPT"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HSFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "HSF_Adiabatic",
+      "TYPE": "FUNC",
+      "OPT_USE_CONC_DATA": true,
+      "CEMENT_TYPE": 0,
+      "TEMP_FUNC": 1,
+      "CEMENT_CONT": 300
+     },
+     "2": {
+      "NAME": "HSF_UserDefined",
+      "TYPE": "USER",
+      "IS_ADIABATIC_TEMP": true,
+      "SCALE_FACTOR": 1.0,
+      "ITEM": [
+       {
+        "TIME": 0,
+        "VALUE": 0.0
+       },
+       {
+        "TIME": 1,
+        "VALUE": 8.5
+       },
+       {
+        "TIME": 3,
+        "VALUE": 18.2
+       },
+       {
+        "TIME": 7,
+        "VALUE": 25.6
+       },
+       {
+        "TIME": 14,
+        "VALUE": 30.1
+       },
+       {
+        "TIME": 28,
+        "VALUE": 33.5
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.HSFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/HSFC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.HSFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HAHS",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.HAHS"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/HAHS/100",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HPCE",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "PC_Layer1",
+      "DIAMETER": 0.025,
+      "COEF": 850,
+      "HEAT": 4200,
+      "DENSITY": 1000,
+      "TEMPER": 15.0,
+      "FLOW_RATE": 15.0,
+      "START_TIME": 0,
+      "END_TIME": 168,
+      "ITEMS": [
+       10,
+       11,
+       12,
+       13,
+       14,
+       15,
+       16,
+       17,
+       18,
+       19,
+       20
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.HPCE"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HSTG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "HY_Pour_01",
+      "bINITAL_TEMP": true,
+      "INITIAL_TEMP": 20.0,
+      "ADD_STEP": [
+       1,
+       3,
+       7,
+       14,
+       28,
+       60,
+       90,
+       180,
+       365
+      ],
+      "ACT_ELEM": [
+       "ConcGroup_01"
+      ],
+      "ACT_BNGR": [
+       "FormWork_01"
+      ],
+      "DACT_BNGR": [],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "HeatSrc_01",
+        "DAY": "1.000000"
+       }
+      ],
+      "DACT_LOAD": [
+       {
+        "LOAD_NAME": "FormWork_Load",
+        "DAY": "14.000000"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.HSTG"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "GET",
+   "uri": "/db/HSTG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.HSTG"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/STAG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "CS01_Pier",
+      "DURATION": 14,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_ELEM": [
+       {
+        "GRUP_NAME": "PIER",
+        "AGE": 14
+       }
+      ],
+      "ACT_BNGR": [
+       {
+        "BNGR_NAME": "FND",
+        "POS": "DEFORMED"
+       }
+      ],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SW_PIER",
+        "DAY": "FIRST"
+       }
+      ]
+     },
+     "2": {
+      "NAME": "CS02_Girder",
+      "DURATION": 28,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_ELEM": [
+       {
+        "GRUP_NAME": "GIRDER",
+        "AGE": 28
+       }
+      ],
+      "ACT_BNGR": [
+       {
+        "BNGR_NAME": "BRG",
+        "POS": "DEFORMED"
+       }
+      ],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SW_GIRDER",
+        "DAY": "FIRST"
+       }
+      ]
+     },
+     "3": {
+      "NAME": "CS03_SDL",
+      "DURATION": 90,
+      "bSV_RSLT": true,
+      "bSV_STEP": false,
+      "bLOAD_STEP": false,
+      "ADD_STEP": [],
+      "ACT_LOAD": [
+       {
+        "LOAD_NAME": "SDL",
+        "DAY": "FIRST"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "stag",
+   "registry_key": "DB.STAG"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CRPC",
+   "payload": {
+    "Assign": {
+     "2": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SW_PIER",
+        "CREEP": 1.5
+       },
+       {
+        "ID": 2,
+        "GROUP_NAME": "SW_GIRDER",
+        "CREEP": 1.2
+       }
+      ]
+     },
+     "3": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "SDL",
+        "CREEP": 2.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "crpc",
+   "registry_key": "DB.CRPC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/ETFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "AT_25C",
+      "TYPE": "CONST",
+      "TEMP": 25
+     }
+    }
+   },
+   "payload_var": "etfc",
+   "registry_key": "DB.ETFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/CCFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "CC_12",
+      "TYPE": "CONST",
+      "COEF": 12.0
+     }
+    }
+   },
+   "payload_var": "ccfc",
+   "registry_key": "DB.CCFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HSFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "HS_OPC",
+      "TYPE": "FUNC",
+      "OPT_USE_CONC_DATA": true,
+      "CEMENT_TYPE": 0,
+      "TEMP_FUNC": 1,
+      "CEMENT_CONT": 320
+     }
+    }
+   },
+   "payload_var": "hsfc",
+   "registry_key": "DB.HSFC"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HAHS",
+   "payload": null,
+   "payload_var": "hahs",
+   "registry_key": "DB.HAHS"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HECB",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "ID": 1,
+        "GROUP_NAME": "",
+        "FACE_NO": 1,
+        "CCFC_NAME": "CC_12",
+        "ETFC_NAME": "AT_25C"
+       },
+       {
+        "ID": 2,
+        "GROUP_NAME": "",
+        "FACE_NO": 2,
+        "CCFC_NAME": "CC_12",
+        "ETFC_NAME": "AT_25C"
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "hecb",
+   "registry_key": "DB.HECB"
+  },
+  {
+   "file": "10_DB_Construction_Stage.md",
+   "method": "POST",
+   "uri": "/db/HSTG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "HY_CS01",
+      "bINITAL_TEMP": true,
+      "INITIAL_TEMP": 25,
+      "ADD_STEP": [
+       1,
+       3,
+       7,
+       14,
+       28,
+       60,
+       90
+      ],
+      "ACT_ELEM": [
+       "PIER",
+       "GIRDER"
+      ],
+      "ACT_BNGR": [
+       "FND",
+       "BRG"
+      ],
+      "DACT_BNGR": [],
+      "ACT_LOAD": [],
+      "DACT_LOAD": []
+     }
+    }
+   },
+   "payload_var": "hstg",
+   "registry_key": "DB.HSTG"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/SMPT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.SMPT"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "GET",
+   "uri": "/db/SMPT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.SMPT"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/SMLC",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.SMLC"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/PLCB",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.PLCB"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "PUT",
+   "uri": "/db/PLCB/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/LDSQ",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.LDSQ"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/WVLD",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.WVLD"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/IELC",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.IELC"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/IFGS",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.IFGS"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/EFCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.EFCT"
+  },
+  {
+   "file": "11_DB_Settlement_Misc_Loads.md",
+   "method": "POST",
+   "uri": "/db/INMF",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.INMF"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/ACTL",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.ACTL"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "PUT",
+   "uri": "/db/ACTL-M1/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/PDEL",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.PDEL"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/BUCK",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.BUCK"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/EIGV",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.EIGV"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/EIGV",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.EIGV"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "PUT",
+   "uri": "/db/EIGV-M1/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/HHCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.HHCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "PUT",
+   "uri": "/db/HHCT-M1/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/MVCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.MVCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/MVCTch",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.MVCTCH"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/MVCTid",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.MVCTID"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/MVCTbs",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.MVCTBS"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/MVCTtr",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.MVCTTR"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/SMCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.SMCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/NLCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.NLCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "PUT",
+   "uri": "/db/NLCT-M1/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/STCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.STCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "PUT",
+   "uri": "/db/STCT-M1/1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/BCCT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.BCCT"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/BCGD-M1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.BCGD-M1"
+  },
+  {
+   "file": "12_DB_Analysis_Control.md",
+   "method": "POST",
+   "uri": "/db/BCGA-M1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.BCGA-M1"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-GEN",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "COMB_GEN_1",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "1.2D + 1.6L",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.2
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.6
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-GEN"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/LCOM-GEN",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LCOM-GEN"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "DELETE",
+   "uri": "/db/LCOM-GEN",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LCOM-GEN"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-CONC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "CONC_STR_1",
+      "ACTIVE": "STRENGTH",
+      "bES": false,
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "KDS 41 20:2022 강도조합",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.25
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.8
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "SeismicX",
+        "FACTOR": 1.0
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "CONC_SRV_1",
+      "ACTIVE": "SERVICE",
+      "bES": false,
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "KDS 41 20:2022 사용조합",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-CONC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/LCOM-CONC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LCOM-CONC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-STEEL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "STEEL_STR_1",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "KDS 41 30:2022 강도조합",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.2
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.6
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "STEEL_STR_2",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 3,
+      "DESC": "지진조합 SRSS",
+      "vCOMB": [
+       {
+        "ANAL": "RS",
+        "LCNAME": "RX",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RY",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-STEEL"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-SRC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "SRC_STR_1",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "AIK-SRC2K 강도조합",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.4
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.7
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-SRC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "PUT",
+   "uri": "/db/LCOM-SRC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "SRC_STR_1_UPD",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "수정된 SRC 강도조합",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.25
+       },
+       {
+        "ANAL": "ST",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.5
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "update_payload",
+   "registry_key": "DB.LCOM-SRC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-STLCOMP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "COMP_STR_1",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "교량 강도조합 Ⅰ",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.25
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "TruckLoad",
+        "FACTOR": 1.75
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "COMP_SRV_1",
+      "ACTIVE": "SERVICE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "교량 사용조합 Ⅱ",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "TruckLoad",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-STLCOMP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/LCOM-STLCOMP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LCOM-STLCOMP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-SEISMIC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "SEIS_1",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "1.0D + 1.0RX + 0.3RY",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RX",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RY",
+        "FACTOR": 0.3
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "SEIS_2",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 3,
+      "DESC": "SRSS(RX, RY, RZ)",
+      "vCOMB": [
+       {
+        "ANAL": "RS",
+        "LCNAME": "RX",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RY",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RZ",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.LCOM-SEISMIC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/LCOM-SEISMIC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LCOM-SEISMIC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/CUTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CUTL"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/CUTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CUTL"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "DELETE",
+   "uri": "/db/CUTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CUTL"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/CLWP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "PLATE_CUT_1",
+      "DIR": "PLANE",
+      "PT1X": 0.0,
+      "PT1Y": 10.0,
+      "PT1Z": -2.0,
+      "PT2X": 0.0,
+      "PT2Y": 10.0,
+      "PT2Z": 0.0,
+      "PT3X": 0.0,
+      "PT3Y": 8.0,
+      "PT3Z": 0.0,
+      "R": 255,
+      "G": 165,
+      "B": 0
+     },
+     "2": {
+      "NAME": "PLATE_CUT_2",
+      "DIR": "NORMAL",
+      "PT1X": 5.0,
+      "PT1Y": 0.0,
+      "PT1Z": 0.0,
+      "PT2X": 5.0,
+      "PT2Y": 10.0,
+      "PT2Z": 0.0,
+      "PT3X": 5.0,
+      "PT3Y": 5.0,
+      "PT3Z": 3.0,
+      "R": 0,
+      "G": 0,
+      "B": 200
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.CLWP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "PUT",
+   "uri": "/db/CLWP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "PLATE_CUT_1_UPD",
+      "DIR": "PLANE",
+      "PT1X": 0.0,
+      "PT1Y": 12.0,
+      "PT1Z": -2.0,
+      "PT2X": 0.0,
+      "PT2Y": 12.0,
+      "PT2Z": 0.0,
+      "PT3X": 0.0,
+      "PT3Y": 10.0,
+      "PT3Z": 0.0,
+      "R": 255,
+      "G": 0,
+      "B": 0
+     }
+    }
+   },
+   "payload_var": "update",
+   "registry_key": "DB.CLWP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "GET",
+   "uri": "/db/CLWP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CLWP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-GEN",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "GEN_ULS_1",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "ULS: 1.35D + 1.5L",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.35
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.5
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "GEN_SLS_1",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "SLS: 1.0D + 1.0L",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "gen_payload",
+   "registry_key": "DB.LCOM-GEN"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-STLCOMP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "COMP_STR_I",
+      "ACTIVE": "STRENGTH",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "AASHTO Strength I",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.25
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.75
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "COMP_SRV_I",
+      "ACTIVE": "SERVICE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "AASHTO Service I",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "MV",
+        "LCNAME": "LiveLoad",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "stlcomp_payload",
+   "registry_key": "DB.LCOM-STLCOMP"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/LCOM-SEISMIC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NO": 1,
+      "NAME": "SEIS_EQ_X",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 0,
+      "DESC": "1.0D + 1.0EQ_X + 0.3EQ_Y",
+      "vCOMB": [
+       {
+        "ANAL": "CS",
+        "LCNAME": "DeadLoad",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RX",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RY",
+        "FACTOR": 0.3
+       }
+      ]
+     },
+     "2": {
+      "NO": 2,
+      "NAME": "SEIS_SRSS",
+      "ACTIVE": "ACTIVE",
+      "bCB": false,
+      "iTYPE": 3,
+      "DESC": "SRSS(RX, RY, RZ)",
+      "vCOMB": [
+       {
+        "ANAL": "RS",
+        "LCNAME": "RX",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RY",
+        "FACTOR": 1.0
+       },
+       {
+        "ANAL": "RS",
+        "LCNAME": "RZ",
+        "FACTOR": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "seismic_payload",
+   "registry_key": "DB.LCOM-SEISMIC"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/CUTL",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "MidSpan",
+      "DIR": "NORMAL",
+      "PT1X": 50.0,
+      "PT1Y": 0.0,
+      "PT1Z": 0.0,
+      "PT2X": 50.0,
+      "PT2Y": 15.0,
+      "PT2Z": 0.0,
+      "R": 255,
+      "G": 0,
+      "B": 0,
+      "TYPE": 0
+     },
+     "2": {
+      "NAME": "QuarterSpan",
+      "DIR": "NORMAL",
+      "PT1X": 25.0,
+      "PT1Y": 0.0,
+      "PT1Z": 0.0,
+      "PT2X": 25.0,
+      "PT2Y": 15.0,
+      "PT2Z": 0.0,
+      "R": 0,
+      "G": 0,
+      "B": 255,
+      "TYPE": 0
+     }
+    }
+   },
+   "payload_var": "cutl_payload",
+   "registry_key": "DB.CUTL"
+  },
+  {
+   "file": "13_DB_Load_Combinations.md",
+   "method": "POST",
+   "uri": "/db/CLWP",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "DeckCut_1",
+      "DIR": "PLANE",
+      "PT1X": 50.0,
+      "PT1Y": 0.0,
+      "PT1Z": -0.5,
+      "PT2X": 50.0,
+      "PT2Y": 0.0,
+      "PT2Z": 0.0,
+      "PT3X": 50.0,
+      "PT3Y": 15.0,
+      "PT3Z": 0.0,
+      "R": 200,
+      "G": 50,
+      "B": 0
+     }
+    }
+   },
+   "payload_var": "clwp_payload",
+   "registry_key": "DB.CLWP"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/POGD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "GEOMNONLINEAR_TYPE": "NONE",
+      "INITLOADMETHOD": "PERFORM_ANAL",
+      "INITLOAD": [],
+      "bCONSIGNOREELEM": true,
+      "NONL_OPT": {
+       "bPERMITFAIL": true,
+       "SUBSTEP": 10,
+       "MAXITER": 10,
+       "bDISPLNORM": true,
+       "bFORCENORM": false,
+       "bENERGYNORM": false,
+       "DISPLNORM": 0.001,
+       "FORCENORM": 0.001,
+       "ENERGYNORM": 0.001,
+       "bSHEARYIELDSTOP": false,
+       "BSHEARYIELDSTOPBEAM": true,
+       "bSHEARYIELDSTOPWALL": false,
+       "bAXIALYIELDSTOP": false,
+       "bAXIALYIELDSTOPBEAM": true,
+       "bAXIALYIELDSTOPWALL": false,
+       "bAXIALYIELDSTOPTRUSS": false,
+       "bSUPPORTDZDIRSTOP": false,
+       "bSUPPORTSTOPUPLIFTING": false,
+       "bSUPPORTSTOPCOLLAPSE": false
+      },
+      "PHOP_OPT": {
+       "bCONSREBARAREA1D": false,
+       "BEAM_CORE_SIZE": "AUTO",
+       "BEAM_CORE_DIV_Y": 15,
+       "BEAM_CORE_DIV_Z": 15,
+       "BEAM_COVER_SIZE": "EQUAL",
+       "BEAM_COVER_DIV_Y": 15,
+       "BEAM_COVER_DIV_Z": 15,
+       "bCONSREBARAREAWALL": false,
+       "bWALLCONSOUT": true,
+       "WALL_CORE_SIZE": "AUTO",
+       "WALL_CORE_DIV_Z": 8,
+       "WALL_CORE_DIV_Y": 8,
+       "WALL_COVER_SIZE": "AUTO",
+       "WALL_COVER_DIV_Z": 8,
+       "WALL_COVER_DIV_Y": 1,
+       "SHEAR_R": 0.4,
+       "bASSIGNBYMEMBER": true,
+       "bTRI_SYM": true,
+       "TRI_TENS_A1": 0.1,
+       "TRI_TENS_A2": 0.05,
+       "TRI_COMP_A1": 0.1,
+       "TRI_COMP_A2": 0.05,
+       "bBI_SYM": true,
+       "BI_TENS_A1": 0.05,
+       "BI_COMP_A1": 0.05,
+       "PSPR_APPLY_TYPE": "ASSUME",
+       "ELNK_APPLY_TYPE": "APPLY",
+       "bUSEAUTOCALCREFERENCE": true,
+       "RCDGNCODE": "KISTEC2019",
+       "LOC_BEAM": "M",
+       "LOC_COLUMN": "I",
+       "SF_WALL": 1.6,
+       "bSF_BRITTLE": false,
+       "SF_BRITTLE": 1.6,
+       "bSF_EARTHQUAKE": false,
+       "SF_EARTHQUAKE": 0.85,
+       "bSF_SMOOTH_BAR": false,
+       "SF_SMOOTH_BAR": 0.575,
+       "CONFIDENCE": 1,
+       "bBUCKLING": true,
+       "bCALCAXIALFORCE": true
+      },
+      "NODECONNECTIVITY": "PINNED",
+      "bSHOWGRAPHAFTER": true,
+      "bSHOWGRAPGHDURING": false
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.POGD"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/POGD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.POGD"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "PUT",
+   "uri": "/db/POGD-M1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.POGD-M1"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/POGD-M1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.POGD-M1"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/IEPI",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.IEPI"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/IEPI",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.IEPI"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "DELETE",
+   "uri": "/db/IEPI/59",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/PHGE",
+   "payload": {
+    "Assign": {
+     "15": {
+      "ID": 1,
+      "TYPE": "BEAM",
+      "HINGE_TYPE": "Myz_15",
+      "FIBER_KEY": 0
+     },
+     "16": {
+      "ID": 2,
+      "TYPE": "BEAM",
+      "HINGE_TYPE": "Myz_15",
+      "FIBER_KEY": 0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.PHGE"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/PHGE",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.PHGE"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/POLC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LCNAME": "Mode_X",
+      "DESC": "",
+      "INCRE_STEP": 10,
+      "bCONS_PDELTA": true,
+      "bUSEINITIAL": false,
+      "bREACOUTPUT": false,
+      "INCRE_METHOD": "DISP",
+      "STEPCTRLOPTION": "AUTO",
+      "INCFUNC_KEY": 0,
+      "STIFF_RATIO": 0,
+      "bLIMITDEFORMANGLE": true,
+      "LIMITDEFORMANGLE": 10,
+      "bDRIFTMAX": true,
+      "bDRIFTCENTER": false,
+      "bDRIFTAVER": false,
+      "DISPCTRLOPTION": "NODE",
+      "GLOBAL_MAX_DISP": 0,
+      "MASTERNODE": 134,
+      "MASTERDIRECTION": "DX",
+      "MASTERMAXDISP": 1,
+      "LOADPATTERNTYPE": "MODE",
+      "LOADPATTERN": [
+       {
+        "MODE": 1,
+        "SF": 1
+       }
+      ]
+     },
+     "2": {
+      "LCNAME": "Mode_Y",
+      "DESC": "",
+      "INCRE_STEP": 10,
+      "bCONS_PDELTA": true,
+      "bUSEINITIAL": false,
+      "bREACOUTPUT": false,
+      "INCRE_METHOD": "DISP",
+      "STEPCTRLOPTION": "AUTO",
+      "INCFUNC_KEY": 0,
+      "STIFF_RATIO": 0,
+      "bLIMITDEFORMANGLE": true,
+      "LIMITDEFORMANGLE": 10,
+      "bDRIFTMAX": true,
+      "bDRIFTCENTER": false,
+      "bDRIFTAVER": false,
+      "DISPCTRLOPTION": "NODE",
+      "GLOBAL_MAX_DISP": 0,
+      "MASTERNODE": 134,
+      "MASTERDIRECTION": "DY",
+      "MASTERMAXDISP": 1,
+      "LOADPATTERNTYPE": "MODE",
+      "LOADPATTERN": [
+       {
+        "MODE": 2,
+        "SF": 1
+       }
+      ]
+     },
+     "3": {
+      "LCNAME": "Uni_X",
+      "DESC": "",
+      "INCRE_STEP": 10,
+      "bCONS_PDELTA": false,
+      "bUSEINITIAL": false,
+      "bREACOUTPUT": false,
+      "INCRE_METHOD": "LOAD",
+      "STEPCTRLOPTION": "EQUAL",
+      "INCFUNC_KEY": 0,
+      "STIFF_RATIO": 0,
+      "bLIMITDEFORMANGLE": true,
+      "LIMITDEFORMANGLE": 10,
+      "bDRIFTMAX": true,
+      "bDRIFTCENTER": false,
+      "bDRIFTAVER": false,
+      "DISPCTRLOPTION": "GLOBAL",
+      "GLOBAL_MAX_DISP": 0,
+      "MASTERNODE": 0,
+      "MASTERDIRECTION": "",
+      "MASTERMAXDISP": 0,
+      "LOADPATTERNTYPE": "ACC",
+      "LOADPATTERN": [
+       {
+        "DIR": "DX",
+        "SF": 1
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.POLC"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/POLC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.POLC"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "PUT",
+   "uri": "/db/POLC-M1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.POLC-M1"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "PUT",
+   "uri": "/db/POLC-M1",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.POLC-M1"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "GET",
+   "uri": "/db/POLC-M1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.POLC-M1"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/IEPI",
+   "payload": null,
+   "payload_var": "iepi_payload",
+   "registry_key": "DB.IEPI"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/PHGE",
+   "payload": {
+    "Assign": {
+     "1": {
+      "ID": 1,
+      "TYPE": "BEAM",
+      "HINGE_TYPE": "Myz_15",
+      "FIBER_KEY": 0
+     },
+     "2": {
+      "ID": 2,
+      "TYPE": "BEAM",
+      "HINGE_TYPE": "Myz_15",
+      "FIBER_KEY": 0
+     }
+    }
+   },
+   "payload_var": "phge_payload",
+   "registry_key": "DB.PHGE"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/POGD",
+   "payload": {
+    "Assign": {
+     "1": {
+      "GEOMNONLINEAR_TYPE": "NONE",
+      "INITLOADMETHOD": "PERFORM_ANAL",
+      "INITLOAD": [],
+      "bCONSIGNOREELEM": true,
+      "NONL_OPT": {
+       "bPERMITFAIL": true,
+       "SUBSTEP": 10,
+       "MAXITER": 30,
+       "bDISPLNORM": true,
+       "bFORCENORM": false,
+       "bENERGYNORM": false,
+       "DISPLNORM": 0.001,
+       "FORCENORM": 0.001,
+       "ENERGYNORM": 0.001,
+       "bSHEARYIELDSTOP": false,
+       "BSHEARYIELDSTOPBEAM": true,
+       "bSHEARYIELDSTOPWALL": false,
+       "bAXIALYIELDSTOP": false,
+       "bAXIALYIELDSTOPBEAM": true,
+       "bAXIALYIELDSTOPWALL": false,
+       "bAXIALYIELDSTOPTRUSS": false,
+       "bSUPPORTDZDIRSTOP": false,
+       "bSUPPORTSTOPUPLIFTING": false,
+       "bSUPPORTSTOPCOLLAPSE": false
+      },
+      "PHOP_OPT": {
+       "bCONSREBARAREA1D": true,
+       "BEAM_CORE_SIZE": "AUTO",
+       "BEAM_CORE_DIV_Y": 15,
+       "BEAM_CORE_DIV_Z": 15,
+       "BEAM_COVER_SIZE": "EQUAL",
+       "BEAM_COVER_DIV_Y": 15,
+       "BEAM_COVER_DIV_Z": 15,
+       "bCONSREBARAREAWALL": true,
+       "bWALLCONSOUT": true,
+       "WALL_CORE_SIZE": "AUTO",
+       "WALL_CORE_DIV_Z": 8,
+       "WALL_CORE_DIV_Y": 8,
+       "WALL_COVER_SIZE": "AUTO",
+       "WALL_COVER_DIV_Z": 8,
+       "WALL_COVER_DIV_Y": 1,
+       "SHEAR_R": 0.4,
+       "bASSIGNBYMEMBER": true,
+       "bTRI_SYM": true,
+       "TRI_TENS_A1": 0.1,
+       "TRI_TENS_A2": 0.05,
+       "TRI_COMP_A1": 0.1,
+       "TRI_COMP_A2": 0.05,
+       "bBI_SYM": true,
+       "BI_TENS_A1": 0.05,
+       "BI_COMP_A1": 0.05,
+       "PSPR_APPLY_TYPE": "ASSUME",
+       "ELNK_APPLY_TYPE": "APPLY",
+       "bUSEAUTOCALCREFERENCE": true,
+       "RCDGNCODE": "KISTEC2019",
+       "LOC_BEAM": "M",
+       "LOC_COLUMN": "I",
+       "SF_WALL": 1.6,
+       "bSF_BRITTLE": false,
+       "SF_BRITTLE": 1.6,
+       "bSF_EARTHQUAKE": false,
+       "SF_EARTHQUAKE": 0.85,
+       "bSF_SMOOTH_BAR": false,
+       "SF_SMOOTH_BAR": 0.575,
+       "CONFIDENCE": 1,
+       "bBUCKLING": true,
+       "bCALCAXIALFORCE": true
+      },
+      "NODECONNECTIVITY": "PINNED",
+      "bSHOWGRAPHAFTER": true,
+      "bSHOWGRAPGHDURING": false
+     }
+    }
+   },
+   "payload_var": "pogd_payload",
+   "registry_key": "DB.POGD"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/db/POLC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "LCNAME": "PUSH_MODE_X",
+      "DESC": "1차 모드 X방향 가력",
+      "INCRE_STEP": 20,
+      "bCONS_PDELTA": true,
+      "bUSEINITIAL": true,
+      "bREACOUTPUT": true,
+      "INCRE_METHOD": "DISP",
+      "STEPCTRLOPTION": "AUTO",
+      "INCFUNC_KEY": 0,
+      "STIFF_RATIO": 0,
+      "bLIMITDEFORMANGLE": true,
+      "LIMITDEFORMANGLE": 25,
+      "bDRIFTMAX": true,
+      "bDRIFTCENTER": false,
+      "bDRIFTAVER": false,
+      "DISPCTRLOPTION": "NODE",
+      "GLOBAL_MAX_DISP": 0,
+      "MASTERNODE": 134,
+      "MASTERDIRECTION": "DX",
+      "MASTERMAXDISP": 1.5,
+      "LOADPATTERNTYPE": "MODE",
+      "LOADPATTERN": [
+       {
+        "MODE": 1,
+        "SF": 1
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "polc_payload",
+   "registry_key": "DB.POLC"
+  },
+  {
+   "file": "14_DB_Pushover.md",
+   "method": "POST",
+   "uri": "/doc/ANAL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DOC.ANAL"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "GET",
+   "uri": "/ope/PROJECTSTATUS",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "OPE.PROJECTSTATUS"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/DIVIDEELEM",
+   "payload": {
+    "Argument": {
+     "TARGETS": [
+      1
+     ],
+     "DIVIDE": {
+      "ELEM_TYPE": "Frame",
+      "DIV_METHOD": "Equal",
+      "OPTION": {
+       "EQUAL_OPTION": {
+        "NUM_X": 10
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.DIVIDEELEM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/DIVIDEELEM",
+   "payload": {
+    "Argument": {
+     "TARGETS": [
+      1
+     ],
+     "DIVIDE": {
+      "ELEM_TYPE": "Solid",
+      "DIV_METHOD": "ParametricUnequal",
+      "OPTION": {
+       "PARAMETRIC_OPTION": {
+        "RATIO_X": "3@0.3",
+        "RATIO_Y": "4@0.2",
+        "RATIO_Z": "0.1,0.2,0.3"
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.DIVIDEELEM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "GET",
+   "uri": "/ope/SECTPROP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "OPE.SECTPROP"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/USLC",
+   "payload": {
+    "Argument": {
+     "LCOM_LIST": [
+      {
+       "TYPE": "STEEL",
+       "NAME": "sLCB1"
+      },
+      {
+       "TYPE": "STEEL",
+       "NAME": "sLCB2"
+      }
+     ],
+     "PREFIX": "N",
+     "POSITION": "STEEL",
+     "LOADS": {
+      "SELF_WEIGHT": true,
+      "NODAL_LOAD": true,
+      "BEAM_LOAD": true,
+      "FLOOR_LOAD": true
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.USLC"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LINEBMLD",
+   "payload": {
+    "Argument": {
+     "LCNAME": "TRALOAD_03",
+     "GROUP_NAME": "LoadGroup1",
+     "TYPE": "TRALOAD",
+     "TARGET": {
+      "METHOD": 0,
+      "NODE": [
+       23,
+       33
+      ]
+     },
+     "LOAD": {
+      "DIR": "GZ",
+      "USE_PROJECTION": true,
+      "TYPE": 1,
+      "D": [
+       0.75,
+       1.35,
+       1.95,
+       2.55
+      ],
+      "P": [
+       -1,
+       -2,
+       -3,
+       -4
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LINEBMLD"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LINEBMLD",
+   "payload": {
+    "Argument": {
+     "LCNAME": "UNILOAD_17",
+     "TYPE": "UNILOAD",
+     "TARGET": {
+      "METHOD": 0,
+      "NODE": [
+       78,
+       88
+      ]
+     },
+     "LOAD": {
+      "DIR": "GZ",
+      "TYPE": 0,
+      "D": [
+       0.25,
+       0.85
+      ],
+      "P": [
+       -3
+      ]
+     },
+     "COPY": {
+      "USE": true,
+      "AXIS": "Y",
+      "DIST": "10@3.0"
+     }
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.LINEBMLD"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/AUTOMESH",
+   "payload": {
+    "Argument": {
+     "MESHER": {
+      "METHOD": "Nodes",
+      "TARGETS": [
+       502,
+       503,
+       504
+      ],
+      "TYPE": "Quadandtriangle",
+      "MESH_INNER_DOMAIN": true,
+      "INCLUDE_INTERIOR_NODES": {
+       "OPT_CHECK": true,
+       "OPTION": "User",
+       "VALUE": [
+        1
+       ]
+      },
+      "INCLUDE_INTERIOR_LINES": {
+       "OPT_CHECK": true,
+       "OPTION": "User",
+       "VALUE": [
+        2
+       ]
+      },
+      "INCLUDE_BOUNDARY_CONNECTIVITY": true
+     },
+     "MESH_SIZE": {
+      "DIV": 3
+     },
+     "PROPERTY": {
+      "ELEMENT_TYPE": "PlaneStress",
+      "ELEMENT_SUB_TYPE": {
+       "TYPE": "Thick",
+       "WITH_DRILLING_DOF": true
+      },
+      "MATERIAL": 1,
+      "THICKNESS": 1
+     },
+     "DOMAIN_NAME": {
+      "NAME": "Plate2"
+     },
+     "ADDITIONAL_OPTION": {
+      "DELETE_LINE_ELEM": false,
+      "SUBDIVIDE_LINE_ELEM": true
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.AUTOMESH"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/SSPS",
+   "payload": {
+    "Argument": {
+     "CONVERT_TO": "POINT_SPRING",
+     "GROUP_NAME": "B1",
+     "NODE_ELEMS": {
+      "KEYS": [
+       61,
+       62,
+       63
+      ]
+     },
+     "ELEMENT": {
+      "TYPE": "FRAME",
+      "WIDTH": 10
+     },
+     "BOUNDARY": {
+      "TYPE": "LINEAR",
+      "STIFF": [
+       1000,
+       2000,
+       3000
+      ],
+      "bDAMP": true,
+      "DAMP": [
+       1,
+       2,
+       3
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.SSPS"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/SSPS",
+   "payload": {
+    "Argument": {
+     "CONVERT_TO": "ELASTIC_LINK",
+     "GROUP_NAME": "B1",
+     "NODE_ELEMS": {
+      "KEYS": [
+       56,
+       57,
+       58,
+       59,
+       60,
+       61,
+       62,
+       63
+      ]
+     },
+     "ELEMENT": {
+      "TYPE": "SOLID_NODE"
+     },
+     "BOUNDARY": {
+      "TYPE": "MULTI",
+      "DIR": 7,
+      "SUBGRADE": 5000,
+      "PHU": 500,
+      "LENGTH": 0.5
+     }
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.SSPS"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/EDMP",
+   "payload": {
+    "Argument": {
+     "NODE_ELEMS": {
+      "KEYS": [
+       1,
+       2,
+       3
+      ]
+     },
+     "TYPE": "NSM",
+     "AUTO": true,
+     "CODE": "Korean Standard",
+     "PARAMETER": 0.5
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.EDMP"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/EDMP",
+   "payload": {
+    "Argument": {
+     "NODE_ELEMS": {
+      "KEYS": [
+       1,
+       2,
+       3
+      ]
+     },
+     "TYPE": "VSR",
+     "AUTO": false,
+     "H_VS": 1.0
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.EDMP"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/STOR",
+   "payload": {
+    "Argument": {
+     "SEIS_ECC": {
+      "INC_SEIS_ECC": true,
+      "SEIS_ECC_VALUE": 5
+     },
+     "WIND_ECC": {
+      "INC_WIND_ECC": true,
+      "WIND_ECC_VALUE": 15
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.STOR"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/STORY_PARAM",
+   "payload": {
+    "Argument": {
+     "COUNTRY_CODE": "KBC2009"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.STORY_PARAM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "GET",
+   "uri": "/ope/STORY_PARAM",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "OPE.STORY_PARAM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/STORY_IRR_PARAM",
+   "payload": {
+    "Argument": {
+     "COUNTRY_CODE": "NTCS2023",
+     "STORY_DRIFT_METHOD": "Max.DriftofOuterExtremePoints",
+     "STORY_STIFFNESS_METHOD": "1/StoryDriftRatio",
+     "SEISMIC_BEHAVIOR_FACTOR": "3orbelow"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.STORY_IRR_PARAM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "GET",
+   "uri": "/ope/STORY_IRR_PARAM",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "OPE.STORY_IRR_PARAM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/STORYPROP",
+   "payload": {
+    "Argument": {
+     "FORCE_UNIT": "KN",
+     "LENGTH_UNIT": "M",
+     "FORMAT": "Fixed",
+     "PLACE": 4
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.STORYPROP"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/MEMB",
+   "payload": {
+    "Argument": {
+     "ASSIGN_TYPE": "MANUAL",
+     "SELECTION_TYPE": "SELECTION",
+     "ELEM_LIST": [
+      640,
+      692
+     ],
+     "ALLOW_SINGLE": false
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.MEMB"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/MEMB",
+   "payload": {
+    "Argument": {
+     "ASSIGN_TYPE": "AUTO",
+     "SELECTION_TYPE": "ALL",
+     "ALLOW_SINGLE": true
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.MEMB"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/GUSTFACTOR",
+   "payload": {
+    "Argument": {
+     "WIND_CODE": "KDS(41-12:2022)",
+     "STRUCTURE_TYPE": "FLEXIBLE",
+     "FLEXIBLE_PARAM": {
+      "EXP_CATEGORY": "B",
+      "BASIC_WIND_SPEED": 38,
+      "IMPORTANCE_FACTOR": 1,
+      "TOPOGRAPHIC_EFFECT": {
+       "OPT_USE": true,
+       "KZT": 1.1
+      },
+      "DIRECTION_FACTOR_X": 0.85,
+      "DIRECTION_FACTOR_Y": 0.85,
+      "BREADTH_X": 32,
+      "BREADTH_Y": 24,
+      "STORY_HEIGHT_MAX": 72,
+      "FREQUENCY_X": 0.42,
+      "FREQUENCY_Y": 0.48,
+      "DAMPING": 0.03,
+      "TOTAL_MASS": 85000,
+      "MX": 82000,
+      "MY": 80500,
+      "VIBRATION": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.GUSTFACTOR"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-GEN",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "ADD_ENVELOPE": true,
+     "CODE_SELECTION": "CONCRETE",
+     "DGNCODE": "KDS 41 20 : 2022",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1
+      }
+     ],
+     "WIND_LOAD_COMB": {
+      "PARAMETERS": [
+       {
+        "BUILDING_TYPE": "HIGH",
+        "WIND_LOAD_CASE": {
+         "ALONG": "WX",
+         "ACROSS": "WX(A)",
+         "TORSION": "WX(T)"
+        },
+        "GUST_FACTOR": 2.2,
+        "KAPPA_FACTOR": 0.55
+       }
+      ],
+      "TORSION_DIR": "BOTH"
+     },
+     "ORTHO_EFFECT": {
+      "OPT_USE": true,
+      "TYPE": "100_30",
+      "LOAD_GROUP": [
+       "RX(RS)",
+       "RY(RS)"
+      ]
+     },
+     "ADDITIONAL_LOAD": {
+      "SPECIAL_LOAD": {
+       "OPT_USE": true,
+       "VERTICAL_LOAD_FACTOR": 0.2,
+       "SDS": 0.5,
+       "OVER_STRENGTH_FACTOR": [
+        {
+         "LOAD_CASE": "RX(RS)",
+         "FACTOR": 2.5
+        },
+        {
+         "LOAD_CASE": "RY(RS)",
+         "FACTOR": 2.5
+        }
+       ]
+      },
+      "VERTICAL_LOAD": {
+       "OPT_USE": true,
+       "FORCE_FACTOR": 0.2
+      }
+     },
+     "UNDERGROUND_LOAD": {
+      "OPT_USE": false
+     },
+     "CS_ANALYSIS": false,
+     "PRESTRESS_LOSS": false
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LCOM-GEN"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-CONC",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "KDS 41 20 : 2022",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1
+      }
+     ],
+     "WIND_LOAD_COMB": {
+      "PARAMETERS": [
+       {
+        "BUILDING_TYPE": "HIGH",
+        "WIND_LOAD_CASE": {
+         "ALONG": "WX",
+         "ACROSS": "WX(A)",
+         "TORSION": "WX(T)"
+        },
+        "GUST_FACTOR": 2.2,
+        "KAPPA_FACTOR": 0.55
+       }
+      ],
+      "TORSION_DIR": "BOTH"
+     },
+     "ORTHO_EFFECT": {
+      "OPT_USE": true,
+      "TYPE": "100_30",
+      "LOAD_GROUP": [
+       "RX(RS)",
+       "RY(RS)"
+      ]
+     },
+     "ADDITIONAL_LOAD": {
+      "SPECIAL_LOAD": {
+       "OPT_USE": true,
+       "VERTICAL_LOAD_FACTOR": 0.2,
+       "SDS": 0.5,
+       "OVER_STRENGTH_FACTOR": [
+        {
+         "LOAD_CASE": "RX(RS)",
+         "FACTOR": 2.5
+        },
+        {
+         "LOAD_CASE": "RY(RS)",
+         "FACTOR": 2.5
+        }
+       ]
+      },
+      "VERTICAL_LOAD": {
+       "OPT_USE": true,
+       "FORCE_FACTOR": 0.2
+      }
+     },
+     "UNDERGROUND_LOAD": {
+      "OPT_USE": false
+     },
+     "CS_ANALYSIS": false,
+     "PRESTRESS_LOSS": false
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LCOM-CONC"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-STEEL",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "KDS 41 30 : 2022",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1
+      }
+     ],
+     "WIND_LOAD_COMB": {
+      "PARAMETERS": [
+       {
+        "BUILDING_TYPE": "HIGH",
+        "WIND_LOAD_CASE": {
+         "ALONG": "WX",
+         "ACROSS": "WX(A)",
+         "TORSION": "WX(T)"
+        },
+        "GUST_FACTOR": 2.2,
+        "KAPPA_FACTOR": 0.55
+       }
+      ],
+      "TORSION_DIR": "BOTH"
+     },
+     "ORTHO_EFFECT": {
+      "OPT_USE": true,
+      "TYPE": "100_30",
+      "LOAD_GROUP": [
+       "RX(RS)",
+       "RY(RS)"
+      ]
+     },
+     "ADDITIONAL_LOAD": {
+      "SPECIAL_LOAD": {
+       "OPT_USE": true,
+       "VERTICAL_LOAD_FACTOR": 0.2,
+       "SDS": 0.5,
+       "OVER_STRENGTH_FACTOR": [
+        {
+         "LOAD_CASE": "RX(RS)",
+         "FACTOR": 2.5
+        },
+        {
+         "LOAD_CASE": "RY(RS)",
+         "FACTOR": 2.5
+        }
+       ]
+      },
+      "VERTICAL_LOAD": {
+       "OPT_USE": true,
+       "FORCE_FACTOR": 0.2
+      }
+     },
+     "UNDERGROUND_LOAD": {
+      "OPT_USE": false
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LCOM-STEEL"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-SRC",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "KDS 41 SRC : 2022",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1
+      }
+     ],
+     "WIND_LOAD_COMB": {
+      "PARAMETERS": [
+       {
+        "BUILDING_TYPE": "HIGH",
+        "WIND_LOAD_CASE": {
+         "ALONG": "WX",
+         "ACROSS": "WX(A)",
+         "TORSION": "WX(T)"
+        },
+        "GUST_FACTOR": 2.2,
+        "KAPPA_FACTOR": 0.55
+       }
+      ],
+      "TORSION_DIR": "BOTH"
+     },
+     "ORTHO_EFFECT": {
+      "OPT_USE": true,
+      "TYPE": "100_30",
+      "LOAD_GROUP": [
+       "RX(RS)",
+       "RY(RS)"
+      ]
+     },
+     "ADDITIONAL_LOAD": {
+      "SPECIAL_LOAD": {
+       "OPT_USE": true,
+       "VERTICAL_LOAD_FACTOR": 0.2,
+       "SDS": 0.5,
+       "OVER_STRENGTH_FACTOR": [
+        {
+         "LOAD_CASE": "RX(RS)",
+         "FACTOR": 2.5
+        },
+        {
+         "LOAD_CASE": "RY(RS)",
+         "FACTOR": 2.5
+        }
+       ]
+      },
+      "VERTICAL_LOAD": {
+       "OPT_USE": true,
+       "FORCE_FACTOR": 0.2
+      }
+     },
+     "UNDERGROUND_LOAD": {
+      "OPT_USE": false
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LCOM-SRC"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-GEN",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "AIK-SRC2K",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1
+      }
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.LCOM-GEN"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-SRC",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "AIK-SRC2K",
+     "RS_SCALE_FACTOR": [
+      {
+       "LOAD_CASE": "RX(RS)",
+       "FACTOR": 1.2
+      },
+      {
+       "LOAD_CASE": "RY(RS)",
+       "FACTOR": 1.3
+      }
+     ]
+    }
+   },
+   "payload_var": "payload2",
+   "registry_key": "OPE.LCOM-SRC"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/GSBG",
+   "payload": {
+    "Argument": {
+     "LC_NAME": "Dead Load",
+     "DGRM_TYPE": 0,
+     "BATCH": true,
+     "X_AXIS_TYPE": 1,
+     "STRESS_LINE": {
+      "OPT_USE": true,
+      "COMP": 210000,
+      "TENS": 180000
+     },
+     "BATCH_LIST": [
+      "Stress_Combined_Left",
+      "Stress_7thDOF_Right",
+      "Stress_Girder_Center"
+     ],
+     "STAGE_LIST": [
+      "CS1",
+      "CS2"
+     ],
+     "EXPORT_PATH": "C:\\Temp\\GSBG\\StressBatch",
+     "EXTENSION": "jpg"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.GSBG"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/AUTOMESH",
+   "payload": {
+    "Argument": {
+     "MESHER": {
+      "METHOD": "PlanarElements",
+      "TARGETS": [
+       1401
+      ]
+     },
+     "MESH_SIZE": {
+      "LENGTH": 1
+     },
+     "PROPERTY": {
+      "ELEMENT_TYPE": "Plate",
+      "MATERIAL": 1,
+      "THICKNESS": 1
+     },
+     "DOMAIN_NAME": {
+      "NAME": "Slab_1F"
+     }
+    }
+   },
+   "payload_var": "mesh_payload",
+   "registry_key": "OPE.AUTOMESH"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/MEMB",
+   "payload": {
+    "Argument": {
+     "ASSIGN_TYPE": "AUTO",
+     "SELECTION_TYPE": "ALL",
+     "ALLOW_SINGLE": true
+    }
+   },
+   "payload_var": "memb_payload",
+   "registry_key": "OPE.MEMB"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/STORY_PARAM",
+   "payload": {
+    "Argument": {
+     "COUNTRY_CODE": "KBC2009"
+    }
+   },
+   "payload_var": "story_payload",
+   "registry_key": "OPE.STORY_PARAM"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/LCOM-STEEL",
+   "payload": {
+    "Argument": {
+     "OPTION": "ADD",
+     "DGNCODE": "KDS(41-30:2022)",
+     "STATIC_LOADS": [
+      {
+       "LOAD_CASE": "DeadLoad(ST)",
+       "TYPE": "DEAD"
+      },
+      {
+       "LOAD_CASE": "LiveLoad(ST)",
+       "TYPE": "LIVE"
+      }
+     ]
+    }
+   },
+   "payload_var": "lcom_steel_payload",
+   "registry_key": "OPE.LCOM-STEEL"
+  },
+  {
+   "file": "15_OPE.md",
+   "method": "POST",
+   "uri": "/ope/USLC",
+   "payload": {
+    "Argument": {
+     "LCOM_LIST": [
+      {
+       "TYPE": "STEEL",
+       "NAME": "sLCB1"
+      }
+     ],
+     "PREFIX": "N",
+     "POSITION": "STEEL",
+     "LOADS": {
+      "SELF_WEIGHT": true,
+      "NODAL_LOAD": true,
+      "BEAM_LOAD": true
+     }
+    }
+   },
+   "payload_var": "uslc_payload",
+   "registry_key": "OPE.USLC"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "GET",
+   "uri": "/view/SELECT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "VIEW.SELECT"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/CAPTURE",
+   "payload": {
+    "Argument": {
+     "SET_MODE": "post",
+     "SET_HIDDEN": false,
+     "EXPORT_PATH": "C:\\MIDAS\\CaptureTest\\beam_Fx.jpg",
+     "HEIGHT": 1000,
+     "WIDTH": 1000,
+     "ACTIVE": {
+      "ACTIVE_MODE": "All"
+     },
+     "ANGLE": {
+      "HORIZONTAL": 45,
+      "VERTICAL": 60
+     },
+     "DISPLAY": {
+      "PERSPECTIVE": true,
+      "ZOOM_LEVEL": 100,
+      "BGCOLOR_TOP": {
+       "R": 255,
+       "G": 255,
+       "B": 255
+      }
+     },
+     "RESULT_GRAPHIC": {
+      "CURRENT_MODE": "beam diagrams",
+      "LOAD_CASE_COMB": {
+       "TYPE": "ST",
+       "NAME": "DL"
+      },
+      "COMPONENTS": {
+       "PART": "total",
+       "COMP": "Fx"
+      },
+      "DISPLAY_OPTIONS": {
+       "FIDELITY": "Exact",
+       "FILL": "line fill",
+       "SCALE": 1.0
+      },
+      "TYPE_OF_DISPLAY": {
+       "CONTOUR": {
+        "OPT_CHECK": true
+       },
+       "LEGEND": {
+        "OPT_CHECK": true
+       },
+       "VALUES": {
+        "OPT_CHECK": true
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.CAPTURE"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/PRECAPTURE",
+   "payload": {
+    "Argument": {
+     "EXPORT_PATH": "C:\\MIDAS\\CaptureTest\\fiber_sect_1.jpg",
+     "VIEW_TYPE": "FIBR",
+     "OPTION": {
+      "ID": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.PRECAPTURE"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/ANGLE",
+   "payload": {
+    "Argument": {
+     "HORIZONTAL": 30,
+     "VERTICAL": 15
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.ANGLE"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/ACTIVE",
+   "payload": {
+    "Argument": {
+     "ACTIVE_MODE": "Active",
+     "N_LIST": [
+      469,
+      770,
+      772,
+      773
+     ],
+     "E_LIST": [
+      1631,
+      1646,
+      1654
+     ]
+    }
+   },
+   "payload_var": "payload_active",
+   "registry_key": "VIEW.ACTIVE"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/ACTIVE",
+   "payload": {
+    "Argument": {
+     "ACTIVE_MODE": "Identity",
+     "IDENTITY_TYPE": "BoundaryGroup",
+     "IDENTITY_LIST": [
+      "Support",
+      "Support2",
+      "Support3"
+     ]
+    }
+   },
+   "payload_var": "payload_identity",
+   "registry_key": "VIEW.ACTIVE"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/DISPLAY",
+   "payload": {
+    "Argument": {
+     "ELEMENT": {
+      "ELEM_NUMBER": true,
+      "ELEM_TYPE_NAME": true,
+      "LOCAL_AXIS": true,
+      "LOCAL_AXIS_LABEL": true
+     },
+     "LOAD": {
+      "CASE_SELECTION": {
+       "TYPE": "st",
+       "NAME": "DL"
+      },
+      "GROUP_SELECTION": [
+       "Load Group 1"
+      ],
+      "LOAD_VALUE": {
+       "FORMAT": "Fixed",
+       "PLACE": 1
+      },
+      "NODAL_LOAD": true,
+      "BEAM_LOAD": true
+     },
+     "VIEW": {
+      "UCS_AXIS": true,
+      "VIEWPORT_GIZMO": true,
+      "LABEL_ORIENTATION": 15
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.DISPLAY"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "16_VIEW.md",
+   "method": "POST",
+   "uri": "/view/CAPTURE",
+   "payload": {
+    "Argument": {
+     "SET_MODE": "post",
+     "EXPORT_PATH": "C:\\MIDAS\\report\\girder_moment.jpg",
+     "WIDTH": 1600,
+     "HEIGHT": 900,
+     "ANGLE": {
+      "HORIZONTAL": 30,
+      "VERTICAL": 15
+     },
+     "ACTIVE": {
+      "ACTIVE_MODE": "Identity",
+      "IDENTITY_TYPE": "Group",
+      "IDENTITY_LIST": [
+       "Girder"
+      ]
+     },
+     "DISPLAY": {
+      "PERSPECTIVE": true,
+      "ZOOM_LEVEL": 100
+     },
+     "RESULT_GRAPHIC": {
+      "CURRENT_MODE": "beam diagrams",
+      "LOAD_CASE_COMB": {
+       "TYPE": "CB",
+       "NAME": "cLCB1"
+      },
+      "COMPONENTS": {
+       "PART": "total",
+       "COMP": "My"
+      },
+      "TYPE_OF_DISPLAY": {
+       "CONTOUR": {
+        "OPT_CHECK": true
+       },
+       "LEGEND": {
+        "OPT_CHECK": true
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "capture_payload",
+   "registry_key": "VIEW.CAPTURE"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/GSBG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Dgrm Group1",
+      "BATCH": true,
+      "BODY_ELEM_GRUP_K": 1,
+      "ALLSTAGE": false,
+      "DGRM_TYPE": 0,
+      "BSTRSCOMP": 6,
+      "BSTRSCOMP_SUB": 3,
+      "_7TH_DOF_TYPE": 0,
+      "SCALEFACTOR": 1
+     },
+     "2": {
+      "NAME": "Dgrm Group2",
+      "BATCH": true,
+      "BODY_ELEM_GRUP_K": 2,
+      "ALLSTAGE": true,
+      "DGRM_TYPE": 1,
+      "MOMENT_COMP": 4,
+      "SCALEFACTOR": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.GSBG"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "GET",
+   "uri": "/db/GSBG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.GSBG"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/GCMB",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DB.GCMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "GET",
+   "uri": "/db/GCMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.GCMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/CAMB",
+   "payload": {
+    "Assign": {
+     "1": {
+      "BODY_GROUP_NAME": "FSM",
+      "SUPP_GROUP_NAME": "PSC-BN",
+      "KEYSEG_GROUP_NAME": "Key-SegK1~K5"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.CAMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "GET",
+   "uri": "/db/CAMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.CAMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/ULFC",
+   "payload": {
+    "Assign": {
+     "2": {
+      "NAME": "Ele-03",
+      "TYPE": "BEAM",
+      "OBJ_ID": 3,
+      "POINT": 1,
+      "COMP": 4,
+      "EQ": false,
+      "bUB": true,
+      "UB_VALUE": -220,
+      "bLB": true,
+      "LB_VALUE": -230
+     },
+     "3": {
+      "NAME": "Node-07",
+      "TYPE": "REAC",
+      "OBJ_ID": 7,
+      "POINT": 4,
+      "COMP": 1,
+      "EQ": true,
+      "bVALUE": true,
+      "VALUE": 500,
+      "OtherObject": 0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.ULFC"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "GET",
+   "uri": "/db/ULFC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.ULFC"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/ope/GSBG",
+   "payload": {
+    "Argument": {
+     "LC_NAME": "Dead Load",
+     "DGRM_TYPE": 0,
+     "BATCH": true,
+     "X_AXIS_TYPE": 1,
+     "STRESS_LINE": {
+      "OPT_USE": true,
+      "COMP": 210000,
+      "TENS": 180000
+     },
+     "BATCH_LIST": [
+      "Stress_Combined_Left",
+      "Stress_7thDOF_Right",
+      "Stress_Girder_Center"
+     ],
+     "STAGE_LIST": [
+      "CS1",
+      "CS2"
+     ],
+     "EXPORT_PATH": "C:\\Temp\\GSBG\\StressBatch",
+     "EXTENSION": "jpg"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "OPE.GSBG"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/ULFC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Deck-Level",
+      "TYPE": "DISP",
+      "OBJ_ID": 106,
+      "POINT": 0,
+      "COMP": 2,
+      "EQ": false,
+      "bUB": true,
+      "UB_VALUE": 0.01,
+      "bLB": true,
+      "LB_VALUE": -0.01
+     }
+    }
+   },
+   "payload_var": "ulfc_payload",
+   "registry_key": "DB.ULFC"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/GCMB",
+   "payload": null,
+   "payload_var": "gcmb_payload",
+   "registry_key": "DB.GCMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/CAMB",
+   "payload": {
+    "Assign": {
+     "1": {
+      "BODY_GROUP_NAME": "FSM",
+      "SUPP_GROUP_NAME": "PSC-BN",
+      "KEYSEG_GROUP_NAME": "Key-SegK1~K5"
+     }
+    }
+   },
+   "payload_var": "camb_payload",
+   "registry_key": "DB.CAMB"
+  },
+  {
+   "file": "17_DB_Bridge.md",
+   "method": "POST",
+   "uri": "/db/GSBG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "NAME": "Girder_My",
+      "BATCH": true,
+      "BODY_ELEM_GRUP_K": 1,
+      "ALLSTAGE": true,
+      "DGRM_TYPE": 1,
+      "MOMENT_COMP": 4,
+      "SCALEFACTOR": 1
+     }
+    }
+   },
+   "payload_var": "gsbg_payload",
+   "registry_key": "DB.GSBG"
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "ElemWeight",
+     "TABLE_TYPE": "ELEMENTWEIGHT",
+     "NODE_ELEMS": {
+      "TO": "1to5"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "NodalBodyForce",
+     "TABLE_TYPE": "NODALBODYFORCE"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Load_Z",
+     "TABLE_TYPE": "LOAD_SUMMARY_Z"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Materials",
+     "TABLE_TYPE": "MATERIAL"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Sections",
+     "TABLE_TYPE": "SECTIONALL"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Supports",
+     "TABLE_TYPE": "SUPPORTS"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Story Mass",
+     "TABLE_TYPE": "STORY_MASS",
+     "UNIT": {
+      "FORCE": "KN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 3
+     },
+     "COMPONENTS": [
+      "Story",
+      "Level",
+      "X-DIR",
+      "Y-DIR",
+      "Rotational Mass",
+      "X-Coord",
+      "Y-Coord"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "18_POST_PreProcess.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORYWEIGHT",
+     "UNIT": {
+      "FORCE": "KN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 3
+     },
+     "COMPONENTS": [
+      "Story",
+      "Level",
+      "Truss",
+      "Beam",
+      "Membrane",
+      "Plate",
+      "Wall",
+      "Solid",
+      "Sum"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Reaction",
+     "TABLE_TYPE": "REACTIONG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Displacement",
+     "TABLE_TYPE": "DISPLACEMENTG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 3
+     },
+     "LOAD_CASE_NAMES": [
+      "Self(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TrussForce",
+     "TABLE_TYPE": "TRUSSFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TrussStress",
+     "TABLE_TYPE": "TRUSSSTRESS",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "CableForce",
+     "TABLE_TYPE": "CABLEFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "SelfWeight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "CableConfig",
+     "TABLE_TYPE": "CABLECONFIG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "SelfWeight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "CableEfficiency",
+     "TABLE_TYPE": "CABLEEFFIENCY",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "SelfWeight(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "nl_001"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BeamForce",
+     "TABLE_TYPE": "BEAMFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "NODE_ELEMS": {
+      "TO": "1 to 10"
+     },
+     "LOAD_CASE_NAMES": [
+      "Selfweight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BeamForcePS",
+     "TABLE_TYPE": "BEAMFORCESTP",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "Prestress(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BeamStress",
+     "TABLE_TYPE": "BEAMSTRESS",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "NODE_ELEMS": {
+      "TO": "1 to 10"
+     },
+     "LOAD_CASE_NAMES": [
+      "Selfweight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BeamStressEq",
+     "TABLE_TYPE": "BEAMSTRESSDETAIL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       32
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Selfweight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BeamStressPSC",
+     "TABLE_TYPE": "BEAMSTRESSPSC",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 4
+     },
+     "NODE_ELEMS": {
+      "TO": "1 to 5"
+     },
+     "LOAD_CASE_NAMES": [
+      "Selfweight(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "19_POST_AnalysisResult_1.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "CONCURRENT_JOINT_FORCE",
+     "TABLE_NAME": "Concurrent Joint Forces",
+     "LOAD_CASE_NAMES": [
+      "case_01(MV:max)"
+     ],
+     "ADDITIONAL": {
+      "SET_REACTION_PARAMS": {
+       "NODE_KEY": 10,
+       "COMPONENT": "111111"
+      }
+     },
+     "UNIT": {
+      "FORCE": "KN",
+      "DIST": "M"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateForceLocal",
+     "TABLE_TYPE": "PLATEFORCEL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       592
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateForceGlobal",
+     "TABLE_TYPE": "PLATEFORCEG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       592
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateForceUnitLength",
+     "TABLE_TYPE": "PLATEFORCEUL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       592
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateStressLocal",
+     "TABLE_TYPE": "PLATESTRESSL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       592
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateStressGlobal",
+     "TABLE_TYPE": "PLATESTRESSG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       592
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateStrainLocal",
+     "TABLE_TYPE": "PLATESTRAINTL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Comp(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "nl_001"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlateStrainGlobal",
+     "TABLE_TYPE": "PLATESTRAINTG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Comp(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "nl_001"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStressForceLocal",
+     "TABLE_TYPE": "PLANESTRESSFL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStressForceGlobal",
+     "TABLE_TYPE": "PLANESTRESSFG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStressLocal",
+     "TABLE_TYPE": "PLANESTRESSSL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStressGlobal",
+     "TABLE_TYPE": "PLANESTRESSSG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStrainForceLocal",
+     "TABLE_TYPE": "PLANESTRAINFL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStrainForceGlobal",
+     "TABLE_TYPE": "PLANESTRAINFG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStrainStressLocal",
+     "TABLE_TYPE": "PLANESTRAINSL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "PlaneStrainStressGlobal",
+     "TABLE_TYPE": "PLANESTRAINSG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DeadLoads(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "AxiForceLocal",
+     "TABLE_TYPE": "AXISYMMETRICFL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       168
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Pressure(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "AxiForceGlobal",
+     "TABLE_TYPE": "AXISYMMETRICFG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       168
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Pressure(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "AxiStressLocal",
+     "TABLE_TYPE": "AXISYMMETRICSL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       168
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Pressure(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "AxiStressGlobal",
+     "TABLE_TYPE": "AXISYMMETRICSG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       168
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Pressure(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidForceLocal",
+     "TABLE_TYPE": "SOLIDFL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       3381
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidForceGlobal",
+     "TABLE_TYPE": "SOLIDFG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       3381
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidStressLocal",
+     "TABLE_TYPE": "SOLIDSL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       3381
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidStressGlobal",
+     "TABLE_TYPE": "SOLIDSG",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       3381
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidStrainLocal",
+     "TABLE_TYPE": "SOLID_LOCA_TOTAL_STRAIN",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       205
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Comp(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "nl_001"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SolidStrainGlobal",
+     "TABLE_TYPE": "SOLID_GLOB_TOTAL_STRAIN",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       205
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "Comp(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "nl_001"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "ElasticLink",
+     "TABLE_TYPE": "ELASTICLINK",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "SWofGirders(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "GeneralLink",
+     "TABLE_TYPE": "GENERAL_LINK_FORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "LOAD_CASE_NAMES": [
+      "SWofGirders(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "VibrationMode",
+     "TABLE_TYPE": "EIGENVALUEMODE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "BucklingMode",
+     "TABLE_TYPE": "BUCKLINGMODE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonCoordinates",
+     "TABLE_TYPE": "TNDN_COORDINATES",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonElongation",
+     "TABLE_TYPE": "TNDN_ELONGATION",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonArrangement(TendonGroup)",
+     "TABLE_TYPE": "TNDN_ARRANGEMENT",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "ADDITIONAL": {
+      "SET_TENDON_PARAMS": {
+       "TENDON_GROUP": "Top-P2-A",
+       "STAGE": "CS2"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonLoss(Stress)",
+     "TABLE_TYPE": "TNDN_LOSS_STRESS",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "mm"
+     },
+     "ADDITIONAL": {
+      "SET_TENDON_PARAMS": {
+       "TENDON_GROUP": "Bot-Key-B",
+       "STAGE": "CS16"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonProfile",
+     "TABLE_TYPE": "TNDN_WEIGHT_PROFILE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonStressLimitCheck",
+     "TABLE_TYPE": "TNDN_STRS_LIMIT_CHECK",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "TendonApproximateLoss(Stress)",
+     "TABLE_TYPE": "TNDN_APPROX_LOSS_STRESS",
+     "UNIT": {
+      "FORCE": "kips",
+      "DIST": "in"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "CompSectForce",
+     "TABLE_TYPE": "COMPSECTBEAMFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "CS1:001(first)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "SelfConstForce",
+     "TABLE_TYPE": "SELF_CONST_BEAM_FORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "TG(+)(CS)"
+     ],
+     "OPT_CS": true,
+     "STAGE_STEP": [
+      "CS1:001(first)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "20_POST_AnalysisResult_2.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "WALL_FORCE_MOMENT",
+     "TABLE_TYPE": "WALL_FORCE_MOMENT",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1,
+       2,
+       3
+      ]
+     },
+     "LOAD_CASE_NAMES": [
+      "gLCB6(CB)"
+     ],
+     "STORY_NAMES": [
+      "1F"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Story Drift(X)",
+     "TABLE_TYPE": "STORY_DRIFT_X",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "mm"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "RX(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "STORY_DISPLACEMENT_Y",
+     "TABLE_TYPE": "STORY_DISPLACEMENT_Y",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "LOAD_CASE_NAMES": [
+      "RY(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_SHEAR_FOR_RS",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "Rx(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_SHEAR_FORCE_COEFFICIENT",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "Rx(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_MODE_SHAPE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Scientific",
+      "PLACE": 6
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_SHEAR_FORCE_RATIO",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "EX(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_ECNTRICITY",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "OVERTURNING_MOMENT",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "Rx(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_AXIAL_FORCE_SUM",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STORY_STABILITY_COEFFICIENT_Y",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "RY(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "TORSIONAL_IRREGULARITY_X",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "LOAD_CASE_NAMES": [
+      "RX(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "TORSIONAL_AMPLIFICATION_FACTOR_Y",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "LOAD_CASE_NAMES": [
+      "RY(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "STIFFNESS_IRREGULARITY_X",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "LOAD_CASE_NAMES": [
+      "RX(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "CAPACITY_IRREGULARITY",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "CRITERIA_FOR_REGULARITY_IN_PLAN",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "ULTIMATE_STORY_SHEAR_FORCE_CHECK",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "LOAD_CASE_NAMES": [
+      "Rx(RS)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "21_POST_StoryTables.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "WEIGHT_IRREGULARITY_Y",
+     "UNIT": {
+      "FORCE": "kgf",
+      "DIST": "mm"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "LOAD_CASE_NAMES": [
+      "DL(ST)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "TH_DISP",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "MM"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       10
+      ]
+     },
+     "TH_CASE_NAME": [
+      "Elcent"
+     ],
+     "STEP": {
+      "FROM": 0.1,
+      "TO": 0.5,
+      "STEPS": 1
+     },
+     "REF_PT": "Ground"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "TH_BEAMFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       5
+      ]
+     },
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "TH_CASE_NAME": [
+      "Elcent"
+     ],
+     "STEP": {
+      "FROM": 0.1,
+      "TO": 0.5,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "TH_PLATESTRESS",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "MM"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 4
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       51
+      ]
+     },
+     "PARTS": [
+      "PartI",
+      "PartJ",
+      "PartK",
+      "PartL"
+     ],
+     "TH_CASE_NAME": [
+      "Elcent"
+     ],
+     "STEP": {
+      "FROM": 0.1,
+      "TO": 0.3,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "TH_WALLFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Exponential",
+      "PLACE": 3
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       12
+      ]
+     },
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "TH_CASE_NAME": [
+      "EQ1"
+     ],
+     "STEP": {
+      "FROM": 0.1,
+      "TO": 0.18,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "TH_GLINKDEFORM",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "MM"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "TH_CASE_NAME": [
+      "Elcent"
+     ],
+     "STEP": {
+      "FROM": 0.1,
+      "TO": 0.5,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "PO_DISP",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "MM"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       22
+      ]
+     },
+     "PO_CASE_NAME": [
+      "PX"
+     ],
+     "STEP": {
+      "FROM": 1,
+      "TO": 10,
+      "STEPS": 1
+     },
+     "REF_PT": "Ground"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "PO_BEAMFORCE",
+     "UNIT": {
+      "FORCE": "KN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       16
+      ]
+     },
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "PO_CASE_NAME": [
+      "PX"
+     ],
+     "STEP": {
+      "FROM": 1,
+      "TO": 5,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "PO_WALLFORCE",
+     "UNIT": {
+      "FORCE": "KN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Exponential",
+      "PLACE": 3
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       12
+      ]
+     },
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "PO_CASE_NAME": [
+      "PX"
+     ],
+     "STEP": {
+      "FROM": 1,
+      "TO": 4,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "PO_GLINKFORCE",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "M"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "PO_CASE_NAME": [
+      "PX"
+     ],
+     "STEP": {
+      "FROM": 1,
+      "TO": 5,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TEXT",
+   "payload": {
+    "Argument": {
+     "TEXT_TYPE": "PO_ELINKDEFORM",
+     "UNIT": {
+      "FORCE": "N",
+      "DIST": "MM"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       1
+      ]
+     },
+     "PO_CASE_NAME": [
+      "PX"
+     ],
+     "STEP": {
+      "FROM": 1,
+      "TO": 5,
+      "STEPS": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.TEXT"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Lumped",
+     "TABLE_TYPE": "IEHG_EVENT_TIME_LUMPED",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 12
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Dx",
+     "TABLE_TYPE": "IEHG_BEAM_SUM_DX",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 12
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       2,
+       3
+      ]
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Dx",
+     "TABLE_TYPE": "IEHG_TRUSS_SUM_DX",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "NODE_ELEMS": {
+      "KEYS": [
+       49
+      ]
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Dx",
+     "TABLE_TYPE": "IEHG_GL_LINK_SUM_DX",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Lumped",
+     "TABLE_TYPE": "IEHG_FORCE_LUMPED",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Distributed",
+     "TABLE_TYPE": "IEHG_DEFORM_DIST",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Beam",
+     "TABLE_TYPE": "IEHG_ELEM_ROT_BEAM",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Lumped",
+     "TABLE_TYPE": "IEHG_DUCT_D1_LUMPED",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "STYLES": {
+      "FORMAT": "Fixed",
+      "PLACE": 6
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_NAME": "Wall",
+     "TABLE_TYPE": "IEHG_DUCT_D2_WALL",
+     "UNIT": {
+      "FORCE": "kN",
+      "DIST": "m"
+     },
+     "TH_LOAD_CASE_NAMES": [
+      "Elcent(TH:max)",
+      "Elcent(TH:min)"
+     ]
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": {
+    "Argument": {
+     "CURRENT_MODE": "HY_STRESS",
+     "LOAD_CASE_COMB": {
+      "STEP_INDEX": 1
+     },
+     "OPTIONS": {
+      "LOCAL_UCS": {
+       "TYPE": "UCS"
+      },
+      "AVERAGE_NODAL": {
+       "TYPE": "Element"
+      }
+     },
+     "COMPONENTS": {
+      "COMP": "Sig-XX"
+     },
+     "TYPE_OF_DISPLAY": {
+      "CONTOUR": {
+       "OPT_CHECK": true,
+       "NUM_OF_COLOR": 12,
+       "COLOR_TYPE": "rgb"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": {
+    "Argument": {
+     "CURRENT_MODE": "HY_DISPLACEMENTS",
+     "LOAD_CASE_COMB": {
+      "STEP_INDEX": 1
+     },
+     "COMPONENTS": {
+      "COMP": "DXYZ"
+     },
+     "TYPE_OF_DISPLAY": {
+      "CONTOUR": {
+       "OPT_CHECK": true,
+       "NUM_OF_COLOR": 12,
+       "COLOR_TYPE": "rgb"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": {
+    "Argument": {
+     "CURRENT_MODE": "HY_ALLOWABLETENSILESTRESS",
+     "LOAD_CASE_COMB": {
+      "STEP_INDEX": 1
+     },
+     "TYPE_OF_DISPLAY": {
+      "CONTOUR": {
+       "OPT_CHECK": true,
+       "NUM_OF_COLOR": 12,
+       "COLOR_TYPE": "rgb"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/view/RESULTGRAPHIC",
+   "payload": {
+    "Argument": {
+     "CURRENT_MODE": "HY_CRACKRATIO",
+     "LOAD_CASE_COMB": {
+      "STEP_INDEX": 10
+     },
+     "TYPE_OF_DISPLAY": {
+      "CONTOUR": {
+       "OPT_CHECK": true,
+       "NUM_OF_COLOR": 12,
+       "COLOR_TYPE": "rgb"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "VIEW.RESULTGRAPHIC"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/db/THRE",
+   "payload": {
+    "Assign": {
+     "1": {
+      "THIS_NAME": "HIST1",
+      "TYPE_ELEMENT": 0,
+      "PROPERTY_KEY": 102,
+      "STORY_NAME": "",
+      "TYPE_RES": 0,
+      "LOCATION": 0,
+      "COMP": 0
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THRE"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "GET",
+   "uri": "/db/THRE",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THRE"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "DELETE",
+   "uri": "/db/THRE/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/db/THRG",
+   "payload": {
+    "Assign": {
+     "1": {
+      "THIS_NAME": "HIST1",
+      "TYPE_RES": 0,
+      "LOCATION": 0,
+      "COMP": 0,
+      "GENERAL_LINK": 1
+     },
+     "2": {
+      "THIS_NAME": "HIST1",
+      "TYPE_RES": 0,
+      "LOCATION": 0,
+      "COMP": 0,
+      "GENERAL_LINK": 4
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THRG"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "PUT",
+   "uri": "/db/THRG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THRG"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "GET",
+   "uri": "/db/THRG/1",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/db/THRI",
+   "payload": {
+    "Assign": {
+     "1": {
+      "THIS_NAME": "HIST1",
+      "TYPE_ELEMENT": 0,
+      "PROPERTY_KEY": 2101,
+      "STORY_NAME": "",
+      "TYPE_RES": 0,
+      "LOCATION": 0,
+      "COMP": 0
+     },
+     "2": {
+      "THIS_NAME": "HIST1",
+      "TYPE_ELEMENT": 0,
+      "PROPERTY_KEY": 2137,
+      "STORY_NAME": "",
+      "TYPE_RES": 1,
+      "LOCATION": 1,
+      "COMP": 0
+     },
+     "3": {
+      "THIS_NAME": "HIST1",
+      "TYPE_ELEMENT": 0,
+      "PROPERTY_KEY": 2184,
+      "STORY_NAME": "",
+      "TYPE_RES": 2,
+      "LOCATION": 1,
+      "COMP": 4
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THRI"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "GET",
+   "uri": "/db/THRI",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THRI"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/db/THRS",
+   "payload": {
+    "Assign": {
+     "1": {
+      "THIS_NAME": "HIST1",
+      "TYPE_RES": 0,
+      "COMP": 0,
+      "GENERAL_LINK": 1
+     },
+     "2": {
+      "THIS_NAME": "HIST1",
+      "TYPE_RES": 2,
+      "COMP": 1,
+      "GENERAL_LINK": 4
+     },
+     "3": {
+      "THIS_NAME": "HIST1",
+      "TYPE_RES": 4,
+      "COMP": 2,
+      "GENERAL_LINK": 4
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DB.THRS"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "GET",
+   "uri": "/db/THRS",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.THRS"
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "DELETE",
+   "uri": "/db/THRS/3",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "22_POST_TH_HY_Pushover.md",
+   "method": "POST",
+   "uri": "/db/THRE",
+   "payload": null,
+   "payload_var": "graph_def",
+   "registry_key": "DB.THRE"
+  },
+  {
+   "file": "23_POST_Design.md",
+   "method": "POST",
+   "uri": "/post/PM",
+   "payload": {
+    "Argument": {}
+   },
+   "payload_var": "payload",
+   "registry_key": "POST.PM"
+  },
+  {
+   "file": "23_POST_Design.md",
+   "method": "POST",
+   "uri": "/post/STEELCODECHECK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "POST.STEELCODECHECK"
+  },
+  {
+   "file": "23_POST_Design.md",
+   "method": "POST",
+   "uri": "/post/TABLE",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": ""
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/DCON",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCON"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/DCON",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCON"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "PUT",
+   "uri": "/db/DCON",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCON"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "DELETE",
+   "uri": "/db/DCON",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCON"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/DSTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DSTL"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/DSTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DSTL"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/RCHK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.RCHK"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/RCHK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.RCHK"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/LENG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LENG"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/LENG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LENG"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "DELETE",
+   "uri": "/db/LENG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LENG"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/MEMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.MEMB"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/MEMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.MEMB"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/DCTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCTL"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/DCTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.DCTL"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/LTSR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LTSR"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/LTSR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.LTSR"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/MBTP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.MBTP"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/MBTP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.MBTP"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/WMAK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.WMAK"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/WMAK",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.WMAK"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/REBB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBB"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/REBB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBB"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "DELETE",
+   "uri": "/db/REBB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBB"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/REBC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBC"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/REBW",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBW"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/REBW",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBW"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "DELETE",
+   "uri": "/db/REBW",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBW"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "POST",
+   "uri": "/db/REBR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBR"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "GET",
+   "uri": "/db/REBR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBR"
+  },
+  {
+   "file": "24_DB_Design.md",
+   "method": "DELETE",
+   "uri": "/db/REBR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DB.REBR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
+   "payload": {
+    "Assign": {
+     "1": {
+      "DGNCODE": "AIK-SRC2K"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DSRC"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DSRC"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCO"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCO"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCO"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCTL",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCTL"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCTL"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCTL",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.DCTL"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
+   "payload": {
+    "Assign": {
+     "1": {
+      "CALC_RULE": 0,
+      "APPLIED_COMP": [
+       "AXIAL",
+       "SHEAR",
+       "MOMENTS",
+       "ALL"
+      ],
+      "LIVE_LOAD_CASES": [
+       "LL2"
+      ],
+      "REDUCTION_DATA": [
+       {
+        "STORY": "B2",
+        "XMIN": -7.5,
+        "XMAX": 1.15,
+        "YMIN": -7.45,
+        "YMAX": -7.45,
+        "RANGE_MAX": 0.9,
+        "RANGE_MIN": 0.6
+       },
+       {
+        "STORY": "B2",
+        "XMIN": -7.5,
+        "XMAX": 1.15,
+        "YMIN": -7.45,
+        "YMAX": -7.45
+       }
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LLRF"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LLRF"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LLRF"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LCTB",
+   "payload": {},
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LCTB"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LCTB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LCTB"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+   "payload": {
+    "Assign": {
+     "868": {
+      "LZ": 2,
+      "LY": 1
+     },
+     "874": {
+      "LY": 1,
+      "LZ": 1
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LENG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LENG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LENG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+   "payload": {
+    "Assign": {
+     "868": {
+      "Ky": 1
+     },
+     "874": {
+      "Ky": 2,
+      "Kz": 2
+     },
+     "885": {
+      "Kz": 3,
+      "Kt": 3
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.KFAC"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.KFAC"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.KFAC"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+   "payload": {
+    "Assign": {
+     "868": {
+      "COMP": 300,
+      "TENS": 200
+     },
+     "874": {
+      "COMP": 300,
+      "TENS": 200
+     },
+     "885": {
+      "COMP": 300,
+      "TENS": 200
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LTSR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LTSR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.LTSR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CMFT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CMFT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CMFT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+   "payload": {
+    "Assign": {
+     "868": {
+      "B1Y_DELTA_BY": 1.1,
+      "B1Z_DELTA_BZ": 1.2
+     },
+     "874": {
+      "B2Y_DELTA_SY": 1.3,
+      "B2Z_DELTA_SZ": 1.4
+     },
+     "885": {
+      "B1Z_DELTA_BZ": 1.2,
+      "B2Y_DELTA_SY": 1.3
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.FMAG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.FMAG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.FMAG"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MLLR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MLLR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MLLR"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+   "payload": {
+    "Assign": {
+     "868": {
+      "LC_AXIAL": 1.2,
+      "LC_MOMENT": 1.2,
+      "LC_SHEAR": 1.2,
+      "LCOM_AXIAL": 1.2,
+      "LCOM_MOMENT": 1.2,
+      "LCOM_SHEAR": 1.2
+     },
+     "874": {
+      "LC_SHEAR": 1.2,
+      "LCOM_AXIAL": 1.2,
+      "LCOM_MOMENT": 1.2,
+      "LCOM_SHEAR": 1.2
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.SUEQ"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.SUEQ"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.SUEQ"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+   "payload": {
+    "Assign": {
+     "868": {
+      "TYPE": "BRACE"
+     },
+     "874": {
+      "TYPE": "COLUMN"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MBTP"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MBTP"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MBTP"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+   "payload": {
+    "Assign": {
+     "868": {
+      "TYPE": "Special Seismic Loads"
+     },
+     "874": {
+      "TYPE": "Vertical Seismic Forces"
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.EQCT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.EQCT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.EQCT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-ANAL",
+   "payload": {
+    "Argument": {
+     "PERFORM_TYPE": "ALL",
+     "ELEMS": {
+      "KEYS": [
+       922
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.BC-ANAL"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "MEMB",
+     "PRI_SORT": 1,
+     "RESULT": 0,
+     "COMPONENTS": [
+      "MEMB",
+      "SECT",
+      "Span",
+      "Section",
+      "Bc",
+      "Hc",
+      "Material",
+      "Fy",
+      "fc",
+      "Fyr",
+      "Fys",
+      "POS",
+      "CHK",
+      "AsTop",
+      "AsBot",
+      "N_M",
+      "LCB_N",
+      "N_Mrs",
+      "Rat_N",
+      "P_M",
+      "LCB_P",
+      "P_Mrs",
+      "Rat_P",
+      "V",
+      "LCB_V",
+      "Vrs",
+      "Rat_V"
+     ],
+     "ELEMS": {
+      "KEYS": [
+       922
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.BC-TABLE"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-REPORT",
+   "payload": {
+    "Argument": {
+     "REPORT_TYPE": "MEMB",
+     "EXPORT_PATH": "C:\\MIDAS\\Result\\",
+     "OUTPUT_NAME": "GRAPHIC.jpg",
+     "CURRENT_MODE_MEMB": "Graphic"
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.BC-REPORT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-ANAL",
+   "payload": {
+    "Argument": {
+     "PERFORM_TYPE": "ALL",
+     "ELEMS": {
+      "KEYS": [
+       1062
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CC-ANAL"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "MEMB",
+     "PRI_SORT": 1,
+     "RESULT": 0,
+     "COMPONENTS": [
+      "CHK",
+      "MEMB",
+      "SECT",
+      "COM",
+      "SHR",
+      "Type",
+      "Rebar",
+      "Section",
+      "Material",
+      "Fys",
+      "Fyr",
+      "fc",
+      "Bc",
+      "Hc",
+      "LCB",
+      "Len",
+      "Ly",
+      "Lz",
+      "Ky",
+      "Kz",
+      "Cmy",
+      "Cmz",
+      "Pa",
+      "My",
+      "Mz",
+      "fa",
+      "fby",
+      "fbz",
+      "Fa",
+      "FBy",
+      "FBz"
+     ],
+     "ELEMS": {
+      "KEYS": [
+       1062
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CC-TABLE"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-REPORT",
+   "payload": {
+    "Argument": {
+     "REPORT_TYPE": "MEMB",
+     "CURRENT_MODE_MEMB": "Detail",
+     "EXPORT_PATH": "C:\\MIDAS\\Result\\",
+     "OUTPUT_NAME": "Detail.txt",
+     "ELEMS": {
+      "KEYS": [
+       1062
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.CC-REPORT"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/OCHECK",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.OCHECK"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "SRCBEAMDESIGNFORCES",
+     "COMPONENTS": [
+      "Memb",
+      "Part",
+      "LComName",
+      "Type",
+      "Fz",
+      "Mx",
+      "My(+)",
+      "My(-)"
+     ],
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "NODE_ELEMS": {
+      "KEYS": [
+       926
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "POST",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+   "payload": {
+    "Argument": {
+     "TABLE_TYPE": "SRCCOLUMNDESIGNFORCES",
+     "COMPONENTS": [],
+     "PARTS": [
+      "PartI",
+      "PartJ"
+     ],
+     "NODE_ELEMS": {
+      "KEYS": [
+       1062
+      ]
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": ""
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
+   "payload": {
+    "Assign": {
+     "5": {
+      "STEEL": {
+       "CODE": "Standard",
+       "STANDARD_CODE": "KS22(S)",
+       "GRADE": "SM275TMC"
+      },
+      "CONCRETE": {
+       "CODE": "Standard",
+       "STANDARD_CODE": "KS19(RC)",
+       "GRADE": "C65"
+      },
+      "REINFORCEMENT": {
+       "CODE": "Standard",
+       "STANDARD_CODE": "KS19(RC)",
+       "MAIN_REBAR_GRADE": "SD700",
+       "SUB_REBAR_GRADE": "SD700"
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MATD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MATD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MATD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MCRD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MCRD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MCRD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MEMB",
+   "payload": null,
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MEMB"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MEMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MEMB"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MEMB",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MEMB"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "PUT",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+   "payload": {
+    "Assign": {
+     "3": {
+      "DT": 0.1,
+      "DB": 0.1,
+      "SHEAR_BAR": "D4",
+      "BAR_SECTOR_I": {
+       "STIRRUP_SPACE": 150,
+       "STIRRUP_NUM": 2,
+       "TOP": {
+        "LAYER1": {
+         "NAME": "D32",
+         "NUM": 2
+        },
+        "LAYER2": {
+         "NAME": "D32",
+         "NUM": 2
+        }
+       },
+       "BOT": {
+        "LAYER1": {
+         "NAME": "D35",
+         "NUM": 1
+        },
+        "LAYER2": {
+         "NAME": "D35",
+         "NUM": 3
+        }
+       }
+      },
+      "BAR_SECTOR_M": {
+       "STIRRUP_SPACE": 150,
+       "TOP": {
+        "LAYER1": {
+         "NAME": "D43",
+         "NUM": 1
+        }
+       },
+       "BOT": {
+        "LAYER1": {
+         "NAME": "D43",
+         "NUM": 2
+        }
+       }
+      },
+      "BAR_SECTOR_J": {
+       "STIRRUP_SPACE": 150,
+       "TOP": {
+        "LAYER1": {
+         "NAME": "D51",
+         "NUM": 2
+        }
+       },
+       "BOT": {
+        "LAYER1": {
+         "NAME": "D43",
+         "NUM": 2
+        }
+       }
+      }
+     }
+    }
+   },
+   "payload_var": "payload",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MRBD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "GET",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MRBD"
+  },
+  {
+   "file": "27_Design_SRC_AIKSRC2K.md",
+   "method": "DELETE",
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+   "payload": null,
+   "payload_var": "",
+   "registry_key": "DESIGN.SRC.AIK-SRC2K.MRBD"
+  }
+ ]
+}

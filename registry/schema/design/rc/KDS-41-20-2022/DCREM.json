@@ -1,0 +1,74 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCREM",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCREM",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "인덱스 문자열(예: \"1\")을 키로 갖는 설정 맵.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "SELECT_ALL"
+          ],
+          "properties": {
+            "SELECT_ALL": {
+              "type": "boolean",
+              "description": "사용 가능한 모든 부재에 적용"
+            },
+            "SELECTED_MEMBERS": {
+              "type": "object",
+              "description": "선택 부재 맵. 각 키는 절점(node) ID 문자열, 값은 해당 절점의 요소 목록.",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ELEM_LIST"
+                ],
+                "properties": {
+                  "ELEM_LIST": {
+                    "type": "array",
+                    "description": "절점이 사이에 위치하는 정확히 2개의 요소 번호",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "SELECT_ALL": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "SELECT_ALL"
+                ]
+              },
+              "then": {
+                "required": [
+                  "SELECTED_MEMBERS"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

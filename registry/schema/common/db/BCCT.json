@@ -1,0 +1,94 @@
+{
+  "key": "DB.BCCT",
+  "uri": "DB/BCCT",
+  "source": "help_center",
+  "schema": {
+    "BCCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "bSPT": {
+          "description": "Dataselection-Support",
+          "type": "boolean"
+        },
+        "bSPR": {
+          "description": "Pointspringsupport",
+          "type": "boolean"
+        },
+        "bGSPR": {
+          "description": "Generalspringsupport",
+          "type": "boolean"
+        },
+        "bCGLINK": {
+          "description": "Changegenerallinkproperty",
+          "type": "boolean"
+        },
+        "bSSSF": {
+          "description": "Sectionstiffnessscalefactor",
+          "type": "boolean"
+        },
+        "bWSSF": {
+          "description": "WSSF",
+          "type": "boolean"
+        },
+        "bPSSF": {
+          "description": "Platestiffnessscalefactor",
+          "type": "boolean"
+        },
+        "bRLS": {
+          "description": "Beamendrelease",
+          "type": "boolean"
+        },
+        "bESSF": {
+          "description": "ESSF",
+          "type": "boolean"
+        },
+        "bCDOF": {
+          "description": "ConstrainDOFassociatedwithspecifieddisplacements/Settlementsbyboundarygroupcombinations",
+          "type": "boolean"
+        },
+        "vBOUNDARY": {
+          "description": "BoundaryList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "BGCNAME": {
+                "description": "Boundarygroupcombinationname",
+                "type": "string"
+              },
+              "vBG": {
+                "description": "Boundarygrouplist",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "vLOADANAL": {
+          "description": "LoadCases&AnalysisList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TYPE": {
+                "description": "Loadcases&analysis",
+                "type": "string"
+              },
+              "BGCNAME": {
+                "description": "Boundarygroupcombinationname",
+                "type": "string"
+              },
+              "LCNAME": {
+                "description": "Staticloadcase",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

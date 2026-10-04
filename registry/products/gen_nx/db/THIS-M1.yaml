@@ -1,0 +1,50 @@
+key: "DB.THIS-M1"
+namespace: DB
+uri: "/DB/THIS-M1"
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "THIS-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/THIS-M1.json"
+  introspect: "info/db/THIS-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Time History Load Cases
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56538335819673-Time-History-Load-Cases"
+  retrieved_at: "2026-05-15"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 203
+  examples: 6
+  has_response_head: false
+notes: ["[Time History Load Cases (THIS-M1)](https://support.midasuser.com/hc/en-us/articles/56538335819673) 기준). ANAL_METHOD의 세 번째 값(Static=2, 단 Linear+Static 조합은 서버가 거부)이 스펙에서 통째로 빠져 있었고, `GEOM_NL_TYPE`은 스키마 설명 자체가 \"Schema 값 1↔DB 값 2, Schema 값 2↔DB 값 1\"로 저장 시 뒤바뀐다고 명시하고 있어 원문 그대로 옮겨 적었으니 실제 연동 전 재확인 권장. `DAMPING_METHOD=1`(M&S Proportional)의 세부 계수 입력 구조도 전혀 없었다."]

@@ -1,0 +1,49 @@
+key: DB.MVCTCH
+namespace: DB
+uri: /DB/MVCTCH
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MVCTCH
+schema_ref:
+  local: schema/common/db/MVCTCH.json
+  introspect: info/db/MVCTCH
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Moving Load Analysis Control - China"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35989644995609-Moving-Load-Analysis-Control-China"
+  retrieved_at: "2025-08-13"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 154
+  examples: 1
+  has_response_head: false
+notes: ["표에 enum 값 목록이 있는데도 이전 문서엔 누락돼 있었고, Required 여부도 실제로는 (조건부) Required인데 Optional로 잘못 기재돼 있었다. `BRIDGE2` 객체(TB 10002-2017/Q·CR 9300-2018 코드 전용)는 통째로 누락돼 있어 아래에 별도 표로 신규 추가했다(아티클 id `35989644995609`)."]

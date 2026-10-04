@@ -1,0 +1,39 @@
+key: POST.TABLE.STORY_STABILITY_COEFFICIENT_Y
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/STORY_STABILITY_COEFFICIENT_Y.json
+  introspect: null
+  source: help_center_spec_table
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: STORY_STABILITY_COEFFICIENT_Y
+title: "Story Stability Coefficient - Analysis Story Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49512818237849-Story-Stability-Coefficient-Story-Result-Table"
+  retrieved_at: "2026-08-20"
+  provenance: [help_center]
+stats:
+  spec_rows: 28
+  examples: 4
+  has_response_head: false

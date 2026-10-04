@@ -1,0 +1,130 @@
+{
+  "key": "OPE.AUTOMESH",
+  "uri": "OPE/AUTOMESH",
+  "source": "help_center",
+  "schema": {
+    "AUTOMESH": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "MESHER": {
+              "type": "object",
+              "properties": {
+                "METHOD": {
+                  "type": "string"
+                },
+                "TARGETS": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "TYPE": {
+                  "type": "string"
+                },
+                "MESH_INNER_DOMAIN": {
+                  "type": "boolean"
+                },
+                "INCLUDE_INTERIOR_NODES": {
+                  "type": "object",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean"
+                    },
+                    "OPTION": {
+                      "type": "string"
+                    },
+                    "VALUE": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "INCLUDE_INTERIOR_LINES": {
+                  "type": "object",
+                  "properties": {
+                    "OPT_CHECK": {
+                      "type": "boolean"
+                    },
+                    "OPTION": {
+                      "type": "string"
+                    },
+                    "VALUE": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                },
+                "INCLUDE_BOUNDARY_CONNECTIVITY": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "MESH_SIZE": {
+              "type": "object",
+              "properties": {
+                "LENGTH": {
+                  "type": "integer"
+                },
+                "DIV": {
+                  "type": "integer"
+                }
+              }
+            },
+            "PROPERTY": {
+              "type": "object",
+              "properties": {
+                "ELEMENT_TYPE": {
+                  "type": "string"
+                },
+                "ELEMENT_SUB_TYPE": {
+                  "type": "object",
+                  "properties": {
+                    "TYPE": {
+                      "type": "string"
+                    },
+                    "WITH_DRILLING_DOF": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "MATERIAL": {
+                  "type": "integer"
+                },
+                "THICKNESS": {
+                  "type": "integer"
+                }
+              }
+            },
+            "DOMAIN_NAME": {
+              "type": "object",
+              "properties": {
+                "NAME": {
+                  "type": "string"
+                }
+              }
+            },
+            "ADDITIONAL_OPTION": {
+              "type": "object",
+              "properties": {
+                "DELETE_LINE_ELEM": {
+                  "type": "boolean"
+                },
+                "SUBDIVIDE_LINE_ELEM": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "key": "DB.HPCE",
+  "uri": "DB/HPCE",
+  "source": "help_center",
+  "schema": {
+    "HPCE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "DIAMETER": {
+          "description": "PipeDiameter",
+          "type": "number"
+        },
+        "COEF": {
+          "description": "ConvectionCoefficient",
+          "type": "number"
+        },
+        "HEAT": {
+          "description": "SpecificHeat",
+          "type": "number"
+        },
+        "DENSITY": {
+          "description": "WeightDensity",
+          "type": "number"
+        },
+        "TEMPER": {
+          "description": "InletTemp",
+          "type": "number"
+        },
+        "FLOW_RATE": {
+          "description": "FlowRate",
+          "type": "number"
+        },
+        "START_TIME": {
+          "description": "StartTime",
+          "type": "integer"
+        },
+        "END_TIME": {
+          "description": "EndTime",
+          "type": "integer"
+        },
+        "ITEMS": {
+          "description": "NodeList",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

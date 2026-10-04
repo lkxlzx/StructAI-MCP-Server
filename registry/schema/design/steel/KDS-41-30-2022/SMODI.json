@@ -1,0 +1,413 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.SMODI",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/SMODI",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a material ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "CODE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "CODE": {
+                "type": "string",
+                "description": "Steel material code type.",
+                "oneOf": [
+                  {
+                    "const": "None",
+                    "title": "None"
+                  },
+                  {
+                    "const": "Standard",
+                    "title": "Standard"
+                  }
+                ]
+              },
+              "STANDARD_CODE": {
+                "type": "string",
+                "description": "Steel standard code when CODE is Standard. Currently only KS22(S) is supported.",
+                "oneOf": [
+                  {
+                    "const": "KS22(S)",
+                    "title": "KS22(S)"
+                  }
+                ]
+              },
+              "GRADE": {
+                "type": "string",
+                "description": "Steel grade when CODE is Standard.",
+                "oneOf": [
+                  {
+                    "const": "SS235",
+                    "title": "SS235"
+                  },
+                  {
+                    "const": "SS275",
+                    "title": "SS275"
+                  },
+                  {
+                    "const": "SS315",
+                    "title": "SS315"
+                  },
+                  {
+                    "const": "SS410",
+                    "title": "SS410"
+                  },
+                  {
+                    "const": "SS450",
+                    "title": "SS450"
+                  },
+                  {
+                    "const": "SS550",
+                    "title": "SS550"
+                  },
+                  {
+                    "const": "SM275",
+                    "title": "SM275"
+                  },
+                  {
+                    "const": "SM355",
+                    "title": "SM355"
+                  },
+                  {
+                    "const": "SM420",
+                    "title": "SM420"
+                  },
+                  {
+                    "const": "SM460",
+                    "title": "SM460"
+                  },
+                  {
+                    "const": "SM275TMC",
+                    "title": "SM275TMC"
+                  },
+                  {
+                    "const": "SM355TMC",
+                    "title": "SM355TMC"
+                  },
+                  {
+                    "const": "SM420TMC",
+                    "title": "SM420TMC"
+                  },
+                  {
+                    "const": "SM460TMC",
+                    "title": "SM460TMC"
+                  },
+                  {
+                    "const": "SMA275A",
+                    "title": "SMA275A"
+                  },
+                  {
+                    "const": "SMA275B",
+                    "title": "SMA275B"
+                  },
+                  {
+                    "const": "SMA275C",
+                    "title": "SMA275C"
+                  },
+                  {
+                    "const": "SMA355A",
+                    "title": "SMA355A"
+                  },
+                  {
+                    "const": "SMA355B",
+                    "title": "SMA355B"
+                  },
+                  {
+                    "const": "SMA355C",
+                    "title": "SMA355C"
+                  },
+                  {
+                    "const": "SMA460",
+                    "title": "SMA460"
+                  },
+                  {
+                    "const": "HSM500",
+                    "title": "HSM500"
+                  },
+                  {
+                    "const": "SN275A",
+                    "title": "SN275A"
+                  },
+                  {
+                    "const": "SN275B",
+                    "title": "SN275B"
+                  },
+                  {
+                    "const": "SN275C",
+                    "title": "SN275C"
+                  },
+                  {
+                    "const": "SN355",
+                    "title": "SN355"
+                  },
+                  {
+                    "const": "SN460",
+                    "title": "SN460"
+                  },
+                  {
+                    "const": "SHN275",
+                    "title": "SHN275"
+                  },
+                  {
+                    "const": "SHN355",
+                    "title": "SHN355"
+                  },
+                  {
+                    "const": "SHN420",
+                    "title": "SHN420"
+                  },
+                  {
+                    "const": "SHN460",
+                    "title": "SHN460"
+                  },
+                  {
+                    "const": "HSB380",
+                    "title": "HSB380"
+                  },
+                  {
+                    "const": "HSB460",
+                    "title": "HSB460"
+                  },
+                  {
+                    "const": "HSB690",
+                    "title": "HSB690"
+                  },
+                  {
+                    "const": "HSA650",
+                    "title": "HSA650"
+                  },
+                  {
+                    "const": "SGT275",
+                    "title": "SGT275"
+                  },
+                  {
+                    "const": "SGT355",
+                    "title": "SGT355"
+                  },
+                  {
+                    "const": "SGT410",
+                    "title": "SGT410"
+                  },
+                  {
+                    "const": "SGT450",
+                    "title": "SGT450"
+                  },
+                  {
+                    "const": "SGT550",
+                    "title": "SGT550"
+                  },
+                  {
+                    "const": "SRT275",
+                    "title": "SRT275"
+                  },
+                  {
+                    "const": "SRT355",
+                    "title": "SRT355"
+                  },
+                  {
+                    "const": "SRT410",
+                    "title": "SRT410"
+                  },
+                  {
+                    "const": "SRT450",
+                    "title": "SRT450"
+                  },
+                  {
+                    "const": "SRT550",
+                    "title": "SRT550"
+                  },
+                  {
+                    "const": "SNT275",
+                    "title": "SNT275"
+                  },
+                  {
+                    "const": "SNT355",
+                    "title": "SNT355"
+                  },
+                  {
+                    "const": "SNT460",
+                    "title": "SNT460"
+                  },
+                  {
+                    "const": "SHT410",
+                    "title": "SHT410"
+                  },
+                  {
+                    "const": "SHT460",
+                    "title": "SHT460"
+                  },
+                  {
+                    "const": "SNRT295E",
+                    "title": "SNRT295E"
+                  },
+                  {
+                    "const": "SNRT390E",
+                    "title": "SNRT390E"
+                  },
+                  {
+                    "const": "SNRT275A",
+                    "title": "SNRT275A"
+                  },
+                  {
+                    "const": "SNRT355A",
+                    "title": "SNRT355A"
+                  },
+                  {
+                    "const": "SSC275",
+                    "title": "SSC275"
+                  },
+                  {
+                    "const": "SWH275",
+                    "title": "SWH275"
+                  },
+                  {
+                    "const": "SWH355",
+                    "title": "SWH355"
+                  },
+                  {
+                    "const": "SWH420",
+                    "title": "SWH420"
+                  },
+                  {
+                    "const": "SWH460",
+                    "title": "SWH460"
+                  },
+                  {
+                    "const": "SF490",
+                    "title": "SF490"
+                  },
+                  {
+                    "const": "SF540",
+                    "title": "SF540"
+                  },
+                  {
+                    "const": "SDP1",
+                    "title": "SDP1"
+                  },
+                  {
+                    "const": "SDP2",
+                    "title": "SDP2"
+                  },
+                  {
+                    "const": "SDP3",
+                    "title": "SDP3"
+                  },
+                  {
+                    "const": "SWPC1",
+                    "title": "SWPC1"
+                  },
+                  {
+                    "const": "SWPD1",
+                    "title": "SWPD1"
+                  },
+                  {
+                    "const": "SWPC",
+                    "title": "SWPC"
+                  },
+                  {
+                    "const": "SWPD",
+                    "title": "SWPD"
+                  }
+                ]
+              },
+              "NAME": {
+                "type": "string",
+                "description": "User-defined steel material name when CODE is None."
+              },
+              "ES": {
+                "type": "number",
+                "description": "Modulus of Elasticity (Es). When CODE is None, user input is required. When CODE is Standard, this value is auto-filled from the selected standard code and grade and should be treated as read-only in UI."
+              },
+              "PS": {
+                "type": "number",
+                "description": "Poisson's Ratio (Ps). When CODE is None, user input is required. When CODE is Standard, this value is auto-filled from the selected standard code and grade and should be treated as read-only in UI."
+              },
+              "FU": {
+                "type": "number",
+                "description": "Tensile Strength (Fu). When CODE is None, user input is required. When CODE is Standard, this value is auto-filled from the selected standard code and grade and should be treated as read-only in UI."
+              },
+              "FY": {
+                "type": "number",
+                "description": "Yield Strength (Fy) for CODE=None. Required when CODE is None."
+              },
+              "FY1": {
+                "type": "number",
+                "description": "Yield Strength (Fy1). Auto-filled from the selected standard code and grade when CODE is Standard."
+              },
+              "FY2": {
+                "type": "number",
+                "description": "Yield Strength (Fy2). Auto-filled from the selected standard code and grade when CODE is Standard."
+              },
+              "FY3": {
+                "type": "number",
+                "description": "Yield Strength (Fy3). Auto-filled from the selected standard code and grade when CODE is Standard."
+              },
+              "FY4": {
+                "type": "number",
+                "description": "Yield Strength (Fy4). Auto-filled from the selected standard code and grade when CODE is Standard."
+              },
+              "FY5": {
+                "type": "number",
+                "description": "Yield Strength (Fy5). Auto-filled from the selected standard code and grade when CODE is Standard."
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "CODE": {
+                      "const": "None"
+                    }
+                  },
+                  "required": [
+                    "CODE"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "NAME",
+                    "ES",
+                    "PS",
+                    "FU"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "CODE": {
+                      "const": "Standard"
+                    }
+                  },
+                  "required": [
+                    "CODE"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "STANDARD_CODE",
+                    "GRADE"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

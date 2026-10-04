@@ -1,0 +1,54 @@
+{
+  "key": "DB.PRST",
+  "uri": "DB/PRST",
+  "source": "help_center",
+  "schema": {
+    "PRST": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "LoadGroupName",
+                "type": "string"
+              },
+              "DIR": {
+                "description": "Direction",
+                "type": "integer"
+              },
+              "TENSION": {
+                "description": "Tension",
+                "type": "number"
+              },
+              "DISTANCE_I": {
+                "description": "DistanceI",
+                "type": "number"
+              },
+              "DISTANCE_M": {
+                "description": "DistanceM",
+                "type": "number"
+              },
+              "DISTANCE_J": {
+                "description": "DistanceJ",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

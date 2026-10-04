@@ -1,0 +1,40 @@
+key: OPE.AUTOMESH
+namespace: OPE
+uri: /OPE/AUTOMESH
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/ope/AUTOMESH.json
+  introspect: null
+  source: help_center
+parser: generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: null
+title: "Auto-Mesh Planar Area"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35736427971225-Auto-Mesh-Planar-Area"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 29
+  examples: 10
+  has_response_head: false
+notes: ["`MESHER.TYPE`/`PROPERTY.ELEMENT_TYPE`의 열거값을 사람이 읽기 좋게 띄어 쓴 형태(예: `\"Line Elements\"`, `\"Quad and Triangle\"`, `\"Plane Stress\"`)로 적어 두었으나, 실제 Request Example·Response에서는 공백 없는 리터럴(`\"LineElements\"`, `\"Quadandtriangle\"`, `\"PlaneStress\"`)이 쓰인다. 예제가 실제 동작하는 페이로드이므로 이를 기준으로 정정함."]

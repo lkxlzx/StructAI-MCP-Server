@@ -1,0 +1,40 @@
+key: POST.TABLE.SELF_CONST_BEAM_FORCE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/SELF_CONST_BEAM_FORCE.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: SELF_CONST_BEAM_FORCE
+title: "Self-Constraint Beam Force"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 4
+  has_response_head: false
+notes: ["`\"PARTS\"`(Array [String], 값: `\"PartI\"`/`\"Part1/4\"`/`\"Part2/4\"`/`\"Part3/4\"`/`\"PartJ\"`, 기본값 All, Optional)를 지원합니다(37절과 동일). 이전 버전 문서에 누락되어 있었음.", "누락되어 있었음(37절의 공식 예제는 이 컬럼을 포함하지 않아 37절 자체는 정정하지 않음 — 원문 아티클 간 표기 차이로 판단, 오류제보 대상)."]

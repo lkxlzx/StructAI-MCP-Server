@@ -1,0 +1,41 @@
+key: POST.TABLE.WEIGHT_IRREGULARITY_X
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 源手册（Help Center）未提供该 Analysis Story Table 的 JSON Schema，仅有 Request/Response 示例
+parser: post_table
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+table_type: WEIGHT_IRREGULARITY_X
+title: Weight Irregularity Check
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [namespace_rule, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 2
+  has_response_head: true

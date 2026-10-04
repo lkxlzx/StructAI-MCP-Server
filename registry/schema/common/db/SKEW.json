@@ -1,0 +1,137 @@
+{
+  "key": "DB.SKEW",
+  "uri": "DB/SKEW",
+  "source": "help_center",
+  "schema": {
+    "SKEW": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "iMETHOD": {
+          "description": "Inputmethod",
+          "type": "integer"
+        },
+        "ANGLE_X": {
+          "description": "Anglex",
+          "type": "number"
+        },
+        "ANGLE_Y": {
+          "description": "Angley",
+          "type": "number"
+        },
+        "ANGLE_Z": {
+          "description": "Anglez",
+          "type": "number"
+        },
+        "P0X": {
+          "description": "PointCoordinatex",
+          "type": "number"
+        },
+        "P0Y": {
+          "description": "PointCoordinatey",
+          "type": "number"
+        },
+        "P0Z": {
+          "description": "PointCoordinatez",
+          "type": "number"
+        },
+        "P1X": {
+          "description": "PointCoordinatex",
+          "type": "number"
+        },
+        "P1Y": {
+          "description": "PointCoordinatey",
+          "type": "number"
+        },
+        "P1Z": {
+          "description": "PointCoordinatez",
+          "type": "number"
+        },
+        "P2X": {
+          "description": "PointCoordinatex",
+          "type": "number"
+        },
+        "P2Y": {
+          "description": "PointCoordinatey",
+          "type": "number"
+        },
+        "P2Z": {
+          "description": "PointCoordinatez",
+          "type": "number"
+        },
+        "V1X": {
+          "description": "DirectionVectorx",
+          "type": "number"
+        },
+        "V1Y": {
+          "description": "DirectionVectory",
+          "type": "number"
+        },
+        "V1Z": {
+          "description": "DirectionVectorz",
+          "type": "number"
+        },
+        "V2X": {
+          "description": "DirectionVectorx",
+          "type": "number"
+        },
+        "V2Y": {
+          "description": "DirectionVectory",
+          "type": "number"
+        },
+        "V2Z": {
+          "description": "DirectionVectorz",
+          "type": "number"
+        },
+        "LV0X": {
+          "description": "DirectionVectorx",
+          "type": "number"
+        },
+        "LV0Y": {
+          "description": "DirectionVectory",
+          "type": "number"
+        },
+        "LV0Z": {
+          "description": "DirectionVectorz",
+          "type": "number"
+        },
+        "LV1X": {
+          "description": "DirectionVectorx",
+          "type": "number"
+        },
+        "LV1Y": {
+          "description": "DirectionVectory",
+          "type": "number"
+        },
+        "LV1Z": {
+          "description": "DirectionVectorz",
+          "type": "number"
+        },
+        "LV2X": {
+          "description": "DirectionVectorx",
+          "type": "number"
+        },
+        "LV2Y": {
+          "description": "DirectionVectory",
+          "type": "number"
+        },
+        "LV2Z": {
+          "description": "DirectionVectorz",
+          "type": "number"
+        },
+        "REFTYPE": {
+          "description": "ReferenceType",
+          "type": "integer"
+        },
+        "G_DIR": {
+          "description": "GlobalDirection",
+          "type": "integer"
+        },
+        "L_DIR": {
+          "description": "LocalDirection",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

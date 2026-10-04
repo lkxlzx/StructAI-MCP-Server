@@ -1,0 +1,45 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DFBA",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DFBA",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by member ID strings (e.g., \"1\"), where each entry represents the design force type assigned to the beam member.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "FORCE_TYPE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "FORCE_TYPE": {
+                "type": "string",
+                "description": "Design force type for the beam member.",
+                "oneOf": [
+                  {
+                    "title": "Subdivided Forces",
+                    "const": "Subdivided Forces"
+                  },
+                  {
+                    "title": "Member Forces",
+                    "const": "Member Forces"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

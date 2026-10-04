@@ -1,0 +1,68 @@
+{
+  "key": "DB.FBLA",
+  "uri": "DB/FBLA",
+  "source": "help_center",
+  "schema": {
+    "FBLA": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "FLOOR_LOAD_TYPE_NAME": {
+          "description": "FloorLoadTypeName",
+          "type": "string"
+        },
+        "FLOOR_DIST_TYPE": {
+          "description": "DistributionType",
+          "type": "integer"
+        },
+        "LOAD_ANGLE": {
+          "description": "LoadAngle(A1)",
+          "type": "number"
+        },
+        "SUB_BEAM_NUM": {
+          "description": "No.ofSubBeams",
+          "type": "integer"
+        },
+        "SUB_BEAM_ANGLE": {
+          "description": "Sub-BeamAngle(A2)",
+          "type": "number"
+        },
+        "UNIT_SELF_WEIGHT": {
+          "description": "UnitSelfWeight",
+          "type": "number"
+        },
+        "DIR": {
+          "description": "LoadDirection",
+          "type": "string"
+        },
+        "OPT_PROJECTION": {
+          "description": "ProjectionBoolean",
+          "type": "boolean"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "OPT_EXCLUDE_INNER_ELEM_AREA": {
+          "description": "ExecludeInnerElem.ofArea",
+          "type": "boolean"
+        },
+        "OPT_ALLOW_POLYGON_TYPE_UNIT_AREA": {
+          "description": "AllowPolygonTypeUnitAngle",
+          "type": "boolean"
+        },
+        "GROUP_NAME": {
+          "description": "LoadGroupName",
+          "type": "string"
+        },
+        "NODES": {
+          "description": "NodesDefiningLoadingArea",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "key": "OPRT.TOTALREPORT",
+  "uri": "OPRT/TOTALREPORT",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "生成整体计算书",
+    "type": "object",
+    "properties": {
+      "Type": {
+        "type": "integer",
+        "description": "生成或更新计算书<br>*0-生成计算书 1-更新计算书"
+      },
+      "OutFilePath": {
+        "type": "string",
+        "description": "生成计算书路径及文件名<br>*未设置时用默认路径"
+      },
+      "RefFilePath": {
+        "type": "string",
+        "description": "模板路径<br>*Type=1时必填"
+      },
+      "Open": {
+        "type": "boolean",
+        "description": "是否打开报告"
+      }
+    },
+    "required": [
+      "Type"
+    ]
+  },
+  "shape": "flat_object"
+}

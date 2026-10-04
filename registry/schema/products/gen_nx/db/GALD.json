@@ -1,0 +1,90 @@
+{
+  "key": "DB.GALD",
+  "uri": "DB/GALD",
+  "source": "help_center",
+  "schema": {
+    "GALD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "Load Case Name",
+          "type": "string"
+        },
+        "LCTYPE": {
+          "description": "Load Case Type",
+          "type": "string"
+        },
+        "SUBTYPE": {
+          "description": "Sub Load Case Type",
+          "type": "string"
+        },
+        "LOAD": {
+          "description": "Define Dead Load",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LTYPE": {
+                "description": "Dead Load Type",
+                "type": "string"
+              },
+              "CLINE": {
+                "description": "Center Line",
+                "type": "string"
+              },
+              "SMLTYPE": {
+                "description": "Main Line Type - Start",
+                "type": "string"
+              },
+              "EMLTYPE": {
+                "description": "Main Line Type - End",
+                "type": "string"
+              },
+              "SMLINE": {
+                "description": "Main Line - Start",
+                "type": "string"
+              },
+              "EMLINE": {
+                "description": "Main Line - End",
+                "type": "string"
+              },
+              "SCROSS": {
+                "description": "Cross Beam - Start",
+                "type": "string"
+              },
+              "ECROSS": {
+                "description": "Cross Line - End",
+                "type": "string"
+              },
+              "SMEDIAN": {
+                "description": "Median - Start",
+                "type": "string"
+              },
+              "EMEDIAN": {
+                "description": "Median - End",
+                "type": "string"
+              },
+              "SLOAD": {
+                "description": "Load Value - Start",
+                "type": "number"
+              },
+              "ELOAD": {
+                "description": "Load Value - End",
+                "type": "number"
+              },
+              "MLRANGE": {
+                "description": "Main Load Width",
+                "type": "number"
+              },
+              "LLOAD": {
+                "description": "Load Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

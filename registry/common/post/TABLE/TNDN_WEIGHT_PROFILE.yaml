@@ -1,0 +1,40 @@
+key: POST.TABLE.TNDN_WEIGHT_PROFILE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/TNDN_WEIGHT_PROFILE.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: TNDN_WEIGHT_PROFILE
+title: Tendon Profile
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 7
+  has_response_head: false
+notes: ["`\"TNDN_WEIGHT_GROUP\"`으로 표기하면서도 예제 자체는 실제로 `\"TNDN_WEIGHT_PROFILE\"`(형상별) 응답 데이터(`TendonName`/`TendonNum` 컬럼, `\"Bot-Key-A01\"` 등)를 그대로 사용하고 있었음 — Group 응답은 컬럼 구성이 전혀 다름. 3종 모두 응답 구조가 달라 아래에 각각 정정·추가함."]

@@ -1,0 +1,49 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.SDGN",
+  "uri": "DESIGN/RC/KDS-41-20-2022/SDGN",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a member ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "NTYPE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "NTYPE": {
+                "type": "string",
+                "description": "Seismic design type assigned to the member.",
+                "oneOf": [
+                  {
+                    "title": "for Seismic Design",
+                    "const": "Seismic"
+                  },
+                  {
+                    "title": "for Non-Seismic Design",
+                    "const": "Non-Seismic"
+                  },
+                  {
+                    "title": "for Non-Seismic-Force Resisting System",
+                    "const": "Non-Seismic-Force-Resisting"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

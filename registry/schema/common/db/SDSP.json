@@ -1,0 +1,51 @@
+{
+  "key": "DB.SDSP",
+  "uri": "DB/SDSP",
+  "source": "help_center",
+  "schema": {
+    "SDSP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "ItemsByNode",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "LoadGroupName",
+                "type": "string"
+              },
+              "VALUES": {
+                "description": "Values",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "OPT_FLAG": {
+                      "description": "UsageFlag",
+                      "type": "boolean"
+                    },
+                    "DISPLACEMENT": {
+                      "description": "Displacement(LocalDirection)Value",
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

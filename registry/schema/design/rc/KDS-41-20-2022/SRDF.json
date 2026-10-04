@@ -1,0 +1,51 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.SRDF",
+  "uri": "DESIGN/RC/KDS-41-20-2022/SRDF",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "description": "RC Strength Reduction Factors settings (KDS 41 20:2022). Supported methods: GET, PUT.",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "maxProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "PHI_T": {
+                "type": "number",
+                "description": "For Tensile Control (phi_t)",
+                "default": 0.85
+              },
+              "PHI_C1": {
+                "type": "number",
+                "description": "Member with Spiral Reinforcement (phi_c1)",
+                "default": 0.7
+              },
+              "PHI_C2": {
+                "type": "number",
+                "description": "Other Reinforced Member (phi_c2)",
+                "default": 0.65
+              },
+              "PHI_V": {
+                "type": "number",
+                "description": "For Shear and Torsion (phi_v)",
+                "default": 0.75
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

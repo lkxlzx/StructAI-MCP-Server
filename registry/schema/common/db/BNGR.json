@@ -1,0 +1,21 @@
+{
+  "key": "DB.BNGR",
+  "uri": "DB/BNGR",
+  "source": "help_center",
+  "schema": {
+    "BNGR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "BoundaryGroupName",
+          "type": "string"
+        },
+        "AUTOTYPE": {
+          "description": "AutoType",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

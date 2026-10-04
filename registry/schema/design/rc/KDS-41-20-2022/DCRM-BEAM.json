@@ -1,0 +1,114 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "부재 ID 문자열을 키로 갖는 맵 (예: \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "description": "보 부재별 철근 규격·배근",
+            "required": [
+              "MAIN_REBAR",
+              "STIRRUPS",
+              "STIRRUP_ARRANGEMENT",
+              "SIDE_BAR"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "MAIN_REBAR": {
+                "type": "string",
+                "description": "주철근 규격 (전체 19종: D4 ~ D57)",
+                "enum": [
+                  "D4",
+                  "D5",
+                  "D6",
+                  "D7",
+                  "D8"
+                ]
+              },
+              "STIRRUPS": {
+                "type": "string",
+                "description": "스터럽(전단철근) 규격 (전체 19종: D4 ~ D57)",
+                "enum": [
+                  "D4",
+                  "D5",
+                  "D6",
+                  "D7",
+                  "D8"
+                ]
+              },
+              "STIRRUP_ARRANGEMENT": {
+                "type": "integer",
+                "description": "스터럽 다리(leg) 수 (전체 19종: 2 ~ 20)",
+                "enum": [
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "SIDE_BAR": {
+                "type": "string",
+                "description": "측면철근(side bar) 규격 (전체 19종: D4 ~ D57)",
+                "enum": [
+                  "D4",
+                  "D5",
+                  "D6",
+                  "D7",
+                  "D8"
+                ]
+              },
+              "DT": {
+                "type": "number",
+                "description": "상단 피복 거리 dT",
+                "default": 0
+              },
+              "DB": {
+                "type": "number",
+                "description": "하단 피복 거리 dB",
+                "default": 0
+              },
+              "DOUBLY_REBAR": {
+                "type": "boolean",
+                "description": "복철근 설계 사용",
+                "default": true
+              },
+              "DOUBLY_K": {
+                "type": "number",
+                "description": "복철근 k 계수",
+                "default": 1
+              },
+              "SPACING_LIMIT": {
+                "type": "boolean",
+                "description": "철근 간격 제한 고려",
+                "default": true
+              },
+              "SPLICED_BARS": {
+                "type": "string",
+                "description": "이음 옵션",
+                "default": "50%",
+                "enum": [
+                  "None",
+                  "50%",
+                  "100%"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

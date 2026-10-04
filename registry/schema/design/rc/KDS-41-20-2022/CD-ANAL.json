@@ -1,0 +1,65 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.CD-ANAL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/CD-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Execute design calculation",
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "PERFORM_TYPE": {
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ELEMS",
+              "SECTIONS"
+            ],
+            "default": "ALL"
+          },
+          "ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            }
+          },
+          "SECTIONS": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}

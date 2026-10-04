@@ -1,0 +1,122 @@
+{
+  "key": "DB.POLC",
+  "uri": "DB/POLC",
+  "source": "help_center",
+  "schema": {
+    "POLC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "INCRE_STEP": {
+          "description": "IncrementSteps",
+          "type": "integer"
+        },
+        "bCONS_PDELTA": {
+          "description": "ConsiderP-DeltaEffect",
+          "type": "boolean"
+        },
+        "bUSEINITIAL": {
+          "description": "UseInitialLoad",
+          "type": "boolean"
+        },
+        "bREACOUTPUT": {
+          "description": "CumulativeReaction/StoryShearbyInitialLoad",
+          "type": "boolean"
+        },
+        "INCRE_METHOD": {
+          "description": "IncrementMethod",
+          "type": "string"
+        },
+        "STEPCTRLOPTION": {
+          "description": "SteppingControlOption",
+          "type": "string"
+        },
+        "INCFUNC_KEY": {
+          "description": "IncrementalControlFunctionKey",
+          "type": "integer"
+        },
+        "STIFF_RATIO": {
+          "description": "AnalysisStoppingConditionCurrentStiffnessRatio",
+          "type": "number"
+        },
+        "bLIMITDEFORMANGLE": {
+          "description": "UseLimitInter-StoryDeformationAngle",
+          "type": "boolean"
+        },
+        "LIMITDEFORMANGLE": {
+          "description": "LimitInter-StoryDeformationAngle(1/[rad])",
+          "type": "number"
+        },
+        "bDRIFTMAX": {
+          "description": "MaximumDriftofAllVerticalElements",
+          "type": "boolean"
+        },
+        "bDRIFTCENTER": {
+          "description": "DriftattheCenterofFloorDiaphragm(StoryCenter)",
+          "type": "boolean"
+        },
+        "bDRIFTAVER": {
+          "description": "DriftcalculatedbyAverageDisplacementofStory",
+          "type": "boolean"
+        },
+        "DISPCTRLOPTION": {
+          "description": "DisplacementControlOption",
+          "type": "string"
+        },
+        "GLOBAL_MAX_DISP": {
+          "description": "GlobalMaxTranslationalDisplacement",
+          "type": "number"
+        },
+        "MASTERNODE": {
+          "description": "MasterNodeKey",
+          "type": "integer"
+        },
+        "MASTERDIRECTION": {
+          "description": "MasterNodeDirection",
+          "type": "string"
+        },
+        "MASTERMAXDISP": {
+          "description": "MasterNodeDisplacement",
+          "type": "number"
+        },
+        "LOADPATTERNTYPE": {
+          "description": "LoadPatternType",
+          "type": "string"
+        },
+        "LOADPATTERN": {
+          "description": "LoadPatternDataList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LCNAME": {
+                "description": "LoadCaseName(ifUsedLoadPattern=LOAD)",
+                "type": "string"
+              },
+              "DIR": {
+                "description": "DIrection(ifUsedLoadPattern=ACC)",
+                "type": "string"
+              },
+              "MODE": {
+                "description": "ModeNumber(ifUsedLoadPattern=MODE,NOR_MODE)",
+                "type": "integer"
+              },
+              "SF": {
+                "description": "",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

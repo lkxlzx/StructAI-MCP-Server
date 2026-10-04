@@ -1,0 +1,260 @@
+{
+  "key": "DB.THIS",
+  "uri": "DB/THIS",
+  "source": "help_center",
+  "schema": {
+    "THIS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "CommonData",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "TimeHistoryLoadCaseName",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "iATYPE": {
+              "description": "AnlysisType",
+              "type": "integer"
+            },
+            "iAMETHOD": {
+              "description": "AnalysisMethod",
+              "type": "integer"
+            },
+            "iTHTYPE": {
+              "description": "TimeHistoryType",
+              "type": "integer"
+            },
+            "iGEOM": {
+              "description": "GeometricNonlinearityType(Nonlinear-AnlysisType)",
+              "type": "integer"
+            },
+            "iISTEP": {
+              "description": "IncrementSteps(Static-AnalysisMethod)",
+              "type": "integer"
+            },
+            "ENDTIME": {
+              "description": "EndTime",
+              "type": "number"
+            },
+            "INC": {
+              "description": "TimeIncrement",
+              "type": "number"
+            },
+            "iOUT": {
+              "description": "StepNumberIncrementForOutput",
+              "type": "integer"
+            },
+            "INITLOAD": {
+              "description": "Useinitialload",
+              "type": "integer"
+            },
+            "INITMETHOD": {
+              "description": "DynamicLoadType",
+              "type": "string"
+            },
+            "bSUBSEQ": {
+              "description": "Subsequentto-CheckBox",
+              "type": "boolean"
+            },
+            "SUBSEQ": {
+              "description": "Subsequentto-Type",
+              "type": "integer"
+            },
+            "LCTYPE": {
+              "description": "LoadCaseType",
+              "type": "string"
+            },
+            "CASE": {
+              "description": "LoadCaseName",
+              "type": "string"
+            },
+            "bKEEP": {
+              "description": "KeepFinalStepLoadsConstant",
+              "type": "boolean"
+            },
+            "bDVA": {
+              "description": "CumulateD/V/AResults",
+              "type": "boolean"
+            },
+            "iMDTYPE": {
+              "description": "DampingMethod",
+              "type": "integer"
+            }
+          }
+        },
+        "iINCCTRL": {
+          "description": "Incrementmethod",
+          "type": "integer"
+        },
+        "bCUMULATE": {
+          "description": "Cumulateloadincrementhistoryforoutput",
+          "type": "boolean"
+        },
+        "SCALE": {
+          "description": "ControlOption-Scalefactor",
+          "type": "number"
+        },
+        "iCTRL": {
+          "description": "Displacementcontroloption",
+          "type": "integer"
+        },
+        "TINC": {
+          "description": "Maximumdisplacement",
+          "type": "number"
+        },
+        "MNODE": {
+          "description": "Masternode",
+          "type": "integer"
+        },
+        "MDIR": {
+          "description": "Masterdirection",
+          "type": "integer"
+        },
+        "DALL": {
+          "description": "DampingRatioForAllModes",
+          "type": "number"
+        },
+        "iCOEF": {
+          "description": "MassAndStiffnessCoefficientsType",
+          "type": "integer"
+        },
+        "bMASSP": {
+          "description": "MassProportional-CheckBox",
+          "type": "boolean"
+        },
+        "MASSC": {
+          "description": "MassProportional-Value",
+          "type": "number"
+        },
+        "bSTIFFP": {
+          "description": "StiffnessProportional-CheckBox",
+          "type": "boolean"
+        },
+        "STIFFC": {
+          "description": "StiffnessProportional-Value",
+          "type": "number"
+        },
+        "iCALC": {
+          "description": "CoefficientCalculationType,Frequency),1,Period),2",
+          "type": "integer"
+        },
+        "FP1": {
+          "description": "Frequency/Period-Mode1",
+          "type": "number"
+        },
+        "DR1": {
+          "description": "DampngRatio-Mode1",
+          "type": "number"
+        },
+        "FP2": {
+          "description": "Frequency/Period-Mode2",
+          "type": "number"
+        },
+        "DR2": {
+          "description": "DampngRatio-Mode2",
+          "type": "number"
+        },
+        "iNMM": {
+          "description": "NewmarkMethodInputType",
+          "type": "integer"
+        },
+        "GAMMA": {
+          "description": "GammaValue",
+          "type": "number"
+        },
+        "BETA": {
+          "description": "BetaValue",
+          "type": "number"
+        },
+        "bITER": {
+          "description": "Performiteration-CheckBox",
+          "type": "boolean"
+        },
+        "bCONV": {
+          "description": "Permitconvergencefailure-CheckBox",
+          "type": "boolean"
+        },
+        "MINSSS": {
+          "description": "Minimumstepsize",
+          "type": "number"
+        },
+        "iMSTEP": {
+          "description": "Minimumstepsize",
+          "type": "integer"
+        },
+        "iMAXITER": {
+          "description": "Maximumiteration",
+          "type": "integer"
+        },
+        "bDN": {
+          "description": "Displacementnorm-CheckBox",
+          "type": "boolean"
+        },
+        "DN": {
+          "description": "Displacementnorm-value",
+          "type": "number"
+        },
+        "bFN": {
+          "description": "Forcenorm-CheckBox",
+          "type": "boolean"
+        },
+        "FN": {
+          "description": "Forcenorm-value",
+          "type": "number"
+        },
+        "bEN": {
+          "description": "Energynorm-CheckBox",
+          "type": "boolean"
+        },
+        "EN": {
+          "description": "Energynorm-value",
+          "type": "number"
+        },
+        "DMUPDATE": {
+          "description": "Dampingmatrixupdate",
+          "type": "boolean"
+        },
+        "iRKM": {
+          "description": "Rungekuttamethod",
+          "type": "integer"
+        },
+        "dTOL": {
+          "description": "Tolerance",
+          "type": "number"
+        },
+        "bULSM": {
+          "description": "Uselinesearchmethod",
+          "type": "boolean"
+        },
+        "ULSM": {
+          "description": "Numberofiterationtostartlinesearch",
+          "type": "integer"
+        },
+        "aDAMP": {
+          "description": "ModeID,DampingList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "iMODE": {
+                "description": "Modaldampingoverrides-Mode",
+                "type": "integer"
+              },
+              "DAMPING": {
+                "description": "Modaldampingoverrides-Dampingratio",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

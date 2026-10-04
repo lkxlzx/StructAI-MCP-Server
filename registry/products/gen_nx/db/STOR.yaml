@@ -1,0 +1,48 @@
+key: DB.STOR
+namespace: DB
+uri: /DB/STOR
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: STOR
+schema_ref:
+  local: schema/products/gen_nx/db/STOR.json
+  introspect: info/db/STOR
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Story Data
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513466793113-Story-Data"
+  retrieved_at: "2026-07-01"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 15
+  examples: 1
+  has_response_head: false

@@ -1,0 +1,688 @@
+{
+  "key": "DB.EPMT-M1",
+  "uri": "DB/EPMT-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "NAME",
+                "MODEL_TYPE"
+              ],
+              "properties": {
+                "NAME": {
+                  "type": "string",
+                  "description": "Name (Trim 후 길이 1~20. 신규 시 중복 불가)"
+                },
+                "MODEL_TYPE": {
+                  "type": "integer",
+                  "description": "Model (Microplane 제외. API 4/5 ↔ DB 5/6 자동 offset 변환 (DB 4 = Microplane))",
+                  "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                },
+                "TRESCA": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "INIT_YIELD_STRESS"
+                  ],
+                  "properties": {
+                    "INIT_YIELD_STRESS": {
+                      "type": "number",
+                      "description": "Initial Uniaxial Yield Stress (값 > 0 강제)"
+                    },
+                    "OPT_HARDENING": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Hardening (true 시 하위 필드 required)"
+                    },
+                    "HARDENING_TYPE": {
+                      "type": "integer",
+                      "description": "Isotropic / Kinematic / Mixed (Mixed 시 BACK_STRESS_COEF 필수)",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "HARDENING_COEF": {
+                      "type": "number",
+                      "description": "Hardening Coefficient (값 >= 0)"
+                    },
+                    "BACK_STRESS_COEF": {
+                      "type": "number",
+                      "description": "Back Stress Coefficient (범위 [0.0, 1.0]. Isotropic/Kinematic에서는 서버 자동 (1.0/0.0))"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "HARDENING_TYPE",
+                          "HARDENING_COEF"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          },
+                          "HARDENING_TYPE": {
+                            "const": 2
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING",
+                          "HARDENING_TYPE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "BACK_STRESS_COEF"
+                        ]
+                      }
+                    }
+                  ],
+                  "description": "Tresca parameters"
+                },
+                "VMISES": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "INIT_YIELD_STRESS"
+                  ],
+                  "properties": {
+                    "INIT_YIELD_STRESS": {
+                      "type": "number",
+                      "description": "Initial Uniaxial Yield Stress (값 > 0 강제)"
+                    },
+                    "OPT_HARDENING": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Hardening (true 시 하위 필드 required)"
+                    },
+                    "HARDENING_TYPE": {
+                      "type": "integer",
+                      "description": "Isotropic / Kinematic / Mixed (Mixed 시 BACK_STRESS_COEF 필수)",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "HARDENING_COEF": {
+                      "type": "number",
+                      "description": "Hardening Coefficient (값 >= 0)"
+                    },
+                    "BACK_STRESS_COEF": {
+                      "type": "number",
+                      "description": "Back Stress Coefficient (범위 [0.0, 1.0]. Isotropic/Kinematic에서는 서버 자동 (1.0/0.0))"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "HARDENING_TYPE",
+                          "HARDENING_COEF"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          },
+                          "HARDENING_TYPE": {
+                            "const": 2
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING",
+                          "HARDENING_TYPE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "BACK_STRESS_COEF"
+                        ]
+                      }
+                    }
+                  ],
+                  "description": "Von Mises parameters"
+                },
+                "MOHRCL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "INIT_COHESION",
+                    "INIT_FRIC_ANGLE"
+                  ],
+                  "properties": {
+                    "INIT_COHESION": {
+                      "type": "number",
+                      "description": "Initial Cohesion (값 >= 0)"
+                    },
+                    "INIT_FRIC_ANGLE": {
+                      "type": "number",
+                      "description": "Initial Friction Angle (범위 (0, 90) 엄격. 경계값 거부)"
+                    },
+                    "OPT_HARDENING": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Hardening"
+                    },
+                    "HARDENING_TYPE": {
+                      "type": "integer",
+                      "description": "Isotropic / Kinematic / Mixed (MEC는 Isotropic(0)만 허용. Kinematic/Mixed는 UI 비활성)",
+                      "enum": [
+                        0
+                      ]
+                    },
+                    "HARDENING_COEF": {
+                      "type": "number",
+                      "description": "Hardening Coefficient (값 >= 0)"
+                    },
+                    "BACK_STRESS_COEF": {
+                      "type": "number",
+                      "description": "Back Stress Coefficient (서버가 항상 1.0 강제 (MEC Isotropic only). 클라이언트 입력 무시)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "HARDENING_TYPE",
+                          "HARDENING_COEF"
+                        ]
+                      }
+                    }
+                  ],
+                  "description": "Mohr-Coulomb parameters"
+                },
+                "DRUCKER": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "INIT_COHESION",
+                    "INIT_FRIC_ANGLE"
+                  ],
+                  "properties": {
+                    "INIT_COHESION": {
+                      "type": "number",
+                      "description": "Initial Cohesion (값 >= 0)"
+                    },
+                    "INIT_FRIC_ANGLE": {
+                      "type": "number",
+                      "description": "Initial Friction Angle (범위 (0, 90) 엄격. 경계값 거부)"
+                    },
+                    "OPT_HARDENING": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Hardening"
+                    },
+                    "HARDENING_TYPE": {
+                      "type": "integer",
+                      "description": "Isotropic / Kinematic / Mixed (MEC는 Isotropic(0)만 허용. Kinematic/Mixed는 UI 비활성)",
+                      "enum": [
+                        0
+                      ]
+                    },
+                    "HARDENING_COEF": {
+                      "type": "number",
+                      "description": "Hardening Coefficient (값 >= 0)"
+                    },
+                    "BACK_STRESS_COEF": {
+                      "type": "number",
+                      "description": "Back Stress Coefficient (서버가 항상 1.0 강제 (MEC Isotropic only). 클라이언트 입력 무시)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "OPT_HARDENING": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_HARDENING"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "HARDENING_TYPE",
+                          "HARDENING_COEF"
+                        ]
+                      }
+                    }
+                  ],
+                  "description": "Drucker-Prager parameters"
+                },
+                "MASONRY": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "BM",
+                    "BED_JOINT",
+                    "HEAD_JOINT",
+                    "GEOM",
+                    "MAT_COORD"
+                  ],
+                  "properties": {
+                    "BM": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "YOUNG_S_MODULUS",
+                        "POSSIONS_S_RATIO",
+                        "TENSION_STRENGTH",
+                        "STIFF_REDUCTION"
+                      ],
+                      "properties": {
+                        "YOUNG_S_MODULUS": {
+                          "type": "number",
+                          "description": "Young's Modulus (값 > 0)"
+                        },
+                        "POSSIONS_S_RATIO": {
+                          "type": "number",
+                          "description": "Poisson's Ratio (값 > 0)"
+                        },
+                        "TENSION_STRENGTH": {
+                          "type": "number",
+                          "description": "Stiffness Reduction Factor (DB dBR_Ft 매핑. UI 라벨/원문 불일치 주의 (원문 LTEXT가 'Stiffness Reduction Factor'))"
+                        },
+                        "STIFF_REDUCTION": {
+                          "type": "number",
+                          "description": "Comp. Strength, fc (DB dBR_H 매핑. UI 라벨/원문 불일치 주의)"
+                        }
+                      },
+                      "description": "Brick Material / Properties... (서브 대화상자 진입. DTO는 중첩 객체)"
+                    },
+                    "BED_JOINT": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "YOUNG_S_MODULUS",
+                        "POSSIONS_S_RATIO",
+                        "TENSION_STRENGTH",
+                        "STIFF_REDUCTION"
+                      ],
+                      "properties": {
+                        "YOUNG_S_MODULUS": {
+                          "type": "number",
+                          "description": "Young's Modulus (값 > 0)"
+                        },
+                        "POSSIONS_S_RATIO": {
+                          "type": "number",
+                          "description": "Poisson's Ratio (값 > 0)"
+                        },
+                        "TENSION_STRENGTH": {
+                          "type": "number",
+                          "description": "Tensile Strength, ft (DB dHJ_Ft 매핑)"
+                        },
+                        "STIFF_REDUCTION": {
+                          "type": "number",
+                          "description": "Stiffness Reduction Factor (DB dHJ_H 매핑. UI 라벨/원문 불일치)"
+                        }
+                      },
+                      "description": "Bed Joint / Properties... (서브 대화상자 진입)"
+                    },
+                    "HEAD_JOINT": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "YOUNG_S_MODULUS",
+                        "POSSIONS_S_RATIO",
+                        "TENSION_STRENGTH",
+                        "STIFF_REDUCTION"
+                      ],
+                      "properties": {
+                        "YOUNG_S_MODULUS": {
+                          "type": "number",
+                          "description": "Young's Modulus (값 > 0)"
+                        },
+                        "POSSIONS_S_RATIO": {
+                          "type": "number",
+                          "description": "Poisson's Ratio (값 > 0)"
+                        },
+                        "TENSION_STRENGTH": {
+                          "type": "number",
+                          "description": "Tensile Strength, ft (DB dHJ_Ft 매핑)"
+                        },
+                        "STIFF_REDUCTION": {
+                          "type": "number",
+                          "description": "Stiffness Reduction Factor (DB dHJ_H 매핑. UI 라벨/원문 불일치)"
+                        }
+                      },
+                      "description": "Head Joint / Properties... (서브 대화상자 진입)"
+                    },
+                    "GEOM": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "BRICK_LENGTH",
+                        "BRICK_HEIGHT",
+                        "THICKNESS_BED",
+                        "THICKNESS_HEAD"
+                      ],
+                      "properties": {
+                        "BRICK_LENGTH": {
+                          "type": "number",
+                          "description": "Brick Length (값 > 0)"
+                        },
+                        "BRICK_HEIGHT": {
+                          "type": "number",
+                          "description": "Brick Height (값 > 0)"
+                        },
+                        "THICKNESS_BED": {
+                          "type": "number",
+                          "description": "Thickness of Bed Joint (값 > 0)"
+                        },
+                        "THICKNESS_HEAD": {
+                          "type": "number",
+                          "description": "Thickness of Head Joint (값 > 0)"
+                        }
+                      },
+                      "description": "Geometry / Properties... (서브 대화상자 진입)"
+                    },
+                    "MAT_COORD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "COORD_TYPE"
+                      ],
+                      "properties": {
+                        "COORD_TYPE": {
+                          "type": "integer",
+                          "description": "Material Coordinate System / Vertical : Horizontal (DB 0/-1/-4/>0 ↔ API 0/1/2/미노출. User Defined(DB >0)는 M1에 없음)",
+                          "enum": [
+                            0,
+                            1,
+                            2
+                          ]
+                        },
+                        "COORD_ANGLE": {
+                          "type": "number",
+                          "description": "Angle from Global X (저장 시 fmod(value, 360.0) 자동 적용. 단위 [deg])"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "if": {
+                            "properties": {
+                              "COORD_TYPE": {
+                                "const": 2
+                              }
+                            },
+                            "required": [
+                              "COORD_TYPE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "COORD_ANGLE"
+                            ]
+                          }
+                        }
+                      ],
+                      "description": "Material Coordinate System"
+                    }
+                  },
+                  "description": "Masonry parameters (복합)"
+                },
+                "CONCDMG": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "DILIATION_ANGLE",
+                    "ECCEN",
+                    "FBO_FCO",
+                    "K",
+                    "VISCOSITY_PARAM",
+                    "COMP_ITEMS",
+                    "TENSILE_ITEMS"
+                  ],
+                  "properties": {
+                    "DILIATION_ANGLE": {
+                      "type": "number",
+                      "description": "Diliation Angle (RC/DTO 모두 'Diliation' 오타. 값 ∈ [0, 360])"
+                    },
+                    "ECCEN": {
+                      "type": "number",
+                      "description": "Eccentricity"
+                    },
+                    "FBO_FCO": {
+                      "type": "number",
+                      "description": "fbo/fco (기본 1.16)"
+                    },
+                    "K": {
+                      "type": "number",
+                      "description": "K (기본 0.667)"
+                    },
+                    "VISCOSITY_PARAM": {
+                      "type": "number",
+                      "description": "Viscosity Parameter"
+                    },
+                    "COMP_ITEMS": {
+                      "type": "array",
+                      "description": "Compressive Behavior / Strain-Yield Stress... (서브 대화상자 진입. 배열 크기 1~50)",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "INELASTIC_STRAIN",
+                          "YIELD_STRESS",
+                          "DAMAGE"
+                        ],
+                        "properties": {
+                          "INELASTIC_STRAIN": {
+                            "type": "number",
+                            "description": "Inelastic Strain (각 행이 DTO_EPMT_M1_BH_ITEM 한 원소)"
+                          },
+                          "YIELD_STRESS": {
+                            "type": "number",
+                            "description": "Yield Stress"
+                          },
+                          "DAMAGE": {
+                            "type": "number",
+                            "description": "Damage (배열 전체 크기 1~50)"
+                          }
+                        }
+                      }
+                    },
+                    "TENSILE_ITEMS": {
+                      "type": "array",
+                      "description": "Tensile Behavior / Strain-Yield Stress... (서브 대화상자 진입. 배열 크기 1~50)",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "INELASTIC_STRAIN",
+                          "YIELD_STRESS",
+                          "DAMAGE"
+                        ],
+                        "properties": {
+                          "INELASTIC_STRAIN": {
+                            "type": "number",
+                            "description": "Inelastic Strain (각 행이 DTO_EPMT_M1_BH_ITEM 한 원소)"
+                          },
+                          "YIELD_STRESS": {
+                            "type": "number",
+                            "description": "Yield Stress"
+                          },
+                          "DAMAGE": {
+                            "type": "number",
+                            "description": "Damage (배열 전체 크기 1~50)"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "Concrete Damage parameters"
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "TRESCA"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "VMISES"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 2
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "MOHRCL"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 3
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "DRUCKER"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 4
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "MASONRY"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "MODEL_TYPE": {
+                        "const": 5
+                      }
+                    },
+                    "required": [
+                      "MODEL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "CONCDMG"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

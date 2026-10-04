@@ -1,0 +1,34 @@
+{
+  "key": "DB.TMLD",
+  "uri": "DB/TMLD",
+  "source": "help_center",
+  "schema": {
+    "TMLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "GROUP_NAME": {
+                "description": "NameofLoadGroup",
+                "type": "string"
+              },
+              "DAY": {
+                "description": "Day",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

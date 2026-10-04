@@ -1,0 +1,59 @@
+{
+  "key": "DB.STRPSSM",
+  "uri": "DB/STRPSSM",
+  "source": "help_center",
+  "schema": {
+    "STRPSSM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "OPT_SAME_J": {
+          "description": "SameAdditionalStressPointsDataati&j-end",
+          "type": "boolean"
+        },
+        "POINT_SIZE_1": {
+          "description": "PointSize1",
+          "type": "integer"
+        },
+        "POINT_SIZE_2": {
+          "description": "PointSize2",
+          "type": "integer"
+        },
+        "POINT1": {
+          "description": "PointData1",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PY": {
+                "description": "PointY",
+                "type": "number"
+              },
+              "PZ": {
+                "description": "PointZ",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "POINT2": {
+          "description": "PointData2",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PY": {
+                "description": "PointY",
+                "type": "number"
+              },
+              "PZ": {
+                "description": "PointZ",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

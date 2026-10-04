@@ -1,0 +1,103 @@
+{
+  "key": "DB.HHCT",
+  "uri": "DB/HHCT",
+  "source": "help_center",
+  "schema": {
+    "HHCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "FINAL_STAGE": {
+          "description": "FinalStage",
+          "type": "boolean"
+        },
+        "STAGE_NAME": {
+          "description": "StageName",
+          "type": "string"
+        },
+        "THETA": {
+          "description": "IntegrationFactor",
+          "type": "number"
+        },
+        "INIT_TEMP": {
+          "description": "InitialTemperature",
+          "type": "number"
+        },
+        "EVAL": {
+          "description": "ElementStressEvaluation",
+          "type": "string"
+        },
+        "OPT_USE_EQUI_AGE": {
+          "description": "UseEquivalentAge",
+          "type": "boolean"
+        },
+        "OPT_INCL_SELF_WEIGHT": {
+          "description": "IncludeSelfWeight",
+          "type": "boolean"
+        },
+        "SELF_WEIGHT_FACTOR": {
+          "description": "SelfWeightFactor",
+          "type": "number"
+        },
+        "OPT_IS_CREEP_SHRINKAGE": {
+          "description": "IsCreep&Shrinkage",
+          "type": "boolean"
+        },
+        "ITEM": {
+          "description": "Creep&Shrinkage",
+          "type": "object",
+          "properties": {
+            "OPT_USE_CREEP_SHRINKAGE": {
+              "description": "UseCreep&Shrinkage",
+              "type": "boolean"
+            },
+            "TYPE": {
+              "description": "Type",
+              "type": "string"
+            },
+            "CREEP_CALC_METHOD": {
+              "description": "CreepCalculationMethod",
+              "type": "integer"
+            },
+            "M_GENERAL": {
+              "description": "Method:General",
+              "type": "object",
+              "properties": {
+                "ITER": {
+                  "description": "NumberofIterations",
+                  "type": "integer"
+                },
+                "TOL": {
+                  "description": "Tolerance",
+                  "type": "number"
+                }
+              }
+            },
+            "M_EFF_MOD": {
+              "description": "Method:EffectiveModulus",
+              "type": "object",
+              "properties": {
+                "PHI1": {
+                  "description": "Phi1",
+                  "type": "number"
+                },
+                "DAY1": {
+                  "description": "Day1",
+                  "type": "integer"
+                },
+                "PHI2": {
+                  "description": "Phi2",
+                  "type": "number"
+                },
+                "DAY2": {
+                  "description": "Day1",
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

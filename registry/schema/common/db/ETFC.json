@@ -1,0 +1,58 @@
+{
+  "key": "DB.ETFC",
+  "uri": "DB/ETFC",
+  "source": "help_center",
+  "schema": {
+    "ETFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "TEMP": {
+          "description": "Temperature(Const)",
+          "type": "number"
+        },
+        "MAX_TEMP": {
+          "description": "MaxTemp.(Sine)",
+          "type": "number"
+        },
+        "MEAN_TEMP": {
+          "description": "MeanTemp.(Sine)",
+          "type": "number"
+        },
+        "DELAY_TIME": {
+          "description": "Delaytime(Sine)",
+          "type": "number"
+        },
+        "SCALE_FACTOR": {
+          "description": "Scale(User)",
+          "type": "number"
+        },
+        "ITEM": {
+          "description": "FunctionData",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TIME": {
+                "description": "Time",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

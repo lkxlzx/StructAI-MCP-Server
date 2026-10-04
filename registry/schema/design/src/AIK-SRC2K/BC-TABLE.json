@@ -1,0 +1,236 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.BC-TABLE",
+  "uri": "DESIGN/SRC/AIK-SRC2K/BC-TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Result Table Type",
+            "enum": [
+              "MEMB",
+              "PROP"
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "description": "Element number input.",
+            "additionalProperties": false,
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "description": "Specify each element ID",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 1
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify element ID range (e.g., \"1to160\")"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify structure group name"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "KEYS"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "TO"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "STRUCTURE_GROUP_NAME"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "SECTIONS": {
+            "type": "array",
+            "description": "List of section numbers to include in the table.",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "PRI_SORT": {
+            "type": "integer",
+            "description": "Sorting criteria for member-based output (by Section No. or Member No.)",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "SECT",
+                "const": 0
+              },
+              {
+                "title": "MEMB",
+                "const": 1
+              }
+            ]
+          },
+          "RESULT": {
+            "type": "integer",
+            "description": "Filter results by checking status",
+            "default": 0,
+            "oneOf": [
+              {
+                "title": "All",
+                "const": 0
+              },
+              {
+                "title": "OK",
+                "const": 1
+              },
+              {
+                "title": "NG",
+                "const": 2
+              }
+            ]
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Response Table Title",
+            "default": "SRC Checking Result"
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "additionalProperties": false,
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit"
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Length/Distance unit"
+              },
+              "HEAT": {
+                "type": "string",
+                "description": "Heat unit"
+              },
+              "TEMP": {
+                "type": "string",
+                "description": "Temperature unit"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "additionalProperties": false,
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "description": "Number format",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "description": "Digit place",
+                "minimum": 0,
+                "maximum": 15
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "description": "Components of SRC Checking Result Table",
+            "items": {
+              "type": "string",
+              "enum": [
+                "MEMB",
+                "SECT",
+                "Span",
+                "Section",
+                "Bc",
+                "...(전체 27개)"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

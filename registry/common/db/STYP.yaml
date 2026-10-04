@@ -1,0 +1,45 @@
+key: DB.STYP
+namespace: DB
+uri: /DB/STYP
+methods: [GET, PUT]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: STYP
+schema_ref:
+  local: schema/common/db/STYP.json
+  introspect: info/db/STYP
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Structure Type
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35802404495257-Structure-Type"
+  retrieved_at: "2025-02-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 12
+  examples: 2
+  has_response_head: false
+notes: ["기본값이 이전에는 `-`(미기재)였으나, 원문 Specifications 표(아티클 id `35802404495257`)에 모두 `false`로 명시돼 있어 정정했다. `SMASS`도 기본값 `1`이 명시돼 있어 함께 반영."]

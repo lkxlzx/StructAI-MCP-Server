@@ -1,0 +1,49 @@
+key: "DB.NLCT-M1"
+namespace: DB
+uri: "/DB/NLCT-M1"
+methods: [GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "NLCT-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/NLCT-M1.json"
+  introspect: "info/db/NLCT-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Nonlinear Analysis Control
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56506850582425-Nonlinear-Analysis-Control"
+  retrieved_at: "2026-05-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 65
+  examples: 3
+  has_response_head: false
+notes: ["신규 항목을 만들 때 필수인 필드다. `ADVANCED`(7번) 객체도 통째로 누락돼 있었다(아티클 id `56506850582425`). 원문 JSON Schema에 이례적으로 상세한 구현 주석이 함께 실려 있어 이를 근거로 반영했다."]

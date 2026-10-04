@@ -1,0 +1,52 @@
+key: POST.TABLE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE.json
+  introspect: null
+  source: help_center
+  params_ref: "designer_params.json#POST/TABLE"
+parser: post_table
+products: [CIVIL_DESIGNER, CIVIL_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: POST/TABLE
+    methods: POST
+    title: 表格提取
+    spec_rows: 452
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: untested
+table_type: null
+title: Story Mass Summary Table
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49514136996889-Story-Mass-Summary"
+  retrieved_at: "2026-08-05"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 12
+  examples: 22
+  has_response_head: false
+notes: [通用结果表入口：TABLE_TYPE 必填，由调用方指定（见源手册 Smart Report 说明）]

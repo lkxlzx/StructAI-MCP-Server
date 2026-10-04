@@ -1,0 +1,24 @@
+{
+  "key": "DB.MVHC",
+  "uri": "DB/MVHC",
+  "source": "help_center",
+  "schema": {
+    "MVHC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "VEHICLE_CLS_NAME": {
+          "description": "NameofVehicleClass",
+          "type": "string"
+        },
+        "VEHICLE_LD_NAMES": {
+          "description": "NameofVehicleLoad",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

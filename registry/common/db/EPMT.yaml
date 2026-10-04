@@ -1,0 +1,49 @@
+key: DB.EPMT
+namespace: DB
+uri: /DB/EPMT
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: EPMT
+schema_ref:
+  local: schema/common/db/EPMT.json
+  introspect: info/db/EPMT
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Plastic Material
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35808376517913-Plastic-Material"
+  retrieved_at: "2025-02-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 75
+  examples: 6
+  has_response_head: false
+notes: ["(Masonry)·`\"DM\"`(Concrete Damage)일 때 필요한 `DRUCKER`/`MASONRY`/`CONCDMG` 객체 구조가 통째로 빠져 있었다. 또 Tresca/Von-Mises/Mohr-Coulomb 공통 파라미터 중 `HARDENING_COEF`가 실제로는 **Required**(원문 기준, `OPT_HARDENING`이 기본값 `0`=Activated일 때)인데 이전 버전은 Optional로 잘못 기재했었다. 원문(아티클 id `35808376517913`) 재대조로 전면 보강."]

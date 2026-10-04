@@ -1,0 +1,46 @@
+{
+  "key": "DB.EFCT",
+  "uri": "DB/EFCT",
+  "source": "help_center",
+  "schema": {
+    "EFCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "bADDLC": {
+          "description": "UseAddInitialForcetoElementForce",
+          "type": "boolean"
+        },
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "bUSECOMB": {
+          "description": "UseInitialForceCombination",
+          "type": "boolean"
+        },
+        "COMB_LIST": {
+          "description": "InitialForceCombinationCase",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "bCHECK_GEOM_STIFF": {
+          "description": "ChecktoReflectInitialAxialForcesintoGeometricStiffness",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

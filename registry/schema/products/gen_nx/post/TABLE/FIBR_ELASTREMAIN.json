@@ -1,0 +1,89 @@
+{
+  "key": "POST.TABLE.FIBR_ELASTREMAIN",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "RESULTGRAPHIC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string",
+              "description": "Table Name"
+            },
+            "TABLE_TYPE": {
+              "type": "string",
+              "description": "Result Table Type",
+              "enum": [
+                "THISBEAMFORCE"
+              ]
+            },
+            "EXPORT_PATH": {
+              "type": "string",
+              "description": "Result Table Save Path"
+            },
+            "UNIT": {
+              "type": "object",
+              "description": "Response Unit Setting",
+              "properties": {
+                "FORCE": {
+                  "type": "string",
+                  "description": "Force"
+                },
+                "DIST": {
+                  "type": "string",
+                  "description": "Length"
+                },
+                "HEAT": {
+                  "type": "string",
+                  "description": "Heat"
+                },
+                "TEMP": {
+                  "type": "string",
+                  "description": "Temperature"
+                }
+              }
+            },
+            "STYLES": {
+              "type": "object",
+              "description": "Response Number Format",
+              "properties": {
+                "FORMAT": {
+                  "type": "string",
+                  "description": "Number format",
+                  "enum": [
+                    "Default",
+                    "Fixed",
+                    "Scientific",
+                    "General"
+                  ]
+                },
+                "PLACE": {
+                  "type": "integer",
+                  "description": "Digit place"
+                }
+              }
+            },
+            "COMPONENTS": {
+              "type": "array",
+              "description": "Components of Result Table",
+              "items": {
+                "type": "string"
+              }
+            },
+            "LOAD_CASE_NAMES": {
+              "type": "array",
+              "description": "Time History Load Name",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

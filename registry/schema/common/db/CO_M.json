@@ -1,0 +1,57 @@
+{
+  "key": "DB.CO_M",
+  "uri": "DB/CO_M",
+  "source": "help_center",
+  "schema": {
+    "CO_M": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "W_R": {
+          "description": "WireFrameRed",
+          "type": "integer"
+        },
+        "W_G": {
+          "description": "WireFrameGreen",
+          "type": "integer"
+        },
+        "W_B": {
+          "description": "WireFrameBlue",
+          "type": "integer"
+        },
+        "HF_R": {
+          "description": "HiddenFillRed",
+          "type": "integer"
+        },
+        "HF_G": {
+          "description": "HiddenFillGreen",
+          "type": "integer"
+        },
+        "HF_B": {
+          "description": "HiddenFillBlue",
+          "type": "integer"
+        },
+        "HE_R": {
+          "description": "HiddenEdgeRed",
+          "type": "integer"
+        },
+        "HE_G": {
+          "description": "HiddenEdgeGreen",
+          "type": "integer"
+        },
+        "HE_B": {
+          "description": "HiddenEdgeBlue",
+          "type": "integer"
+        },
+        "bBLEMD": {
+          "description": "OpacityBoolean",
+          "type": "boolean"
+        },
+        "FACT": {
+          "description": "OpacityValue",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WD-TABLE",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WD-TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "enum": [
+              "WID+STORY",
+              "WID"
+            ]
+          },
+          "SELECTIONS": {
+            "type": "array",
+            "description": "List of wall and story selections to include. If omitted or empty, all walls and all stories are included.",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "PRI_SORT": {
+            "type": "integer",
+            "description": "Sorting criteria for WID+STORY output (by WID or Story)",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "Story",
+                "const": 0
+              },
+              {
+                "title": "WID",
+                "const": 1
+              }
+            ]
+          },
+          "PRI_SORT_WID": {
+            "type": "integer",
+            "description": "Sorting criteria for WID output (by Wall Mark or WID)",
+            "default": 1,
+            "oneOf": [
+              {
+                "title": "WallMark",
+                "const": 0
+              },
+              {
+                "title": "WID",
+                "const": 1
+              }
+            ]
+          },
+          "RESULT": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ],
+            "default": 0
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "default": "RC Wall Design Result"
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object"
+          },
+          "STYLES": {
+            "type": "object"
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

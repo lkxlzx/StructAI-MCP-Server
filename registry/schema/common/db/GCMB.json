@@ -1,0 +1,34 @@
+{
+  "key": "DB.GCMB",
+  "uri": "DB/GCMB",
+  "source": "help_center",
+  "schema": {
+    "GCMB": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "bSTART_PT_ZERO": {
+          "description": "StartPtZero",
+          "type": "boolean"
+        },
+        "GCMB_BASE_ITEMS": {
+          "description": "GcmbBaseItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "GRUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "DIRECTION": {
+                "description": "Dir",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

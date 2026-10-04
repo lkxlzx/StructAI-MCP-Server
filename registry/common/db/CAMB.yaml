@@ -1,0 +1,49 @@
+key: DB.CAMB
+namespace: DB
+uri: /DB/CAMB
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: CAMB
+schema_ref:
+  local: schema/common/db/CAMB.json
+  introspect: info/db/CAMB
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["civil-cloud"]
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: FCM Camber Control
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35991862460697-FCM-Camber-Control"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 3
+  examples: 3
+  has_response_head: false

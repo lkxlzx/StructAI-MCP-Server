@@ -1,0 +1,20 @@
+{
+  "key": "DB.CJFG",
+  "uri": "DB/CJFG",
+  "source": "help_center",
+  "schema": {
+    "CJFG": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "GROUPS": {
+          "description": "SetofCurrentJointForceGroup",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

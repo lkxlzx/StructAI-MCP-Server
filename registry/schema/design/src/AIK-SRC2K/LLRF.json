@@ -1,0 +1,130 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.LLRF",
+  "uri": "DESIGN/SRC/AIK-SRC2K/LLRF",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "REDUCTION_DATA"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "CALC_RULE": {
+                "type": "integer",
+                "default": 0,
+                "oneOf": [
+                  {
+                    "title": "by General Design Code",
+                    "const": 0
+                  },
+                  {
+                    "title": "by Chinese Standard",
+                    "const": 1
+                  }
+                ]
+              },
+              "APPLIED_COMP": {
+                "type": "array",
+                "description": "Applied Components Selection",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ALL",
+                    "AXIAL",
+                    "MOMENTS",
+                    "SHEAR"
+                  ]
+                },
+                "default": [
+                  "AXIAL"
+                ]
+              },
+              "LIVE_LOAD_CASES": {
+                "type": "array",
+                "description": "Live Load Case Names (user defined list)",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "REDUCTION_DATA": {
+                "type": "array",
+                "description": "Live Load Reduction Factor Table Data",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "STORY"
+                  ],
+                  "properties": {
+                    "STORY": {
+                      "type": "string",
+                      "description": "Story Name"
+                    },
+                    "XMIN": {
+                      "type": "number",
+                      "default": 0,
+                      "description": "X Min coordinate"
+                    },
+                    "XMAX": {
+                      "type": "number",
+                      "default": 0,
+                      "description": "X Max coordinate"
+                    },
+                    "YMIN": {
+                      "type": "number",
+                      "default": 0,
+                      "description": "Y Min coordinate"
+                    },
+                    "YMAX": {
+                      "type": "number",
+                      "default": 0,
+                      "description": "Y Max coordinate"
+                    },
+                    "RANGE_MAX": {
+                      "type": "number",
+                      "description": "Range Max value (only for General Design Code)",
+                      "enum": [
+                        1,
+                        0.95,
+                        0.9,
+                        0.85,
+                        0.8,
+                        "...(전체 11개)"
+                      ],
+                      "default": 1
+                    },
+                    "RANGE_MIN": {
+                      "type": "number",
+                      "description": "Range Min value (only for General Design Code)",
+                      "enum": [
+                        1,
+                        0.95,
+                        0.9,
+                        0.85,
+                        0.8,
+                        "...(전체 11개)"
+                      ],
+                      "default": 0.5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "key": "DB.MVLDCH",
+  "uri": "DB/MVLDCH",
+  "source": "help_center",
+  "schema": {
+    "MVLDCH": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "OPT_AUTO_OPTIMIZE": {
+          "description": "MovingLoadOptimizationBoolean",
+          "type": "boolean"
+        },
+        "BRIDGE_TYPE": {
+          "description": "BridgeType",
+          "type": "integer"
+        },
+        "SCALE_FACTOR_O": {
+          "description": "ScaleFactors-OldUrbanBridge",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "SCALE_FACTOR_N": {
+          "description": "ScaleFactors-Highway/NewUrbanBridge",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "SCALE_FACTOR_JTG": {
+          "description": "ScaleFactors-JTGB01-2014",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "MIN_VEHICLE_DIST": {
+          "description": "Min.VehicleDistance",
+          "type": "integer"
+        },
+        "LOADED_LANE_NAME": {
+          "description": "LoadedLaneName",
+          "type": "string"
+        },
+        "MIN_NUM_VEHICLE": {
+          "description": "Min.NumberofVehicle",
+          "type": "integer"
+        },
+        "MAX_NUM_VEHICLE": {
+          "description": "Max.NumberofVehicle",
+          "type": "integer"
+        },
+        "LOADING_EFFECT": {
+          "description": "LoadingEffect-Combined/Independent",
+          "type": "integer"
+        },
+        "SUB_LOAD_ITEMS": {
+          "description": "SubLoadItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VEHICLE_CLASS": {
+                "description": "VehicleClass",
+                "type": "string"
+              },
+              "VEHICLE_TYPE": {
+                "description": "VehicleType",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              },
+              "MIN_NUM_LOADED_LANES": {
+                "description": "Min.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "MAX_NUM_LOADED_LANES": {
+                "description": "Max.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "SELECTED_LANES": {
+                "description": "SelectedLanes",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "AUTO_OPTIMIZE_ITEMS": {
+          "description": "AutoOptimizeItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VEHICLE_NAME": {
+                "description": "VehicleName",
+                "type": "string"
+              },
+              "VEHICLE_TYPE": {
+                "description": "VehicleType",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              },
+              "MIN_NUM_LOADED_LANES": {
+                "description": "Min.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "MAX_NUM_LOADED_LANES": {
+                "description": "Max.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "SELECTED_LANES": {
+                "description": "SelectedLanes",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "AUTO_OPTIMIZE": {
+                "description": "AutoOptimize",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

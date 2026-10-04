@@ -1,0 +1,58 @@
+{
+  "key": "DB.PSLT",
+  "uri": "DB/PSLT",
+  "source": "help_center",
+  "schema": {
+    "PSLT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "ELEM_TYPE": {
+          "description": "ElemType",
+          "type": "string"
+        },
+        "PRESSURE_LOAD_ITEMS": {
+          "description": "PressureLoadItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LOADCASENAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "LOADTYPE": {
+                "description": "LoadType",
+                "type": "string"
+              },
+              "LOAD_P1": {
+                "description": "dLoadP1",
+                "type": "number"
+              },
+              "LOAD_P2": {
+                "description": "dLoadP2",
+                "type": "number"
+              },
+              "LOAD_P3": {
+                "description": "dLoadP3",
+                "type": "number"
+              },
+              "LOAD_P4": {
+                "description": "dLoadP4",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

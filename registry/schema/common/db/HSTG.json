@@ -1,0 +1,87 @@
+{
+  "key": "DB.HSTG",
+  "uri": "DB/HSTG",
+  "source": "help_center",
+  "schema": {
+    "HSTG": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "HydrationStageName",
+          "type": "string"
+        },
+        "bINITAL_TEMP": {
+          "description": "UsedInitialTemperature",
+          "type": "boolean"
+        },
+        "INITIAL_TEMP": {
+          "description": "InitialTemperature",
+          "type": "number"
+        },
+        "ADD_STEP": {
+          "description": "AdditionalStep",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "ACT_ELEM": {
+          "description": "ActivationElementGroupList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ACT_BNGR": {
+          "description": "ActivationBoundaryGroupList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "DACT_BNGR": {
+          "description": "DeactivationBoundaryGroupList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ACT_LOAD": {
+          "description": "ActivationLoadGroupList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LOAD_NAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "DAY": {
+                "description": "ACTORDACTday",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "DACT_LOAD": {
+          "description": "DeactivationLoadGroupList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LOAD_NAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "DAY": {
+                "description": "ACTORDACTday",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

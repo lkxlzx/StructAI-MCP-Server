@@ -1,0 +1,49 @@
+key: "DB.THGC-M1"
+namespace: DB
+uri: "/DB/THGC-M1"
+methods: [GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "THGC-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/THGC-M1.json"
+  introspect: "info/db/THGC-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Time History Global Control
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56510942223513-Time-History-Global-Control"
+  retrieved_at: "2026-05-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 52
+  examples: 1
+  has_response_head: false
+notes: ["표기해 실제 의미(둘 다 0/1 enum — 비선형 특성 적용 여부)와 기본값이 누락돼 있었음. 원문 [Time History Global Control (THGC-M1)](https://support.midasuser.com/hc/en-us/articles/56510942223513) 기준으로 정정."]

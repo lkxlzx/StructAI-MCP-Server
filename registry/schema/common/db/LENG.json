@@ -1,0 +1,37 @@
+{
+  "key": "DB.LENG",
+  "uri": "DB/LENG",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "LY": {
+          "description": "UnbracedLengthLy",
+          "type": "number"
+        },
+        "LZ": {
+          "description": "UnbracedLengthLz",
+          "type": "number"
+        },
+        "LB": {
+          "description": "LaterallyUnbracedLength",
+          "type": "number"
+        },
+        "bNOTUSE": {
+          "description": "Donotconsider",
+          "type": "boolean"
+        },
+        "bAUTOCALC": {
+          "description": "CalculatebyCode",
+          "type": "boolean"
+        },
+        "LT": {
+          "description": "TorsionalUnbracedLength",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

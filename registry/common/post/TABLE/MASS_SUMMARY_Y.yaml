@@ -1,0 +1,39 @@
+key: POST.TABLE.MASS_SUMMARY_Y
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/MASS_SUMMARY_Y.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: MASS_SUMMARY_Y
+title: Mass Summary Table
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36007577052441-Mass-Summary-Table"
+  retrieved_at: "2025-03-31"
+  provenance: [help_center]
+stats:
+  spec_rows: 3
+  examples: 6
+  has_response_head: false

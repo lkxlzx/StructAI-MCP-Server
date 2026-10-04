@@ -1,0 +1,126 @@
+﻿uri,method,english_name,korean_hint,chinese_name(非官方译名),terminology_basis(术语依据),source_file
+DESIGN/STEEL/DSTL,GET,Design Code,강재 설계 코드 선택,设计代码,直译；MIDAS 术语（设计规范选择）,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/DCO,GET,Design Code Option,설계 코드 옵션,设计代码选项,直译；MIDAS「设计规范选项」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/DCTL,GET,Definition of Frame,프레임 정의,框架定义,直译；MIDAS DCTL 功能名（定义参与设计的框架构件）,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/LLRF,GET,Live Load Reduction Factor,활하중 저감계수,活荷载折减系数,GB 50009 术语「活荷载折减系数」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/LCTB,GET,Load Contribution for Nonlinear Load Case,비선형 하중케이스 하중기여,非线性荷载工况荷载贡献,直译；MIDAS 非线性荷载工况的荷载贡献,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/SRDF,GET,Strength Reduction Factors,강도감소계수 φ,强度折减系数,GB 50017 抗力分项/强度折减系数（φ）,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/SERV,POST,Serviceability Parameters,사용성 파라미터,适用性参数,GB 50010「正常使用极限状态」对应术语，此处按 Serviceability 直译为适用性,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/EQCT,POST,Seismic Load Combination Type,지진하중 조합 타입,地震荷载组合类型,GB 50011 地震作用组合术语,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/ULCT,POST,Underground Load Combination Type,지하 하중조합 타입,地下结构荷载组合类型,GB 50011 地下结构地震作用组合,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/SUEQ,POST,Scale up Factor for Earthquake,지진 증폭계수,地震放大系数,直译；韩文 원문「지진 스케일업 계수」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CRCM,POST,Combined Ratio Calculation Method for Circular Section,원형단면 조합비 계산법,圆截面组合比计算方法,直译；MIDAS 钢材「组合比(Combined Ratio)」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/HCBM,POST,Haunched Beam Assignment,헌치 보 배정,加腋梁指定,GB 50017 术语「加腋梁」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/LENG,POST,Unbraced Length,"비지지 길이 L, Lb",无支撑长度,GB 50017 术语「侧向无支撑长度(Lb)」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/KFAC,POST,Effective Length Factor,유효좌굴길이계수 K,计算长度系数（K）,GB 50017 术语「计算长度系数」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/LTSR,POST,Limiting Slenderness Ratio,세장비 제한,长细比限值,GB 50017 术语「容许长细比」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CMFT,POST,Equivalent Moment Correction Factor,등가모멘트 보정계수 Cm,等效弯矩系数（Cm）,GB 50017 术语「等效弯矩系数(Cm)」（原译为「修正系数」，已按规范统一）,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/FMAG,POST,Moment Magnifier,"모멘트 증폭계수 B1/Δb, B2/Δs",弯矩放大系数,GB 50017 二阶效应术语「弯矩放大系数(B1/B2)」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CBFT,POST,Bending Coefficient,휨계수 Cb,弯曲系数（Cb）,AISC/GB 对应「弯矩系数(Cb)」，此处按英文直译「弯曲系数」以区别于 Cm,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/MBTP,POST,Modify Member Type,부재 타입 수정,修改构件类型,直译；MIDAS 设计构件类型修改（MBTP）,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/SLRS,POST,Seismic Load Resisting System by Member,부재별 내진 저항시스템,按构件的抗震抗侧力体系,GB 50011 术语「抗侧力体系」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/MLLR,POST,Modify Live Load Reduction Factor,활하중 저감계수 수정,修改活荷载折减系数,GB 50009 术语「活荷载折减系数」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/MEMB,GET,Member Assignment,설계 부재 배정,设计构件指定,直译；MIDAS 设计构件指定,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/SMODI,GET,Modify Steel Material,강재 재질 수정,修改钢材材质,GB 50017 术语「钢材牌号/材质」,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL,POST,Steel Code Check Perform,강재 코드 검토 수행,钢构件规范校核（执行）,GB 50017「钢结构规范校核」；Perform=执行,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE,POST,Steel Code Check Table,강재 코드 검토 표,钢构件规范校核表,GB 50017「钢结构规范校核」；Table=表,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/CODE-REPORT,POST,Steel Code Check Report,강재 코드 검토 보고서,钢构件规范校核报告,GB 50017「钢结构规范校核」；Report=报告,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/DREULT,POST,Steel Design Result,강재 설계 결과 이미지,钢结构设计结果,直译；MIDAS DREULT 返回设计结果图,25_Design_Steel_KDS41302022.md
+DESIGN/STEEL/KDS-41-30-2022/TABLE,POST,Steel Member Design Forces,강재 부재 설계 부재력,钢构件设计内力,GB 50017 术语「构件设计内力」,25_Design_Steel_KDS41302022.md
+DESIGN/RC/DRC,GET,RC Design Code,RC 설계 코드 선택,RC 设计代码,RC=钢筋混凝土（GB 50010）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCO,GET,Concrete Design Code Option,콘크리트 설계 코드 옵션,混凝土设计代码选项,GB 50010 混凝土设计规范,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCTL,GET,Definition of Frame,프레임 정의,框架定义,直译；MIDAS DCTL 功能名（定义参与设计的框架构件）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/LLRF,GET,Live Load Reduction Factor,활하중 저감계수,活荷载折减系数,GB 50009 术语「活荷载折减系数」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/LCTB,GET,Load Contribution for Nonlinear Load Case,비선형 하중케이스 하중기여,非线性荷载工况荷载贡献,直译；MIDAS 非线性荷载工况的荷载贡献,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/SRDF,GET,Strength Reduction Factors,강도감소계수,强度折减系数,GB 50017 抗力分项/强度折减系数（φ）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/EQCT,POST,Seismic Load Combination Type,지진 하중조합 타입,地震荷载组合类型,GB 50011 地震作用组合术语,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/ULCT,POST,Underground Load Combination Type,지하 하중조합 타입,地下结构荷载组合类型,GB 50011 地下结构地震作用组合,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/SUEQ,POST,Scale up Factor for Earthquake,지진 스케일업 계수,地震放大系数,直译；韩文 원문「지진 스케일업 계수」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/SDGN,POST,Seismic Design Type,내진 설계 타입,抗震设计类型,GB 50011 抗震设计,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/SCOL,POST,Seismic Column Type,내진 기둥 타입,抗震柱类型,GB 50011 抗震柱（普通/特殊）分类,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MBTP,POST,Modify Member Type,부재 타입 수정,修改构件类型,直译；MIDAS 设计构件类型修改（MBTP）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MEMB,GET,Member Assignment,부재 배정,设计构件指定,直译；MIDAS 设计构件指定,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MATD,GET,Modify Concrete Material,콘크리트 재료 수정,修改混凝土材料,GB 50010 混凝土材料,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/LENG,POST,Unbraced Length,"L, Lb) (비지지 길이",无支撑长度,GB 50017 术语「侧向无支撑长度(Lb)」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/KFAC,POST,Effective Length Factor,K) (유효좌굴길이계수,计算长度系数（K）,GB 50017 术语「计算长度系数」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CMFT,POST,Equivalent Moment Correction Factor,Cm) (등가모멘트 보정계수,等效弯矩系数（Cm）,GB 50017 术语「等效弯矩系数(Cm)」（原译为「修正系数」，已按规范统一）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/FMAG,POST,Moment Magnifier,"B1/Delta_b, B2/Delta_s) (모멘트 확대계수",弯矩放大系数,GB 50017 二阶效应术语「弯矩放大系数(B1/B2)」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MLLR,POST,Modify Live Load Reduction Factor,활하중 저감계수 수정,修改活荷载折减系数,GB 50009 术语「活荷载折减系数」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/HCBM,POST,Haunched Beam Assignment,헌치보 배정,加腋梁指定,GB 50017 术语「加腋梁」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MRFT,POST,Moment Redistribution Factor,모멘트 재분배 계수,弯矩调幅系数,GB 50010 术语「弯矩调幅系数」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/TRFT,POST,Torsion Reduction Factor,비틀림 감소계수,扭矩折减系数,GB 50010 受扭构件扭矩折减,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/MCMB,POST,Moment Calculation Method for Beam,보 모멘트 산정 방법,梁弯矩计算方法,直译；MIDAS 梁弯矩计算方法（MCMB）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DFBA,POST,Design Force for Beam Assigned as Member,부재 배정된 보 설계력,按构件指定的梁设计内力,GB 50017 术语「设计内力」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/PMDM,POST,P-M Curve Calculation Method,P-M 곡선 산정 방법,P-M 曲线计算方法,P-M 为标准写法（轴力-弯矩相关曲线）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WMAK,POST,Modify Wall Mark Data,벽체 마크 데이터 수정,修改墙体标记数据,直译；MIDAS 墙编号(Wall Mark),26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BEMW,POST,Boundary Element Method by Wall ID,벽체ID별 경계요소법,按墙体 ID 的边缘构件法,GB 50011 术语「边缘构件」（非数值方法 BEM）,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/REXC,POST,Rebar Exposure Condition,철근 노출 조건,钢筋暴露条件,ACI/GB 环境类别对应「暴露条件」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/LMRR,GET,Limiting Maximum Rebar Ratio,최대 철근비 제한,最大配筋率限值,GB 50010 术语「最大配筋率」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCRM-BEAM,POST,Design Criteria for Rebars by Beam Member,보 부재별 철근 설계기준,按梁构件的钢筋设计准则,GB 50010 术语「设计准则/构造规定」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN,POST,Design Criteria for Rebars by Column Member,기둥 부재별 철근 설계기준,按柱构件的钢筋设计准则,GB 50010 术语「设计准则/构造规定」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCRM-BRACE,POST,Design Criteria for Rebars by Brace Member,가새 부재별 철근 설계기준,按支撑构件的钢筋设计准则,GB 50010 术语「设计准则/构造规定」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCRM-WALL,POST,Design Criteria for Rebars by Wall Member,벽체 부재별 철근 설계기준,按墙构件的钢筋设计准则,GB 50010 术语「设计准则/构造规定」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCRE,POST,Design Criteria for Rebar,철근 설계기준,钢筋设计准则,GB 50010 术语「设计准则/构造规定」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/DCREM,POST,Same Beam Rebar at Joints,접합부 보 철근 동일화,节点处梁钢筋统一,直译；韩文「접합부 보 철근 동일화」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/REBB,POST,Modify Beam Rebar Data,보 철근 데이터 수정,修改梁钢筋数据,GB 50010 术语「钢筋」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/REBC,POST,Modify Column Rebar Data,기둥 철근 데이터 수정,修改柱钢筋数据,GB 50010 术语「钢筋」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/REBW,POST,Modify Wall Rebar Data,벽체 철근 데이터 수정,修改墙钢筋数据,GB 50010 术语「钢筋」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/REBR,POST,Modify Brace Rebar Data,가새 철근 데이터 수정,修改支撑钢筋数据,GB 50010 术语「钢筋」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BD-ANAL,POST,RC Beam Design Perform,RC 보 설계 수행,RC 梁设计（执行）,GB 50010；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BD-TABLE,POST,RC Beam Design Table,RC 보 설계 테이블,RC 梁设计表,GB 50010；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BD-REPORT,POST,RC Beam Design Report,RC 보 설계 리포트,RC 梁设计报告,GB 50010；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CD-ANAL,POST,RC Column Design Perform,RC 기둥 설계 수행,RC 柱设计（执行）,GB 50010；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CD-TABLE,POST,RC Column Design Table,RC 기둥 설계 테이블,RC 柱设计表,GB 50010；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CD-REPORT,POST,RC Column Design Report,RC 기둥 설계 리포트,RC 柱设计报告,GB 50010；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRD-ANAL,POST,RC Brace Design Perform,RC 가새 설계 수행,RC 支撑设计（执行）,GB 50010；支撑=brace,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRD-TABLE,POST,RC Brace Design Table,RC 가새 설계 테이블,RC 支撑设计表,GB 50010；支撑=brace,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRD-REPORT,POST,RC Brace Design Report,RC 가새 설계 리포트,RC 支撑设计报告,GB 50010；支撑=brace,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WD-ANAL,POST,RC Wall Design Perform,RC 벽체 설계 수행,RC 墙设计（执行）,GB 50010；墙=wall,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WD-TABLE,POST,RC Wall Design Table,RC 벽체 설계 테이블,RC 墙设计表,GB 50010；墙=wall,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WD-REPORT,POST,RC Wall Design Report,RC 벽체 설계 리포트,RC 墙设计报告,GB 50010；墙=wall,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/HCD-ANAL,POST,RC Haunched Beam Design Perform,RC 헌치보 설계 수행,RC 加腋梁设计（执行）,GB 50017「加腋梁」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/HCD-TABLE,POST,RC Haunched Beam Design Table,RC 헌치보 설계 테이블,RC 加腋梁设计表,GB 50017「加腋梁」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/HCD-REPORT,POST,RC Haunched Beam Design Report,RC 헌치보 설계 리포트,RC 加腋梁设计报告,GB 50017「加腋梁」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BC-ANAL,POST,RC Beam Check Perform,RC 보 검토 수행,RC 梁校核（执行）,GB 50010 校核（check）；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BC-TABLE,POST,RC Beam Check Table,RC 보 검토 테이블,RC 梁校核表,GB 50010 校核；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BC-REPORT,POST,RC Beam Check Report,RC 보 검토 리포트,RC 梁校核报告,GB 50010 校核；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CC-ANAL,POST,RC Column Check Perform,RC 기둥 검토 수행,RC 柱校核（执行）,GB 50010 校核；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CC-TABLE,POST,RC Column Check Table,RC 기둥 검토 테이블,RC 柱校核表,GB 50010 校核；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CC-REPORT,POST,RC Column Check Report,RC 기둥 검토 리포트,RC 柱校核报告,GB 50010 校核；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRC-ANAL,POST,RC Brace Check Perform,RC 가새 검토 수행,RC 支撑校核（执行）,GB 50010 校核；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRC-TABLE,POST,RC Brace Check Table,RC 가새 검토 테이블,RC 支撑校核表,GB 50010 校核；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/BRC-REPORT,POST,RC Brace Check Report,RC 가새 검토 리포트,RC 支撑校核报告,GB 50010 校核；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WC-ANAL,POST,RC Wall Check Perform,RC 벽체 검토 수행,RC 墙校核（执行）,GB 50010 校核；Perform=执行,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WC-TABLE,POST,RC Wall Check Table,RC 벽체 검토 테이블,RC 墙校核表,GB 50010 校核；Table=表,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/WC-REPORT,POST,RC Wall Check Report,RC 벽체 검토 리포트,RC 墙校核报告,GB 50010 校核；Report=报告,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/CDESIGN,POST,RC Concrete Design Result,RC 콘크리트 종합 설계 결과,RC 混凝土综合设计结果,韩文「종합 설계 결과」=综合设计结果,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/TABLE,POST,Column Design Forces,기둥 설계력,柱设计内力,GB 50010 术语「设计内力」,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/TABLE,POST,Brace Design Forces,가새 설계력,支撑设计内力,GB 50010 术语「设计内力」；支撑=brace,26_Design_RC_KDS41202022.md
+DESIGN/RC/KDS-41-20-2022/TABLE,POST,Beam Design Forces,보 설계력,梁设计内力,GB 50010 术语「设计内力」,26_Design_RC_KDS41202022.md
+DESIGN/SRC/AIK-SRC2K/DSRC,PUT,SRC Design Code,SRC 설계 코드,SRC 设计代码,SRC=型钢混凝土（JGJ 138）,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/DCO,PUT,Design Code Option,설계 코드 옵션,设计代码选项,直译；MIDAS「设计规范选项」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/DCTL,GET,Definition of Frame,프레임 정의,框架定义,直译；MIDAS DCTL 功能名（定义参与设计的框架构件）,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/LLRF,GET,Live Load Reduction Factor,활하중 저감계수,活荷载折减系数,GB 50009 术语「活荷载折减系数」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/LCTB,GET,Load Contribution for Nonlinear Load Case,비선형 하중케이스 하중기여,非线性荷载工况荷载贡献,直译；MIDAS 非线性荷载工况的荷载贡献,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/LENG,POST,Unbraced Length,"L, Lb) (비지지 길이",无支撑长度,GB 50017 术语「侧向无支撑长度(Lb)」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/KFAC,POST,Effective Length Factor,K) (유효좌굴길이계수,计算长度系数（K）,GB 50017 术语「计算长度系数」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/LTSR,POST,Limiting Slenderness Ratio,세장비 제한,长细比限值,GB 50017 术语「容许长细比」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/CMFT,POST,Equivalent Moment Correction Factor,Cm) (등가모멘트 보정계수,等效弯矩系数（Cm）,GB 50017 术语「等效弯矩系数(Cm)」（原译为「修正系数」，已按规范统一）,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/FMAG,POST,Moment Magnifier,"B1/Delta_b, B2/Delta_s) (모멘트 확대계수",弯矩放大系数,GB 50017 二阶效应术语「弯矩放大系数(B1/B2)」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MLLR,POST,Modify Live Load Reduction Factor,활하중 저감계수 수정,修改活荷载折减系数,GB 50009 术语「活荷载折减系数」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/SUEQ,POST,Scale up Factor for Earthquake,지진 스케일업 계수,地震放大系数,直译；韩文 원문「지진 스케일업 계수」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MBTP,POST,Modify Member Type,부재 타입 수정,修改构件类型,直译；MIDAS 设计构件类型修改（MBTP）,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/EQCT,POST,Seismic Load Combination Type,지진 하중조합 타입,地震荷载组合类型,GB 50011 地震作用组合术语,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/BC-ANAL,POST,SRC Beam Checking Perform,SRC 보 검토 수행,SRC 梁校核（执行）,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/BC-TABLE,POST,SRC Beam Checking Table,SRC 보 검토 테이블,SRC 梁校核表,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/BC-REPORT,POST,SRC Beam Checking Report,SRC 보 검토 리포트,SRC 梁校核报告,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/CC-ANAL,POST,SRC Column Checking Perform,SRC 기둥 검토 수행,SRC 柱校核（执行）,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/CC-TABLE,POST,SRC Column Checking Table,SRC 기둥 검토 테이블,SRC 柱校核表,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/CC-REPORT,POST,SRC Column Checking Report,SRC 기둥 검토 리포트,SRC 柱校核报告,JGJ 138 型钢混凝土；Checking=校核,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/OCHECK,POST,SRC Optimal Design,SRC 최적 설계,SRC 优化设计,JGJ 138；Optimal=优化,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/TABLE,POST,SRC Beam Design Forces,SRC 보 설계력,SRC 梁设计内力,JGJ 138 术语「设计内力」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/TABLE,POST,SRC Column Design Forces,SRC 기둥 설계력,SRC 柱设计内力,JGJ 138 术语「设计内力」,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MATD,GET,Modify SRC Material,SRC 재료 수정,修改 SRC 材料,JGJ 138 材料,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MCRD,POST,Modify SRC Column Section Data,SRC 기둥 단면 데이터 수정,修改 SRC 柱截面数据,JGJ 138 截面数据,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MEMB,GET,Member Assignment,부재 배정,设计构件指定,直译；MIDAS 设计构件指定,27_Design_SRC_AIKSRC2K.md
+DESIGN/SRC/AIK-SRC2K/MRBD,POST,Modify SRC Beam Section Data,SRC 보 단면 데이터 수정,修改 SRC 梁截面数据,JGJ 138 截面数据,27_Design_SRC_AIKSRC2K.md

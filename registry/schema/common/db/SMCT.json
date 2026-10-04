@@ -1,0 +1,21 @@
+{
+  "key": "DB.SMCT",
+  "uri": "DB/SMCT",
+  "source": "help_center",
+  "schema": {
+    "SMCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "CONCURRENT_CALC": {
+          "description": "ConcurrentCalcBoolean",
+          "type": "boolean"
+        },
+        "CONCURRENT_LINK": {
+          "description": "ConcurrentLinkBoolean",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,444 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.MATD",
+  "uri": "DESIGN/SRC/AIK-SRC2K/MATD",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a material ID string (e.g., \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "STEEL",
+              "CONCRETE",
+              "REINFORCEMENT"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "STEEL": {
+                "type": "object",
+                "description": "Steel material selection.",
+                "required": [
+                  "CODE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "CODE": {
+                    "type": "string",
+                    "description": "Steel material code type.",
+                    "oneOf": [
+                      {
+                        "const": "None",
+                        "title": "None"
+                      },
+                      {
+                        "const": "Standard",
+                        "title": "Standard"
+                      }
+                    ]
+                  },
+                  "STANDARD_CODE": {
+                    "type": "string",
+                    "description": "Steel standard code when CODE is Standard. Currently only KS22(S) is supported.",
+                    "oneOf": [
+                      {
+                        "const": "KS22(S)",
+                        "title": "KS22(S)"
+                      }
+                    ]
+                  },
+                  "GRADE": {
+                    "type": "string",
+                    "description": "Steel grade when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "SS235",
+                        "title": "SS235"
+                      },
+                      {
+                        "const": "SS275",
+                        "title": "SS275"
+                      },
+                      {
+                        "const": "SS315",
+                        "title": "SS315"
+                      },
+                      {
+                        "const": "SS410",
+                        "title": "SS410"
+                      },
+                      {
+                        "const": "SS450",
+                        "title": "SS450"
+                      },
+                      "...(전체 68개)"
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string",
+                    "description": "User-defined steel material name when CODE is None."
+                  },
+                  "ES": {
+                    "type": "number",
+                    "description": "Modulus of Elasticity. User input when CODE is None. Auto-filled when CODE is Standard."
+                  },
+                  "FU": {
+                    "type": "number",
+                    "description": "Tensile Strength. User input when CODE is None. Auto-filled when CODE is Standard."
+                  },
+                  "FY": {
+                    "type": "number",
+                    "description": "Yield Strength for CODE=None."
+                  },
+                  "FY1": {
+                    "type": "number",
+                    "description": "Yield Strength Fy1. Auto-filled when CODE is Standard."
+                  },
+                  "FY2": {
+                    "type": "number",
+                    "description": "Yield Strength Fy2. Auto-filled when CODE is Standard."
+                  },
+                  "FY3": {
+                    "type": "number",
+                    "description": "Yield Strength Fy3. Auto-filled when CODE is Standard."
+                  },
+                  "FY4": {
+                    "type": "number",
+                    "description": "Yield Strength Fy4. Auto-filled when CODE is Standard."
+                  },
+                  "FY5": {
+                    "type": "number",
+                    "description": "Yield Strength Fy5. Auto-filled when CODE is Standard."
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "None"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "NAME",
+                        "ES",
+                        "FU",
+                        "FY"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "Standard"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "STANDARD_CODE",
+                        "GRADE"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "CONCRETE": {
+                "type": "object",
+                "description": "Concrete material selection.",
+                "required": [
+                  "CODE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "CODE": {
+                    "type": "string",
+                    "description": "Concrete material code type.",
+                    "oneOf": [
+                      {
+                        "const": "None",
+                        "title": "None"
+                      },
+                      {
+                        "const": "Standard",
+                        "title": "Standard"
+                      }
+                    ]
+                  },
+                  "STANDARD_CODE": {
+                    "type": "string",
+                    "description": "Concrete standard code when CODE is Standard. Currently only KS19(RC) is supported.",
+                    "oneOf": [
+                      {
+                        "const": "KS19(RC)",
+                        "title": "KS19(RC)"
+                      }
+                    ]
+                  },
+                  "NAME": {
+                    "type": "string",
+                    "description": "User-defined concrete material name when CODE is None."
+                  },
+                  "GRADE": {
+                    "type": "string",
+                    "description": "Concrete grade when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "C15",
+                        "title": "C15"
+                      },
+                      {
+                        "const": "C18",
+                        "title": "C18"
+                      },
+                      {
+                        "const": "C21",
+                        "title": "C21"
+                      },
+                      {
+                        "const": "C24",
+                        "title": "C24"
+                      },
+                      {
+                        "const": "C27",
+                        "title": "C27"
+                      },
+                      "...(전체 20개)"
+                    ]
+                  },
+                  "FC": {
+                    "type": "number",
+                    "description": "Specified Compressive Strength. User input when CODE is None. Auto-filled when CODE is Standard."
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "None"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "NAME",
+                        "FC"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "Standard"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "STANDARD_CODE",
+                        "GRADE"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "REINFORCEMENT": {
+                "type": "object",
+                "description": "Reinforcement material selection.",
+                "required": [
+                  "CODE"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "CODE": {
+                    "type": "string",
+                    "description": "Reinforcement code type.",
+                    "oneOf": [
+                      {
+                        "const": "None",
+                        "title": "None"
+                      },
+                      {
+                        "const": "Standard",
+                        "title": "Standard"
+                      }
+                    ]
+                  },
+                  "STANDARD_CODE": {
+                    "type": "string",
+                    "description": "Reinforcement standard code when CODE is Standard. Currently only KS19(RC) is supported.",
+                    "oneOf": [
+                      {
+                        "const": "KS19(RC)",
+                        "title": "KS19(RC)"
+                      }
+                    ]
+                  },
+                  "MAIN_REBAR_NAME": {
+                    "type": "string",
+                    "description": "User-defined main rebar name when CODE is None."
+                  },
+                  "MAIN_REBAR_GRADE": {
+                    "type": "string",
+                    "description": "Grade of main rebar when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "SD300",
+                        "title": "SD300"
+                      },
+                      {
+                        "const": "SD400",
+                        "title": "SD400"
+                      },
+                      {
+                        "const": "SD500",
+                        "title": "SD500"
+                      },
+                      {
+                        "const": "SD600",
+                        "title": "SD600"
+                      },
+                      {
+                        "const": "SD700",
+                        "title": "SD700"
+                      },
+                      {
+                        "const": "SD400S",
+                        "title": "SD400S"
+                      },
+                      {
+                        "const": "SD500S",
+                        "title": "SD500S"
+                      },
+                      {
+                        "const": "SD600S",
+                        "title": "SD600S"
+                      }
+                    ]
+                  },
+                  "FYR": {
+                    "type": "number",
+                    "description": "Yield Strength of main rebar. User input when CODE is None. Auto-filled when CODE is Standard."
+                  },
+                  "SUB_REBAR_NAME": {
+                    "type": "string",
+                    "description": "User-defined sub-rebar name when CODE is None."
+                  },
+                  "SUB_REBAR_GRADE": {
+                    "type": "string",
+                    "description": "Grade of sub-rebar when CODE is Standard.",
+                    "oneOf": [
+                      {
+                        "const": "SD300",
+                        "title": "SD300"
+                      },
+                      {
+                        "const": "SD400",
+                        "title": "SD400"
+                      },
+                      {
+                        "const": "SD500",
+                        "title": "SD500"
+                      },
+                      {
+                        "const": "SD600",
+                        "title": "SD600"
+                      },
+                      {
+                        "const": "SD700",
+                        "title": "SD700"
+                      },
+                      {
+                        "const": "SD400S",
+                        "title": "SD400S"
+                      },
+                      {
+                        "const": "SD500S",
+                        "title": "SD500S"
+                      },
+                      {
+                        "const": "SD600S",
+                        "title": "SD600S"
+                      }
+                    ]
+                  },
+                  "FYS": {
+                    "type": "number",
+                    "description": "Yield Strength of sub-rebar. User input when CODE is None. Auto-filled when CODE is Standard."
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "None"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "MAIN_REBAR_NAME",
+                        "FYR",
+                        "SUB_REBAR_NAME",
+                        "FYS"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "CODE": {
+                          "const": "Standard"
+                        }
+                      },
+                      "required": [
+                        "CODE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "STANDARD_CODE",
+                        "MAIN_REBAR_GRADE",
+                        "SUB_REBAR_GRADE"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

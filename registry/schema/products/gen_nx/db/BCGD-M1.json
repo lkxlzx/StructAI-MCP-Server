@@ -1,0 +1,50 @@
+{
+  "key": "DB.BCGD-M1",
+  "uri": "DB/BCGD-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "The key is a string (e.g. \"1\"), and each item is a Boundary Group Combination object (`DTO_BCGD_M1`).",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "BCG_NAME",
+                "GROUP_LIST"
+              ],
+              "properties": {
+                "BCG_NAME": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 20,
+                  "description": "Name (1~20자, 모델 내 유일)"
+                },
+                "GROUP_LIST": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": "Select Boundary Group (체크된 항목의 이름 배열. 중복 서버 측 자동 제거)"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

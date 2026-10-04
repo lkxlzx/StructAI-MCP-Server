@@ -1,0 +1,132 @@
+{
+  "key": "DB.REBR",
+  "uri": "DB/REBR",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "키는 단면 번호 문자열 (예: \"1\")",
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "CREATE_SUB_SECTION": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "ID": {
+                      "type": "integer",
+                      "description": "read only"
+                    },
+                    "ELEMS": {
+                      "type": "object",
+                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
+                      "properties": {
+                        "KEYS": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "TO": {
+                          "type": "string"
+                        },
+                        "STRUCTURE_GROUP_NAME": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "MAIN_BAR": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "NUM": {
+                          "type": "integer",
+                          "description": "min 4"
+                        },
+                        "ROW": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_END": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "LEG_Y": {
+                          "type": "integer"
+                        },
+                        "LEG_Z": {
+                          "type": "integer"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_CEN": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "LEG_Y": {
+                          "type": "integer"
+                        },
+                        "LEG_Z": {
+                          "type": "integer"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "DO": {
+                      "type": "number",
+                      "description": "Concrete face to center of rebar"
+                    },
+                    "HOOP_TYPE": {
+                      "type": "string",
+                      "default": "Ties",
+                      "oneOf": [
+                        {
+                          "title": "Ties",
+                          "const": "Ties"
+                        },
+                        {
+                          "title": "Spirals",
+                          "const": "Spirals"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

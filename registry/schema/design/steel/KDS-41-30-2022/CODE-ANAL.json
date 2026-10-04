@@ -1,0 +1,140 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Execute design calculation",
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "PERFORM_TYPE": {
+            "type": "string",
+            "description": "Select target type for design calculation.",
+            "oneOf": [
+              {
+                "title": "All Elements",
+                "const": "ALL"
+              },
+              {
+                "title": "By Element No.",
+                "const": "ELEMS"
+              },
+              {
+                "title": "By Section No.",
+                "const": "SECTIONS"
+              }
+            ],
+            "default": "ALL"
+          },
+          "ELEMS": {
+            "type": "object",
+            "description": "Element No. Input.",
+            "additionalProperties": false,
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "description": "Specify Each ID",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify ID Range (e.g., '1to160')"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify Structure Group Name"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "KEYS"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "TO"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STRUCTURE_GROUP_NAME"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "STRUCTURE_GROUP_NAME"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "KEYS"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "TO"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "SECTIONS": {
+            "type": "array",
+            "description": "Section No. Input.",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}

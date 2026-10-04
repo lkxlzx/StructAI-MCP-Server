@@ -1,0 +1,11 @@
+{
+ "registry": {
+  "keys": 635,
+  "schemas": 615
+ },
+ "dry_run": {
+  "checked": 635,
+  "problem_count": 0,
+  "problems": []
+ }
+}

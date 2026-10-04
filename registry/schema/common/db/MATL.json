@@ -1,0 +1,126 @@
+{
+  "key": "DB.MATL",
+  "uri": "DB/MATL",
+  "source": "help_center",
+  "schema": {
+    "MATL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TYPE": {
+          "description": "MaterialType",
+          "type": "string"
+        },
+        "NAME": {
+          "description": "MaterialName",
+          "type": "string"
+        },
+        "HE_SPEC": {
+          "description": "SpecificHeat",
+          "type": "number"
+        },
+        "HE_COND": {
+          "description": "HeatConduction",
+          "type": "number"
+        },
+        "PLMT": {
+          "description": "PlasticityKey",
+          "type": "integer"
+        },
+        "P_NAME": {
+          "description": "PlasticityName",
+          "type": "string"
+        },
+        "bMASS_DENS": {
+          "description": "UseMassDensity",
+          "type": "boolean"
+        },
+        "DAMP_RAT": {
+          "description": "DampingRatio",
+          "type": "number"
+        },
+        "PARAM": {
+          "description": "MaterialData",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "P_TYPE": {
+                "description": "DataType",
+                "type": "integer"
+              },
+              "STANDARD": {
+                "description": "DBStandard",
+                "type": "string"
+              },
+              "CODE": {
+                "description": "CODE/PRODUCTName",
+                "type": "string"
+              },
+              "DB": {
+                "description": "DBName",
+                "type": "string"
+              },
+              "bELAST": {
+                "description": "UseElasticity",
+                "type": "boolean"
+              },
+              "ELAST": {
+                "description": "Elasticity",
+                "type": "number"
+              },
+              "POISN": {
+                "description": "Poisson`sratio",
+                "type": "number"
+              },
+              "THERMAL": {
+                "description": "Coefficientsoflinearthermal",
+                "type": "number"
+              },
+              "ELAST_M": {
+                "description": "Moduliiofelasticitycorrespondingdirection(X,Y,Z)",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "POISN_M": {
+                "description": "Poisson`sratiocorrespondingdirection(X,Y,Z)",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "THERMAL_M": {
+                "description": "Coefficientsoflinearthermalexpansioninthecorrespondingdirection(X,Y,Z)",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "SHEAR_M": {
+                "description": "ShearmoduliiofelasticityinthecorrespondingdirectionsX",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "DEN": {
+                "description": "Density",
+                "type": "number"
+              },
+              "MASS": {
+                "description": "MassDensity",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

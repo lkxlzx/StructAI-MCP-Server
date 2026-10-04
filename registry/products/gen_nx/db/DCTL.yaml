@@ -1,0 +1,48 @@
+key: DB.DCTL
+namespace: DB
+uri: /DB/DCTL
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: DCTL
+schema_ref:
+  local: schema/products/gen_nx/db/DCTL.json
+  introspect: info/db/DCTL
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Definition of Frame
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513652948377-Definition-of-Frame"
+  retrieved_at: "2026-07-02"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 4
+  examples: 3
+  has_response_head: false

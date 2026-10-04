@@ -1,0 +1,183 @@
+{
+  "key": "DB.REBC",
+  "uri": "DB/REBC",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "키는 단면 번호 문자열 (예: \"1\")",
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "description": "Concrete column rebar items.",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "MAIN_BAR",
+                    "SHEAR_BAR_END",
+                    "SHEAR_BAR_CEN",
+                    "DO"
+                  ],
+                  "properties": {
+                    "CREATE_SUB_SECTION": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "ID": {
+                      "type": "integer",
+                      "description": "Sub Section ID (read only)"
+                    },
+                    "ELEMS": {
+                      "type": "object",
+                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
+                      "properties": {
+                        "KEYS": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "TO": {
+                          "type": "string"
+                        },
+                        "STRUCTURE_GROUP_NAME": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "MAIN_BAR": {
+                      "type": "object",
+                      "required": [
+                        "NAME",
+                        "NUM",
+                        "ROW",
+                        "USE_CORNER"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "Main rebar size (D4~D57)"
+                        },
+                        "NUM": {
+                          "type": "integer",
+                          "description": "Total number of rebars"
+                        },
+                        "ROW": {
+                          "type": "integer",
+                          "description": "Number of column row for rebar"
+                        },
+                        "USE_CORNER": {
+                          "type": "boolean"
+                        },
+                        "NAME_CORNER": {
+                          "type": "string",
+                          "description": "Corner rebar size (USE_CORNER=true 일 때)"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_END": {
+                      "type": "object",
+                      "required": [
+                        "NAME",
+                        "LEG_Y",
+                        "LEG_Z",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "Hoop rebar size (D4~D57)"
+                        },
+                        "LEG_Y": {
+                          "type": "integer",
+                          "description": "Number of leg (local Y dir.)"
+                        },
+                        "LEG_Z": {
+                          "type": "integer",
+                          "description": "Number of leg (local Z dir.)"
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "Distance between rebars"
+                        }
+                      }
+                    },
+                    "SHEAR_BAR_CEN": {
+                      "type": "object",
+                      "required": [
+                        "NAME",
+                        "LEG_Y",
+                        "LEG_Z",
+                        "DIST"
+                      ],
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "Hoop rebar size (D4~D57)"
+                        },
+                        "LEG_Y": {
+                          "type": "integer"
+                        },
+                        "LEG_Z": {
+                          "type": "integer"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "DO": {
+                      "type": "number",
+                      "description": "Distance from concrete face to center of rebar"
+                    },
+                    "HOOP_TYPE": {
+                      "type": "string",
+                      "default": "Ties",
+                      "oneOf": [
+                        {
+                          "title": "Ties",
+                          "const": "Ties"
+                        },
+                        {
+                          "title": "Spirals",
+                          "const": "Spirals"
+                        }
+                      ]
+                    },
+                    "HOOK_TYPE": {
+                      "type": "integer",
+                      "default": 0,
+                      "oneOf": [
+                        {
+                          "title": "90+(135 or 180)",
+                          "const": 0
+                        },
+                        {
+                          "title": "Both(135 or 180)",
+                          "const": 1
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

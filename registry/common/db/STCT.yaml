@@ -1,0 +1,49 @@
+key: DB.STCT
+namespace: DB
+uri: /DB/STCT
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: STCT
+schema_ref:
+  local: schema/common/db/STCT.json
+  introspect: info/db/STCT
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Construction Stage Analysis Control Data
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35990281053465-Construction-Stage-Analysis-Control-Data"
+  retrieved_at: "2025-09-17"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 148
+  examples: 5
+  has_response_head: false
+notes: ["— `bSDLE`/`vSDLE`는 STCT-M1 절엔 이미 있었으나 STCT 본절에는 누락돼 있었다(아티클 id `35990281053465`).", "라벨링돼 있었으나, 원문 표는 \"Beam Section Property Option\"(보 단면 물성 변경 방식, 0=Constant/1=Change with Tendon)으로 완전히 다른 개념이다 — 이분법 관련 제어는 별도의 `BSSTEP`/`ADSTEP`(아래 Nonlinear Analysis 절)가 담당한다. `ITD` 기본값도 `-`→`\"ALL\"`로, `GROUP`/`LFFGR`는 각각 조건부 Required로 정정(아티클 id `35990281053465`).", "행으로 Required 표기돼 있어(이전엔 `bITS`/`iITS`를 하나로 묶어 `-`/Optional로 잘못 기재) 정정 (아티클 id `35990281053465`)."]

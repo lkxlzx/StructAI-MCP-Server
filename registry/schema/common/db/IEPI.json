@@ -1,0 +1,17 @@
+{
+  "key": "DB.IEPI",
+  "uri": "DB/IEPI",
+  "source": "help_center",
+  "schema": {
+    "IEPI": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "B_IGNORE": {
+          "description": "IgnoreElementsforNL.AnalysisInitialLoad",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,475 @@
+{
+  "key": "DB.MVCTCH",
+  "uri": "DB/MVCTCH",
+  "source": "help_center",
+  "schema": {
+    "MVCTCH": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "POINT": {
+          "description": "LoadPoint",
+          "type": "string"
+        },
+        "iIGP": {
+          "description": "Influencegeneratingpoints",
+          "type": "integer"
+        },
+        "UNUMT": {
+          "description": "Number/Lineelement",
+          "type": "integer"
+        },
+        "DIST": {
+          "description": "Distancebetweenpoints",
+          "type": "number"
+        },
+        "PLATE": {
+          "description": "Analysisresult-Plate",
+          "type": "string"
+        },
+        "bSTRCALC": {
+          "description": "Stress-CheckBox",
+          "type": "boolean"
+        },
+        "FRAME": {
+          "description": "Analysisresult-Frame",
+          "type": "string"
+        },
+        "bCSTRCALC": {
+          "description": "Combinedstress-CheckBox",
+          "type": "boolean"
+        },
+        "bREAC": {
+          "description": "Reactions",
+          "type": "boolean"
+        },
+        "bRG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "RGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bDISP": {
+          "description": "Displacements",
+          "type": "boolean"
+        },
+        "bDG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "DGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bFM": {
+          "description": "Forces/Moments",
+          "type": "boolean"
+        },
+        "bFG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "FGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bL": {
+          "description": "Elastic/Generallinks",
+          "type": "boolean"
+        },
+        "bLG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "LGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bIF": {
+          "description": "Impactfactor-CheckBox",
+          "type": "boolean"
+        },
+        "iCODETYPE": {
+          "description": "CodeType",
+          "type": "integer"
+        },
+        "iNFM": {
+          "description": "Naturalfrequencymethod",
+          "type": "integer"
+        },
+        "iSLCM": {
+          "description": "Spanlength(L)",
+          "type": "integer"
+        },
+        "bBC": {
+          "description": "Vehicleloadclass-CheckBox",
+          "type": "boolean"
+        },
+        "iBC": {
+          "description": "Vehicleloadclass-type",
+          "type": "integer"
+        },
+        "FREQ": {
+          "description": "FrequencyData-JTGD60-2015/JTG04",
+          "type": "object",
+          "properties": {
+            "USER_F": {
+              "description": "f[Hz]",
+              "type": "number"
+            },
+            "SBEM_L": {
+              "description": "L",
+              "type": "number"
+            },
+            "SBEM_E": {
+              "description": "E",
+              "type": "number"
+            },
+            "SBEM_IC": {
+              "description": "Ic",
+              "type": "number"
+            },
+            "SBEM_MC": {
+              "description": "mc",
+              "type": "number"
+            },
+            "CBEM_A": {
+              "description": "a",
+              "type": "number"
+            },
+            "CBEM_B": {
+              "description": "b",
+              "type": "number"
+            },
+            "CBEM_L": {
+              "description": "L",
+              "type": "number"
+            },
+            "CBEM_E": {
+              "description": "E",
+              "type": "number"
+            },
+            "CBEM_IC": {
+              "description": "Ic",
+              "type": "number"
+            },
+            "CBEM_MC": {
+              "description": "mc",
+              "type": "number"
+            },
+            "iARCH_TYPE": {
+              "description": "ArchBridgeType",
+              "type": "integer"
+            },
+            "ARCH_N": {
+              "description": "n",
+              "type": "number"
+            },
+            "ARCH_F": {
+              "description": "f",
+              "type": "number"
+            },
+            "ARCH_L": {
+              "description": "L",
+              "type": "number"
+            },
+            "ARCH_E": {
+              "description": "E",
+              "type": "number"
+            },
+            "ARCH_IC": {
+              "description": "Ic",
+              "type": "number"
+            },
+            "ARCH_MC": {
+              "description": "mc",
+              "type": "number"
+            },
+            "CABL_A": {
+              "description": "a",
+              "type": "number"
+            },
+            "CABL_L": {
+              "description": "L",
+              "type": "number"
+            },
+            "SUSP_L": {
+              "description": "L",
+              "type": "number"
+            },
+            "SUSP_E": {
+              "description": "E",
+              "type": "number"
+            },
+            "SUSP_I": {
+              "description": "I",
+              "type": "number"
+            },
+            "SUSP_HG": {
+              "description": "Hg",
+              "type": "number"
+            },
+            "SUSP_M": {
+              "description": "m",
+              "type": "number"
+            }
+          }
+        },
+        "BRIDGE1": {
+          "description": "BridgeData-OtherCodes",
+          "type": "object",
+          "properties": {
+            "BTYPE": {
+              "description": "BridgeType",
+              "type": "string"
+            },
+            "RC_C1L1": {
+              "description": "Case1-L1",
+              "type": "number"
+            },
+            "RC_C1F1": {
+              "description": "Case1-F1",
+              "type": "number"
+            },
+            "RC_C1L2": {
+              "description": "Case1-L2",
+              "type": "number"
+            },
+            "RC_C1F2": {
+              "description": "Case1-F2",
+              "type": "number"
+            },
+            "RC_bCASE2": {
+              "description": "Case2-CheckBox",
+              "type": "boolean"
+            },
+            "RC_C2L1": {
+              "description": "Case2-L1",
+              "type": "number"
+            },
+            "RC_C2F1": {
+              "description": "Case2-F1",
+              "type": "number"
+            },
+            "RC_C2L2": {
+              "description": "Case2-L2",
+              "type": "number"
+            },
+            "RC_C2F2": {
+              "description": "Case2-F2",
+              "type": "number"
+            },
+            "RC_GROUP": {
+              "description": "StructureGroupName",
+              "type": "string"
+            },
+            "STL_C1V1": {
+              "description": "Case1-Value1",
+              "type": "number"
+            },
+            "STL_C1V2": {
+              "description": "Case1-Value2",
+              "type": "number"
+            },
+            "STL_bCASE2": {
+              "description": "Case2-CheckBox",
+              "type": "boolean"
+            },
+            "STL_C2V1": {
+              "description": "Case2-Value1",
+              "type": "number"
+            },
+            "STL_C2V2": {
+              "description": "Case2-Value2",
+              "type": "number"
+            },
+            "STL_GROUP": {
+              "description": "StructureGroupName",
+              "type": "string"
+            },
+            "MBRG_RL1": {
+              "description": "ImpactFactorofLaneLoads-L1Value",
+              "type": "number"
+            },
+            "MBRG_RF1": {
+              "description": "ImpactFactorofLaneLoads-F1Value",
+              "type": "number"
+            },
+            "MBRG_RL2": {
+              "description": "ImpactFactorofLaneLoads-L2Value",
+              "type": "number"
+            },
+            "MBRG_RF2": {
+              "description": "ImpactFactorofLaneLoads-F2Value",
+              "type": "number"
+            },
+            "MBRG_RF3": {
+              "description": "ImpactFactorofLaneLoads-F3Value",
+              "type": "number"
+            },
+            "MBRG_RF4": {
+              "description": "ImpactFactorofLaneLoads-F4Value",
+              "type": "number"
+            },
+            "MBRG_CF1": {
+              "description": "ImpartFactorofVehicleLoads-Value1",
+              "type": "number"
+            },
+            "MBRG_CF2": {
+              "description": "ImpartFactorofVehicleLoads-Value2",
+              "type": "number"
+            },
+            "MBRG_CF3": {
+              "description": "ImpartFactorofVehicleLoads-Value3",
+              "type": "number"
+            },
+            "TRAIN_SUB_TYPE": {
+              "description": "SubType",
+              "type": "string"
+            },
+            "TRAIN_NUMERATOR": {
+              "description": "Value1",
+              "type": "number"
+            },
+            "TRAIN_DENOMINATOR": {
+              "description": "Value2",
+              "type": "number"
+            },
+            "TRAIN_H": {
+              "description": "SurchargeThinkness",
+              "type": "number"
+            },
+            "TRAIN_bCLSL": {
+              "description": "ApplyLoadedSpanLength-CheckBox",
+              "type": "number"
+            },
+            "TRAIN_bALSL": {
+              "description": "ApplyLoadedSpanLength-CheckBox",
+              "type": "number"
+            },
+            "TRAIN_LAMBDA": {
+              "description": "Lambda",
+              "type": "number"
+            },
+            "TRAIN_F": {
+              "description": "fValue",
+              "type": "number"
+            },
+            "TRAIN_GROUP": {
+              "description": "GroupName",
+              "type": "string"
+            }
+          }
+        },
+        "BRIDGE2": {
+          "description": "BridgeData-Q/CR9300-2018,TB10002-2017",
+          "type": "object",
+          "properties": {
+            "BTYPE": {
+              "description": "BridgeType",
+              "type": "string"
+            },
+            "METHOD": {
+              "description": "Method",
+              "type": "string"
+            },
+            "SIMPLE_U": {
+              "description": "SimpleSupportU",
+              "type": "number"
+            },
+            "SIMPLE_L": {
+              "description": "SimpleSupportL",
+              "type": "number"
+            },
+            "COMPO_U": {
+              "description": "CompositeBridgeU",
+              "type": "number"
+            },
+            "COMPO_L": {
+              "description": "CompositeBridgeL",
+              "type": "number"
+            },
+            "CONC_U": {
+              "description": "RCConcreteU",
+              "type": "number"
+            },
+            "CONC_L": {
+              "description": "RCConcreteL",
+              "type": "number"
+            },
+            "CONC_H": {
+              "description": "RCConcreteH",
+              "type": "number"
+            },
+            "ARCH_U": {
+              "description": "ArchBridgeU",
+              "type": "number"
+            },
+            "ARCH_L": {
+              "description": "ArchBridgeL",
+              "type": "number"
+            },
+            "ARCH_LAMBDA": {
+              "description": "ArchBridgeLambda",
+              "type": "number"
+            },
+            "ARCH_F": {
+              "description": "ArchBridgef",
+              "type": "number"
+            },
+            "bCHECK": {
+              "description": "ConcreteLoadedLengthCheckBox",
+              "type": "boolean"
+            },
+            "MU1": {
+              "description": "muValue1",
+              "type": "number"
+            },
+            "MU2": {
+              "description": "muValue2",
+              "type": "number"
+            },
+            "MU3": {
+              "description": "muValue3",
+              "type": "number"
+            },
+            "bLFAI": {
+              "description": "Lfaiautomaticcalculation-CheckBox",
+              "type": "boolean"
+            },
+            "LFAI": {
+              "description": "Lfai",
+              "type": "number"
+            },
+            "bLENGTH": {
+              "description": "Applyloadedspanlength-CheckBox",
+              "type": "boolean"
+            },
+            "MUR1": {
+              "description": "muReductionValue1",
+              "type": "number"
+            },
+            "MUR2": {
+              "description": "muReductionValue2",
+              "type": "number"
+            },
+            "MUR3": {
+              "description": "muReductionValue3",
+              "type": "number"
+            },
+            "HC": {
+              "description": "hc",
+              "type": "number"
+            },
+            "GROUP": {
+              "description": "GroupName",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

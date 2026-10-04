@@ -1,0 +1,556 @@
+{
+  "key": "DB.SPFC",
+  "uri": "DB/SPFC",
+  "source": "help_center",
+  "schema": {
+    "SPFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "RSFunctioName",
+          "type": "string"
+        },
+        "iTYPE": {
+          "description": "SpectralDataType",
+          "type": "integer"
+        },
+        "iMETHOD": {
+          "description": "ScalingMethod",
+          "type": "integer"
+        },
+        "SCALE": {
+          "description": "ScaleFactororMaximumValue",
+          "type": "number"
+        },
+        "GRAV": {
+          "description": "Gravity",
+          "type": "number"
+        },
+        "DRATIO": {
+          "description": "DampingRatio",
+          "type": "number"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "RMF": {
+          "description": "ResponseModificationFactor",
+          "type": "number"
+        },
+        "STR": {
+          "description": "StringDataByCode",
+          "type": "object",
+          "properties": {
+            "SPEC_CODE": {
+              "description": "DesignSpectrumType",
+              "type": "string"
+            },
+            "SFI": {
+              "description": "SeismicFortification",
+              "type": "string"
+            },
+            "SC_": {
+              "description": "SiteClassorSeismicCriterion",
+              "type": "string"
+            },
+            "EQ_": {
+              "description": "EarthResponse",
+              "type": "string"
+            },
+            "DIV": {
+              "description": "Division",
+              "type": "string"
+            },
+            "BT": {
+              "description": "BridgeType",
+              "type": "string"
+            },
+            "ZM": {
+              "description": "ZoningMap",
+              "type": "string"
+            },
+            "ST": {
+              "description": "SiteType",
+              "type": "string"
+            },
+            "SI": {
+              "description": "SeismicIntensity",
+              "type": "string"
+            },
+            "SPECTYPE": {
+              "description": "SpectrumType",
+              "type": "string"
+            },
+            "GROUTYPE": {
+              "description": "GroundType",
+              "type": "string"
+            },
+            "PARATYPE": {
+              "description": "ParameterType",
+              "type": "string"
+            },
+            "RESIONTYPE": {
+              "description": "ResionType",
+              "type": "string"
+            },
+            "NATIONALANNEX": {
+              "description": "NationalAnnex",
+              "type": "string"
+            },
+            "REGION": {
+              "description": "Region",
+              "type": "string"
+            },
+            "METHOD": {
+              "description": "Method",
+              "type": "string"
+            }
+          }
+        },
+        "OPT": {
+          "description": "TypeorOptionDataByCode",
+          "type": "object",
+          "properties": {
+            "NSC": {
+              "description": "SeismicDesignCategory",
+              "type": "integer"
+            },
+            "nLForce": {
+              "description": "nLForce",
+              "type": "integer"
+            },
+            "LARGEBRIDEGE": {
+              "description": "LargeBridege",
+              "type": "boolean"
+            },
+            "bVACC": {
+              "description": "VerticalAccelerationSpec",
+              "type": "boolean"
+            },
+            "iVACC": {
+              "description": "VerticalAccelerationSpecType",
+              "type": "integer"
+            },
+            "bE2_005": {
+              "description": "ThinkE20.05",
+              "type": "boolean"
+            },
+            "SCCOPT": {
+              "description": "SeismicCoefficientsCalculationOption",
+              "type": "integer"
+            },
+            "iSPTYPE": {
+              "description": "SoilProfileType",
+              "type": "integer"
+            },
+            "iSEISZONEFACTOR": {
+              "description": "SeismicZoneFactor(Z)",
+              "type": "integer"
+            },
+            "iSEISSOURCETYPE": {
+              "description": "SeismicSourceType",
+              "type": "integer"
+            },
+            "SOILCLASS": {
+              "description": "Soilclass",
+              "type": "integer"
+            },
+            "KD": {
+              "description": "Ductilityclass",
+              "type": "integer"
+            },
+            "KR": {
+              "description": "StructuralRegularityinElevation(Kr)",
+              "type": "integer"
+            },
+            "SC_": {
+              "description": "SiteClass",
+              "type": "integer"
+            },
+            "SFI": {
+              "description": "SeismicFortificationIntensity",
+              "type": "integer"
+            },
+            "ZA": {
+              "description": "AccelerationZone(Za)",
+              "type": "integer"
+            },
+            "ZV": {
+              "description": "VelocityZone(Zv)",
+              "type": "integer"
+            },
+            "iSEISZONE": {
+              "description": "SeismicZone",
+              "type": "integer"
+            },
+            "iEQMETHOD": {
+              "description": "EarthquakeInputMethod",
+              "type": "integer"
+            },
+            "bRELIEVE": {
+              "description": "Relieve",
+              "type": "boolean"
+            },
+            "iSPECTYPE": {
+              "description": "SpectrumType",
+              "type": "integer"
+            },
+            "iSPECUSE": {
+              "description": "SpectrumUseType",
+              "type": "integer"
+            },
+            "iSUBZONE": {
+              "description": "SubZone",
+              "type": "integer"
+            },
+            "iGROUTYPE": {
+              "description": "GroundType",
+              "type": "integer"
+            },
+            "IMPORTANT_BRIDGE": {
+              "description": "Importantbridge",
+              "type": "boolean"
+            },
+            "RESION_SEISMICITY": {
+              "description": "RegionSeismicity",
+              "type": "integer"
+            },
+            "SOIL_CATEGORY": {
+              "description": "SoilCategory",
+              "type": "integer"
+            },
+            "BYCODE": {
+              "description": "Bycode",
+              "type": "boolean"
+            },
+            "RISK_CATEGORY": {
+              "description": "RiskCategory",
+              "type": "integer"
+            }
+          }
+        },
+        "VAL": {
+          "description": "FactororValueDataByCode",
+          "type": "object",
+          "properties": {
+            "aTG": {
+              "description": "DesignCharacteristicPeriodofGroundMotion(TG,TG1,TG2)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 3
+              }
+            },
+            "aIF": {
+              "description": "ImportanceFactor(Ci,Cs,Cd)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 3
+              }
+            },
+            "aSRA": {
+              "description": "SpectralResponseAcceleration(Sds,Sd1,Sms,Sm1)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 4
+              }
+            },
+            "aSRA_T": {
+              "description": "SpectralResponseAcceleration(Sds_t,Sd1_t,Sms_t,Sm1_t)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 4
+              }
+            },
+            "aNSF": {
+              "description": "NearSourceFactor(Nda,Ndv,Nma,Nmv)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 4
+              }
+            },
+            "aSC": {
+              "description": "SeismicCoefficient(Ca,Cv)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 2
+              }
+            },
+            "aMSRACC": {
+              "description": "MappedSpectralResponseAccelerationatShortPeriods(Ss,S1)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 2
+              }
+            },
+            "aSMF": {
+              "description": "SiteMagnifyFactor(Fda,Fdv,Fma,Fmv)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 4
+              }
+            },
+            "aSCP": {
+              "description": "SiteCoeff.atShort/1secPeriod(Fa,Fv)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 2
+              }
+            },
+            "aEP": {
+              "description": "EffectivePeakAcc/Vel(Aa,Av)",
+              "type": "array",
+              "items": {
+                "type": "number",
+                "maxItems": 2
+              }
+            },
+            "DP": {
+              "description": "DampingRatio",
+              "type": "number"
+            },
+            "MaxEQ": {
+              "description": "MaximumEffectCoefficient",
+              "type": "number"
+            },
+            "G": {
+              "description": "Basichorizontalseismicaccelerationalpha(g)",
+              "type": "number"
+            },
+            "EPA": {
+              "description": "EarthquakeArea",
+              "type": "number"
+            },
+            "SMAX": {
+              "description": "",
+              "type": "number"
+            },
+            "PERIOD": {
+              "description": "MaxPeriod",
+              "type": "number"
+            },
+            "DP2": {
+              "description": "DampingRatio(ByCode)",
+              "type": "number"
+            },
+            "ETA1": {
+              "description": "Eta1",
+              "type": "number"
+            },
+            "ETA2": {
+              "description": "Eta2",
+              "type": "number"
+            },
+            "GAMMA": {
+              "description": "Gamma",
+              "type": "number"
+            },
+            "A": {
+              "description": "Area",
+              "type": "number"
+            },
+            "SOILFACTOR": {
+              "description": "SoilFactor",
+              "type": "number"
+            },
+            "TB": {
+              "description": "Tb",
+              "type": "number"
+            },
+            "TC": {
+              "description": "Tc",
+              "type": "number"
+            },
+            "TD": {
+              "description": "Td",
+              "type": "number"
+            },
+            "AGR": {
+              "description": "DesignGroundAcc.(Agr)",
+              "type": "number"
+            },
+            "I_": {
+              "description": "ImportanceFactor(I)",
+              "type": "number"
+            },
+            "XI": {
+              "description": "ViscousDampingRatio(Xi)",
+              "type": "number"
+            },
+            "Q": {
+              "description": "BehaviorFactor(q)",
+              "type": "number"
+            },
+            "B": {
+              "description": "LowerBoundFactor(h)",
+              "type": "number"
+            },
+            "TS": {
+              "description": "SiteNaturalPeriod",
+              "type": "number"
+            },
+            "SPTYPE": {
+              "description": "SoilProfileType",
+              "type": "number"
+            },
+            "IE": {
+              "description": "ImportanceFactor(Ie)",
+              "type": "number"
+            },
+            "R_": {
+              "description": "ResponseModificationCoef.(R)",
+              "type": "number"
+            },
+            "CDISTANCE": {
+              "description": "ClosestDistancetoKnownSeismicSource(km)",
+              "type": "number"
+            },
+            "Q0": {
+              "description": "BasicBehaviorFactor(Q0)",
+              "type": "number"
+            },
+            "KW": {
+              "description": "FailureModeFactor(Kw)",
+              "type": "number"
+            },
+            "ALPHA": {
+              "description": "Ratioofdesigngroundaccelerationtogravityacceleration",
+              "type": "number"
+            },
+            "CO": {
+              "description": "BaseShearFactor(Co)",
+              "type": "number"
+            },
+            "KH": {
+              "description": "HorizontalSeismicCoef.(Kh)",
+              "type": "number"
+            },
+            "CZ": {
+              "description": "GeneralEffectFactor(Cz)",
+              "type": "number"
+            },
+            "V": {
+              "description": "ZonalVelocityRatio(V)",
+              "type": "number"
+            },
+            "AG": {
+              "description": "DesignGroundAcceleration(g)",
+              "type": "number"
+            },
+            "DPFAC": {
+              "description": "DampingMultiplyingFactor",
+              "type": "number"
+            },
+            "IF": {
+              "description": "ImportanceFactor",
+              "type": "number"
+            },
+            "SMFACTOR": {
+              "description": "SeismicMagnifyFactor",
+              "type": "number"
+            },
+            "RMFACTOR": {
+              "description": "ResponseModifyFactor",
+              "type": "number"
+            },
+            "ZONEFACTOR": {
+              "description": "ZoneFactor(S)",
+              "type": "number"
+            },
+            "TL": {
+              "description": "LongTran.Period(TL)",
+              "type": "number"
+            },
+            "PGA": {
+              "description": "PGA",
+              "type": "number"
+            },
+            "PHI": {
+              "description": "Phi",
+              "type": "number"
+            },
+            "DEPTH": {
+              "description": "DepthtoMR",
+              "type": "number"
+            },
+            "FO": {
+              "description": "AmplificationFactor(Fo)",
+              "type": "number"
+            },
+            "TCSTAR": {
+              "description": "PeriodofconstantHor.Acc.(Tc*)",
+              "type": "number"
+            },
+            "KP": {
+              "description": "kp",
+              "type": "number"
+            },
+            "Z": {
+              "description": "Z",
+              "type": "number"
+            },
+            "MU": {
+              "description": "Mu",
+              "type": "number"
+            },
+            "USERDEFSEISZONE": {
+              "description": "UserDefinedSeismicZone",
+              "type": "number"
+            },
+            "FUNDAMENTAL_PERIOD": {
+              "description": "FundamentalPeriod(T1)",
+              "type": "number"
+            },
+            "K1": {
+              "description": "K1Factor",
+              "type": "number"
+            },
+            "K2": {
+              "description": "K2Factor",
+              "type": "number"
+            },
+            "K3": {
+              "description": "K3Factor",
+              "type": "number"
+            },
+            "K4": {
+              "description": "K4Factor",
+              "type": "number"
+            },
+            "KPSI": {
+              "description": "KPsiFactor",
+              "type": "number"
+            }
+          }
+        },
+        "aFUNC": {
+          "description": "FunctionDataList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "PERIOD": {
+                "description": "Period",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

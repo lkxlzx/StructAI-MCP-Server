@@ -1,0 +1,33 @@
+{
+  "key": "DB.MLSP",
+  "uri": "DB/MLSP",
+  "source": "help_center",
+  "schema": {
+    "MLSP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TYPE": {
+          "description": "Type(ElementUserorGroupAuto)",
+          "type": "string"
+        },
+        "ELEMENT_NO": {
+          "description": "ElementNumber",
+          "type": "integer"
+        },
+        "ELEMENT_TYPE": {
+          "description": "ElementType",
+          "type": "string"
+        },
+        "POSITION": {
+          "description": "Position",
+          "type": "string"
+        },
+        "GROUP_NAME": {
+          "description": "GroupName",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

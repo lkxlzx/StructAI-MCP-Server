@@ -1,0 +1,137 @@
+{
+  "key": "DB.MVCT",
+  "uri": "DB/MVCT",
+  "source": "help_center",
+  "schema": {
+    "MVCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "METHOD": {
+          "description": "AnalysisMethod",
+          "type": "string"
+        },
+        "POINT": {
+          "description": "LoadPointSelection",
+          "type": "string"
+        },
+        "iIGP": {
+          "description": "InfluenceGeneratingPoints",
+          "type": "integer"
+        },
+        "iIGPN": {
+          "description": "PointNumber",
+          "type": "integer"
+        },
+        "DIST": {
+          "description": "Distance",
+          "type": "number"
+        },
+        "PLATE": {
+          "description": "Method-PlateElement",
+          "type": "string"
+        },
+        "bSTRCALC": {
+          "description": "Stress",
+          "type": "boolean"
+        },
+        "bCONCURRENT": {
+          "description": "ConcurrentForce",
+          "type": "boolean"
+        },
+        "bCONCLINK": {
+          "description": "Concurrentforceofelastic��",
+          "type": "boolean"
+        },
+        "FRAME": {
+          "description": "Method-FrameElement",
+          "type": "string"
+        },
+        "bCSTRCALC": {
+          "description": "CombinedStress",
+          "type": "boolean"
+        },
+        "bREAC": {
+          "description": "Resctions(checkbox)",
+          "type": "boolean"
+        },
+        "bRG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "RGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bDISP": {
+          "description": "Displacements(checkbox)",
+          "type": "boolean"
+        },
+        "bDG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "DGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bFM": {
+          "description": "Forces/Moments(checkbox)",
+          "type": "boolean"
+        },
+        "bFG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "FGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "bL": {
+          "description": "Elstic/GeneralLink(checkbox)",
+          "type": "boolean"
+        },
+        "bLG": {
+          "description": "AllorGroup",
+          "type": "boolean"
+        },
+        "LGN": {
+          "description": "Groupname",
+          "type": "string"
+        },
+        "MATTYPE": {
+          "description": "MatType",
+          "type": "integer"
+        },
+        "BRIDGETYPE": {
+          "description": "BridgeType",
+          "type": "integer"
+        },
+        "AKMATTYPE": {
+          "description": "MatTypeAK",
+          "type": "integer"
+        },
+        "AKBRIDGETYPE": {
+          "description": "BridgeTypeAK",
+          "type": "integer"
+        },
+        "MINFACTS2": {
+          "description": "MinimumFactor",
+          "type": "number"
+        },
+        "MAXV": {
+          "description": "MaxSuccessiveVehicle",
+          "type": "integer"
+        },
+        "INCV": {
+          "description": "IncrementVehicle",
+          "type": "integer"
+        },
+        "MAXSPACE": {
+          "description": "MaxSpacingTrain",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+key: DOC.SAVE
+namespace: DOC
+uri: /DOC/SAVE
+methods: [POST]
+tool_map:
+  doc: midas_doc
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/doc/SAVE.json
+  introspect: null
+  source: help_center
+parser: generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DOC/SAVE
+    methods: POST
+    title: 保存激活文档
+    spec_rows: 0
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: untested
+table_type: null
+title: Save
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [PROJECT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35994210207513-Save"
+  retrieved_at: "2025-09-17"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 1
+  examples: 1
+  has_response_head: false

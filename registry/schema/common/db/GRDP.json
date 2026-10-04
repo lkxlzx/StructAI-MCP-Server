@@ -1,0 +1,179 @@
+{
+  "key": "DB.GRDP",
+  "uri": "DB/GRDP",
+  "source": "help_center",
+  "schema": {
+    "GRDP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "STIFF_COEF_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "MASS_COEF_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "OPT_CALC_WHEN_USED": {
+          "description": "",
+          "type": "boolean"
+        },
+        "OPT_MASS_PROP_DEFAULT": {
+          "description": "",
+          "type": "boolean"
+        },
+        "OPT_STIFF_PROP_DEFAULT": {
+          "description": "",
+          "type": "boolean"
+        },
+        "DIRECT_CALC_MODE_DEFAULT": {
+          "description": "",
+          "type": "integer"
+        },
+        "FREQ_PERIOD_MODE_DEFAULT": {
+          "description": "",
+          "type": "integer"
+        },
+        "FREQ_MODE_1_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "FREQ_MODE_2_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "PERIOD_MODE_1_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "PERIOD_MODE_2_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "DAMPING_MODE_1_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "DAMPING_MODE_2_DEFAULT": {
+          "description": "",
+          "type": "number"
+        },
+        "bExistElement": {
+          "description": "",
+          "type": "boolean"
+        },
+        "bExistStrain": {
+          "description": "",
+          "type": "boolean"
+        },
+        "GROUP_DAMPING_ITEMS": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "GROUP_TYPE": {
+                "description": "MaterialData/GroupType",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "NameofMaterial/Group",
+                "type": "string"
+              },
+              "STIFF_COEF": {
+                "description": "StiffnessProportional",
+                "type": "number"
+              },
+              "OPT_STIFF_PROP": {
+                "description": "StiffnessProportionalBoolean",
+                "type": "boolean"
+              },
+              "MASS_COEF": {
+                "description": "MassProportional",
+                "type": "number"
+              },
+              "OPT_MASS_PROP": {
+                "description": "MassProportionalBoolean",
+                "type": "boolean"
+              },
+              "DIRECT_CALC_MODE": {
+                "description": "DirectSpecification/CalculatefromModalDampingModeIndex",
+                "type": "integer"
+              },
+              "FREQ_PERIOD_MODE": {
+                "description": "Frequency/PeriodModeIndex",
+                "type": "integer"
+              },
+              "FREQ_MODE_1": {
+                "description": "Frequency-Mode1",
+                "type": "number"
+              },
+              "FREQ_MODE_2": {
+                "description": "Frequency-Mode2",
+                "type": "number"
+              },
+              "PERIOD_MODE_1": {
+                "description": "Period-Mode1",
+                "type": "number"
+              },
+              "PERIOD_MODE_2": {
+                "description": "Period-Mode2",
+                "type": "number"
+              },
+              "DAMPING_RATIO_MODE": {
+                "description": "UsingMaterialData/DirectDefineModeIndex",
+                "type": "integer"
+              },
+              "DAMPING_RATIO_MODE_1": {
+                "description": "DampingRatio-Mode1",
+                "type": "number"
+              },
+              "DAMPING_RATIO_MODE_2": {
+                "description": "DampingRatio-Mode2",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "STRAIN_GROUP_ITEMS": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "GROUP_TYPE": {
+                "description": "MaterialData/GroupType",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "NameofMaterial/Group",
+                "type": "string"
+              },
+              "DAMPING_RATIO": {
+                "description": "DampingRatio",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "ELEM_GROUP_PRIORITY": {
+          "description": "",
+          "type": "integer"
+        },
+        "ELEM_VALUE_PRIORITY": {
+          "description": "",
+          "type": "integer"
+        },
+        "STRAIN_GROUP_PRIORITY": {
+          "description": "",
+          "type": "integer"
+        },
+        "STRAIN_VALUE_PRIORITY": {
+          "description": "",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

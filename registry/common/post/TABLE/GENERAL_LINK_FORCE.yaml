@@ -1,0 +1,40 @@
+key: POST.TABLE.GENERAL_LINK_FORCE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/GENERAL_LINK_FORCE.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: GENERAL_LINK_FORCE
+title: "General Link - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36017500761369-General-Link-Analysis-Result-Table"
+  retrieved_at: "2025-08-14"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 25
+  examples: 15
+  has_response_head: false
+notes: ["`\"ITEM_TO_DISPLAY\"`(Array [String], enum: `Axial`/`Shear-y`/`Shear-z`/`Torsion`/`Moment-y`/ `Moment-z`, 기본값 All, Optional)가 이전 버전 문서에 누락되어 있었음(26절 Elastic Link와 동일 패턴). 또한 `GENERAL_LINK_DEFORM`은 부재력과 전혀 다른 응답 구조(양단 변위/회전)를 가지는데 이전 버전 문서는 부재력용 Response HEAD 하나만 표기해 DEFORM도 같은 구조로 오인할 수 있었음."]

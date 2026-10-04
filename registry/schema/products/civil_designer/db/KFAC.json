@@ -1,0 +1,31 @@
+{
+  "key": "DB.KFAC",
+  "uri": "DB/KFAC",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "参数-计算长度系数",
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": [
+        "ID"
+      ],
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "description": "构件Key"
+        },
+        "Ky": {
+          "type": "number",
+          "description": "计算长度系数Ky"
+        },
+        "Kz": {
+          "type": "number",
+          "description": "计算长度系数Kz"
+        }
+      }
+    }
+  },
+  "shape": "flat_array"
+}

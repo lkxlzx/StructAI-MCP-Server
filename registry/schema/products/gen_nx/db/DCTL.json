@@ -1,0 +1,29 @@
+{
+  "key": "DB.DCTL",
+  "uri": "DB/DCTL",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "FRAMEX": {
+          "description": " X-Direction of Frame",
+          "type": "string"
+        },
+        "FRAMEY": {
+          "description": " Y-Direction of Frame",
+          "type": "string"
+        },
+        "bAUTOKF": {
+          "description": " Auto Calculate Effective Length Factor",
+          "type": "boolean"
+        },
+        "DT": {
+          "description": " Design Type",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

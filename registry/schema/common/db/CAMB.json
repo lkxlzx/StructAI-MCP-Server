@@ -1,0 +1,25 @@
+{
+  "key": "DB.CAMB",
+  "uri": "DB/CAMB",
+  "source": "help_center",
+  "schema": {
+    "CAMB": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "BODY_GROUP_NAME": {
+          "description": "BodyElementGroupName",
+          "type": "string"
+        },
+        "SUPP_GROUP_NAME": {
+          "description": "SupportNodeGroup_KName",
+          "type": "string"
+        },
+        "KEYSEG_GROUP_NAME": {
+          "description": "KeySegGroupName",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

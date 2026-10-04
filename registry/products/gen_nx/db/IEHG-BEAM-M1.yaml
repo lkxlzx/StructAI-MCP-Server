@@ -1,0 +1,49 @@
+key: "DB.IEHG-BEAM-M1"
+namespace: DB
+uri: "/DB/IEHG-BEAM-M1"
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "IEHG-BEAM-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/IEHG-BEAM-M1.json"
+  introspect: "info/db/IEHG-BEAM-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: "Assign Inelastic Hinges - Beam"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/57656773423385-Assign-Inelastic-Hinges-Beam"
+  retrieved_at: "2026-05-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 1
+  examples: 1
+  has_response_head: false

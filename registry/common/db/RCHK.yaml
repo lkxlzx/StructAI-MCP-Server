@@ -1,0 +1,50 @@
+key: DB.RCHK
+namespace: DB
+uri: /DB/RCHK
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: RCHK
+schema_ref:
+  local: schema/common/db/RCHK.json
+  introspect: info/db/RCHK
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["civil-cloud"]
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: "Rebar Input for Checking - Beam/Column"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35993850335897-Rebar-Input-for-Checking-Beam-Column"
+  retrieved_at: "2026-07-02"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 41
+  examples: 3
+  has_response_head: false
+notes: ["7개 필드)는 공식 JSON Schema에는 존재하지만 공식 Specifications 표에는 전혀 실려 있지 않습니다(표가 `dSUB_BARANGLE`에서 바로 `COLM` 객체로 건너뜀). Required 배열 지정도 없어 Optional로 간주해 기재했습니다."]

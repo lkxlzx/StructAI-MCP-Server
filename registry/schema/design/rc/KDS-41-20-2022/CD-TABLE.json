@@ -1,0 +1,88 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.CD-TABLE",
+  "uri": "DESIGN/RC/KDS-41-20-2022/CD-TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "enum": [
+              "MEMB",
+              "PROP"
+            ]
+          },
+          "ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            }
+          },
+          "SECTIONS": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "PRI_SORT": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "default": 1
+          },
+          "RESULT": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ],
+            "default": 0
+          },
+          "TABLE_NAME": {
+            "type": "string"
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "UNIT": {
+            "type": "object"
+          },
+          "STYLES": {
+            "type": "object"
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

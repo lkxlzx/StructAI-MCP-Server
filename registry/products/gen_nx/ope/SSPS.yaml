@@ -1,0 +1,40 @@
+key: OPE.SSPS
+namespace: OPE
+uri: /OPE/SSPS
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/ope/SSPS.json
+  introspect: null
+  source: help_center
+parser: generic
+products: [GEN_NX]
+availability: untested
+table_type: null
+title: Surface Spring
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/39772183634329-Surface-Spring"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 38
+  examples: 11
+  has_response_head: false
+notes: ["공식 Request Examples상 `CONVERT_TO=\"POINT_SPRING\"`(점스프링 변환)일 때만 등장한다. `CONVERT_TO=\"ELASTIC_LINK\"`(탄성링크)는 `BOUNDARY.TYPE`이 LINEAR라도 `STIFF`/`bDAMP`/`DAMP` 없이 `DIR`/`SUBGRADE`/`LENGTH`만 사용하므로, 이전 버전 문서의 \"(LINEAR/MULTI)\" 조건에 변환 방식 범위를 명시하도록 정정함."]

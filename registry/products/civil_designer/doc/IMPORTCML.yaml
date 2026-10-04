@@ -1,0 +1,50 @@
+key: DOC.IMPORTCML
+namespace: DOC
+uri: /DOC/IMPORTCML
+methods: [POST]
+tool_map:
+  doc: midas_doc
+wrapper:
+  write: none
+  shape: flat
+  body_kind: object
+schema_ref:
+  local: schema/products/civil_designer/doc/IMPORTCML.json
+  introspect: null
+  source: civil_designer_manual
+  params_ref: "designer_params.json#DOC/IMPORTCML"
+  shape: flat_object
+parser: generic
+products: [CIVIL_DESIGNER]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DOC/IMPORTCML
+    methods: POST
+    title: 导入Cml文件
+    spec_rows: 2
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+availability: untested
+table_type: null
+title: 导入Cml文件
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [PROJECT]
+source:
+  url: "G:\\midas Civil Designer - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_designer_manual]
+stats:
+  spec_rows: 1
+  examples: 1
+  has_response_head: false

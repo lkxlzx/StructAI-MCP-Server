@@ -1,0 +1,20 @@
+{
+  "key": "DB.LDSQ",
+  "uri": "DB/LDSQ",
+  "source": "help_center",
+  "schema": {
+    "LDSQ": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME_ITEM": {
+          "description": "LoadCaseName",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

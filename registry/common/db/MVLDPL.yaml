@@ -1,0 +1,49 @@
+key: DB.MVLDPL
+namespace: DB
+uri: /DB/MVLDPL
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MVLDPL
+schema_ref:
+  local: schema/common/db/MVLDPL.json
+  introspect: info/db/MVLDPL
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Moving Load Cases - Poland"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35961922701209-Moving-Load-Cases-Poland"
+  retrieved_at: "2025-08-29"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 43
+  examples: 1
+  has_response_head: false
+notes: ["암시돼 있었고, Moving Load Optimization(`AUTO_OPTIMIZE`)과 Permit Vehicle(`PERMIT_LOAD`) 객체는 완전히 누락돼 있었음. 원문 [Moving Load Cases - Poland](https://support.midasuser.com/hc/en-us/articles/35961922701209) 기준으로 전체 보강."]

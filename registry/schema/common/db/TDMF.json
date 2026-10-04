@@ -1,0 +1,58 @@
+{
+  "key": "DB.TDMF",
+  "uri": "DB/TDMF",
+  "source": "help_center",
+  "schema": {
+    "TDMF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "MaterialFunctionName",
+          "type": "string"
+        },
+        "FTYPE": {
+          "description": "MaterialFuncType",
+          "type": "string"
+        },
+        "SCALE": {
+          "description": "ScaleFactor",
+          "type": "number"
+        },
+        "CTYPE": {
+          "description": "CreepType",
+          "type": "string"
+        },
+        "ELAST": {
+          "description": "Elast",
+          "type": "number"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "RELAXATION": {
+          "description": "RelaxTime",
+          "type": "integer"
+        },
+        "vDAY": {
+          "description": "Day,ValueArray",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "DAY": {
+                "description": "Day",
+                "type": "number"
+              },
+              "VALUE": {
+                "description": "Value",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

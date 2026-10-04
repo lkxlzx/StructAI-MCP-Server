@@ -1,0 +1,39 @@
+key: DOC.STAGAS
+namespace: DOC
+uri: /DOC/STAGAS
+methods: [POST]
+tool_map:
+  doc: midas_doc
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/doc/STAGAS.json
+  introspect: null
+  source: repo_midas_api
+parser: generic
+products: [GEN_NX]
+availability: untested
+table_type: null
+title: Save Current Stage As
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [PROJECT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/50707525717401-Save-Current-Stage-As"
+  retrieved_at: "2026-06-30"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 2
+  examples: 0
+  has_response_head: false

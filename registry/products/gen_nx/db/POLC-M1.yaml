@@ -1,0 +1,50 @@
+key: "DB.POLC-M1"
+namespace: DB
+uri: "/DB/POLC-M1"
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "POLC-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/POLC-M1.json"
+  introspect: "info/db/POLC-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Pushover Load Case
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56506753403673-Pushover-Load-Case"
+  retrieved_at: "2026-05-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 36
+  examples: 5
+  has_response_head: false
+notes: ["표기돼 있으나(아티클 id `56506753403673`), 이 챕터의 다른 모든 Hyper-S(`-M1`) 엔드포인트와 챕터 서두의 안내(\"Hyper-S 솔버 전용 엔드포인트는 POST를 지원하지 않습니다\")가 일관되게 POST 미지원을 전제한다. 원문이 다른 엔드포인트용 템플릿을 복사하며 트리밍하지 않은 것인지, 실제로 이 엔드포인트만 POST를 지원하는지 원문만으로는 판단할 수 없어 실기 확인 전까지 `GET`/`PUT`/`DELETE`로 유지한다.", "description을 둘 다 `\"Load Case (...)\"`로 잘못 표기하고 있다(`LCNAME`의 설명을 복붙한 것으로 추정). 위 스키마에는 실제 의미(`DIR`=\"Direction (Uniform Acceleration용)\", `MODE`=\"Mode (값 > 0. 1개 항목만 허용)\")로 정정해 실었으니, 다음 동기화 때 원문과 다르다고 되돌리지 말 것(아티클 id `56506753403673`). 같은 이유로 `NLTYPE`/`INCRE_METHOD`/ `DISPCTRLOPTION`의 schema description도 원문은 잘려 있으나(예: `NLTYPE`은 \"None\"만 남고 \"/ P-Delta / Large Displacements\"가 누락) 아래 표는 Specifications 표 기준"]

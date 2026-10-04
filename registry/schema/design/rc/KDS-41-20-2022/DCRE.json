@@ -1,0 +1,513 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCRE",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCRE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "인덱스 문자열(예: \"1\") 하나만 갖는 전역 설정 맵.",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "BEAM": {
+                "type": "object",
+                "description": "보 철근 규격·배근",
+                "properties": {
+                  "MAIN_REBAR": {
+                    "type": "array",
+                    "description": "주철근 규격 (최대 5종)",
+                    "default": [
+                      "D22"
+                    ],
+                    "items": {
+                      "type": "string",
+                      "description": "전체 19종: D4 ~ D57",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    }
+                  },
+                  "STIRRUPS": {
+                    "type": "string",
+                    "description": "스터럽 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "STIRRUP_ARRANGEMENT": {
+                    "type": "integer",
+                    "description": "스터럽 다리 수 (전체 19종: 2 ~ 20)",
+                    "default": 2,
+                    "enum": [
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  },
+                  "SIDE_BAR": {
+                    "type": "string",
+                    "description": "측면철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D13",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "DT": {
+                    "type": "number",
+                    "description": "상단 피복",
+                    "default": 0
+                  },
+                  "DB": {
+                    "type": "number",
+                    "description": "하단 피복",
+                    "default": 0
+                  },
+                  "DOUBLY_REBAR": {
+                    "type": "boolean",
+                    "description": "복철근 설계",
+                    "default": true
+                  },
+                  "DOUBLY_K": {
+                    "type": "number",
+                    "description": "복철근 k 계수",
+                    "default": 1
+                  },
+                  "SPACING_LIMIT": {
+                    "type": "boolean",
+                    "description": "간격 제한 고려",
+                    "default": true
+                  },
+                  "SPLICED_BARS": {
+                    "type": "string",
+                    "description": "이음 옵션",
+                    "default": "50%",
+                    "enum": [
+                      "None",
+                      "50%",
+                      "100%"
+                    ]
+                  }
+                }
+              },
+              "COLUMN": {
+                "type": "object",
+                "description": "기둥 철근 규격·배근",
+                "properties": {
+                  "MAIN_REBAR": {
+                    "type": "array",
+                    "description": "주철근 규격 (최대 5종)",
+                    "default": [
+                      "D22"
+                    ],
+                    "items": {
+                      "type": "string",
+                      "description": "전체 19종: D4 ~ D57",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    }
+                  },
+                  "TIES_SPIRALS": {
+                    "type": "string",
+                    "description": "띠철근/나선철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "ARRANGEMENT_Y": {
+                    "type": "integer",
+                    "description": "다리 수 (Y) (전체 19종: 2 ~ 20)",
+                    "default": 2,
+                    "enum": [
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  },
+                  "ARRANGEMENT_Z": {
+                    "type": "integer",
+                    "description": "다리 수 (Z) (전체 19종: 2 ~ 20)",
+                    "default": 2,
+                    "enum": [
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  },
+                  "DO": {
+                    "type": "number",
+                    "description": "주철근 중심 피복 do",
+                    "default": 0
+                  },
+                  "SPACING_LIMIT": {
+                    "type": "boolean",
+                    "description": "간격 제한 고려",
+                    "default": true
+                  },
+                  "SPLICED_BARS": {
+                    "type": "string",
+                    "description": "이음 옵션",
+                    "default": "50%",
+                    "enum": [
+                      "None",
+                      "50%",
+                      "100%"
+                    ]
+                  }
+                }
+              },
+              "BRACE": {
+                "type": "object",
+                "description": "가새 철근 규격·배근 (COLUMN과 동일 필드)",
+                "properties": {
+                  "MAIN_REBAR": {
+                    "type": "array",
+                    "description": "주철근 규격 (최대 5종)",
+                    "default": [
+                      "D22"
+                    ],
+                    "items": {
+                      "type": "string",
+                      "description": "전체 19종: D4 ~ D57",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    }
+                  },
+                  "TIES_SPIRALS": {
+                    "type": "string",
+                    "description": "띠철근/나선철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "ARRANGEMENT_Y": {
+                    "type": "integer",
+                    "description": "다리 수 (Y) (전체 19종: 2 ~ 20)",
+                    "default": 2,
+                    "enum": [
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  },
+                  "ARRANGEMENT_Z": {
+                    "type": "integer",
+                    "description": "다리 수 (Z) (전체 19종: 2 ~ 20)",
+                    "default": 2,
+                    "enum": [
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  },
+                  "DO": {
+                    "type": "number",
+                    "description": "주철근 중심 피복 do",
+                    "default": 0
+                  },
+                  "SPACING_LIMIT": {
+                    "type": "boolean",
+                    "description": "간격 제한 고려",
+                    "default": true
+                  },
+                  "SPLICED_BARS": {
+                    "type": "string",
+                    "description": "이음 옵션",
+                    "default": "50%",
+                    "enum": [
+                      "None",
+                      "50%",
+                      "100%"
+                    ]
+                  }
+                }
+              },
+              "WALL": {
+                "type": "object",
+                "description": "전단벽 철근 규격·배근",
+                "properties": {
+                  "VERTICAL_REBAR": {
+                    "type": "array",
+                    "description": "수직 철근 규격 (다중 선택)",
+                    "default": [
+                      "D13"
+                    ],
+                    "items": {
+                      "type": "string",
+                      "description": "전체 19종: D4 ~ D57",
+                      "enum": [
+                        "D4",
+                        "D5",
+                        "D6",
+                        "D7",
+                        "D8"
+                      ]
+                    }
+                  },
+                  "HORIZONTAL_REBAR": {
+                    "type": "string",
+                    "description": "수평 철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "END_REBAR": {
+                    "type": "string",
+                    "description": "단부 철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "BE_HORZ_REBAR": {
+                    "type": "string",
+                    "description": "경계요소 수평 철근 규격 (전체 19종: D4 ~ D57)",
+                    "default": "D10",
+                    "enum": [
+                      "D4",
+                      "D5",
+                      "D6",
+                      "D7",
+                      "D8"
+                    ]
+                  },
+                  "BE_HORZ_SPACE": {
+                    "type": "number",
+                    "description": "경계요소 수평 간격",
+                    "default": 0.2
+                  },
+                  "BE_VERT_SPACE": {
+                    "type": "number",
+                    "description": "경계요소 수직 간격",
+                    "default": 0.1
+                  },
+                  "DE": {
+                    "type": "number",
+                    "description": "단부 첫 수직철근까지 거리",
+                    "default": 0
+                  },
+                  "DW": {
+                    "type": "number",
+                    "description": "벽면까지 피복 거리",
+                    "default": 0
+                  },
+                  "MATERIAL_BY_DIAMETER": {
+                    "type": "boolean",
+                    "description": "직경별 재질 사용",
+                    "default": false
+                  },
+                  "MATERIAL_BY_DIAMETER_INPUT": {
+                    "type": "object",
+                    "description": "직경별 재질 입력 (MATERIAL_BY_DIAMETER=true 일 때)",
+                    "properties": {
+                      "VERTICAL_END_REBAR": {
+                        "type": "array",
+                        "description": "수직/단부 철근 재질 매핑",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "REBAR_DIAMETER": {
+                              "type": "string",
+                              "description": "철근 직경 (전체 19종: D4 ~ D57)",
+                              "enum": [
+                                "D4",
+                                "D5",
+                                "D6",
+                                "D7",
+                                "D8"
+                              ]
+                            },
+                            "MATERIAL": {
+                              "type": "string",
+                              "description": "재질 등급",
+                              "enum": [
+                                "None",
+                                "SD300",
+                                "SD400",
+                                "SD500",
+                                "SD600",
+                                "SD700",
+                                "SD400S",
+                                "SD500S",
+                                "SD600S"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "HORIZONTAL_REBAR": {
+                        "type": "array",
+                        "description": "수평 철근 재질 매핑 (VERTICAL_END_REBAR와 동일 항목 구조)",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "REBAR_DIAMETER": {
+                              "type": "string",
+                              "description": "철근 직경 (전체 19종: D4 ~ D57)",
+                              "enum": [
+                                "D4",
+                                "D5",
+                                "D6",
+                                "D7",
+                                "D8"
+                              ]
+                            },
+                            "MATERIAL": {
+                              "type": "string",
+                              "description": "재질 등급",
+                              "enum": [
+                                "None",
+                                "SD300",
+                                "SD400",
+                                "SD500",
+                                "SD600",
+                                "SD700",
+                                "SD400S",
+                                "SD500S",
+                                "SD600S"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "ADDITIONAL_WALL_DATA": {
+                    "type": "object",
+                    "description": "벽체 추가 데이터",
+                    "properties": {
+                      "OUT_OF_PLANE_BENDING": {
+                        "type": "boolean",
+                        "description": "면외 휨 설계",
+                        "default": false
+                      },
+                      "VERTICAL_REBAR_SPACING": {
+                        "type": "object",
+                        "description": "수직 철근 간격 설정 (생략 시 기본 상태 적용)",
+                        "properties": {
+                          "UNIT": {
+                            "type": "string",
+                            "description": "간격 단위",
+                            "default": "mm",
+                            "enum": [
+                              "mm",
+                              "in"
+                            ]
+                          },
+                          "LIST_FOR_DESIGN": {
+                            "type": "array",
+                            "description": "설계에 사용할 간격 값 목록",
+                            "default": [
+                              100,
+                              150
+                            ],
+                            "items": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      },
+                      "HORIZONTAL_REBAR_SPACING_FROM": {
+                        "type": "number",
+                        "description": "수평 철근 간격(from). 단위 m 기준 기본 0.05",
+                        "default": 0.05
+                      },
+                      "END_REBAR_METHOD": {
+                        "type": "integer",
+                        "description": "단부 철근 설계 방법",
+                        "default": 1,
+                        "enum": [
+                          1,
+                          2,
+                          3,
+                          4
+                        ]
+                      },
+                      "DIST1": {
+                        "type": "number",
+                        "description": "단부 철근 4개 배근 간격",
+                        "default": 0.3
+                      },
+                      "DIST2": {
+                        "type": "number",
+                        "description": "단부 철근 6개 배근 간격",
+                        "default": 0.15
+                      },
+                      "DIST3": {
+                        "type": "number",
+                        "description": "단부 철근 8개 이상 배근 간격",
+                        "default": 0.1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

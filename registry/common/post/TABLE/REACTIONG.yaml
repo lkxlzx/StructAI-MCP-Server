@@ -1,0 +1,40 @@
+key: POST.TABLE.REACTIONG
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/REACTIONG.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: REACTIONG
+title: "Reaction - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36009349748249-Reaction-Analysis-Result-Table"
+  retrieved_at: "2026-09-11"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 23
+  examples: 17
+  has_response_head: false
+notes: ["모두 `\"REACTIONSURFACESPRING\"`으로 일치하나, \"Reaction(Local-Surface Spring)\" Request Example 하나만 `\"REACTIONLSURFACESPRING\"`(L 추가)을 사용한다. 표·스키마 2곳이 일치하는 쪽을 채택하고 예제 쪽의 단발성 오타로 판단했으나, 실제 API 동작은 검증하지 않았으므로 오류제보 대상으로 남김.", "추가되며, 그 안에 `SUMMATIONOFREACTIONFORCESPRINTOUT` 하위 테이블(`HEAD`: `[\"Load\", \"FX(kN)\", \"FY(kN)\", \"FZ(kN)\"]`, 시공단계 조회 시 `Stage`/`Step` 추가)이 포함된다. 이전 버전 문서에는 반영되어 있지 않아 아래 예제에 추가함. `REACTIONL`/`REACTIONSURFACESPRING`에는 `SUB_TABLES`가 없다."]

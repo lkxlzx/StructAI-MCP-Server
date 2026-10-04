@@ -1,0 +1,69 @@
+{
+  "key": "DB.POSL",
+  "uri": "DB/POSL",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "CODE": {
+          "description": "SeismicLoadCode",
+          "type": "string"
+        },
+        "METHOD": {
+          "description": "Method",
+          "type": "string"
+        },
+        "SZ": {
+          "description": "SeismicZone",
+          "type": "string"
+        },
+        "EPA": {
+          "description": "EPA(S)",
+          "type": "number"
+        },
+        "SC": {
+          "description": "SiteClass",
+          "type": "string"
+        },
+        "FA": {
+          "description": "Fa",
+          "type": "number"
+        },
+        "FV": {
+          "description": "Fv",
+          "type": "number"
+        },
+        "SDS": {
+          "description": "Sds",
+          "type": "number"
+        },
+        "SD1": {
+          "description": "Sd1",
+          "type": "number"
+        },
+        "USER_GROUP": {
+          "description": "SeismicUserGroup",
+          "type": "string"
+        },
+        "IF": {
+          "description": "ImportanceFactor",
+          "type": "number"
+        },
+        "RMF": {
+          "description": "ResponseModifyFactor",
+          "type": "number"
+        },
+        "CALC_OPT": {
+          "description": "CalculateData",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

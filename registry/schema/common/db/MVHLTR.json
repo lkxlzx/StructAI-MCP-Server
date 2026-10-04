@@ -1,0 +1,61 @@
+{
+  "key": "DB.MVHLTR",
+  "uri": "DB/MVHLTR",
+  "source": "help_center",
+  "schema": {
+    "MVHLTR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "VehicularLoadName",
+          "type": "string"
+        },
+        "P": {
+          "description": "P#",
+          "type": "number"
+        },
+        "W": {
+          "description": "W",
+          "type": "number"
+        },
+        "LW": {
+          "description": "LongW",
+          "type": "number"
+        },
+        "NUM": {
+          "description": "Num",
+          "type": "integer"
+        },
+        "DW": {
+          "description": "Dw",
+          "type": "number"
+        },
+        "DV": {
+          "description": "Dv",
+          "type": "number"
+        },
+        "DE": {
+          "description": "De",
+          "type": "number"
+        },
+        "OPT_MEDIAN_STRIP": {
+          "description": "UseMedianStrip",
+          "type": "boolean"
+        },
+        "ML": {
+          "description": "Ml",
+          "type": "number"
+        },
+        "MW": {
+          "description": "Mw",
+          "type": "number"
+        },
+        "LEFT_LANES": {
+          "description": "LeftLaneCount",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

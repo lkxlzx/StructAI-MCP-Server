@@ -1,0 +1,143 @@
+{
+  "key": "DESIGN.SRC.AIK-SRC2K.MCRD",
+  "uri": "DESIGN/SRC/AIK-SRC2K/MCRD",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is a section ID string.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "MAIN_BAR",
+              "SHEAR_BAR"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "MAIN_BAR": {
+                "type": "object",
+                "required": [
+                  "NUM",
+                  "NAME",
+                  "ROW",
+                  "DO"
+                ],
+                "description": "Main rebar data.",
+                "additionalProperties": false,
+                "properties": {
+                  "USE_REBAR_SPACE": {
+                    "type": "boolean",
+                    "description": "Auto-calculated rebar spacing.",
+                    "default": true
+                  },
+                  "REBAR_SPACE": {
+                    "type": "number",
+                    "description": "Main rebar spacing. Used when USE_REBAR_SPACE is false.",
+                    "default": 0,
+                    "minimum": 0
+                  },
+                  "NUM": {
+                    "type": "integer",
+                    "description": "Total number of main rebars. Must be a multiple of 4.",
+                    "minimum": 4,
+                    "multipleOf": 4
+                  },
+                  "NAME": {
+                    "type": "string",
+                    "description": "Main rebar size designation.",
+                    "oneOf": [
+                      {
+                        "title": "D4",
+                        "const": "D4"
+                      },
+                      {
+                        "title": "D5",
+                        "const": "D5"
+                      },
+                      {
+                        "title": "D6",
+                        "const": "D6"
+                      },
+                      {
+                        "title": "D7",
+                        "const": "D7"
+                      },
+                      {
+                        "title": "D8",
+                        "const": "D8"
+                      },
+                      "...(전체 19개)"
+                    ]
+                  },
+                  "ROW": {
+                    "type": "integer",
+                    "description": "Number of rebar rows for rectangular section. Must be a multiple of 2.",
+                    "minimum": 2,
+                    "multipleOf": 2
+                  },
+                  "DO": {
+                    "type": "number",
+                    "description": "Concrete cover / center distance d0.",
+                    "minimum": 0
+                  }
+                }
+              },
+              "SHEAR_BAR": {
+                "type": "object",
+                "required": [
+                  "NAME",
+                  "DIST"
+                ],
+                "description": "Hoop/tie rebar data.",
+                "additionalProperties": false,
+                "properties": {
+                  "NAME": {
+                    "type": "string",
+                    "description": "Hoop/tie rebar size designation.",
+                    "oneOf": [
+                      {
+                        "title": "D4",
+                        "const": "D4"
+                      },
+                      {
+                        "title": "D5",
+                        "const": "D5"
+                      },
+                      {
+                        "title": "D6",
+                        "const": "D6"
+                      },
+                      {
+                        "title": "D7",
+                        "const": "D7"
+                      },
+                      {
+                        "title": "D8",
+                        "const": "D8"
+                      },
+                      "...(전체 19개)"
+                    ]
+                  },
+                  "DIST": {
+                    "type": "number",
+                    "description": "Hoop/tie rebar spacing. Used when USE_REBAR_SPACE is false.",
+                    "exclusiveMinimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

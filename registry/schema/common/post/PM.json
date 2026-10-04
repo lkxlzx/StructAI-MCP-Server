@@ -1,0 +1,17 @@
+{
+  "key": "POST.PM",
+  "uri": "POST/PM",
+  "source": "help_center",
+  "schema": {
+    "PM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "argument": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    }
+  }
+}

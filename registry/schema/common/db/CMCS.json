@@ -1,0 +1,21 @@
+{
+  "key": "DB.CMCS",
+  "uri": "DB/CMCS",
+  "source": "help_center",
+  "schema": {
+    "CMCS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "DEFORM": {
+          "description": "Deform",
+          "type": "number"
+        },
+        "USER": {
+          "description": "User",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

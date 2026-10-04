@@ -1,0 +1,38 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.TRFT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/TRFT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by beam member ID strings (e.g., \"859\"), where each entry assigns a torsion reduction factor. Only Beam Member Type is applicable.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "FACTOR"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "FACTOR": {
+                "type": "number",
+                "description": "Torsion reduction factor applied to the member.",
+                "default": 1,
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

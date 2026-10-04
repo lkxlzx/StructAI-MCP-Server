@@ -1,0 +1,45 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.ULCT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/ULCT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "description": "Underground Load Combination settings. Checklist Text (view-only).",
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "bUNDERLOADTYPE": {
+                "type": "boolean",
+                "description": "Assign Member: true for Underground Loads, false for None-underground Loads",
+                "oneOf": [
+                  {
+                    "title": "For Underground Loads",
+                    "const": true
+                  },
+                  {
+                    "title": "For None-underground Loads",
+                    "const": false
+                  }
+                ],
+                "default": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

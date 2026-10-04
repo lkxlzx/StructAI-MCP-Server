@@ -1,0 +1,335 @@
+{
+  "key": "DB.ACTL-M1",
+  "uri": "DB/ACTL-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Key is a string (e.g. \"1\"), and each item is an Analysis Control input object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ARCD": {
+              "type": "boolean",
+              "default": true,
+              "description": "Auto Rotational DOF Constraint / Auto Normal Rotation Constraint"
+            },
+            "ANRC": {
+              "type": "boolean",
+              "default": true,
+              "description": "Auto Rotational DOF Constraint / Auto Normal Rotation Constraint"
+            },
+            "CSECF": {
+              "type": "boolean",
+              "default": false,
+              "description": "Consider Section Stiffness Scale Factor"
+            },
+            "CRBAR": {
+              "type": "boolean",
+              "default": false,
+              "description": "Consider Reinforcement for Section Stiffness"
+            },
+            "TRS": {
+              "type": "boolean",
+              "default": true,
+              "description": "Transfer Reactions to Master Node"
+            },
+            "CLATS": {
+              "type": "boolean",
+              "default": false,
+              "description": "Change Local Axis of Tapered Section"
+            },
+            "BMSTRESS": {
+              "type": "boolean",
+              "default": false,
+              "description": "Calculate Equivalent Beam Stresses"
+            },
+            "CLFORM": {
+              "type": "boolean",
+              "default": false,
+              "description": "Classical Formula for Solid Element"
+            },
+            "BSCHG": {
+              "type": "string",
+              "enum": [
+                "CONSTANT",
+                "CHANGE"
+              ],
+              "default": "CHANGE",
+              "description": "Beam Section Property Changes"
+            },
+            "CABINIT": {
+              "type": "boolean",
+              "default": true,
+              "description": "Consider Initial Tension for Cable Element"
+            },
+            "TCELEM": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "NUMINC": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1,
+                  "description": "Number of Increments"
+                },
+                "INTOUT": {
+                  "type": "string",
+                  "enum": [
+                    "EVERY",
+                    "LAST"
+                  ],
+                  "default": "LAST",
+                  "description": "Intermediate Output Request"
+                },
+                "CONVERGENCE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "DISPL": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement (U) / Load (P) / Work (W)"
+                    },
+                    "LOAD": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement (U) / Load (P) / Work (W)"
+                    },
+                    "WORK": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "OPT_USE"
+                      ],
+                      "properties": {
+                        "OPT_USE": {
+                          "type": "boolean",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        },
+                        "VALUE": {
+                          "type": "number",
+                          "description": "Displacement (U) / Load (P) / Work (W)"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "If OPT_USE = true, VALUE is required.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "If OPT_USE = false, VALUE is not allowed.",
+                          "if": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "OPT_USE"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "VALUE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Displacement (U) / Load (P) / Work (W)"
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "DISPL": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "DISPL"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "LOAD": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "LOAD"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "WORK": {
+                          "properties": {
+                            "OPT_USE": {
+                              "const": true
+                            }
+                          },
+                          "required": [
+                            "OPT_USE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "WORK"
+                      ]
+                    }
+                  ],
+                  "description": "Displacement (U) / Load (P) / Work (W)"
+                }
+              },
+              "description": "Tension/Compression Truss Element (서브다이얼로그 진입 — API 는 TCELEM 블록 직접 전송)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "key": "DB.SDHY",
+  "uri": "DB/SDHY",
+  "source": "help_center",
+  "schema": {
+    "SDHY": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "Name",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "INPUT_METHOD": {
+              "description": "InputMethod",
+              "type": "integer"
+            },
+            "COMPANY": {
+              "description": "Company",
+              "type": "string"
+            },
+            "PRODUCT_NAME": {
+              "description": "ProductName",
+              "type": "string"
+            },
+            "TYPE_NUMBER": {
+              "description": "TypeNumber",
+              "type": "string"
+            }
+          }
+        },
+        "SDHY_HYS_MODEL": {
+          "description": "HysteresisProperties",
+          "type": "string"
+        },
+        "MSS": {
+          "description": "NumberofShearSprings",
+          "type": "integer"
+        },
+        "K0": {
+          "description": "K0_InitialStiffness",
+          "type": "number"
+        },
+        "P1": {
+          "description": "P1_YieldStrength(kN)",
+          "type": "number"
+        },
+        "P2": {
+          "description": "P2_YieldStrength(kN)",
+          "type": "number"
+        },
+        "ALPHA1": {
+          "description": "Alpha1_StiffnessFactor",
+          "type": "number"
+        },
+        "ALPHA2": {
+          "description": "Alpha2_StiffnessFactor",
+          "type": "number"
+        },
+        "BETA": {
+          "description": "Beta_ExponentinUnloadingStiffnessCalculation",
+          "type": "number"
+        },
+        "Phi": {
+          "description": "Phi",
+          "type": "number"
+        },
+        "LAMBDA": {
+          "description": "Lambda",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

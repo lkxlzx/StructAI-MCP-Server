@@ -1,0 +1,62 @@
+key: DB.SPAN
+namespace: DB
+uri: /DB/SPAN
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SPAN
+schema_ref:
+  local: schema/common/db/SPAN.json
+  introspect: info/db/SPAN
+  source: help_center
+  params_ref: "designer_params.json#DB/SPAN"
+parser: db_generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DB/SPAN
+    methods: "GET, POST, DELETE"
+    title: 跨度
+    spec_rows: 11
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: array
+    delete_all_via_body: true
+availability: verified
+verified_on: ["civil-cloud", "designer-cloud"]
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Span Information
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35805957502233-Span-Information"
+  retrieved_at: "2025-02-06"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 9
+  examples: 1
+  has_response_head: false

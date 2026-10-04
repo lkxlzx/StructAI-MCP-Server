@@ -1,0 +1,122 @@
+{
+  "key": "POST.TABLE.THISGLINKDEFORMATION",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "RESULTGRAPHIC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "TABLE_NAME": {
+              "type": "string",
+              "description": "TableName"
+            },
+            "TABLE_TYPE": {
+              "type": "string",
+              "description": "ResultTableType",
+              "enum": [
+                "THISGLINKFORCE",
+                "THISGLINKDEFORMATION"
+              ]
+            },
+            "EXPORT_PATH": {
+              "type": "string",
+              "description": "ResultTableSavePath"
+            },
+            "UNIT": {
+              "type": "object",
+              "description": "ResponseUnitSetting",
+              "properties": {
+                "FORCE": {
+                  "type": "string",
+                  "description": "Force"
+                },
+                "DIST": {
+                  "type": "string",
+                  "description": "Length"
+                },
+                "HEAT": {
+                  "type": "string",
+                  "description": "Heat"
+                },
+                "TEMP": {
+                  "type": "string",
+                  "description": "Temperature"
+                }
+              }
+            },
+            "STYLES": {
+              "type": "object",
+              "description": "ResponseNumberFormat",
+              "properties": {
+                "FORMAT": {
+                  "type": "string",
+                  "description": "Numberformat",
+                  "enum": [
+                    "Default",
+                    "Fixed",
+                    "Scientific",
+                    "General"
+                  ]
+                },
+                "PLACE": {
+                  "type": "integer",
+                  "description": "Digitplace"
+                }
+              }
+            },
+            "COMPONENTS": {
+              "type": "array",
+              "description": "ComponentsofResultTable",
+              "items": {
+                "type": "string"
+              }
+            },
+            "NODE_ELEMS": {
+              "type": "object",
+              "description": "Node/ElementNo.Input",
+              "properties": {
+                "KEYS": {
+                  "type": "array",
+                  "description": "Method1:SpecifyEachID",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "TO": {
+                  "type": "string",
+                  "description": "Method2:SpecifyIDRange"
+                },
+                "STRUCTURE_GROUP_NAME": {
+                  "type": "string",
+                  "description": "Method3:SpecifyStructureGroupName"
+                }
+              }
+            },
+            "LOAD_CASE_NAMES": {
+              "type": "array",
+              "description": "StaticLoad/LoadCombinationName&Type",
+              "items": {
+                "type": "string"
+              }
+            },
+            "OPT_CS": {
+              "type": "boolean",
+              "description": "Activation-ConstructionStageStep"
+            },
+            "STAGE_STEP": {
+              "type": "array",
+              "description": "StageStepName",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

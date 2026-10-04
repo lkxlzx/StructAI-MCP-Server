@@ -1,0 +1,188 @@
+{
+  "key": "DB.MVLDEU",
+  "uri": "DB/MVLDEU",
+  "source": "help_center",
+  "schema": {
+    "MVLDEU": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "OPT_AUTO_OPTIMIZE": {
+          "description": "AutoOptimize",
+          "type": "boolean"
+        },
+        "TYPE_LOADMODEL": {
+          "description": "SelectLoadModelType",
+          "type": "integer"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "OPT_COMB": {
+          "description": "CombOption",
+          "type": "integer"
+        },
+        "VHLNAME1": {
+          "description": "Vehicle",
+          "type": "string"
+        },
+        "VHLNAME2": {
+          "description": "Footway",
+          "type": "string"
+        },
+        "OPT_LEADING": {
+          "description": "Ignorepsifactor",
+          "type": "boolean"
+        },
+        "MINVHLDIST": {
+          "description": "MinimumVehicleDistance",
+          "type": "number"
+        },
+        "OPTIMIZE_LANE_NAME": {
+          "description": "OptimizeLaneName",
+          "type": "string"
+        },
+        "MIN_NUM_VHL": {
+          "description": "MinimumVehicleNumber",
+          "type": "integer"
+        },
+        "MAX_NUM_VHL": {
+          "description": "MaximumVehicleNumber",
+          "type": "integer"
+        },
+        "LOADEDLANE": {
+          "description": "LoadedLane",
+          "type": "integer"
+        },
+        "SCALE_FACTOR1": {
+          "description": "ScaleFactor1",
+          "type": "number"
+        },
+        "SCALE_FACTOR2": {
+          "description": "ScaleFactor2",
+          "type": "number"
+        },
+        "SCALE_FACTOR3": {
+          "description": "ScaleFactor3",
+          "type": "number"
+        },
+        "OPT_PSI_FACTOR": {
+          "description": "Psi1FactorOption",
+          "type": "boolean"
+        },
+        "MULTI_FACTOR1": {
+          "description": "MultipleFactor1",
+          "type": "number"
+        },
+        "MULTI_FACTOR2": {
+          "description": "MultipleFactor2",
+          "type": "number"
+        },
+        "MULTI_FACTOR3": {
+          "description": "MultipleFactor3",
+          "type": "number"
+        },
+        "OPTIMIZE_LIST": {
+          "description": "OptimizeVehicleList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TYPE": {
+                "description": "OptimizeVehicleLoadType",
+                "type": "integer"
+              },
+              "NAME": {
+                "description": "OptimizeVehicleLoadName",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "OptimizeScaleFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "SUB_LOAD_LIST": {
+          "description": "SubLoadDataList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TYPE": {
+                "description": "SUbLoadDataVehicleLoadType",
+                "type": "integer"
+              },
+              "NAME": {
+                "description": "SubLoadDataVehicleLoadName",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "SubLoadDataVehicleScaleFactor",
+                "type": "number"
+              },
+              "MIN_LOAD_LANE_TYPE": {
+                "description": "SubLoadDataMinimumLoadedLaneType",
+                "type": "integer"
+              },
+              "MAX_LOAD_LANE_TYPE": {
+                "description": "SubLoadDataNaximumLoadedLaneType",
+                "type": "integer"
+              },
+              "SLN_LIST": {
+                "description": "SelectedLaneNameList",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "SLN_LIST": {
+          "description": "SelectedLaneNameList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "SRA_LIST": {
+          "description": "SelectedRemainingAreaNameList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "FLN_LIST": {
+          "description": "FootwayLaneNameList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "STL_LIST": {
+          "description": "StraddlingLaneNamesList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "NAME1": {
+                "description": "StraddlingLaneName1",
+                "type": "string"
+              },
+              "NAME2": {
+                "description": "StraddlingLaneName2",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+key: DB.MCON
+namespace: DB
+uri: /DB/MCON
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: MCON
+schema_ref:
+  local: schema/common/db/MCON.json
+  introspect: info/db/MCON
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Linear Constraints
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35948507217689-Linear-Constraints"
+  retrieved_at: "2025-03-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 14
+  examples: 2
+  has_response_head: false
+notes: ["타입 모두 `COEFF`를 쓰는 것으로 잘못 기재했으나, 실제로는 **`\"EX\"`만 `COEFF`+`DOF` 조합**을 쓰고(원소마다 개별 DOF 지정), **`\"WD\"`는 `WEIGHT\"` 하나만** 쓴다(아티클 id `35948507217689`)."]

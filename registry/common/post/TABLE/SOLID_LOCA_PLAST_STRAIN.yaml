@@ -1,0 +1,40 @@
+key: POST.TABLE.SOLID_LOCA_PLAST_STRAIN
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/SOLID_LOCA_PLAST_STRAIN.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: SOLID_LOCA_PLAST_STRAIN
+title: Solid Plastic Strain(Local)
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 3
+  has_response_head: false
+notes: ["`Damage`)가 이전 버전 문서에 누락되어 있었음(단일 HEAD로 표기해 소성/전체 변형률이 동일 구조인 것처럼 오인될 소지)."]

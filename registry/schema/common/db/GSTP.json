@@ -1,0 +1,50 @@
+{
+  "key": "DB.GSTP",
+  "uri": "DB/GSTP",
+  "source": "help_center",
+  "schema": {
+    "GSTP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "NameofSpring",
+          "type": "string"
+        },
+        "SPRING": {
+          "description": "Spring(SDz)",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "MASS": {
+          "description": "Mass(MDx)",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "DAMPING": {
+          "description": "Damping(DDx)",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "OPT_STIFFNESS": {
+          "description": "UseStiffnessMatrixOption",
+          "type": "boolean"
+        },
+        "OPT_MASS": {
+          "description": "UseMassMatrixOption",
+          "type": "boolean"
+        },
+        "OPT_DAMPING": {
+          "description": "UseDampingMatrixOption",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

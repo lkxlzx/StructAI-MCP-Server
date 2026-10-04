@@ -1,0 +1,111 @@
+{
+  "key": "DB.MVLDID",
+  "uri": "DB/MVLDID",
+  "source": "help_center",
+  "schema": {
+    "MVLDID": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "OPT_AUTO_LL": {
+          "description": "AutoLiveLoadCombinationBoolean",
+          "type": "boolean"
+        },
+        "SCALE_FACTOR": {
+          "description": "ScaleFactors",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "NUM_LOADED_LANES": {
+          "description": "NumberofDesignLanes",
+          "type": "integer"
+        },
+        "OPT_LC_FOR_PERMIT_LOAD": {
+          "description": "LoadCaseforPermitVehicleBoolean",
+          "type": "boolean"
+        },
+        "PERMIT_VEHICLE": {
+          "description": "PermitVehicle",
+          "type": "integer"
+        },
+        "REF_LANE": {
+          "description": "Ref.Lane",
+          "type": "integer"
+        },
+        "ECCEN": {
+          "description": "Eccentricity",
+          "type": "number"
+        },
+        "PERMIT_SCALE_FACTOR": {
+          "description": "ScaleFactor(PermitVehicle)",
+          "type": "number"
+        },
+        "SUB_LOAD_ITEMS": {
+          "description": "SubLoadItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VEHICLE_CLASS_1": {
+                "description": "Class1",
+                "type": "string"
+              },
+              "VEHICLE_CLASS_2": {
+                "description": "Class2",
+                "type": "string"
+              },
+              "FOOTWAY": {
+                "description": "Footway",
+                "type": "string"
+              },
+              "SCALE_FACTOR": {
+                "description": "ScaleFactor",
+                "type": "number"
+              },
+              "MIN_NUM_LOADED_LANES": {
+                "description": "Min.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "MAX_NUM_LOADED_LANES": {
+                "description": "Max.NumberofLoadedLanes",
+                "type": "integer"
+              },
+              "CARRIAGE_WAY_WIDTH": {
+                "description": "Carriagewaywidth",
+                "type": "number"
+              },
+              "CARRIAGE_WAY_LOADING": {
+                "description": "CarriagewayLoading",
+                "type": "number"
+              },
+              "SELECTED_LANES": {
+                "description": "SelectedLanes",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "SELECTED_FOOTWAY_LANES": {
+                "description": "SelectedFootwayLanes",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

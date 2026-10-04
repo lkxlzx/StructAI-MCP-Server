@@ -1,0 +1,25 @@
+{
+  "key": "DB.LTSR",
+  "uri": "DB/LTSR",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "bNOTCHECK": {
+          "description": "Donotcheck",
+          "type": "boolean"
+        },
+        "COMP": {
+          "description": "Compression",
+          "type": "number"
+        },
+        "TENS": {
+          "description": "Tension",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

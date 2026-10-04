@@ -1,0 +1,40 @@
+key: "OPE.LCOM-GEN"
+namespace: OPE
+uri: "/OPE/LCOM-GEN"
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: "schema/products/gen_nx/ope/LCOM-GEN.json"
+  introspect: null
+  source: help_center
+parser: generic
+products: [GEN_NX]
+availability: untested
+table_type: null
+title: "Load Combination (General) - KDS : 2022"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/59057595762329-Load-Combination-General-KDS-2022"
+  retrieved_at: "2026-07-30"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 163
+  examples: 2
+  has_response_head: false
+notes: ["존재\"로 되어 있었으나, 위 JSON Schema 3개 `oneOf` 분기(CONCRETE/STEEL/SRC) 모두에 `ADD_ENVELOPE`가 동일하게 존재함을 공식 원문(SRC 분기 포함)으로 재확인 — 세 바디 공통 필드로 정정. (바로 위 \"참고\" 요약 문구 자체는 애초에 `ADD_ENVELOPE`를 바디별 차이 항목으로 언급하지 않아 이 오류와 모순되고 있었음.)"]

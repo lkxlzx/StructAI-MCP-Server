@@ -1,0 +1,58 @@
+{
+  "key": "DB.TDPL",
+  "uri": "DB/TDPL",
+  "source": "help_center",
+  "schema": {
+    "TDPL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "TendonPrestressLoadsByStaticLoad",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "TENDON_NAME": {
+                "description": "TendonName",
+                "type": "string"
+              },
+              "TYPE": {
+                "description": "ValueType(STRESS/FORCE)",
+                "type": "string"
+              },
+              "ORDER": {
+                "description": "StartFrom(BEGIN/END/BOTH)",
+                "type": "string"
+              },
+              "BEGIN": {
+                "description": "ValueBegin",
+                "type": "number"
+              },
+              "END": {
+                "description": "ValueEnd",
+                "type": "number"
+              },
+              "GROUTING": {
+                "description": "Grouting",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

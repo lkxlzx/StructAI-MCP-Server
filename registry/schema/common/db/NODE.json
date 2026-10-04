@@ -1,0 +1,25 @@
+{
+  "key": "DB.NODE",
+  "uri": "DB/NODE",
+  "source": "help_center",
+  "schema": {
+    "NODE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "X": {
+          "description": "GLOBALX-POSITION",
+          "type": "number"
+        },
+        "Y": {
+          "description": "GLOBALY-POSITION",
+          "type": "number"
+        },
+        "Z": {
+          "description": "GLOBALZ-POSITION",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

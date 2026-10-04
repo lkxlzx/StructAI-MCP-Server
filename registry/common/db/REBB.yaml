@@ -1,0 +1,42 @@
+key: DB.REBB
+namespace: DB
+uri: /DB/REBB
+methods: [POST]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: REBB
+schema_ref:
+  local: schema/common/db/REBB.json
+  introspect: info/db/REBB
+  source: repo_midas_api
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+path_key_supported: true
+table_type: null
+title: Modify Beam Rebar Data (보 철근 데이터 수정)
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [repo_midas_api]
+stats:
+  spec_rows: 28
+  examples: 2
+  has_response_head: false

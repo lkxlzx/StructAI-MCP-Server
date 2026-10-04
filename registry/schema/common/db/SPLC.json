@@ -1,0 +1,211 @@
+{
+  "key": "DB.SPLC",
+  "uri": "DB/SPLC",
+  "source": "help_center",
+  "schema": {
+    "SPLC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "SpectrumLoadCaseName",
+          "type": "string"
+        },
+        "DIR": {
+          "description": "Direction",
+          "type": "string"
+        },
+        "ANGLE": {
+          "description": "Excitationangle",
+          "type": "number"
+        },
+        "SCALE": {
+          "description": "ScaleFactor",
+          "type": "number"
+        },
+        "PMFT": {
+          "description": "PeriodModificationFactor",
+          "type": "number"
+        },
+        "bDAMP": {
+          "description": "ApplyDampingMethod-CheckBox",
+          "type": "boolean"
+        },
+        "INTERP": {
+          "description": "Interpolationofspectraldata",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "Desctiprion",
+          "type": "string"
+        },
+        "COMTYPE": {
+          "description": "Modalcombinationtype",
+          "type": "string"
+        },
+        "bADDSIGN": {
+          "description": "Addsignstotheresults-CheckBox",
+          "type": "boolean"
+        },
+        "iSIGNTYPE": {
+          "description": "Addsignstotheresultstype",
+          "type": "integer"
+        },
+        "bMODE": {
+          "description": "Selectmodeshapes-CheckBox",
+          "type": "boolean"
+        },
+        "bAUTO": {
+          "description": "AutoSearchAngle",
+          "type": "boolean"
+        },
+        "iAUTOTYPE": {
+          "description": "AutoType",
+          "type": "integer"
+        },
+        "bNDP": {
+          "description": "NonDissipative",
+          "type": "boolean"
+        },
+        "NDP": {
+          "description": "NonDissipative",
+          "type": "number"
+        },
+        "aFUNCNAME": {
+          "description": "SpectrumNameList",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "aUSEMODE": {
+          "description": "UseModeList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "bUSE": {
+                "description": "BooleanUseMode",
+                "type": "boolean"
+              },
+              "MSFACTOR": {
+                "description": "ModeShapeFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "bCDAMP": {
+          "description": "CorrectDamping",
+          "type": "boolean"
+        },
+        "iMDTYPE": {
+          "description": "Dampingratiomethodtype",
+          "type": "integer"
+        },
+        "DALL": {
+          "description": "Dampingratioforallmodes",
+          "type": "number"
+        },
+        "aDAMPING": {
+          "description": "Modaldampingoverrides-dampingratioList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "iMODE": {
+                "description": "Mode",
+                "type": "integer"
+              },
+              "DAMPING": {
+                "description": "ModeShapeFactor",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "iCOEF": {
+          "description": "DampingType",
+          "type": "integer"
+        },
+        "bMASSP": {
+          "description": "Massproportional-CheckBox",
+          "type": "boolean"
+        },
+        "MASSC": {
+          "description": "Massproportional-Value",
+          "type": "number"
+        },
+        "bSTIFFP": {
+          "description": "Stiffnessproportional-CheckBox",
+          "type": "boolean"
+        },
+        "STIFFC": {
+          "description": "Stiffnessproportional-Value",
+          "type": "number"
+        },
+        "iCALC": {
+          "description": "Coefficientscalculationmethod",
+          "type": "integer"
+        },
+        "FP1": {
+          "description": "Frequency/Period-Mode1",
+          "type": "number"
+        },
+        "FP2": {
+          "description": "Frequency/Period-Mode2",
+          "type": "number"
+        },
+        "DR1": {
+          "description": "Dampingratio-Mode1",
+          "type": "number"
+        },
+        "DR2": {
+          "description": "DampingRatio-Mode2",
+          "type": "number"
+        },
+        "bACCECC": {
+          "description": "AccidentalEccentricity",
+          "type": "boolean"
+        },
+        "bACCECC_AUTO": {
+          "description": "EccentricityData-Automatic",
+          "type": "boolean"
+        },
+        "ACCECC_PERCENT": {
+          "description": "EccentricityData-Eccentricity",
+          "type": "number"
+        },
+        "bACCECC_CONSIDER_GL": {
+          "description": "EccentricityData-ConsiderbelowG.L",
+          "type": "boolean"
+        },
+        "bACCECC_MINIMUM_TORSION": {
+          "description": "EccentricityData-LimitMinimumTorsion",
+          "type": "boolean"
+        },
+        "aACCECC_ECCEN_LIST": {
+          "description": "EccentricityData-EccentricityList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "STORY": {
+                "description": "Story",
+                "type": "string"
+              },
+              "CROSS": {
+                "description": "Cross",
+                "type": "number"
+              },
+              "ALONG": {
+                "description": "Along",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "key": "DB.UFTR",
+  "uri": "DB/UFTR",
+  "source": "civil_nx_manual",
+  "schema": {
+    "UFTR": {
+      "HEADER_DATA": {
+        "__DESC__": "Header Data Array",
+        "__TYPE__": [
+          "Integer"
+        ]
+      },
+      "FOOTER_DATA": {
+        "__DESC__": "Footer Data Array",
+        "__TYPE__": [
+          "Integer"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "key": "DB.MADO",
+  "uri": "DB/MADO",
+  "source": "help_center",
+  "schema": {
+    "MADO": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "DomainName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "ElementType",
+          "type": "integer"
+        },
+        "MATL": {
+          "description": "ElementMaterial",
+          "type": "integer"
+        },
+        "PROP": {
+          "description": "ElementProperty",
+          "type": "integer"
+        },
+        "SUB_TYPE": {
+          "description": "SubType",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

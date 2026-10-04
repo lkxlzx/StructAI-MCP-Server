@@ -1,0 +1,120 @@
+{
+  "key": "DB.SDVI",
+  "uri": "DB/SDVI",
+  "source": "help_center",
+  "schema": {
+    "SDVI": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "Name",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "INPUT_METHOD": {
+              "description": "InputMethod",
+              "type": "integer"
+            },
+            "COMPANY": {
+              "description": "Company",
+              "type": "string"
+            },
+            "PRODUCT_NAME": {
+              "description": "ProductName",
+              "type": "string"
+            },
+            "TYPE_NUMBER": {
+              "description": "TypeNumber",
+              "type": "string"
+            }
+          }
+        },
+        "DEVICE_TYPE": {
+          "description": "DeviceType",
+          "type": "string"
+        },
+        "DAMPER_TYPE": {
+          "description": "DamperType",
+          "type": "integer"
+        },
+        "DASHPOT_TYPE": {
+          "description": "DashpotType",
+          "type": "integer"
+        },
+        "INPUT_TYPE": {
+          "description": "InputType",
+          "type": "integer"
+        },
+        "INPUT_TYPE_EXFN": {
+          "description": "InputType(ExponentialFunctionType)",
+          "type": "integer"
+        },
+        "ITEM": {
+          "description": "DashpotProperties",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "OPT_DOF": {
+                "description": "DOF",
+                "type": "boolean"
+              },
+              "CE": {
+                "description": "InitialDampingCoefficient",
+                "type": "number"
+              },
+              "P1": {
+                "description": "ReliefDampingForce",
+                "type": "number"
+              },
+              "C1": {
+                "description": "SecondDampingCoefficient",
+                "type": "number"
+              },
+              "ALPHA1": {
+                "description": "DampingReductionFactor",
+                "type": "number"
+              },
+              "K0": {
+                "description": "TODO:K0",
+                "type": "number"
+              },
+              "EXFN_PY": {
+                "description": "DampingForce",
+                "type": "number"
+              },
+              "EXFN_VY": {
+                "description": "ReferenceVelocity",
+                "type": "number"
+              },
+              "EXFN_DE": {
+                "description": "DampingExponent",
+                "type": "number"
+              },
+              "EXFN_DC": {
+                "description": "DampingCoefficient",
+                "type": "number"
+              },
+              "OPT_EXFN_CE": {
+                "description": "TODO:OPT_EXEN_CE",
+                "type": "boolean"
+              },
+              "EXFN_CE": {
+                "description": "InitialDampingCoefficient",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

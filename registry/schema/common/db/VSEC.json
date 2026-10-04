@@ -1,0 +1,53 @@
+{
+  "key": "DB.VSEC",
+  "uri": "DB/VSEC",
+  "source": "help_center",
+  "schema": {
+    "VSEC": {
+      "NAME": {
+        "__DESC__": "Name",
+        "__TYPE__": "String"
+      },
+      "CENT_CALC_TYPE": {
+        "__DESC__": "CentCalcType",
+        "__TYPE__": "Integer"
+      },
+      "CEN_PT_X": {
+        "__DESC__": "CentroidX(Global)",
+        "__TYPE__": "Real"
+      },
+      "CEN_PT_Y": {
+        "__DESC__": "CentroidY(Global)",
+        "__TYPE__": "Real"
+      },
+      "CEN_PT_Z": {
+        "__DESC__": "CentroidZ(Global)",
+        "__TYPE__": "Real"
+      },
+      "NORMAL_X": {
+        "__DESC__": "NormalVector(X)",
+        "__TYPE__": "Real"
+      },
+      "NORMAL_Y": {
+        "__DESC__": "NormalVector(Y)",
+        "__TYPE__": "Real"
+      },
+      "NORMAL_Z": {
+        "__DESC__": "NormalVector(Z)",
+        "__TYPE__": "Real"
+      },
+      "NODE_LIST": {
+        "__DESC__": "NodeList",
+        "__TYPE__": [
+          "Integer"
+        ]
+      },
+      "ELEM_LIST": {
+        "__DESC__": "ElementList",
+        "__TYPE__": [
+          "Integer"
+        ]
+      }
+    }
+  }
+}

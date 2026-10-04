@@ -1,0 +1,112 @@
+{
+  "key": "DB.EPSE",
+  "uri": "DB/EPSE",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "LOADCASE": {
+          "description": " Load Case Name",
+          "type": "string"
+        },
+        "DIR": {
+          "description": " Direction",
+          "type": "string"
+        },
+        "ANGLE": {
+          "description": " Angle",
+          "type": "number"
+        },
+        "IN_PT": {
+          "description": " Inner Points(x,y,z)",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        },
+        "SF": {
+          "description": " Scale Factor",
+          "type": "number"
+        },
+        "CODE": {
+          "description": " Code",
+          "type": "string"
+        },
+        "SEIS_LOAD": {
+          "description": " Seismic Load",
+          "type": "string"
+        },
+        "LAYER_PARAM": {
+          "description": " Layer Parameter",
+          "type": "string"
+        },
+        "LAYER_LV": {
+          "description": " Top Level 2nd Layer",
+          "type": "number"
+        },
+        "SOIL_PROP": {
+          "description": " Soil Property",
+          "type": "string"
+        },
+        "SEL_TYPE": {
+          "description": " Selection Type",
+          "type": "string"
+        },
+        "ELEM_TYPE": {
+          "description": " Element Type",
+          "type": "string"
+        },
+        "NODE_LIST": {
+          "description": " Elements Defining Loading Area (Node)",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "ELEM_LIST": {
+          "description": " Elements Defining Loading Area (Element)",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "LOADING_AREA_GROUP": {
+          "description": " Load Area Group",
+          "type": "integer"
+        },
+        "PRES_PROFILE_ITEMS": {
+          "description": " Pressure Profile Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LEVEL": {
+                "description": " Level",
+                "type": "number"
+              },
+              "KH": {
+                "description": " Reaction Force",
+                "type": "number"
+              },
+              "REL_DISP": {
+                "description": " Displacement",
+                "type": "number"
+              },
+              "SEIS_PRES": {
+                "description": " Pressure",
+                "type": "number"
+              },
+              "ADD_PRES": {
+                "description": " Additional Pressure",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+key: VIEW.CAPTURE
+namespace: VIEW
+uri: /VIEW/CAPTURE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/view/CAPTURE.json
+  introspect: null
+  source: help_center
+  params_ref: "designer_params.json#VIEW/CAPTURE"
+parser: generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: VIEW/CAPTURE
+    methods: POST
+    title: 截图
+    spec_rows: 5
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: untested
+table_type: null
+title: Capture
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [GRAPHICS]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35996023805337-Capture"
+  retrieved_at: "2025-04-24"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 24
+  examples: 3
+  has_response_head: false

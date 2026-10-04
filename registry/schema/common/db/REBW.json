@@ -1,0 +1,133 @@
+{
+  "key": "DB.REBW",
+  "uri": "DB/REBW",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "키는 벽체 ID 문자열 (예: \"1\")",
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "ITEMS"
+            ],
+            "properties": {
+              "ITEMS": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "CREATE_SUB_WALL_ID": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "SUB_WALL_ID": {
+                      "type": "integer",
+                      "description": "read only"
+                    },
+                    "STORY": {
+                      "type": "object",
+                      "properties": {
+                        "FROM": {
+                          "type": "string"
+                        },
+                        "TO": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "VERTICAL_REBAR": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "HORIZONTAL_REBAR": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "USE_END_REBAR": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "END_REBAR": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "NUM": {
+                          "type": "integer"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "BE_HORIZONTAL_REBAR": {
+                      "type": "object",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "D4~D57"
+                        },
+                        "DIST": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "BOUNDARY_ELEMENT_LENGTH": {
+                      "type": "number",
+                      "default": 0
+                    },
+                    "CONCRETE_FACE_TO_CENTER_OF_REBAR": {
+                      "type": "object",
+                      "properties": {
+                        "DW": {
+                          "type": "number"
+                        },
+                        "DE": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "USE_MODEL_THICKNESS": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "THICKNESS": {
+                      "type": "number",
+                      "description": "USE_MODEL_THICKNESS=false 일 때"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

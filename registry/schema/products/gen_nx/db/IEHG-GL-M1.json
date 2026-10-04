@@ -1,0 +1,38 @@
+{
+  "key": "DB.IEHG-GL-M1",
+  "uri": "DB/IEHG-GL-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Map keyed by target object key string for Time history - Assign Pushover Hinge Properties request items.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "INEL_PROP_NAME"
+              ],
+              "properties": {
+                "INEL_PROP_NAME": {
+                  "type": "string",
+                  "description": "Inelastic Hinge Property (Property name looked up in IEHP.)"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

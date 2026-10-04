@@ -1,0 +1,96 @@
+{
+  "key": "OPE.IBSD",
+  "uri": "OPE/IBSD",
+  "source": "civil_nx_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Influence Line Beam Stress Data Request",
+    "type": "object",
+    "description": "Request body for one beam stress influence-line data result.",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Beam stress influence data query arguments.",
+        "required": [
+          "KEY_ELEM"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Optional output file path. When omitted, no file is saved. A .txt extension saves the original MIDAS text layout; a .json extension saves the structured JSON result."
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Unit system used for the returned influence data.",
+            "additionalProperties": false,
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit, such as kN or N."
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Distance unit, such as m or mm."
+              }
+            }
+          },
+          "LANE_NAME": {
+            "type": "string",
+            "description": "Selected line or surface lane name.",
+            "default": "LANE all"
+          },
+          "KEY_ELEM": {
+            "type": "integer",
+            "description": "Beam element number at which the stress influence is evaluated."
+          },
+          "COMPONENTS": {
+            "type": "object",
+            "description": "Beam position, stress component, and stress evaluation position.",
+            "additionalProperties": false,
+            "properties": {
+              "PART": {
+                "type": "string",
+                "description": "Position along the beam element.",
+                "enum": [
+                  "I",
+                  "1/4",
+                  "1/2",
+                  "3/4",
+                  "J"
+                ],
+                "default": "I"
+              },
+              "COMP": {
+                "type": "string",
+                "description": "Beam stress component type.",
+                "enum": [
+                  "Combined(Ssy)",
+                  "Combined(Ssz)",
+                  "Combined(Normal)"
+                ],
+                "default": "Combined(Normal)"
+              },
+              "COMP_SUB": {
+                "type": "string",
+                "description": "Stress evaluation position.",
+                "enum": [
+                  "Maximum",
+                  "1(-y,+z)",
+                  "2(+y,+z)",
+                  "3(+y,-z)",
+                  "4(-y,-z)"
+                ],
+                "default": "Maximum"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+key: POST.TABLE.CONCURRENT_JOINT_FORCE
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 源手册（Help Center）未提供该 Analysis Story Table 的 JSON Schema，仅有 Request/Response 示例
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: CONCURRENT_JOINT_FORCE
+title: Concurrent Joint Force
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://github.com/Dennis5882/MIDAS-API"
+  retrieved_at: null
+  provenance: [namespace_rule, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 2
+  has_response_head: false
+notes: ["구조 및 파라미터\")가 아니라 **자기 자신만의 독립된 스키마**를 가지며, 공식 JSON Schema에 `\"additionalProperties\": false`가 걸려 있어 공통 항목 중 `NODE_ELEMS`/`OPT_CS`/`STAGE_STEP`는 **이 테이블에 존재하지 않고 사용할 수 없습니다**(전송 시 거부될 가능성). 허용되는 필드는 `TABLE_TYPE`/`LOAD_CASE_NAMES`/`TABLE_NAME`/`EXPORT_PATH`/`UNIT`/`STYLES`/`COMPONENTS`/ `ADDITIONAL` 8개뿐입니다. 또한 `LOAD_CASE_NAMES`는 다른 12개 테이블과 달리(공통 표는 Optional·기본값 All) 공식 스키마의 `required`에 포함되어 **Require", "반복\") — 실제로는 위처럼 요소별 한 행, 성분별 블록 반복입니다. 아래 예제는 공식 예제를 그대로 옮긴 것입니다(1개 하중케이스 × 반력성분 6개 선택 시 81열: `Index`/`Elem.`/`Load` 3열 + 13열 × 6블록).", "짝을 이루는데도 응답 최상위 키가 요청한 `TABLE_NAME`이 아니라 리터럴 `\"empty\"`로 되어 있습니다 (`{\"empty\": {...}}`). 이 챕터의 다른 모든 테이블 및 공통 Response 구조(`{\"<TABLE_NAME>\": {...}}`) 관례와 어긋나는데, 원문 저작 시 실제 값으로 치환하지 않은 복사·붙여넣기 실수인지, 이 엔드포인트만의 실제 동작인지 판단할 근거가 없어 실제 API 동작은 검증하지 않았음을 전제로 오류제보 대상으로만 남기고, 위 예제는 관례를 따라 `\"Concurrent Joint Forces\"` 키를 그대로 유지했습니다."]

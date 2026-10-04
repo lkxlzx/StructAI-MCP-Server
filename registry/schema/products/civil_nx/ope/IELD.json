@@ -1,0 +1,89 @@
+{
+  "key": "OPE.IELD",
+  "uri": "OPE/IELD",
+  "source": "civil_nx_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Influence General Link Force/Moment Data Request",
+    "type": "object",
+    "description": "Request body for one general-link force or moment influence-line data result.",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "General-link force or moment influence data query arguments.",
+        "required": [
+          "NODE",
+          "COMPONENTS",
+          "ELASTIC_LINK_NODES"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Optional output file path. Supported extensions are .TXT and .JSON. When omitted, no file is saved. .TXT saves the original MIDAS text layout; .JSON saves the structured JSON result."
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Unit system used for the returned influence data.",
+            "additionalProperties": false,
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit, such as kN or N."
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Distance unit, such as m or mm."
+              }
+            }
+          },
+          "LANE_NAME": {
+            "type": "string",
+            "description": "Selected line or surface lane name.",
+            "default": "LANE all",
+            "minLength": 1
+          },
+          "ELASTIC_LINK_NODES": {
+            "type": "array",
+            "description": "I-node and J-node numbers identifying one elastic link, for example [2475, 2496]."
+          },
+          "COMPONENTS": {
+            "type": "object",
+            "description": "General-link end position and force or moment component.",
+            "required": [
+              "PART",
+              "COMP"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "PART": {
+                "type": "string",
+                "description": "General-link end position.",
+                "enum": [
+                  "I",
+                  "J"
+                ]
+              },
+              "COMP": {
+                "type": "string",
+                "description": "One general-link force or moment component.",
+                "enum": [
+                  "FX",
+                  "FY",
+                  "FZ",
+                  "MX",
+                  "MY",
+                  "MZ"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

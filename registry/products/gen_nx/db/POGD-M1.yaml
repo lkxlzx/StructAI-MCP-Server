@@ -1,0 +1,49 @@
+key: "DB.POGD-M1"
+namespace: DB
+uri: "/DB/POGD-M1"
+methods: [GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: "POGD-M1"
+schema_ref:
+  local: "schema/products/gen_nx/db/POGD-M1.json"
+  introspect: "info/db/POGD-M1"
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+solver: HYPER_S
+availability: unverified
+unavailable_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: Pushover Global Control
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/56511008007705-Pushover-Global-Control"
+  retrieved_at: "2026-05-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 74
+  examples: 3
+  has_response_head: false
+notes: ["Displacements:2로 잘못 기재했다. 원문 JSON Schema의 description은 단어 나열 순서가 \"None / P-Delta / Large Displacements\"라 이를 그대로 따른 것이 원인으로 보이나, 원문 Specifications 표는 명시적으로 None:0/**Large Displacements:1**/**P-Delta:2**로 번호를 매겨 놓았다(스키마 설명 문구와 표가 서로 모순 — 표가 우선). 09장 `/db/THGC-M1`의 동명 필드 `GEO_NONL_TYPE`도 0=None/1=Large Disp/2=P-Delta로 동일 순서라 교차 확인됨(아티클 id `56511008007705`)."]

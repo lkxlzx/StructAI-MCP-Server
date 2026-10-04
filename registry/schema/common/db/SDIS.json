@@ -1,0 +1,185 @@
+{
+  "key": "DB.SDIS",
+  "uri": "DB/SDIS",
+  "source": "help_center",
+  "schema": {
+    "SDIS": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "Name",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "INPUT_METHOD": {
+              "description": "InputMethod",
+              "type": "integer"
+            },
+            "COMPANY": {
+              "description": "Company",
+              "type": "string"
+            },
+            "PRODUCT_NAME": {
+              "description": "ProductName",
+              "type": "string"
+            },
+            "TYPE_NUMBER": {
+              "description": "TypeNumber",
+              "type": "string"
+            }
+          }
+        },
+        "SDIS_DEV_TYPE": {
+          "description": "DeviceType",
+          "type": "string"
+        },
+        "MSS": {
+          "description": "NumberofShearSprings",
+          "type": "integer"
+        },
+        "TAU_K": {
+          "description": "TAU_K(AdjustmentParameters)",
+          "type": "number"
+        },
+        "TAU_Q": {
+          "description": "TAU_Q(AdjustmentParameters)",
+          "type": "number"
+        },
+        "KV": {
+          "description": "Kv(C)_VerticalStiffness(kN/m)",
+          "type": "number"
+        },
+        "LRB": {
+          "description": "LRB",
+          "type": "object",
+          "properties": {
+            "SDIS_HYS_MODEL": {
+              "description": "HysteresisProperties",
+              "type": "string"
+            },
+            "KE": {
+              "description": "Ke_InitialStiffness(kN/m)",
+              "type": "number"
+            },
+            "AR": {
+              "description": "Ar_RubberCrossSectionArea(m^2)",
+              "type": "number"
+            },
+            "TR": {
+              "description": "Tr_TotalThicknessofRubberLaminas(m)",
+              "type": "number"
+            },
+            "K0": {
+              "description": "K0_InitialStiffness(kN/m)",
+              "type": "number"
+            },
+            "K2": {
+              "description": "K2_2ndStiffness(kN/m)",
+              "type": "number"
+            },
+            "QD": {
+              "description": "Qd_CharacteristicStrengthofLRB(kN)",
+              "type": "number"
+            },
+            "DX": {
+              "description": "VerticalDirectionProperties(Dx)",
+              "type": "object",
+              "properties": {
+                "OPT_CONS_NONL": {
+                  "description": "UseConsiderVerticalDirectionNonlinearity",
+                  "type": "boolean"
+                },
+                "BETA": {
+                  "description": "Beta_TensileStiffnessReductionFactor",
+                  "type": "number"
+                },
+                "ALPHA": {
+                  "description": "Alpha_TensileStiffnessReductionRatio",
+                  "type": "number"
+                },
+                "SIGMA_V": {
+                  "description": "SigmaV_TensileLimitStrength(kN/m^2)",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "NRB": {
+          "description": "NRB",
+          "type": "object",
+          "properties": {
+            "AR": {
+              "description": "Ar_RubberCrossSectionArea(m^2)",
+              "type": "number"
+            },
+            "TR": {
+              "description": "Tr_TotalThicknessofRubberLaminas(m)",
+              "type": "number"
+            },
+            "KH": {
+              "description": "Kh_HorizontalStiffness(kN/m)",
+              "type": "number"
+            },
+            "DX": {
+              "description": "VerticalDirectionProperties(Dx)",
+              "type": "object",
+              "properties": {
+                "OPT_CONS_NONL": {
+                  "description": "UseConsiderVerticalDirectionNonlinearity",
+                  "type": "boolean"
+                },
+                "BETA": {
+                  "description": "Beta_TensileStiffnessReductionFactor",
+                  "type": "number"
+                },
+                "ALPHA": {
+                  "description": "Alpha_TensileStiffnessReductionRatio",
+                  "type": "number"
+                },
+                "SIGMA_V": {
+                  "description": "SigmaV_TensileLimitStrength(kN/m^2)",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "SB": {
+          "description": "SB",
+          "type": "object",
+          "properties": {
+            "AS": {
+              "description": "As_AreaoftheSlidingHead(m^2)",
+              "type": "number"
+            },
+            "K0": {
+              "description": "K0_InitialStiffness(kN/m)",
+              "type": "number"
+            },
+            "QD": {
+              "description": "QdIndex",
+              "type": "integer"
+            },
+            "Pi_VALUE": {
+              "description": "Pi(kN)",
+              "type": "number"
+            },
+            "MU0": {
+              "description": "Mu0_FrictionalFactor",
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

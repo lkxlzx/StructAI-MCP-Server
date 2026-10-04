@@ -1,0 +1,57 @@
+key: DB.CAPSIZE
+namespace: DB
+uri: /DB/CAPSIZE
+methods: [GET, POST, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: none
+  shape: flat
+  body_kind: object
+schema_ref:
+  local: schema/products/civil_designer/db/CAPSIZE.json
+  introspect: info/db/CAPSIZE
+  source: civil_designer_manual
+  params_ref: "designer_params.json#DB/CAPSIZE"
+  shape: flat_object
+parser: db_generic
+products: [CIVIL_DESIGNER]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: DB/CAPSIZE
+    methods: "GET, POST, DELETE"
+    title: 倾覆数据
+    spec_rows: 17
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    delete_all_via_body: true
+availability: verified
+verified_on: ["designer-cloud"]
+table_type: null
+title: 倾覆数据
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    DELETE: false
+  delete_all_via_body: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "G:\\midas Civil Designer - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_designer_manual]
+stats:
+  spec_rows: 16
+  examples: 1
+  has_response_head: false

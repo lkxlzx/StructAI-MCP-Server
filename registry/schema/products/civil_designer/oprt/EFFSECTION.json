@@ -1,0 +1,41 @@
+{
+  "key": "OPRT.EFFSECTION",
+  "uri": "OPRT/EFFSECTION",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "自动生成有效截面",
+    "type": "object",
+    "properties": {
+      "StiffenerType": {
+        "type": "integer",
+        "description": "加劲肋类型"
+      },
+      "BucklFactor": {
+        "type": "number",
+        "description": "弹性屈曲系数"
+      },
+      "ScaleFactor": {
+        "type": "number",
+        "description": "比例系数（公用）"
+      },
+      "QMBScaleFactor": {
+        "type": "number",
+        "description": "比例系数（仅组合梁桥面板）"
+      },
+      "ShearConnectorDist": {
+        "type": "number",
+        "description": "剪力连接件的距离"
+      },
+      "Centroid": {
+        "type": "boolean",
+        "description": "考虑截面偏心"
+      },
+      "MCFType": {
+        "type": "integer",
+        "description": "单箱多室加强版类型"
+      }
+    }
+  },
+  "shape": "flat_object"
+}

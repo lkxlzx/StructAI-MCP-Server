@@ -1,0 +1,186 @@
+{
+  "key": "DB.THOO-M1",
+  "uri": "DB/THOO-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices (e.g. \"1\"); each value is a Time History Output Option settings object.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "required": [
+            "OUT_OPT",
+            "RESULT_SELECTION"
+          ],
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "OUT_OPT"
+              ],
+              "properties": {
+                "OUT_OPT": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "HINGE_OUT",
+                    "COMMON_OPT"
+                  ],
+                  "properties": {
+                    "HINGE_OUT": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "All Inelastic Elements (3개 라디오가 단일 필드에 병합)"
+                    },
+                    "COMMON_OPT": {
+                      "type": "boolean",
+                      "description": "Common with Inelastic Results Option (true 전송 시 서버가 FIBER_OUT 을 HINGE_OUT 과 동일 강제)"
+                    },
+                    "FIBER_OUT": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "All Inelastic Elements (FIBER_OUT >= HINGE_OUT 제약)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "COMMON_OPT=false이면 FIBER_OUT 필수",
+                      "if": {
+                        "properties": {
+                          "COMMON_OPT": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "COMMON_OPT"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "FIBER_OUT"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "COMMON_OPT=false and HINGE_OUT=1이면 FIBER_OUT은 1 또는 2만 허용",
+                      "if": {
+                        "properties": {
+                          "COMMON_OPT": {
+                            "const": false
+                          },
+                          "HINGE_OUT": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "COMMON_OPT",
+                          "HINGE_OUT"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "FIBER_OUT": {
+                            "enum": [
+                              1,
+                              2
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "description": "COMMON_OPT=false and HINGE_OUT=2이면 FIBER_OUT은 2만 허용",
+                      "if": {
+                        "properties": {
+                          "COMMON_OPT": {
+                            "const": false
+                          },
+                          "HINGE_OUT": {
+                            "const": 2
+                          }
+                        },
+                        "required": [
+                          "COMMON_OPT",
+                          "HINGE_OUT"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "FIBER_OUT": {
+                            "enum": [
+                              2
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "RESULT_SELECTION"
+              ],
+              "properties": {
+                "RESULT_SELECTION": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "ENERGY_RESULT": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Time History Energy Result"
+                    },
+                    "SDVI": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Viscous Damper / Oil Damper Result"
+                    },
+                    "SDVE": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Viscoelastic Damper Result"
+                    },
+                    "SDST": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Steel Damper Result"
+                    },
+                    "SDHY": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Hysteretic Isolator Result"
+                    },
+                    "SDIS": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Isolator Result"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

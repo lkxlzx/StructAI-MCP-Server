@@ -1,0 +1,57 @@
+{
+  "key": "VIEW.ACTIVE",
+  "uri": "VIEW/ACTIVE",
+  "source": "help_center",
+  "schema": {
+    "ACTIVE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "ACTIVE_MODE": {
+              "type": "string",
+              "description": "ActiveModeType",
+              "enum": [
+                "All",
+                "Active",
+                "Identity"
+              ]
+            },
+            "N_LIST": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "NodeNumberList"
+            },
+            "E_LIST": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "description": "ElementNumberList"
+            },
+            "IDENTITY_TYPE": {
+              "type": "string",
+              "description": "IdentityType",
+              "enum": [
+                "Group",
+                "NamedPlane",
+                "LoadGroup",
+                "BoundaryGroup"
+              ]
+            },
+            "IDENTITY_LIST": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+key: DB.UTBL
+namespace: DB
+uri: /DB/UTBL
+methods: [DELETE, GET, POST, PUT]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: UTBL
+schema_ref:
+  local: schema/products/civil_nx/db/UTBL.json
+  introspect: info/db/UTBL
+  source: civil_nx_manual
+parser: db_generic
+products: [CIVIL_NX]
+availability: unverified
+unavailable_on: ["civil-cloud"]
+path_key_supported: true
+table_type: null
+title: User Defined Table
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual]
+stats:
+  spec_rows: 0
+  examples: 1
+  has_response_head: false

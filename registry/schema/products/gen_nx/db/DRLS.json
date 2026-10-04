@@ -1,0 +1,17 @@
+{
+  "key": "DB.DRLS",
+  "uri": "DB/DRLS",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "DUMMY": {
+          "description": "dummy",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

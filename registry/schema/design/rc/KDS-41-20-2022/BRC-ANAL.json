@@ -1,0 +1,81 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.BRC-ANAL",
+  "uri": "DESIGN/RC/KDS-41-20-2022/BRC-ANAL",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Execute design calculation",
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "ELEMS"
+            ]
+          },
+          {
+            "required": [
+              "SECTIONS"
+            ]
+          }
+        ],
+        "properties": {
+          "PERFORM_TYPE": {
+            "type": "string",
+            "description": "Select target type. ELEMS: by element numbers, SECTIONS: by section numbers, ALL: all elements.",
+            "oneOf": [
+              {
+                "title": "All Elements",
+                "const": "ALL"
+              },
+              {
+                "title": "By Element No.",
+                "const": "ELEMS"
+              },
+              {
+                "title": "By Section No.",
+                "const": "SECTIONS"
+              }
+            ],
+            "default": "ALL"
+          },
+          "ELEMS": {
+            "type": "object",
+            "description": "Element No. Input",
+            "additionalProperties": false,
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Specify Each ID"
+              },
+              "TO": {
+                "type": "string",
+                "description": "Specify ID Range (e.g., '1to160')"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string",
+                "description": "Specify Structure Group Name"
+              }
+            }
+          },
+          "SECTIONS": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Section No. Input"
+          }
+        }
+      }
+    }
+  }
+}

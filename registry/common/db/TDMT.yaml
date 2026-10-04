@@ -1,0 +1,49 @@
+key: DB.TDMT
+namespace: DB
+uri: /DB/TDMT
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: TDMT
+schema_ref:
+  local: schema/common/db/TDMT.json
+  introspect: info/db/TDMT
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Time Dependent Material Properties - Creep/Shrinkage"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35808006330009-Time-Dependent-Material-Properties-Creep-Shrinkage"
+  retrieved_at: "2025-09-17"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 174
+  examples: 14
+  has_response_head: false
+notes: ["`AS_2017_AMD_2024`, `AS_2018_AMD_2021`, `NEWZEALAND_2022`, `CHJTG_T_D65_2015`)을 원문(아티클 id `35808006330009`) 대조로 추가했다. ⚠️ **2026-07-25 정정:** `CODE` 값은 `\"KDS2016\"`(구분자 없음)이 아니라 **`\"KDS_2016\"`**(언더스코어)입니다. 이전 버전 문서와 아래 예제가 잘못 표기되어 있었습니다. 공식 아티클의 Request Examples (`\"KDS-2016, KCI-USD12, KSCE 2010, Korea Standard\"` 예제)에서 실제 페이로드로 확인했습니다. `/db/TDME`(§7)의 동일 계열 필드 `CODENAME`은 이와 달리 `\"KDS-2016\"`(하이픈)을 쓰므로"]

@@ -1,0 +1,73 @@
+{
+  "key": "DB.STOR",
+  "uri": "DB/STOR",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "STORY_NAME": {
+          "description": "StoryName",
+          "type": "string"
+        },
+        "STORY_LEVEL": {
+          "description": "StoryLevel",
+          "type": "number"
+        },
+        "bFLOOR_DIAPHRAGM": {
+          "description": "FloorDiaphragm",
+          "type": "boolean"
+        },
+        "WIND_FLOOR_WIDTH_X": {
+          "description": "WindFloorWidthX-Dir",
+          "type": "number"
+        },
+        "WIND_FLOOR_WIDTH_Y": {
+          "description": "WindFloorWidthY-Dir",
+          "type": "number"
+        },
+        "WIND_CENTER_X": {
+          "description": "WindFloorCenterXc",
+          "type": "number"
+        },
+        "WIND_CENTER_Y": {
+          "description": "WindFloorCenterYc",
+          "type": "number"
+        },
+        "WIND_ECCENT_X": {
+          "description": "WindEccentricityX-Dir",
+          "type": "number"
+        },
+        "WIND_ECCENT_Y": {
+          "description": "WindEccentricityY-Dir",
+          "type": "number"
+        },
+        "SEIS_ACC_ECCENT_X": {
+          "description": "SeismicAccidentalEccentricityX-Dir",
+          "type": "number"
+        },
+        "SEIS_ACC_ECCENT_Y": {
+          "description": "SeismicAccidentalEccentricityX-Dir",
+          "type": "number"
+        },
+        "SEIS_INHERENT_ECCENT_X": {
+          "description": "SeismicInherentEccentricityX-Dir",
+          "type": "number"
+        },
+        "SEIS_INHERENT_ECCENT_Y": {
+          "description": "SeismicInherentEccentricityY-Dir",
+          "type": "number"
+        },
+        "SEIS_TORSIONAL_AMP_FACTOR_X": {
+          "description": "SeismicTorsionalAmplificationFactorX-Dir",
+          "type": "number"
+        },
+        "SEIS_TORSIONAL_AMP_FACTOR_Y": {
+          "description": "SeismicTorsionalAmplificationFactorY-Dir",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

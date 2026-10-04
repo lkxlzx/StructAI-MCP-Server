@@ -1,0 +1,41 @@
+key: OPE.PROJECTSTATUS
+namespace: OPE
+uri: /OPE/PROJECTSTATUS
+methods: [GET]
+tool_map:
+  query: midas_db_query
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+parser: generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+table_type: null
+title: Project Status
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: true
+capability: [MODEL, OPERATION]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35994678976281-Project-Status"
+  retrieved_at: "2025-03-07"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 1
+  has_response_head: false

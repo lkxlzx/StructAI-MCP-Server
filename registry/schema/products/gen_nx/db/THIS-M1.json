@@ -1,0 +1,2790 @@
+{
+  "key": "DB.THIS-M1",
+  "uri": "DB/THIS-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "인덱스 문자열 키별 Time History Load Case 입력 값 (gvs1: SSOT planner)",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "NAME": {
+                  "type": "string",
+                  "description": "Name (길이 1~20, 중복 불가)"
+                },
+                "DESC": {
+                  "type": "string",
+                  "description": "Description (길이 ≤80. TrimRight + \\n 제거 자동)",
+                  "default": ""
+                },
+                "ANAL_CASE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Analysis case options",
+                  "properties": {
+                    "ANAL_TYPE": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Linear / Nonlinear (DB 1/2. Schema 0/1)"
+                    },
+                    "ANAL_METHOD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Modal / Direct Integration / Static (Linear+Static 조합 거부)"
+                    },
+                    "TH_TYPE": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Transient / Periodic (Nonlinear/Direct/Static 시 Periodic 거부)"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When ANAL_TYPE = 0, ANAL_METHOD = 2 is not allowed",
+                      "if": {
+                        "properties": {
+                          "ANAL_TYPE": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "ANAL_TYPE"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "ANAL_METHOD": {
+                            "enum": [
+                              0,
+                              1
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "description": "When ANAL_TYPE = 0 and ANAL_METHOD = 1, TH_TYPE = 1 is not allowed",
+                      "if": {
+                        "properties": {
+                          "ANAL_TYPE": {
+                            "const": 0
+                          },
+                          "ANAL_METHOD": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "ANAL_TYPE",
+                          "ANAL_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "TH_TYPE": {
+                            "enum": [
+                              0
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "description": "When ANAL_TYPE = 1 and ANAL_METHOD in [0, 1], TH_TYPE = 1 is not allowed",
+                      "if": {
+                        "properties": {
+                          "ANAL_TYPE": {
+                            "const": 1
+                          },
+                          "ANAL_METHOD": {
+                            "enum": [
+                              0,
+                              1
+                            ]
+                          }
+                        },
+                        "required": [
+                          "ANAL_TYPE",
+                          "ANAL_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "TH_TYPE": {
+                            "enum": [
+                              0
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "description": "When ANAL_TYPE = 1 and ANAL_METHOD = 2, TH_TYPE must not be provided",
+                      "if": {
+                        "properties": {
+                          "ANAL_TYPE": {
+                            "const": 1
+                          },
+                          "ANAL_METHOD": {
+                            "const": 2
+                          }
+                        },
+                        "required": [
+                          "ANAL_TYPE",
+                          "ANAL_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "TH_TYPE"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "ENDTIME": {
+                  "type": "number",
+                  "description": "End Time (> 0)"
+                },
+                "TIME_INC": {
+                  "type": "number",
+                  "description": "Time Increment (> 0, TIME_INC <= ENDTIME)"
+                },
+                "OUTPUT_STEP": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1,
+                  "description": "Step Number Increment for Output (>= 1. Non-static: <= floor(ENDTIME/TIME_INC))"
+                },
+                "INC_STEP": {
+                  "type": "integer",
+                  "description": "Increment Steps (Nonlinear Static 시 실질 필수. 서버 >= 1 강제)",
+                  "default": 1
+                },
+                "INIT_METHOD": {
+                  "type": "string",
+                  "enum": [
+                    "INIT",
+                    "ORDER"
+                  ],
+                  "description": "Order in Seq Load / Initial Load (enum 노출. DB 0/1)"
+                },
+                "USE_INIT_LOAD": {
+                  "type": "boolean",
+                  "description": "Use Initial Load (Defined in TMHS Global Control)"
+                },
+                "SUBSEQ": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "Subsequent load options",
+                  "properties": {
+                    "OPT_USE": {
+                      "type": "boolean",
+                      "description": "Subsequent to (true 시 하위 필드 필수)",
+                      "default": false
+                    },
+                    "SUBSEQ_LOAD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Load Case (Schema == DB)"
+                    },
+                    "LCTYPE": {
+                      "type": "string",
+                      "enum": [
+                        "ST",
+                        "CS",
+                        "TH"
+                      ],
+                      "description": "Subsequent load case type (Static:ST, Construction Stage:CS, Time History:TH)"
+                    },
+                    "CASE": {
+                      "type": "string",
+                      "description": "Load Case Name"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "OPT_USE = false -> SUBSEQ_LOAD, LCTYPE, CASE must not be provided",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "SUBSEQ_LOAD"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "LCTYPE"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "CASE"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "OPT_USE = true -> SUBSEQ_LOAD required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "SUBSEQ_LOAD"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "SUBSEQ_LOAD = 0 -> LCTYPE, CASE required",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "SUBSEQ_LOAD": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "SUBSEQ_LOAD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "LCTYPE",
+                          "CASE"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "SUBSEQ_LOAD = 1 or 2 -> LCTYPE, CASE must not be provided",
+                      "if": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "SUBSEQ_LOAD": {
+                            "enum": [
+                              1,
+                              2
+                            ]
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "SUBSEQ_LOAD"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "LCTYPE"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "CASE"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "CUM_DVA": {
+                  "type": "boolean",
+                  "description": "Cumulate D/V/A Results (특정 조합에서만 의미 (INIT_METHOD/ORDER+LCTYPE 등))",
+                  "default": false
+                },
+                "KEEP_LOAD": {
+                  "type": "boolean",
+                  "description": "Keep Final Step Loads Constant",
+                  "default": false
+                },
+                "KEEP_ACC": {
+                  "type": "boolean",
+                  "description": "Keep Final Step Accelerations (특정 조합(Linear/Nonlinear Direct + ORDER+LC+TH)에서만 의미)",
+                  "default": false
+                },
+                "GEOM_NL_TYPE": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "description": "None / P-Delta / Large Displacements (**DB 스왑**: Schema 1↔DB 2, Schema 2↔DB 1)",
+                  "default": 0
+                }
+              },
+              "allOf": [
+                {
+                  "description": "When INIT_METHOD = INIT, USE_INIT_LOAD is required and SUBSEQ must not be provided",
+                  "if": {
+                    "properties": {
+                      "INIT_METHOD": {
+                        "const": "INIT"
+                      }
+                    },
+                    "required": [
+                      "INIT_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "USE_INIT_LOAD"
+                    ],
+                    "not": {
+                      "required": [
+                        "SUBSEQ"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "When INIT_METHOD = ORDER, SUBSEQ is required and USE_INIT_LOAD must not be provided",
+                  "if": {
+                    "properties": {
+                      "INIT_METHOD": {
+                        "const": "ORDER"
+                      }
+                    },
+                    "required": [
+                      "INIT_METHOD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "SUBSEQ"
+                    ],
+                    "not": {
+                      "required": [
+                        "USE_INIT_LOAD"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "For INIT method, when USE_INIT_LOAD = false, CUM_DVA and KEEP_LOAD must not be provided",
+                  "if": {
+                    "properties": {
+                      "INIT_METHOD": {
+                        "const": "INIT"
+                      },
+                      "USE_INIT_LOAD": {
+                        "const": false
+                      }
+                    },
+                    "required": [
+                      "INIT_METHOD",
+                      "USE_INIT_LOAD"
+                    ]
+                  },
+                  "then": {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "CUM_DVA"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "KEEP_LOAD"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "For INIT method, when USE_INIT_LOAD = true, CUM_DVA and KEEP_LOAD are required",
+                  "if": {
+                    "properties": {
+                      "INIT_METHOD": {
+                        "const": "INIT"
+                      },
+                      "USE_INIT_LOAD": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "INIT_METHOD",
+                      "USE_INIT_LOAD"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "CUM_DVA",
+                      "KEEP_LOAD"
+                    ]
+                  }
+                },
+                {
+                  "description": "For ORDER method, CUM_DVA and KEEP_LOAD are allowed only when SUBSEQ is enabled, SUBSEQ_LOAD=0 and LCTYPE=TH",
+                  "if": {
+                    "properties": {
+                      "INIT_METHOD": {
+                        "const": "ORDER"
+                      },
+                      "SUBSEQ": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "SUBSEQ_LOAD": {
+                            "const": 0
+                          },
+                          "LCTYPE": {
+                            "const": "TH"
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "SUBSEQ_LOAD",
+                          "LCTYPE"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "INIT_METHOD",
+                      "SUBSEQ"
+                    ]
+                  },
+                  "then": {},
+                  "else": {
+                    "if": {
+                      "properties": {
+                        "INIT_METHOD": {
+                          "const": "ORDER"
+                        }
+                      },
+                      "required": [
+                        "INIT_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "not": {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "CUM_DVA"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "KEEP_LOAD"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "description": "KEEP_ACC is enabled only when analysis is Linear Direct Integration, Nonlinear Direct Integration, or Nonlinear Static, and INIT_METHOD=ORDER with SUBSEQ OPT_USE=true, SUBSEQ_LOAD=0, LCTYPE=TH",
+                  "if": {
+                    "properties": {
+                      "ANAL_CASE": {
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 0
+                              },
+                              "ANAL_METHOD": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          },
+                          {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 1
+                              },
+                              "ANAL_METHOD": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          },
+                          {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 1
+                              },
+                              "ANAL_METHOD": {
+                                "const": 2
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          }
+                        ]
+                      },
+                      "INIT_METHOD": {
+                        "const": "ORDER"
+                      },
+                      "SUBSEQ": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          },
+                          "SUBSEQ_LOAD": {
+                            "const": 0
+                          },
+                          "LCTYPE": {
+                            "const": "TH"
+                          }
+                        },
+                        "required": [
+                          "OPT_USE",
+                          "SUBSEQ_LOAD",
+                          "LCTYPE"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ANAL_CASE",
+                      "INIT_METHOD",
+                      "SUBSEQ"
+                    ]
+                  },
+                  "then": {},
+                  "else": {
+                    "not": {
+                      "required": [
+                        "KEEP_ACC"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "GEOM_NL_TYPE is required only for Nonlinear Direct Integration/Static with INIT, or Nonlinear Direct Integration/Static with ORDER+SUBSEQ(OPT_USE=true,SUBSEQ_LOAD=0,LCTYPE=TH)",
+                  "if": {
+                    "anyOf": [
+                      {
+                        "properties": {
+                          "ANAL_CASE": {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 1
+                              },
+                              "ANAL_METHOD": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          },
+                          "INIT_METHOD": {
+                            "const": "INIT"
+                          }
+                        },
+                        "required": [
+                          "ANAL_CASE",
+                          "INIT_METHOD"
+                        ]
+                      },
+                      {
+                        "properties": {
+                          "ANAL_CASE": {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 1
+                              },
+                              "ANAL_METHOD": {
+                                "const": 2
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          },
+                          "INIT_METHOD": {
+                            "const": "INIT"
+                          }
+                        },
+                        "required": [
+                          "ANAL_CASE",
+                          "INIT_METHOD"
+                        ]
+                      },
+                      {
+                        "properties": {
+                          "ANAL_CASE": {
+                            "properties": {
+                              "ANAL_TYPE": {
+                                "const": 1
+                              },
+                              "ANAL_METHOD": {
+                                "enum": [
+                                  1,
+                                  2
+                                ]
+                              }
+                            },
+                            "required": [
+                              "ANAL_TYPE",
+                              "ANAL_METHOD"
+                            ]
+                          },
+                          "INIT_METHOD": {
+                            "const": "ORDER"
+                          },
+                          "SUBSEQ": {
+                            "properties": {
+                              "OPT_USE": {
+                                "const": true
+                              },
+                              "SUBSEQ_LOAD": {
+                                "const": 0
+                              },
+                              "LCTYPE": {
+                                "const": "TH"
+                              }
+                            },
+                            "required": [
+                              "OPT_USE",
+                              "SUBSEQ_LOAD",
+                              "LCTYPE"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "ANAL_CASE",
+                          "INIT_METHOD",
+                          "SUBSEQ"
+                        ]
+                      }
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "GEOM_NL_TYPE"
+                    ]
+                  },
+                  "else": {
+                    "not": {
+                      "required": [
+                        "GEOM_NL_TYPE"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "Nonlinear Direct/Static, ORDER+SUBSEQ(OPT_USE=true)이고 GEOM_NL_TYPE이 있을 때: [0,1(P-Delta)] → SUBSEQ_LOAD in [0,1]; 2(Large) → in [0,2] (SSOT runtime_constraints; Grid 3는 M1 미노출로 스키마 제외)",
+                  "if": {
+                    "properties": {
+                      "ANAL_CASE": {
+                        "properties": {
+                          "ANAL_TYPE": {
+                            "const": 1
+                          },
+                          "ANAL_METHOD": {
+                            "enum": [
+                              1,
+                              2
+                            ]
+                          }
+                        },
+                        "required": [
+                          "ANAL_TYPE",
+                          "ANAL_METHOD"
+                        ]
+                      },
+                      "INIT_METHOD": {
+                        "const": "ORDER"
+                      },
+                      "SUBSEQ": {
+                        "properties": {
+                          "OPT_USE": {
+                            "const": true
+                          }
+                        },
+                        "required": [
+                          "OPT_USE"
+                        ]
+                      },
+                      "GEOM_NL_TYPE": {}
+                    },
+                    "required": [
+                      "ANAL_CASE",
+                      "INIT_METHOD",
+                      "SUBSEQ",
+                      "GEOM_NL_TYPE"
+                    ]
+                  },
+                  "then": {
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "GEOM_NL_TYPE": {
+                              "enum": [
+                                0,
+                                1
+                              ]
+                            }
+                          },
+                          "required": [
+                            "GEOM_NL_TYPE"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "SUBSEQ": {
+                              "properties": {
+                                "SUBSEQ_LOAD": {
+                                  "enum": [
+                                    0,
+                                    1
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "GEOM_NL_TYPE": {
+                              "const": 2
+                            }
+                          },
+                          "required": [
+                            "GEOM_NL_TYPE"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "SUBSEQ": {
+                              "properties": {
+                                "SUBSEQ_LOAD": {
+                                  "enum": [
+                                    0,
+                                    2
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "DAMPING": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "DAMPING_METHOD",
+                        "ALL_DAMPING_RATIO"
+                      ],
+                      "properties": {
+                        "DAMPING_METHOD": {
+                          "type": "integer",
+                          "const": 0,
+                          "description": "Damping Method (DB 1~4 (±1 offset). Modal+Element(3) 조합 거부. Strain Energy/Element Mass&Stiff는 DAMPING_METHOD만 저장, 세부 파라미터 DTO 미노출)",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ]
+                        },
+                        "ALL_DAMPING_RATIO": {
+                          "type": "number",
+                          "description": "Damping Ratio for All Modes (∈ [0, 1])"
+                        },
+                        "MODAL_DAMPING_RATIO": {
+                          "type": "array",
+                          "description": "Modal Damping Overrides (각 원소 MODE_NO(>0, 중복 금지) + DAMPING([0,1]))",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "MODE_NO",
+                              "DAMPING"
+                            ],
+                            "properties": {
+                              "MODE_NO": {
+                                "type": "integer",
+                                "description": "Mode Number"
+                              },
+                              "DAMPING": {
+                                "type": "number",
+                                "description": "Damping Ratio"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "DAMPING_METHOD",
+                        "COEF_INPUT",
+                        "USE_MASS",
+                        "USE_STIFF"
+                      ],
+                      "properties": {
+                        "DAMPING_METHOD": {
+                          "type": "integer",
+                          "const": 1,
+                          "description": "Damping Method (DB 1~4 (±1 offset). Modal+Element(3) 조합 거부. Strain Energy/Element Mass&Stiff는 DAMPING_METHOD만 저장, 세부 파라미터 DTO 미노출)",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ]
+                        },
+                        "COEF_INPUT": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ],
+                          "description": "Direct Specification / Calculate from Modal Damping (DB 1/2)"
+                        },
+                        "USE_MASS": {
+                          "type": "boolean",
+                          "description": "Mass Proportional (USE_MASS / USE_STIFF 최소 1개 true)"
+                        },
+                        "USE_STIFF": {
+                          "type": "boolean",
+                          "description": "Stiffness Proportional (—)"
+                        },
+                        "MASS_VALUE": {
+                          "type": "number",
+                          "description": "Mass Coefficient (Rm)"
+                        },
+                        "STIFF_VALUE": {
+                          "type": "number",
+                          "description": "Stiffness Coefficient (Rk)"
+                        },
+                        "COEF_CALC": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ],
+                          "description": "Frequency / Period (DB 1/2)"
+                        },
+                        "FREQ1": {
+                          "type": "number",
+                          "description": "Mode 1 Frequency (> 0)"
+                        },
+                        "FREQ2": {
+                          "type": "number",
+                          "description": "Mode 2 Frequency (> 0, FREQ1 != FREQ2)"
+                        },
+                        "PERIOD1": {
+                          "type": "number",
+                          "description": "Mode 1 Period (> 0)"
+                        },
+                        "PERIOD2": {
+                          "type": "number",
+                          "description": "Mode 2 Period (> 0, PERIOD1 != PERIOD2)"
+                        },
+                        "DR1": {
+                          "type": "number",
+                          "description": "Mode 1 Damping Ratio (∈ [0, 1])"
+                        },
+                        "DR2": {
+                          "type": "number",
+                          "description": "Mode 2 Damping Ratio (∈ [0, 1])"
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "At least one of USE_MASS or USE_STIFF should be true",
+                          "not": {
+                            "properties": {
+                              "USE_MASS": {
+                                "const": false
+                              },
+                              "USE_STIFF": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "USE_MASS",
+                              "USE_STIFF"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 0, COEF_CALC and modal input fields must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "COEF_CALC"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "FREQ1"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "FREQ2"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "PERIOD1"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "PERIOD2"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "DR1"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "DR2"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 0 and USE_MASS = true, MASS_VALUE is required",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 0
+                              },
+                              "USE_MASS": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "USE_MASS"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "MASS_VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 0 and USE_MASS = false, MASS_VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 0
+                              },
+                              "USE_MASS": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "USE_MASS"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "MASS_VALUE"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 0 and USE_STIFF = true, STIFF_VALUE is required",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 0
+                              },
+                              "USE_STIFF": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "USE_STIFF"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "STIFF_VALUE"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 0 and USE_STIFF = false, STIFF_VALUE must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 0
+                              },
+                              "USE_STIFF": {
+                                "const": false
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "USE_STIFF"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "STIFF_VALUE"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1, direct coefficient values must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "MASS_VALUE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "STIFF_VALUE"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1 and at least one of USE_MASS or USE_STIFF is true, COEF_CALC is required",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "COEF_CALC"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1 and COEF_CALC = 0, period inputs must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 1
+                              },
+                              "COEF_CALC": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "COEF_CALC"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "PERIOD1"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "PERIOD2"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1 and COEF_CALC = 1, frequency inputs must not be provided",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 1
+                              },
+                              "COEF_CALC": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "COEF_CALC"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "FREQ1"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "FREQ2"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1 and both USE_MASS and USE_STIFF are true, first and second mode values are required",
+                          "if": {
+                            "properties": {
+                              "COEF_INPUT": {
+                                "const": 1
+                              },
+                              "USE_MASS": {
+                                "const": true
+                              },
+                              "USE_STIFF": {
+                                "const": true
+                              }
+                            },
+                            "required": [
+                              "COEF_INPUT",
+                              "USE_MASS",
+                              "USE_STIFF"
+                            ]
+                          },
+                          "then": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "COEF_CALC": {
+                                      "const": 0
+                                    }
+                                  },
+                                  "required": [
+                                    "COEF_CALC"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "FREQ1",
+                                    "DR1",
+                                    "FREQ2",
+                                    "DR2"
+                                  ]
+                                }
+                              },
+                              {
+                                "if": {
+                                  "properties": {
+                                    "COEF_CALC": {
+                                      "const": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "COEF_CALC"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "PERIOD1",
+                                    "DR1",
+                                    "PERIOD2",
+                                    "DR2"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When COEF_INPUT = 1 and exactly one of USE_MASS or USE_STIFF is true, only first mode values are required and second mode values must not be provided",
+                          "if": {
+                            "oneOf": [
+                              {
+                                "properties": {
+                                  "COEF_INPUT": {
+                                    "const": 1
+                                  },
+                                  "USE_MASS": {
+                                    "const": true
+                                  },
+                                  "USE_STIFF": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "COEF_INPUT",
+                                  "USE_MASS",
+                                  "USE_STIFF"
+                                ]
+                              },
+                              {
+                                "properties": {
+                                  "COEF_INPUT": {
+                                    "const": 1
+                                  },
+                                  "USE_MASS": {
+                                    "const": false
+                                  },
+                                  "USE_STIFF": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "COEF_INPUT",
+                                  "USE_MASS",
+                                  "USE_STIFF"
+                                ]
+                              }
+                            ]
+                          },
+                          "then": {
+                            "allOf": [
+                              {
+                                "if": {
+                                  "properties": {
+                                    "COEF_CALC": {
+                                      "const": 0
+                                    }
+                                  },
+                                  "required": [
+                                    "COEF_CALC"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "FREQ1",
+                                    "DR1"
+                                  ],
+                                  "not": {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "FREQ2"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "DR2"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "PERIOD1"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "PERIOD2"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "if": {
+                                  "properties": {
+                                    "COEF_CALC": {
+                                      "const": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "COEF_CALC"
+                                  ]
+                                },
+                                "then": {
+                                  "required": [
+                                    "PERIOD1",
+                                    "DR1"
+                                  ],
+                                  "not": {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "PERIOD2"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "DR2"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "FREQ1"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "FREQ2"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "DAMPING_METHOD"
+                      ],
+                      "properties": {
+                        "DAMPING_METHOD": {
+                          "type": "integer",
+                          "const": 2,
+                          "description": "Damping Method (DB 1~4 (±1 offset). Modal+Element(3) 조합 거부. Strain Energy/Element Mass&Stiff는 DAMPING_METHOD만 저장, 세부 파라미터 DTO 미노출)",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "DAMPING_METHOD"
+                      ],
+                      "properties": {
+                        "DAMPING_METHOD": {
+                          "type": "integer",
+                          "const": 3,
+                          "description": "Damping Method (DB 1~4 (±1 offset). Modal+Element(3) 조합 거부. Strain Energy/Element Mass&Stiff는 DAMPING_METHOD만 저장, 세부 파라미터 DTO 미노출)",
+                          "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "INC_CTRL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "INC_METHOD"
+                  ],
+                  "properties": {
+                    "INC_METHOD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Load Control / Displacement Control (Schema == DB)"
+                    },
+                    "SF": {
+                      "type": "number",
+                      "description": "Scale Factor",
+                      "default": 1
+                    },
+                    "DISP_CTRL": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "CTRL_OPT": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1
+                          ],
+                          "description": "Global / Master Node Control"
+                        },
+                        "MAX_TRANS_DISP": {
+                          "type": "number",
+                          "description": "Maximum Translational Displacement (!= 0)"
+                        },
+                        "MASTER_NODE": {
+                          "type": "integer",
+                          "description": "Master Node (ExistNode 통과)"
+                        },
+                        "MASTER_DIR": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "description": "Master Direction (DB 1/2/3 (±1 offset))"
+                        },
+                        "MAX_DISP": {
+                          "type": "number",
+                          "description": "Maximum Displacement (!= 0)"
+                        }
+                      },
+                      "required": [
+                        "CTRL_OPT"
+                      ],
+                      "allOf": [
+                        {
+                          "description": "When CTRL_OPT = 0, MAX_TRANS_DISP is required and node control values must not be provided",
+                          "if": {
+                            "properties": {
+                              "CTRL_OPT": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "CTRL_OPT"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "MAX_TRANS_DISP"
+                            ],
+                            "not": {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "MASTER_NODE"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MASTER_DIR"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "MAX_DISP"
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "description": "When CTRL_OPT = 1, MASTER_NODE, MASTER_DIR and MAX_DISP are required and MAX_TRANS_DISP must not be provided",
+                          "if": {
+                            "properties": {
+                              "CTRL_OPT": {
+                                "const": 1
+                              }
+                            },
+                            "required": [
+                              "CTRL_OPT"
+                            ]
+                          },
+                          "then": {
+                            "required": [
+                              "MASTER_NODE",
+                              "MASTER_DIR",
+                              "MAX_DISP"
+                            ],
+                            "not": {
+                              "required": [
+                                "MAX_TRANS_DISP"
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When INC_METHOD = 0 (Load Control), SF is required and DISP_CTRL must not be provided",
+                      "if": {
+                        "properties": {
+                          "INC_METHOD": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "INC_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "SF"
+                        ],
+                        "not": {
+                          "required": [
+                            "DISP_CTRL"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When INC_METHOD = 1 (Displacement Control), DISP_CTRL is required and SF must not be provided",
+                      "if": {
+                        "properties": {
+                          "INC_METHOD": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "INC_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "DISP_CTRL"
+                        ],
+                        "not": {
+                          "required": [
+                            "SF"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "TIME_PARAM": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "METHOD"
+                  ],
+                  "properties": {
+                    "METHOD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Newmark / HHT (Schema == DB (0/1))"
+                    },
+                    "NEWMARK_METHOD": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Constant / Linear Acceleration / User Input (DB 1/2/3)"
+                    },
+                    "GAMMA": {
+                      "type": "number",
+                      "description": "Gamma (NEWMARK_METHOD == 2 (User) 시 > 0)",
+                      "default": 0.5
+                    },
+                    "BETA": {
+                      "type": "number",
+                      "description": "Beta (NEWMARK_METHOD == 2 시 > 0)",
+                      "default": 0.25
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When METHOD = 0, NEWMARK_METHOD, GAMMA and BETA must not be provided",
+                      "if": {
+                        "properties": {
+                          "METHOD": {
+                            "const": 0
+                          }
+                        },
+                        "required": [
+                          "METHOD"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "NEWMARK_METHOD"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "GAMMA"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "BETA"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When METHOD = 1, NEWMARK_METHOD is required",
+                      "if": {
+                        "properties": {
+                          "METHOD": {
+                            "const": 1
+                          }
+                        },
+                        "required": [
+                          "METHOD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "NEWMARK_METHOD"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "When METHOD = 1 and NEWMARK_METHOD = 2, GAMMA and BETA are required",
+                      "if": {
+                        "properties": {
+                          "METHOD": {
+                            "const": 1
+                          },
+                          "NEWMARK_METHOD": {
+                            "const": 2
+                          }
+                        },
+                        "required": [
+                          "METHOD",
+                          "NEWMARK_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "GAMMA",
+                          "BETA"
+                        ]
+                      }
+                    },
+                    {
+                      "description": "When METHOD = 1 and NEWMARK_METHOD in [0, 1], GAMMA and BETA must not be provided",
+                      "if": {
+                        "properties": {
+                          "METHOD": {
+                            "const": 1
+                          },
+                          "NEWMARK_METHOD": {
+                            "enum": [
+                              0,
+                              1
+                            ]
+                          }
+                        },
+                        "required": [
+                          "METHOD",
+                          "NEWMARK_METHOD"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "GAMMA"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "BETA"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "NONL_CTRL_PARAM": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "PERFORM_ITER": {
+                      "type": "boolean",
+                      "description": "Perform Iteration (true 시 ITER_CTRL 서브 객체 의미)",
+                      "default": true
+                    },
+                    "ITER_CTRL": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "MAX_ITER"
+                      ],
+                      "properties": {
+                        "PERMIT_FAIL": {
+                          "type": "boolean",
+                          "description": "Permit Convergence Failure",
+                          "default": true
+                        },
+                        "MAX_ITER": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "description": "Max. Number of Iteration (>= 1)"
+                        },
+                        "NORM_CTRL": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "DISP": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "OPT_USE"
+                              ],
+                              "properties": {
+                                "OPT_USE": {
+                                  "type": "boolean",
+                                  "description": "Displacement Norm (DISP/FORCE/ENERGY 중 최소 1개 true (서버 자동 대체))"
+                                },
+                                "VALUE": {
+                                  "type": "number",
+                                  "description": "Displacement Norm (> 0)"
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "description": "OPT_USE = true then VALUE is required.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": true
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "required": [
+                                      "VALUE"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "description": "OPT_USE = false then VALUE is not allowed.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": false
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "not": {
+                                      "required": [
+                                        "VALUE"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "description": "Displacement Norm (세 Norm 중 OPT_USE==true ≥1, dlg_api THIS runtime)"
+                            },
+                            "FORCE": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "OPT_USE"
+                              ],
+                              "properties": {
+                                "OPT_USE": {
+                                  "type": "boolean",
+                                  "description": "Force Norm"
+                                },
+                                "VALUE": {
+                                  "type": "number",
+                                  "description": "Force Norm (> 0)"
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "description": "OPT_USE = true then VALUE is required.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": true
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "required": [
+                                      "VALUE"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "description": "OPT_USE = false then VALUE is not allowed.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": false
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "not": {
+                                      "required": [
+                                        "VALUE"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "description": "Force Norm"
+                            },
+                            "ENERGY": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "OPT_USE"
+                              ],
+                              "properties": {
+                                "OPT_USE": {
+                                  "type": "boolean",
+                                  "description": "Energy Norm"
+                                },
+                                "VALUE": {
+                                  "type": "number",
+                                  "description": "Energy Norm (> 0)"
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "description": "OPT_USE = true then VALUE is required.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": true
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "required": [
+                                      "VALUE"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "description": "OPT_USE = false then VALUE is not allowed.",
+                                  "if": {
+                                    "properties": {
+                                      "OPT_USE": {
+                                        "const": false
+                                      }
+                                    },
+                                    "required": [
+                                      "OPT_USE"
+                                    ]
+                                  },
+                                  "then": {
+                                    "not": {
+                                      "required": [
+                                        "VALUE"
+                                      ]
+                                    }
+                                  }
+                                }
+                              ],
+                              "description": "Energy Norm"
+                            }
+                          },
+                          "anyOf": [
+                            {
+                              "properties": {
+                                "DISP": {
+                                  "properties": {
+                                    "OPT_USE": {
+                                      "const": true,
+                                      "description": "Displacement Norm (DISP/FORCE/ENERGY 중 최소 1개 true (서버 자동 대체))"
+                                    }
+                                  },
+                                  "required": [
+                                    "OPT_USE"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "DISP"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "FORCE": {
+                                  "properties": {
+                                    "OPT_USE": {
+                                      "const": true,
+                                      "description": "Force Norm"
+                                    }
+                                  },
+                                  "required": [
+                                    "OPT_USE"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "FORCE"
+                              ]
+                            },
+                            {
+                              "properties": {
+                                "ENERGY": {
+                                  "properties": {
+                                    "OPT_USE": {
+                                      "const": true,
+                                      "description": "Energy Norm"
+                                    }
+                                  },
+                                  "required": [
+                                    "OPT_USE"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "ENERGY"
+                              ]
+                            }
+                          ]
+                        },
+                        "STIFF_UPD_SCHEME": {
+                          "type": "integer",
+                          "enum": [
+                            0,
+                            1,
+                            2
+                          ],
+                          "description": "Custom / Full NR / Initial Stiffness (DB 0~4)",
+                          "default": 0
+                        },
+                        "ITER_BEF_UPDATE": {
+                          "type": "integer",
+                          "description": "No. of Iterations before Stiffness Update (Custom 전용. FullNR→1 / InitStiff→51 자동)",
+                          "default": 5
+                        },
+                        "MAX_BISECT_LEVEL": {
+                          "type": "integer",
+                          "description": "Max. Bisection Level ([0, 20])",
+                          "default": 5
+                        },
+                        "SMART_BISECT": {
+                          "type": "boolean",
+                          "description": "Smart Bisection",
+                          "default": false
+                        },
+                        "DIVERGENCE_THRESHOLD": {
+                          "type": "number",
+                          "description": "Divergence Threshold (DTO double, DB int 변환)",
+                          "default": 3
+                        },
+                        "LINE_SEARCH": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "OPT_USE"
+                          ],
+                          "properties": {
+                            "OPT_USE": {
+                              "type": "boolean",
+                              "description": "Enable Line Search",
+                              "default": true
+                            },
+                            "LINE_SEARCH_OPT": {
+                              "type": "integer",
+                              "enum": [
+                                0,
+                                1
+                              ],
+                              "description": "Auto / User Defined (DB 1/2)",
+                              "default": 0
+                            },
+                            "START_ITER_NO": {
+                              "type": "integer",
+                              "description": "Start Iteration No",
+                              "default": 3
+                            },
+                            "MAX_LINE_SEARCH_ITER": {
+                              "type": "integer",
+                              "description": "Max. Line Search per Iteration",
+                              "default": 4
+                            },
+                            "LINE_SEARCH_TOL": {
+                              "type": "number",
+                              "description": "Line Search Tolerance",
+                              "default": 0.5
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "description": "When OPT_USE = false, all child keys must not be provided",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": false
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "LINE_SEARCH_OPT"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "START_ITER_NO"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "MAX_LINE_SEARCH_ITER"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "LINE_SEARCH_TOL"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "description": "When OPT_USE = true, LINE_SEARCH_OPT is required",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "LINE_SEARCH_OPT"
+                                ]
+                              }
+                            },
+                            {
+                              "description": "When OPT_USE = true and LINE_SEARCH_OPT = 0 (AUTO), detailed keys must not be provided",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  },
+                                  "LINE_SEARCH_OPT": {
+                                    "const": 0
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE",
+                                  "LINE_SEARCH_OPT"
+                                ]
+                              },
+                              "then": {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "START_ITER_NO"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "MAX_LINE_SEARCH_ITER"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "LINE_SEARCH_TOL"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "description": "When OPT_USE = true and LINE_SEARCH_OPT = 1 (USER), detailed keys are required",
+                              "if": {
+                                "properties": {
+                                  "OPT_USE": {
+                                    "const": true
+                                  },
+                                  "LINE_SEARCH_OPT": {
+                                    "const": 1
+                                  }
+                                },
+                                "required": [
+                                  "OPT_USE",
+                                  "LINE_SEARCH_OPT"
+                                ]
+                              },
+                              "then": {
+                                "required": [
+                                  "START_ITER_NO",
+                                  "MAX_LINE_SEARCH_ITER",
+                                  "LINE_SEARCH_TOL"
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        "BOUNDARY_NL_ANAL": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "METHOD": {
+                              "type": "integer",
+                              "enum": [
+                                0,
+                                1,
+                                2
+                              ],
+                              "description": "Fehlberg / Cash-Karp / Dormand-Prince",
+                              "default": 0
+                            },
+                            "TOL": {
+                              "type": "number",
+                              "description": "Tolerance (> 0)",
+                              "default": 1e-08
+                            }
+                          }
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "description": "ITER_BEF_UPDATE can be provided only when STIFF_UPD_SCHEME = 0",
+                          "if": {
+                            "required": [
+                              "ITER_BEF_UPDATE"
+                            ]
+                          },
+                          "then": {
+                            "properties": {
+                              "STIFF_UPD_SCHEME": {
+                                "const": 0
+                              }
+                            },
+                            "required": [
+                              "STIFF_UPD_SCHEME"
+                            ]
+                          }
+                        },
+                        {
+                          "description": "When STIFF_UPD_SCHEME = 1 or 2, ITER_BEF_UPDATE must not be provided",
+                          "if": {
+                            "properties": {
+                              "STIFF_UPD_SCHEME": {
+                                "enum": [
+                                  1,
+                                  2
+                                ]
+                              }
+                            },
+                            "required": [
+                              "STIFF_UPD_SCHEME"
+                            ]
+                          },
+                          "then": {
+                            "not": {
+                              "required": [
+                                "ITER_BEF_UPDATE"
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "description": "Iteration Controls... (서브 대화상자 진입)"
+                    },
+                    "DAMP_UPDATE": {
+                      "type": "integer",
+                      "enum": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "description": "Damping Matrix Update (Nonlinear+Direct+DAMPING ∈ {1,3} 시 의미)",
+                      "default": 0
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "description": "When PERFORM_ITER = false, ITER_CTRL must not be provided",
+                      "if": {
+                        "properties": {
+                          "PERFORM_ITER": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "PERFORM_ITER"
+                        ]
+                      },
+                      "then": {
+                        "not": {
+                          "required": [
+                            "ITER_CTRL"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "When PERFORM_ITER = true or omitted, ITER_CTRL is required",
+                      "if": {
+                        "not": {
+                          "properties": {
+                            "PERFORM_ITER": {
+                              "const": false
+                            }
+                          },
+                          "required": [
+                            "PERFORM_ITER"
+                          ]
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "ITER_CTRL"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "COMMON basic required fields",
+              "required": [
+                "NAME",
+                "ANAL_CASE",
+                "OUTPUT_STEP",
+                "INIT_METHOD"
+              ]
+            },
+            {
+              "description": "ANAL_CASE basic required fields",
+              "properties": {
+                "ANAL_CASE": {
+                  "required": [
+                    "ANAL_TYPE",
+                    "ANAL_METHOD"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "Nonlinear Static only -> INC_STEP required, otherwise ENDTIME/TIME_INC and TH_TYPE required",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      },
+                      "ANAL_METHOD": {
+                        "const": 2
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "INC_STEP"
+                ]
+              },
+              "else": {
+                "required": [
+                  "ENDTIME",
+                  "TIME_INC"
+                ],
+                "properties": {
+                  "ANAL_CASE": {
+                    "required": [
+                      "TH_TYPE"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "description": "Nonlinear Static -> INC_CTRL required, DAMPING and TIME_PARAM must not be provided; otherwise DAMPING required and INC_CTRL must not be provided",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      },
+                      "ANAL_METHOD": {
+                        "const": 2
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "INC_CTRL"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "DAMPING"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "TIME_PARAM"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "else": {
+                "required": [
+                  "DAMPING"
+                ],
+                "not": {
+                  "required": [
+                    "INC_CTRL"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "TIME_PARAM is enabled only when ANAL_METHOD = 1",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_METHOD": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "TIME_PARAM"
+                ]
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "TIME_PARAM"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "NONL_CTRL_PARAM is enabled only when ANAL_TYPE = 1",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "required": [
+                  "NONL_CTRL_PARAM"
+                ]
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "NONL_CTRL_PARAM"
+                  ]
+                }
+              }
+            },
+            {
+              "description": "For Nonlinear Modal, PERFORM_ITER is fixed to true",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      },
+                      "ANAL_METHOD": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "NONL_CTRL_PARAM": {
+                    "required": [
+                      "PERFORM_ITER"
+                    ],
+                    "properties": {
+                      "PERFORM_ITER": {
+                        "const": true
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "For Modal, DAMPING_METHOD can be [0, 1, 2]",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_METHOD": {
+                        "const": 0
+                      }
+                    },
+                    "required": [
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "DAMPING": {
+                    "properties": {
+                      "DAMPING_METHOD": {
+                        "type": "integer",
+                        "enum": [
+                          0,
+                          1,
+                          2
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "For Linear Direct Integration, DAMPING_METHOD can be [0, 1, 2]",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 0
+                      },
+                      "ANAL_METHOD": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "DAMPING": {
+                    "properties": {
+                      "DAMPING_METHOD": {
+                        "type": "integer",
+                        "enum": [
+                          0,
+                          1,
+                          2
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "For Nonlinear Direct Integration, DAMPING_METHOD can be [0, 1, 2, 3]",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      },
+                      "ANAL_METHOD": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "DAMPING": {
+                    "properties": {
+                      "DAMPING_METHOD": {
+                        "type": "integer",
+                        "enum": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "description": "DAMP_UPDATE is enabled only when ANAL_TYPE = 1, ANAL_METHOD = 1 and DAMPING_METHOD in [1, 3]",
+              "if": {
+                "properties": {
+                  "ANAL_CASE": {
+                    "properties": {
+                      "ANAL_TYPE": {
+                        "const": 1
+                      },
+                      "ANAL_METHOD": {
+                        "const": 1
+                      }
+                    },
+                    "required": [
+                      "ANAL_TYPE",
+                      "ANAL_METHOD"
+                    ]
+                  },
+                  "DAMPING": {
+                    "properties": {
+                      "DAMPING_METHOD": {
+                        "enum": [
+                          1,
+                          3
+                        ]
+                      }
+                    },
+                    "required": [
+                      "DAMPING_METHOD"
+                    ]
+                  }
+                },
+                "required": [
+                  "ANAL_CASE",
+                  "DAMPING"
+                ]
+              },
+              "then": {},
+              "else": {
+                "properties": {
+                  "NONL_CTRL_PARAM": {
+                    "not": {
+                      "required": [
+                        "DAMP_UPDATE"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

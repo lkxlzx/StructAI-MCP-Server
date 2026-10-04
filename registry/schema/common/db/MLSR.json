@@ -1,0 +1,17 @@
+{
+  "key": "DB.MLSR",
+  "uri": "DB/MLSR",
+  "source": "help_center",
+  "schema": {
+    "MLSR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NODE": {
+          "description": "LaneSupport-ReactionsatInteriorPiers",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

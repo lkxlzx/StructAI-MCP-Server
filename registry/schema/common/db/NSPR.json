@@ -1,0 +1,98 @@
+{
+  "key": "DB.NSPR",
+  "uri": "DB/NSPR",
+  "source": "help_center",
+  "schema": {
+    "NSPR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "TYPE": {
+                "description": "Type",
+                "type": "string"
+              },
+              "F_S": {
+                "description": "F_SDx,F_SDy,F_SDz,F_SRx,F_SRy,F_SRz",
+                "type": "array",
+                "items": {
+                  "type": "boolean",
+                  "maxItems": 6
+                }
+              },
+              "SDR": {
+                "description": "SDxSDySDzSRxSRySRz",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 6
+                }
+              },
+              "DAMPING": {
+                "description": "Damping",
+                "type": "boolean"
+              },
+              "Cr": {
+                "description": "C_r",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 6
+                }
+              },
+              "GROUP_NAME": {
+                "description": "BoundaryGroupName",
+                "type": "string"
+              },
+              "FormType": {
+                "description": "nFromType",
+                "type": "integer"
+              },
+              "EFFAREA": {
+                "description": "EFFAREA",
+                "type": "number"
+              },
+              "DK": {
+                "description": "dKxdKydKz",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "DIR": {
+                "description": "nDirection",
+                "type": "integer"
+              },
+              "DV": {
+                "description": "VxVyVz",
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "maxItems": 3
+                }
+              },
+              "STIFF": {
+                "description": "Stiffness",
+                "type": "number"
+              },
+              "FUNCTION": {
+                "description": "Function",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

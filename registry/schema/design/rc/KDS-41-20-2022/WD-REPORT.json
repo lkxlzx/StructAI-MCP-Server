@@ -1,0 +1,86 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.WD-REPORT",
+  "uri": "DESIGN/RC/KDS-41-20-2022/WD-REPORT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "REPORT_TYPE",
+          "EXPORT_PATH",
+          "OUTPUT_NAME"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "REPORT_TYPE": {
+            "type": "string",
+            "enum": [
+              "WID+STORY",
+              "WID"
+            ],
+            "default": "WID+STORY"
+          },
+          "CURRENT_MODE_WID_STORY": {
+            "type": "string",
+            "description": "Report output mode for WID+STORY (Detail supported)",
+            "enum": [
+              "Graphic",
+              "Detail",
+              "Summary",
+              "PMCurve"
+            ]
+          },
+          "CURRENT_MODE_WID": {
+            "type": "string",
+            "description": "Report output mode for WID (Detail not supported)",
+            "enum": [
+              "Graphic",
+              "Summary",
+              "PMCurve"
+            ]
+          },
+          "SELECTIONS": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "WALL_IDS": {
+                  "type": "object",
+                  "properties": {
+                    "KEYS": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "TO": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "STORY": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "OUTPUT_NAME": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+key: POST.TABLE.STORY_DISPLACEMENT_X
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/STORY_DISPLACEMENT_X.json
+  introspect: null
+  source: help_center_spec_table
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: STORY_DISPLACEMENT_X
+title: "Story Displacement - Analysis Story Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49511597474713-Story-Displacement-X-Y-Combined-Story-Result-Table"
+  retrieved_at: "2026-07-24"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 13
+  examples: 10
+  has_response_head: true
+notes: [공식 예제를 그대로 추가했습니다.]

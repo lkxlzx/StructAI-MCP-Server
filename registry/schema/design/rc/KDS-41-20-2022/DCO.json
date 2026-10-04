@@ -1,0 +1,328 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.DCO",
+  "uri": "DESIGN/RC/KDS-41-20-2022/DCO",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "maxProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "DESIGN_CD"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "DESIGN_CD": {
+                "type": "string",
+                "description": "Concrete design code standard",
+                "oneOf": [
+                  {
+                    "title": "KDS 41 20 : 2022",
+                    "const": "KDS 41 20 : 2022"
+                  }
+                ]
+              },
+              "SEISMIC_PROV": {
+                "type": "boolean",
+                "description": "Apply Special Provisions for Seismic Design",
+                "default": false
+              },
+              "SEISMIC": {
+                "type": "object",
+                "description": "Seismic design parameters",
+                "additionalProperties": false,
+                "properties": {
+                  "FRAME_TYPE": {
+                    "type": "string",
+                    "description": "Select Frame Type",
+                    "default": "Special",
+                    "oneOf": [
+                      {
+                        "title": "Special Moment Frames",
+                        "const": "Special"
+                      },
+                      {
+                        "title": "Intermediate Moment Frames",
+                        "const": "Intermediate"
+                      },
+                      {
+                        "title": "Ordinary Moment Frames",
+                        "const": "Ordinary"
+                      }
+                    ]
+                  },
+                  "STRONG_COL_WEAK_LAST": {
+                    "type": "boolean",
+                    "description": "Consider strong column-weak beam on last floor",
+                    "default": true
+                  },
+                  "SHEAR_WALL": {
+                    "type": "object",
+                    "description": "Shear Wall Type configuration",
+                    "additionalProperties": false,
+                    "properties": {
+                      "SPEC_RC_WALL": {
+                        "type": "boolean",
+                        "description": "Special RC Structural Wall",
+                        "default": true
+                      },
+                      "BDRY_ELEM_MTHD": {
+                        "type": "string",
+                        "description": "Boundary Element Method",
+                        "default": "Displacement",
+                        "oneOf": [
+                          {
+                            "title": "Displacement Based Method",
+                            "const": "Displacement"
+                          },
+                          {
+                            "title": "Stress Based Method",
+                            "const": "Stress"
+                          }
+                        ]
+                      },
+                      "DEFL_AMP_FACT": {
+                        "type": "number",
+                        "description": "Deflection Amplification Factor (Cd)",
+                        "default": 4.5,
+                        "enum": [
+                          1.25,
+                          1.5,
+                          2,
+                          2.5,
+                          3,
+                          3.25,
+                          4,
+                          4.5,
+                          5,
+                          5.5,
+                          6,
+                          6.5
+                        ]
+                      },
+                      "IMP_FACT": {
+                        "type": "number",
+                        "description": "Important Factor (Ie)",
+                        "default": 1.2,
+                        "enum": [
+                          1,
+                          1.2,
+                          1.5
+                        ]
+                      }
+                    }
+                  },
+                  "SHEAR_DES": {
+                    "type": "object",
+                    "description": "Shear for Design configuration",
+                    "additionalProperties": false,
+                    "properties": {
+                      "R": {
+                        "type": "number",
+                        "description": "Special-only R factor input shown as 'R*Vc(a1*Σ(Mpr)/L) ≥ max(Ve1,Ve2)/2 , R='",
+                        "default": 0,
+                        "minimum": 0
+                      },
+                      "MTHD": {
+                        "type": "string",
+                        "description": "Calculation method",
+                        "default": "MIN",
+                        "oneOf": [
+                          {
+                            "title": "MAX(Ve1,Ve2)",
+                            "const": "MAX"
+                          },
+                          {
+                            "title": "MIN(Ve1,Ve2)",
+                            "const": "MIN"
+                          },
+                          {
+                            "title": "Ve1",
+                            "const": "Ve1"
+                          },
+                          {
+                            "title": "Ve2",
+                            "const": "Ve2"
+                          }
+                        ]
+                      },
+                      "A1": {
+                        "type": "number",
+                        "description": "Ve1 = Vg + a1*Σ(Mn)/L coefficient",
+                        "default": 1
+                      },
+                      "A2": {
+                        "type": "number",
+                        "description": "Ve2 = Vg + a2*Veq coefficient",
+                        "default": 2
+                      }
+                    }
+                  },
+                  "BEAM_COL_JNT_DES": {
+                    "type": "boolean",
+                    "description": "Beam-Column Joint Design",
+                    "default": false
+                  },
+                  "JOINT": {
+                    "type": "object",
+                    "description": "Beam-Column Joint configuration",
+                    "additionalProperties": false,
+                    "properties": {
+                      "CHK_POS": {
+                        "type": "string",
+                        "description": "Select Check Position",
+                        "default": "Bottom",
+                        "oneOf": [
+                          {
+                            "title": "Top",
+                            "const": "Top"
+                          },
+                          {
+                            "title": "Bottom",
+                            "const": "Bottom"
+                          }
+                        ]
+                      },
+                      "EXCL_MEM_TYPES": {
+                        "type": "array",
+                        "description": "Member Types to be excluded in Seismic Design",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "SUBBEAM",
+                            "CANTIL",
+                            "UGBEAMCOL"
+                          ]
+                        },
+                        "uniqueItems": true,
+                        "default": [
+                          "SUBBEAM",
+                          "CANTIL",
+                          "UGBEAMCOL"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "TORS_DES": {
+                "type": "boolean",
+                "description": "Torsion Design",
+                "default": false
+              },
+              "TORS_RDCT_FACT": {
+                "type": "number",
+                "description": "Torsion Reduction Factor for Beam",
+                "default": 1,
+                "minimum": 0
+              },
+              "MOM_REDIST_FACT": {
+                "type": "number",
+                "description": "Moment Redistribution Factor for Beam",
+                "default": 1,
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "MOM_CALC_MTHD": {
+                "type": "string",
+                "description": "Moment Calculation Method for Beam",
+                "default": "Equivalent",
+                "oneOf": [
+                  {
+                    "title": "Equivalent Rebar",
+                    "const": "Equivalent"
+                  },
+                  {
+                    "title": "Each Rebar",
+                    "const": "Each"
+                  }
+                ]
+              },
+              "USE_SUBDIV_FORCE": {
+                "type": "boolean",
+                "description": "Use Subdivided Force for Beam Assigned as Member",
+                "default": false
+              },
+              "EXP_COND": {
+                "type": "string",
+                "description": "Exposure Condition (kcr)",
+                "default": "Dry",
+                "oneOf": [
+                  {
+                    "title": "Dry",
+                    "const": "Dry"
+                  },
+                  {
+                    "title": "etc",
+                    "const": "etc"
+                  }
+                ]
+              },
+              "PM_CRV_CALC": {
+                "type": "string",
+                "description": "P-M Curve Calculation Method",
+                "default": "KeepMPConstant",
+                "oneOf": [
+                  {
+                    "title": "Keep P Constant",
+                    "const": "KeepPConstant"
+                  },
+                  {
+                    "title": "Keep M/P Constant",
+                    "const": "KeepMPConstant"
+                  }
+                ]
+              },
+              "UG_LC": {
+                "type": "boolean",
+                "description": "Use Under Ground Load Combination Type for Under Ground Members",
+                "default": true
+              },
+              "CONC_STRS_STRN": {
+                "type": "string",
+                "description": "Concrete Stress-Strain Type for Bending",
+                "default": "Equivalent",
+                "oneOf": [
+                  {
+                    "title": "Equivalent-Rectangle",
+                    "const": "Equivalent"
+                  },
+                  {
+                    "title": "Parabola-Rectangle (Average)",
+                    "const": "Parabola"
+                  }
+                ]
+              },
+              "FS_MAIN_BAR": {
+                "type": "string",
+                "description": "fs of Main bar in Beam Design",
+                "default": "2/3fy",
+                "oneOf": [
+                  {
+                    "title": "2/3*fy",
+                    "const": "2/3fy"
+                  },
+                  {
+                    "title": "By Program",
+                    "const": "ByProgram"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

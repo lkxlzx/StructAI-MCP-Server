@@ -1,0 +1,49 @@
+key: DB.PNLA
+namespace: DB
+uri: /DB/PNLA
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: PNLA
+schema_ref:
+  local: schema/common/db/PNLA.json
+  introspect: info/db/PNLA
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Assign Plane Loads
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35953557411993-Assign-Plane-Loads"
+  retrieved_at: "2026-09-28"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 19
+  examples: 5
+  has_response_head: false
+notes: ["\"SOLID\"` 조건 행의 Key 오기(`\"SELECT_TYPE\"` → `\"ELEM_TYPE\"`)는 정정됐었으나, 같은 행의 **설명 문구는 여전히 `Element Select Type`으로 남아 있다**(원문 그대로: `When Element Select Type, \"ELEM_TYPE\" is \"SOLID\"`). 같은 표의 첫 조건행은 `When Element Type, \"ELEM_TYPE\" is \"PLATE\"`로 올바르므로 이 행만 문구 정정이 덜 된 상태다. **신규 회귀 — `SELECT_TYPE = \"IN_GROUP\"` 조건 행의 Key가 오염됐다.** 2026-09-06 시점에는 `When Element Select Type, \"SELECT_TYPE\" is \"IN_GROUP\"`으로 Key가 올바르게"]

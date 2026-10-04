@@ -1,0 +1,39 @@
+{
+  "key": "VIEW.PRECAPTURE",
+  "uri": "VIEW/PRECAPTURE",
+  "source": "help_center",
+  "schema": {
+    "CAPTURE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "EXPORT_PATH": {
+              "description": "Save Path",
+              "type": "string"
+            },
+            "VIEW_TYPE": {
+              "description": "Preview Picture Type",
+              "type": "string",
+              "enum": [
+                "FIBR"
+              ]
+            },
+            "OPTION": {
+              "description": "Option for Capture",
+              "type": "object",
+              "Properties": {
+                "ID": {
+                  "description": "Picture Type ID Number",
+                  "Type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+ "registry": {
+  "keys": 635,
+  "schemas": 615
+ },
+ "dry_run": {
+  "checked": 635,
+  "problem_count": 0,
+  "problems": []
+ },
+ "live": {
+  "base_url": "https://moa-engineers.midasit.cn:443/cdn",
+  "product": "",
+  "expected_product": "CIVIL_DESIGNER",
+  "profile": "DESIGNER",
+  "calls": 14,
+  "summary": {
+   "OK": 14
+  },
+  "results": [
+   [
+    "DB.BTCP",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CAPSIZE",
+    "OK",
+    ""
+   ],
+   [
+    "DB.CWRC",
+    "OK",
+    ""
+   ],
+   [
+    "DB.DCOD",
+    "OK",
+    ""
+   ],
+   [
+    "DB.ELEM",
+    "OK",
+    ""
+   ],
+   [
+    "DB.KFAC",
+    "OK",
+    ""
+   ],
+   [
+    "DB.LCOM",
+    "OK",
+    ""
+   ],
+   [
+    "DB.LENG",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MEMB",
+    "OK",
+    ""
+   ],
+   [
+    "DB.MODULE",
+    "OK",
+    ""
+   ],
+   [
+    "DB.NODE",
+    "OK",
+    ""
+   ],
+   [
+    "DB.SPAN",
+    "OK",
+    ""
+   ],
+   [
+    "DB.TRPT",
+    "OK",
+    ""
+   ],
+   [
+    "DOC.UNIT",
+    "OK",
+    ""
+   ]
+  ],
+  "skipped_by_product": {
+   "CIVIL_NX|GEN_NX": 479,
+   "GEN_NX": 98,
+   "GEN_NX|CIVIL_NX": 2,
+   "CIVIL_NX": 17
+  },
+  "skipped_disabled": [
+   "DB.SWIND"
+  ]
+ }
+}

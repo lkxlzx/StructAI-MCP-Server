@@ -1,0 +1,17 @@
+{
+  "key": "DB.DCON",
+  "uri": "DB/DCON",
+  "source": "help_center",
+  "schema": {
+    "DCON": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "DGNCODE": {
+          "description": "DesignCode",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

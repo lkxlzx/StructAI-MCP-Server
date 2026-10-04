@@ -1,0 +1,53 @@
+{
+  "key": "DB.GSBG",
+  "uri": "DB/GSBG",
+  "source": "help_center",
+  "schema": {
+    "GSBG": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "BATCH": {
+          "description": "Is Batch Boolean",
+          "type": "boolean"
+        },
+        "BODY_ELEM_GRUP_K": {
+          "description": "Body Element Group_K",
+          "type": "integer"
+        },
+        "ALLSTAGE": {
+          "description": "Is All Stage Boolean",
+          "type": "boolean"
+        },
+        "BSTRSCOMP": {
+          "description": "TODO: BSTRSCOMP",
+          "type": "integer"
+        },
+        "BSTRSCOMP_SUB": {
+          "description": "TODO: BSTRSCOMP_SUB",
+          "type": "integer"
+        },
+        "MOMENT_COMP": {
+          "description": "TODO: MOMENT_COMP",
+          "type": "integer"
+        },
+        "_7TH_DOF_TYPE": {
+          "description": "TODO: 7TH_DOF_TYPE",
+          "type": "integer"
+        },
+        "DGRM_TYPE": {
+          "description": "TODO: DGRM_TYPE",
+          "type": "integer"
+        },
+        "SCALEFACTOR": {
+          "description": "Scale",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

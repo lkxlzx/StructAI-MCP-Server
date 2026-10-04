@@ -1,0 +1,45 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.EQCT",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/EQCT",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by ID strings (e.g., \"1\"), where each entry represents an element.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "TYPE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "TYPE": {
+                "type": "string",
+                "description": "Assign Member Type",
+                "oneOf": [
+                  {
+                    "title": "Special Seismic Loads",
+                    "const": "Special Seismic Loads"
+                  },
+                  {
+                    "title": "Vertical Seismic Forces",
+                    "const": "Vertical Seismic Forces"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

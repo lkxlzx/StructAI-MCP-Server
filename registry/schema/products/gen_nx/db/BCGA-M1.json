@@ -1,0 +1,115 @@
+{
+  "key": "DB.BCGA-M1",
+  "uri": "DB/BCGA-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "인덱스 문자열 키(예: \"1\")를 쓰는 맵. 각 항목은 DTO_BCGA_M1(Assign Boundary Combination) 입력",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "required": [
+            "BC_ASSIGN",
+            "BC_SELECT"
+          ],
+          "properties": {
+            "BC_ASSIGN": {
+              "type": "array",
+              "description": "Assign Boundary Combination to Analyses & Load Cases (그리드의 각 행이 BC_ASSIGN 엔트리. UI 는 {Type, LoadCaseKey, BcctCombIndex} 로, DTO 는 {ANAL_TYPE, LCNAME, BGCNAME} 로 표현 (이름 기반))",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ANAL_TYPE"
+                ],
+                "properties": {
+                  "ANAL_TYPE": {
+                    "type": "string",
+                    "description": "ANAL_TYPE (필수. enum ST/MV/SM/EIGV/RS/LTH/NLTH/PO 중 하나)",
+                    "enum": [
+                      "ST",
+                      "MV",
+                      "SM",
+                      "EIGV",
+                      "RS",
+                      "LTH",
+                      "NLTH",
+                      "PO"
+                    ]
+                  },
+                  "LCNAME": {
+                    "type": "string",
+                    "description": "LCNAME (ANAL_TYPE ∈ {ST, NLTH, PO} 시 필수. 나머지 해석 타입은 LCNAME 불필요 (단일 집합 해석). 지정 시 실제 Load Case 이름이어야 함)"
+                  },
+                  "BGCNAME": {
+                    "type": "string",
+                    "default": "",
+                    "description": "BGCNAME (선택. 빈 문자열 = 변경 없음(-1). 지정 시 실제 BCCD 이름이어야 함)"
+                  }
+                },
+                "allOf": [
+                  {
+                    "description": "ANAL_TYPE이 ST, NLTH, PO이면 LCNAME이 필수입니다.",
+                    "if": {
+                      "properties": {
+                        "ANAL_TYPE": {
+                          "enum": [
+                            "ST",
+                            "NLTH",
+                            "PO"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "ANAL_TYPE"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "LCNAME"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "BC_SELECT": {
+              "type": "array",
+              "description": "Apply to Boundary Change (Apply 목록의 항목들이 BC_SELECT 배열로 직접 전송됨)",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "SECF",
+                  "ESSF",
+                  "EWSF",
+                  "PSSF",
+                  "WSSF",
+                  "CONS",
+                  "NSPR",
+                  "GSPR",
+                  "SSPS",
+                  "ELNK",
+                  "RIGD",
+                  "NLNK",
+                  "CGLP",
+                  "FRLS",
+                  "OFFS",
+                  "PRLS",
+                  "MCON"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

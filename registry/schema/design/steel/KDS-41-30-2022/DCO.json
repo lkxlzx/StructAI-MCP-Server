@@ -1,0 +1,94 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.DCO",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/DCO",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "title": "Steel Design Code",
+            "type": "object",
+            "required": [
+              "DGNCODE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "DGNCODE": {
+                "type": "string",
+                "description": "Design Code",
+                "enum": [
+                  "KDS 41 30 : 2022"
+                ]
+              },
+              "LAT_BRACE": {
+                "type": "boolean",
+                "description": "All Beams/Girders are Laterally Braced",
+                "default": false
+              },
+              "DEFL_CHK": {
+                "type": "boolean",
+                "description": "Check Beam/Column Deflection",
+                "default": true
+              },
+              "SEISMIC": {
+                "type": "boolean",
+                "description": "Apply Special Provisions for Seismic Design",
+                "default": false
+              },
+              "COMB_RATIO": {
+                "type": "integer",
+                "description": "Combined Ratio Method for Circular Section",
+                "default": 0,
+                "oneOf": [
+                  {
+                    "title": "SRSS (Square root of sum of square)",
+                    "const": 0
+                  },
+                  {
+                    "title": "Linear Sum",
+                    "const": 1
+                  }
+                ]
+              },
+              "SEIS_SYS": {
+                "type": "string",
+                "description": "Seismic Load Resisting System",
+                "enum": [
+                  "Special Moment Frames",
+                  "Intermediate Moment Frames",
+                  "Ordinary Moment Frames",
+                  "Special Concentrically Braced Frames",
+                  "Ordinary Concentrically Braced Frames",
+                  "Eccentrically Braced Frames",
+                  "Buckling-Restrained Braced Frames",
+                  "Special Plate Shear Walls"
+                ],
+                "default": "Special Moment Frames"
+              },
+              "COL_WEAK": {
+                "type": "boolean",
+                "description": "Consider strong column-weak beam on last floor",
+                "default": true
+              },
+              "UNDGR_LD": {
+                "type": "boolean",
+                "description": "Use Under Ground Load Combination Type for Under Ground Members",
+                "default": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

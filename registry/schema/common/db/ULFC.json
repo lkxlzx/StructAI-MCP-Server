@@ -1,0 +1,65 @@
+{
+  "key": "DB.ULFC",
+  "uri": "DB/ULFC",
+  "source": "help_center",
+  "schema": {
+    "ULFC": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "ConstraintName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "ConstraintType",
+          "type": "string"
+        },
+        "OBJ_ID": {
+          "description": "ObjectID",
+          "type": "integer"
+        },
+        "POINT": {
+          "description": "nPoint",
+          "type": "integer"
+        },
+        "COMP": {
+          "description": "Component",
+          "type": "integer"
+        },
+        "EQ": {
+          "description": "EqualityConditionBoolean",
+          "type": "boolean"
+        },
+        "bVALUE": {
+          "description": "ValueBoolean",
+          "type": "boolean"
+        },
+        "VALUE": {
+          "description": "ValueDouble",
+          "type": "number"
+        },
+        "OtherObject": {
+          "description": "OtherObject",
+          "type": "integer"
+        },
+        "bUB": {
+          "description": "UpperBoundBoolean",
+          "type": "boolean"
+        },
+        "UB_VALUE": {
+          "description": "UpperBoundValue",
+          "type": "number"
+        },
+        "bLB": {
+          "description": "LowerBoundBoolean",
+          "type": "boolean"
+        },
+        "LB_VALUE": {
+          "description": "LowerBoundValue",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

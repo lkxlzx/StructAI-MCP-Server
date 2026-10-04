@@ -1,0 +1,41 @@
+{
+  "key": "DB.THIK",
+  "uri": "DB/THIK",
+  "source": "help_center",
+  "schema": {
+    "THIK": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "Name",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "Type",
+          "type": "string"
+        },
+        "bINOUT": {
+          "description": "ThickType",
+          "type": "boolean"
+        },
+        "T_IN": {
+          "description": "Thick_In",
+          "type": "number"
+        },
+        "T_OUT": {
+          "description": "Thick_Out",
+          "type": "number"
+        },
+        "OFFSET": {
+          "description": "OFFSET:NONE,RATIO,VALUE",
+          "type": "integer"
+        },
+        "O_VALUE": {
+          "description": "Value",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

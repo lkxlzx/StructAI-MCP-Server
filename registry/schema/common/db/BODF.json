@@ -1,0 +1,29 @@
+{
+  "key": "DB.BODF",
+  "uri": "DB/BODF",
+  "source": "help_center",
+  "schema": {
+    "BODF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "StaticLoadCaseName",
+          "type": "string"
+        },
+        "GROUP_NAME": {
+          "description": "GroupName",
+          "type": "string"
+        },
+        "FV": {
+          "description": "AutoType",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 3
+          }
+        }
+      }
+    }
+  }
+}

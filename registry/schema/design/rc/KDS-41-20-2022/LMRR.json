@@ -1,0 +1,46 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.LMRR",
+  "uri": "DESIGN/RC/KDS-41-20-2022/LMRR",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "RHOR",
+              "RHOC",
+              "RHOW"
+            ],
+            "properties": {
+              "RHOW": {
+                "type": "number",
+                "description": "Maximum rebar ratio for Shear Wall Design (Rhow)."
+              },
+              "RHOC": {
+                "type": "number",
+                "description": "Maximum rebar ratio for Column Design (Rhoc)."
+              },
+              "RHOR": {
+                "type": "number",
+                "description": "Maximum rebar ratio for Brace Design (Rhor)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

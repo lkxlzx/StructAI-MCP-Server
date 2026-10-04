@@ -1,0 +1,36 @@
+{
+  "key": "OPRT.DESIGN",
+  "uri": "OPRT/DESIGN",
+  "source": "civil_designer_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "运行设计",
+    "type": "object",
+    "properties": {
+      "Type": {
+        "type": "integer",
+        "description": "设计的目标构件<br>*0-全部构件<br>1-选择目标"
+      },
+      "SubType": {
+        "type": "integer",
+        "description": "目标构件类型<br>*Type==1时有效；<br>*0-构件Key 1-单元Key对应构件2-构件名称"
+      },
+      "NameList": {
+        "type": "array",
+        "description": "构件名称<br>*Type==1且SubType==2时有效"
+      },
+      "KeyList": {
+        "type": "array",
+        "description": "构件/单元Key<br>*Type==1且SubType==0,1时有效"
+      },
+      "MultiCore": {
+        "type": "boolean",
+        "description": "是否多核计算"
+      }
+    },
+    "required": [
+      "Type"
+    ]
+  },
+  "shape": "flat_object"
+}

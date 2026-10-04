@@ -1,0 +1,70 @@
+{
+  "key": "DB.POSP",
+  "uri": "DB/POSP",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "PropertyName",
+          "type": "string"
+        },
+        "DESC": {
+          "description": "PropertyDescription",
+          "type": "string"
+        },
+        "OPT_USE_N": {
+          "description": "UseN",
+          "type": "boolean"
+        },
+        "GROUND_LEVEL": {
+          "description": "GroundLevel",
+          "type": "number"
+        },
+        "BEDROCK_LEVEL": {
+          "description": "BedlockLevel",
+          "type": "number"
+        },
+        "FOOTING_LEVEL": {
+          "description": "FootingLevel",
+          "type": "number"
+        },
+        "ITEMS": {
+          "description": "SoilParam",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "HEIGHT": {
+                "description": "Height",
+                "type": "number"
+              },
+              "ANGLE_OR_N": {
+                "description": "AngleOrN",
+                "type": "number"
+              },
+              "DENSITY": {
+                "description": "Density",
+                "type": "number"
+              },
+              "VS": {
+                "description": "Vs",
+                "type": "number"
+              },
+              "KH": {
+                "description": "Kh",
+                "type": "number"
+              },
+              "DISP": {
+                "description": "Disp",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

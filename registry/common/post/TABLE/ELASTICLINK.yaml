@@ -1,0 +1,40 @@
+key: POST.TABLE.ELASTICLINK
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/ELASTICLINK.json
+  introspect: null
+  source: help_center
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: ELASTICLINK
+title: "Elastic Link - Analysis Result Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/36017416195737-Elastic-Link-Analysis-Result-Table"
+  retrieved_at: "2025-08-14"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 25
+  examples: 10
+  has_response_head: false
+notes: ["`\"ITEM_TO_DISPLAY\"`(Array [String], enum: `Axial`/`Shear-y`/`Shear-z`/`Torsion`/`Moment-y`/ `Moment-z`, 기본값 All, Optional)가 이전 버전 문서에 누락되어 있었음 — 최댓값을 계산할 대상 성분을 지정하는 필드."]

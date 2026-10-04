@@ -1,0 +1,33 @@
+{
+  "key": "DB.THSL",
+  "uri": "DB/THSL",
+  "source": "help_center",
+  "schema": {
+    "THSL": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "THIS_LCNAME": {
+          "description": "Timehistoryloadcasename",
+          "type": "string"
+        },
+        "SLOAD": {
+          "description": "StaticLoad",
+          "type": "string"
+        },
+        "THIS_FUNCNAME": {
+          "description": "(NormalType)FunctionName",
+          "type": "string"
+        },
+        "ATIME": {
+          "description": "ArrivalTime",
+          "type": "number"
+        },
+        "SCALE": {
+          "description": "ScaleFactor",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

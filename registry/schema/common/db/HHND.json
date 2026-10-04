@@ -1,0 +1,33 @@
+{
+  "key": "DB.HHND",
+  "uri": "DB/HHND",
+  "source": "help_center",
+  "schema": {
+    "HHND": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "NodeName",
+          "type": "string"
+        },
+        "NODE_KEY": {
+          "description": "NodeKey",
+          "type": "integer"
+        },
+        "COMP": {
+          "description": "TODO:Comp",
+          "type": "integer"
+        },
+        "TYPE": {
+          "description": "NodeType",
+          "type": "integer"
+        },
+        "ELEM_KEY": {
+          "description": "NodeElementKey",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

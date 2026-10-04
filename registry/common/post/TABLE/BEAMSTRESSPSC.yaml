@@ -1,0 +1,40 @@
+key: POST.TABLE.BEAMSTRESSPSC
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/post/TABLE/BEAMSTRESSPSC.json
+  introspect: null
+  source: civil_nx_manual
+parser: post_table
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: BEAMSTRESSPSC
+title: 应力（PSC）Beam Stress(PSC)
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual, repo_midas_api]
+stats:
+  spec_rows: 0
+  examples: 5
+  has_response_head: false
+notes: ["문서에 누락되어 있었음. `SECTION_POSITION`의 위치 개수(16개)는 10절 `BEAMSTRESS7DOF`(4개)보다 많다 — PSC 단면이 더 세분화된 검토점을 갖기 때문으로 추정.", "Sax/Ssy/Ssz 구조) 마지막 두 컬럼명이 `Cb(Ssy)`/`Cb(Ssz)`가 아니라 `Combined(Ssy)`/ `Combined(Ssz)`로 다르게 표기되어 있음 — 원문에서 별개로 작성된 두 아티클 간 명명 불일치로 판단(오류라기보다 정보성 기록, 오류제보 대상)."]

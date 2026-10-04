@@ -1,0 +1,288 @@
+{
+  "key": "DB.STCT",
+  "uri": "DB/STCT",
+  "source": "help_center",
+  "schema": {
+    "STCT": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "bLAST_FINAL": {
+          "description": "Final Stage",
+          "type": "boolean"
+        },
+        "FINAL_STAGE": {
+          "description": "Other stage name",
+          "type": "string"
+        },
+        "CPFC": {
+          "description": "Initial / External force",
+          "type": "string"
+        },
+        "bEXT_REPL": {
+          "description": "External force type",
+          "type": "boolean"
+        },
+        "bCALC_CFF": {
+          "description": "Calculate concurrent forces of frame",
+          "type": "boolean"
+        },
+        "bCALC_CSP": {
+          "description": "Calculate output of each part of composite section",
+          "type": "boolean"
+        },
+        "bAPPLY_IMF": {
+          "description": "Apply Initial member force to C.S",
+          "type": "boolean"
+        },
+        "bCONV": {
+          "description": "Convert final stage member forces to initial forces for Post C.S",
+          "type": "boolean"
+        },
+        "bTRUSS": {
+          "description": "Truss - Check Box",
+          "type": "boolean"
+        },
+        "bBEAM": {
+          "description": "Beam - Check Box",
+          "type": "boolean"
+        },
+        "bITD": {
+          "description": "Initial tangent displacement for erected structures - Check Box",
+          "type": "boolean"
+        },
+        "ITD": {
+          "description": "Initial tangent displacement type",
+          "type": "string"
+        },
+        "GROUP": {
+          "description": "Structure group name",
+          "type": "string"
+        },
+        "bSAVE_OCS": {
+          "description": "",
+          "type": "boolean"
+        },
+        "bLFFC": {
+          "description": "Lack-of-Fit force control - Check Box",
+          "type": "boolean"
+        },
+        "LFFGR": {
+          "description": "Structure group name",
+          "type": "string"
+        },
+        "bCAMBER": {
+          "description": "Apply camber displacement to C.S. (if defined)",
+          "type": "boolean"
+        },
+        "bSELFCONS": {
+          "description": "Self-constrained forces & stresses",
+          "type": "boolean"
+        },
+        "bCHANGE_CABLE": {
+          "description": "Change cable element to equivalent truss element for Post C.S.",
+          "type": "boolean"
+        },
+        "iINC_NLA": {
+          "description": "Analysis type",
+          "type": "integer"
+        },
+        "iNLA_TYPE": {
+          "description": "Independent / Accumulative stage",
+          "type": "integer"
+        },
+        "bIEMF": {
+          "description": "Include equilibrium element nodal forces - Check Box",
+          "type": "boolean"
+        },
+        "iLSTEP": {
+          "description": "Number of load stpes",
+          "type": "integer"
+        },
+        "iMAXITER": {
+          "description": "Maximum number of iterations",
+          "type": "integer"
+        },
+        "CF": {
+          "description": "Convergence failure - Check Box",
+          "type": "boolean"
+        },
+        "BSSTEP": {
+          "description": "Maximum Bi-Section level for an load step",
+          "type": "integer"
+        },
+        "ADSTEP": {
+          "description": "Maximum allowable diverged steps",
+          "type": "integer"
+        },
+        "bENEG": {
+          "description": "Energy norm - Check Box",
+          "type": "boolean"
+        },
+        "EV": {
+          "description": "Energy norm - Value",
+          "type": "number"
+        },
+        "bDISP": {
+          "description": "Displacement norm - Check Box",
+          "type": "boolean"
+        },
+        "DV": {
+          "description": "Displacement norm - Value",
+          "type": "number"
+        },
+        "bFORC": {
+          "description": "Force norm - Check Box",
+          "type": "boolean"
+        },
+        "FV": {
+          "description": "Force norm - Value",
+          "type": "number"
+        },
+        "bINC_PDL": {
+          "description": "Include P-delta effect - Check Box",
+          "type": "boolean"
+        },
+        "iITER": {
+          "description": "Number of iterations",
+          "type": "integer"
+        },
+        "TOL": {
+          "description": "Convergence tolerance",
+          "type": "number"
+        },
+        "bINC_TDE": {
+          "description": "Include time dependent effect",
+          "type": "boolean"
+        },
+        "bCNS": {
+          "description": "Creep & Shrinkage check box",
+          "type": "boolean"
+        },
+        "TYPE": {
+          "description": "CR & SH - Type",
+          "type": "string"
+        },
+        "iITER_CR": {
+          "description": "Number of Creep Iteration",
+          "type": "integer"
+        },
+        "TOL_CR": {
+          "description": "Tolerance",
+          "type": "number"
+        },
+        "bTTLE_CS": {
+          "description": "Tendon tension loss effect",
+          "type": "boolean"
+        },
+        "bRCE": {
+          "description": "Consider Re-bar confinement effect",
+          "type": "boolean"
+        },
+        "bVAR": {
+          "description": "Variation of comp. Strength",
+          "type": "boolean"
+        },
+        "bTTLE_ES": {
+          "description": "Tendon tension loss effect (Elastic shortening)",
+          "type": "boolean"
+        },
+        "iTTLE_ES": {
+          "description": "Tendon tension loss effect - Type",
+          "type": "integer"
+        },
+        "bAPPLY_ELA": {
+          "description": "Apply time dependent effect elastic modulus to Post C.S",
+          "type": "boolean"
+        },
+        "bOUCC": {
+          "description": "Only User��s creep coefficient",
+          "type": "boolean"
+        },
+        "bITS": {
+          "description": "Internal time step for creep check box",
+          "type": "boolean"
+        },
+        "iITS": {
+          "description": "Internal time step for creep - Value",
+          "type": "integer"
+        },
+        "bATS": {
+          "description": "Auto time step generation for large time gap",
+          "type": "boolean"
+        },
+        "iT10": {
+          "description": "Time Gap : T >10",
+          "type": "integer"
+        },
+        "iT100": {
+          "description": "Time Gap : T >100",
+          "type": "integer"
+        },
+        "iT1K": {
+          "description": "Time Gap : T >1000",
+          "type": "integer"
+        },
+        "iT5K": {
+          "description": "Time Gap : T >5000",
+          "type": "integer"
+        },
+        "iT10K": {
+          "description": "Time Gap : T >10000",
+          "type": "integer"
+        },
+        "bSD": {
+          "description": "Consider stress decrease at Transfer Length Zone by Post-tension - Check Box",
+          "type": "boolean"
+        },
+        "iSDOPT": {
+          "description": "Stress decrease method - Linear / Constant",
+          "type": "integer"
+        },
+        "SDCONST": {
+          "description": "Constant - ratio value",
+          "type": "number"
+        },
+        "iBSC": {
+          "description": "Constant / Change with tendon",
+          "type": "integer"
+        },
+        "vEREC": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "LTYPECC": {
+                "description": "Erection load case name",
+                "type": "string"
+              },
+              "EREC": {
+                "description": "Load type for C.S",
+                "type": "string"
+              },
+              "vLCNAME": {
+                "description": "Load Case Name List",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "bSDLE": {
+          "description": "Secondary Dead Load Effect for Grid Model",
+          "type": "boolean"
+        },
+        "vSDLE": {
+          "description": "Load Case",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

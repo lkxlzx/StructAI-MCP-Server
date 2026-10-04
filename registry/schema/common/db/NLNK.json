@@ -1,0 +1,93 @@
+{
+  "key": "DB.NLNK",
+  "uri": "DB/NLNK",
+  "source": "help_center",
+  "schema": {
+    "NLNK": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NODE1": {
+          "description": "Node1",
+          "type": "integer"
+        },
+        "NODE2": {
+          "description": "Node2",
+          "type": "integer"
+        },
+        "PROP_NAME": {
+          "description": "GeneralLinkPropertyName",
+          "type": "string"
+        },
+        "IEHP_NAME": {
+          "description": "InelasticHingePropertyName",
+          "type": "string"
+        },
+        "REF_SYSTEM": {
+          "description": "ReferenceCoordinateSystem",
+          "type": "integer"
+        },
+        "BETA_ANGLE": {
+          "description": "BetaAngle",
+          "type": "number"
+        },
+        "INPUT_METHOD": {
+          "description": "InputMethod",
+          "type": "integer"
+        },
+        "ANGLE_VALUES": {
+          "description": "Angle(x,y,z)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VALUE": {
+                "description": "Value",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "POINT_VALUES": {
+          "description": "3points(P0X~Z,P1X~Z,P2X~Z)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VALUE": {
+                "description": "Value",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "VECTOR_VALUES": {
+          "description": "Vector(V1X~Z,V2X~Z)",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "VALUE": {
+                "description": "Value",
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "GROUP_NAME": {
+          "description": "BoundaryGroupName",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

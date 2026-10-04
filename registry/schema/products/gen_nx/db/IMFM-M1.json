@@ -1,0 +1,85 @@
+{
+  "key": "DB.IMFM-M1",
+  "uri": "DB/IMFM-M1",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices representing material numbers (e.g. \"1\"); each value is an Inelastic Material Link for Auto Generation request item.",
+        "minProperties": 1,
+        "additionalProperties": {
+          "type": "object",
+          "unevaluatedProperties": false,
+          "allOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "CONCRETE": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "UN_CONC_NAME",
+                    "REBAR_NAME"
+                  ],
+                  "properties": {
+                    "UN_CONC_NAME": {
+                      "type": "string",
+                      "description": "Unconfined Concrete (FIMP DB unconfined concrete name; server resolves it to a key)"
+                    },
+                    "REBAR_NAME": {
+                      "type": "string",
+                      "description": "Rebar (FIMP DB steel/rebar name)"
+                    },
+                    "CONF_CONC_NAME": {
+                      "type": "string",
+                      "description": "Confined Concrete (FIMP DB confined concrete name; can be omitted)"
+                    }
+                  },
+                  "description": "CONCRETE (Material Type (DTO field is not exposed; this selects the CONCRETE branch))"
+                },
+                "STEEL": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "STEEL_NAME"
+                  ],
+                  "properties": {
+                    "STEEL_NAME": {
+                      "type": "string",
+                      "description": "Steel (FIMP DB steel name)"
+                    }
+                  },
+                  "description": "STEEL (Material Type (DTO field is not exposed; this selects the STEEL branch))"
+                }
+              },
+              "allOf": [
+                {
+                  "description": "Exactly one of CONCRETE or STEEL must be provided.",
+                  "oneOf": [
+                    {
+                      "required": [
+                        "CONCRETE"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "STEEL"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

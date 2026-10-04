@@ -1,0 +1,17 @@
+{
+ "registry": {
+  "keys": 634,
+  "schemas": 570
+ },
+ "dry_run": {
+  "checked": 634,
+  "problem_count": 1,
+  "problems": [
+   [
+    "METHODS_UNKNOWN",
+    "DB.SWIND",
+    "源手册未标注方法，已标记 methods_unknown"
+   ]
+  ]
+ }
+}

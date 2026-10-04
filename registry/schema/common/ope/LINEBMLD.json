@@ -1,0 +1,136 @@
+{
+  "key": "OPE.LINEBMLD",
+  "uri": "OPE/LINEBMLD",
+  "source": "help_center",
+  "schema": {
+    "LINEBMLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "Argument": {
+          "type": "object",
+          "properties": {
+            "LCNAME": {
+              "type": "string"
+            },
+            "GROUP_NAME": {
+              "type": "string"
+            },
+            "TYPE": {
+              "type": "string"
+            },
+            "TARGET": {
+              "type": "object",
+              "properties": {
+                "METHOD": {
+                  "type": "integer"
+                },
+                "ELEM": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                },
+                "NODE": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "ECCEN": {
+              "type": "object",
+              "properties": {
+                "USE": {
+                  "type": "boolean"
+                },
+                "TYPE": {
+                  "type": "integer"
+                },
+                "DIR": {
+                  "type": "string"
+                },
+                "I_END": {
+                  "type": "number"
+                },
+                "J_END": {
+                  "type": "number"
+                },
+                "USE_J_END": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "ADD_H": {
+              "type": "object",
+              "properties": {
+                "USE": {
+                  "type": "boolean"
+                },
+                "I_END": {
+                  "type": "number"
+                },
+                "J_END": {
+                  "type": "number"
+                },
+                "USE_J_END": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "LOAD": {
+              "type": "object",
+              "properties": {
+                "DIR": {
+                  "type": "string"
+                },
+                "USE_PROJECTION": {
+                  "type": "boolean"
+                },
+                "TYPE": {
+                  "type": "integer"
+                },
+                "D": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "P": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "A": {
+                  "type": "number"
+                },
+                "B": {
+                  "type": "number"
+                },
+                "C": {
+                  "type": "number"
+                }
+              }
+            },
+            "COPY": {
+              "type": "object",
+              "properties": {
+                "USE": {
+                  "type": "boolean"
+                },
+                "AXIS": {
+                  "type": "string"
+                },
+                "DIST": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

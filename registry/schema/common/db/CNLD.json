@@ -1,0 +1,58 @@
+{
+  "key": "DB.CNLD",
+  "uri": "DB/CNLD",
+  "source": "help_center",
+  "schema": {
+    "CNLD": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "NodalLoadItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "FX": {
+                "description": "FX",
+                "type": "number"
+              },
+              "FY": {
+                "description": "FY",
+                "type": "number"
+              },
+              "FZ": {
+                "description": "FZ",
+                "type": "number"
+              },
+              "MX": {
+                "description": "MX",
+                "type": "number"
+              },
+              "MY": {
+                "description": "MY",
+                "type": "number"
+              },
+              "MZ": {
+                "description": "MZ",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

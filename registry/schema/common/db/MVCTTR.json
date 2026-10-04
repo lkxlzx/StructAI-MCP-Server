@@ -1,0 +1,49 @@
+{
+  "key": "DB.MVCTTR",
+  "uri": "DB/MVCTTR",
+  "source": "help_center",
+  "schema": {
+    "MVCTTR": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LOAD_POINT_SEL": {
+          "description": "LoadPointSelection",
+          "type": "integer"
+        },
+        "INFL_GEN_POINT": {
+          "description": "InfluenceGenerationMethod",
+          "type": "integer"
+        },
+        "NUM_UNIT_LOAD": {
+          "description": "Number/LineElements",
+          "type": "integer"
+        },
+        "DISTANCE": {
+          "description": "DistancebetweenPoints",
+          "type": "number"
+        },
+        "ANALYSIS_RESULT": {
+          "description": "AnalysisResults",
+          "type": "integer"
+        },
+        "OPT_COMBINED_STR": {
+          "description": "UseCombinedStress",
+          "type": "boolean"
+        },
+        "OPT_REACTIONS": {
+          "description": "UseReactions",
+          "type": "boolean"
+        },
+        "OPT_DISPLACEMENTS": {
+          "description": "UseDisplacements",
+          "type": "boolean"
+        },
+        "OPT_FORCE": {
+          "description": "UseForces/Moments",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

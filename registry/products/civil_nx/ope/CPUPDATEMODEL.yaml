@@ -1,0 +1,40 @@
+key: OPE.CPUPDATEMODEL
+namespace: OPE
+uri: /OPE/CPUPDATEMODEL
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: null
+  introspect: null
+  source: unavailable
+  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+parser: generic
+products: [CIVIL_NX]
+availability: untested
+table_type: null
+title: null
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual]
+stats:
+  spec_rows: 0
+  examples: 1
+  has_response_head: false

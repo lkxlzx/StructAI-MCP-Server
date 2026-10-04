@@ -1,0 +1,107 @@
+{
+  "key": "DB.SDVE",
+  "uri": "DB/SDVE",
+  "source": "help_center",
+  "schema": {
+    "SDVE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "Name",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "INPUT_METHOD": {
+              "description": "InputMethod",
+              "type": "integer"
+            },
+            "COMPANY": {
+              "description": "Company",
+              "type": "string"
+            },
+            "PRODUCT_NAME": {
+              "description": "ProductName",
+              "type": "string"
+            },
+            "TYPE_NUMBER": {
+              "description": "TypeNumber",
+              "type": "string"
+            }
+          }
+        },
+        "MATERIAL_TYPE": {
+          "description": "MaterialType",
+          "type": "string"
+        },
+        "SHEAR_AREA": {
+          "description": "ShearArea",
+          "type": "number"
+        },
+        "THICKNESS": {
+          "description": "Thickness",
+          "type": "number"
+        },
+        "MULTIPL": {
+          "description": "Multiplier",
+          "type": "number"
+        },
+        "DIR": {
+          "description": "Direction",
+          "type": "string"
+        },
+        "FREQ": {
+          "description": "Freq.",
+          "type": "number"
+        },
+        "STIFF_FACTOR": {
+          "description": "StiffnessFactor",
+          "type": "number"
+        },
+        "DAMP_FACTOR": {
+          "description": "DampingFactor",
+          "type": "number"
+        },
+        "REF_T": {
+          "description": "ReferenceT",
+          "type": "number"
+        },
+        "LIMIT_DEF": {
+          "description": "LimitDeform",
+          "type": "number"
+        },
+        "EFF_STIFF": {
+          "description": "EFFStiffness",
+          "type": "number"
+        },
+        "EQUI_DAMP": {
+          "description": "EquiDamping",
+          "type": "number"
+        },
+        "OPT_MOUNT_STIFF": {
+          "description": "UseMountStiffness",
+          "type": "boolean"
+        },
+        "MOUNT_STIFF": {
+          "description": "MountStiffness",
+          "type": "number"
+        },
+        "OPT_KINETIC_FRIC": {
+          "description": "UseKineticFric",
+          "type": "boolean"
+        },
+        "KINETIC_FRIC": {
+          "description": "KineticFric",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

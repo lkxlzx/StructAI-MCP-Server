@@ -1,0 +1,52 @@
+key: VIEW.ACTIVE
+namespace: VIEW
+uri: /VIEW/ACTIVE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/view/ACTIVE.json
+  introspect: null
+  source: help_center
+  params_ref: "designer_params.json#VIEW/ACTIVE"
+parser: generic
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+product_overrides:
+  CIVIL_DESIGNER:
+    uri: VIEW/ACTIVE
+    methods: POST
+    title: 激活
+    spec_rows: 4
+    source: "G:\\midas Civil Designer - API (wolai snapshot)"
+    wrapper:
+      write: none
+      shape: flat
+      body_kind: object
+availability: untested
+table_type: null
+title: Active
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [GRAPHICS]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35523395368985-Active"
+  retrieved_at: "2025-12-17"
+  provenance: [civil_designer_manual, help_center, repo_midas_api]
+stats:
+  spec_rows: 10
+  examples: 8
+  has_response_head: false
+notes: ["활성화) 모드가 신규 추가되었으나 원문 JSON Schema 자체는 갱신되지 않아 `STORY`/`STORY_ACTIVE`가 빠져 있음(Specifications 표·Request Example에는 존재) — 예제·표 기준으로 스키마에 보강. `IDENTITY_TYPE`의 값은 표에 `\"Story\"`로 적혀 있으나 실제 Request Example은 `\"STORY\"`(전체 대문자)를 사용해 예제 기준으로 채택."]

@@ -1,0 +1,107 @@
+{
+  "key": "DB.BTMP",
+  "uri": "DB/BTMP",
+  "source": "help_center",
+  "schema": {
+    "BTMP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "BTMPItems",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "GroupName",
+                "type": "string"
+              },
+              "DIR": {
+                "description": "Direction",
+                "type": "string"
+              },
+              "REF": {
+                "description": "Ref.Position",
+                "type": "string"
+              },
+              "NUM": {
+                "description": "NumberofSectionTemperature",
+                "type": "integer"
+              },
+              "bPSC": {
+                "description": "SectionType",
+                "type": "boolean"
+              },
+              "vSECTTMP": {
+                "description": "SectionTemperatureList",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "TYPE": {
+                      "description": "MaterialType",
+                      "type": "string"
+                    },
+                    "ELAST": {
+                      "description": "ModulusofElasticity",
+                      "type": "number"
+                    },
+                    "THERMAL": {
+                      "description": "ThermalCoefficient",
+                      "type": "number"
+                    },
+                    "REF": {
+                      "description": "Ref.(ToporBottom)",
+                      "type": "integer"
+                    },
+                    "OPT_B": {
+                      "description": "B-TypeCheck",
+                      "type": "integer"
+                    },
+                    "VAL_B": {
+                      "description": "BValue",
+                      "type": "number"
+                    },
+                    "OPT_H1": {
+                      "description": "H1-TypeCheck",
+                      "type": "integer"
+                    },
+                    "VAL_H1": {
+                      "description": "H1Value",
+                      "type": "number"
+                    },
+                    "OPT_H2": {
+                      "description": "H2-TypeCheck",
+                      "type": "integer"
+                    },
+                    "VAL_H2": {
+                      "description": "H2Value",
+                      "type": "number"
+                    },
+                    "VAL_T1": {
+                      "description": "T1Value",
+                      "type": "number"
+                    },
+                    "VAL_T2": {
+                      "description": "T2Value",
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

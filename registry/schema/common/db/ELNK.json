@@ -1,0 +1,77 @@
+{
+  "key": "DB.ELNK",
+  "uri": "DB/ELNK",
+  "source": "help_center",
+  "schema": {
+    "ELNK": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NODE": {
+          "description": "NODES",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maxItems": 2
+          }
+        },
+        "LINK": {
+          "description": "SubOption",
+          "type": "string"
+        },
+        "ANGLE": {
+          "description": "Angle",
+          "type": "number"
+        },
+        "R_S": {
+          "description": "R_SDxR_SDyR_SDzR_SRxR_SRyR_SRz",
+          "type": "array",
+          "items": {
+            "type": "boolean",
+            "maxItems": 6
+          }
+        },
+        "SDR": {
+          "description": "SDxSDySDzSRxSRySRz",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 6
+          }
+        },
+        "bSHEAR": {
+          "description": "SHEAR",
+          "type": "boolean"
+        },
+        "DR": {
+          "description": "DRyDRz",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxItems": 2
+          }
+        },
+        "BNGR_NAME": {
+          "description": "BoundaryGroupName",
+          "type": "string"
+        },
+        "DIR": {
+          "description": "Direction",
+          "type": "integer"
+        },
+        "MLFC": {
+          "description": "Function",
+          "type": "integer"
+        },
+        "RLFC": {
+          "description": "RailTrackInteractionFunction",
+          "type": "integer"
+        },
+        "DRENDI": {
+          "description": "DistRatioEndI",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

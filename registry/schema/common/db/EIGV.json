@@ -1,0 +1,82 @@
+{
+  "key": "DB.EIGV",
+  "uri": "DB/EIGV",
+  "source": "help_center",
+  "schema": {
+    "EIGV": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TYPE": {
+          "description": "Typeofanalysis",
+          "type": "string"
+        },
+        "iFREQ": {
+          "description": "EigenVectors,Numberoffrequencies",
+          "type": "integer"
+        },
+        "iITER": {
+          "description": "EigenVectors,Numberofiterations",
+          "type": "integer"
+        },
+        "iDIM": {
+          "description": "EigenVectors,Subspacedimension",
+          "type": "integer"
+        },
+        "TOL": {
+          "description": "EigenVectors,ConvergenceTolerance",
+          "type": "number"
+        },
+        "bMINMAX": {
+          "description": "EigenVectors,Frequencyrangeofinterest",
+          "type": "boolean"
+        },
+        "FRMIN": {
+          "description": "EigenVectors,Searchfrom",
+          "type": "number"
+        },
+        "FRMAX": {
+          "description": "EigenVectors,Searchto",
+          "type": "number"
+        },
+        "bSTRUM": {
+          "description": "EigenVectors,StrumSequencecheck",
+          "type": "boolean"
+        },
+        "bINCNL": {
+          "description": "RitzVectors,IncludeGL-linkforcevector",
+          "type": "boolean"
+        },
+        "iGNUM": {
+          "description": "RitzVectors,NumberofGL-linkforcevector",
+          "type": "integer"
+        },
+        "vRITZ": {
+          "description": "RitzVectors,List",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "KIND": {
+                "description": "LoadCaseType",
+                "type": "string"
+              },
+              "CASE": {
+                "description": "LoadCaseNo.",
+                "type": "string"
+              },
+              "GROUND": {
+                "description": "Groundtype",
+                "type": "string"
+              },
+              "iNOG": {
+                "description": "Numberofgeneration",
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

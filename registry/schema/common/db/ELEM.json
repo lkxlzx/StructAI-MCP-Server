@@ -1,0 +1,81 @@
+{
+  "key": "DB.ELEM",
+  "uri": "DB/ELEM",
+  "source": "help_center",
+  "schema": {
+    "ELEM": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "TYPE": {
+          "description": "ELEMENTTYPE",
+          "type": "string"
+        },
+        "MATL": {
+          "description": "MATERIALNUM",
+          "type": "integer"
+        },
+        "SECT": {
+          "description": "SECTIONNUM",
+          "type": "integer"
+        },
+        "NODE": {
+          "description": "NODENUM",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maxItems": 8
+          }
+        },
+        "ANGLE": {
+          "description": "ELEMENTANGLE",
+          "type": "number"
+        },
+        "STYPE": {
+          "description": "ELEMENTSUBTYPE",
+          "type": "integer"
+        },
+        "TENS": {
+          "description": "TENSFORCE",
+          "type": "number"
+        },
+        "T_LIMIT": {
+          "description": "TENSLIMIT",
+          "type": "number"
+        },
+        "T_bLMT": {
+          "description": "USETENSLIMIT?",
+          "type": "boolean"
+        },
+        "NON_LEN": {
+          "description": "NONLINIARLENGTH",
+          "type": "number"
+        },
+        "CABLE": {
+          "description": "CABLEOPTION",
+          "type": "integer"
+        },
+        "C_RAT": {
+          "description": "CABLELENGTHRATIO",
+          "type": "number"
+        },
+        "WALL": {
+          "description": "WALLID",
+          "type": "integer"
+        },
+        "W_CON": {
+          "description": "CONNECTEDNODENUM",
+          "type": "integer"
+        },
+        "W_TYPE": {
+          "description": "WALLTYPE",
+          "type": "integer"
+        },
+        "LCAXIS": {
+          "description": "LOCALAXIS",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

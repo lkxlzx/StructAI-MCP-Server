@@ -1,0 +1,46 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.REXC",
+  "uri": "DESIGN/RC/KDS-41-20-2022/REXC",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "minProperties": 1,
+        "additionalProperties": false,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "EXPOSURE"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "EXPOSURE": {
+                "type": "string",
+                "description": "Rebar exposure condition.",
+                "default": "Dry",
+                "oneOf": [
+                  {
+                    "const": "Etc",
+                    "title": "Etc"
+                  },
+                  {
+                    "const": "Dry",
+                    "title": "Dry"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

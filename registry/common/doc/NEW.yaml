@@ -1,0 +1,39 @@
+key: DOC.NEW
+namespace: DOC
+uri: /DOC/NEW
+methods: [POST]
+tool_map:
+  doc: midas_doc
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/common/doc/NEW.json
+  introspect: null
+  source: help_center
+parser: generic
+products: [CIVIL_NX, GEN_NX]
+availability: untested
+table_type: null
+title: New Project
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: false
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [PROJECT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35994078198681-New-Project"
+  retrieved_at: "2025-11-04"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 1
+  examples: 1
+  has_response_head: false

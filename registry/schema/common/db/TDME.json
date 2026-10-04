@@ -1,0 +1,110 @@
+{
+  "key": "DB.TDME",
+  "uri": "DB/TDME",
+  "source": "help_center",
+  "schema": {
+    "TDME": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NAME": {
+          "description": "MaterialName",
+          "type": "string"
+        },
+        "TYPE": {
+          "description": "CodeorUserType",
+          "type": "string"
+        },
+        "CODENAME": {
+          "description": "CodeName",
+          "type": "string"
+        },
+        "STRENGTH": {
+          "description": "CompressionStrength",
+          "type": "number"
+        },
+        "A": {
+          "description": "FactorA",
+          "type": "number"
+        },
+        "B": {
+          "description": "FactorB",
+          "type": "number"
+        },
+        "D": {
+          "description": "FactorD",
+          "type": "number"
+        },
+        "iCTYPE": {
+          "description": "CementType",
+          "type": "integer"
+        },
+        "bUSE": {
+          "description": "UseConcreteData",
+          "type": "boolean"
+        },
+        "TENS_STRN_FACTOR": {
+          "description": "TensileStrengthFactor",
+          "type": "number"
+        },
+        "iECTYPE": {
+          "description": "ElasticCementType",
+          "type": "integer"
+        },
+        "CMETH": {
+          "description": "CuringMeth",
+          "type": "integer"
+        },
+        "CTYPE": {
+          "description": "ConcreteType",
+          "type": "integer"
+        },
+        "MAXS": {
+          "description": "MaxSize",
+          "type": "number"
+        },
+        "PZ": {
+          "description": "P-z",
+          "type": "integer"
+        },
+        "nAGGRE": {
+          "description": "AggreType",
+          "type": "integer"
+        },
+        "DENSITY": {
+          "description": "Density",
+          "type": "number"
+        },
+        "SCALE": {
+          "description": "ScaleFactor",
+          "type": "number"
+        },
+        "aDATA": {
+          "description": "FuncData",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "TIME": {
+                "description": "Day",
+                "type": "number"
+              },
+              "COMP": {
+                "description": "Compression",
+                "type": "number"
+              },
+              "TENS": {
+                "description": "Tensile",
+                "type": "number"
+              },
+              "ELAST": {
+                "description": "Elastic",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

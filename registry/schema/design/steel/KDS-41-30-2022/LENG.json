@@ -1,0 +1,54 @@
+{
+  "key": "DESIGN.STEEL.KDS-41-30-2022.LENG",
+  "uri": "DESIGN/STEEL/KDS-41-30-2022/LENG",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keyed object (dictionary). Each property name is an ID string (e.g., \"1\").",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [],
+            "additionalProperties": false,
+            "properties": {
+              "LY": {
+                "type": "number",
+                "description": "Unbraced Length Ly",
+                "default": 0
+              },
+              "LZ": {
+                "type": "number",
+                "description": "Unbraced Length Lz",
+                "default": 0
+              },
+              "LB": {
+                "type": "number",
+                "description": "Laterally Unbraced Length",
+                "default": 0
+              },
+              "bNOTUSE": {
+                "type": "boolean",
+                "description": "Do not consider of laterally unbraced length",
+                "default": false
+              },
+              "LT": {
+                "type": "number",
+                "description": "Torsional Unbraced Length",
+                "default": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

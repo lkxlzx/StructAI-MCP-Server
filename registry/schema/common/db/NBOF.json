@@ -1,0 +1,56 @@
+{
+  "key": "DB.NBOF",
+  "uri": "DB/NBOF",
+  "source": "help_center",
+  "schema": {
+    "NBOF": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "LCNAME": {
+          "description": "LoadCaseName",
+          "type": "string"
+        },
+        "OPT_USE_GROUP": {
+          "description": "UseGroup",
+          "type": "boolean"
+        },
+        "GROUP_NAME": {
+          "description": "GroupName",
+          "type": "string"
+        },
+        "KEY_NODE_ITEMS": {
+          "description": "NodeKey",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "OPT_NODAL_MASS": {
+          "description": "NodalMass",
+          "type": "boolean"
+        },
+        "OPT_LOAD_TO_MASS": {
+          "description": "LoadToMass",
+          "type": "boolean"
+        },
+        "OPT_STRUCT_MASS": {
+          "description": "StrictMass",
+          "type": "boolean"
+        },
+        "X": {
+          "description": "XFactor",
+          "type": "number"
+        },
+        "Y": {
+          "description": "YFactor",
+          "type": "number"
+        },
+        "Z": {
+          "description": "ZFactor",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "key": "DB.LCOM-GEN",
+  "uri": "DB/LCOM-GEN",
+  "source": "help_center",
+  "schema": {
+    "LCOM-GEN": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "NO": {
+          "description": "CombinationNumber",
+          "type": "integer"
+        },
+        "NAME": {
+          "description": "CombinationName",
+          "type": "string"
+        },
+        "ACTIVE": {
+          "description": "ActiveType",
+          "type": "string"
+        },
+        "bCB": {
+          "description": "(ReadOnly)minmaxcbtype",
+          "type": "boolean"
+        },
+        "iTYPE": {
+          "description": "Sum.method",
+          "type": "integer"
+        },
+        "DESC": {
+          "description": "Description",
+          "type": "string"
+        },
+        "vCOMB": {
+          "description": "CombinationList",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ANAL": {
+                "description": "AnalysisType",
+                "type": "string"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "FACTOR": {
+                "description": "Factor",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

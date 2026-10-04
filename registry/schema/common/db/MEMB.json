@@ -1,0 +1,24 @@
+{
+  "key": "DB.MEMB",
+  "uri": "DB/MEMB",
+  "source": "help_center",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "Argument": {
+      "type": "object",
+      "properties": {
+        "AELEM": {
+          "description": "ElementLists",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "bREVERSE": {
+          "description": "ReverseLocalDirection",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

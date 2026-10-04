@@ -1,0 +1,49 @@
+key: DB.SSEIS
+namespace: DB
+uri: /DB/SSEIS
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SSEIS
+schema_ref:
+  local: schema/products/gen_nx/db/SSEIS.json
+  introspect: info/db/SSEIS
+  source: help_center
+parser: db_generic
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+path_key_supported: true
+table_type: null
+title: "Static Seismic Load - KDS(41-17-00:2019)"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/58908676674585-Static-Seismic-Load-KDS-41-17-00-2019"
+  retrieved_at: "2026-09-01"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 33
+  examples: 1
+  has_response_head: false
+notes: ["발견한 오염은 \"KDS·User Type 두 아티클의 ko 본문이 완전히 동일(56,247자)\"한 형태였다. 2026-09-28 공식 담당자가 수정게시했다고 알려와 재확인했으나, **KDS 아티클(`58908676674585`)의 ko 페이지는 여전히 내부적으로 어긋나 있다** — 증상만 바뀌었다: | 아티클 | 로케일 | 마지막 편집 | JSON Schema 절 | Examples·표 | | --- | --- | --- | --- | --- | | KDS (`58908676674585`) | en-us | 2026-06-18(무변경) | KDS 스키마(`const: \"KDS(41-17-00:2019)\"`, `PARAMETERS` required) — 정상 | KDS 예제·표 — 정상 | | KDS (`58"]

@@ -1,0 +1,55 @@
+{
+  "key": "OPE.ITRD",
+  "uri": "OPE/ITRD",
+  "source": "civil_nx_manual",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Influence Line Reaction Data Request",
+    "type": "object",
+    "description": "Request body for one reaction influence-line text result.",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "description": "Reaction influence data query arguments.",
+        "required": [
+          "KEY_ELEM"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Optional output file path. When omitted, no file is saved. A .txt extension saves the original MIDAS text layout; a .json extension saves the structured JSON result."
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Unit system used for the returned influence data.",
+            "additionalProperties": false,
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit, such as kN or N."
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Distance unit, such as m or mm."
+              }
+            }
+          },
+          "LANE_NAME": {
+            "type": "string",
+            "description": "Selected line or surface lane name.",
+            "default": "LANE all"
+          },
+          "KEY_ELEM": {
+            "type": "integer",
+            "description": "Support Element number at which the reaction influence is evaluated."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "key": "DB.SDST",
+  "uri": "DB/SDST",
+  "source": "help_center",
+  "schema": {
+    "SDST": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "COMMON": {
+          "description": "Common",
+          "type": "object",
+          "properties": {
+            "NAME": {
+              "description": "Name",
+              "type": "string"
+            },
+            "DESC": {
+              "description": "Description",
+              "type": "string"
+            },
+            "INPUT_METHOD": {
+              "description": "InputMethod",
+              "type": "integer"
+            },
+            "COMPANY": {
+              "description": "Company",
+              "type": "string"
+            },
+            "PRODUCT_NAME": {
+              "description": "ProductName",
+              "type": "string"
+            },
+            "TYPE_NUMBER": {
+              "description": "TypeNumber",
+              "type": "string"
+            }
+          }
+        },
+        "DIR": {
+          "description": "Direction",
+          "type": "string"
+        },
+        "SDST_HYS_MODEL": {
+          "description": "HysteresisProperties(SDST)",
+          "type": "string"
+        },
+        "K0": {
+          "description": "K0_InitialStiffness(kN/m)",
+          "type": "number"
+        },
+        "P1": {
+          "description": "P1_YieldStrength(kN)",
+          "type": "number"
+        },
+        "ALPHA1": {
+          "description": "Alpha1_StiffnessFactor",
+          "type": "number"
+        },
+        "KB": {
+          "description": "Kb_MountingPartsStiffness(kN/m)",
+          "type": "number"
+        },
+        "BL2": {
+          "description": "DegradingBilinearModel",
+          "type": "object",
+          "properties": {
+            "BETA": {
+              "description": "Beta_ExponentinUnloadingStiffnessCalculation",
+              "type": "number"
+            }
+          }
+        },
+        "LY2": {
+          "description": "LowYieldingStrengthSteelModel(LY2)",
+          "type": "object",
+          "properties": {
+            "ALPHA2": {
+              "description": "Alpha2_StiffnessFactor",
+              "type": "number"
+            },
+            "THETA": {
+              "description": "Theta_StrengthFactor",
+              "type": "number"
+            }
+          }
+        },
+        "LY3": {
+          "description": "LowYieldingStrengthSteelModel(LY3)",
+          "type": "object",
+          "properties": {
+            "ALPHA2": {
+              "description": "Alpha2_StiffnessFactor",
+              "type": "number"
+            },
+            "THETA": {
+              "description": "Theta_StrengthFactor",
+              "type": "number"
+            },
+            "GAMMA": {
+              "description": "Gamma_StiffnessRatio",
+              "type": "number"
+            }
+          }
+        },
+        "IK2": {
+          "description": "SteelIsotropic-KinematicHardeningMode",
+          "type": "object",
+          "properties": {
+            "GAMMA": {
+              "description": "Gamma_IsotropicFactor",
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

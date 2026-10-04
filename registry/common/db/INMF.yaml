@@ -1,0 +1,49 @@
+key: DB.INMF
+namespace: DB
+uri: /DB/INMF
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: INMF
+schema_ref:
+  local: schema/common/db/INMF.json
+  introspect: info/db/INMF
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Small Displacement - Initial Element Force"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35988975670937-Small-Displacement-Initial-Element-Force"
+  retrieved_at: "2026-09-01"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 3
+  examples: 1
+  has_response_head: false
+notes: ["`Array [Number, 12]`(길이 12 고정)로 적고 있으나, 같은 원문의 두 번째 예제가 `\"ELEM_TYPE\": \"TRUSS\"`에 `\"ELEMENT_FORCES\": [1, 2]`(2개)를 보내고 있어 서로 모순된다. 예제가 표보다 우선한다는 원칙에 따라 위 표에는 길이 제약 없는 `Array [Number]`로 적고, 실제 크기는 요소 타입별로 이 표에 정리했다 — 되돌리지 말 것. (TRUSS의 `Axial-i, Axial-j` 순서는 원문이 12성분 순서만 설명하고 있어 우리 추정이다.)"]

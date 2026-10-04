@@ -1,0 +1,62 @@
+{
+  "key": "DB.GTMP",
+  "uri": "DB/GTMP",
+  "source": "help_center",
+  "schema": {
+    "GTMP": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "ITEMS": {
+          "description": "Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID",
+                "type": "integer"
+              },
+              "LCNAME": {
+                "description": "LoadCaseName",
+                "type": "string"
+              },
+              "GROUP_NAME": {
+                "description": "NameofLoadGroup",
+                "type": "string"
+              },
+              "TYPE": {
+                "description": "TemperatureType(Beam/Plate)",
+                "type": "integer"
+              },
+              "TZ": {
+                "description": "Tz",
+                "type": "number"
+              },
+              "USE_HZ": {
+                "description": "SetUsePropertyHz",
+                "type": "boolean"
+              },
+              "HZ": {
+                "description": "Hz",
+                "type": "number"
+              },
+              "TY": {
+                "description": "Ty(Beam/USE_PROP_HZ=false)",
+                "type": "number"
+              },
+              "USE_HY": {
+                "description": "SetUsePropertyHy",
+                "type": "boolean"
+              },
+              "HY": {
+                "description": "Hy(Beam/USE_PROP_HY=false)",
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

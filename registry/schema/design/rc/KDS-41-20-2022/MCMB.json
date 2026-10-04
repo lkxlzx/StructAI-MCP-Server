@@ -1,0 +1,45 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.MCMB",
+  "uri": "DESIGN/RC/KDS-41-20-2022/MCMB",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Assign"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Object keyed by member ID strings (e.g., \"1\"), where each entry represents the moment calculation method assigned to the beam member.",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "required": [
+              "CALC_METHOD"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "CALC_METHOD": {
+                "type": "string",
+                "description": "Moment calculation method for the beam member.",
+                "oneOf": [
+                  {
+                    "title": "Each Span",
+                    "const": "EACH"
+                  },
+                  {
+                    "title": "Equivalent Frame",
+                    "const": "EQUI"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "key": "DESIGN.RC.KDS-41-20-2022.TABLE.BRACE",
+  "uri": "DESIGN/RC/KDS-41-20-2022/TABLE",
+  "source": "repo_midas_api",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_NAME": {
+            "type": "string",
+            "default": ""
+          },
+          "TABLE_TYPE": {
+            "type": "string",
+            "enum": [
+              "BRACEDESIGNFORCES"
+            ]
+          },
+          "EXPORT_PATH": {
+            "type": "string"
+          },
+          "UNIT": {
+            "type": "object",
+            "properties": {
+              "FORCE": {
+                "type": "string"
+              },
+              "DIST": {
+                "type": "string"
+              },
+              "HEAT": {
+                "type": "string"
+              },
+              "TEMP": {
+                "type": "string"
+              }
+            },
+            "default": "System"
+          },
+          "STYLES": {
+            "type": "object",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              }
+            },
+            "default": "System"
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Index",
+                "Memb",
+                "Part",
+                "LComName",
+                "Type",
+                "Fx",
+                "Fy",
+                "Fz",
+                "Mx",
+                "My",
+                "Mz"
+              ]
+            }
+          },
+          "NODE_ELEMS": {
+            "type": "object",
+            "properties": {
+              "KEYS": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "TO": {
+                "type": "string"
+              },
+              "STRUCTURE_GROUP_NAME": {
+                "type": "string"
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "KEYS"
+                ]
+              },
+              {
+                "required": [
+                  "TO"
+                ]
+              },
+              {
+                "required": [
+                  "STRUCTURE_GROUP_NAME"
+                ]
+              }
+            ]
+          },
+          "PARTS": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PartI",
+                "Part2/4",
+                "PartJ"
+              ]
+            },
+            "default": [
+              "All"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

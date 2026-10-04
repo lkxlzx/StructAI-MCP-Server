@@ -1,0 +1,262 @@
+{
+  "key": "DB.SSEIS",
+  "uri": "DB/SSEIS",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "Assign"
+    ],
+    "properties": {
+      "Assign": {
+        "type": "object",
+        "description": "Keys are string indices; each value is a SSEIS request item.",
+        "minProperties": 1,
+        "patternProperties": {
+          "^[0-9]+$": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "SSEIS request item. DESC and ADDITIONAL_LOAD are optional; All first-depth fields except optional fields are required.",
+            "required": [
+              "SEIS_CODE",
+              "SCALE_FACTOR_X",
+              "SCALE_FACTOR_Y",
+              "PARAMETERS"
+            ],
+            "properties": {
+              "SEIS_CODE": {
+                "type": "string",
+                "const": "KDS(41-17-00: 2019)",
+                "description": "Seismic load code. Currently only KDS(41-17-00: 2019) is supported by this schema.",
+                "enum": [
+                  "KDS(41-17-00: 2019)"
+                ]
+              },
+              "DESC": {
+                "type": "string",
+                "default": "",
+                "description": "Optional description."
+              },
+              "SCALE_FACTOR_X": {
+                "type": "number",
+                "description": "Scale factor for X direction."
+              },
+              "SCALE_FACTOR_Y": {
+                "type": "number",
+                "description": "Scale factor for Y direction."
+              },
+              "ACCIDENT_ECCEN_X": {
+                "type": "integer",
+                "default": 0,
+                "description": "Accidental eccentricity option for X direction.",
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              "ACCIDENT_ECCEN_Y": {
+                "type": "integer",
+                "default": 0,
+                "description": "Accidental eccentricity option for Y direction.",
+                "enum": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              "ACCIDENT_TORSION": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether to consider accidental torsion."
+              },
+              "PARAMETERS": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "KDS(41-17-00: 2019) seismic parameters. PERIOD_METHOD controls period-related required fields.",
+                "required": [
+                  "SEIS_ZONE",
+                  "EPA",
+                  "SITE_CLASS",
+                  "SEIS_USE_GROUP",
+                  "IMPORTANCE_FACTOR",
+                  "PERIOD_METHOD",
+                  "RESPONSE_MOD_FACTOR_X",
+                  "RESPONSE_MOD_FACTOR_Y"
+                ],
+                "properties": {
+                  "SEIS_ZONE": {
+                    "type": "integer",
+                    "description": "Seismic zone.",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "EPA": {
+                    "type": "number",
+                    "description": "Effective peak acceleration."
+                  },
+                  "SITE_CLASS": {
+                    "type": "integer",
+                    "description": "Site class.",
+                    "enum": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  },
+                  "FA": {
+                    "type": "number",
+                    "description": "Short-period site coefficient. If omitted, the product system value is used.",
+                    "default": "system",
+                    "$comment": "FA는 입력하지 않을 경우 시스템 값이 자동적용입니다."
+                  },
+                  "FV": {
+                    "type": "number",
+                    "description": "Long-period site coefficient. If omitted, the product system value is used.",
+                    "default": "system",
+                    "$comment": "FV는 입력하지 않을 경우 시스템 값이 자동적용입니다."
+                  },
+                  "SDS": {
+                    "type": "number",
+                    "description": "Design spectral response acceleration parameter at short period. If omitted, the product system value is used.",
+                    "default": "system",
+                    "$comment": "SDS는 입력하지 않을 경우 시스템 값이 자동적용입니다."
+                  },
+                  "SD1": {
+                    "type": "number",
+                    "description": "Design spectral response acceleration parameter at 1-second period. If omitted, the product system value is used.",
+                    "default": "system",
+                    "$comment": "SD1은 입력하지 않을 경우 시스템 값이 자동적용입니다."
+                  },
+                  "SEIS_USE_GROUP": {
+                    "type": "integer",
+                    "description": "Seismic use group.",
+                    "enum": [
+                      0,
+                      1,
+                      2
+                    ]
+                  },
+                  "IMPORTANCE_FACTOR": {
+                    "type": "number",
+                    "description": "Importance factor."
+                  },
+                  "PERIOD_METHOD": {
+                    "type": "integer",
+                    "description": "Period input method.",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "PERIOD_ANALYSIS_X": {
+                    "type": "number",
+                    "description": "Analytical period for X direction."
+                  },
+                  "PERIOD_ANALYSIS_Y": {
+                    "type": "number",
+                    "description": "Analytical period for Y direction."
+                  },
+                  "PERIOD_APPR_X": {
+                    "type": "number",
+                    "description": "Approximate period for X direction."
+                  },
+                  "PERIOD_APPR_Y": {
+                    "type": "number",
+                    "description": "Approximate period for Y direction."
+                  },
+                  "RESPONSE_MOD_FACTOR_X": {
+                    "type": "number",
+                    "description": "Response modification factor for X direction."
+                  },
+                  "RESPONSE_MOD_FACTOR_Y": {
+                    "type": "number",
+                    "description": "Response modification factor for Y direction."
+                  }
+                },
+                "allOf": [
+                  {
+                    "description": "PERIOD_METHOD=0 (Analytical Period) then PERIOD_ANALYSIS_X, PERIOD_ANALYSIS_Y, PERIOD_APPR_X, and PERIOD_APPR_Y are required.",
+                    "if": {
+                      "properties": {
+                        "PERIOD_METHOD": {
+                          "const": 0
+                        }
+                      },
+                      "required": [
+                        "PERIOD_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "PERIOD_ANALYSIS_X",
+                        "PERIOD_ANALYSIS_Y",
+                        "PERIOD_APPR_X",
+                        "PERIOD_APPR_Y"
+                      ]
+                    }
+                  },
+                  {
+                    "description": "PERIOD_METHOD=1 (Approximate Period) then PERIOD_APPR_X and PERIOD_APPR_Y are required.",
+                    "if": {
+                      "properties": {
+                        "PERIOD_METHOD": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "PERIOD_METHOD"
+                      ]
+                    },
+                    "then": {
+                      "required": [
+                        "PERIOD_APPR_X",
+                        "PERIOD_APPR_Y"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "ADDITIONAL_LOAD": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "Additional story-level seismic load.",
+                "required": [
+                  "STORY_NAME",
+                  "ALONG_X",
+                  "ALONG_Y",
+                  "TORSIONAL_RZ"
+                ],
+                "properties": {
+                  "STORY_NAME": {
+                    "type": "string",
+                    "description": "Story name."
+                  },
+                  "ALONG_X": {
+                    "type": "number",
+                    "description": "Additional seismic load in X direction."
+                  },
+                  "ALONG_Y": {
+                    "type": "number",
+                    "description": "Additional seismic load in Y direction."
+                  },
+                  "TORSIONAL_RZ": {
+                    "type": "number",
+                    "description": "Additional torsional seismic load RZ."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

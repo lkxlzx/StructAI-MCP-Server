@@ -1,0 +1,39 @@
+key: OPE.IELD
+namespace: OPE
+uri: /OPE/IELD
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/civil_nx/ope/IELD.json
+  introspect: null
+  source: civil_nx_manual
+parser: generic
+products: [CIVIL_NX]
+availability: untested
+table_type: null
+title: Elastic Link Forces/Momnets
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: false
+  idempotent: false
+capability: [MODEL, OPERATION]
+source:
+  url: "G:\\midas Civil NX - API (wolai snapshot)"
+  retrieved_at: null
+  provenance: [civil_nx_manual]
+stats:
+  spec_rows: 0
+  examples: 0
+  has_response_head: false

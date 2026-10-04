@@ -1,0 +1,49 @@
+key: DB.GRDP
+namespace: DB
+uri: /DB/GRDP
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: GRDP
+schema_ref:
+  local: schema/common/db/GRDP.json
+  introspect: info/db/GRDP
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Group Damping
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35944577940633-Group-Damping"
+  retrieved_at: "2025-03-05"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 41
+  examples: 1
+  has_response_head: false
+notes: ["**Strain Energy Proportional**(변형에너지 비례, 모드별 감쇠비 계산)과 **Element Mass & Stiffness Proportional**(Rayleigh 감쇠 계수 직접/모드 기반 산정) — 을 함께 다루는데, 이전 버전은 Strain Energy 쪽 일부(3개 필드)만 있고 Element Mass & Stiffness Proportional 계열 18개 필드(그룹별 오버라이드용 `GROUP_DAMPING_ITEMS[]`의 13개 하위 필드 포함) 전체와 그룹 우선순위 4개 필드가 통째로 빠져 있었다(아티클 id `35944577940633`)."]

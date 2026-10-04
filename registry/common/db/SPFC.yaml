@@ -1,0 +1,49 @@
+key: DB.SPFC
+namespace: DB
+uri: /DB/SPFC
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SPFC
+schema_ref:
+  local: schema/common/db/SPFC.json
+  introspect: info/db/SPFC
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: "Response Spectrum Functions - User Type"
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35963686253593-Response-Spectrum-Functions-User-Type"
+  retrieved_at: "2025-03-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 10
+  examples: 1
+  has_response_head: false
+notes: ["문서화되어 있지 않았음(MVHL과 동일한 유형의 누락). 원문 [Response Spectrum Functions - China](https://support.midasuser.com/hc/en-us/articles/39473334759065) 기준, 9개 코드 중 가장 최신·대표적인 GB50011-2010만 전체 필드를 문서화하고 나머지 8개는 SPEC_CODE 매핑표로 정리(SECT/TDMT 원칙).", "자체가 7개 코드를 다루는 대형 아티클이라, 가장 최신인 Taiwan(2022)만 전체 필드를 문서화한다.", "가 8개 국가 코드를 다루는 대형 아티클이라, 가장 필드가 단순한 Canada(NBC95)만 전체 문서화하고 나머지는 SPEC_CODE 매핑만 남긴다."]

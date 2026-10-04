@@ -1,0 +1,49 @@
+key: DB.CSCS
+namespace: DB
+uri: /DB/CSCS
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: CSCS
+schema_ref:
+  local: schema/common/db/CSCS.json
+  introspect: info/db/CSCS
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Composite Section for Construction Stage
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35987625234201-Composite-Section-for-Construction-Stage"
+  retrieved_at: "2025-03-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 20
+  examples: 1
+  has_response_head: false
+notes: ["다음 항목이 곧바로 (15) `IW`로 이어져 있어 아예 빠져 있지만, JSON Schema와 Request Example (아래 2-3 예제의 각 파트에 `\"WAREA\": 1`)에는 `IZZ`와 `IW` 사이에 명시돼 있다 — 원문 표 자체의 누락이며 예제가 표보다 우선(CLAUDE.md 원칙)이라 반영했다(아티클 id `35987625234201`). `OPT_UPDATE_ALL_H`도 원문 표·예제 모두에 없고 JSON Schema에만 존재 — 예제로 확인되지 않은 스키마 전용 필드임을 밝혀 둔다."]

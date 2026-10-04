@@ -1,0 +1,49 @@
+key: DB.SKEW
+namespace: DB
+uri: /DB/SKEW
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: SKEW
+schema_ref:
+  local: schema/common/db/SKEW.json
+  introspect: info/db/SKEW
+  source: help_center
+parser: db_generic
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: ["gen-local", "civil-cloud"]
+path_key_supported: true
+table_type: null
+title: Node Local Axis
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+  delete_without_body_is_global: true
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/35807178748569-Node-Local-Axis"
+  retrieved_at: "2025-02-06"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 35
+  examples: 4
+  has_response_head: false
+notes: ["`35807178748569`). 아래 4개 표는 방식별로 나눠 정리했으나 실제로는 `iMETHOD` 하나의 필드가 4가지 방식을 선택한다."]

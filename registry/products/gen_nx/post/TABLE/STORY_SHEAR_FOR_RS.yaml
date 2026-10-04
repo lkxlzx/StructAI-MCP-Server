@@ -1,0 +1,39 @@
+key: POST.TABLE.STORY_SHEAR_FOR_RS
+namespace: POST
+uri: /POST/TABLE
+methods: [POST]
+tool_map:
+  assign: midas_db_assign
+wrapper:
+  write: Argument
+schema_ref:
+  local: schema/products/gen_nx/post/TABLE/STORY_SHEAR_FOR_RS.json
+  introspect: null
+  source: help_center_spec_table
+parser: post_table
+products: [GEN_NX]
+availability: untested
+table_type: STORY_SHEAR_FOR_RS
+title: "Story Shear(R.S Analysis) - Analysis Story Table"
+risk:
+  level: low
+  destructive: false
+  retry:
+    POST: conditional
+runtime:
+  requires_project: true
+  requires_analysis: true
+execution:
+  mode: ASYNC
+  timeout_ms: 120000
+  retryable: false
+  idempotent: false
+capability: [RESULT]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49511717907097-Story-Shear-Force-R-S-Analysis-Story-Result-Table"
+  retrieved_at: "2026-07-24"
+  provenance: [help_center, repo_midas_api]
+stats:
+  spec_rows: 13
+  examples: 4
+  has_response_head: true
