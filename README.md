@@ -46,6 +46,10 @@ examples/          参考客户端与冒烟测试（midas_client.py / smoke_test
 | `StructAI_MIDAS_MCP_GEN_NX_API_实测补充文档_v1.0.md` | GEN NX 知识层补实（501 个逻辑 key 实测） |
 | `StructAI_MIDAS_MCP_CIVIL_NX_API_实测补充文档_v1.0.md` | CIVIL NX 补充 |
 | `StructAI_MIDAS_MCP_项目框架图_v1.0.md` | 项目结构 |
+| **`docs/00_文档通读与API对照报告_v1.0.md`** | **V2 六份文档的通读与 API 对照结论** |
+| **`docs/07_开发方案与任务续接_v1.0.md`** | **开发方案 + 任务续接（含 Operation → MIDAS API 映射）** |
+| `docs/01`–`06` | V2 原始规范（架构 / 实现 / 9 Tools / Adapter / SDK / 验收） |
+| `docs/reports/` | 5 份逐节精读报告 |
 | **`StructAI_MIDAS_MCP_Live冒烟测试报告_v1.0.md`** | **真实实例逐端点实测报告（含全部附录）** |
 | **`StructAI_MIDAS_MCP_统一修复计划_v1.0.md`** | **问题汇总、修复项与实施记录** |
 | `MIDAS_API_手册覆盖对照_CivilDesigner_v1.0.md` | 手册覆盖对照 |
