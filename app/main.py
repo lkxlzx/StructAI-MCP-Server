@@ -1,4 +1,4 @@
-"""StructAI MCP Server —— 进程入口（P01 Bootstrap / P02 Config）。
+"""StructAI MCP Server —— 进程入口（P01 Bootstrap / P02 Config / P03 Domain）。
 
 验收门槛（`docs/07` §12 P01、`docs/08` §3）：
 
@@ -62,7 +62,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     """同步入口，返回进程退出码（正常为 0）。"""
     parser = argparse.ArgumentParser(
         prog="structai-mcp",
-        description=f"{__app_name__} {__version__} — Core bootstrap (P02)",
+        description=f"{__app_name__} {__version__} — Core bootstrap (P03)",
     )
     parser.add_argument(
         "--version",

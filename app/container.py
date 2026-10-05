@@ -1,4 +1,4 @@
-"""应用容器（P01 Bootstrap / P02 Config）。
+"""应用容器（P01 Bootstrap / P02 Config / P03 Domain）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -22,7 +22,7 @@ from app.config.settings import Settings
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P02"
+BATCH_ID: Final[str] = "P03"
 
 
 @dataclass(slots=True)
