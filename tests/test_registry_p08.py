@@ -1000,9 +1000,14 @@ async def test_all_four_registries_return_none_when_not_provisioned(tmp_path: Pa
         await engine.dispose()
 
 
-def test_batch_id_is_p08() -> None:
-    """同步改动：`BATCH_ID` → P08（`docs/08` §3 的批次口径）。"""
-    assert BATCH_ID == "P08"
+def test_batch_id_is_a_batch_marker() -> None:
+    """同步改动：`BATCH_ID` 始终形如 `P<两位数字>`（`docs/08` §3 的批次口径）。
+
+    ⚠️ 本断言**刻意不绑定具体批次**：批次号每批前移（P08 → P09 → …），
+    某一批的哈希与证据留在 `docs/08` §3 与对应提交里；当前批次的号由该批次自己的
+    验收测试断言（如 `tests/test_schema_p09.py::test_batch_id_is_p09`）。
+    """
+    assert re.fullmatch(r"P\d{2}", BATCH_ID)
 
 
 # ===== ⑩ 红线（`docs/07` §14）=====
@@ -1096,4 +1101,4 @@ def test_main_entry_point_exits_zero_with_empty_stdout(
     )
     assert completed.returncode == 0, completed.stderr
     assert completed.stdout == ""
-    assert "batch=P08" in completed.stderr
+    assert f"batch={BATCH_ID}" in completed.stderr
