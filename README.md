@@ -1,4 +1,6 @@
-# StructAI MCP
+# StructAI MCP Server
+
+> 仓库：`github.com/lkxlzx/StructAI-MCP-Server`
 
 MIDAS Open API 的**机器可读端点注册表（Endpoint Registry）**与配套开发文档、参考实现。
 
