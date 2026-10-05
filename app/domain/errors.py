@@ -33,6 +33,7 @@ __all__ = [
     "ConfirmationRequiredError",
     "EngineeringValidationError",
     "InternalError",
+    "NotFoundError",
     "PermissionDeniedError",
     "ProtocolError",
     "ResourceLockedError",
@@ -265,3 +266,28 @@ class InternalError(StructAIError):
 
     code = "STRUCTAI-7000"
     error_type = "INTERNAL_ERROR"
+
+
+# ===== Registry / 资源查找（**不**属 20 码错误契约）=====
+
+
+class NotFoundError(LookupError):
+    """未找到指定资源（`docs/02` §15 / §9）。
+
+    名称照抄 `docs/02` §15（`SchemaRegistry.get` 未注册 id 时 `raise NotFoundError(...)`）
+    与 `docs/02` §9（`source9` 的 `class NotFoundError(StructAIError)`）。
+
+    ⚠️ **本类刻意不继承 `StructAIError`、也不带任何 `STRUCTAI-xxxx` 码**：
+
+    - `docs/07` §11 冻结的是 **20 码**错误契约，其中**没有** NotFound 码；
+      `docs/02` §9（`source9`）另给了一个 `STRUCTAI-70xx` 段的新码（即**第 21 个码**），
+      与本项目唯一权威的错误码清单（`docs/07` §11）冲突。
+    - 本批的裁决（已登记到 `docs/07` §11 补充说明）：**不自造 `STRUCTAI-xxxx`**。
+      查找失败是 **Registry 装配期**的内部信号（`docs/07` §14.4：Registry 校验失败 →
+      Server MUST NOT become READY），它**不会**被序列化成 MCP 响应 ——
+      对外错误一律走 20 码（`to_dict()` 的形状只属于 `StructAIError`）。
+    - 继承 `LookupError` 使 `except LookupError` / `except KeyError` 之外的
+      `except StructAIError` **不会**误吞它，两层错误语义不会混淆。
+
+    用法（`docs/02` §15 原文写法）：未注册的 Schema id → `NotFoundError`。
+    """

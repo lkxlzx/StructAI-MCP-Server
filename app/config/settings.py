@@ -46,6 +46,10 @@ class Settings(BaseSettings):
     # Core Alpha = SQLite(aiosqlite)；生产可切 PostgreSQL（postgresql+asyncpg://...）。
     database_url: str = "sqlite+aiosqlite:///./data/structai.db"
     sql_echo: bool = False
+    # ===== 数据源目录（P08 Registry；`docs/02` §23 的 API Registry 数据源）=====
+    # `registry/` 是外部软件 API 的**唯一权威数据源**（`registry/README.md`）；
+    # 路径只能来自配置，不得在 `app/` 内硬编码任何厂商路径（`docs/07` §14.2）。
+    registry_root: str = "./registry"
 
     # ===== MCP 传输（source7 §5.1；P40 STDIO / P41 Streamable HTTP 消费）=====
     mcp_transport: str = "stdio"

@@ -12,13 +12,13 @@ P06 UnitOfWork / P07 Seed）。
 | `repositories`（会话级，**不**进容器） | **P05 ✅** |
 | `unit_of_work`（会话级，**不**进容器） | **P06 ✅** |
 | `seed()` / `SeedReport`（数据装配，**不**进容器） | **P07 ✅** |
-| `operation_registry` | P08 |
+| `operation_registry` | **P08 ✅** |
 | `execution_service` | P36 |
 
 生命周期（`docs/02` §34 / §79 / §80）：
 
     build_container(settings)   → 装配 engine / session_factory（不做连接 I/O）
-    await container.startup()   → 建立并校验数据库连接
+    await container.startup()   → 建立并校验数据库连接 + 装配 Registry（失败即不就绪）
     await container.shutdown()  → await engine.dispose()
 
 🔴 禁止项（`docs/07` §14.3）：
@@ -45,10 +45,11 @@ from app.infrastructure.database.session import (
     create_session_factory,
     verify_connection,
 )
+from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P07"
+BATCH_ID: Final[str] = "P08"
 
 logger = logging.getLogger("structai")
 
@@ -62,7 +63,7 @@ class AppContainer:
     由 `build_repositories(session)` 装配（`docs/02` §16 / §33）；
     P06：`UnitOfWork` 同理**不**在此装配 —— 它持有同一个会话，由调用方按业务事务
     构造（`docs/02` §16：一个业务事务 = 一个明确 UnitOfWork）；
-    `operation_registry` / `execution_service` 仍为空（后续批次填充）。
+    `operation_registry` 由 P08 在 `startup()` 装配；`execution_service` 仍为空（P36 填充）。
     `started` 仅表示生命周期已进入运行态。
     """
 
@@ -70,25 +71,41 @@ class AppContainer:
     runtime_config: RuntimeConfig
     engine: AsyncEngine
     session_factory: async_sessionmaker[AsyncSession]
-    operation_registry: Any = None
+    operation_registry: OperationRegistry | None = None
+    """运行时 Operation Registry（P08 装配；`docs/02` §28）。
+
+    `startup()` 成功后为已装配实例；数据库未配备时为 `None`（见 `startup()` 的说明）。
+    """
     execution_service: Any = None
     started: bool = field(default=False, repr=False)
 
     async def startup(self) -> None:
-        """启动钩子：建立并校验数据库连接（P04）。
+        """启动钩子：建立并校验数据库连接（P04）→ 装配 Registry（P08）。
 
         - 只做连接与一次 `SELECT 1` 连通性校验；**不建表、不改表**
           （`docs/07` §14.3：禁止启动时静默 `ALTER TABLE`）。
         - 连接失败即抛异常，进程以非 0 退出码结束 —— 不允许「带病启动」。
-        - P08：Registry 校验失败时 Server 不得进入 READY（`docs/07` §14.4）。
+        - P08：装配运行时 Operation Registry（`docs/02` §28）；**校验失败即抛异常**，
+          Server 不得进入 READY（`docs/07` §14.4）。数据库尚未配备（缺 `operations` 表）时
+          Registry 留空并告警 —— 这**不算**校验失败：P01–P07 的回归门槛要求
+          `python -m app.main` 在未配备的开发库上仍以退出码 0 结束。
         """
         await verify_connection(self.engine)
+
+        self.operation_registry = await OperationRegistry.load(self.engine, self.session_factory)
 
         self.started = True
         logger.info(
             "database connection established: %s",
             make_url(self.settings.database_url).render_as_string(hide_password=True),
         )
+        if self.operation_registry is None:
+            logger.warning(
+                "operation registry is not assembled: database is not provisioned "
+                "(run `python -m app.infrastructure.database.seed`)"
+            )
+        else:
+            logger.info("registry ready: %s", self.operation_registry.summary())
 
     async def shutdown(self) -> None:
         """关闭钩子：释放连接池（P04）。
@@ -106,7 +123,7 @@ def build_container(settings: Settings) -> AppContainer:
     P05 的仓储是**会话级**对象，由 `build_repositories(session)` 装配（`docs/02` §16 / §33）；
     P06 的 `UnitOfWork` 同样是**会话级**对象（持有会话、决定 commit / rollback），
     由调用方按业务事务构造（`docs/02` §16），**不**进本容器；
-    P08 起装配 `operation_registry`。
+    P08：`operation_registry` 由 `startup()` 装配（需要数据库连接；校验失败即不就绪）。
 
     ⚠️ 本函数**不建立连接**（只构造引擎），连接与校验由 `startup()` 完成；
     仓储是**会话级**对象，由 `app.infrastructure.database.repositories.build_repositories`
