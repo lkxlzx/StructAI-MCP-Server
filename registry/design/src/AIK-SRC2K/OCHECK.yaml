@@ -15,6 +15,7 @@ schema_ref:
 parser: db_generic
 products: [CIVIL_NX, GEN_NX]
 availability: untested
+unavailable_on: ["gen-local"]
 path_key_supported: true
 table_type: null
 title: SRC Optimal Design (SRC 최적 설계)

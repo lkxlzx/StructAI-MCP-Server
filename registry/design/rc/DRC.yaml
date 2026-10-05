@@ -7,7 +7,7 @@ tool_map:
   assign: midas_db_assign
 wrapper:
   write: Assign
-  read_root: DRC
+  read_root: DCON
 schema_ref:
   local: schema/design/rc/DRC.json
   introspect: null

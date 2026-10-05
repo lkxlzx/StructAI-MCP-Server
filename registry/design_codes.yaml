@@ -1,0 +1,297 @@
+# StructAI Registry —— 设计规范（Design Code）枚举
+#
+# 本文件是「软件无关」的规范候选集：只描述**候选**，不声称任何实例一定支持。
+# 实例的实际支持集由 Adapter 在连接时通过 API 探测（见文件末尾 discover 块），
+# 探测结果不落盘，仅存于连接会话。
+#
+# 数据来源：MIDAS 官方手册原文枚举表，逐行抽取，未改写、未推断。
+# 重新生成：python registry/tools/extract_design_codes.py
+#
+version: 1.0
+generated_at: "2026-10-05"
+
+# ============================================================================
+# A. NX 系（GEN NX / CIVIL NX）混凝土设计规范
+#    端点：DB.DCON   URI：/db/DCON
+#    字段：Assign["1"].DGNCODE（string）
+# ============================================================================
+nx_rc:
+  endpoint_key: DB.DCON
+  uri: /DB/DCON
+  field: DGNCODE
+  products: [GEN_NX, CIVIL_NX]
+  source:
+    manual: "MIDAS_API_Online_Manual_完整API手册_v1.0.md"
+    lines: "6662-6726"
+    url: "https://support.midasuser.com/hc/en-us/articles/35802155483801"
+  count: 64
+  codes:
+    - { no: 1, display: "KDS 24 14 21 : 2021", code: "KDS 24 14 21 : 2021" }
+    - { no: 2, display: "KDS 41 30 : 2018", code: "KDS 41 30 : 2018" }
+    - { no: 3, display: "KSCE-LSD15", code: "KSCE-LSD15" }
+    - { no: 4, display: "KSCE-USD10", code: "KSCE-USD10" }
+    - { no: 5, display: "KSCE-USD05", code: "KSCE-USD05" }
+    - { no: 6, display: "KSCE-USD96", code: "KSCE-USD96" }
+    - { no: 7, display: "KSCE-RAIL-USD11", code: "KSCE-RAIL-USD11" }
+    - { no: 8, display: "KSCE-RAIL-USD04", code: "KSCE-RAIL-USD04" }
+    - { no: 9, display: "KCI-USD12", code: "KCI-USD12" }
+    - { no: 10, display: "KCI-USD07", code: "KCI-USD07" }
+    - { no: 11, display: "KCI-USD03", code: "KCI-USD03" }
+    - { no: 12, display: "KCI-USD99", code: "KCI-USD99" }
+    - { no: 13, display: "AIK-USD94", code: "AIK-USD94" }
+    - { no: 14, display: "AIK-WSD2K", code: "AIK-WSD2K" }
+    - { no: 15, display: "ACI318-19", code: "ACI318-19" }
+    - { no: 16, display: "ACI318M-19", code: "ACI318M-19" }
+    - { no: 17, display: "ACI318-14", code: "ACI318-14" }
+    - { no: 18, display: "ACI318M-14", code: "ACI318M-14" }
+    - { no: 19, display: "ACI318-11", code: "ACI318-11" }
+    - { no: 20, display: "ACI318-08", code: "ACI318-08" }
+    - { no: 21, display: "ACI318-05", code: "ACI318-05" }
+    - { no: 22, display: "ACI318-02", code: "ACI318-02" }
+    - { no: 23, display: "ACI318-99", code: "ACI318-99" }
+    - { no: 24, display: "ACI318-95", code: "ACI318-95" }
+    - { no: 25, display: "ACI318-89", code: "ACI318-89" }
+    - { no: 26, display: "AASHTO-LRFD20(US)", code: "AASHTO-LRFD20" }
+    - { no: 27, display: "AASHTO-LRFD17(US)", code: "AASHTO-LRFD17" }
+    - { no: 28, display: "AASHTO-LRFD16(US)", code: "AASHTO-LRFD16" }
+    - { no: 29, display: "AASHTO-LRFD12(US)", code: "AASHTO-LRFD12" }
+    - { no: 30, display: "AASHTO-LRFD07(US)", code: "AASHTO-LRFD07" }
+    - { no: 31, display: "AASHTO-LRFD02(US)", code: "AASHTO-LRFD02" }
+    - { no: 32, display: "AASHTO-LFD96(US)", code: "AASHTO-LFD96" }
+    - { no: 33, display: "CSA-S6-00", code: "CSA-S6-00" }
+    - { no: 34, display: "CSA-S6-14", code: "CSA-S6-14" }
+    - { no: 35, display: "CSA-S6-19", code: "CSA-S6-19" }
+    - { no: 36, display: "CSA-A23.3-94", code: "CSA-A23.3-94" }
+    - { no: 37, display: "JTJ023-85", code: "JTJ023-85" }
+    - { no: 38, display: "GB/T50010-10", code: "GB/T50010-10" }
+    - { no: 39, display: "GB50010-02", code: "GB50010-02" }
+    - { no: 40, display: "Eurocode2-2:05", code: "Eurocode2-2:05" }
+    - { no: 41, display: "Eurocode2:04", code: "Eurocode2:04" }
+    - { no: 42, display: "Eurocode2", code: "Eurocode2" }
+    - { no: 43, display: "BS8110-97", code: "BS8110-97" }
+    - { no: 44, display: "BS 5400-4:1990", code: "BS 5400-4:1990" }
+    - { no: 45, display: "NSR-10", code: "NSR-10" }
+    - { no: 46, display: "AIJ-WSD99", code: "AIJ-WSD99" }
+    - { no: 47, display: "IRC:21-2000", code: "IRC:21-2000" }
+    - { no: 48, display: "IRC:112-2011", code: "IRC:112-2011" }
+    - { no: 49, display: "IRC:112-2020", code: "IRC:112-2020" }
+    - { no: 50, display: "IS456:2000", code: "IS456:2000" }
+    - { no: 51, display: "IRS", code: "IRS" }
+    - { no: 52, display: "NSCP 2015", code: "NSCP 2015" }
+    - { no: 53, display: "NSCP-DCEC(2023)", code: "NSCP-DCEC(2023)" }
+    - { no: 54, display: "NSCP-DCEC(2017)", code: "NSCP-DCEC(2017)" }
+    - { no: 55, display: "TWN-BRG-LSD90", code: "TWN-BRG-LSD90" }
+    - { no: 56, display: "TWN-USD112", code: "TWN-USD112" }
+    - { no: 57, display: "TWN-USD100", code: "TWN-USD100" }
+    - { no: 58, display: "TWN-USD92", code: "TWN-USD92" }
+    - { no: 59, display: "SNiP 2.05.03-84*", code: "SNiP 2.05.03-84*" }
+    - { no: 60, display: "SP 35.13330.2011", code: "SP 35.13330.2011" }
+    - { no: 61, display: "SNiP 2.05.03-84*(MKS)", code: "SNiP 2.05.03-84*(MKS)" }
+    - { no: 62, display: "SP 35.13330.2011(MKS)", code: "SP 35.13330.2011(MKS)" }
+    - { no: 63, display: "SP 63.13330.2018", code: "SP 63.13330.2018" }
+    - { no: 64, display: "AREMA-2023", code: "AREMA-2023" }
+
+# ============================================================================
+# B. NX 系（GEN NX / CIVIL NX）钢设计规范
+#    端点：DB.DSTL   URI：/db/DSTL
+#    字段：Assign["1"].DGNCODE（string）
+# ============================================================================
+nx_steel:
+  endpoint_key: DB.DSTL
+  uri: /DB/DSTL
+  field: DGNCODE
+  products: [GEN_NX, CIVIL_NX]
+  source:
+    manual: "MIDAS_API_Online_Manual_完整API手册_v1.0.md"
+    lines: "56318-56384"
+    url: "https://support.midasuser.com/hc/en-us/articles/35802155483801"
+  count: 66
+  codes:
+    - { no: 1, display: "KDS 41 30 : 2022", code: "KDS 41 30 : 2022" }
+    - { no: 2, display: "KDS 24 14 31 : 2018", code: "KDS 24 14 31 : 2018" }
+    - { no: 3, display: "KDS 24 14 30 : 2019", code: "KDS 24 14 30 : 2019" }
+    - { no: 4, display: "KDS 41 31 : 2019", code: "KDS 41 31 : 2019" }
+    - { no: 5, display: "KSSC-LSD16", code: "KSSC-LSD16" }
+    - { no: 6, display: "KSSC-LSD09", code: "KSSC-LSD09" }
+    - { no: 7, display: "KSSC-ASD03", code: "KSSC-ASD03" }
+    - { no: 8, display: "KSCE-LSD15", code: "KSCE-LSD15" }
+    - { no: 9, display: "KSCE-ASD10", code: "KSCE-ASD10" }
+    - { no: 10, display: "KSCE-RAIL-ASD11", code: "KSCE-RAIL-ASD11" }
+    - { no: 11, display: "KSCE-ASD96", code: "KSCE-ASD96" }
+    - { no: 12, display: "KSCE-ASD05", code: "KSCE-ASD05" }
+    - { no: 13, display: "AIK-LSD97", code: "AIK-LSD97" }
+    - { no: 14, display: "AIK-ASD83", code: "AIK-ASD83" }
+    - { no: 15, display: "AASHTO-LRFD20(US)", code: "AASHTO-LRFD20(US)" }
+    - { no: 16, display: "AASHTO-LRFD17(US)", code: "AASHTO-LRFD17(US)" }
+    - { no: 17, display: "AASHTO-LRFD16(US)", code: "AASHTO-LRFD16(US)" }
+    - { no: 18, display: "AASHTO-LRFD12(US)", code: "AASHTO-LRFD12(US)" }
+    - { no: 19, display: "AASHTO-LRFD02(US)", code: "AASHTO-LRFD02(US)" }
+    - { no: 20, display: "AASHTO-LFD96(US)", code: "AASHTO-LFD96(US)" }
+    - { no: 21, display: "AASHTO-ASD96(US)", code: "AASHTO-ASD96(US)" }
+    - { no: 22, display: "AASHTO-LRFD20", code: "AASHTO-LRFD20" }
+    - { no: 23, display: "AASHTO-LRFD17", code: "AASHTO-LRFD17" }
+    - { no: 24, display: "AASHTO-LRFD16", code: "AASHTO-LRFD16" }
+    - { no: 25, display: "AASHTO-LRFD12", code: "AASHTO-LRFD12" }
+    - { no: 26, display: "AASHTO-LRFD02", code: "AASHTO-LRFD02" }
+    - { no: 27, display: "AASHTO-LFD96", code: "AASHTO-LFD96" }
+    - { no: 28, display: "AASHTO-ASD96", code: "AASHTO-ASD96" }
+    - { no: 29, display: "AISC(16th)-LRFD22", code: "AISC(16th)-LRFD22" }
+    - { no: 30, display: "AISC(16th)-ASD22", code: "AISC(16th)-ASD22" }
+    - { no: 31, display: "AISC(15th)-LRFD16", code: "AISC(15th)-LRFD16" }
+    - { no: 32, display: "AISC(15th)-ASD16", code: "AISC(15th)-ASD16" }
+    - { no: 33, display: "AISC(14th)-LRFD10", code: "AISC(14th)-LRFD10" }
+    - { no: 34, display: "AISC(14th)-ASD10", code: "AISC(14th)-ASD10" }
+    - { no: 35, display: "AISC(13th)-LRFD05", code: "AISC(13th)-LRFD05" }
+    - { no: 36, display: "AISC(13th)-ASD05", code: "AISC(13th)-ASD05" }
+    - { no: 37, display: "AISC-LRFD2K", code: "AISC-LRFD2K" }
+    - { no: 38, display: "AISC-LRFD93", code: "AISC-LRFD93" }
+    - { no: 39, display: "AISC-ASD89", code: "AISC-ASD89" }
+    - { no: 40, display: "Eurocode3-2:05", code: "Eurocode3-2:05" }
+    - { no: 41, display: "Eurocode3:05", code: "Eurocode3:05" }
+    - { no: 42, display: "Eurocode3", code: "Eurocode3" }
+    - { no: 43, display: "BS5950-2K", code: "BS5950-2K" }
+    - { no: 44, display: "BS5950-90", code: "BS5950-90" }
+    - { no: 45, display: "JTJ025-86", code: "JTJ025-86" }
+    - { no: 46, display: "GB50017-03", code: "GB50017-03" }
+    - { no: 47, display: "GBJ17-88", code: "GBJ17-88" }
+    - { no: 48, display: "IS:800-2007", code: "IS:800-2007" }
+    - { no: 49, display: "IS:800-1984", code: "IS:800-1984" }
+    - { no: 50, display: "IRS SBC", code: "IRS SBC" }
+    - { no: 51, display: "IRC:24-2010", code: "IRC:24-2010" }
+    - { no: 52, display: "CSA-S6-19", code: "CSA-S6-19" }
+    - { no: 53, display: "CSA-S6-14", code: "CSA-S6-14" }
+    - { no: 54, display: "CSA-S16-01", code: "CSA-S16-01" }
+    - { no: 55, display: "AIJ-ASD02", code: "AIJ-ASD02" }
+    - { no: 56, display: "Japan Road II-H24", code: "Japan Road II-H24" }
+    - { no: 57, display: "Japan Road II-H14", code: "Japan Road II-H14" }
+    - { no: 58, display: "TWN-BRG-LSD90", code: "TWN-BRG-LSD90" }
+    - { no: 59, display: "TWN-BRG-ASD90", code: "TWN-BRG-ASD90" }
+    - { no: 60, display: "TWN-LSD96", code: "TWN-LSD96" }
+    - { no: 61, display: "TWN-ASD96", code: "TWN-ASD96" }
+    - { no: 62, display: "TWN-LSD90", code: "TWN-LSD90" }
+    - { no: 63, display: "TWN-ASD90", code: "TWN-ASD90" }
+    - { no: 64, display: "NSCP 2015(LRFD)", code: "NSCP 2015(LRFD)" }
+    - { no: 65, display: "NSCP 2015(ASD)", code: "NSCP 2015(ASD)" }
+    - { no: 66, display: "SP 16.13330.2017", code: "SP 16.13330.2017" }
+
+# ============================================================================
+# C. Civil Designer —— 中国公路/铁路桥涵规范
+#    端点：DB.MODULE   URI：/db/MODULE
+#    字段：DgnCode（integer），配合 Module（0-设计 1-评定 2-试验 3-加固）
+#    注意：这是 integer 编号，与 A/B 的 string DGNCODE 是两套不同机制。
+# ============================================================================
+designer_module:
+  endpoint_key: DB.MODULE
+  uri: /DB/MODULE
+  field: DgnCode
+  field_type: integer
+  companion_field: Module
+  products: [CIVIL_DESIGNER]
+  source:
+    manual: "midas Civil Designer - API JSON手册.md"
+    lines: "706-751"
+  groups:
+    - module: 0
+      module_name: "设计模块"
+      count: 13
+      codes:
+        - { dgncode: 0, display: "JTG D64-15" }
+        - { dgncode: 1, display: "JTG/T D64-01-15" }
+        - { dgncode: 2, display: "JTG/T D65-06-2015" }
+        - { dgncode: 3, display: "JTG 3362-2018" }
+        - { dgncode: 4, display: "JTG D62-04" }
+        - { dgncode: 5, display: "JTG 023-85" }
+        - { dgncode: 6, display: "CJJ 11-2011" }
+        - { dgncode: 7, display: "CJJ 11-2019" }
+        - { dgncode: 8, display: "TB 10092-2017" }
+        - { dgncode: 9, display: "JTG/TB02-01-2008" }
+        - { dgncode: 10, display: "JTG/T 2231-01-2020" }
+        - { dgncode: 11, display: "CJJ 166-2011" }
+        - { dgncode: 12, display: "JTG 3363-2019" }
+    - module: 1
+      module_name: "评定模块"
+      count: 6
+      codes:
+        - { dgncode: 0, display: "(11评定)JTG 3362-2018" }
+        - { dgncode: 1, display: "(11评定)JTG D62-04" }
+        - { dgncode: 2, display: "(11评定)JTG 023-85" }
+        - { dgncode: 3, display: "(11评定)CJJ 11-2011" }
+        - { dgncode: 4, display: "(11评定)CJJ 11-2019" }
+        - { dgncode: 5, display: "(11评定)JTG D64-15" }
+    - module: 2
+      module_name: "试验模块"
+      count: 1
+      codes:
+        - { dgncode: 0, display: "JTG/T J21-01-2015" }
+    - module: 3
+      module_name: "加固模块"
+      count: 2
+      codes:
+        - { dgncode: 0, display: "JTG/T J22-2008" }
+        - { dgncode: 1, display: "JTG/T 5431-2025" }
+
+# ============================================================================
+# D. Civil Designer —— 设计代码命名空间（规范代码编码在 URI 路径段）
+#    URI 形如 /DESIGN/{RC|STEEL|SRC}/{CODE}/...
+#    每个材料的代码选择器是单例端点，字段 DGNCODE（string）
+# ============================================================================
+designer_design:
+  uri_pattern: "/DESIGN/{material}/{code}/{endpoint}"
+  products: [CIVIL_DESIGNER]
+  source:
+    manual: "MIDAS_API_Online_Manual_完整API手册_v1.0.md"
+    note: "由 registry/design/** 的 125 个端点反推；每材料一个代码选择器"
+  selectors:
+    - material: RC
+      selector_key: DESIGN.RC.DRC
+      selector_uri: /DESIGN/RC/DRC
+      response_root: DCON
+      code: "KDS 41 20 : 2022"
+      endpoint_prefix: "DESIGN.RC.KDS-41-20-2022"
+      endpoint_count: 69
+    - material: STEEL
+      selector_key: DESIGN.STEEL.DSTL
+      selector_uri: /DESIGN/STEEL/DSTL
+      response_root: DSTL
+      code: "KDS 41 30 : 2022"
+      endpoint_prefix: "DESIGN.STEEL.KDS-41-30-2022"
+      endpoint_count: 27
+    - material: SRC
+      selector_key: DESIGN.SRC.AIK-SRC2K.DSRC
+      selector_uri: /DESIGN/SRC/AIK-SRC2K/DSRC
+      response_root: DSRC
+      code: "AIK-SRC2K"
+      endpoint_prefix: "DESIGN.SRC.AIK-SRC2K"
+      endpoint_count: 27
+
+# ============================================================================
+# E. 运行时发现机制（Adapter 连接时执行，结果不落盘）
+#
+#   实测结论（2026-10-05，gen-local + civil-cloud）：
+#   1. 「读当前生效的规范」—— 完全可行，零副作用：
+#        GET /db/DCON   -> {"DCON":{"1":{"DGNCODE":"..."}}}
+#        GET /db/DSTL   -> {"DSTL":{"1":{"DGNCODE":"..."}}}
+#        GET /db/MODULE -> {"Module":0,"DgnCode":3}
+#      注意：项目未设置设计时返回 {} 或 {"message":""}（空表），不是错误。
+#   2. 「读全部支持集」—— API 不直接提供：
+#        /info/db/DCON 返回 schema，但 DGNCODE 是 type:string，无 enum
+#        裸路径 /DESIGN、/DESIGN/RC 等一律 404，无法列子节点
+#      => 支持集只能来自本文件的静态枚举（手册来源）
+#   3. 「验证某实例是否支持某规范」—— 可行，探测式：
+#        GET /DESIGN/{material}/{code}/{probe_endpoint} -> 200 支持 / 404 不支持
+#        实测：/DESIGN/RC/KDS-41-20-2022/DCO -> 200
+#              GB50010-2010 / ACI318-19 / AISC360-16 / EN1992-1-1 / AIJ -> 404
+#        交叉约束有效：/DESIGN/RC/KDS-41-30-2022/DCO -> 404（钢规范不能用于 RC）
+#      => Adapter 用本文件的候选集做探测输入，得到该实例的可用子集
+# ============================================================================
+discover:
+  strategy: static_candidates_plus_runtime_probe
+  runtime_probe:
+    method: GET
+    probe_endpoint: DCO
+    ok_status: 200
+    not_supported_status: 404
+    side_effect: none
+    cache_scope: connection_session
+    persist: false
+  static_source_of_truth: this_file

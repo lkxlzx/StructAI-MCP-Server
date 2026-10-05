@@ -12676,7 +12676,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DRC"
+        "read_root": "DCON"
       },
       "risk": {
         "level": "low",
@@ -13647,7 +13647,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCO"
+        "read_root": "DCORC"
       },
       "risk": {
         "level": "low",
@@ -13779,7 +13779,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCRM-BEAM"
+        "read_root": "DCRMB"
       },
       "risk": {
         "level": "low",
@@ -13823,7 +13823,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCRM-BRACE"
+        "read_root": "DCRMR"
       },
       "risk": {
         "level": "low",
@@ -13867,7 +13867,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCRM-COLUMN"
+        "read_root": "DCRMC"
       },
       "risk": {
         "level": "low",
@@ -13911,7 +13911,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCRM-WALL"
+        "read_root": "DCRMW"
       },
       "risk": {
         "level": "low",
@@ -15165,7 +15165,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "SRDF"
+        "read_root": "SRDFRC"
       },
       "risk": {
         "level": "low",
@@ -16063,7 +16063,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.DCO",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
-      "methods": "PUT",
+      "methods": "GET, PUT",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16079,8 +16079,10 @@
       "examples": 2,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -16089,7 +16091,7 @@
       "schema_shape": "",
       "wrapper": {
         "write": "Assign",
-        "read_root": "DCO"
+        "read_root": "SRCDCO"
       },
       "risk": {
         "level": "low",
@@ -16801,7 +16803,9 @@
       "solver": "",
       "availability": "untested",
       "verified_on": [],
-      "unavailable_on": [],
+      "unavailable_on": [
+        "gen-local"
+      ],
       "enabled": true,
       "disable_reason": "",
       "path_key_supported": true,

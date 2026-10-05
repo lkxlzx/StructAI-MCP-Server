@@ -7,7 +7,7 @@ tool_map:
   assign: midas_db_assign
 wrapper:
   write: Assign
-  read_root: DCO
+  read_root: DCORC
 schema_ref:
   local: "schema/design/rc/KDS-41-20-2022/DCO.json"
   introspect: null

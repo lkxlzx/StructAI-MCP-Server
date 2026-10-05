@@ -18,6 +18,7 @@ registry/
 ├── manifest.json          全量索引（key / uri / methods / products / 文件路径 / 统计）
 ├── instances.yaml         实测实例矩阵（availability / verified_on / unavailable_on 的溯源）
 ├── designer_params.json   Civil Designer 手册的请求参数表原文（无 JSON Schema 时的证据来源）
+├── design_codes.yaml      设计规范（Design Code）候选枚举：155 条 / 三套体系（见 §7）
 ├── README.md              本文件
 ├── common/                多产品共有端点（GEN_NX ∩ CIVIL_NX）
 │   ├── doc/  db/  ope/  view/
@@ -27,7 +28,8 @@ registry/
 │   ├── civil_nx/          仅 CIVIL NX
 │   └── civil_designer/    仅 Civil Designer
 ├── design/                DESIGN 命名空间（设计代码接口，STEEL / RC / SRC）
-└── schema/                各端点的 JSON Schema（draft-07）
+├── schema/                各端点的 JSON Schema（draft-07）
+└── tools/                 生成与校验工具（见 §8）
 ```
 
 ## 3. 统计
@@ -106,3 +108,70 @@ registry/
 3. MIDAS 手册更新时，重跑生成链产出新的 `registry_version`，保留旧版本。
 4. `notes` 中的勘误优先于源手册原文；如与官方最新原文冲突，以实测为准并更新本文件。
 
+
+## 7. 设计规范（Design Code）
+
+`design_codes.yaml` 收录 MIDAS 的**三套独立规范体系**（共 155 条候选），
+全部由官方手册枚举表逐行抽取（工具见 §8）：
+
+| 体系 | 端点 | 字段 | 条数 | 说明 |
+| --- | --- | --- | --- | --- |
+| `nx_rc` | `DB.DCON` | `DGNCODE`（string） | **64** | NX 系混凝土设计规范 |
+| `nx_steel` | `DB.DSTL` | `DGNCODE`（string） | **66** | NX 系钢设计规范 |
+| `designer_module` | `DB.MODULE` | `DgnCode`（**integer**） | **22** | Civil Designer 中国公路/铁路桥涵规范，按 设计/评定/试验/加固 4 模块分组 |
+| `designer_design` | `/DESIGN/{material}/{code}/…` | 路径段 | 3 | Civil Designer 设计代码命名空间（RC / STEEL / SRC） |
+
+**含中国规范**：`GB/T50010-10`、`GB50010-02`（混凝土）；`GB50017-03`、`GBJ17-88`、`JTJ025-86`（钢）。
+
+### 7.1 支持集如何确定（两段式）
+
+1. **静态候选集** —— `design_codes.yaml`（来源：官方手册枚举表）。
+   API **不提供**支持集枚举：
+   - `/info/db/DCON` 返回的 schema 里 `DGNCODE` 是 `type: string`，**无 enum**；
+   - 裸路径 `/DESIGN`、`/DESIGN/RC` 等一律 404，无法列子节点。
+2. **运行时探测** —— Adapter 连接时用候选集做 `GET` 探测，得到该实例的**可用子集**：
+   - `GET /DESIGN/{material}/{code}/DCO` → `200` 支持 / `404` 不支持；
+   - 零副作用；结果只存连接会话，**不落盘**。
+   - 实测（gen-local + civil-cloud）：`KDS-41-20-2022` → 200；
+     `GB50010-2010` / `ACI318-19` / `AISC360-16` / `EN1992-1-1` / `AIJ` → 404。
+3. **读当前生效值** —— `GET /db/DCON`、`GET /db/DSTL`、`GET /db/MODULE`
+   （空项目返回 `{}` 或 `{"message":""}`，属正常空表，不是错误）。
+
+Core 侧 `code` 保持**自由字符串**（规范中立，Core 内不出现任何厂商规范名）；
+可用性校验由 Adapter 在调用前完成。
+
+## 8. 生成与校验工具
+
+| 工具 | 用途 |
+| --- | --- |
+| `tools/extract_design_codes.py` | 从官方手册抽取规范枚举 → `design_codes.yaml`（带条数断言，锚点漂移即报错） |
+| `tools/sync_manifest.py` | 以端点 YAML 为真源，重建 `manifest.json` 的派生字段；默认预演，`--write` 写回 |
+
+```powershell
+python registry/tools/extract_design_codes.py
+python registry/tools/sync_manifest.py           # 预演（只打印差异）
+python registry/tools/sync_manifest.py --write   # 写回
+```
+
+### 8.1 ⚠️ 已知缺陷：`read_root` 曾是「从 URI 猜的」
+
+原生成器把 `wrapper.read_root` 取为 **URI 末段的大写**（`uri.split("/")[-1].upper()`），
+既非手册 Response 示例、也非实测值。**实测已证实 8 处错误**（2026-10-05，gen-local，GET 零副作用）：
+
+| Registry key | 原值（猜） | 实测根键 |
+| --- | --- | --- |
+| `DESIGN.RC.DRC` | `DRC` | **`DCON`** |
+| `DESIGN.RC.KDS-41-20-2022.DCO` | `DCO` | **`DCORC`** |
+| `DESIGN.RC.KDS-41-20-2022.DCRM-BEAM` | `DCRM-BEAM` | **`DCRMB`** |
+| `DESIGN.RC.KDS-41-20-2022.DCRM-BRACE` | `DCRM-BRACE` | **`DCRMR`** |
+| `DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN` | `DCRM-COLUMN` | **`DCRMC`** |
+| `DESIGN.RC.KDS-41-20-2022.DCRM-WALL` | `DCRM-WALL` | **`DCRMW`** |
+| `DESIGN.RC.KDS-41-20-2022.SRDF` | `SRDF` | **`SRDFRC`** |
+| `DESIGN.SRC.AIK-SRC2K.DCO` | `DCO` | **`SRCDCO`** |
+
+**自 2026-10-05 起：端点 YAML 是唯一真源**；`read_root` 只允许来自手册 Response 示例或实测，
+`manifest.json` 一律由 `tools/sync_manifest.py` 派生。
+**其余 628 个端点的 `read_root` 尚未实测校验**（跟踪项见 `docs/07` R14）。
+
+> 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
+> 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。

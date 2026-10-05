@@ -108,7 +108,14 @@ Tool  →  Operation  →  Capability  →  API Registry  →  Adapter  →  软
 `engineering_model_delete` · `engineering_model_build` · `engineering_view` ·
 `engineering_result` · `engineering_design` · `engineering_analysis`
 
-共 **69 个 Operation**（`03` 的 Tool Operation Matrix 44 行 + 扩展），风险等级与执行模式已定：
+共 **69 个 Operation**（V2 冻结契约 **68** + 2026-10-05 新增 `DESIGN.SRC`），风险等级与执行模式已定：
+
+> 📌 **勘误（2026-10-05）** —— 本报告原写「69 个 Operation（`03` 的 Tool Operation Matrix 44 行 + 扩展）」，
+> 该推导**不成立**：44 行含 3 个通配行（`BUILD.*` / `VIEW.*` / `RESULT.*`），正确展开恰为 **68**
+> （与 `docs/02` §69 清单、`docs/03` §150 冻结树、`docs/03` §114–122 的 Tool Schema `enum` 四处一致；
+> 后者已机器解析核对）。**「69」的真正来源是把 `docs/02` §69「Operation Seed」的章节号误读为数量。**
+> 数字 69 现属**巧合性正确**：冻结 68 + 新增 `DESIGN.SRC`（补 `DESIGN.SRC.AIK-SRC2K.*` 共 27 个端点的归属）= **69**。
+> 详见 `docs/07` §5.1 / §6.8 / §16 R11。
 - Delete / Build / Design / Analysis → `HIGH` + `ASYNC`
 - Doc / Query / Assign / View / Result → `LOW`/`MEDIUM` + `SYNC`
 
@@ -259,7 +266,7 @@ CIVIL_NX 215 / DESIGNER 14 均不变。
 | --- | --- | --- |
 | 总体架构 / 三层解耦 / 红线 | ✅ 冻结 | `01` §1–36、`02` §57 |
 | Core 数据模型（24 张表） | ✅ 冻结 | `01` §6–52、`02` source9 |
-| 9 Tool + 69 Operation 契约 | ✅ 冻结 | `03` §3、§86、§149–150 |
+| 9 Tool + 69 Operation 契约 | ✅ 冻结（**68 + 1 新增**，见 §3.2 勘误） | `03` §3、§86、§149–150 |
 | 安全模型 / 权限链 / 确认机制 | ✅ 冻结 | `02` sec、`01` §11 |
 | 执行流水线（顺序冻结） | ✅ 冻结 | `02` §55 |
 | Task Engine / 状态机 / DAG / 恢复 | ✅ 冻结 | `02` task |

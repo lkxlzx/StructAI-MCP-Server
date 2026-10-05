@@ -1,20 +1,21 @@
 key: "DESIGN.SRC.AIK-SRC2K.DCO"
 namespace: DESIGN
 uri: "/DESIGN/SRC/AIK-SRC2K/DCO"
-methods: [PUT]
+methods: [GET, PUT]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign
 wrapper:
   write: Assign
-  read_root: DCO
+  read_root: SRCDCO
 schema_ref:
   local: "schema/design/src/AIK-SRC2K/DCO.json"
   introspect: null
   source: repo_midas_api
 parser: db_generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 path_key_supported: true
 table_type: null
 title: Design Code Option (설계 코드 옵션)
