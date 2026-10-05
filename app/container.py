@@ -1,4 +1,4 @@
-"""应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database）。
+"""应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -8,6 +8,7 @@
 | --- | --- |
 | `settings` / `runtime_config` | **P02 ✅** |
 | `engine` / `session_factory` | **P04 ✅** |
+| `repositories`（会话级，**不**进容器） | **P05 ✅** |
 | `operation_registry` | P08 |
 | `execution_service` | P36 |
 
@@ -44,7 +45,7 @@ from app.infrastructure.database.session import (
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P04"
+BATCH_ID: Final[str] = "P05"
 
 logger = logging.getLogger("structai")
 
@@ -54,6 +55,8 @@ class AppContainer:
     """应用依赖容器。
 
     P04：`settings` / `runtime_config` / `engine` / `session_factory` 已接入；
+    P05：仓储**不**在此装配 —— 仓储持有 `AsyncSession`，属会话级对象，
+    由 `build_repositories(session)` 装配（`docs/02` §16 / §33）；
     `operation_registry` / `execution_service` 仍为空（后续批次填充）。
     `started` 仅表示生命周期已进入运行态。
     """
@@ -94,11 +97,13 @@ class AppContainer:
 def build_container(settings: Settings) -> AppContainer:
     """构造应用容器（`docs/02` §33）。
 
-    P04 在此装配 `engine` / `session_factory`（`docs/02` §15），
+    P04 在此装配 `engine` / `session_factory`（`docs/02` §15）；
+    P05 的仓储是**会话级**对象，由 `build_repositories(session)` 装配（`docs/02` §16 / §33）；
     P08 起装配 `operation_registry`。
 
     ⚠️ 本函数**不建立连接**（只构造引擎），连接与校验由 `startup()` 完成；
-    因此它是同步的，也不需要 async。
+    仓储是**会话级**对象，由 `app.infrastructure.database.repositories.build_repositories`
+    按会话装配，**不**进本容器（`docs/02` §16 / §33）；因此本函数仍是同步的。
     """
     engine = create_engine(settings.database_url, echo=settings.sql_echo)
     session_factory = create_session_factory(engine)

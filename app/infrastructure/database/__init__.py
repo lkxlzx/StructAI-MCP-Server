@@ -1,16 +1,17 @@
 """Database 层（`docs/07` §3.3；`docs/02` §12 / §14–§18）。
 
-构成（P04）：
+构成（P04 / P05）：
 
 | 文件 | 内容 | 规范 |
 | --- | --- | --- |
 | `base.py` | `Base` + `NAMING_CONVENTION`（+ 三个落地 Mixin） | `docs/02` §14 |
 | `session.py` | `create_engine` / `create_session_factory` | `docs/02` §15 |
 | `models/` | 24 个 ORM Model | `docs/07` §4.3；`docs/02` §17–§18 |
+| `repositories/` | 最小集 6 个仓储 + 通用基类（P05） | `docs/02` §26 / §11 / §12 |
 
 后续批次接管点：
 
-- P05：`repositories/`（最小集 CRUD）。
+- ~~P05：`repositories/`（最小集 CRUD）~~ ✅ **本批已落地**（最小集 6 个仓储 + 通用基类）。
 - P06：`unit_of_work.py`（commit / rollback / close）。
 - P07：`seed.py`（幂等 Seed）。
 
@@ -23,7 +24,8 @@ from __future__ import annotations
 # ⚠️ 必须显式导入 models：ORM 类只有被导入后才会注册进 `Base.metadata`。
 # 该导入使 `import app.infrastructure.database` 即完成 24 张表的元数据登记，
 # 是 `Base.metadata.create_all` 与 Alembic `target_metadata` 的前提。
-from app.infrastructure.database import models
+# P05：仓储层只依赖 Session / ORM；导入后可直接 `from ...database import repositories`。
+from app.infrastructure.database import models, repositories
 from app.infrastructure.database.base import (
     NAMING_CONVENTION,
     Base,
@@ -42,4 +44,5 @@ __all__ = [
     "create_engine",
     "create_session_factory",
     "models",
+    "repositories",
 ]
