@@ -6,11 +6,11 @@
     "midas Civil Designer - API (wolai, zh)"
   ],
   "counts": {
-    "keys": 635,
-    "schemas": 615,
+    "keys": 636,
+    "schemas": 616,
     "buckets": {
       "common": 370,
-      "products/gen_nx": 99,
+      "products/gen_nx": 100,
       "products/civil_designer": 24,
       "products/civil_nx": 17,
       "design": 125
@@ -12234,6 +12234,56 @@
       "product_overrides": {},
       "provenance": [
         "civil_nx_manual"
+      ]
+    },
+    {
+      "key": "DB.ULCT",
+      "namespace": "DB",
+      "uri": "/DB/ULCT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX"
+      ],
+      "definition": "products/gen_nx/db/ULCT.yaml",
+      "schema": "schema/products/gen_nx/db/ULCT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "Underground Load Combination Type",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 1,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
+      "unavailable_on": [
+        "civil-cloud"
+      ],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": false,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "ULCT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional",
+          "DELETE": false
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "help_center"
       ]
     },
     {

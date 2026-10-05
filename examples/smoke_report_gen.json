@@ -1,10 +1,10 @@
 {
  "registry": {
-  "keys": 635,
-  "schemas": 615
+  "keys": 636,
+  "schemas": 616
  },
  "dry_run": {
-  "checked": 635,
+  "checked": 636,
   "problem_count": 0,
   "problems": []
  },
@@ -13,9 +13,9 @@
   "product": "",
   "expected_product": "GEN_NX",
   "profile": "NX_FAMILY",
-  "calls": 255,
+  "calls": 256,
   "summary": {
-   "OK": 219,
+   "OK": 220,
    "ENDPOINT_NOT_FOUND": 36
   },
   "results": [
@@ -1126,6 +1126,11 @@
    ],
    [
     "DB.TSGR",
+    "OK",
+    ""
+   ],
+   [
+    "DB.ULCT",
     "OK",
     ""
    ],

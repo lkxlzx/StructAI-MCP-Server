@@ -1,10 +1,10 @@
 {
  "registry": {
-  "keys": 635,
-  "schemas": 615
+  "keys": 636,
+  "schemas": 616
  },
  "dry_run": {
-  "checked": 635,
+  "checked": 636,
   "problem_count": 0,
   "problems": []
  },
@@ -1097,7 +1097,7 @@
    ]
   ],
   "skipped_by_product": {
-   "GEN_NX": 98,
+   "GEN_NX": 99,
    "CIVIL_DESIGNER": 24,
    "CIVIL_DESIGNER|GEN_NX": 2
   },

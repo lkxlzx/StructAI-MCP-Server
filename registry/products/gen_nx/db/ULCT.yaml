@@ -1,0 +1,48 @@
+key: DB.ULCT
+namespace: DB
+uri: /DB/ULCT
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+  delete: midas_db_delete
+wrapper:
+  write: Assign
+  read_root: ULCT
+schema_ref:
+  local: schema/products/gen_nx/db/ULCT.json
+  introspect: info/db/ULCT
+  source: instance_introspect
+parser: db_generic
+products: [GEN_NX]
+availability: verified
+verified_on: ["gen-local"]
+unavailable_on: ["civil-cloud"]
+table_type: null
+title: Underground Load Combination Type
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+    DELETE: false
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL, DELETE]
+source:
+  url: "https://support.midasuser.com/hc/en-us/articles/49513792356505-Underground-Load-Combination-Type"
+  retrieved_at: "2026-10-05"
+  provenance: [help_center]
+stats:
+  spec_rows: 1
+  examples: 0
+  has_response_head: false
+notes: [源手册该篇的 Input URI 字段误写为 db/LTSR（索引页 End Point 才是 /db/ULCT），导致按 Input URI 采集时整篇丢失；已按索引页 URI 补录。, 实测：GEN 实例可用（/info/db/ULCT 返回 schema）；CIVIL 实例 404。]

@@ -32,13 +32,13 @@ registry/
 
 ## 3. 统计
 
-- 端点定义（Registry key）：**635**
-- JSON Schema 文件：**615**
+- 端点定义（Registry key）：**636**
+- JSON Schema 文件：**616**
 
 | 桶 | 数量 | 说明 |
 | --- | --- | --- |
 | common | 370 | GEN NX 与 CIVIL NX 共有 |
-| products/gen_nx | 99 | GEN NX 独有 |
+| products/gen_nx | 100 | GEN NX 独有 |
 | products/civil_nx | 17 | CIVIL NX 独有 |
 | products/civil_designer | 24 | Civil Designer 独有 |
 | design | 125 | DESIGN 命名空间（设计代码） |
@@ -47,7 +47,7 @@ registry/
 
 | 命名空间 | 数量 |
 | --- | --- |
-| DB | 243 |
+| DB | 244 |
 | POST | 199 |
 | DESIGN | 125 |
 | OPE | 34 |
