@@ -28,9 +28,34 @@ registry/
 │   ├── civil_nx/          仅 CIVIL NX
 │   └── civil_designer/    仅 Civil Designer
 ├── design/                DESIGN 命名空间（设计代码接口，STEEL / RC / SRC）
-├── schema/                各端点的 JSON Schema（draft-07）
+├── schema/                各端点的 JSON Schema（draft-07 声明 440 / 未声明 175 —— 见 §2.1）
 └── tools/                 生成与校验工具（见 §8）
 ```
+
+### 2.1 JSON Schema 方言与装载现状（P09 裁决，2026-10-05）
+
+`registry/schema/` 的 **616** 个文件是**请求体 Schema**，形态有两种：`{<请求体包装根键>: <JSON Schema>}`
+（如 `ACTL` / `Argument` / `TABLE`；**377** 个）与直接就是 JSON Schema（**237** 个）；另有 **1** 个
+（`DB.MBTP`）把 JSON 存成了**非法字符串**（见下）。
+
+| 项 | 实测值 | 说明 |
+| --- | --- | --- |
+| 文件数 | **616** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件） |
+| 可装载 | **615** | 剥离包装根键后原样登记（**不改写任何取值**） |
+| 无法装载 | **1** | `products/gen_nx/db/MBTP.json`：`schema` 是字符串且**不是合法 JSON**（缺 1 个 `}`） |
+| `$schema` 声明 | **440** `draft-07` / **175** 未声明 | 按**生效 Schema**（剥离包装根键后）统计 |
+| 不是合法 JSON Schema | **4** | `DESIGN.SRC.AIK-SRC2K.MATD` / `.MCRD` / `.MRBD`、`OPE.EDMP`（占位字符串 / 非法子 schema） |
+
+**方言裁决（`docs/07` §16 R18）**：**按各 Schema 自身声明的方言校验**（draft-07 → `Draft7Validator`；
+未声明 / 未知 → 项目标准 **Draft 2020-12**，`docs/02` §12 / §13 / §22）。
+依据：本目录是外部软件 API 的**唯一权威来源**，Schema 原样登记；用 2020-12 解释 draft-07 文档会**静默改变语义**
+（`exclusiveMinimum` 布尔 vs 数值、`definitions` / `items` / `prefixItems`），实测 draft-07 的数组形式 `items`
+喂给 2020-12 校验器时直接抛异常。Core 自有的 `schemas/`（`docs/02` §22）仍一律用 Draft 2020-12。
+
+⚠️ **本目录的 5 个数据缺陷**（`docs/07` §16 R19，待数据侧生成链修复）：上表「无法装载 1 个」+「不是合法
+JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，非法关键字会被**静默忽略**
+（校验变宽松），故 Core 侧由 `SchemaEngine.check_schema()` 显式诊断。
+另：**20** 个端点仍**没有** JSON Schema（`docs/07` §16 R5），本目录不臆造。
 
 ## 3. 统计
 
