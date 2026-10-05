@@ -28,6 +28,8 @@ MIDAS Open API 的**机器可读端点注册表（Endpoint Registry）**与配�
 ```
 registry/          Endpoint Registry（636 端点定义 + 616 JSON Schema + 索引 + 实例矩阵）
 examples/          参考客户端与冒烟测试（midas_client.py / smoke_test.py / cases.json）
+app/               Core 实现（P01 起逐步落地；进度见 docs/08 §3）
+pyproject.toml     依赖与工具链配置（冻结于 docs/07 §3.1–§3.2）· .env.example 环境变量样例
 docs/              V2 规范 01–06 + 通读报告 00 + 开发方案 07   ← 唯一开发依据
 archive/legacy_v1/ 非规范性历史资料（V1 文档与实测留痕，不作依据）
 MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
