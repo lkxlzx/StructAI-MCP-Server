@@ -29,6 +29,10 @@ dependencies = [
   "sqlalchemy[asyncio]>=2.0",
   "alembic>=1.14",
   "aiosqlite>=0.20",
+  # 口令哈希 = Argon2id（docs/02 §7 / §8；docs/07 §8.3）。P07 Seed 需要把
+  # STRUCTAI_BOOTSTRAP_ADMIN_PASSWORD 转成 password_hash 入库（docs/02 §44）；
+  # docs/02 §7 把依赖固定为 `argon2-cffi>=23.1,<26`。
+  "argon2-cffi>=23.1,<26",
   "httpx>=0.28",
   "jsonschema>=4.23",
   "structlog>=25.1",

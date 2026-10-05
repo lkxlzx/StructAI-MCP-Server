@@ -1,5 +1,5 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
-P06 UnitOfWork）。
+P06 UnitOfWork / P07 Seed）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -11,6 +11,7 @@ P06 UnitOfWork）。
 | `engine` / `session_factory` | **P04 ✅** |
 | `repositories`（会话级，**不**进容器） | **P05 ✅** |
 | `unit_of_work`（会话级，**不**进容器） | **P06 ✅** |
+| `seed()` / `SeedReport`（数据装配，**不**进容器） | **P07 ✅** |
 | `operation_registry` | P08 |
 | `execution_service` | P36 |
 
@@ -47,7 +48,7 @@ from app.infrastructure.database.session import (
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P06"
+BATCH_ID: Final[str] = "P07"
 
 logger = logging.getLogger("structai")
 
