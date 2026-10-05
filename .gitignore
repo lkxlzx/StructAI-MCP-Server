@@ -38,3 +38,5 @@ logs/
 tmp/
 temp/
 .cache/
+# SQLite 库文件与产物目录（P04 起由 DATABASE_URL / ARTIFACT_ROOT 生成，禁止入库）
+data/

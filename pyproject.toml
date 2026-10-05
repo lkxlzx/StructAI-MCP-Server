@@ -23,7 +23,10 @@ dependencies = [
   "uvicorn[standard]>=0.34",
   "pydantic>=2.10",
   "pydantic-settings>=2.7",
-  "sqlalchemy>=2.0",
+  # `[asyncio]` 附加 greenlet —— SQLAlchemy 异步栈的硬依赖（docs/02 §2.2 全链路异步）。
+  # 缺少 greenlet 时 `sqlalchemy.ext.asyncio` 直接 ImportError，P04 无法运行；
+  # 故在 docs/07 §3.2 冻结清单的 `sqlalchemy>=2.0` 上补足官方推荐的 extra 写法。
+  "sqlalchemy[asyncio]>=2.0",
   "alembic>=1.14",
   "aiosqlite>=0.20",
   "httpx>=0.28",
