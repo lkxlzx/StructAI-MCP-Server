@@ -1,5 +1,9 @@
 # StructAI｜MIDAS MCP 统一修复计划 V1.0（待批准）
 
+> ⚠️ **非规范性文档（NON-NORMATIVE）** —— 本文件已归档至 `archive/legacy_v1/`，
+> 属 StructAI 早期（V1）规范草案 / 实测记录，**不作为开发依据，不作为准则**。
+> 开发唯一依据：`docs/01`–`docs/06`（V2 规范）· `docs/07`（开发方案与任务续接）· `registry/`（机器可读端点注册表）。
+
 > 依据：《StructAI_MIDAS_MCP_Live冒烟测试报告_v1.0.md》与《StructAI_MIDAS_MCP_Live冒烟失败清单_v1.0.csv》
 >
 > **状态：待批准。批准前不执行任何 Registry 数据修改。**

@@ -1,6 +1,10 @@
 # StructAI｜MIDAS MCP 快速响应与实时反馈架构补充文档 V1.0
 
-> 本文为《StructAI 多 MIDAS 软件一体化 MCP 完整开发文档 V1.0》的独立补充文档。
+> ⚠️ **非规范性文档（NON-NORMATIVE）** —— 本文件已归档至 `archive/legacy_v1/`，
+> 属 StructAI 早期（V1）规范草案 / 实测记录，**不作为开发依据，不作为准则**。
+> 开发唯一依据：`docs/01`–`docs/06`（V2 规范）· `docs/07`（开发方案与任务续接）· `registry/`（机器可读端点注册表）。
+
+> 本文为《StructAI 多结构工程软件一体化 MCP 完整开发文档 V1.0》的独立补充文档。
 >
 > 本文只补充“快速响应 + 命令执行状态 + 结果持续反馈给 StructAI”这一执行层能力。主架构文档继续作为产品、软件、连接、Adapter、Registry、工程模型、设计、图形和计算书的主规范；后续调整继续通过独立补充文档维护。
 
@@ -1346,7 +1350,7 @@ ACK：尽可能 < 200ms
 主文档继续负责：
 
 ```text
-多 MIDAS 软件
+多结构工程软件
 SoftwareProfile
 ConnectionProfile
 Adapter

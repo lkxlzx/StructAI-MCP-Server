@@ -165420,7 +165420,7 @@ REST 请求负责下发命令，WebSocket 负责接收过程与结果消息。
 | `MIDAS_API_Online_Manual_索引_v1.0.csv` | NX 系列索引表（可程序化读取） |
 | `MIDAS_API_Online_Manual_数据_v1.0.json` | NX 系列结构化数据 |
 | `MIDAS_API_手册覆盖对照_CivilDesigner_v1.0.md` | 两产品范围对照与重叠分析 |
-| `StructAI_MIDAS_MCP_*` | StructAI 的 MCP 架构规范（**与本 API 文档无关**，另册） |
+| `StructAI_MIDAS_MCP_*` | StructAI 早期（V1）架构文档（**与本 API 文档无关**，已归档至 `archive/legacy_v1/`，**非规范性**） |
 ## 附录 D 实测注意项与源数据勘误（仓库交叉参考）
 
 以下条目来自 **Dennis5882/MIDAS-API** 仓库对官方原文的逐条核对（多数标注了 article id 与核对日期）。

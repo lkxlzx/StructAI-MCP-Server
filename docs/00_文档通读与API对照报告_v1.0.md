@@ -5,6 +5,10 @@
 >
 > 结论先行：**文档规定的正是「必须先有可验证的 API Registry」，而我们的 Registry 就是那一层；
 > 文档自带的 API 清单反而不可直接用于生产。**
+>
+> 范围说明：本报告只通读 `docs/` 内的 V2 规范。根目录原 `StructAI_MIDAS_MCP_*` 系列文档
+> （V1 完整开发文档 / 项目框架图 / 快速响应与实时反馈架构补充文档 / 实测补充文档 / Live 冒烟测试报告 /
+> 统一修复计划 / 3 份 CSV 清单）**已归档至 `archive/legacy_v1/`，不作为开发依据，不作为准则**。
 
 ---
 
@@ -285,7 +289,7 @@ CIVIL_NX 215 / DESIGNER 14 均不变。
 | **`Operation → API Mapping` 未建立** | 文档要求 `operations` × `api_endpoints` 的映射表；我们需要把 69 个 Operation 映射到 Registry 的 key |
 | **`04` §14 的 66 条种子需升级为 `VERIFIED`** | 我们的 Registry 已覆盖其中绝大部分并实测通过，需要做一次「种子 ↔ Registry」的状态回填 |
 | 写路径实测覆盖仅 11 / 369 | 若要按文档 DoD 声称 Adapter 生产就绪，需补写端点的 contract test |
-| 20 个端点仍无 Schema | 详见 `StructAI_MIDAS_MCP_Live冒烟测试报告_v1.0.md` 附录 F.8 |
+| 20 个端点仍无 Schema | 详见 `archive/legacy_v1/StructAI_MIDAS_MCP_Live冒烟测试报告_v1.0.md` 附录 F.8（非规范性证据留痕） |
 
 ---
 

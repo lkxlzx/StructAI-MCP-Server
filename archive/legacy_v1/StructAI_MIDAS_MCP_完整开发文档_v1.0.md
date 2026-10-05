@@ -1,9 +1,13 @@
-# StructAI｜多 MIDAS 软件一体化 MCP 完整开发文档
+# StructAI｜多结构工程软件一体化 MCP 完整开发文档
+
+> ⚠️ **非规范性文档（NON-NORMATIVE）** —— 本文件已归档至 `archive/legacy_v1/`，
+> 属 StructAI 早期（V1）规范草案 / 实测记录，**不作为开发依据，不作为准则**。
+> 开发唯一依据：`docs/01`–`docs/06`（V2 规范）· `docs/07`（开发方案与任务续接）· `registry/`（机器可读端点注册表）。
 
 **版本：v1.0**  
 **定位：生产级架构 + 开发规范 + 接口规范 + 工程工作流规范**  
 **目标产品：StructAI Structural Intelligence Platform**  
-**核心对象：MIDAS 系列软件 API/MCP 集成**
+**核心对象：多结构工程软件 API/MCP 集成（MIDAS 系列为首批接入）**
 
 ---
 
@@ -13,7 +17,7 @@
 
 本文档覆盖：
 
-- 多 MIDAS 软件管理
+- 多结构工程软件管理
 - 多软件、多实例、多版本、多 Solver
 - Base URL / MAPI-Key / Secret 管理
 - 软件连接 Profile
@@ -436,7 +440,7 @@ risk = high
 
 ---
 
-# 9. 多 MIDAS 软件支持
+# 9. 多结构工程软件支持
 
 MIDAS 是产品系列，因此 StructAI 不能设计成单一软件连接器。
 
@@ -4468,7 +4472,7 @@ StructAI 的 MCP 最终不是一个“把 MIDAS API 包起来的服务器”。
 
 正确定位是：
 
-> **一个面向结构工程 AI 的多 MIDAS 软件执行平台。**
+> **一个面向结构工程 AI 的多结构工程软件执行平台。**
 
 四个 MCP Tool 是稳定入口：
 

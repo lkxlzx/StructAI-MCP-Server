@@ -1,5 +1,9 @@
 # StructAI｜MIDAS MCP Registry 真实实例 Live 冒烟测试报告 V1.0
 
+> ⚠️ **非规范性文档（NON-NORMATIVE）** —— 本文件已归档至 `archive/legacy_v1/`，
+> 属 StructAI 早期（V1）规范草案 / 实测记录，**不作为开发依据，不作为准则**。
+> 开发唯一依据：`docs/01`–`docs/06`（V2 规范）· `docs/07`（开发方案与任务续接）· `registry/`（机器可读端点注册表）。
+
 > 配套文档：《StructAI MIDAS MCP 完整开发文档 V1.0》《GEN NX API 实测补充文档 V1.0》《CIVIL NX API 实测补充文档 V1.0》
 >
 > 测试对象：`G:\MMCP\registry\`（634 Endpoint 定义 + 570 JSON Schema）与 `G:\MMCP\examples\` 参考客户端
