@@ -21,6 +21,7 @@ Tenant / User / Project / Software / Model / Task），并提供**会话级**装
 | `model.py` | `ModelRepository` | `models` | `docs/02` §22 |
 | `task.py` | `TaskRepository` | `tasks` | `docs/02` §24 |
 | `security.py` | `SessionRepository` / `RoleRepository` / `ProjectMembershipRepository`（P10） |
+| `idempotency.py` | `IdempotencyStoreRepository`（P21） | `idempotency_records` | `docs/02` §28 |
 
 红线（`docs/07` §14.1 / §14.4）：本包只允许被 `app/infrastructure/database/` 与
 上层（Application / Interface）引用；**不得反向依赖 Interface 层**；
@@ -38,6 +39,10 @@ from app.infrastructure.database.repositories.base import (
     BaseRepository,
     TenantScopedRepository,
     VersionedRepository,
+)
+from app.infrastructure.database.repositories.idempotency import (
+    IdempotencyStoreRepository,
+    build_idempotency_store,
 )
 from app.infrastructure.database.repositories.model import ModelRepository
 from app.infrastructure.database.repositories.project import ProjectRepository
@@ -59,6 +64,7 @@ from app.infrastructure.database.repositories.user import UserRepository
 __all__ = [
     "BaseRepository",
     "DEFAULT_PAGE_SIZE",
+    "IdempotencyStoreRepository",
     "ModelRepository",
     "ProjectMembershipRepository",
     "ProjectRepository",
@@ -72,6 +78,7 @@ __all__ = [
     "TenantScopedRepository",
     "UserRepository",
     "VersionedRepository",
+    "build_idempotency_store",
     "build_repositories",
     "build_resource_store",
     "build_security_stores",

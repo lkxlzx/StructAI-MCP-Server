@@ -1,6 +1,6 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
 P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security /
-P14–P18 Execution / P19–P20 Adapters）。
+P14–P18 Execution / P19–P20 Adapters / P21 Idempotency）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -54,7 +54,7 @@ from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P19"
+BATCH_ID: Final[str] = "P21"
 
 logger = logging.getLogger("structai")
 
@@ -83,6 +83,10 @@ class AppContainer:
     `AdapterManager` 是**进程级**对象（Adapter 注册 / 实例绑定 / 运行时能力快照都在进程内，
     见 `adapters/base/manager.py` 裁决 1 / 2），由 P36 的 `ExecutionService` 持有，
     并作为 `RuntimeCapabilitySource` 注入 `CapabilityResolver`（`docs/07` §16 R30）。
+    P21：幂等记录存储（`app.infrastructure.database.repositories.idempotency`）同样**不**进本
+    容器 —— 它持有**会话级**的 `AsyncSession`，由 `build_idempotency_store(session)` 按会话装配；
+    `IdempotencyService`（`app.application.execution.idempotency`）只依赖 Domain 契约
+    `IdempotencyStore`，由 P36 的 `ExecutionService` 按会话构造（`docs/02` §28 / §33）。
     `started` 仅表示生命周期已进入运行态。
     """
 

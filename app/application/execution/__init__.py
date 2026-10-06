@@ -9,6 +9,7 @@
 | `engineering_validator.py` | `EngineeringValidator`（`docs/02` §18–§22） | **P14 ✅** |
 | `preconditions.py` · `postconditions.py` | 前置 / 后置条件（`docs/02` §32） | **P14 ✅** |
 | `confirmation.py` | Confirmation Token（`docs/07` §8.4） | **P14 ✅** |
+| `idempotency.py` | `IdempotencyService`：原子抢占 / 重放 / 冲突（`docs/07` §10.3） | **P21 ✅** |
 | `pipeline.py` | Validation Pipeline 编排（`docs/02` §30） | P36（随 `ExecutionService`） |
 | `service.py` | `ExecutionService`（`docs/07` §9 的 15 步主干） | P36 |
 
@@ -58,6 +59,22 @@ from app.application.execution.engineering_validator import (
     EngineeringRule,
     EngineeringValidator,
 )
+from app.application.execution.idempotency import (
+    IDEMPOTENCY_CONFLICT_MESSAGE,
+    IDEMPOTENCY_FAILURE_REASONS,
+    IDEMPOTENCY_HASH_ALGORITHM,
+    IDEMPOTENCY_HASH_FIELDS,
+    IDEMPOTENCY_IN_FLIGHT_MESSAGE,
+    IDEMPOTENCY_STAGE,
+    REQUEST_HASH_LENGTH,
+    IdempotencyDecision,
+    IdempotencyOutcome,
+    IdempotencyService,
+    canonical_payload,
+    decode_response,
+    encode_response,
+    hash_payload,
+)
 from app.application.execution.postconditions import (
     POSTCONDITION_OPERATIONS,
     POSTCONDITION_STAGE_ORDER,
@@ -99,6 +116,13 @@ __all__ = [
     "ENGINEERING_RULES",
     "ENGINEERING_RULE_OPERATIONS",
     "EXECUTION_PIPELINE_ORDER",
+    "IDEMPOTENCY_CONFLICT_MESSAGE",
+    "IDEMPOTENCY_FAILURE_REASONS",
+    "IDEMPOTENCY_HASH_ALGORITHM",
+    "IDEMPOTENCY_HASH_FIELDS",
+    "IDEMPOTENCY_IN_FLIGHT_MESSAGE",
+    "IDEMPOTENCY_STAGE",
+    "REQUEST_HASH_LENGTH",
     "FORBIDDEN_CONFIRMATION_TOKENS",
     "INVALID_CONFIRMATION_MESSAGE",
     "MIN_ELEMENT_NODES",
@@ -136,6 +160,13 @@ __all__ = [
     "dialect_of",
     "ignored_client_identity_fields",
     "validator_for",
+    "IdempotencyDecision",
+    "IdempotencyOutcome",
+    "IdempotencyService",
+    "canonical_payload",
+    "decode_response",
+    "encode_response",
+    "hash_payload",
 ]
 
 EXECUTION_PIPELINE_ORDER: Final[tuple[str, ...]] = (

@@ -57,6 +57,9 @@ __all__ = [
     "OperationRegistry",
     "Repository",
     "UnitOfWork",
+    "IdempotencyRecord",
+    "IdempotencyReservation",
+    "IdempotencyStore",
 ]
 
 
@@ -461,3 +464,92 @@ class ResourceStore(Protocol):
     async def software_instance(self, instance_id: str) -> SoftwareInstanceRecord | None: ...
 
     async def tenant_ids_binding_instance(self, instance_id: str) -> frozenset[str]: ...
+
+
+# ===== P21 Idempotency（`docs/07` §12 P21 / §10.3；`docs/02` §28 / §31–§35）=====
+#
+# 为什么这些契约在 Domain（`docs/07` §14.1 / §2.2）：
+# `IdempotencyService`（Application 层，`app/application/execution/idempotency.py`）
+# **不得**依赖 `app.infrastructure`，而「原子 `INSERT` 抢占 + 冲突回读」必须落在
+# `idempotency_records` 表上（P04 已落地 24 张表之一）。故把「需要什么」收窄为
+# 下列结构化记录与契约（P09 的 `SchemaLookup`、P10–P13 的 `SecurityStores`、
+# P14–P18 的 `ResourceStore` 是同一做法的先例），实现落在
+# `app/infrastructure/database/repositories/idempotency.py`。
+#
+# 🔴 记录类型只承载**非敏感**字段：`request_hash` 是 SHA-256 摘要（`docs/02` §33）、
+#    `response_json` 是**业务响应**快照。二者都**不含**任何 secret —— 幂等键与响应
+#    里不得出现 password / API key / token / private key（`docs/07` §14.3）。
+
+
+@dataclass(frozen=True, slots=True)
+class IdempotencyRecord:
+    """一条幂等记录的快照（`docs/07` §4.3 #23；`docs/02` §24 / §31–§35）。
+
+    字段与 P04 落地的 `idempotency_records` 表**逐列对应**（本批只**用**它，
+    **不得**改表 —— `docs/07` §14.3 / §14.3 的「禁止启动时静默 `ALTER TABLE`」）：
+
+    - `tenant_id` + `idempotency_key` —— 数据库唯一键
+      （`UNIQUE(tenant_id, idempotency_key)`，`docs/02` §28 / §31 / §35）；
+    - `request_hash` —— 请求摘要；同键不同摘要**必须拒绝**（`docs/02` §32）；
+    - `response_json` —— 首次成功执行的响应快照；`None` 表示「已抢占、尚未完成」
+      （`docs/02` §28 的 `reserve` → `complete` 之间）。
+
+    列名口径：`docs/07` §4.3 #23 写作 `idempotency_key`，`docs/02` §24 的源码写作
+    `key`；本记录采用 `idempotency_key`（与表列名、领域值对象
+    `app.domain.value_objects.IdempotencyKey` 一致），二者指同一列。
+    """
+
+    id: str
+    tenant_id: str
+    idempotency_key: str
+    request_hash: str
+    response_json: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class IdempotencyReservation:
+    """一次「抢占」的结果（`docs/02` §28 的 `reserve` / §35 的冲突回读）。
+
+    - `created is True` —— 本次 `INSERT` **抢占成功**，`record` 即刚插入的那一行
+      （`response_json` 为 `None`）；调用方继续执行，结束后 `complete()`。
+    - `created is False` —— 唯一键冲突（`IntegrityError`）后**回读**到的既有记录
+      （`docs/02` §35：`UNIQUE(tenant_id, key)` → 捕获 `IntegrityError` → 重新读取）。
+
+    两种情形的 `record` 都**必然**存在：调用方不需要（也**不允许**）在 `reserve`
+    之前先 `SELECT` 判断存在性（`docs/02` §28 / §32 / §35 明确禁止 `SELECT → INSERT`）。
+    """
+
+    record: IdempotencyRecord
+    created: bool
+
+
+class IdempotencyStore(Protocol):
+    """幂等记录的持久化契约（`docs/02` §28 / §34 / §35）。
+
+    🔴 **原子性由实现负责**（`docs/07` §10.3；`docs/02` §28 / §32 / §35）：
+
+    - `reserve` **必须**直接 `INSERT` 抢占（唯一键由**数据库约束**保证），
+      捕获 `IntegrityError` 后**回读**既有记录并返回 `created=False`；
+      **禁止**先 `SELECT` 判断「不存在」再 `INSERT`（那是 race condition）。
+    - 实现只 `INSERT` / `UPDATE` / `SELECT`，**绝不** `commit` / `rollback`
+      ——事务边界归 P06 `UnitOfWork`（`docs/02` §16；`docs/07` §14.4）。
+    - `reserve` **不**在同一事务里替调用方决定提交；因此「抢占」与「执行」之间的
+      可见性完全由调用方的 `UnitOfWork` 决定。
+    """
+
+    async def reserve(
+        self,
+        *,
+        tenant_id: str,
+        idempotency_key: str,
+        request_hash: str,
+    ) -> IdempotencyReservation: ...
+
+    async def existing(
+        self,
+        *,
+        tenant_id: str,
+        idempotency_key: str,
+    ) -> IdempotencyRecord | None: ...
+
+    async def complete(self, record_id: str, response_json: str) -> bool: ...

@@ -1807,10 +1807,16 @@ def test_runtime_capability_source_is_a_structural_contract() -> None:
 # ===== ⑥ 回归（`python -m app.main` / P04 / P02）=====
 
 
-def test_batch_id_is_the_p19_batch_marker() -> None:
-    """同步改动：`container.BATCH_ID` → `P19`（`docs/08` §3 的批次口径）。"""
+def test_batch_id_is_a_batch_marker() -> None:
+    """`container.BATCH_ID` 是形如 `Pnn` 的批次口径，且**不回退**（`docs/08` §3）。
+
+    ⚠️ P21 收尾时本用例由「恰好等于 `P19`」改为**与具体批次无关**：批次号每批都推进
+    （`docs/08` §1 的交接协议），把上一批的批号写死会让每一批都必须改上一批的测试文件
+    （P09 / P14 / P19 已连续三次如此）。批次是否已推进由 `docs/08` §3 状态表与
+    `tests/test_idempotency_p21.py` 的 `test_batch_id_is_the_p21_batch_marker` 负责。
+    """
     assert re.fullmatch(r"P\d{2}", BATCH_ID)
-    assert BATCH_ID == "P19"
+    assert int(BATCH_ID[1:]) >= 19
 
 
 def test_main_exits_zero_with_empty_stdout_on_an_unprovisioned_database(
