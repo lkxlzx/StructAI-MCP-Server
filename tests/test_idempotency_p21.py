@@ -1014,9 +1014,15 @@ def test_conflict_path_leaves_no_half_record(seeded_engine: AsyncEngine) -> None
 # ===== ⑥ 回归（`docs/07` §12 P01 / P02 / P04；`docs/08` §3）=====
 
 
-def test_batch_id_is_the_p21_batch_marker() -> None:
-    """门槛 ⑥：容器批次号已推进到 P21。"""
-    assert BATCH_ID == "P21"
+def test_batch_id_is_a_batch_marker() -> None:
+    """门槛 ⑥：`container.BATCH_ID` 始终形如 `P<两位数字>`（`docs/08` §3 的批次口径）。
+
+    ⚠️ P22–P28 收尾时把本断言从「等于 `P21`」改为**与具体批次无关**（与 P09 / P14 / P19
+    收尾时的做法一致）：批次号每批都推进（`docs/08` §1 的交接协议），把上一批的批号写死
+    会让每一批都必须改上一批的测试文件。批次是否已推进由 `docs/08` §3 状态表与
+    `tests/test_task_engine_p22_p28.py` 的 `test_batch_id_is_p22` 负责。
+    """
+    assert re.fullmatch(r"P\d{2}", BATCH_ID)
 
 
 def test_main_exits_zero_with_empty_stdout_on_an_unprovisioned_database(

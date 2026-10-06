@@ -57,7 +57,11 @@ from app.infrastructure.database.repositories.security import (
     build_security_stores,
 )
 from app.infrastructure.database.repositories.software import SoftwareRepository
-from app.infrastructure.database.repositories.task import TaskRepository
+from app.infrastructure.database.repositories.task import (
+    TaskRepository,
+    TaskStoreRepository,
+    build_task_store,
+)
 from app.infrastructure.database.repositories.tenant import TenantRepository
 from app.infrastructure.database.repositories.user import UserRepository
 
@@ -74,6 +78,7 @@ __all__ = [
     "SessionRepository",
     "SoftwareRepository",
     "TaskRepository",
+    "TaskStoreRepository",
     "TenantRepository",
     "TenantScopedRepository",
     "UserRepository",
@@ -82,6 +87,7 @@ __all__ = [
     "build_repositories",
     "build_resource_store",
     "build_security_stores",
+    "build_task_store",
 ]
 
 

@@ -60,6 +60,11 @@ __all__ = [
     "IdempotencyRecord",
     "IdempotencyReservation",
     "IdempotencyStore",
+    "TaskDraft",
+    "TaskRecord",
+    "TaskStepDraft",
+    "TaskStepRecord",
+    "TaskStore",
 ]
 
 
@@ -553,3 +558,198 @@ class IdempotencyStore(Protocol):
     ) -> IdempotencyRecord | None: ...
 
     async def complete(self, record_id: str, response_json: str) -> bool: ...
+
+
+# ===== P22–P28 Task Engine（`docs/07` §12 P22–P28 / §10.1–§10.2；`docs/02` §7–§20 / §34–§54）=====
+#
+# 为什么这些契约在 Domain（`docs/07` §14.1 / §2.2）：
+# 任务引擎（`app/application/task/`）需要读写 `tasks` / `task_steps` 两张表
+# （P04 已落地，本批只**用**它们，**不得改表**），而 Application 层**不得**依赖
+# `app.infrastructure`。故把「需要什么」收窄为下列结构化记录与契约
+# （P09 的 `SchemaLookup`、P10–P13 的 `SecurityStores`、P14–P18 的 `ResourceStore`、
+# P21 的 `IdempotencyStore` 是同一做法的先例），实现落在
+# `app/infrastructure/database/repositories/task.py`。
+#
+# 🔴 记录类型只承载**非敏感**字段：`tasks` / `task_steps` 两表没有任何凭据列；
+#    `result_json` / `error_json` 是**业务**结果与**归一化**错误信封，二者都不得
+#    写入 password / API key / token / private key（`docs/07` §14.3）。
+
+
+@dataclass(frozen=True, slots=True)
+class TaskRecord:
+    """一条任务的快照（`docs/07` §4.3 #19；`docs/02` §9 / §34）。
+
+    字段与 P04 落地的 `tasks` 表**逐列对应**（本批只**用**它，**不得**改表 ——
+    `docs/07` §14.3）。口径：
+
+    - `status` 取值见 `app.domain.enums.TaskStatus`（12 态，`docs/07` §10.1）；
+    - `lease_owner` / `lease_until` / `heartbeat_at` 支撑租约与崩溃恢复
+      （`docs/02` §34–§38）；`last_heartbeat` 的落库列名是 `heartbeat_at`
+      （`docs/02` §10 / §34）；
+    - `priority` 是**整数**（`docs/02` §14 的建议映射：`0` CRITICAL / `10` HIGH /
+      `50` NORMAL / `100` LOW），队列按 `priority` + `created_at` 出队（§17）；
+    - `created_at` 参与队列排序（`docs/02` §17），故必须随记录返回；
+    - `version` 是乐观并发版本号（`docs/02` §12；`docs/07` §4.3 #19）。
+
+    时间一律为 **UTC 感知**时间（SQLite 无时区，由实现负责补 `UTC`，
+    与 `repositories/security.py` 同口径）。
+    """
+
+    id: str
+    tenant_id: str
+    request_id: str
+    trace_id: str
+    tool: str
+    operation: str
+    status: str
+    created_at: datetime
+    project_id: str | None = None
+    progress: int = 0
+    retry_count: int = 0
+    max_retries: int = 0
+    cancel_requested: bool = False
+    lease_owner: str | None = None
+    lease_until: datetime | None = None
+    heartbeat_at: datetime | None = None
+    priority: int = 100
+    error_json: str | None = None
+    result_json: str | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    version: int = 1
+
+    def lease_is_expired(self, now: datetime) -> bool:
+        """租约是否已失效（`docs/02` §36 / §40）。
+
+        「无租约」（`lease_owner is None`）与「租约到期」（`lease_until <= now`）
+        **都**算失效 —— 前者是可抢占，后者是可恢复（`docs/02` §40 的
+        `lease_owner IS NULL OR lease_until < now`）。
+        """
+        if self.lease_owner is None or self.lease_until is None:
+            return True
+        return self.lease_until <= now
+
+
+@dataclass(frozen=True, slots=True)
+class TaskStepRecord:
+    """一个 DAG 步骤的快照（`docs/07` §4.3 #20；`docs/02` §47 / §52）。
+
+    字段与 P04 落地的 `task_steps` 表**逐列对应**；`depends_on_json` 是前置步骤
+    `step_key` 的 JSON 数组（`docs/07` §4.3 #20 的 `depends_on`）。
+    `status` 取值见 `app.domain.enums.TaskStepStatus`（`docs/02` §50）。
+    """
+
+    id: str
+    task_id: str
+    step_key: str
+    operation: str
+    status: str
+    parameters_json: str
+    depends_on_json: str
+    result_json: str | None = None
+    error_json: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class TaskDraft:
+    """待创建的任务（`docs/02` §9 的 `Task Repository` 字段扩展）。
+
+    ⚠️ **本契约只做 persistence**：`status` 的合法性由
+    `app/application/task/state_machine.py` 判定（`docs/07` §10.1：
+    状态机必须集中实现）；`created_at` / `id` / `version` 由实现生成。
+    """
+
+    tenant_id: str
+    request_id: str
+    trace_id: str
+    tool: str
+    operation: str
+    project_id: str | None = None
+    priority: int = 100
+    max_retries: int = 0
+    status: str = "CREATED"
+
+
+@dataclass(frozen=True, slots=True)
+class TaskStepDraft:
+    """待创建的 DAG 步骤（`docs/02` §47 的 `TaskStep`）。"""
+
+    step_key: str
+    operation: str
+    parameters_json: str = "{}"
+    depends_on: tuple[str, ...] = ()
+
+
+class TaskStore(Protocol):
+    """任务 / 任务步骤的持久化契约（`docs/02` §9 / §11 / §34 / §36）。
+
+    🔴 **原子性由实现负责**（`docs/02` §36「Lease 原子更新」；`docs/07` §10.2）：
+
+    - `acquire_lease` **必须**是单条条件 `UPDATE`（`WHERE lease_owner IS NULL OR
+      lease_until < now`），影响行数为 **1** 才算获得租约，否则返回 `None`；
+      **禁止** `SELECT → UPDATE`（否则两个 Worker 会同时抢到同一任务）；
+    - `heartbeat` / `release_lease` 同样是**条件更新**（`WHERE lease_owner = :worker`），
+      影响 0 行即失败（不得续到别人手里的租约）；
+    - `transition` 是**状态的条件更新**（`WHERE status = :expected`），
+      影响 0 行即失败 —— 调用方据此判定「状态已被别人改过」。
+
+    实现只 `INSERT` / `UPDATE` / `SELECT`，**绝不** `commit` / `rollback`
+    —— 事务边界归 P06 `UnitOfWork`（`docs/02` §16；`docs/07` §14.4）。
+    """
+
+    async def create(
+        self,
+        draft: TaskDraft,
+        steps: Sequence[TaskStepDraft] = (),
+    ) -> TaskRecord: ...
+
+    async def get(self, task_id: str, tenant_id: str) -> TaskRecord | None: ...
+
+    async def transition(
+        self,
+        task_id: str,
+        *,
+        expected: str,
+        new: str,
+        fields: Mapping[str, object] | None = None,
+    ) -> bool: ...
+
+    async def acquire_lease(
+        self,
+        task_id: str,
+        *,
+        worker_id: str,
+        now: datetime,
+        lease_until: datetime,
+    ) -> TaskRecord | None: ...
+
+    async def heartbeat(
+        self,
+        task_id: str,
+        *,
+        worker_id: str,
+        heartbeat_at: datetime,
+        lease_until: datetime,
+    ) -> bool: ...
+
+    async def release_lease(self, task_id: str, *, worker_id: str) -> bool: ...
+
+    async def update_progress(self, task_id: str, progress: int) -> bool: ...
+
+    async def unfinished(
+        self,
+        *,
+        statuses: Sequence[str],
+        limit: int = 100,
+    ) -> Sequence[TaskRecord]: ...
+
+    async def list_steps(self, task_id: str) -> Sequence[TaskStepRecord]: ...
+
+    async def update_step(
+        self,
+        step_id: str,
+        *,
+        status: str,
+        result_json: str | None = None,
+        error_json: str | None = None,
+    ) -> bool: ...

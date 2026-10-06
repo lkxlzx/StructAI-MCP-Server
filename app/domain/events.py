@@ -103,13 +103,16 @@ class TaskStarted(DomainEvent):
 
 @dataclass(frozen=True, slots=True)
 class TaskProgress(DomainEvent):
-    """任务进度更新（`docs/02` §34）。
+    """任务进度更新（`docs/02` §34 / §38；`docs/02` §32 的字段口径）。
 
-    `progress` 为 0–100 的百分比，与 `TaskModel.progress` 同口径（`docs/07` §4.3）。
+    `progress` 为 0–100 的百分比，与 `TaskModel.progress` 同口径（`docs/07` §4.3）；
+    `message` 是可选的人类可读说明（`docs/02` §32 的 `TaskProgress(task_id,
+    progress, message)`）。进度**唯一来源是 Task Engine**（`docs/07` §10.2）。
     """
 
     task_id: UUID | None = None
     progress: int = 0
+    message: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

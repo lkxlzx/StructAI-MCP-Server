@@ -1,6 +1,6 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
 P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security /
-P14–P18 Execution / P19–P20 Adapters / P21 Idempotency）。
+P14–P18 Execution / P19–P20 Adapters / P21 Idempotency / P22–P28 Task Engine）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -54,7 +54,7 @@ from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P21"
+BATCH_ID: Final[str] = "P22"
 
 logger = logging.getLogger("structai")
 
@@ -88,6 +88,12 @@ class AppContainer:
     `IdempotencyService`（`app.application.execution.idempotency`）只依赖 Domain 契约
     `IdempotencyStore`，由 P36 的 `ExecutionService` 按会话构造（`docs/02` §28 / §33）。
     `started` 仅表示生命周期已进入运行态。
+    P22–P28：任务引擎（`app.application.task`）同样**不**在此装配 —— `TaskEngine` /
+    `TaskWorker` 持有**会话级**的 `TaskStore`（由 `build_task_store(session)` 装配），
+    `TaskQueue` / `Scheduler` / `ResourceLockManager` 是**进程内**状态
+    （`docs/02` §38），`LeaseService` / `CancellationService` / `RecoveryService` /
+    `ProgressReporter` 由调用方按会话装配。故容器形状**不变**
+    （`docs/02` §33 的冻结形状；`tests/test_task_engine_p22_p28.py` 逐字段断言）。
     """
 
     settings: Settings

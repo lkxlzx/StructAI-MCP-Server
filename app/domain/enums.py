@@ -46,10 +46,10 @@ __all__ = [
     "ResourceType",
     "RoleName",
     "RiskLevel",
-    "SoftwareConnectionState",
+    "SoftwareInstanceConcurrencyPolicy",
     "SoftwareStatus",
     "TaskPriority",
-    "TaskStatus",
+    "TaskStepStatus",
 ]
 
 
@@ -395,3 +395,40 @@ class RoleName(StrEnum):
     ENGINEER = "engineer"
     VIEWER = "viewer"
     AI_AGENT = "ai_agent"
+
+
+# ===== P22–P28 Task Engine（`docs/02` §20 / §50；`docs/07` §10.2）=====
+
+
+class SoftwareInstanceConcurrencyPolicy(StrEnum):
+    """软件实例并发策略（`docs/02` §20，逐项照抄；`docs/07` §10.2）。
+
+    - `SERIAL` —— 桌面型有限元软件的**默认**策略：同一实例同时只允许一个任务；
+    - `LIMITED` —— 受配置上限约束（`Scheduler` 的实例级额度）；
+    - `PARALLEL` —— 实例级不再额外限制，只受 global / tenant / user 三级约束。
+
+    ⚠️ 策略是**软件无关**的取值，取值中不得出现任何厂商名（`docs/07` §14.2）。
+    落库位置：`software_instances` 表**没有**该列（`docs/07` §4.3 #10–#13），
+    本批**不得改表**，故策略由 `Scheduler` 经收窄契约注入，缺省 `SERIAL`
+    （`docs/02` §20「默认：SERIAL」）。
+    """
+
+    SERIAL = "SERIAL"
+    LIMITED = "LIMITED"
+    PARALLEL = "PARALLEL"
+
+
+class TaskStepStatus(StrEnum):
+    """DAG 步骤状态（`docs/02` §50「DAG Scheduling」，逐项照抄）。
+
+    规则：全部依赖 `COMPLETED` → `READY`；依赖 `FAILED` → 默认 `SKIPPED`
+    （除非显式配置 `continue_on_failure`）。取值落 `task_steps.status`
+    （`docs/07` §4.3 #20；`docs/02` §52）。
+    """
+
+    PENDING = "PENDING"
+    READY = "READY"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    SKIPPED = "SKIPPED"
