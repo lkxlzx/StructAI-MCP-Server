@@ -19,18 +19,34 @@
 
 from __future__ import annotations
 
-from collections.abc import Awaitable, Callable, Mapping
-from dataclasses import dataclass
+from collections.abc import Awaitable, Callable, Mapping, Sequence
+from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any, Protocol
 from uuid import UUID
 
-from app.domain.enums import ExecutionMode, RiskLevel
+from app.domain.enums import (
+    ACLPrincipalType,
+    ACLScope,
+    ExecutionMode,
+    PermissionEffect,
+    RiskLevel,
+)
 from app.domain.events import DomainEvent
 
 __all__ = [
     "ArtifactStorage",
     "CredentialProvider",
     "EventHandler",
+    "ProjectMembershipLookup",
+    "ResourceACLEntry",
+    "ResourceACLLookup",
+    "RoleLookup",
+    "SecurityStores",
+    "SessionRecord",
+    "SessionStore",
+    "UserLookup",
+    "UserRecord",
     "EventBus",
     "OperationDefinition",
     "OperationRegistry",
@@ -153,3 +169,189 @@ class ArtifactStorage(Protocol):
     async def get(self, artifact_id: str) -> bytes: ...
 
     async def delete(self, artifact_id: str) -> None: ...
+
+
+# ===== P10–P13 Security（`docs/07` §12 P10–P13；`docs/02` §24–§29）=====
+#
+# 为什么这些契约在 Domain（`docs/07` §14.1 / §2.2）：
+# Application 层**不得**依赖 `app.infrastructure`。安全服务需要读 `users` /
+# `sessions` / `roles` / `role_permissions` / `user_roles` / `project_members`，
+# 故把「需要什么」收窄为下列结构化契约与记录类型（P03 的 `OperationRegistry`、
+# P09 的 `SchemaLookup` 是同一做法的先例），实现落在
+# `app/infrastructure/database/repositories/security.py`。
+#
+# 🔴 记录类型只承载**非敏感**字段：`UserRecord.password_hash` 是唯一例外 ——
+#    它必须参与 Argon2id 校验，故以 `repr=False` 声明；任何日志 / 异常 / 响应
+#    都不得出现它（`docs/07` §14.3；`docs/02` §8）。
+
+
+@dataclass(frozen=True, slots=True)
+class UserRecord:
+    """认证与锁定判定所需的用户快照（`docs/02` §16 / §18 / §20）。
+
+    `docs/02` §16 的 `authenticate` 需要 `password_hash` / `is_active`；
+    `docs/02` §18 的失败计数与锁定需要 `locked` / `failed_login_count`。
+    本记录只含这几项，**不**携带任何 secret 的明文（`password_hash` 是哈希，
+    且 `repr=False`，绝不进日志 —— `docs/07` §14.3）。
+    """
+
+    id: str
+    tenant_id: str
+    username: str
+    password_hash: str = field(repr=False)
+    is_active: bool = True
+    locked: bool = False
+    failed_login_count: int = 0
+
+
+class UserLookup(Protocol):
+    """用户读取与登录状态写入契约（`docs/02` §16 / §18 / §20）。
+
+    - `get_by_username` —— 登录路径。`users.username` 在 P04 落地为**全局唯一**
+      （`docs/07` §4.3 #2），且认证发生在**任何租户被确定之前**（租户来自
+      认证后的 `IdentityContext`，`docs/02` §22），故这里必须是全局按用户名查。
+    - `get_by_id_for_tenant` —— 会话路径。会话里已带 `tenant_id`，读取必须
+      同时限制 `tenant_id` + `user_id`（`docs/02` §11）。
+    - 其余三个方法承载 `docs/02` §18 的失败计数 / 锁定状态写入（策略值由
+      `AuthenticationService` 注入，本契约只负责机制）。
+    """
+
+    async def get_by_username(self, username: str) -> UserRecord | None: ...
+
+    async def get_by_id_for_tenant(self, user_id: str, tenant_id: str) -> UserRecord | None: ...
+
+    async def record_login_failure(self, user_id: str, *, lock_at: int) -> int: ...
+
+    async def record_login_success(self, user_id: str) -> None: ...
+
+    async def set_locked(self, user_id: str, *, locked: bool) -> None: ...
+
+
+@dataclass(frozen=True, slots=True)
+class SessionRecord:
+    """会话快照（`docs/02` §10 / §19 / §20）。
+
+    ⚠️ **不含** `token_hash`：会话校验只需要「存在 / 未撤销 / 未过期」，
+    把哈希留在持久层可以少一条 secret 形状的数据在 Application 层流转
+    （`docs/07` §14.3：绝不记录 secret）。
+    `expires_at` / `last_seen_at` 一律为 **UTC 感知**时间（SQLite 无时区，
+    由实现负责补 `UTC`，见 `repositories/security.py`）。
+    """
+
+    id: str
+    user_id: str
+    tenant_id: str
+    expires_at: datetime
+    revoked: bool = False
+    last_seen_at: datetime | None = None
+
+
+class SessionStore(Protocol):
+    """会话持久化契约（`docs/02` §11 / §19 / §20 / §21）。
+
+    方法集即 `docs/02` §11 的 Session 生命周期：`create` / `validate`
+    （= `get_by_token_hash`）/ `touch` / `revoke` / `revoke_all` / `cleanup_expired`。
+    """
+
+    async def create(
+        self,
+        *,
+        user_id: str,
+        tenant_id: str,
+        token_hash: str,
+        created_at: datetime,
+        expires_at: datetime,
+    ) -> SessionRecord: ...
+
+    async def get_by_token_hash(self, token_hash: str) -> SessionRecord | None: ...
+
+    async def revoke(self, session_id: str) -> bool: ...
+
+    async def revoke_all_for_user(self, user_id: str) -> int: ...
+
+    async def touch(self, session_id: str, seen_at: datetime) -> None: ...
+
+    async def cleanup_expired(self, now: datetime) -> int: ...
+
+
+class RoleLookup(Protocol):
+    """RBAC 读取契约（`docs/02` §19 / §23 / §30）。
+
+    `permission_codes_for_roles` 需要 `tenant_id`：`roles` 是 Tenant-owned
+    （`docs/07` §4.3 #3），项目内角色也必须在**该项目所属租户**的角色表里解析
+    （`docs/02` §23 Project Access）。
+    """
+
+    async def role_names_for_user(self, user_id: str) -> list[str]: ...
+
+    async def permission_codes_for_user(self, user_id: str) -> set[str]: ...
+
+    async def permission_codes_for_roles(
+        self,
+        role_names: Sequence[str],
+        tenant_id: str,
+    ) -> set[str]: ...
+
+
+class ProjectMembershipLookup(Protocol):
+    """项目归属与项目内角色读取契约（`docs/02` §23 / §30）。
+
+    只暴露两个问题：「这个项目属于哪个租户」与「这个用户在这个项目里是什么角色」。
+    跨租户判定由 `ProjectAccessService` 负责（失败 → `STRUCTAI-4200`，
+    `docs/02` §48）。
+    """
+
+    async def project_tenant_id(self, project_id: str) -> str | None: ...
+
+    async def project_role_for_user(self, project_id: str, user_id: str) -> str | None: ...
+
+
+@dataclass(frozen=True, slots=True)
+class ResourceACLEntry:
+    """一条资源 ACL 记录（`docs/02` §24–§28）。
+
+    字段取自 `docs/02` §25 的 `ResourceACLORM`（`resource_type` / `resource_id` /
+    `principal_type` / `principal_id` / `permission` / `effect`），并补一个
+    `scope`（四级取最严格，`docs/07` §8.2）—— `scope` 是**判定逻辑**所需，
+    不在 §25 的表结构里（见 `app/application/security/permission.py` 的裁决）。
+    """
+
+    principal_type: ACLPrincipalType
+    principal_id: str
+    permission: str
+    effect: PermissionEffect
+    scope: ACLScope = ACLScope.RESOURCE
+    resource_type: str | None = None
+    resource_id: str | None = None
+
+
+class ResourceACLLookup(Protocol):
+    """资源 ACL 来源契约（`docs/02` §24 / §29）。
+
+    `tenant_id` 必填：ACL 不得跨租户泄漏（`docs/02` §48）。
+    `resource_type` / `resource_id` 为 `None` 时表示「只取与具体资源无关的条目」
+    （全局 / 租户 / 用户级），实现必须如实过滤。
+    """
+
+    async def entries_for(
+        self,
+        *,
+        tenant_id: str,
+        resource_type: str | None,
+        resource_id: str | None,
+    ) -> Sequence[ResourceACLEntry]: ...
+
+
+@dataclass(frozen=True, slots=True)
+class SecurityStores:
+    """安全服务需要的持久化入口集合（会话级，`docs/02` §33）。
+
+    由 `app.infrastructure.database.repositories.build_security_stores(session)`
+    装配；Application 层只依赖本 Domain 契约，**不**依赖 Infrastructure
+    （`docs/07` §14.1）。
+    """
+
+    users: UserLookup
+    sessions: SessionStore
+    roles: RoleLookup
+    projects: ProjectMembershipLookup

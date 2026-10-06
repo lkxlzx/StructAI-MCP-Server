@@ -20,6 +20,7 @@ Tenant / User / Project / Software / Model / Task），并提供**会话级**装
 | `software.py` | `SoftwareRepository` | `software` | `docs/02` §21 |
 | `model.py` | `ModelRepository` | `models` | `docs/02` §22 |
 | `task.py` | `TaskRepository` | `tasks` | `docs/02` §24 |
+| `security.py` | `SessionRepository` / `RoleRepository` / `ProjectMembershipRepository`（P10） |
 
 红线（`docs/07` §14.1 / §14.4）：本包只允许被 `app/infrastructure/database/` 与
 上层（Application / Interface）引用；**不得反向依赖 Interface 层**；
@@ -40,6 +41,12 @@ from app.infrastructure.database.repositories.base import (
 )
 from app.infrastructure.database.repositories.model import ModelRepository
 from app.infrastructure.database.repositories.project import ProjectRepository
+from app.infrastructure.database.repositories.security import (
+    ProjectMembershipRepository,
+    RoleRepository,
+    SessionRepository,
+    build_security_stores,
+)
 from app.infrastructure.database.repositories.software import SoftwareRepository
 from app.infrastructure.database.repositories.task import TaskRepository
 from app.infrastructure.database.repositories.tenant import TenantRepository
@@ -49,8 +56,11 @@ __all__ = [
     "BaseRepository",
     "DEFAULT_PAGE_SIZE",
     "ModelRepository",
+    "ProjectMembershipRepository",
     "ProjectRepository",
     "RepositoryBundle",
+    "RoleRepository",
+    "SessionRepository",
     "SoftwareRepository",
     "TaskRepository",
     "TenantRepository",
@@ -58,6 +68,7 @@ __all__ = [
     "UserRepository",
     "VersionedRepository",
     "build_repositories",
+    "build_security_stores",
 ]
 
 

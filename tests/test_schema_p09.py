@@ -769,9 +769,13 @@ def test_container_shape_stays_frozen() -> None:
 # ===== ⑥ 回归（`python -m app.main` / P04 / P02 / 既有 59 项 pytest）=====
 
 
-def test_batch_id_is_p09() -> None:
-    """同步改动：`BATCH_ID` → P09（`docs/08` §3 的批次口径）。"""
-    assert BATCH_ID == "P09"
+def test_batch_id_is_a_batch_marker() -> None:
+    """同步改动：`BATCH_ID` 始终形如 `P<两位数字>`（`docs/08` §3 的批次口径）。
+
+    ⚠️ P10 收尾时把本断言从「等于 P09」改为与具体批次无关（与 P08 收尾时的做法一致），
+    否则每批都要改上一批的测试文件。
+    """
+    assert re.fullmatch(r"P\d{2}", BATCH_ID)
 
 
 def _run_main(database_url: str) -> subprocess.CompletedProcess[str]:
@@ -796,7 +800,7 @@ def test_main_exits_zero_with_empty_stdout_on_an_unprovisioned_database(tmp_path
     completed = _run_main(database_url)
     assert completed.returncode == 0, completed.stderr
     assert completed.stdout == ""
-    assert "batch=P09" in completed.stderr
+    assert f"batch={BATCH_ID}" in completed.stderr
     assert "operation registry is not assembled" in completed.stderr
 
 
@@ -809,7 +813,7 @@ def test_main_exits_zero_with_empty_stdout_on_a_provisioned_database(
     completed = _run_main(database_url)
     assert completed.returncode == 0, completed.stderr
     assert completed.stdout == ""
-    assert "batch=P09" in completed.stderr
+    assert f"batch={BATCH_ID}" in completed.stderr
     assert "registry ready" in completed.stderr
 
 

@@ -28,6 +28,8 @@ from __future__ import annotations
 from enum import StrEnum
 
 __all__ = [
+    "ACLPrincipalType",
+    "ACLScope",
     "ArtifactStatus",
     "ArtifactType",
     "AuditResult",
@@ -42,6 +44,7 @@ __all__ = [
     "PermissionCode",
     "PermissionEffect",
     "ResourceType",
+    "RoleName",
     "RiskLevel",
     "SoftwareConnectionState",
     "SoftwareStatus",
@@ -175,6 +178,45 @@ class AuthenticationMethod(StrEnum):
     PASSWORD = "PASSWORD"
     LOCAL = "LOCAL"
     TOKEN = "TOKEN"
+
+
+# ===== ACL（`docs/02` §24–§28；`docs/07` §8.2）=====
+
+
+class ACLPrincipalType(StrEnum):
+    """资源 ACL 的主体类型（`docs/02` §27；`docs/07` §8.2）。
+
+    取值逐条照抄 `docs/02` §27（`ACLPrincipalType`）：`USER` / `ROLE` / `TENANT`。
+    本枚举只描述**判定逻辑**所需的主体种类；ACL 的持久化见
+    `app/application/security/permission.py` 的裁决说明（`resource_acls` 表不在
+    `docs/07` §4.3 的 24 张表内，本批**不**改表）。
+    """
+
+    USER = "USER"
+    ROLE = "ROLE"
+    TENANT = "TENANT"
+
+
+class ACLScope(StrEnum):
+    """ACL 作用域四级（`docs/07` §8.2 的「四级取最严格」）。
+
+    `docs/02` §28 只冻结了优先级（`Explicit DENY > Explicit ALLOW > Inherited ALLOW >
+    Default DENY`）与「Deny wins」，未给出作用域的枚举取值；`docs/07` §8.2 的
+    权限链则明确列出四级来源。本枚举是这四级的固化，一一对应、不多不少：
+
+    - `GLOBAL` —— 全局（跨租户的全局角色 / 全局策略）
+    - `TENANT` —— 租户级（Tenant Membership / Tenant Roles）
+    - `USER` —— 用户级（User → 用户 ACL）
+    - `RESOURCE` —— 实例级（Project / Model / Document / SoftwareInstance 等具体资源）
+
+    判定规则：**同一权限在四级之间取最严格** —— 任一级 `DENY` 即 `DENY`
+    （`docs/02` §28：Deny wins）。
+    """
+
+    GLOBAL = "GLOBAL"
+    TENANT = "TENANT"
+    USER = "USER"
+    RESOURCE = "RESOURCE"
 
 
 # ===== `docs/02` §17（py §17）=====
@@ -332,3 +374,24 @@ class AuditResult(StrEnum):
     SUCCESS = "SUCCESS"
     FAILURE = "FAILURE"
     DENIED = "DENIED"
+
+
+# ===== `docs/07` §5.7 / `docs/02` §72 —— 角色名（P10–P13 RBAC 的类型化视图）=====
+
+
+class RoleName(StrEnum):
+    """默认角色名 4 条（`docs/07` §5.7；`docs/02` §72；`docs/07` §4.3 #3）。
+
+    取值 = `roles.name` 的落库值（P07 Seed 的 `ROLE_NAMES`，`app/infrastructure/
+    database/seed.py`）。本枚举是同一集合的**类型化视图**，供 P10–P13 的 RBAC /
+    Effective Permission 做静态引用；落库口径仍以 Seed 为准，
+    `tests/test_security_p10_p13.py` 断言两者逐一相等（防漂移）。
+
+    ⚠️ `AI_AGENT` **不是**系统管理员（`docs/02` §6 末注）：它的有效权限
+    = 用户有效权限 ∩ Agent 权限，**不得提权**（`docs/07` §5.7 / §14.3）。
+    """
+
+    SYSTEM_ADMIN = "system_admin"
+    ENGINEER = "engineer"
+    VIEWER = "viewer"
+    AI_AGENT = "ai_agent"

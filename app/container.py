@@ -1,4 +1,5 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
+P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security）。
 P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
@@ -14,6 +15,7 @@ P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema）。
 | `seed()` / `SeedReport`（数据装配，**不**进容器） | **P07 ✅** |
 | `operation_registry` | **P08 ✅** |
 | `schema_registry` / `schema_engine` | **P09 ✅ 不进容器**（§33 冻结形状无此字段） |
+| 安全服务（`authentication` / `session` / `rbac` / `permission`；会话级，不进容器） | **P10 ✅** |
 | `execution_service` | P36 |
 
 生命周期（`docs/02` §34 / §79 / §80）：
@@ -50,7 +52,7 @@ from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P09"
+BATCH_ID: Final[str] = "P10"
 
 logger = logging.getLogger("structai")
 
@@ -66,6 +68,9 @@ class AppContainer:
     构造（`docs/02` §16：一个业务事务 = 一个明确 UnitOfWork）；
     `operation_registry` 由 P08 在 `startup()` 装配；P09 的 `SchemaEngine` / `SchemaRegistry`
     按 `docs/02` §33 的冻结容器形状**不**进本容器（见 `build_container` 的说明）；
+    P10：安全服务（`app.application.security`）同理**不**进本容器 —— 它们是会话级
+    对象（见 `build_container` 的说明），由 `build_security_stores(session)` +
+    `build_security_services(...)` 按会话装配；
     `execution_service` 仍为空（P36 填充）。
     `started` 仅表示生命周期已进入运行态。
     """
@@ -130,6 +135,12 @@ def build_container(settings: Settings) -> AppContainer:
     P09：`schema_registry` / `schema_engine` **不**在此装配 —— `docs/02` §33 的冻结形状
     没有这两个字段，且 `SchemaEngine` 只依赖 `SchemaLookup`（`docs/02` §16 的原文签名
     按 `docs/07` §2.2 收窄），由 P36 的 `ExecutionService` 构造（`docs/07` §9 第 8 步）。
+    P10：`AuthenticationService` / `SessionService` / `RBACService` /
+    `EffectivePermissionService` 等安全服务**不**在此装配 —— 它们同样是**会话级**
+    对象（持有 `SessionStore` / `UserLookup` / `RoleLookup` / `ProjectMembershipLookup`，
+    全部绑定在 `AsyncSession` 上），由
+    `app.infrastructure.database.repositories.build_security_stores(session)`
+    + `app.application.security.build_security_services(...)` 按会话装配。
 
     ⚠️ 本函数**不建立连接**（只构造引擎），连接与校验由 `startup()` 完成；
     仓储是**会话级**对象，由 `app.infrastructure.database.repositories.build_repositories`
