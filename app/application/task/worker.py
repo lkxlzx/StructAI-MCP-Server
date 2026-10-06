@@ -49,7 +49,34 @@
 7. **`result_json` 序列化失败也算执行失败**：`json.dumps(..., sort_keys=True)` 遇到
    不可序列化的结果会抛 `TypeError`；本模块把它归一化为 `STRUCTAI-7000` 并走**失败路径**，
    **不**写入半截结果（`docs/07` §14.4）。
-
+8. **抢到租约之后的**全部**路径都在同一个 `try/finally` 内**（`docs/02` §41 / §65）：
+   租约获取成功之后、`try` 之前的任何异常（`scheduler.try_acquire(...)` 会调用注入的
+   `policy_for`；`_current(...)` 会读库）若不释放租约，会让该任务在 `lease_seconds`
+   （默认 30s）内对**所有** Worker 都不可用 —— 那正是 §65「禁止异常情况下不释放」。
+   故 `try:` 紧跟在 `lease.acquire()` 之后，`admitted` 初值 `False`、准入成功后置 `True`，
+   `finally` 按 `admitted` 释放额度。
+9. **未准入不丢队列**（`docs/02` §17 / §18）：队列项在 `run()` 的
+   `finally: task_done()` 已被消费，若只释放租约就返回，任务会永远停在 `QUEUED` ——
+   没人执行、也不报错。故未准入分支 `sleep(poll_interval)` 后**重新入队**
+   （`_enqueue` 保留原始 `created_at`）。aging / 分布式重排留待后续批次
+   （`docs/02` §14 的 `priority starvation`）。
+10. **`run_task` 的预执行状态放宽为 `QUEUED` **或** `RUNNING`**（`docs/02` §20 / §42）：
+    抢到租约后按 `str(task.status)` 做 CAS；`started_at` **只在为 `None` 时**写入
+    （`RESUME` 不得覆盖原来的开始时间）。`RUNNING` 的接管即 `docs/02` §42 的 `RESUME`
+    （原地继续）；`RecoveryService` 的 `RESUME` 分支因此只需**重新入队**，不必再改状态。
+    其余状态 → 释放租约并返回当前记录（**不**覆盖别人的推进）。
+11. **Worker 循环逐项异常隔离**（`docs/07` §14.4）：「单实例失败不得让整个服务器不可用」。
+    `run()` 里 `run_task` 的异常只记日志（`logger.exception`，**stderr**）并 `continue`，
+    `finally: task_done()` 照常执行 —— 一条坏任务（例如未登记 `task_id`）不得让 `while`
+    循环整体退出、把队列中其余任务一起饿死。**日志绝不进 stdout**（P01 验收：0 字节）。
+12. **`user_id` 由调用方注入，本批恒为空**（`docs/02` §18；见 `_concurrency_request`）：
+    `tasks` 表**没有** `user_id` 列（`docs/07` §4.3 #19，本批不得改表），Worker 无从得知
+    用户；P36 的 `ExecutionService` 可从 `IdentityContext.user_id` 注入。未注入时所有任务
+    共用空键，`user_limit`（默认 `4`）在单进程内表现为**全局**上限。`tenant` 维度取
+    `task.tenant_id`（可靠）；`software-instance` 维度本批取 `project_id`（同 §4.3 #19）。
+13. **进度上报必须带租户**（`docs/02` §11 的租户隔离）：Worker 已知 `task_id → tenant_id`，
+    故 `_report_progress` 透传 `tenant_id=` 给 `ProgressReporter.report` —— 否则进度写入
+    只按 `id` 过滤，跨租户的 `task_id` 能改到别的租户的行。
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
 本模块只依赖标准库、`app.domain` 与**同层**的 `app.application.*`：
@@ -62,6 +89,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -87,6 +115,7 @@ from app.domain.protocols import OperationRegistry, TaskRecord, TaskStore
 __all__ = [
     "DEFAULT_POLL_INTERVAL_SECONDS",
     "DEFAULT_TASK_TIMEOUT_SECONDS",
+    "EXECUTABLE_STATUSES",
     "WORKER_STAGE",
     "TaskExecutor",
     "TaskWorker",
@@ -98,8 +127,28 @@ WORKER_STAGE: Final[str] = "worker"
 DEFAULT_POLL_INTERVAL_SECONDS: Final[float] = 0.5
 """默认轮询间隔（秒）—— `RuntimeConfig.task_poll_interval_seconds` 的默认值（`docs/02` §6）。"""
 
+logger = logging.getLogger("structai.task")
+"""Worker 循环的日志器（`docs/07` §14.3：只记 `task_id`，**不**记 secret / 原生 message）。
+
+⚠️ 走 `logging` 的默认 `StreamHandler`（stderr）：`python -m app.main` 的
+**stdout 必须保持 0 字节**（`docs/07` §12 P01 的验收口径）。
+"""
+
 DEFAULT_TASK_TIMEOUT_SECONDS: Final[int] = 3600
 """默认任务超时（秒）—— 一小时；`docs/02` §78 的超时语义（等待上限）。"""
+
+EXECUTABLE_STATUSES: Final[frozenset[TaskStatus]] = frozenset(
+    {TaskStatus.QUEUED, TaskStatus.RUNNING}
+)
+"""Worker **可接管**的预执行状态（`docs/02` §20 / §42；见模块裁决 10）。
+
+- `QUEUED` —— 正常路径（`QUEUED → RUNNING`）；
+- `RUNNING` —— `RESUME` 的接管（`docs/02` §42：原地继续，状态保持 `RUNNING`）。
+
+其余状态一律**不**接管：释放租约后返回当前记录（**不**覆盖别人的推进）。"""
+
+_EXECUTABLE_STATUSES: Final[frozenset[TaskStatus]] = EXECUTABLE_STATUSES
+"""模块内引用别名（与公开常量同一对象，避免第二份定义）。"""
 
 
 class TaskExecutor(Protocol):
@@ -241,8 +290,12 @@ class TaskWorker:
         因此 `stop()` + `queue.shutdown()` 能让本方法**自然返回** ——
         **不**取消协程、**不**杀进程（`docs/07` §14.4）。
 
-        取到项后 `try: await self.run_task(item.task_id, self.worker_id) finally:
-        queue.task_done()`（`docs/02` §15 的 `finally`）。
+        取到项后 `try: await self.run_task(item.task_id, self.worker_id) except
+        Exception: logger.exception(...) finally: queue.task_done()`（`docs/02` §15 的
+        `finally`）。逐项异常隔离：**单条**坏任务不得让整个 Worker 循环退出
+        （`docs/07` §14.4「单实例失败不得让整个服务器不可用」；见模块裁决 11）。
+
+        日志走 stderr（`logging` 的默认 `StreamHandler`），**stdout 必须保持 0 字节**。
         """
         self._running = True
         while self._running and not self._queue.closed:
@@ -252,6 +305,8 @@ class TaskWorker:
                 continue
             try:
                 await self.run_task(item.task_id, self._worker_id)
+            except Exception:  # noqa: BLE001 —— 逐项隔离，见模块裁决 11
+                logger.exception("task execution failed: %s", item.task_id)
             finally:
                 self._queue.task_done()
 
@@ -308,25 +363,29 @@ class TaskWorker:
         except TaskLeaseError:
             return await self._current(task_id, tenant_id, task)
 
-        # 3. 并发准入（`docs/02` §18）：未准入 → 释放租约并返回（`finally` 统一释放）。
+        # 3. 见模块裁决 3 / 8：抢到租约之后的**全部**路径都在 `try/finally` 内 ——
+        #    准入与预执行 CAS 本身抛异常时同样要释放租约（否则 30s 内谁都抢不到）。
         request = self._concurrency_request(task)
         admitted = False
-        if self._scheduler is not None:
-            decision = await self._scheduler.try_acquire(request)
-            if not decision.admitted:
-                await self._lease.release(task_id, worker_id)
-                return await self._current(task_id, tenant_id, task)
-            admitted = True
-
         lock_handle: LockHandle | None = None
         heartbeat: asyncio.Task[None] | None = None
         try:
-            # 4. `QUEUED → RUNNING`（`docs/02` §20 的 `task.transition(RUNNING)`）。
+            # 4. 并发准入（`docs/02` §18）：未准入 → 见模块裁决 9（**不丢队列**）。
+            if self._scheduler is not None:
+                decision = await self._scheduler.try_acquire(request)
+                if not decision.admitted:
+                    return await self._not_admitted(task_id, tenant_id, task)
+                admitted = True
+
+            # 5. 预执行状态 CAS（`docs/02` §20 / §42）：`QUEUED` 与 `RUNNING` 都可接管。
+            #    `RUNNING` 的接管 = `docs/02` §42 的 `RESUME`（见模块裁决 10）。
+            if TaskStatus(str(task.status)) not in _EXECUTABLE_STATUSES:
+                return await self._current(task_id, tenant_id, task)
             running = await self._store.transition(
                 task_id,
-                expected=str(TaskStatus.QUEUED),
+                expected=str(task.status),
                 new=str(TaskStatus.RUNNING),
-                fields={"started_at": self._now()},
+                fields=None if task.started_at is not None else {"started_at": self._now()},
             )
             if not running:
                 # 状态已被别人改过（例如被取消）→ 保持真实状态返回（`docs/07` §14.4）。
@@ -355,7 +414,7 @@ class TaskWorker:
                 return await self._mark_failed(current, error)
 
             # 7b. 成功：进度 100 → `PROCESSING` → `COMPLETED`。
-            await self._report_progress(task_id, 100)
+            await self._report_progress(task_id, 100, tenant_id)
             return await self._mark_completed(current, payload)
         finally:
             # 10. 见模块裁决 3：逐条幂等释放，任一失败都不得掩盖原异常。
@@ -370,12 +429,47 @@ class TaskWorker:
     # ===== 内部：执行前后 =====
 
     def _concurrency_request(self, task: TaskRecord) -> ConcurrencyRequest:
-        """构造并发准入请求（`docs/02` §18；实例维度见模块裁决 5）。"""
+        """构造并发准入请求（`docs/02` §18；实例维度见模块裁决 5）。
+
+        ⚠️ **`user_id` 由调用方注入**（`docs/02` §18 的 user 维度；见模块裁决 12）：
+        `tasks` 表**没有** `user_id` 列（`docs/07` §4.3 #19，本批**不得改表**），
+        Worker 因此无法从任务行得知用户。P36 的 `ExecutionService` 可从
+        `IdentityContext.user_id` 给出该值（那时把本方法换成按调用方上下文构造）。
+        **未注入**时所有任务共用空键 `""`，于是 `user_limit`（默认 `4`）在**单进程**内
+        退化为一个**全局**上限 —— 这是本批的已知限制，不是「user 维度已实现」。
+
+        同理：`tenant` 维度取 `task.tenant_id`（可靠）；`software-instance` 维度本批取
+        `project_id`（`docs/07` §4.3 #19 无 `software_instance_id` 列）。
+        """
         return ConcurrencyRequest(
             task_id=task.id,
             tenant_id=task.tenant_id,
             user_id="",
         )
+
+    async def _not_admitted(
+        self,
+        task_id: str,
+        tenant_id: str,
+        task: TaskRecord,
+    ) -> TaskRecord:
+        """并发未准入：**不丢队列**（`docs/02` §17；见模块裁决 9）。
+
+        队列项已在 `run()` 的 `finally: task_done()` 被消费，若不重新入队，任务会永远
+        停在 `QUEUED` —— 既没人执行，也不报错。故此处：
+
+        1. 先 `asyncio.sleep(poll_interval)`（避免忙等把 CPU 打满）；
+        2. 再 `_enqueue(task)`（保留**原始** `created_at`，`docs/02` §17 的排序键）；
+        3. 返回当前记录（**真实**状态，仍然是 `QUEUED`）。
+
+        租约由调用方的 `finally` 释放（见模块裁决 3 / 8）。
+
+        ⚠️ aging / 分布式重排**留待后续批次**（`docs/02` §14 的 `priority starvation`）：
+        本批只保证「不丢队列」。
+        """
+        await asyncio.sleep(self._poll_interval)
+        await self._enqueue(task)
+        return await self._current(task_id, tenant_id, task)
 
     async def _acquire_lock(self, task: TaskRecord) -> LockHandle | None:
         """按 Operation + 项目资源抢锁（`docs/02` §91 / §74）。
@@ -446,10 +540,16 @@ class TaskWorker:
                 cause=error,
             ) from error
 
-    async def _report_progress(self, task_id: str, value: int) -> None:
-        """上报进度（`docs/02` §31 / §32）；未装配时不报。"""
+    async def _report_progress(self, task_id: str, value: int, tenant_id: str) -> None:
+        """上报进度（`docs/02` §31 / §32）；未装配时不报。
+
+        ⚠️ **必须带租户**（`docs/02` §11 的租户隔离；见模块裁决 13）：Worker 已知
+        `task_id → tenant_id`（`register` 的映射），故把租户一并透传给
+        `ProgressReporter.report(..., tenant_id=...)` —— 否则进度写入只按 `id` 过滤，
+        跨租户的 `task_id` 也能改到别的租户的行。
+        """
         if self._progress is not None:
-            await self._progress.report(task_id, value)
+            await self._progress.report(task_id, value, tenant_id=tenant_id)
 
     async def _heartbeat_loop(self, task_id: str, worker_id: str) -> None:
         """周期续租（`docs/02` §39）；续租失败即**停止循环**（见模块裁决 4）。"""

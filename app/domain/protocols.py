@@ -734,7 +734,60 @@ class TaskStore(Protocol):
 
     async def release_lease(self, task_id: str, *, worker_id: str) -> bool: ...
 
-    async def update_progress(self, task_id: str, progress: int) -> bool: ...
+    async def record_error(
+        self,
+        task_id: str,
+        *,
+        error_json: str,
+        expected_status: str | None = None,
+    ) -> bool:
+        """只写 `error_json`、**不**改状态的条件更新（`docs/02` §30 / §34）。
+
+        🔴 **这不是状态转移**：`tasks.status` 保持原值（因此冻结的转移表在这里**不**适用），
+        实现是**单条** `UPDATE tasks SET error_json = :e, version = version + 1
+        WHERE id = :id AND (:expected IS NULL OR status = :expected)`，`rowcount == 1`
+        才算成功；**禁止** `SELECT → UPDATE`（`docs/02` §36 的同理）。
+
+        用途：取消路径在「软件不支持真正取消」时必须**保持** `CANCEL_REQUESTED` 并把
+        归一化错误落 `error_json`（`docs/02` §30「最终真实状态必须可追踪」）—— 若走
+        `transition`，`CANCEL_REQUESTED → CANCEL_REQUESTED` 是自转移，冻结表里该态
+        出边为空集，状态机会拒绝。
+
+        Args:
+            task_id: 任务标识。
+            error_json: 归一化错误信封的 JSON 文本（**只**放 20 码字段，`docs/07` §14.3）。
+            expected_status: 给了就要求当前状态**恰为**该值（否则影响 0 行）。
+
+        Returns:
+            `True` 表示影响 1 行；`False` 表示影响 0 行（不存在 / 状态不符）——
+            本层**不**抛异常，由调用方判定。
+        """
+        ...
+
+    async def update_progress(
+        self,
+        task_id: str,
+        progress: int,
+        *,
+        tenant_id: str | None = None,
+    ) -> bool:
+        """写入进度（`docs/02` §31；`docs/07` §10.2 的**唯一**进度写入口）。
+
+        ⚠️ `tenant_id` 是**新增的关键字**（`docs/02` §31 的
+        `report(task_id, progress, message)` 三个位置参数**不变**）：给了就追加
+        `AND tenant_id = :tenant`，与同契约的 `get(task_id, tenant_id)` 口径一致
+        （`docs/02` §11 的租户隔离）；**不给**时保持原行为（只按主键），以便
+        P29+ 的跨租户调用方不受影响。
+
+        Args:
+            task_id: 任务标识。
+            progress: 已规整到 `[0, 100]` 的进度值（规整由 `progress.py` 负责）。
+            tenant_id: 可选租户限制（`docs/02` §11）；缺省 `None` 表示不追加该条件。
+
+        Returns:
+            `True` 表示影响 1 行；`False` 表示该任务不存在（或不属于该租户）。
+        """
+        ...
 
     async def unfinished(
         self,

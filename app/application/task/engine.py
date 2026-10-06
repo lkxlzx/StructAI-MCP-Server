@@ -36,12 +36,14 @@
    `state_machine.transition(expected, new)` 判合法性（非法 → `TaskStateError`），
    再做条件更新（影响 0 行 → 同样 `TaskStateError`）。**不**另写第二份转移判定
    （`docs/07` §10.1）。
-4. **`retry` 的重试预算 = 任务自己声明的 `max_retries`，未声明时回落引擎的 `max_retries`**：
-   `TaskEngine.retry` 与 `TaskWorker` 的重试链必须对「一个任务能重试几次」给出**同一**答案，
-   而 Worker 没有 `max_retries` 参数（它读 `tasks.max_retries` 列，`docs/02` §77 / §78）。
-   故本模块的预算口径是 `task.max_retries if task.max_retries > 0 else self._max_retries`
-   —— 任务行优先、引擎级作缺省；两者都为 `0` 时**不允许**重试
-   （`DEFAULT_MAX_RETRIES = 0`，**不**无限重试）。
+4. **`retry` 的重试预算**只有**一个来源 —— 任务行**（`docs/02` §77 / §78）：
+   `TaskEngine.retry` 与 `TaskWorker` 的重试链必须对「一个任务能重试几次」给出**同一**
+   答案，而 Worker 只读 `tasks.max_retries` 列（它没有引擎级参数）。故 `_retry_budget`
+   **直接**返回 `task.max_retries`；`self._max_retries` **只**用于**创建**（`create` 的
+   `TaskDraft.max_retries = submission.max_retries if submission.max_retries > 0 else
+   self._max_retries`）。若在预算判定里回落引擎级值，「`max_retries = 0` 的行 ＋
+   引擎级 `2`」就会出现引擎允许重试、Worker 拒绝重试的两套口径。
+   `max_retries = 0` 表示**不**重试（**不**无限）。
 5. **`retry` 重新入队用**原始** `created_at`**：`docs/02` §17 要求队列按
    `priority` + `created_at` 排序；重试的任务是「旧任务」，若用当前时间入队会被排到
    新任务之后（`queue.py` 模块裁决 1 的同一理由）。
@@ -52,6 +54,15 @@
    缺少对应端口时抛 `InternalError`（`details.reason = "<port>_not_configured"`）——
    装配错误必须显式暴露，**不**静默变成空操作（`docs/07` §14.4）。`recover` 例外：
    返回空元组（Core Alpha 允许不装配启动恢复）。
+8. **`_enqueue` 入队后**同时**登记租户**（`docs/02` §11 / §12 / §48）：队列项只携带
+   `task_id`，而 `TaskStore` 的读取是**租户作用域**的，故 `TaskEngine.retry` 的重新入队
+   路径也必须 `self._worker.register(task)`（`submit` 一直如此）。否则 Worker 取到该任务
+   会抛 `unknown_task`（`STRUCTAI-5000`），任务永远执行不了 —— 正好触发 Worker 循环的
+   逐项异常隔离（`worker.py` 模块裁决 11）。
+9. **`update_progress` 透传 `tenant_id`**（`docs/02` §11 的租户隔离；`progress.py`
+   模块裁决 6）：`TaskEngine.update_progress(..., *, tenant_id=None)` 是**新增的关键字**，
+   转发给 `ProgressReporter.report` —— 否则进度写入只按 `id` 过滤，跨租户的 `task_id`
+   能改到别的租户的行。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -293,7 +304,11 @@ class TaskEngine:
             project_id=submission.project_id,
             # 见 `queue.py`：优先级落库口径 = `docs/02` §14 的整数映射（§14 的 `LOW` = 100）。
             priority=priority_value(submission.priority),
-            max_retries=submission.max_retries,
+            # 见模块裁决 4：**创建**是引擎级 `max_retries` 的**唯一**用途 —— 提交未声明
+            # （`0`）时落引擎级缺省值；落库之后**任务行就是唯一真源**（`_retry_budget`）。
+            max_retries=(
+                submission.max_retries if submission.max_retries > 0 else self._max_retries
+            ),
             status=str(TaskStatus.CREATED),
         )
         created = await self._store.create(draft, submission.steps)
@@ -536,6 +551,8 @@ class TaskEngine:
         task_id: str,
         progress: object,
         message: str | None = None,
+        *,
+        tenant_id: str | None = None,
     ) -> ProgressUpdate:
         """上报进度（`docs/02` §31–§33；`docs/07` §10.2 的**唯一**写入口）。
 
@@ -543,6 +560,8 @@ class TaskEngine:
             task_id: 任务标识。
             progress: 进度取值（**不可信**，先经 `sanitize_progress`）。
             message: 可选说明（只进事件，**不**落库）。
+            tenant_id: 可选租户限制（`docs/02` §11；见模块裁决 8）；透传给
+                `ProgressReporter.report`（**新增的关键字**，位置参数不变）。
 
         Returns:
             `ProgressUpdate`（含实际落库的规整值）。
@@ -551,14 +570,14 @@ class TaskEngine:
             InternalError: `STRUCTAI-7000` —— 未装配 `ProgressReporter`
                 （`details.reason = "progress_not_configured"`；见模块裁决 7）。
             EngineeringValidationError: `STRUCTAI-1200` —— 进度不可信。
-            TaskError: `STRUCTAI-5000` —— 任务不存在。
+            TaskError: `STRUCTAI-5000` —— 任务不存在（或不属于该租户）。
         """
         if self._progress is None:
             raise InternalError(
                 "Task progress reporter is not configured",
                 details={"stage": TASK_ENGINE_STAGE, "reason": "progress_not_configured"},
             )
-        return await self._progress.report(task_id, progress, message)
+        return await self._progress.report(task_id, progress, message, tenant_id=tenant_id)
 
     # ===== 内部：重试预算与入队 =====
 
@@ -566,12 +585,24 @@ class TaskEngine:
         """该任务的重试预算（见模块裁决 4）。
 
         Returns:
-            `task.max_retries`（任务自己声明的预算，`docs/02` §77 / §78 的
-            `tasks.max_retries` 列）优先；为 `0`（未声明）时回落引擎级的 `max_retries`。
+            `task.max_retries`（`docs/02` §77 / §78 的 `tasks.max_retries` 列）——
+            **任务行是唯一真源**。`self._max_retries` **只**用于**创建**（`create` 把
+            `TaskDraft.max_retries` 写成 `submission.max_retries if > 0 else
+            self._max_retries`），**不**在此处回落：否则「`max_retries = 0` 的行 ＋
+            引擎级 `2`」会让引擎允许重试、而 `TaskWorker._attempts_left`（只看任务行）
+            拒绝重试 —— 两处口径不一致。
         """
-        return task.max_retries if task.max_retries > 0 else self._max_retries
+        return task.max_retries
 
     async def _enqueue(self, task: TaskRecord) -> None:
-        """把任务放回队列（`docs/02` §13 / §17 / §42）；未装配队列时**不**报错。"""
+        """把任务放回队列（`docs/02` §13 / §17 / §42）；未装配队列时**不**报错。
+
+        ⚠️ 入队后**同时**登记租户（见模块裁决 8）：队列项只携带 `task_id`
+        （`docs/02` §12 的 `QueueItem`），而 `TaskStore` 的读取是**租户作用域**的
+        （`docs/02` §11）—— 不登记的话 Worker 取到该任务会抛 `unknown_task`
+        （`STRUCTAI-5000`），任务永远执行不了。
+        """
         if self._queue is not None:
             await self._queue.put(task.id, task.priority, created_at=task.created_at)
+        if self._worker is not None:
+            self._worker.register(task)

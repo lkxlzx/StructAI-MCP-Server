@@ -72,6 +72,13 @@
 7. **恢复**绝不**把任务置 `COMPLETED`**：三种动作只产生 `QUEUED` / `RUNNING` / `FAILED`，
    **没有**任何写入 `COMPLETED` 的路径 —— 该红线因此是**结构性**的（`docs/07` §14.4；
    `RECOVERING` 的出边里本来也没有 `COMPLETED`）。
+8. **`RESUME` = 原地继续（状态保持 `RUNNING`）**并**重新入队**让 Worker 接管；
+   `REQUEUE` = 回到 `QUEUED` 重跑**（`docs/02` §41 / §42）：只把状态 CAS 成 `RUNNING`
+   而**不**入队，会让该任务永远不在队列里（Worker 取不到），每次启动扫描还把它
+   `RUNNING → RECOVERING → RUNNING` 反复翻转 —— 任务一次也不会被执行。故 `RESUME`
+   与 `REQUEUE` **共用**「CAS 成功后 `enqueue`」这条可执行路径；两者的差别只在**落哪个
+   状态**（`RUNNING` vs `QUEUED`）。`TaskWorker.run_task` 因此把预执行状态放宽为
+   `QUEUED` **或** `RUNNING`（`worker.py` 模块裁决 10：`RUNNING` 的接管即本节的 `RESUME`）。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -209,8 +216,9 @@ class RecoveryService:
             store: `docs/02` §34 的持久化入口（`unfinished` / `transition` / `get`）。
             operations: 运行时 Operation Registry（`docs/02` §28）；`recovery_policy`
                 由它给出（`docs/02` §45 的「最终由 `OperationDefinition` 指定」）。
-            enqueue: 重排回调（`docs/02` §42 的「重排」）；缺省 `None` 表示 `REQUEUE`
-                只改状态、不入队（Core Alpha 允许不装配队列）。
+            enqueue: 重排回调（`docs/02` §42 的「重排」）；`REQUEUE` **与** `RESUME` 都会
+                调用它（见模块裁决 8）；缺省 `None` 表示只改状态、不入队（Core Alpha
+                允许不装配队列）。
             clock: 可注入时钟；缺省为带时区的 UTC 当前时间（`docs/02` §41 的 `now`）。
         """
         self._store = store
@@ -369,7 +377,19 @@ class RecoveryService:
         )
 
     async def _resume(self, task: TaskRecord, policy: str) -> RecoveryOutcome:
-        """`RECOVERING → RUNNING`（原地恢复；`docs/02` §41）。"""
+        """`RECOVERING → RUNNING` **并重新入队**（原地恢复；`docs/02` §41 / §42）。
+
+        ⚠️ 只 CAS 成 `RUNNING` 是**不够**的（见模块裁决 8）：`RESUME` 的语义是「原地继续」，
+        但状态 `RUNNING` 的任务**不在队列里**，Worker 永远取不到它 —— 于是每次启动扫描都
+        把它 `RUNNING → RECOVERING → RUNNING` 反复翻转，任务一次也不会被执行。
+        故与 `REQUEUE` **共用可执行路径**：CAS 成功后同样 `enqueue`（回调收到回读后的最新
+        记录，`docs/02` §42 的「重排」），让 Worker 按 `docs/02` §42 的 `RESUME` 语义接管
+        （`TaskWorker.run_task` 接受 `RUNNING` 的预执行状态，见 `worker.py` 模块裁决 10）。
+
+        Returns:
+            `RecoveryOutcome`：`status` 为 `RUNNING`，`waited=False`；CAS 失败时
+            `waited=True, reason="state_changed"`（**不**覆盖别人的推进）。
+        """
         moved = await self._store.transition(
             task.id,
             expected=str(TaskStatus.RECOVERING),
@@ -384,6 +404,8 @@ class RecoveryService:
                 waited=True,
                 reason="state_changed",
             )
+        if self._enqueue is not None:
+            await self._enqueue(await self._read_back(task))
         return RecoveryOutcome(
             task_id=task.id,
             action=RecoveryAction.RESUME,

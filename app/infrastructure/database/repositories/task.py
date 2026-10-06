@@ -86,8 +86,18 @@ class TaskRepository(TenantScopedRepository[TaskORM], VersionedRepository[TaskOR
         return list(result.scalars().all())
 
 
-class TaskStoreRepository(TaskRepository):
+class TaskStoreRepository:
     """`TaskStore` 的 SQLAlchemy 实现（`docs/02` §9 / §11 / §34 / §36；`docs/07` §10.2）。
+
+    ⚠️ 本类**不继承**任何仓储基类（`BaseRepository` / `TenantScopedRepository` /
+    `VersionedRepository`；见模块裁决）：Domain 契约 `TaskStore.get(task_id, tenant_id)`
+    要求 `tenant_id` **位置传参**且返回 Domain 记录，与父类
+    `TenantScopedRepository.get(entity_id, *, tenant_id=None) -> EntityT | None` 的签名与
+    返回类型都**不兼容** —— 靠 `# type: ignore[override]` 消音会让「按父类契约调用
+    `repo.get(id, tenant_id=X)`」在运行期抛 `TypeError`（潜伏回归）。故本类自带
+    `__init__` / `session` / `tenant_criteria`（租户过滤已在各方法内直接实现），
+    **不**声明任何 `type: ignore`。P05 的 `TaskRepository` 与
+    `build_repositories(session).task` **保持原样**（仍是 `TaskRepository`）。
 
     只做 persistence：**不**判定状态合法性（那是 `state_machine.py`）、**不**决定事务
     （那是 `UnitOfWork`）、**不**写业务语义。全部方法**绝不** `commit` / `rollback`
@@ -112,6 +122,23 @@ class TaskStoreRepository(TaskRepository):
     `repositories/security.py` 的既有做法），使 `lease_until < now` 是
     「感知 vs 感知」比较（`docs/02` §36）。
     """
+
+    def __init__(self, session: AsyncSession) -> None:
+        """绑定一个已存在的会话（`docs/02` §16：会话由 `UnitOfWork` 提供）。
+
+        Args:
+            session: 已存在的 `AsyncSession`（本类**不**开事务、**不** `commit`）。
+        """
+        self._session = session
+
+    @property
+    def session(self) -> AsyncSession:
+        """当前会话（只读用途；事务边界不在此处决定）。"""
+        return self._session
+
+    def tenant_criteria(self, tenant_id: str) -> Any:
+        """租户过滤条件（`docs/02` §11：`tenant_id` + `resource_id` 同时限制）。"""
+        return TaskORM.tenant_id == tenant_id
 
     # ===== `docs/02` §9 / §47：创建 =====
 
@@ -167,13 +194,14 @@ class TaskStoreRepository(TaskRepository):
 
     # ===== `docs/02` §11 / §34：读取 =====
 
-    async def get(self, task_id: str, tenant_id: str) -> TaskRecord | None:  # type: ignore[override]
+    async def get(self, task_id: str, tenant_id: str) -> TaskRecord | None:
         """在租户内按主键读取（`docs/02` §11：`tenant_id` + `resource_id`）。
 
-        ⚠️ 签名与父类 `TenantScopedRepository.get(entity_id, *, tenant_id=...)` **不同**：
-        Domain 契约 `TaskStore.get(task_id, tenant_id)` 要求 `tenant_id` **位置传参**
-        （`docs/02` §11 的「同时限制租户 + 资源」），且返回 Domain 记录而非 ORM 行，
-        故此处显式标注 `override`（返回类型是父类的**收窄**，不是同一个 `EntityT`）。
+        ⚠️ 本类**不继承**任何仓储基类（见类 docstring）：本签名即 Domain 契约
+        `TaskStore.get(task_id, tenant_id)` 的原样 —— `tenant_id` **位置传参**
+        （`docs/02` §11 的「同时限制租户 + 资源」），返回 Domain 记录而非 ORM 行。
+        因此**不存在**与父类签名 / 返回类型冲突的问题，也**不需要** `type: ignore`。
+
 
         Returns:
             命中的 `TaskRecord`；不存在或不属于该租户时返回 `None`
@@ -359,24 +387,72 @@ class TaskStoreRepository(TaskRepository):
         )
         return outcome.rowcount == 1
 
-    async def update_progress(self, task_id: str, progress: int) -> bool:
-        """写入进度（`docs/02` §31 的 `update_progress`）。
+    async def record_error(
+        self,
+        task_id: str,
+        *,
+        error_json: str,
+        expected_status: str | None = None,
+    ) -> bool:
+        """只写 `error_json`、**不**改状态（`docs/02` §30；`TaskStore.record_error`）。
+
+        🔴 **这不是状态转移**：`status` 保持原值，故**不**走冻结的转移表。**单条**
+        `UPDATE tasks SET error_json = :e, version = version + 1 WHERE id = :id
+        [AND status = :expected]`；**禁止** `SELECT → UPDATE`（`docs/02` §36）。
+
+        Args:
+            task_id: 任务标识。
+            error_json: 归一化错误信封的 JSON 文本（**只**放 20 码字段，`docs/07` §14.3）。
+            expected_status: 给了就要求当前状态**恰为**该值（否则影响 0 行）。
+
+        Returns:
+            `True` 表示影响 1 行；`False` 表示影响 0 行（不存在 / 状态不符）——
+            本层**不**抛异常，由调用方判定（`docs/07` §10.2 的「保持真实状态」）。
+        """
+        statement = sa_update(TaskORM).where(TaskORM.id == str(task_id))
+        if expected_status is not None:
+            statement = statement.where(TaskORM.status == str(expected_status))
+        outcome = cast(
+            CursorResult[Any],
+            await self.session.execute(
+                statement.values(
+                    error_json=str(error_json),
+                    version=TaskORM.version + 1,
+                ).execution_options(synchronize_session=False)
+            ),
+        )
+        return outcome.rowcount == 1
+
+    async def update_progress(
+        self,
+        task_id: str,
+        progress: int,
+        *,
+        tenant_id: str | None = None,
+    ) -> bool:
+        """写入进度（`docs/02` §31 的 `update_progress`；`docs/02` §11 的租户隔离）。
 
         Args:
             task_id: 任务标识。
             progress: 已规整到 `[0, 100]` 的进度值（规整由 `progress.py` 负责 ——
                 本层只做 persistence）。
+            tenant_id: 可选租户限制；给了就追加 `AND tenant_id = :tenant`
+                （与 `get(task_id, tenant_id)` 同口径，避免用另一租户的 `task_id`
+                改到本租户的行）。
 
         Returns:
-            `True` 表示影响 1 行；`False` 表示该任务不存在。
+            `True` 表示影响 1 行；`False` 表示该任务不存在（或不属于该租户）。
         """
+        statement = sa_update(TaskORM).where(TaskORM.id == str(task_id))
+        if tenant_id is not None:
+            statement = statement.where(self.tenant_criteria(str(tenant_id)))
         outcome = cast(
             CursorResult[Any],
             await self.session.execute(
-                sa_update(TaskORM)
-                .where(TaskORM.id == str(task_id))
-                .values(progress=int(progress), version=TaskORM.version + 1)
-                .execution_options(synchronize_session=False)
+                statement.values(
+                    progress=int(progress),
+                    version=TaskORM.version + 1,
+                ).execution_options(synchronize_session=False)
             ),
         )
         return outcome.rowcount == 1

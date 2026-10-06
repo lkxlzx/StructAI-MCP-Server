@@ -35,7 +35,15 @@
 4. **`continue_on_failure` 是内存字段**：§50 的「除非明确配置」需要载体，而
    `task_steps` 表**没有**该列（`docs/07` §4.3 #20，本批**不得改表**），故它只
    存在于 `TaskStep` 上，缺省 `False`（§50 的默认行为）。
-
+5. **`continue_on_failure` 的步骤不得被搁死；`DagPlan.complete` 不得谎报**（`docs/02` §50）：
+   原判定「`ready` 要求前置**全部 `COMPLETED`**」＋「`blocked_steps` 因
+   `continue_on_failure=True` 把它排除在 `skipped` 之外」会让该步骤既非
+   ready / running / skipped / finished，**永远不执行**；而 `complete` 只看
+   `ready` / `running` / `skipped`，于是**谎报 `True`**。故：
+   `ready_steps` 对配置了 `continue_on_failure` 的步骤放宽为「前置**已全部到终态**」
+   （§50 的「除非明确配置 `continue_on_failure = true`」）；`DagPlan` 新增
+   `pending`（未进入前四组的步骤）并让 `complete` **同时**要求 `pending` 为空 ——
+   「还有步骤没归类」时**不**算完成。
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
 本模块只依赖标准库与 `app.domain`：**不**引用 SQLAlchemy / FastAPI / MCP SDK /
@@ -144,21 +152,31 @@ class DagPlan:
     """一次调度决策（`docs/02` §50 / §51）。
 
     - `ready`: 依赖全部 `COMPLETED` 的 `PENDING` 步骤（可并行执行，§51）；
+      若该步骤显式配置 `continue_on_failure = true`，则前置**已全部到终态**
+      （`TERMINAL_STEP_STATUSES`，含 `FAILED` / `SKIPPED`）即 ready（§50 的「除非」）；
     - `skipped`: 因前置 `FAILED` / `SKIPPED` 且**未**配置 `continue_on_failure`
       而应置 `SKIPPED` 的步骤；
     - `running`: 仍在执行的步骤；
-    - `finished`: 已处于终态的步骤。
+    - `finished`: 已处于终态的步骤；
+    - `pending`: 既未 ready、也未 running / finished / skipped 的步骤 ——
+      **不得**为空时谎报「全部完成」（见模块裁决 5）。
     """
 
     ready: tuple[str, ...] = ()
     skipped: tuple[str, ...] = ()
     running: tuple[str, ...] = ()
     finished: tuple[str, ...] = ()
+    pending: tuple[str, ...] = ()
 
     @property
     def complete(self) -> bool:
-        """是否所有步骤都已到终态（`docs/02` §50）。"""
-        return not self.ready and not self.running and not self.skipped
+        """是否所有步骤都已到终态（`docs/02` §50）。
+
+        ⚠️ 必须**同时**要求 `pending` 为空（见模块裁决 5）：否则一个被
+        `continue_on_failure` 排除在 `skipped` 之外、又还没进 `ready` 的步骤会让
+        `complete` 谎报 `True`（它其实既非终态、也不可执行）。
+        """
+        return not (self.ready or self.running or self.skipped or self.pending)
 
     @property
     def has_failure(self) -> bool:
@@ -296,12 +314,22 @@ def ready_steps(
 ) -> tuple[str, ...]:
     """当前可以进入 `READY` 的步骤（`docs/02` §50 的「全部依赖 `COMPLETED`」）。
 
+    两条判据（`docs/02` §50 的原文 ＋ 「除非明确配置」）：
+
+    - 本步骤仍是 `PENDING`；
+    - 前置**全部 `COMPLETED`**；**或者**本步骤显式配置 `continue_on_failure = true`
+      且前置**已全部到终态**（`TERMINAL_STEP_STATUSES`，含 `FAILED` / `SKIPPED`）。
+
+    ⚠️ 第二条不能省（见模块裁决 5）：`blocked_steps` 会把配置了
+    `continue_on_failure` 的步骤排除在 `skipped` 之外，若此处仍要求「全部 `COMPLETED`」，
+    该步骤就会既非 ready / running / skipped / finished 也永远不执行 —— 被**搁死**。
+
     Args:
         graph: DAG。
         statuses: 各步骤的当前状态（缺省视为 `PENDING`）。
 
     Returns:
-        依赖全部 `COMPLETED` 且自身仍为 `PENDING` 的步骤键（§51：可并行执行）。
+        可进入 `READY` 的步骤键（§51：可并行执行）。
     """
     ready: list[str] = []
     for step_id, step in graph.steps.items():
@@ -309,6 +337,11 @@ def ready_steps(
             continue
         if all(
             _status_of(statuses, dependency) is TaskStepStatus.COMPLETED
+            for dependency in step.depends_on
+        ):
+            ready.append(step_id)
+        elif step.continue_on_failure and all(
+            _status_of(statuses, dependency) in TERMINAL_STEP_STATUSES
             for dependency in step.depends_on
         ):
             ready.append(step_id)
@@ -356,7 +389,9 @@ def step_plan(
         statuses: 各步骤的当前状态。
 
     Returns:
-        `DagPlan`：`ready` / `skipped` / `running` / `finished` 四组步骤键。
+        `DagPlan`：`ready` / `skipped` / `running` / `finished` / `pending` 五组步骤键。
+        `pending` 是**剩余集合**（见模块裁决 5）：不在前四组里的步骤 —— 它让
+        `DagPlan.complete` 不可能对「被搁死的步骤」谎报 `True`。
     """
     skipped = blocked_steps(graph, statuses)
     ready = ready_steps(graph, statuses)
@@ -370,7 +405,15 @@ def step_plan(
         for step_id in graph.steps
         if _status_of(statuses, step_id) in TERMINAL_STEP_STATUSES
     )
-    return DagPlan(ready=ready, skipped=skipped, running=running, finished=finished)
+    classified = set(ready) | set(skipped) | set(running) | set(finished)
+    pending = tuple(step_id for step_id in graph.steps if step_id not in classified)
+    return DagPlan(
+        ready=ready,
+        skipped=skipped,
+        running=running,
+        finished=finished,
+        pending=pending,
+    )
 
 
 def _status_of(

@@ -20,11 +20,11 @@
 
 落地裁决（只补实现手段，不改语义）
 ----------------------------------
-1. **「能不能取消」由冻结的转移表判定，不另写一份规则**：`CANCEL_REQUESTED` 不在
-   `ALLOWED_TRANSITIONS[current]` 内即抛 `TaskStateError`（`STRUCTAI-1300`）。
-   这样 `COMPLETED` / `CANCELLED` / `FAILED` / `TIMEOUT` / `RECOVERING` / `RETRYING` /
-   `CANCEL_REQUESTED` 七种「不可取消」状态**自动**被拒，无需在此重复列举
-   （`docs/07` §10.1：状态机必须集中实现，不得散落）。
+1. **「能不能取消」由**显式集合**判定，不另写一份转移规则**：`NON_CANCELLABLE_STATUSES`
+   列出七种「不可取消」状态（`COMPLETED` / `CANCELLED` / `FAILED` / `TIMEOUT` /
+   `RECOVERING` / `RETRYING` / `CANCEL_REQUESTED`），命中即抛 `TaskStateError`
+   （`STRUCTAI-1300`），**不**静默忽略、**不**伪造 `CANCELLED`（`docs/07` §10.1：
+   12 态与转移只在 `state_machine.py`，此处不复制转移表）。
 2. **未执行的任务直接 `CANCELLED`**：`CREATED` / `VALIDATING` / `QUEUED` 还没进入执行，
    不存在「native 操作」需要停 —— 故直接 CAS 到 `CANCELLED` 并**不**调 Adapter
    （`docs/02` §7 / §8 的转移表允许这三条边）。`reason = "not_running"`。
@@ -47,6 +47,14 @@
    （P14–P18 R38 的同一做法）。
 7. **`CancellationOutcome.error_code` 只放归一化后的 20 码**：**不**放原生 message，
    也**不**回显任务 / 实例标识以外的任何内容（`docs/07` §14.3）。
+8. **`CANCEL_REQUESTED` 的保持走 `TaskStore.record_error`，不走 `transition`**（本批裁决）：
+   `docs/02` §30 要求「保持 `CANCEL_REQUESTED`」，而冻结表里 `CANCEL_REQUESTED` 的
+   出边是**空集**（`docs/07` §10.1），`transition(expected=CANCEL_REQUESTED,
+   new=CANCEL_REQUESTED)` 是**状态机禁止的自转移**。故 Domain 契约新增一个
+   **只写错误、不改状态**的入口 `TaskStore.record_error(task_id, *,
+   error_json, expected_status=None)`（单条条件 `UPDATE`，**不是**状态转移）。
+   写入后**回读**该任务并用**真实**状态填 `CancellationOutcome.status` ——
+   **不**用构造值（回读失败 → `InternalError` / `read_back_missing`）。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -62,7 +70,7 @@ from typing import Final, Protocol
 
 from app.application.task.state_machine import TaskStateError
 from app.domain.enums import TaskStatus
-from app.domain.errors import AdapterError, StructAIError, TaskError
+from app.domain.errors import AdapterError, InternalError, StructAIError, TaskError
 from app.domain.protocols import TaskRecord, TaskStore
 
 __all__ = [
@@ -255,10 +263,11 @@ class CancellationService:
         try:
             await self._cancellation.cancel(software_instance_id, task_id)
         except StructAIError as error:
-            return await self._keep_cancel_requested(task_id, error)
+            return await self._keep_cancel_requested(task_id, tenant_id, error)
         except Exception as error:  # noqa: BLE001 —— 兜底归一化，见模块裁决 4
             return await self._keep_cancel_requested(
                 task_id,
+                tenant_id,
                 AdapterError(
                     CANCEL_UNSUPPORTED_MESSAGE,
                     details={"stage": CANCELLATION_STAGE, "reason": CANCEL_UNSUPPORTED},
@@ -334,21 +343,42 @@ class CancellationService:
     async def _keep_cancel_requested(
         self,
         task_id: str,
+        tenant_id: str,
         error: StructAIError,
     ) -> CancellationOutcome:
-        """保持 `CANCEL_REQUESTED` 并把归一化错误写入 `error_json`（见模块裁决 4）。
+        """保持 `CANCEL_REQUESTED` 并把归一化错误写入 `error_json`（见模块裁决 4 / 8）。
 
-        ⚠️ 只写 `error_json`，**不**改状态：真实状态必须可追踪（`docs/02` §30）。
+        ⚠️ 走 `TaskStore.record_error`（**只写 `error_json`、不改状态**）而**不是**
+        `transition`：`CANCEL_REQUESTED → CANCEL_REQUESTED` 是自转移，冻结表里该态的
+        出边是**空集**，状态机会拒绝（`docs/07` §10.1）。真实状态必须可追踪
+        （`docs/02` §30），故写入后**回读**并用**真实**状态填 `status` —— **不**用构造值。
+
+        Args:
+            task_id: 任务标识。
+            tenant_id: 租户标识（回读用；`docs/02` §11）。
+            error: 归一化后的异常（`to_dict()` 只含 20 码字段）。
+
+        Returns:
+            `CancellationOutcome`：`status` 为**回读**到的真实状态，`cancelled=False`。
+
+        Raises:
+            InternalError: `STRUCTAI-7000` —— 回读不到该行
+                （`details.reason = "read_back_missing"`）。
         """
-        await self._store.transition(
+        await self._store.record_error(
             task_id,
-            expected=str(TaskStatus.CANCEL_REQUESTED),
-            new=str(TaskStatus.CANCEL_REQUESTED),
-            fields={"error_json": json.dumps(error.to_dict(), ensure_ascii=False, sort_keys=True)},
+            error_json=json.dumps(error.to_dict(), ensure_ascii=False, sort_keys=True),
+            expected_status=str(TaskStatus.CANCEL_REQUESTED),
         )
+        latest = await self._store.get(task_id, tenant_id)
+        if latest is None:
+            raise InternalError(
+                "task disappeared while keeping CANCEL_REQUESTED",
+                details={"stage": CANCELLATION_STAGE, "reason": "read_back_missing"},
+            )
         return CancellationOutcome(
             task_id=task_id,
-            status=TaskStatus.CANCEL_REQUESTED,
+            status=_status_of(latest),
             cancelled=False,
             reason=CANCEL_UNSUPPORTED,
             error_code=error.code,

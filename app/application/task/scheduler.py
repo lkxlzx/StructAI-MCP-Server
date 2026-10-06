@@ -39,7 +39,12 @@
    替换为 Redis / NATS 等实现时本类的公开接口不变（§49）。
 6. **`counts` 只含非敏感计数**：`docs/07` §14.3 要求绝不记录 secret，故
    `SchedulerDecision.counts` 只放四级计数的**整数**，**不**放租户 / 用户 / 实例标识。
-
+7. **准入按维度键计数，不是全局总数**：`docs/02` §18 的「四级取最严格」是**按维度**的
+   限制（`Tenant A = 10` / `User A = 4` / `CIVIL-01 = 1`），**不**是「全局任务数不超过
+   最小值」。故 `try_acquire` 用 `count_for(request, level)` 取**该请求自己的维度键**在
+   该级的计数，而**不是**各级总数：否则 `SERIAL` 下「另一个实例上的任务」也会被以
+   `level="software-instance"` 拒绝（那个实例其实一个任务都没有）。各级**总数**只用于
+   诊断（`Scheduler.totals()`），**不**参与准入判定。
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
 本模块只依赖标准库与 `app.domain`：**不**引用 SQLAlchemy / FastAPI / MCP SDK / httpx，
@@ -283,7 +288,8 @@ class Scheduler:
         ⚠️ 已占用的同一 `task_id` 再次调用是幂等的（不重复计数）。
         """
         limit, level = await self.effective_limit(request)
-        counts = self._counts_snapshot()
+        # 见模块裁决 7：准入按**该请求自己的维度键**计数，而不是各级总数。
+        counts = self._counts_for(request)
         if str(request.task_id) in self._acquired:
             # 幂等：已占用的任务再次 `try_acquire` **不**重复计数、**不**被自己的额度拒绝。
             return SchedulerDecision(
@@ -305,7 +311,7 @@ class Scheduler:
             admitted=True,
             limit=limit,
             level=level,
-            counts=self._counts_snapshot(),
+            counts=self._counts_for(request),
         )
 
     async def release(self, request: ConcurrencyRequest) -> None:
@@ -328,16 +334,49 @@ class Scheduler:
                 counter.pop(key, None)
 
     def active(self, request: ConcurrencyRequest) -> int:
-        """该请求当前各级计数中的**最大值**（便于断言；`docs/02` §18）。
+        """该请求**自己的维度键**上各级计数的最大值（便于断言；`docs/02` §18）。
+
+        ⚠️ 按**维度键**取值（见模块裁决 7）：只统计该请求涉及的维度，**不**取各级总数
+        —— 否则「别的实例上的任务」会被算进本请求的计数。
 
         Args:
             request: 并发准入请求。
 
         Returns:
-            四级计数中的最大值；全部为 `0` 时返回 `0`。
+            该请求各级计数中的最大值；全部为 `0` 时返回 `0`。
         """
-        counts = self._counts_snapshot(request)
+        counts = self._counts_for(request)
         return max(counts.values(), default=0)
+
+    def count_for(self, request: ConcurrencyRequest, level: str) -> int:
+        """该请求在某一级的并发数（`docs/02` §18 的**按维度**计数，见模块裁决 7）。
+
+        Args:
+            request: 并发准入请求。
+            level: 级别名（`CONCURRENCY_LEVELS` 之一）。
+
+        Returns:
+            `global` → 全局键（该级只有一个键 `""`）的计数；
+            `tenant` → `str(request.tenant_id)` 键的计数；
+            `user` → `str(request.user_id)` 键的计数；
+            `software-instance` → `request.software_instance_id` 非空时其键的计数，
+            否则 `0`（该请求**不参与**实例级判定）。
+
+        Raises:
+            ValueError: `level` 不在 `CONCURRENCY_LEVELS` 内。
+        """
+        if level == "global":
+            # 该级只有一个键 `""`（见 `_register`）。
+            return self._counters["global"].get("", 0)
+        if level == "tenant":
+            return self._counters["tenant"].get(str(request.tenant_id), 0)
+        if level == "user":
+            return self._counters["user"].get(str(request.user_id), 0)
+        if level == "software-instance":
+            if request.software_instance_id is None:
+                return 0
+            return self._counters["software-instance"].get(str(request.software_instance_id), 0)
+        raise ValueError(f"unknown concurrency level: {level}")
 
     def active_total(self) -> int:
         """当前已登记占用的任务数（诊断 / 泄漏检查用）。"""
@@ -362,20 +401,29 @@ class Scheduler:
             counter[key] = counter.get(key, 0) + 1
         self._acquired[task_id] = tuple(keys)
 
-    def _counts_snapshot(self, request: ConcurrencyRequest | None = None) -> Mapping[str, int]:
-        """各级当前并发数（只含整数 —— 见模块裁决 6）。
+    def totals(self) -> Mapping[str, int]:
+        """各级当前并发数的**总数**（只含整数 —— 见模块裁决 6）。
+
+        ⚠️ **仅供诊断**（泄漏检查 / 观测）：各级总数**不**用于准入判定 ——
+        准入按**维度键**计数（`count_for`，见模块裁决 7）。用总数判定会让
+        「另一个实例 / 另一个租户上的任务」误伤本请求。
+        """
+        return MappingProxyType(
+            {level: sum(self._counters[level].values()) for level in CONCURRENCY_LEVELS}
+        )
+
+    def _counts_for(self, request: ConcurrencyRequest) -> Mapping[str, int]:
+        """该请求**自己的维度键**上各级的计数（`docs/02` §18；见模块裁决 7）。
 
         Args:
-            request: 给了就只统计该请求涉及的维度键；缺省统计各级的**总数**。
+            request: 并发准入请求。
+
+        Returns:
+            四级 → 该请求对应维度键的计数（不涉及该级的请求记 `0`）。
         """
-        if request is None:
-            return MappingProxyType(
-                {level: sum(self._counters[level].values()) for level in CONCURRENCY_LEVELS}
-            )
-        counts = dict.fromkeys(CONCURRENCY_LEVELS, 0)
-        for level, key in self._acquired.get(str(request.task_id), ()):
-            counts[level] = self._counters[level].get(key, 0)
-        return MappingProxyType(counts)
+        return MappingProxyType(
+            {level: self.count_for(request, level) for level in CONCURRENCY_LEVELS}
+        )
 
 
 def _strictest(candidates: list[tuple[str, int]]) -> tuple[int, str]:

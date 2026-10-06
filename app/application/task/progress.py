@@ -43,7 +43,14 @@
 5. **`message` 原样透传、不落库**：`docs/02` §32 的 `message` 只进事件（供 MCP progress
    notification），`tasks` 表**没有**该列（`docs/07` §4.3 #19，本批**不得改表**），
    故本模块**不**把它写进任何持久化结构。
-
+   故本模块**不**把它写进任何持久化结构。
+6. **进度写入**必须**带租户**（`docs/02` §11 的租户隔离）：同一契约的
+   `TaskStore.get(task_id, tenant_id)` 强制租户，而 `update_progress` 若只按 `id`
+   过滤，用**另一租户**的 `task_id` 就能改到该租户任务的进度。故
+   `TaskStore.update_progress(task_id, progress, *, tenant_id=None)` 追加
+   `AND (:tenant IS NULL OR tenant_id = :tenant)`，`report` / `report_from_adapter`
+   以**关键字** `tenant_id=` 透传（`docs/02` §31 的三个**位置**参数**不变**；
+   `tenant_id` 是新增的关键字）。缺省 `None` 保持原行为（只按主键）。
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
 本模块只依赖标准库与 `app.domain`：**不**引用 SQLAlchemy / FastAPI / MCP SDK / httpx，
@@ -172,13 +179,23 @@ class ProgressReporter:
         task_id: str,
         progress: object,
         message: str | None = None,
+        *,
+        tenant_id: str | None = None,
     ) -> ProgressUpdate:
         """上报进度（`docs/02` §31 的 `update_progress` ＋ §32 的事件）。
+
+        ⚠️ `tenant_id` 是**新增的关键字**（`docs/02` §31 的
+        `report(task_id, progress, message)` 三个**位置**参数**不变**，见模块裁决 6）：
+        给了就透传给 `TaskStore.update_progress`，使写入同时限制租户 ——
+        否则同一契约的 `get` 强制租户、而进度写入只按 `id`，用**另一租户**的 `task_id`
+        就能改到该租户任务的进度（`docs/02` §11 的租户隔离）。
 
         Args:
             task_id: 任务标识。
             progress: 进度取值（**不可信**，先经 `sanitize_progress`）。
             message: 可选的人类可读说明（只进事件，见模块裁决 5）。
+            tenant_id: 可选租户限制（`docs/02` §11）；缺省 `None` 表示不追加该条件
+                （跨租户调用方 / 未装配租户上下文时保持原行为）。
 
         Returns:
             `ProgressUpdate`：含**实际落库**的规整后进度值。
@@ -190,7 +207,7 @@ class ProgressReporter:
                 `details = {stage: "progress", reason: "unknown_task"}`。
         """
         value = sanitize_progress(progress)
-        updated = await self._store.update_progress(task_id, value)
+        updated = await self._store.update_progress(task_id, value, tenant_id=tenant_id)
         if not updated:
             raise TaskError(
                 "Task not found for progress update",
@@ -211,6 +228,8 @@ class ProgressReporter:
         task_id: str,
         value: object,
         message: str | None = None,
+        *,
+        tenant_id: str | None = None,
     ) -> ProgressUpdate:
         """采信 Adapter 上报的进度（`docs/02` §33；`docs/07` §10.2）。
 
@@ -222,15 +241,16 @@ class ProgressReporter:
             task_id: 任务标识。
             value: Adapter 上报的原始进度取值。
             message: 可选说明。
+            tenant_id: 可选租户限制（`docs/02` §11）；透传给 `report`。
 
         Returns:
             `ProgressUpdate`（含实际落库的规整值）。
 
         Raises:
             EngineeringValidationError: `STRUCTAI-1200` —— Adapter 进度不可信。
-            TaskError: `STRUCTAI-5000` —— 任务不存在。
+            TaskError: `STRUCTAI-5000` —— 任务不存在（或不属于该租户）。
         """
-        return await self.report(task_id, value, message)
+        return await self.report(task_id, value, message, tenant_id=tenant_id)
 
 
 def _clamp(value: int) -> int:

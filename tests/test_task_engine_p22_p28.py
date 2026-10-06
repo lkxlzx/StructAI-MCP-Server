@@ -132,6 +132,7 @@ from app.domain.protocols import (
     TaskRecord,
     TaskStepDraft,
     TaskStepRecord,
+    TaskStore,
 )
 from app.infrastructure.database import Base, create_engine, create_session_factory
 from app.infrastructure.database.models.task import TaskORM, TaskStepORM
@@ -905,6 +906,19 @@ def _progress(session: AsyncSession, bus: Any = None) -> ProgressReporter:
     return ProgressReporter(build_task_store(session), bus=bus)
 
 
+def _cancellation_contract() -> dict[str, inspect.Parameter]:
+    """`CancellationService.cancel` 的形参 → 种类（F11：**真实**契约断言）。
+
+    ⚠️ 取代 `issubclass(CancellationService, object)` 这种对**任何**类都真的恒真断言：
+    这里断言 `software_instance_id` 是**关键字**参数（`docs/02` §53 的调用形状），
+    且 `task_id` / `tenant_id` 是位置参数。
+    """
+    signature = inspect.signature(CancellationService.cancel)
+    return {
+        name: parameter.kind for name, parameter in signature.parameters.items() if name != "self"
+    }
+
+
 # ===== ② Lease（`docs/02` §34–§38 / §80）=====
 
 
@@ -1269,6 +1283,81 @@ def test_resume_policy_returns_the_task_to_running(engine: AsyncEngine) -> None:
     asyncio.run(_run())
 
 
+def test_resume_requeues_the_task_so_a_worker_can_take_it(engine: AsyncEngine) -> None:
+    """F4（门槛 ③）：`RESUME` 之后任务**可被继续执行**（重新入队 ＋ Worker 接管）。
+
+    ⚠️ 旧实现只把状态 CAS 成 `RUNNING`、**不**入队，`run_task` 又要求
+    `QUEUED → RUNNING`，于是该任务永远执行不了（每次扫描还反复翻转）。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            queue = TaskQueue()
+            enqueued: list[tuple[str, str]] = []
+
+            async def _enqueue(record: TaskRecord) -> None:
+                enqueued.append((record.id, record.status))
+                await queue.put(record.id, record.priority, created_at=record.created_at)
+
+            started_before = datetime(2024, 1, 2, 3, 4, 5, tzinfo=UTC)
+            task = await _task_in(
+                uow.session,
+                status=str(TaskStatus.PROCESSING),
+                fields={**_expired_lease(), "started_at": started_before},
+            )
+            service = _recovery(
+                uow.session,
+                _registry(_definition("BUILD.COLUMN", recovery_policy="STATE_RECONCILE")),
+                enqueue=_enqueue,
+            )
+            outcome = await service.recover_task(task)
+            assert outcome.action is RecoveryAction.RESUME
+            assert outcome.status is TaskStatus.RUNNING
+            assert outcome.waited is False
+            # ① 状态是 `RUNNING` **且**已重新入队（`RESUME` = 原地继续 ＋ 交给 Worker）。
+            assert enqueued == [(task.id, str(TaskStatus.RUNNING))]
+            assert queue.qsize() == 1
+            assert (await queue.get()).task_id == task.id
+            queue.task_done()
+
+            # ② Worker 能接管一个 `RUNNING`（租约空闲）的任务 → 跑到 `COMPLETED`。
+            resumed = await store.get(task.id, TENANT_ID)
+            assert resumed is not None
+            assert resumed.status == str(TaskStatus.RUNNING)
+            # 让租约空闲（模拟崩溃后的重新接管）。
+            assert await store.release_lease(task.id, worker_id="worker-gone") is True
+            free = await store.get(task.id, TENANT_ID)
+            assert free is not None
+            assert free.lease_owner is None
+            started_before = free.started_at
+            assert started_before is not None
+
+            executor = _RecordingExecutor()
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=queue,
+                store=store,
+                lease=_lease(uow.session),
+                executor=executor,
+                progress=_progress(uow.session),
+            )
+            worker.register(free)
+            returned = await worker.run_task(task.id, "worker-a")
+
+            assert returned.status == str(TaskStatus.COMPLETED)
+            assert executor.calls == [task.id]
+            # `started_at` **保持原值**（`RESUME` 不得覆盖开始时间）。
+            assert returned.started_at == started_before
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            assert after.started_at == started_before
+            assert after.lease_owner is None
+
+    asyncio.run(_run())
+
+
 def test_fail_policy_marks_failed_with_structai_5300(engine: AsyncEngine) -> None:
     """门槛 ③（`docs/07` §11）：`MANUAL_REVIEW → FAIL` 并落 `STRUCTAI-5300` 的 `to_dict()`。"""
 
@@ -1337,7 +1426,9 @@ def test_recovery_never_marks_a_task_completed(engine: AsyncEngine) -> None:
                     after = await build_task_store(uow.session).get(task.id, TENANT_ID)
                     assert after is not None
                     assert after.status != str(TaskStatus.COMPLETED), (entry, policy)
-        assert len(RECOVERY_ENTRY_STATUSES_SPEC) * len(RECOVERY_POLICIES_SPEC) == 16
+        # F11：取代「常量算术」（`len(A) * len(B) == 16` 对任何长度组合都可能是真的）
+        # —— 断言 `POLICY_TO_ACTION` **覆盖**规范的四条 `recovery_policy`。
+        assert set(POLICY_TO_ACTION) == set(RECOVERY_POLICIES_SPEC)
 
     asyncio.run(_run())
 
@@ -1637,6 +1728,95 @@ def test_failed_dependency_skips_dependents_unless_continue_on_failure() -> None
         "FAILED",
         "SKIPPED",
     }
+
+
+def test_continue_on_failure_step_is_ready_and_never_reported_complete() -> None:
+    """F5（门槛 ④）：`continue_on_failure` 的步骤**不得被搁死**；`complete` 不得谎报。
+
+    ⚠️ 旧实现里该步骤既非 ready（前置不是 `COMPLETED`）、也不在 `skipped` 里
+    （`continue_on_failure=True`），而 `DagPlan.complete` 却返回 `True` —— 谎报完成。
+    """
+    graph = TaskGraph(
+        steps={
+            "A": TaskStep(step_id="A", operation="BUILD.COLUMN"),
+            "C": TaskStep(
+                step_id="C",
+                operation="BUILD.COLUMN",
+                depends_on=("A",),
+                continue_on_failure=True,
+            ),
+        }
+    )
+    failed = {"A": TaskStepStatus.FAILED}
+    # ① 前置 `FAILED` + `continue_on_failure=True` → 该步骤在 `ready`，且**不**算完成。
+    assert ready_steps(graph, failed) == ("C",)
+    plan = step_plan(graph, failed)
+    assert plan.ready == ("C",)
+    assert plan.skipped == ()
+    assert plan.pending == ()
+    assert plan.complete is False
+    assert plan.has_failure is False
+
+    # ② 该步骤 `COMPLETED` 之后才算完成。
+    done = {"A": TaskStepStatus.FAILED, "C": TaskStepStatus.COMPLETED}
+    final = step_plan(graph, done)
+    assert final.ready == ()
+    assert final.finished == ("A", "C")
+    assert final.pending == ()
+    assert final.complete is True
+
+    # ③ 未配置 `continue_on_failure` 的同构场景仍 `skipped`（默认行为不变）。
+    strict = TaskGraph(
+        steps={
+            "A": TaskStep(step_id="A", operation="BUILD.COLUMN"),
+            "B": TaskStep(step_id="B", operation="BUILD.COLUMN", depends_on=("A",)),
+        }
+    )
+    strict_plan = step_plan(strict, failed)
+    assert strict_plan.skipped == ("B",)
+    assert strict_plan.ready == ()
+    assert strict_plan.has_failure is True
+
+
+def test_pending_steps_prevent_a_false_complete() -> None:
+    """F5（门槛 ④）：`pending` 是**剩余集合** —— 未归类的步骤让 `complete` 为 `False`。"""
+    graph = TaskGraph(
+        steps={
+            "A": TaskStep(step_id="A", operation="BUILD.COLUMN"),
+            "B": TaskStep(step_id="B", operation="BUILD.COLUMN", depends_on=("A",)),
+        }
+    )
+    # `A` 还在 `PENDING`（未开始）：`B` 不 ready、不在 skipped / finished / running。
+    plan = step_plan(graph, {})
+    assert plan.ready == ("A",)
+    assert plan.skipped == ()
+    assert plan.running == ()
+    assert plan.finished == ()
+    assert plan.pending == ("B",)
+    assert plan.complete is False
+
+    # `A` 完成 → `B` ready，仍不算完成。
+    after_a = step_plan(graph, {"A": TaskStepStatus.COMPLETED})
+    assert after_a.ready == ("B",)
+    assert after_a.pending == ()
+    assert after_a.complete is False
+
+    # 全部到终态 → 完成。
+    assert (
+        step_plan(
+            graph,
+            {"A": TaskStepStatus.COMPLETED, "B": TaskStepStatus.COMPLETED},
+        ).complete
+        is True
+    )
+
+
+def test_dag_plan_default_pending_is_empty() -> None:
+    """F5（门槛 ④）：`DagPlan.pending` 有缺省值（新增字段**不**破坏既有构造）。"""
+    assert DagPlan().pending == ()
+    assert DagPlan().complete is True
+    plan = DagPlan(ready=("A",), pending=("B",))
+    assert plan.complete is False
 
 
 def test_dag_steps_are_persisted_in_task_steps(engine: AsyncEngine) -> None:
@@ -1944,9 +2124,14 @@ def test_scheduler_admits_and_releases_idempotently() -> None:
         assert rejected.limit == 1
         assert rejected.level == "global"
         assert rejected.reason == "global"
-        # 被拒**不**占用额度（拒绝路径无副作用）。
-        assert scheduler.active(second) == 0
+        # 被拒**不**占用额度（拒绝路径无副作用）—— 按**维度键**核对（见 F1 的按维度计数）：
+        # 第二个任务自己的维度键计数仍为 0，且各级总数未被拒绝路径改动。
+        assert scheduler.count_for(second, "global") == 1
+        assert scheduler.active(second) == 1
         assert scheduler.active_total() == 1
+        after_rejection = scheduler.totals()
+        assert (await scheduler.try_acquire(second)).admitted is False
+        assert scheduler.totals() == after_rejection
 
         # 幂等：重复 `try_acquire` 同一任务不重复计数。
         again = await scheduler.try_acquire(first)
@@ -1963,6 +2148,106 @@ def test_scheduler_admits_and_releases_idempotently() -> None:
 
         # 释放后第二个任务可以准入。
         assert (await scheduler.try_acquire(second)).admitted is True
+
+    asyncio.run(_run())
+
+
+def test_admission_counts_by_dimension_key_not_global_totals() -> None:
+    """F1（门槛 ⑥）：准入按**维度键**计数 —— 另一个实例 / 另一个租户上的任务不误伤。
+
+    ⚠️ 旧实现在默认 `SERIAL` 下用各级**总数**判定：实例 I2 上其实一个任务都没有，
+    第二个任务也会被以 `level="software-instance"` 拒绝。本测试在旧代码下**失败**。
+    """
+
+    async def _run() -> None:
+        scheduler = Scheduler()  # 默认：global 不设限 / tenant 10 / user 4 / 实例 SERIAL
+        first = ConcurrencyRequest(
+            task_id="t1", tenant_id="tenant-a", user_id="user-a", software_instance_id="I1"
+        )
+        other_instance = ConcurrencyRequest(
+            task_id="t2", tenant_id="tenant-a", user_id="user-a", software_instance_id="I2"
+        )
+        # ① 两个**不同**实例上的任务都被准入（旧实现会拒第二个）。
+        assert (await scheduler.try_acquire(first)).admitted is True
+        second = await scheduler.try_acquire(other_instance)
+        assert second.admitted is True, second
+
+        # ② 同一实例的第二个任务 → 拒绝，且触限级别是 `software-instance`。
+        same_instance = ConcurrencyRequest(
+            task_id="t3", tenant_id="tenant-a", user_id="user-a", software_instance_id="I1"
+        )
+        rejected = await scheduler.try_acquire(same_instance)
+        assert rejected.admitted is False
+        assert rejected.level == "software-instance"
+        assert rejected.reason == "software-instance"
+        assert rejected.counts["software-instance"] == 1
+        # 维度键计数：I1 上 1 个、I2 上 1 个 —— 各级**总数**只作诊断。
+        assert scheduler.count_for(first, "software-instance") == 1
+        assert scheduler.count_for(other_instance, "software-instance") == 1
+        assert scheduler.count_for(same_instance, "software-instance") == 1
+        assert scheduler.totals()["software-instance"] == 2
+
+        # ③ `tenant_limit = 1`：两个不同租户各一个都被准入；同租户第二个被拒。
+        tenant_limited = Scheduler(
+            limits=ConcurrencyLimits(global_limit=0, tenant_limit=1, user_limit=4)
+        )
+        tenant_a = ConcurrencyRequest(task_id="a1", tenant_id="tenant-a", user_id="user-a")
+        tenant_b = ConcurrencyRequest(task_id="b1", tenant_id="tenant-b", user_id="user-b")
+        assert (await tenant_limited.try_acquire(tenant_a)).admitted is True
+        assert (await tenant_limited.try_acquire(tenant_b)).admitted is True
+        same_tenant = ConcurrencyRequest(task_id="a2", tenant_id="tenant-a", user_id="user-b")
+        blocked = await tenant_limited.try_acquire(same_tenant)
+        assert blocked.admitted is False
+        assert blocked.level == "tenant"
+        assert blocked.counts["tenant"] == 1
+        assert tenant_limited.count_for(tenant_b, "tenant") == 1
+
+        # ④ `count_for` 的逐级取值（含未参与实例级的请求与未知级别）。
+        mixed = ConcurrencyRequest(
+            task_id="m1", tenant_id="tenant-a", user_id="user-a", software_instance_id="I9"
+        )
+        assert (await scheduler.try_acquire(mixed)).admitted is True
+        assert scheduler.count_for(mixed, "global") == 3
+        assert scheduler.count_for(mixed, "tenant") == 3
+        assert scheduler.count_for(mixed, "user") == 3
+        assert scheduler.count_for(mixed, "software-instance") == 1
+        assert scheduler.count_for(ConcurrencyRequest("x", "tenant-a", "user-a"), "tenant") == 3
+        assert scheduler.count_for(ConcurrencyRequest("x", "tenant-z", "user-z"), "tenant") == 0
+        assert scheduler.count_for(ConcurrencyRequest("x", "tenant-a", "user-a"), "global") == 3
+        with pytest.raises(ValueError, match="unknown concurrency level"):
+            scheduler.count_for(mixed, "nope")
+
+    asyncio.run(_run())
+
+
+def test_scheduler_totals_are_diagnostics_only() -> None:
+    """F1（门槛 ⑥）：各级**总数**（`totals()`）只作诊断，**不**参与准入判定。"""
+
+    async def _run() -> None:
+        scheduler = Scheduler()
+        requests = [
+            ConcurrencyRequest(
+                task_id=f"t{index}",
+                tenant_id="tenant-a",
+                user_id="user-a",
+                software_instance_id=f"I{index}",
+            )
+            for index in range(3)
+        ]
+        for request in requests:
+            assert (await scheduler.try_acquire(request)).admitted is True
+        # 总数达到 3，但每一级（按维度键）都还远未触限 —— 总数**不是**准入依据。
+        assert scheduler.totals() == {
+            "global": 3,
+            "tenant": 3,
+            "user": 3,
+            "software-instance": 3,
+        }
+        fourth = ConcurrencyRequest(
+            task_id="t3", tenant_id="tenant-a", user_id="user-a", software_instance_id="I9"
+        )
+        assert (await scheduler.try_acquire(fourth)).admitted is True
+        assert scheduler.count_for(fourth, "software-instance") == 1
 
     asyncio.run(_run())
 
@@ -2084,6 +2369,14 @@ def test_cancel_without_a_port_keeps_cancel_requested(engine: AsyncEngine) -> No
             assert outcome.status is TaskStatus.CANCEL_REQUESTED
             assert outcome.reason == "cancel_unsupported"
             assert outcome.error_code is None
+            assert outcome.error_code is None
+            assert {field.name for field in fields(type(outcome))} == {
+                "task_id",
+                "status",
+                "cancelled",
+                "reason",
+                "error_code",
+            }
 
     asyncio.run(_run())
 
@@ -2169,8 +2462,85 @@ def test_cancellation_never_kills_a_process() -> None:
         assert forbidden not in modules, forbidden
     # `CANCEL_UNSUPPORTED_MESSAGE` 是 `docs/02` §30 的原文消息。
     assert "cannot cancel native operation" in source
-    assert issubclass(CancellationService, object)
-    assert inspect.iscoroutinefunction(CancellationService.cancel)
+    assert _cancellation_contract() == {
+        "task_id": inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        "tenant_id": inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        "software_instance_id": inspect.Parameter.KEYWORD_ONLY,
+    }
+
+
+def test_cancel_unsupported_does_not_assert_a_self_transition(engine: AsyncEngine) -> None:
+    """F6（门槛 ⑦ / ①）：Adapter 报错 → 状态**未变**（走 `record_error`，非自转移）。
+
+    ⚠️ 旧实现用 `transition(expected=CANCEL_REQUESTED, new=CANCEL_REQUESTED)`（冻结表里
+    该态出边为空集 → 状态机禁止的自转移），并丢弃 CAS 结果、用**构造值**当真实状态。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            task = await _task_in(uow.session, status=str(TaskStatus.RUNNING))
+            failure = AdapterError(
+                "cannot cancel native operation",
+                details={"stage": "adapter", "reason": "unsupported"},
+            )
+            service = _cancellation(uow.session, _FakeCancellation(error=failure))
+            outcome = await service.cancel(
+                task.id,
+                TENANT_ID,
+                software_instance_id=INSTANCE_ID,
+            )
+            assert outcome.cancelled is False
+            assert outcome.status is TaskStatus.CANCEL_REQUESTED
+            assert outcome.error_code == "STRUCTAI-6000"
+
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            # 状态**确实未变**（`CANCEL_REQUESTED` 的自转移被禁止；见 `record_error`）。
+            assert after.status == str(TaskStatus.CANCEL_REQUESTED)
+            assert after.error_json is not None
+            assert json.loads(after.error_json)["code"] == "STRUCTAI-6000"
+            # `record_error` **只**写 `error_json`：其它业务列逐列不变。
+            assert after.cancel_requested is True
+            assert after.result_json is None
+            assert after.completed_at is None
+            assert after.retry_count == 0
+            assert after.lease_owner is None
+            # 版本被推进（写了一次），但状态列没有被「假装」改过。
+            assert after.version > task.version
+
+    asyncio.run(_run())
+
+
+def test_cancellation_never_asserts_the_status_it_keeps() -> None:
+    """F6（门槛 ⑦）：`_keep_cancel_requested` 只走 `record_error`，**不**调 `transition`。"""
+    source = (TASK_DIR / "cancellation.py").read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    keep: ast.AsyncFunctionDef | None = None
+    for node in ast.walk(tree):
+        if isinstance(node, ast.AsyncFunctionDef) and node.name == "_keep_cancel_requested":
+            keep = node
+    assert keep is not None
+    called = {
+        node.func.attr
+        for node in ast.walk(keep)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+    }
+    assert "transition" not in called, called
+    assert "record_error" in called, called
+    # 源码里**没有** `CANCEL_REQUESTED → CANCEL_REQUESTED` 这类自转移：
+    # 取 `transition(...)` 调用里 `expected` / `new` 的**实参文本**，断言二者不同源。
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            continue
+        if node.func.attr != "transition":
+            continue
+        keywords = {keyword.arg: ast.unparse(keyword.value) for keyword in node.keywords}
+        assert keywords.get("expected") != keywords.get("new"), ast.unparse(node)
+    # `record_error` 是 Domain 契约的一部分（不是实现私有的旁路）。
+    assert "record_error" in inspect.getsource(TaskStoreRepository)
+    assert "def record_error" in inspect.getsource(TaskStore)
 
 
 def test_worker_does_not_overwrite_a_cancel_requested_task(engine: AsyncEngine) -> None:
@@ -2251,13 +2621,23 @@ def test_untrusted_adapter_progress_is_rejected_loudly() -> None:
 
 
 def test_progress_is_written_only_by_the_reporter() -> None:
-    """门槛 ⑧（`docs/07` §10.2）：`tasks.progress` 的写入只经 `progress.py` / 仓储。"""
-    writers = sorted(
+    """门槛 ⑧（`docs/07` §10.2）：`tasks.progress` 的实现写入只经 `progress.py`。"""
+    callers = sorted(
         path.relative_to(REPO_ROOT).as_posix()
         for path in APP_DIR.rglob("*.py")
-        if re.search(r"\.\s*update_progress\(", path.read_text(encoding="utf-8"))
+        if re.search(r"\.\s*update_progress\s*\(", path.read_text(encoding="utf-8"))
     )
-    assert writers == ["app/application/task/progress.py"], writers
+    # 调用者只有「唯一入口」的转发（`engine.py`）与实现（`progress.py`）——
+    # `worker.py` 一律经 `ProgressReporter`，**不**直接写该列（见模块裁决 4）。
+    assert callers == [
+        "app/application/task/engine.py",
+        "app/application/task/progress.py",
+    ], callers
+    source = (TASK_DIR / "progress.py").read_text(encoding="utf-8")
+    # 真正的写库语句（`UPDATE`）只在实现里：调用方不得自己写 `tasks.progress`。
+    assert "update_progress" in source
+    worker_source = (TASK_DIR / "worker.py").read_text(encoding="utf-8")
+    assert re.search(r"\.\s*update_progress\s*\(", worker_source) is None
 
 
 def test_progress_event_is_published(engine: AsyncEngine) -> None:
@@ -2333,6 +2713,108 @@ def test_engine_update_progress_delegates_to_the_reporter(engine: AsyncEngine) -
                 await bare.update_progress(task.id, 55)
             assert excinfo.value.code == "STRUCTAI-7000"
             assert excinfo.value.details["reason"] == "progress_not_configured"
+
+    asyncio.run(_run())
+
+
+def test_progress_update_is_tenant_scoped(engine: AsyncEngine) -> None:
+    """F12（门槛 ⑧ ＋ `docs/02` §11）：进度写入必须带租户 —— 跨租户的 `task_id` 改不动。
+
+    ⚠️ 旧实现 `update_progress(task_id, progress)` 只按 `WHERE id = :id` 更新：用**另一**
+    租户的 `task_id` 能改写该租户任务的进度（同契约的 `get` 却强制租户）。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            reporter = _progress(uow.session)
+            task = await _task_in(
+                uow.session,
+                status=str(TaskStatus.RUNNING),
+                tenant_id=TENANT_ID,
+                fields={"progress": 10},
+            )
+
+            # ① 用**另一个**租户 + 正确的 `task_id`：影响 0 行 → `STRUCTAI-5000`。
+            with pytest.raises(TaskError) as excinfo:
+                await reporter.report(task.id, 80, tenant_id=OTHER_TENANT_ID)
+            error = excinfo.value
+            assert error.code == "STRUCTAI-5000"
+            assert error.details == {"stage": "progress", "reason": "unknown_task"}
+            unchanged = await store.get(task.id, TENANT_ID)
+            assert unchanged is not None
+            assert unchanged.progress == 10  # 进度**未变**（旧实现会变成 80）。
+
+            # 契约层同样按租户过滤。
+            assert await store.update_progress(task.id, 90, tenant_id=OTHER_TENANT_ID) is False
+            assert (await store.get(task.id, TENANT_ID)).progress == 10
+
+            # ② 带**正确**租户 → 写入成功。
+            update = await reporter.report(task.id, 80, tenant_id=TENANT_ID)
+            assert update.progress == 80
+            written = await store.get(task.id, TENANT_ID)
+            assert written is not None
+            assert written.progress == 80
+
+            # ③ 不传租户时保持原行为（只按主键），供跨租户调用方使用。
+            assert await store.update_progress(task.id, 95) is True
+            assert (await store.get(task.id, TENANT_ID)).progress == 95
+
+    asyncio.run(_run())
+
+
+def test_engine_update_progress_forwards_the_tenant(engine: AsyncEngine) -> None:
+    """F12（门槛 ⑧）：`TaskEngine.update_progress` 把 `tenant_id` 透传给 Reporter。"""
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            task = await _task_in(
+                uow.session,
+                status=str(TaskStatus.RUNNING),
+                fields={"progress": 5},
+            )
+            engine_ = TaskEngine(store, progress=_progress(uow.session))
+            with pytest.raises(TaskError) as excinfo:
+                await engine_.update_progress(task.id, 60, tenant_id=OTHER_TENANT_ID)
+            assert excinfo.value.code == "STRUCTAI-5000"
+            assert (await store.get(task.id, TENANT_ID)).progress == 5
+
+            update = await engine_.update_progress(task.id, 60, tenant_id=TENANT_ID)
+            assert update.progress == 60
+            assert (await store.get(task.id, TENANT_ID)).progress == 60
+
+    asyncio.run(_run())
+
+
+def test_worker_reports_progress_with_its_known_tenant(engine: AsyncEngine) -> None:
+    """F12（门槛 ⑫）：Worker 的进度上报带它已知的 `tenant_id`（不再裸按主键写）。"""
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            task = await _task_in(uow.session, status=str(TaskStatus.RUNNING))
+            reporter = _progress(uow.session)
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=TaskQueue(),
+                store=store,
+                lease=_lease(uow.session),
+                executor=_RecordingExecutor(),
+                progress=reporter,
+            )
+            worker.register(task)
+            await worker._report_progress(task.id, 100, TENANT_ID)  # noqa: SLF001
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            assert after.progress == 100
+            # 错误租户 → 写不进去（`STRUCTAI-5000`）。
+            with pytest.raises(TaskError):
+                await worker._report_progress(task.id, 50, OTHER_TENANT_ID)  # noqa: SLF001
+            assert (await store.get(task.id, TENANT_ID)).progress == 100
 
     asyncio.run(_run())
 
@@ -2816,6 +3298,57 @@ def test_engine_retry_stops_at_the_budget(engine: AsyncEngine) -> None:
     asyncio.run(_run())
 
 
+def test_retry_budget_has_a_single_source(engine: AsyncEngine) -> None:
+    """F10（门槛 ⑫）：重试预算只有**一个**来源（任务行），与 Worker 判定一致。
+
+    ⚠️ 旧实现 `retry` 用 `task.max_retries if > 0 else self._max_retries`，而 Worker 只看
+    `task.max_retries` —— `max_retries = 0` 的行 ＋ 引擎级 `2` 会让两处口径相反。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            queue = TaskQueue()
+            task_engine = TaskEngine(store, queue=queue, max_retries=2, operations=_registry())
+
+            # ① 引擎级 `max_retries` 只用于**创建**：提交未声明（`0`）时任务行取引擎级值。
+            created = await task_engine.create(_submission())
+            assert created.max_retries == 2
+
+            # ② 显式声明的 `max_retries` 优先于引擎级值。
+            declared = await task_engine.create(_submission(max_retries=1))
+            assert declared.max_retries == 1
+
+            # ③ 任务行 `max_retries = 0` ＋ 引擎级 `2` → `retry` 抛 `retry_exhausted`
+            #    （与 `TaskWorker._attempts_left` 的判定一致）。任务行是**唯一真源**：
+            #    这里直接落一行 `max_retries = 0`（引擎级 `2` 不得把它「补」回来）。
+            zero = await _task_in(
+                uow.session,
+                status=str(TaskStatus.FAILED),
+                max_retries=0,
+            )
+            assert zero.max_retries == 0
+            with pytest.raises(TaskError) as excinfo:
+                await task_engine.retry(zero.id, TENANT_ID)
+            assert excinfo.value.code == "STRUCTAI-5000"
+            assert excinfo.value.details["reason"] == "retry_exhausted"
+            assert queue.qsize() == 0
+
+            # ④ 行内 `max_retries = 1` → 允许一次重试（同一口径）。
+            one = await _task_in(
+                uow.session,
+                status=str(TaskStatus.FAILED),
+                max_retries=1,
+            )
+            retried = await task_engine.retry(one.id, TENANT_ID)
+            assert retried.status == str(TaskStatus.QUEUED)
+            assert retried.retry_count == 1
+            assert queue.qsize() == 1
+
+    asyncio.run(_run())
+
+
 def test_worker_respects_the_scheduler_admission(engine: AsyncEngine) -> None:
     """门槛 ⑫（`docs/02` §18）：并发额度已满 → **不**执行（状态保持 `QUEUED`，租约被释放）。"""
 
@@ -2823,6 +3356,7 @@ def test_worker_respects_the_scheduler_admission(engine: AsyncEngine) -> None:
         factory = create_session_factory(engine)
         async with UnitOfWork.from_session_factory(factory) as uow:
             store = build_task_store(uow.session)
+            queue = TaskQueue()
             scheduler = Scheduler(limits=ConcurrencyLimits(global_limit=1))
             holder = ConcurrencyRequest(task_id="holder-task", tenant_id=TENANT_ID, user_id="")
             assert (await scheduler.try_acquire(holder)).admitted is True
@@ -2830,7 +3364,7 @@ def test_worker_respects_the_scheduler_admission(engine: AsyncEngine) -> None:
             executor = _RecordingExecutor()
             worker = TaskWorker(
                 worker_id="worker-a",
-                queue=TaskQueue(),
+                queue=queue,
                 store=store,
                 lease=_lease(uow.session),
                 executor=executor,
@@ -2847,7 +3381,235 @@ def test_worker_respects_the_scheduler_admission(engine: AsyncEngine) -> None:
             assert after is not None
             assert after.lease_owner is None
             assert after.started_at is None
+            # 未准入**不丢队列**（F2）：任务回到队列，仍可被下一次取走。
+            assert queue.qsize() == 1
+            assert (await queue.get()).task_id == task.id
+            queue.task_done()
             await scheduler.release(holder)
+
+    asyncio.run(_run())
+
+
+def test_not_admitted_task_goes_back_to_the_queue(engine: AsyncEngine) -> None:
+    """F2（门槛 ⑥）：调度器饱和时 `run_task` 返回后 `status == QUEUED` **且**回到队列。
+
+    ⚠️ 旧实现只释放租约就 `return`：队列项已被 `run()` 的 `finally: task_done()`
+    消费，任务永远停在 `QUEUED` —— 没人执行、也不报错。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            queue = TaskQueue()
+            scheduler = Scheduler(limits=ConcurrencyLimits(global_limit=1))
+            holder = ConcurrencyRequest(task_id="holder-task", tenant_id=TENANT_ID, user_id="")
+            assert (await scheduler.try_acquire(holder)).admitted is True
+
+            executor = _RecordingExecutor()
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=queue,
+                store=store,
+                lease=_lease(uow.session),
+                executor=executor,
+                scheduler=scheduler,
+                poll_interval=0.01,
+            )
+            task = await _task_in(uow.session, status=str(TaskStatus.QUEUED))
+            worker.register(task)
+            await queue.put(task.id, task.priority, created_at=task.created_at)
+            assert queue.qsize() == 1
+
+            # 模拟 `run()` 已把队列项取走（`get()` 消费掉），随后 `run_task` 被拒。
+            consumed = await queue.get()
+            assert consumed.task_id == task.id
+            returned = await worker.run_task(task.id, "worker-a")
+
+            assert returned.status == str(TaskStatus.QUEUED)
+            assert executor.calls == []
+            # ① 任务**回到队列**（不丢队列）。
+            assert queue.qsize() == 1
+            item = await queue.get()
+            assert item.task_id == task.id
+            # ② 排序键仍是**原始** `created_at`（`docs/02` §17）。
+            assert item.created_at == task.created_at
+            queue.task_done()
+            # ③ 租约已释放，且状态与 `started_at` 都未被改动。
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            assert after.lease_owner is None
+            assert after.started_at is None
+            await scheduler.release(holder)
+
+    asyncio.run(_run())
+
+
+def test_lease_is_released_when_the_policy_source_raises(engine: AsyncEngine) -> None:
+    """F7（门槛 ②）：抢到租约后 `try_acquire`（注入的 `policy_for`）抛错 → 租约仍被释放。
+
+    ⚠️ 旧实现里 `finally` 只覆盖 `try` 之后的代码：`lease.acquire()` 成功之后、
+    `try` 之前的异常会让租约**不被释放**，30s 内任何 Worker 都抢不到该任务。
+    """
+
+    class _ExplodingPolicy:
+        """`policy_for` 一律抛 `RuntimeError` 的策略来源（`docs/02` §20）。"""
+
+        async def policy_for(self, software_instance_id: str) -> SoftwareInstanceConcurrencyPolicy:
+            """始终抛错，模拟注入端点的故障。"""
+            raise RuntimeError(f"policy source exploded for {software_instance_id}")
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            scheduler = Scheduler(policies=_ExplodingPolicy())
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=TaskQueue(),
+                store=store,
+                lease=_lease(uow.session),
+                executor=_RecordingExecutor(),
+                scheduler=scheduler,
+            )
+            # 任务带 `project_id`（Worker 的并发请求因此带实例维度 → 会调 `policy_for`）。
+            task = await _task_in(
+                uow.session,
+                status=str(TaskStatus.QUEUED),
+                project_id=PROJECT_ID,
+            )
+            worker.register(task)
+            # 让 Worker 的实例维度取到值（本批取 `project_id`）。
+            worker._concurrency_request = lambda record: ConcurrencyRequest(  # noqa: SLF001
+                task_id=record.id,
+                tenant_id=record.tenant_id,
+                user_id="",
+                software_instance_id=record.project_id,
+            )
+
+            with pytest.raises(RuntimeError, match="policy source exploded"):
+                await worker.run_task(task.id, "worker-a")
+
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            # 任何异常路径都必须释放租约（`docs/02` §65）。
+            assert after.lease_owner is None
+            assert after.lease_until is None
+            # 状态未被推进（准入都没成功）。
+            assert after.status == str(TaskStatus.QUEUED)
+
+    asyncio.run(_run())
+
+
+def test_worker_loop_survives_a_single_bad_task(engine: AsyncEngine) -> None:
+    """F3（`docs/07` §14.4）：单条坏任务不得打死 Worker 循环，其余任务照常执行。
+
+    ⚠️ 旧实现没有逐项异常隔离：一条抛 `TaskError`（未登记 `task_id`）的任务会让
+    `while` 循环**整体退出**，队列里其余任务全部不再执行。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            queue = TaskQueue()
+            executor = _RecordingExecutor()
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=queue,
+                store=store,
+                lease=_lease(uow.session),
+                executor=executor,
+                progress=_progress(uow.session),
+                poll_interval=0.01,
+            )
+            good = await _task_in(uow.session, status=str(TaskStatus.QUEUED))
+            worker.register(good)
+            # 先塞一个**未登记**的 `task_id`，再塞一个正常任务。
+            await queue.put("00000000-0000-4000-8000-000000000000", DEFAULT_TASK_PRIORITY)
+            await queue.put(good.id, good.priority, created_at=good.created_at)
+
+            runner = asyncio.create_task(worker.run())
+            for _ in range(300):
+                await asyncio.sleep(0.01)
+                current = await store.get(good.id, TENANT_ID)
+                if current is not None and current.status == str(TaskStatus.COMPLETED):
+                    break
+
+            # 循环**仍在运行**（坏任务没有把它打死）。
+            assert runner.done() is False
+            assert worker.running is True
+
+            worker.stop()
+            await queue.shutdown()
+            await asyncio.wait_for(runner, timeout=5)
+            assert runner.done() is True
+            assert runner.exception() is None
+
+            after = await store.get(good.id, TENANT_ID)
+            assert after is not None
+            assert after.status == str(TaskStatus.COMPLETED)
+            assert executor.calls == [good.id]
+
+    asyncio.run(_run())
+
+
+def test_engine_retry_registers_the_task_with_the_worker(engine: AsyncEngine) -> None:
+    """F3（门槛 ⑫）：`TaskEngine.retry` 重新入队时**必须**登记租户 → Worker 能跑到 `COMPLETED`。
+
+    ⚠️ 旧实现只 `_enqueue`、**不**调 `self._worker.register(task)`：Worker 取到该任务时抛
+    `unknown_task`（`STRUCTAI-5000`），重试后的任务永远执行不了。
+    """
+
+    async def _run() -> None:
+        factory = create_session_factory(engine)
+        async with UnitOfWork.from_session_factory(factory) as uow:
+            store = build_task_store(uow.session)
+            queue = TaskQueue()
+            worker = TaskWorker(
+                worker_id="worker-a",
+                queue=queue,
+                store=store,
+                lease=_lease(uow.session),
+                executor=_RecordingExecutor(),
+                progress=_progress(uow.session),
+                poll_interval=0.01,
+            )
+            task_engine = TaskEngine(
+                store,
+                queue=queue,
+                worker=worker,
+                operations=_registry(),
+            )
+            task = await _task_in(
+                uow.session,
+                status=str(TaskStatus.FAILED),
+                max_retries=1,
+            )
+
+            record = await task_engine.retry(task.id, TENANT_ID)
+            assert record.status == str(TaskStatus.QUEUED)
+            # ① 租户已被登记（旧实现缺这一步）。
+            assert worker.registered_tenants() == {task.id: TENANT_ID}
+            assert queue.qsize() == 1
+
+            # ② `w.run()` 能把重试后的任务跑到 `COMPLETED`（不再 `unknown_task`）。
+            runner = asyncio.create_task(worker.run())
+            for _ in range(300):
+                await asyncio.sleep(0.01)
+                current = await store.get(task.id, TENANT_ID)
+                if current is not None and current.status == str(TaskStatus.COMPLETED):
+                    break
+            worker.stop()
+            await queue.shutdown()
+            await asyncio.wait_for(runner, timeout=5)
+
+            assert runner.exception() is None
+            after = await store.get(task.id, TENANT_ID)
+            assert after is not None
+            assert after.status == str(TaskStatus.COMPLETED)
+            assert after.retry_count == 1
+            assert after.lease_owner is None
 
     asyncio.run(_run())
 
