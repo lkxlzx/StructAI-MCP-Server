@@ -1,5 +1,6 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
-P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security / P14–P18 Execution）。
+P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security /
+P14–P18 Execution / P19–P20 Adapters）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -16,6 +17,7 @@ P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security / P14
 | `schema_registry` / `schema_engine` | **P09 ✅ 不进容器**（§33 冻结形状无此字段） |
 | 安全服务（`authentication` / `session` / `rbac` / `permission`；会话级，不进容器） | **P10 ✅** |
 | 资源 / 能力服务（`resolver` / `lock_manager` / `capability_resolver`） | **P14 ✅** |
+| 适配器（`AdapterManager`；**进程级**，不进容器） | **P19 ✅** |
 | `execution_service` | P36 |
 
 生命周期（`docs/02` §34 / §79 / §80）：
@@ -52,7 +54,7 @@ from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P14"
+BATCH_ID: Final[str] = "P19"
 
 logger = logging.getLogger("structai")
 
@@ -76,6 +78,11 @@ class AppContainer:
     `ResourceLockManager` 是进程内状态，`CapabilityResolver` 依赖会话级 `ResourceStore`；
     三者都由调用方（P36 的 `ExecutionService`）按会话 / 进程装配；
     `execution_service` 仍为空（P36 填充）。
+
+    P19：适配器（`app.infrastructure.adapters`）同样**不**进本容器 ——
+    `AdapterManager` 是**进程级**对象（Adapter 注册 / 实例绑定 / 运行时能力快照都在进程内，
+    见 `adapters/base/manager.py` 裁决 1 / 2），由 P36 的 `ExecutionService` 持有，
+    并作为 `RuntimeCapabilitySource` 注入 `CapabilityResolver`（`docs/07` §16 R30）。
     `started` 仅表示生命周期已进入运行态。
     """
 
@@ -152,6 +159,12 @@ def build_container(settings: Settings) -> AppContainer:
     `ExecutionService` 按会话 / 进程持有（`docs/02` §33 / §123）。
 
     ⚠️ 本函数**不建立连接**（只构造引擎），连接与校验由 `startup()` 完成；
+
+    P19：`AdapterManager`（`app.infrastructure.adapters.base.manager`）**不**在此装配 ——
+    它是**进程级**对象（注册表与实例绑定是进程内状态；`docs/02` §15 的
+    `adapter_instances` 表本批**不**建，见该模块裁决 2），由 P36 的 `ExecutionService`
+    持有。`MockAdapter` 由调用方 `register()` + `bind_instance()` 显式装配
+    （`docs/02` §54 的启动序列；Plugin Loader / Entry Point 不在本批，见 `docs/02` §117）。
     仓储是**会话级**对象，由 `app.infrastructure.database.repositories.build_repositories`
     按会话装配，**不**进本容器（`docs/02` §16 / §33）；因此本函数仍是同步的。
     """

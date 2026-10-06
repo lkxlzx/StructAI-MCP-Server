@@ -40,10 +40,12 @@
    **静态 Manifest 口径**：能力码在落库词表内（`capabilities`，权威静态清单）
    **且**实例状态为 `CONNECTED` → `SUPPORTED`；否则 `UNKNOWN`。
    **`UNKNOWN ≠ SUPPORTED`**（§47），因此一律拒绝。
-   ⚠️ 本模块**不**使用 `UNSUPPORTED`：`docs/02` §45 的 `UNSUPPORTED`（如「某软件不支持
-   `DESIGN.STEEL`」）来自 Adapter 的运行时能力清单，本批没有 Adapter，
-   故「说不清」一律落 `UNKNOWN`（更严格、且与 §47 的拒绝语义一致）。
-   Adapter 侧的运行时复检在 P19–P20 接入，接入点就是同一个 `status_of()`。
+   ⚠️ `UNSUPPORTED` 只在**运行时清单可得**时产出：`docs/02` §45 的 `UNSUPPORTED`（如
+   「某软件不支持 `DESIGN.STEEL`」）来自 Adapter 的运行时能力清单（`get_capabilities()`）。
+   未注入运行时来源时（P14–P18 口径）「说不清」一律落 `UNKNOWN`（更严格、且与 §47 的
+   拒绝语义一致）；P19–P20 起由 `runtime=` 注入 Adapter 的运行时快照：
+   **清单可得**且不含该能力 → `UNSUPPORTED`；**清单不可得**（未连接 / 未绑定）→ `UNKNOWN`。
+   「探测不到」与「明确不支持」严格区分。接入点仍是同一个 `status_of()`（`docs/07` §16 R30）。
 4. **`check()` 是 ALL 语义**（`docs/02` §46）：`required_capabilities` 中**任一**不是
    `SUPPORTED` 即拒绝，`details` 一次列全缺口 —— 便于诊断，而不是逐个报错。
 5. **缓存键含 `product` + `version`**（`docs/02` §48）：版本变化必然 miss；
@@ -78,6 +80,7 @@ __all__ = [
     "CapabilityResolver",
     "CapabilitySupport",
     "InstanceLookup",
+    "RuntimeCapabilitySource",
 ]
 
 DEFAULT_CAPABILITY_CACHE_SECONDS: Final[int] = 300
@@ -117,6 +120,23 @@ class InstanceLookup(Protocol):
 
     async def software_instance(self, instance_id: str) -> SoftwareInstanceRecord | None:
         """按主键读取实例快照；不存在返回 `None`。"""
+        ...
+
+
+class RuntimeCapabilitySource(Protocol):
+    """运行时能力来源契约（`docs/02` §21 / §23 / §57；`docs/07` §16 R30 的接入点）。
+
+    `AdapterManager.runtime_capabilities(instance_id)` 结构上即满足它 ——
+    Application 层因此**不**依赖 `app.infrastructure`（`docs/07` §14.1）。
+
+    ⚠️ 必须区分「不可得」与「空集」：
+
+    - `None` → **探测不到**（实例未绑定 Adapter / Adapter 未连接）→ 判定落 `UNKNOWN`；
+    - `frozenset()` → 清单**可得**但为空 → 判定落 `UNSUPPORTED`。
+    """
+
+    def runtime_capabilities(self, instance_id: str) -> frozenset[str] | None:
+        """该实例的运行时能力快照；不可得时返回 `None`。"""
         ...
 
 
@@ -191,6 +211,15 @@ class CapabilityDecision:
         )
 
     @property
+    def unsupported(self) -> tuple[str, ...]:
+        """判定为 `UNSUPPORTED` 的能力码（`docs/02` §45：清单明确不含该能力）。"""
+        return tuple(
+            item.capability
+            for item in self.capabilities
+            if item.status is CapabilityStatus.UNSUPPORTED
+        )
+
+    @property
     def ok(self) -> bool:
         """是否**全部**要求的能力都 `SUPPORTED`（`docs/02` §46 的 ALL 语义）。"""
         return not self.missing
@@ -210,6 +239,7 @@ class CapabilityResolver:
         *,
         cache_ttl_seconds: int = DEFAULT_CAPABILITY_CACHE_SECONDS,
         clock: Clock | None = None,
+        runtime: RuntimeCapabilitySource | None = None,
     ) -> None:
         """绑定能力词表、实例来源与缓存参数。
 
@@ -220,9 +250,14 @@ class CapabilityResolver:
                 `instance=`（避免隐式依赖）。
             cache_ttl_seconds: 缓存 TTL（秒）；调用方传 `settings.capability_cache_seconds`。
             clock: 可注入时钟；缺省带时区的 UTC 当前时间。
+            runtime: **运行时**能力来源（`docs/02` §21 / §23 / §57）。缺省 `None` 时
+                `status_of()` 只做静态判定（P14–P18 口径，**不**产出 `UNSUPPORTED`）；
+                注入 `AdapterManager`（P19–P20）后，运行时清单可得即按清单区分
+                `SUPPORTED` / `UNSUPPORTED`（见模块裁决 3）。
         """
         self._registry = registry
         self._instances = instances
+        self._runtime = runtime
         self._cache_ttl_seconds = cache_ttl_seconds
         self._clock: Clock = clock or _utc_now
         self._cache: dict[tuple[str, str, str, str], CapabilitySupport] = {}
@@ -304,7 +339,12 @@ class CapabilityResolver:
             return CapabilityStatus.UNKNOWN
         if instance.status != SoftwareConnectionState.CONNECTED.value:
             return CapabilityStatus.UNKNOWN
-        return CapabilityStatus.SUPPORTED
+        if self._runtime is None:
+            return CapabilityStatus.SUPPORTED
+        available = self._runtime.runtime_capabilities(instance.id)
+        if available is None:
+            return CapabilityStatus.UNKNOWN
+        return CapabilityStatus.SUPPORTED if code in available else CapabilityStatus.UNSUPPORTED
 
     async def supports(
         self,

@@ -1950,7 +1950,6 @@ def test_engineering_validator_is_pure() -> None:
 def test_batch_id_is_a_batch_marker() -> None:
     """同步改动：`BATCH_ID` 形如 `P<两位数字>`（`docs/08` §3 的批次口径）。"""
     assert re.fullmatch(r"P\d{2}", BATCH_ID)
-    assert BATCH_ID == "P14"
 
 
 def test_main_exits_zero_with_empty_stdout_on_an_unprovisioned_database(
