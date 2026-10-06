@@ -1,6 +1,5 @@
 """应用容器（P01 Bootstrap / P02 Config / P03 Domain / P04 Database / P05 Repository /
-P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security）。
-P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema）。
+P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema / P10–P13 Security / P14–P18 Execution）。
 
 - 本文件是**唯一**的依赖装配点（`docs/07` §3.3 冻结结构）。
 - 禁止在模块层创建全局单例（`blue` §123：禁止 `global TaskEngine()`）。
@@ -16,6 +15,7 @@ P06 UnitOfWork / P07 Seed / P08 Registry / P09 Schema）。
 | `operation_registry` | **P08 ✅** |
 | `schema_registry` / `schema_engine` | **P09 ✅ 不进容器**（§33 冻结形状无此字段） |
 | 安全服务（`authentication` / `session` / `rbac` / `permission`；会话级，不进容器） | **P10 ✅** |
+| 资源 / 能力服务（`resolver` / `lock_manager` / `capability_resolver`） | **P14 ✅** |
 | `execution_service` | P36 |
 
 生命周期（`docs/02` §34 / §79 / §80）：
@@ -52,7 +52,7 @@ from app.infrastructure.registry.operation_registry import OperationRegistry
 
 __all__ = ["BATCH_ID", "AppContainer", "build_container"]
 
-BATCH_ID: Final[str] = "P10"
+BATCH_ID: Final[str] = "P14"
 
 logger = logging.getLogger("structai")
 
@@ -71,6 +71,10 @@ class AppContainer:
     P10：安全服务（`app.application.security`）同理**不**进本容器 —— 它们是会话级
     对象（见 `build_container` 的说明），由 `build_security_stores(session)` +
     `build_security_services(...)` 按会话装配；
+    P14：资源 / 能力服务（`app.application.resource` / `app.application.services`）同理
+    **不**进本容器 —— `ResourceResolver` 持有会话级的 `ResourceStore`，
+    `ResourceLockManager` 是进程内状态，`CapabilityResolver` 依赖会话级 `ResourceStore`；
+    三者都由调用方（P36 的 `ExecutionService`）按会话 / 进程装配；
     `execution_service` 仍为空（P36 填充）。
     `started` 仅表示生命周期已进入运行态。
     """
@@ -141,6 +145,11 @@ def build_container(settings: Settings) -> AppContainer:
     全部绑定在 `AsyncSession` 上），由
     `app.infrastructure.database.repositories.build_security_stores(session)`
     + `app.application.security.build_security_services(...)` 按会话装配。
+    P14：`ResourceResolver` / `ResourceLockManager` / `CapabilityResolver` 同样**不**在此
+    装配 —— `ResourceResolver` 与 `CapabilityResolver` 持有**会话级**的 `ResourceStore`
+    （由 `app.infrastructure.database.repositories.build_resource_store(session)` 装配），
+    `ResourceLockManager` 是**进程内**状态（`docs/02` §38），三者都由 P36 的
+    `ExecutionService` 按会话 / 进程持有（`docs/02` §33 / §123）。
 
     ⚠️ 本函数**不建立连接**（只构造引擎），连接与校验由 `startup()` 完成；
     仓储是**会话级**对象，由 `app.infrastructure.database.repositories.build_repositories`

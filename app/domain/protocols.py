@@ -37,7 +37,12 @@ from app.domain.events import DomainEvent
 __all__ = [
     "ArtifactStorage",
     "CredentialProvider",
+    "DocumentRecord",
     "EventHandler",
+    "ModelRecord",
+    "ProjectRecord",
+    "ResourceStore",
+    "SoftwareInstanceRecord",
     "ProjectMembershipLookup",
     "ResourceACLEntry",
     "ResourceACLLookup",
@@ -355,3 +360,104 @@ class SecurityStores:
     sessions: SessionStore
     roles: RoleLookup
     projects: ProjectMembershipLookup
+
+
+# ===== P14–P18 Execution Foundation（`docs/07` §12 P14–P18；`docs/02` §8–§12 / §25）=====
+#
+# 为什么这些契约在 Domain（`docs/07` §14.1 / §2.2）：
+# `ResourceResolver` 需要读 `projects` / `models` / `documents` /
+# `software_instances` 四张表（`docs/02` §8–§12 / §25 / §71–§73），而 Application 层
+# **不得**依赖 `app.infrastructure`。故把「需要什么」收窄为下列结构化记录与契约
+# （P03 的 `OperationRegistry`、P09 的 `SchemaLookup`、P10–P13 的 `SecurityStores`
+# 是同一做法的先例），实现落在
+# `app/infrastructure/database/repositories/resource.py`。
+#
+# 🔴 记录类型只承载**非敏感**字段：`SoftwareInstanceRecord` 刻意**不含**
+#    `credential_reference`（`docs/02` §21；`docs/07` §8.5 / §14.3）—— 凭据引用是
+#    Adapter / CredentialProvider 的内部字段，绝不进入执行上下文，从源头收掉 secret 外泄面。
+
+
+@dataclass(frozen=True, slots=True)
+class ProjectRecord:
+    """项目快照（`docs/02` §8 / §20 / §71）。
+
+    只承载租户边界判定所需的字段：`projects` 是 Tenant-owned（`docs/07` §4.3 #8），
+    `tenant_id` 是 `docs/02` §10 的**唯一**跨租户判定依据。
+    `version` 是乐观并发版本号（`docs/02` §12），供执行层回传 `expected_version`。
+    """
+
+    id: str
+    tenant_id: str
+    version: int = 1
+
+
+@dataclass(frozen=True, slots=True)
+class ModelRecord:
+    """工程模型快照（`docs/02` §8 / §22 / §71–§72）。
+
+    `models` **没有** `tenant_id` 列：租户归属经 `project_id → projects.tenant_id` 传递
+    （`docs/02` §11 / §22），因此解析模型时**必须**追到项目再追到租户
+    （`docs/02` §11 的 `Model ↓ Project ↓ Tenant`）。
+    """
+
+    id: str
+    project_id: str
+    software_instance_id: str | None = None
+    version: int = 1
+
+
+@dataclass(frozen=True, slots=True)
+class DocumentRecord:
+    """文档快照（`docs/02` §8 / §22）。
+
+    与模型同理：租户归属经 `project_id → projects.tenant_id` 传递。
+    `status` 取值见 `app.domain.enums.DocumentStatus`。
+    """
+
+    id: str
+    project_id: str
+    model_id: str | None = None
+    status: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class SoftwareInstanceRecord:
+    """软件实例快照（`docs/02` §12 / §19 / §21）。
+
+    ⚠️ **不含** `credential_reference`（见本节说明）。
+
+    `software_instances` 属 `docs/07` §4.3 #10–#13 的**软件注册表**，没有 `tenant_id`
+    列；`docs/02` §12 因此要求「如果当前 Schema 还没有该字段，本批次必须通过所属
+    Project / Registry 关系补齐，**不能允许跨租户实例被直接执行**」。实例的租户归属
+    由 `ResourceStore.tenant_ids_binding_instance` 回答（见下）。
+    """
+
+    id: str
+    name: str
+    version_id: str = ""
+    status: str = ""
+    vendor: str = ""
+    product: str = ""
+    version: str = ""
+
+
+class ResourceStore(Protocol):
+    """执行期资源读取契约（`docs/02` §8–§12 / §25 / §71–§73）。
+
+    - 四个读取方法只回答「这一行是什么」，**不**做租户判定 —— 跨租户拦截是
+      `ResourceResolver` 的**唯一**职责（`docs/07` §9 第 7 步：「跨租户唯一拦截点，
+      必须最先」），判定只允许一处实现。
+    - `tenant_ids_binding_instance` 回答「哪些租户的项目链绑定了这个软件实例」，
+      用于在**不改表**的前提下补齐 `software_instances` 缺失的租户归属
+      （`docs/02` §12：经「所属 Project / Registry 关系」补齐）。
+    """
+
+    async def project(self, project_id: str) -> ProjectRecord | None: ...
+
+    async def model(self, model_id: str) -> ModelRecord | None: ...
+
+    async def document(self, document_id: str) -> DocumentRecord | None: ...
+
+    async def software_instance(self, instance_id: str) -> SoftwareInstanceRecord | None: ...
+
+    async def tenant_ids_binding_instance(self, instance_id: str) -> frozenset[str]: ...

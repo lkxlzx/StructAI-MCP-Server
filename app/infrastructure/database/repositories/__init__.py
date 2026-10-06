@@ -41,6 +41,10 @@ from app.infrastructure.database.repositories.base import (
 )
 from app.infrastructure.database.repositories.model import ModelRepository
 from app.infrastructure.database.repositories.project import ProjectRepository
+from app.infrastructure.database.repositories.resource import (
+    ResourceStoreRepository,
+    build_resource_store,
+)
 from app.infrastructure.database.repositories.security import (
     ProjectMembershipRepository,
     RoleRepository,
@@ -58,6 +62,7 @@ __all__ = [
     "ModelRepository",
     "ProjectMembershipRepository",
     "ProjectRepository",
+    "ResourceStoreRepository",
     "RepositoryBundle",
     "RoleRepository",
     "SessionRepository",
@@ -68,6 +73,7 @@ __all__ = [
     "UserRepository",
     "VersionedRepository",
     "build_repositories",
+    "build_resource_store",
     "build_security_stores",
 ]
 

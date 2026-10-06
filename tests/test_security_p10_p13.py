@@ -1495,9 +1495,13 @@ def test_ai_agent_without_scope_gets_no_permissions(sessions: SessionFactory) ->
 # ===== ⑦ 回归（`python -m app.main` / P04 / P02）=====
 
 
-def test_batch_id_is_p10() -> None:
-    """同步改动：`BATCH_ID` → P10（`docs/08` §3 的批次口径）。"""
-    assert BATCH_ID == "P10"
+def test_batch_id_is_a_batch_marker() -> None:
+    """同步改动：`BATCH_ID` 始终形如 `P<两位数字>`（`docs/08` §3 的批次口径）。
+
+    ⚠️ P14 收尾时把本断言从「等于 P10」改为与具体批次无关（与 P08 / P09 收尾时的做法一致），
+    否则每批都要改上一批的测试文件。
+    """
+    assert re.fullmatch(r"P\d{2}", BATCH_ID)
 
 
 def test_main_exits_zero_with_empty_stdout_on_an_unprovisioned_database(

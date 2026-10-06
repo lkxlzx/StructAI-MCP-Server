@@ -741,14 +741,24 @@ def test_schema_engine_only_depends_on_domain_and_the_json_schema_library() -> N
     assert offenders == []
 
 
-def test_engineering_validator_is_not_implemented_in_this_batch() -> None:
-    """门槛 ⑤：本批只做 `Schema Validation`；工程语义校验（`docs/02` §18–§22）不落地。"""
+def test_schema_layer_keeps_engineering_semantics_out() -> None:
+    """门槛 ⑤（P09）＋ P14 的落地：`SchemaEngine` 只做结构校验，工程语义在另一模块。
+
+    ⚠️ P09 收尾时本用例断言「`engineering_validator.py` **不**存在」；P14–P18 已落地
+    `EngineeringValidator`（`docs/07` §12 P14–P18），故该断言改为**分层分离**口径
+    （`docs/02` §13 / §17 / §69：`Schema Validation` 先于 `Engineering Validation`，
+    且工程语义**不得**塞回 Schema 层）—— 否则每批都要改上一批的测试文件。
+    """
     execution_dir = APP_DIR / "application" / "execution"
     assert (execution_dir / "validation.py").is_file()
-    assert not (execution_dir / "engineering_validator.py").exists()
 
     source = (execution_dir / "validation.py").read_text(encoding="utf-8")
     assert "EngineeringValidationError" not in source
+    # ⚠️ 只断言**实现**层面的分离：文档字符串里说明「工程语义归 EngineeringValidator」
+    # 是允许的（那是分层说明），不得因此被判违规。
+    schema_imports = _imported_modules(execution_dir / "validation.py")
+    for leaked in ("engineering_validator", "preconditions", "postconditions"):
+        assert not [name for name in schema_imports if name.endswith(leaked)], leaked
 
 
 def test_container_shape_stays_frozen() -> None:
