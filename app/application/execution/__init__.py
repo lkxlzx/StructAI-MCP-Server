@@ -10,8 +10,16 @@
 | `preconditions.py` · `postconditions.py` | 前置 / 后置条件（`docs/02` §32） | **P14 ✅** |
 | `confirmation.py` | Confirmation Token（`docs/07` §8.4） | **P14 ✅** |
 | `idempotency.py` | `IdempotencyService`：原子抢占 / 重放 / 冲突（`docs/07` §10.3） | **P21 ✅** |
-| `pipeline.py` | Validation Pipeline 编排（`docs/02` §30） | P36（随 `ExecutionService`） |
-| `service.py` | `ExecutionService`（`docs/07` §9 的 15 步主干） | P36 |
+| `pipeline.py` | 26 步的闸门链 / 结果链编排（`docs/07` §9；`docs/02` §30 / §90） | **P36 ✅** |
+| `service.py` | `ExecutionService`（26 步主干 ＋ `TaskExecutor` 端口） | **P36 ✅** |
+
+⚠️ **`service.py` 刻意不在此包级导出**：`app/application/task/worker.py` 在模块层
+导入 `app.application.execution.context`，因此本 `__init__` 一旦再拉入 `service`
+（它需要 `app.application.task.engine` 的 `TaskSubmission`），就会形成
+`task.worker → execution.__init__ → execution.service → task.engine → task.worker`
+的**部分初始化**环（`ImportError`）。故 `ExecutionService` 一律经
+`from app.application.execution.service import ExecutionService` 直接导入
+（容器即如此装配）。本批**不改** `worker.py`（P22–P28 已验收）。
 
 顺序红线（`docs/07` §9，**冻结**）
 --------------------------------
@@ -74,6 +82,23 @@ from app.application.execution.idempotency import (
     decode_response,
     encode_response,
     hash_payload,
+)
+from app.application.execution.pipeline import (
+    AUDIT_ACTION_FAMILIES,
+    MCP_PIPELINE_STEPS,
+    PIPELINE_EXECUTION_STEPS,
+    PIPELINE_GATE_STEPS,
+    PIPELINE_RESPONSE_STEPS,
+    PIPELINE_STAGE,
+    PIPELINE_TASK_STEP,
+    AdapterExecutor,
+    ExecutionPipeline,
+    PipelineGate,
+    PipelineRequest,
+    QuotaGate,
+    audit_action_for,
+    quota_allowed,
+    quota_refusal_details,
 )
 from app.application.execution.postconditions import (
     POSTCONDITION_OPERATIONS,
@@ -159,6 +184,21 @@ __all__ = [
     "SoftwareContext",
     "dialect_of",
     "ignored_client_identity_fields",
+    "AUDIT_ACTION_FAMILIES",
+    "AdapterExecutor",
+    "ExecutionPipeline",
+    "MCP_PIPELINE_STEPS",
+    "PIPELINE_EXECUTION_STEPS",
+    "PIPELINE_GATE_STEPS",
+    "PIPELINE_RESPONSE_STEPS",
+    "PIPELINE_STAGE",
+    "PIPELINE_TASK_STEP",
+    "PipelineGate",
+    "PipelineRequest",
+    "QuotaGate",
+    "audit_action_for",
+    "quota_allowed",
+    "quota_refusal_details",
     "validator_for",
     "IdempotencyDecision",
     "IdempotencyOutcome",

@@ -2867,9 +2867,16 @@ def test_task_engine_is_the_only_task_creation_point() -> None:
 # ===== ⑩ 回归（`docs/07` §12 P01 / P02 / P04；`docs/08` §3）=====
 
 
-def test_batch_id_is_p22() -> None:
-    """门槛 ⑩：容器批次号已推进到 **P22**（本批 = P22–P28 Task Engine）。"""
-    assert BATCH_ID == "P22"
+def test_batch_id_is_a_batch_marker() -> None:
+    """门槛 ⑩：`container.BATCH_ID` 始终形如 `P<两位数字>`（`docs/08` §3 的批次口径）。
+
+    ⚠️ P29–P36 收尾时把本断言从「等于 `P22`」改为**与具体批次无关**（与 P09 / P14 / P19 / P21
+    收尾时的做法一致）：批次号每批都推进（`docs/08` §1 的交接协议），把上一批的批号写死
+    会让每一批都必须改上一批的测试文件。批次是否已推进由 `docs/08` §3 状态表与
+    `tests/test_infrastructure_p29_p35.py` 的 `test_batch_id_is_p29` 负责。
+    """
+    assert BATCH_ID.startswith("P")
+    assert BATCH_ID[1:].isdigit()
 
 
 def test_p04_tables_and_select_one_are_not_regressed(engine: AsyncEngine) -> None:

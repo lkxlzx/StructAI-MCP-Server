@@ -37,12 +37,16 @@ __all__ = [
     "Capability",
     "CapabilityStatus",
     "DocumentStatus",
+    "EventRecordStatus",
     "ExecutionMode",
     "HealthStatus",
     "LockMode",
+    "NotificationChannel",
     "Permission",
     "PermissionCode",
     "PermissionEffect",
+    "QuotaDimension",
+    "QuotaMetric",
     "ResourceType",
     "RoleName",
     "RiskLevel",
@@ -50,6 +54,8 @@ __all__ = [
     "SoftwareStatus",
     "TaskPriority",
     "TaskStepStatus",
+    "TraceSpanKind",
+    "TraceStatus",
 ]
 
 
@@ -432,3 +438,102 @@ class TaskStepStatus(StrEnum):
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
     SKIPPED = "SKIPPED"
+
+
+# ===== P29–P35 Infrastructure（`docs/07` §12 P29–P35；`docs/02` §29–§41 / §55–§66）=====
+#
+# 以下 6 个枚举的取值**逐项照抄** `docs/02` 第十四份（P57–P66 批次）的原文清单，
+# 不是推导项：
+# - `EventRecordStatus` —— §6「状态：PENDING / PUBLISHED / FAILED」；
+# - `NotificationChannel` —— §35 / §59 的通知通道清单；
+# - `QuotaDimension` —— §36 / §60 的四个维度（user / tenant / AI agent / software instance）；
+# - `QuotaMetric` —— §36 / §60 的五个指标（max_tasks / max_concurrent_tasks /
+#   max_api_requests / max_storage / max_projects）；
+# - `TraceSpanKind` —— §63 / §12 的 Span 清单；
+# - `TraceStatus` —— §11 / §12 / §53 的 `status`（`OK` / `ERROR`）。
+#
+# 分层红线（`docs/07` §14.1 / §14.2）：取值中**不得**出现任何厂商名。
+
+
+class EventRecordStatus(StrEnum):
+    """事件记录（Outbox）的投递状态（`docs/02` §6）。
+
+    `docs/02` §6 逐字给出三态：`PENDING` / `PUBLISHED` / `FAILED`。
+    Core Alpha 的 Outbox 落在**进程内**（`docs/02` §5.4 明确允许「本阶段暂不实现
+    完整 Outbox，但必须在代码层明确其为 Alpha 限制，并保留迁移接口」）——
+    `event_records` 表不在 `docs/07` §4.3 的 24 张表内，本批**不得改表**。
+    """
+
+    PENDING = "PENDING"
+    PUBLISHED = "PUBLISHED"
+    FAILED = "FAILED"
+
+
+class NotificationChannel(StrEnum):
+    """通知通道（`docs/02` §35 / §59）。
+
+    §35 列出未来支持的通道，§59 明确「第一阶段可以只实现 InProcess」；
+    取值逐条照抄 §35 的清单，`IN_PROCESS` 是 §59 的第一阶段实现。
+    """
+
+    IN_PROCESS = "IN_PROCESS"
+    MCP_NOTIFICATION = "MCP_NOTIFICATION"
+    WEBHOOK = "WEBHOOK"
+    WEBSOCKET = "WEBSOCKET"
+    UI = "UI"
+    EMAIL = "EMAIL"
+
+
+class QuotaDimension(StrEnum):
+    """配额 / 限流维度（`docs/02` §36 / §60，逐条照抄）。"""
+
+    USER = "USER"
+    TENANT = "TENANT"
+    AI_AGENT = "AI_AGENT"
+    SOFTWARE_INSTANCE = "SOFTWARE_INSTANCE"
+
+
+class QuotaMetric(StrEnum):
+    """配额 / 限流指标（`docs/02` §36 / §60，逐条照抄）。
+
+    ⚠️ 取值 = `QuotaLimits` 的字段名，二者必须一一对应。
+    """
+
+    MAX_TASKS = "max_tasks"
+    MAX_CONCURRENT_TASKS = "max_concurrent_tasks"
+    MAX_API_REQUESTS = "max_api_requests"
+    MAX_STORAGE = "max_storage"
+    MAX_PROJECTS = "max_projects"
+
+
+class TraceSpanKind(StrEnum):
+    """Span 种类（`docs/02` §63 / §12，逐条照抄）。
+
+    §63 给出标准 Span 清单，§12 给出标准 Trace 树的形状；
+    本枚举把两份来源的节点名固化为可断言取值。
+    """
+
+    MCP = "MCP"
+    TOOL = "TOOL"
+    OPERATION = "OPERATION"
+    SCHEMA = "SCHEMA"
+    VALIDATION = "VALIDATION"
+    PERMISSION = "PERMISSION"
+    CAPABILITY = "CAPABILITY"
+    TASK = "TASK"
+    LOCK = "LOCK"
+    ADAPTER = "ADAPTER"
+    NATIVE_API = "NATIVE_API"
+    RESULT = "RESULT"
+    AUDIT = "AUDIT"
+
+
+class TraceStatus(StrEnum):
+    """Span 状态（`docs/02` §11 / §12 / §53）。
+
+    §11 的 `end_span(span, status="OK")` 给出默认值 `OK`；
+    §12 / §53 要求能够定位「在哪一步失败」→ 失败态为 `ERROR`。
+    """
+
+    OK = "OK"
+    ERROR = "ERROR"

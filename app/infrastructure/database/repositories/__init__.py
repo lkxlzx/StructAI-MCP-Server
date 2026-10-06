@@ -34,11 +34,25 @@ from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.infrastructure.database.repositories.artifact import (
+    ArtifactStoreRepository,
+    build_artifact_store,
+)
+from app.infrastructure.database.repositories.audit import (
+    AuditStoreRepository,
+    build_audit_store,
+)
 from app.infrastructure.database.repositories.base import (
     DEFAULT_PAGE_SIZE,
     BaseRepository,
     TenantScopedRepository,
     VersionedRepository,
+)
+from app.infrastructure.database.repositories.document import (
+    DocumentStoreRepository,
+    InMemoryDocumentVersionStore,
+    build_document_store,
+    build_document_version_store,
 )
 from app.infrastructure.database.repositories.idempotency import (
     IdempotencyStoreRepository,
@@ -66,14 +80,18 @@ from app.infrastructure.database.repositories.tenant import TenantRepository
 from app.infrastructure.database.repositories.user import UserRepository
 
 __all__ = [
+    "ArtifactStoreRepository",
+    "AuditStoreRepository",
     "BaseRepository",
     "DEFAULT_PAGE_SIZE",
+    "DocumentStoreRepository",
     "IdempotencyStoreRepository",
+    "InMemoryDocumentVersionStore",
     "ModelRepository",
     "ProjectMembershipRepository",
     "ProjectRepository",
-    "ResourceStoreRepository",
     "RepositoryBundle",
+    "ResourceStoreRepository",
     "RoleRepository",
     "SessionRepository",
     "SoftwareRepository",
@@ -83,6 +101,10 @@ __all__ = [
     "TenantScopedRepository",
     "UserRepository",
     "VersionedRepository",
+    "build_artifact_store",
+    "build_audit_store",
+    "build_document_store",
+    "build_document_version_store",
     "build_idempotency_store",
     "build_repositories",
     "build_resource_store",
