@@ -392,9 +392,14 @@ def _run_main(database_url: str) -> subprocess.CompletedProcess[str]:
 # ===== ① 批次与结构（`docs/08` §3）=====
 
 
-def test_batch_id_is_p29() -> None:
-    """门槛 ⑦：容器批次号已推进到 **P29**（本批 = P29–P36）。"""
-    assert BATCH_ID == "P29"
+def test_batch_id_is_a_batch_marker() -> None:
+    """门槛 ⑦（`docs/08` §3 的批次口径）：`BATCH_ID` 始终形如 `P<两位数字>`。
+
+    ⚠️ P37–P39 收尾时把本断言从「等于 `P29`」改为**与具体批次无关**（与 P09 / P14 / P19 /
+    P21 / P22 的同一先例）：批次号随每一批推进，硬编码会让后续批次无谓地改上一批的测试。
+    本批的批次号断言由 `tests/test_mcp_p37_p39.py::test_batch_id_is_a_batch_marker` 负责。
+    """
+    assert re.fullmatch(r"P\d{2}", BATCH_ID)
 
 
 def test_container_shape_is_unchanged_and_exposes_the_execution_factory() -> None:
@@ -1427,4 +1432,4 @@ def test_main_exits_zero_with_empty_stdout(tmp_path: Path, monkeypatch: pytest.M
     assert provisioned.returncode == 0, provisioned.stderr
     assert provisioned.stdout == ""
     assert "registry ready" in provisioned.stderr
-    assert "batch=P29" in provisioned.stderr
+    assert f"batch={BATCH_ID}" in provisioned.stderr

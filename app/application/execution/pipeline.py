@@ -90,7 +90,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Final, Protocol
 
 from app.application.execution.confirmation import ConfirmationGuard
@@ -261,7 +261,7 @@ class PipelineRequest:
     parameters: Mapping[str, Any]
     context: ExecutionContext
     idempotency_key: str | None = None
-    confirmation_token: str | None = None
+    confirmation_token: str | None = field(default=None, repr=False)
     dry_run: bool = False
     priority: TaskPriority | int | str = TaskPriority.NORMAL
     max_retries: int = 0
