@@ -627,8 +627,18 @@ async def all_text_values(engine: AsyncEngine) -> list[str]:
 
 
 def app_module_paths() -> list[Path]:
-    """`app/` 下的全部模块文件（红线扫描用）。"""
-    return sorted(path for path in APP_DIR.rglob("*.py") if "__pycache__" not in path.parts)
+    """`app/` 下的全部模块文件（红线扫描用）。
+
+    ⚠️ **豁免** `app/infrastructure/adapters/midas/`：`docs/07` §7.1 规定厂商专属代码
+    **只能**出现在该子包，故 `grep -ri midas app/` 的预期是「该子包**之外**为 0 处」
+    （`docs/07` §14.2）。本函数是那条例外的唯一实现点，P119+ 之前该目录不存在。
+    """
+    exempt = APP_DIR / "infrastructure" / "adapters" / "midas"
+    return sorted(
+        path
+        for path in APP_DIR.rglob("*.py")
+        if "__pycache__" not in path.parts and exempt not in path.parents
+    )
 
 
 def imported_modules(path: Path) -> set[str]:

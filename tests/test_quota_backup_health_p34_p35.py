@@ -1618,6 +1618,8 @@ def test_no_vendor_name_appears_under_app() -> None:
     """门槛 ⑥（`docs/07` §14.2）：`app/` 内厂商名 0 处（大小写不敏感）。"""
     offenders: list[tuple[str, str]] = []
     for path in sorted(APP_DIR.rglob("*.py")):
+        if "midas" in path.parts:  # docs/07 §7.1：厂商专属代码的唯一豁免区
+            continue
         text = path.read_text(encoding="utf-8").lower()
         for vendor in VENDOR_NAMES:
             if vendor in text:

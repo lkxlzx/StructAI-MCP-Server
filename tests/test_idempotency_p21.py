@@ -1160,6 +1160,7 @@ def test_red_lines_vendor_names_and_domain_purity() -> None:
     vendor_hits = [
         f"{path.relative_to(REPO_ROOT).as_posix()}:{vendor}"
         for path in sorted(APP_DIR.rglob("*.py"))
+        if "midas" not in path.parts  # docs/07 §7.1：厂商专属代码的唯一豁免区
         for vendor in VENDOR_NAMES
         if vendor.lower() in path.read_text(encoding="utf-8").lower()
     ]
