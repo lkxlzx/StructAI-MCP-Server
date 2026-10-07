@@ -37,6 +37,21 @@
    `AdapterManifest`（`docs/07` §7.1）声明」—— `CIVIL NX` / `GEN NX`（`docs/04` §62 / §76）
    为真，数据里存在的第三个产品（Civil Designer）为假，**不**猜。
 
+7. **response 方向 Schema 也落库**（P137a，`docs/07` §16 R87 的收口）：数据侧
+   `registry/schema/**` 的**同一份**文件里既有请求方向 `schema`（原样登记），也有
+   `response` 块（`registry/README.md` §2.2）。本模块**两个方向都导入**：
+   `midas_api_schemas` 按 `schema_uri` 各占一行（`direction` = `request` /
+   `response`，响应方向的模板 = `midas://<product>/<code>/response/v1`），并**回填**
+   `midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
+   （与 `request_schema*` 同口径：存的是 **Schema 行的 id**）。
+   未声明 `response` 块 / 取不到本体 → 如实留 `None` / 不建行（**不**臆造）。
+8. **7 项 AND 只做如实报告**（P137b，`docs/07` §16 R78 / R87）：`ImportReport.seven_and`
+   汇总**同一判定点**（`live.py` 的 `registry_evidence` / `seven_and_verdict`）在每个 key
+   上的结论（逐项满足 / 缺项 / `VERIFIED` vs `PARTIAL` 计数）。端点行的
+   `verification_status` **仍**只由 `availability` 机械映射（`docs/07` §7.2），**绝不**因
+   CI 层记录（L1–L3）或本报告升级任何状态；L4 / L5 结论**只**经
+   `seven_and_report(..., live_outcomes=...)` 显式传入才参与判定。
+
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
 本模块位于 MIDAS 子包内（该子包是 `grep -ri midas app/` 的**唯一**豁免区），
@@ -56,6 +71,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.adapters.midas.capabilities import CAPABILITY_ENDPOINTS
+from app.infrastructure.adapters.midas.live import (
+    SEVEN_AND_ITEMS,
+    STATUS_PARTIAL,
+    STATUS_VERIFIED,
+    registry_evidence,
+    seven_and_verdict,
+)
 from app.infrastructure.adapters.midas.manifest import (
     MIDAS_PRODUCT,
     MIDAS_SUPPORTED_VERSIONS,
@@ -75,11 +97,16 @@ from app.infrastructure.database.base import utcnow
 __all__ = [
     "DECLARED_PRODUCTS",
     "IMPORT_TABLES",
+    "REQUEST_DIRECTION",
+    "RESPONSE_DIRECTION",
+    "RESPONSE_SCHEMA_URI_TEMPLATE",
     "SCHEMA_URI_TEMPLATE",
     "VERSION_RANGE",
     "ImportReport",
     "MidasRegistryImporter",
+    "SevenAndReport",
     "schema_uri_for",
+    "seven_and_report",
 ]
 
 VERSION_RANGE: Final[str] = "2025-2026"
@@ -90,6 +117,19 @@ DECLARED_PRODUCTS: Final[tuple[str, ...]] = ("CIVIL_NX", "GEN_NX")
 
 SCHEMA_URI_TEMPLATE: Final[str] = "midas://{product}/{code}/request/v1"
 """`docs/07` §7.2 的 `schema_uri` 模板（见裁决 2）。"""
+
+REQUEST_DIRECTION: Final[str] = "request"
+RESPONSE_DIRECTION: Final[str] = "response"
+"""`midas_api_schemas.direction` 的两个取值（`docs/04` §12；见裁决 7）。"""
+
+RESPONSE_SCHEMA_URI_TEMPLATE: Final[str] = "midas://{product}/{code}/response/v1"
+"""**response 方向**的 `schema_uri` 模板（P137a；`docs/07` §7.2 / §16 R87）。"""
+
+_SCHEMA_URI_TEMPLATES: Final[dict[str, str]] = {
+    REQUEST_DIRECTION: SCHEMA_URI_TEMPLATE,
+    RESPONSE_DIRECTION: RESPONSE_SCHEMA_URI_TEMPLATE,
+}
+"""方向 → `schema_uri` 模板（`schema_uri_for` 的**唯一**取值点，见裁决 7）。"""
 
 IMPORT_TABLES: Final[tuple[str, ...]] = (
     "midas_api_sources",
@@ -103,10 +143,22 @@ IMPORT_TABLES: Final[tuple[str, ...]] = (
 """7 张表的导入顺序（`docs/04` §106：sources → schemas → endpoints）。"""
 
 
-def schema_uri_for(key: str, *, product: str) -> str:
-    """端点 key → `schema_uri`（`docs/07` §7.2；见裁决 2）。"""
+def schema_uri_for(key: str, *, product: str, direction: str = REQUEST_DIRECTION) -> str:
+    """端点 key → `schema_uri`（`docs/07` §7.2；见裁决 2 / 7）。
+
+    Args:
+        key: Registry key（`DB.NODE` → `db/node`）。
+        product: Manifest 产品名（`CIVIL NX` → 产品段 `civil`）。
+        direction: `request`（缺省，§7.2 原文）或 `response`（P137a）。
+
+    Raises:
+        ValueError: 未知方向 —— **不**回落请求方向（`docs/04` §107 的「不臆造」）。
+    """
+    template = _SCHEMA_URI_TEMPLATES.get(str(direction))
+    if template is None:
+        raise ValueError(f"unknown schema direction: {direction!r}")
     slug = str(product).strip().lower().split()[0]
-    return SCHEMA_URI_TEMPLATE.format(product=slug, code=str(key).lower().replace(".", "/"))
+    return template.format(product=slug, code=str(key).lower().replace(".", "/"))
 
 
 @dataclass(frozen=True, slots=True)
@@ -119,6 +171,8 @@ class ImportReport:
     totals: Mapping[str, int] = field(default_factory=dict)
     source_hash: str = ""
     generated_at: datetime | None = None
+    seven_and: SevenAndReport | None = None
+    """7 项 AND 的**如实报告**（P137b；见裁决 8）—— **不**参与任何状态写入。"""
 
     def as_dict(self) -> dict[str, Any]:
         """诊断用映射（**不含** secret；只含计数与哈希）。"""
@@ -128,6 +182,7 @@ class ImportReport:
             "unchanged": dict(self.unchanged),
             "totals": dict(self.totals),
             "source_hash": self.source_hash,
+            "seven_and": None if self.seven_and is None else self.seven_and.as_dict(),
             "generated_at": None if self.generated_at is None else self.generated_at.isoformat(),
         }
 
@@ -172,6 +227,7 @@ class MidasRegistryImporter:
             unchanged={t: self._counters[t]["unchanged"] for t in IMPORT_TABLES},
             totals=await self._totals(session),
             source_hash=self.source_hash(),
+            seven_and=self._seven_and_report(),
             generated_at=utcnow(),
         )
 
@@ -179,6 +235,19 @@ class MidasRegistryImporter:
         """`manifest.json` 的 sha256（`docs/04` §107 / §110；可复算）。"""
         path = self._registry.root / "manifest.json"
         return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def _seven_and_report(self) -> SevenAndReport:
+        """P137b：7 项 AND 的**如实报告**（见裁决 8；**不**写任何状态）。
+
+        版本取声明区间的**最后一个**（`2026`）—— 第 6 项只在版本不在声明区间内时为假，
+        故该选择**不**影响结论；L4 / L5 结论在本报告里**不**参与（CI 层无专用环境，
+        见 `seven_and_report` 的 `live_outcomes`）。
+        """
+        return seven_and_report(
+            self._registry,
+            version=self._versions[-1] if self._versions else "",
+            supported_versions=self._versions,
+        )
 
     # ===== 各表 =====
 
@@ -221,37 +290,69 @@ class MidasRegistryImporter:
             self._source_ids[schema_source] = row_id
 
     async def import_schemas(self, session: AsyncSession) -> None:
-        """`midas_api_schemas`（`docs/04` §12；`schema_json` **原样**，见裁决 1）。"""
+        """`midas_api_schemas`：**两个方向**各占一行（`docs/04` §12；见裁决 1 / 7）。
+
+        `schema_json` 一律**原样**登记（不改写任何取值）：请求方向取文件里的
+        `schema`，响应方向取 `response.schema`（`registry/README.md` §2.2）。
+        未声明 `response` 块 / 取不到本体 → 该方向**不**建行（**不**臆造）。
+        """
         for definition in self._definitions():
             document = self._registry.schema_document(definition.key)
             if document is None:
                 continue
-            raw = document.get("schema")
-            if not isinstance(raw, dict):
-                continue
-            uri = schema_uri_for(definition.key, product=self._product)
-            source = str(document.get("source") or "")
-            await self._upsert(
+            await self._upsert_schema_row(
                 session,
-                MidasApiSchemaORM,
-                table="midas_api_schemas",
-                identity={"schema_uri": uri},
-                values={
-                    "schema_uri": uri,
-                    "direction": "request",
-                    "product": self._product,
-                    "version_range": self._version_range,
-                    "schema_json": raw,
-                    "verification_status": definition.verification_status,
-                    "source_id": self._source_ids.get(source),
-                },
+                definition=definition,
+                direction=REQUEST_DIRECTION,
+                raw=document.get("schema"),
+                source=str(document.get("source") or ""),
             )
+            block = self._registry.response_schema_document(definition.key)
+            if block is None:
+                continue
+            await self._upsert_schema_row(
+                session,
+                definition=definition,
+                direction=RESPONSE_DIRECTION,
+                raw=block.get("schema"),
+                source=str(block.get("source") or ""),
+            )
+
+    async def _upsert_schema_row(
+        self,
+        session: AsyncSession,
+        *,
+        definition: EndpointDefinition,
+        direction: str,
+        raw: Any,
+        source: str,
+    ) -> None:
+        """登记一行 `midas_api_schemas`（**唯一**的 Schema 行写入点，见裁决 7）。"""
+        if not isinstance(raw, dict):
+            return
+        uri = schema_uri_for(definition.key, product=self._product, direction=direction)
+        await self._upsert(
+            session,
+            MidasApiSchemaORM,
+            table="midas_api_schemas",
+            identity={"schema_uri": uri},
+            values={
+                "schema_uri": uri,
+                "direction": str(direction),
+                "product": self._product,
+                "version_range": self._version_range,
+                "schema_json": raw,
+                "verification_status": definition.verification_status,
+                "source_id": self._source_ids.get(source),
+            },
+        )
 
     async def import_endpoints(self, session: AsyncSession) -> None:
         """`midas_api_endpoints`（`docs/04` §11 / `docs/07` §7.2；逐产品逐方法一行）。"""
         for definition in self._definitions():
             source_id = self._source_ids.get(",".join(_provenance(definition)))
             schema_id = await self._schema_row_id(session, definition.key)
+            response_schema_id = await self._response_schema_row_id(session, definition.key)
             for product in definition.products:
                 for method, path, table_type in self._method_paths(definition, product):
                     await self._upsert(
@@ -276,7 +377,7 @@ class MidasRegistryImporter:
                             "table_type": table_type,
                             "operation": definition.key,
                             "request_schema_id": schema_id,
-                            "response_schema_id": None,
+                            "response_schema_id": response_schema_id,
                             "verification_status": definition.verification_status,
                             "source_id": source_id,
                             "deprecated": not definition.enabled,
@@ -364,6 +465,7 @@ class MidasRegistryImporter:
                     continue
                 resolved = self._registry.resolve(key=step.key, product=product)
                 schema_id = await self._schema_row_id(session, step.key)
+                response_schema_id = await self._response_schema_row_id(session, step.key)
                 await self._upsert(
                     session,
                     MidasApiMappingORM,
@@ -384,17 +486,29 @@ class MidasRegistryImporter:
                         "sequence": sequence,
                         "composite": bool(plan.composite),
                         "request_schema": schema_id,
-                        "response_schema": None,
+                        "response_schema": response_schema_id,
                         "transformer": step.transformer,
                         "verification_status": definition.verification_status,
                     },
                 )
 
     async def _schema_row_id(self, session: AsyncSession, key: str) -> str | None:
-        """取该端点的 Schema 行 id（无 Schema → `None`）。"""
+        """取该端点**请求方向** Schema 行的 id（无 Schema → `None`）。"""
         if self._registry.schema_json(key) is None:
             return None
-        uri = schema_uri_for(key, product=self._product)
+        return await self._schema_id_by_uri(session, schema_uri_for(key, product=self._product))
+
+    async def _response_schema_row_id(self, session: AsyncSession, key: str) -> str | None:
+        """取该端点**response 方向** Schema 行的 id（未声明 → `None`，见裁决 7）。"""
+        if self._registry.response_schema_json(key) is None:
+            return None
+        return await self._schema_id_by_uri(
+            session,
+            schema_uri_for(key, product=self._product, direction=RESPONSE_DIRECTION),
+        )
+
+    async def _schema_id_by_uri(self, session: AsyncSession, uri: str) -> str | None:
+        """按 `schema_uri` 取行 id（**唯一**的按 URI 查 id 点）。"""
         statement = select(MidasApiSchemaORM.id).where(MidasApiSchemaORM.schema_uri == uri)
         return None if (row := (await session.execute(statement)).scalar()) is None else str(row)
 
@@ -403,12 +517,17 @@ class MidasRegistryImporter:
         return (self._registry.endpoint(key) for key in self._registry.keys())
 
     def _schema_sources(self) -> set[str]:
-        """Schema 文件里出现过的 `source` 取值。"""
+        """Schema 文件里出现过的 `source` 取值（**两个方向**都算，见裁决 7）。"""
         found: set[str] = set()
         for definition in self._definitions():
             document = self._registry.schema_document(definition.key)
-            if document is not None and document.get("source"):
+            if document is None:
+                continue
+            if document.get("source"):
                 found.add(str(document["source"]))
+            block = document.get("response")
+            if isinstance(block, Mapping) and block.get("source"):
+                found.add(str(block["source"]))
         return found
 
     def _method_paths(
@@ -497,3 +616,86 @@ def _operation_for_endpoint(key: str) -> str | None:
         if any(step.key == key for step in plan.steps):
             return plan.operation
     return None
+
+
+# ===== 7 项 AND 的如实报告（P137b；`docs/04` §8 / `docs/07` §16 R78 / R87）=====
+
+
+@dataclass(frozen=True, slots=True)
+class SevenAndReport:
+    """`VERIFIED` 的 7 项 AND 在**当前数据 + 可选 L4 结论**下的汇总（见裁决 8）。
+
+    ⚠️ 本报告**只**汇总判定点（`live.registry_evidence` / `seven_and_verdict`）的结论，
+    **不**写任何 `verification_status` —— 端点行的状态仍只由 `availability` 机械映射
+    （`docs/07` §7.2），故本报告**绝不**因 CI 层记录（L1–L3）升级任何端点（R78 / R87）。
+    """
+
+    endpoints: int = 0
+    live_outcomes: int = 0
+    satisfied: Mapping[str, int] = field(default_factory=dict)
+    missing: Mapping[str, int] = field(default_factory=dict)
+    verdicts: Mapping[str, int] = field(default_factory=dict)
+
+    def as_dict(self) -> dict[str, Any]:
+        """诊断用映射（**不含** secret；只含计数与逐项名称）。"""
+        return {
+            "endpoints": int(self.endpoints),
+            "live_outcomes": int(self.live_outcomes),
+            "satisfied": dict(self.satisfied),
+            "missing": dict(self.missing),
+            "verdicts": dict(self.verdicts),
+        }
+
+
+def seven_and_report(
+    registry: MidasRegistry,
+    *,
+    version: str,
+    supported_versions: Sequence[str],
+    live_outcomes: Mapping[str, str] | None = None,
+) -> SevenAndReport:
+    """按 **7 项 AND** 汇总每个 key 的判定（见裁决 8；判定点**不**复制）。
+
+    Args:
+        registry: 已装载的 `registry/`。
+        version: 第 6 项用的实例版本（调用方给**声明区间内**的版本）。
+        supported_versions: `AdapterManifest.supported_versions`。
+        live_outcomes: `key → L4 结论`（只有 `PASSED` 才使第 7 项为真）；缺省 =
+            **CI 层**（无 L4 / L5 结论 → 第 7 项**如实**为假，**不**伪造实测）。
+
+    Returns:
+        `SevenAndReport`：逐项满足 / 缺项计数与 `VERIFIED` / `PARTIAL` 计数。
+
+    Note:
+        每个 key 的判定口径 = **第一个声明产品** + 调用方给的版本 —— 证据仍由
+        `live.registry_evidence`（**唯一**判定点）给出，本函数**不**新增第二套判定；
+        也**不**把结论写回 `verification_status`（见裁决 8）。
+    """
+    outcomes = dict(live_outcomes or {})
+    satisfied: dict[str, int] = {item: 0 for item in SEVEN_AND_ITEMS}
+    verdicts: dict[str, int] = {STATUS_VERIFIED: 0, STATUS_PARTIAL: 0}
+    for key in registry.keys():
+        definition = registry.endpoint(key)
+        product = (
+            definition.products[0] if definition.products else next(iter(definition.overrides), "")
+        )
+        evidence = registry_evidence(
+            registry,
+            key=key,
+            product=product,
+            version=str(version),
+            supported_versions=supported_versions,
+            live_outcome=str(outcomes.get(key, "")),
+        )
+        verdict = seven_and_verdict(evidence)
+        verdicts[verdict.status] = verdicts.get(verdict.status, 0) + 1
+        for item in verdict.satisfied:
+            satisfied[item] = satisfied.get(item, 0) + 1
+    endpoints = len(registry)
+    return SevenAndReport(
+        endpoints=endpoints,
+        live_outcomes=len(outcomes),
+        satisfied=satisfied,
+        missing={item: endpoints - satisfied.get(item, 0) for item in SEVEN_AND_ITEMS},
+        verdicts=verdicts,
+    )

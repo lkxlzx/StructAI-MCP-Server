@@ -86,6 +86,14 @@ JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schem
 本批实测复核：**238** 个已实测端点 7 项全满足；唯一例外 `DB.MBTP` 缺「Request Schema 已确认」
 （它的 `schema` 是非法 JSON 字符串，见 §2.1 的 R19），**如实**保留 `PARTIAL`。
 
+**落库（P137a，2026-10-08 之后）**：`registry/**` **一行未改**（P137 只改导入器），但
+`MidasRegistryImporter` 现在把 `response` 块**也**导进 `midas_api_schemas`
+（`direction = "response"`，URI = `midas://<product>/<code>/response/v1`），并**回填**
+`midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`（存的是
+Schema 行的 id，与 `request_schema*` 同口径）—— 故该表从 **615** 行（仅请求方向）变为
+**854** 行 = **615 + 239**；未声明 `response` 块的端点仍为 `None`（**不**臆造）。
+数据侧仍**可复算**：`sync_manifest.py` / `sync_response_schemas.py` 预演差异均为 **0**。
+
 ```powershell
 python registry/tools/sync_manifest.py --write         # 先派生 manifest（products 等）
 python registry/tools/sync_response_schemas.py         # 预演（只打印差异）

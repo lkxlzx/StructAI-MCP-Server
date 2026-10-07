@@ -59,7 +59,9 @@ from app.infrastructure.adapters.midas.health import HEALTH_CHECK_ENDPOINT, Mida
 from app.infrastructure.adapters.midas.import_registry import (
     ImportReport,
     MidasRegistryImporter,
+    SevenAndReport,
     schema_uri_for,
+    seven_and_report,
 )
 from app.infrastructure.adapters.midas.manifest import (
     MIDAS_ADAPTER_NAME,
@@ -132,6 +134,7 @@ __all__ = [
     "EndpointStep",
     "ImportReport",
     "MidasAdapter",
+    "SevenAndReport",
     "MidasEnvironmentCredential",
     "MidasHealthChecker",
     "MidasHttpClient",
@@ -156,6 +159,7 @@ __all__ = [
     "registry_product_key",
     "schema_uri_for",
     "select_steps",
+    "seven_and_report",
     "verification_status_for",
 ]
 

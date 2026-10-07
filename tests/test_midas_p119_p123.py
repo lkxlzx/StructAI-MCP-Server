@@ -245,7 +245,8 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
         report = await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
     await engine.dispose()
-    assert report.totals["midas_api_schemas"] == 615
+    # P137a 起两个方向各占一行：请求 **615** + 响应 **239** = **854**（逐条更新，**不**放宽）
+    assert report.totals["midas_api_schemas"] == 615 + 239
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 
@@ -263,10 +264,25 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
             .scalars()
             .one()
         )
+        response_uri = schema_uri_for("DB.NODE", product="CIVIL NX", direction="response")
+        response_row = (
+            (
+                await session.execute(
+                    select(MidasApiSchemaORM).where(MidasApiSchemaORM.schema_uri == response_uri)
+                )
+            )
+            .scalars()
+            .one()
+        )
     await engine.dispose()
     assert uri == "midas://civil/db/node/request/v1"
     assert row.schema_json == registry.schema_json("DB.NODE")
     assert row.direction == "request"
+    # P137a：响应方向是**另一行**（`/response/v1`），请求方向**一行未改**
+    assert response_uri == "midas://civil/db/node/response/v1"
+    assert response_row.direction == "response"
+    assert response_row.schema_json == registry.response_schema_json("DB.NODE")
+    assert response_row.id != row.id
 
 
 def test_p120_unresolvable_schema_is_the_documented_data_defect() -> None:
