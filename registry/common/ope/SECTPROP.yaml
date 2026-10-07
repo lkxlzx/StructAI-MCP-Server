@@ -6,6 +6,7 @@ tool_map:
   query: midas_db_query
 wrapper:
   write: Argument
+  read_root: SECTPROP
 schema_ref:
   local: null
   introspect: null

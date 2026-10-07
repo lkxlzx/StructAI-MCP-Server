@@ -27,6 +27,8 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 APP_DIR = REPO_ROOT / "app"
 REGISTRY_ROOT = REPO_ROOT / "registry"
 MIDAS_PACKAGE_DIR = APP_DIR / "infrastructure" / "adapters" / "midas"
+ETABS_PACKAGE_DIR = APP_DIR / "infrastructure" / "adapters" / "etabs"
+"""两个厂商专属子包（`docs/07` §7.1 / §14.2：厂商代码只允许出现在各自的子包）。"""
 
 # ===== 规范原文副本（**不**从被测模块导入）=====
 
@@ -240,9 +242,10 @@ def session_factory_for(engine: AsyncEngine) -> async_sessionmaker[AsyncSession]
 
 
 def app_module_paths() -> list[Path]:
-    """`app/` 下的模块文件（**豁免** `adapters/midas/`，见 `docs/07` §7.1）。"""
+    """`app/` 下的模块文件（**豁免**两个厂商子包，见 `docs/07` §7.1 / §14.2）。"""
     return sorted(
         path
         for path in APP_DIR.rglob("*.py")
-        if "__pycache__" not in path.parts and MIDAS_PACKAGE_DIR not in path.parents
+        if "__pycache__" not in path.parts
+        and not ({MIDAS_PACKAGE_DIR, ETABS_PACKAGE_DIR} & set(path.parents))
     )

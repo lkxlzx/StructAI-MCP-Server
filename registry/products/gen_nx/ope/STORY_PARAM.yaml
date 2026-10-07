@@ -7,6 +7,7 @@ tool_map:
   assign: midas_db_assign
 wrapper:
   write: Argument
+  read_root: STORY_PARAM
 schema_ref:
   local: null
   introspect: null

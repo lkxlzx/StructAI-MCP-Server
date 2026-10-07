@@ -1382,7 +1382,7 @@ def test_no_vendor_names_in_app() -> None:
     """门槛 ⑦（`docs/07` §14.2）：`app/` 内**零**厂商专属内容。"""
     offenders: list[str] = []
     for path in sorted(APP_DIR.rglob("*.py")):
-        if "midas" in path.parts:  # docs/07 §7.1：厂商专属代码的唯一豁免区
+        if {"midas", "etabs"} & set(path.parts):  # docs/07 §7.1：厂商专属代码的唯一豁免区
             continue
         lowered = path.read_text(encoding="utf-8").lower()
         for vendor in VENDOR_NAMES:

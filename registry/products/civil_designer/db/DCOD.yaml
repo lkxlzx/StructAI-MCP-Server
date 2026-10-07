@@ -9,6 +9,7 @@ wrapper:
   write: none
   shape: flat
   body_kind: object
+  read_root_path: [result, return_value]
 schema_ref:
   local: schema/products/civil_designer/db/DCOD.json
   introspect: info/db/DCOD

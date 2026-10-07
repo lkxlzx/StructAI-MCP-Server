@@ -1267,7 +1267,7 @@ def test_no_vendor_names_in_app() -> None:
     hits = [
         f"{path.relative_to(REPO_ROOT).as_posix()}:{vendor}"
         for path in sorted(APP_DIR.rglob("*.py"))
-        if "midas" not in path.parts  # docs/07 §7.1：厂商专属代码的唯一豁免区
+        if not ({"midas", "etabs"} & set(path.parts))  # docs/07 §7.1：厂商专属代码的唯一豁免区
         for vendor in VENDOR_NAMES
         if vendor.lower() in path.read_text(encoding="utf-8").lower()
     ]

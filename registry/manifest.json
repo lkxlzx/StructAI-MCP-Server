@@ -456,7 +456,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "array"
+        "body_kind": "array",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -668,7 +672,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -1596,7 +1604,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "array"
+        "body_kind": "array",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -1651,7 +1663,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -2350,7 +2366,11 @@
           "wrapper": {
             "write": "none",
             "shape": "flat",
-            "body_kind": "object"
+            "body_kind": "object",
+            "read_root_path": [
+              "result",
+              "return_value"
+            ]
           }
         }
       },
@@ -4758,7 +4778,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "array"
+        "body_kind": "array",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -4805,7 +4829,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -5299,7 +5327,11 @@
           "wrapper": {
             "write": "none",
             "shape": "flat",
-            "body_kind": "array"
+            "body_kind": "array",
+            "read_root_path": [
+              "result",
+              "return_value"
+            ]
           }
         }
       },
@@ -6028,7 +6060,11 @@
           "wrapper": {
             "write": "none",
             "shape": "flat",
-            "body_kind": "array"
+            "body_kind": "array",
+            "read_root_path": [
+              "result",
+              "return_value"
+            ]
           },
           "delete_all_via_body": true
         }
@@ -6227,7 +6263,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -7499,7 +7539,11 @@
           "wrapper": {
             "write": "none",
             "shape": "flat",
-            "body_kind": "object"
+            "body_kind": "object",
+            "read_root_path": [
+              "result",
+              "return_value"
+            ]
           }
         }
       },
@@ -10024,7 +10068,11 @@
           "wrapper": {
             "write": "none",
             "shape": "flat",
-            "body_kind": "array"
+            "body_kind": "array",
+            "read_root_path": [
+              "result",
+              "return_value"
+            ]
           },
           "delete_all_via_body": true
         }
@@ -12112,7 +12160,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -19206,7 +19258,11 @@
       "wrapper": {
         "write": "none",
         "shape": "flat",
-        "body_kind": "object"
+        "body_kind": "object",
+        "read_root_path": [
+          "result",
+          "return_value"
+        ]
       },
       "risk": {
         "level": "low",
@@ -20377,7 +20433,8 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Argument"
+        "write": "Argument",
+        "read_root": "PROJECTSTATUS"
       },
       "risk": {
         "level": "low",
@@ -20424,7 +20481,8 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Argument"
+        "write": "Argument",
+        "read_root": "SECTPROP"
       },
       "risk": {
         "level": "low",
@@ -20642,7 +20700,8 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Argument"
+        "write": "Argument",
+        "read_root": "STORY_IRR_PARAM"
       },
       "risk": {
         "level": "low",
@@ -20688,7 +20747,8 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Argument"
+        "write": "Argument",
+        "read_root": "STORY_PARAM"
       },
       "risk": {
         "level": "low",
@@ -30024,7 +30084,8 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Argument"
+        "write": "Argument",
+        "read_root": "SELECT"
       },
       "risk": {
         "level": "low",

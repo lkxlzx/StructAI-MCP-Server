@@ -94,7 +94,9 @@ def main() -> int:
         w = d.get("wrapper")
         if isinstance(w, dict):
             new_w = dict(e.get("wrapper") or {})
-            for k in ("write", "read_root"):
+            # `read_root_path`（P134 / docs/07 §16 R83）：响应**解包链**，
+            # 数据侧可选声明（NX 系不需要；CIVIL_DESIGNER 实测在 result.return_value）。
+            for k in ("write", "read_root", "read_root_path"):
                 if k in w and new_w.get(k) != w[k]:
                     changed.append((e["key"], f"wrapper.{k}", new_w.get(k), w[k]))
                     new_w[k] = w[k]

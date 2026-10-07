@@ -63,6 +63,7 @@ from app.infrastructure.adapters.midas.client import (
     MidasHttpClient,
 )
 from app.infrastructure.adapters.midas.errors import (
+    MidasAPIError,
     MidasCapabilityError,
     MidasConnectionError,
     MidasValidationError,
@@ -388,7 +389,7 @@ class MidasAdapter(BaseAdapter):
         """
         request = self._build(operation, resolved, body=None, wrapper="none")
         response = await self._send(request)
-        payload = _unwrap(response, resolved.read_root)
+        payload = _unwrap(response, resolved)
         transformer = (
             TRANSFORMER_REGISTRY[step.transformer](self._require_registry())
             if step.transformer and step.transformer in TRANSFORMER_REGISTRY
@@ -817,11 +818,38 @@ def _items_of(payload: Any) -> list[tuple[str | None, Mapping[str, Any]]]:
     return []
 
 
-def _unwrap(response: Mapping[str, Any], read_root: str) -> Any:
-    """按 `wrapper.read_root` 解包（数据里没有 `read_root` 时原样返回）。"""
-    if read_root and read_root in response:
-        return response[read_root]
-    return dict(response)
+def _unwrap(response: Mapping[str, Any], resolved: ResolvedEndpoint) -> Any:
+    """按数据侧声明的**解包链**取业务载荷（`docs/07` §16 R83；P134 新增）。
+
+    链取自 `ResolvedEndpoint.read_path`：NX 系 = `(read_root,)`；
+    `CIVIL_DESIGNER` 实测 = `("result", "return_value")`（R83）。
+    **取不到就明确报错** —— R83 的静默降级（退回整包 → 转换器字段全 `None`）
+    必须被禁止（`docs/07` §14.4 的「不允许带病继续」）。
+
+    Raises:
+        MidasCapabilityError: `STRUCTAI-3000`，数据侧**未声明**解包链
+            （`details.reason = "endpoint_read_path_undeclared"`）。
+        MidasAPIError: `STRUCTAI-2200`，响应信封与数据侧声明不符
+            （`details.reason = "response_envelope_mismatch"`）。
+    """
+    chain = resolved.read_path
+    if not chain:
+        raise MidasCapabilityError(
+            "endpoint_read_path_undeclared",
+            endpoint=resolved.definition.key,
+            product=resolved.product,
+        )
+    node: Any = response
+    for step in chain:
+        if not isinstance(node, Mapping) or step not in node:
+            raise MidasAPIError(
+                "response_envelope_mismatch",
+                endpoint=resolved.definition.key,
+                product=resolved.product,
+                missing_step=str(step),
+            )
+        node = node[step]
+    return node
 
 
 def _items_style(transformer: Any) -> bool:

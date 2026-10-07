@@ -9,6 +9,7 @@ wrapper:
   write: none
   shape: flat
   body_kind: array
+  read_root_path: [result, return_value]
 schema_ref:
   local: schema/products/civil_designer/db/CWRC.json
   introspect: info/db/CWRC

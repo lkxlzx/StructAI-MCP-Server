@@ -72,6 +72,7 @@ __all__ = [
     "BuiltRequest",
     "CredentialProviderLike",
     "MidasHttpClient",
+    "ProbeResponse",
     "guard_destructive",
     "guard_enabled",
     "guard_shape",
@@ -125,6 +126,21 @@ class BuiltRequest:
             f"BuiltRequest(operation={self.operation!r}, endpoint={self.endpoint!r}, "
             f"method={self.method!r}, uri={self.uri!r}, wrapper={self.wrapper!r})"
         )
+
+
+@dataclass(frozen=True, slots=True)
+class ProbeResponse:
+    """一次**零副作用探测**的结果（`docs/04` §69–§72 的 L4 探针；P134 新增）。
+
+    与 `send()` 的区别：**不**因 4xx / 5xx 抛业务错误（探测的目的正是记录状态码），
+    也**不**把不可解析的响应体当异常 —— 只如实回报「状态码 / 载荷 / 字节数 / 是否 JSON」。
+    载荷**只**用于统计顶层键与信封形态，**不**落库、**不**进日志（`docs/07` §14.3）。
+    """
+
+    status_code: int
+    payload: dict[str, Any]
+    body_bytes: int
+    json_ok: bool
 
 
 # ===== 护栏（纯函数；`docs/07` §7.3 / §7.6；见裁决 3）=====
@@ -206,9 +222,17 @@ def guard_destructive(
 def guard_shape(resolved: ResolvedEndpoint, body: object) -> None:
     """请求体形态护栏（`docs/07` §7.3 第 4 步；`docs/07` §7.6）。
 
+    ⚠️ **无请求体时不判定**（P134 修正）：读步骤（`GET`）与不带体的 `DELETE` 传
+    `body=None`，而 Designer 的 `DB.*` 端点声明 `body_kind: object` ——
+    旧实现会把「没有体」判成「形态不符」（`STRUCTAI-1200`），使 Designer 的
+    **读路径**整体不可用（P134 实测发现，见 `docs/07` §16 R83）。
+    形态护栏只约束**实际给出的**体。
+
     Raises:
         MidasSchemaShapeMismatch: `STRUCTAI-1200`，与数据文件的形态不符。
     """
+    if body is None:
+        return
     if resolved.requires_array_body and not isinstance(body, list):
         raise MidasSchemaShapeMismatch(resolved.definition.key, "flat_array")
     if resolved.requires_object_body and not isinstance(body, Mapping):
@@ -406,6 +430,39 @@ class MidasHttpClient:
         except (MidasConnectionError, MidasTimeoutError):
             raise
         return int(response.status_code)
+
+    async def probe_payload(
+        self, path: str, *, budget_seconds: float | None = None
+    ) -> ProbeResponse:
+        """零副作用探测并**如实回报**状态码与载荷形态（L4 探针用；P134 新增）。
+
+        与 `probe()` 的差别：后者只回状态码，本方法额外回报顶层键与字节数，
+        供 `live.py` 判定「实测信封 == 数据侧声明的解包链」。**不**抛 4xx 业务错误
+        （404 正是 L4 要记录的事实之一，`docs/07` §16 R76）。
+
+        Raises:
+            MidasConnectionError: `STRUCTAI-2000`，传输失败。
+            MidasTimeoutError: `STRUCTAI-2300`，超时（云端中继首次调用会复现，
+                见 `docs/07` §16 R84）。
+        """
+        response = await self._raw("GET", path, body=None, budget_seconds=budget_seconds)
+        text = _text_of(response)
+        payload: dict[str, Any] = {}
+        json_ok = False
+        if text.strip():
+            try:
+                parsed = json.loads(text)
+            except json.JSONDecodeError:
+                parsed = None
+            if isinstance(parsed, Mapping):
+                payload = {str(key): value for key, value in parsed.items()}
+                json_ok = True
+        return ProbeResponse(
+            status_code=int(response.status_code),
+            payload=payload,
+            body_bytes=len(text.encode("utf-8")),
+            json_ok=json_ok,
+        )
 
     async def close(self) -> None:
         """关闭底层连接池（幂等）。"""

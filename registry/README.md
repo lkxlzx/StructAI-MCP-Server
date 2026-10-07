@@ -92,6 +92,8 @@ JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schem
 | `methods` | 实测可用方法集（**逐端点不同，不得统一假设**） |
 | `tool_map` | 该端点由哪个 MCP Tool 路由 |
 | `wrapper` | 请求体包装。**按实例产品不同**：NX 系为 `Assign`（DB / DESIGN）或 `Argument`（DOC / OPE / VIEW / POST）；**CIVIL_DESIGNER 为扁平结构**（`write: none`，实测确认，见测试报告附录 C），共有端点通过 `product_overrides.<产品>.wrapper` 覆盖 |
+| `wrapper.read_root` | **读响应**的业务载荷根键（`{<read_root>: {...}}`，NX 系实测口径）。**只允许来自手册 Response 示例或实测**，不得从 URI 猜（见 §8.1） |
+| `wrapper.read_root_path` | **读响应解包链**（可选，字符串数组）。用于「响应信封与 `read_root` 不一致」的产品：`CIVIL_DESIGNER` 实测业务载荷在 `result.return_value`，故其值为 `[result, return_value]`；NX 系不需要声明。优先级：`product_overrides.<产品>.wrapper.read_root_path` → 端点定义 `wrapper.read_root_path` → `read_root` → 未声明（客户端**必须**明确报错，禁止静默降级） |
 | `schema_ref` | 本地 Schema 路径 / `info/db/{CODE}` 自省路径 / Schema 来源 |
 | `products` | 支持该端点的产品 |
 | `product_overrides` | 同名不同语义时的逐产品覆盖（如 Civil Designer 的 `/DOC/OPEN`） |
@@ -196,7 +198,25 @@ python registry/tools/sync_manifest.py --write   # 写回
 
 **自 2026-10-05 起：端点 YAML 是唯一真源**；`read_root` 只允许来自手册 Response 示例或实测，
 `manifest.json` 一律由 `tools/sync_manifest.py` 派生。
-**其余 628 个端点的 `read_root` 尚未实测校验**（跟踪项见 `docs/07` R14）。
+
+**2026-10-08（P134）全量只读实测**：对三个实例的**全部只读端点**（GEN NX 257 · CIVIL NX 216 ·
+Civil Designer 14，合计 **487**）做零副作用 `GET` 探测并落库 `midas_api_verifications`
+（`contract_level = L4`）。结果：**278** 条 `PASSED`（响应顶层键 == `read_root`，逐条证实）、
+166 条 `PARTIAL`（数据块为空）、43 条 `FAILED`（404 = 产品 / 求解器可得性差异）。
+证据见 `docs/reports/P134_L4_L5_实测报告_v1.0.md`。
+
+本次实测又发现 **5 处 `read_root` 缺失**（原为空串，已按实测补齐）：
+
+| Registry key | 原值 | 实测根键 | 证据实例 |
+| --- | --- | --- | --- |
+| `OPE.PROJECTSTATUS` | （空） | **`PROJECTSTATUS`** | gen-local + civil-cloud |
+| `OPE.SECTPROP` | （空） | **`SECTPROP`** | civil-cloud |
+| `OPE.STORY_IRR_PARAM` | （空） | **`STORY_IRR_PARAM`** | gen-local |
+| `OPE.STORY_PARAM` | （空） | **`STORY_PARAM`** | gen-local |
+| `VIEW.SELECT` | （空） | **`SELECT`** | gen-local |
+
+**仍未实测**：**379** 个端点只有 `POST` / `PUT` / `DELETE`（写路径），只读探针覆盖不到，
+需**专用测试项目**才能安全覆盖（跟踪项见 `docs/07` R4 / R14）。
 
 > 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
 > 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。

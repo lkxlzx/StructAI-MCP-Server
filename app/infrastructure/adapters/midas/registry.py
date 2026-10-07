@@ -29,6 +29,12 @@
    匹配失败一律**拒绝**（`docs/04` §16 的 `reject`），**不**回落「最新 API」。
 4. **找不到 key → 明确失败**：`endpoint()` 抛 `MidasCapabilityError`（`3000`），
    `details.reason = "endpoint_not_in_registry"`；**不**返回 `None`、**不**猜测路径。
+5. **响应解包链是数据侧声明、Adapter 不得猜**（`docs/07` §16 R83，P134 新增）：
+   `ResolvedEndpoint.read_path` 按「`product_overrides.<产品>.wrapper.read_root_path` →
+   端点定义 `wrapper.read_root_path` → `read_root`」的顺序给出**唯一**解包链；
+   **空元组 = 数据侧未声明**，Adapter 据此**明确报错**（禁止 R83 描述的静默降级：
+   取不到 `read_root` 就退回整包 → 转换器字段全 `None` 而不报错）。
+   取值只来自数据与实测（`registry/README.md` §4 / §8.1），本模块**不**推断信封。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -119,6 +125,14 @@ class EndpointDefinition:
     title: str
     provenance: tuple[str, ...]
     overrides: Mapping[str, Mapping[str, Any]]
+    read_root_path: tuple[str, ...] = ()
+    """**响应解包链**（`docs/07` §16 R83；P134 新增）。
+
+    数据侧**可选**声明的解包链（`wrapper.read_root_path`），用于「响应信封与
+    `read_root` 不一致」的产品：`CIVIL_DESIGNER` 实测业务载荷在
+    `result.return_value`（R83），故其链为 `("result", "return_value")`。
+    缺省空元组 = 数据侧未声明，此时由 `read_root` 兜底（见 `resolve()`）。
+    """
 
     @property
     def verification_status(self) -> str:
@@ -139,6 +153,13 @@ class ResolvedEndpoint:
     body_kind: str
     read_root: str
     delete_all_via_body: bool
+    read_path: tuple[str, ...] = ()
+    """**响应解包链**（P134 / R83）：如 `("result", "return_value")` 的逐层键路径。
+
+    由 `resolve()` 按「产品覆盖 → 端点定义 → `read_root`」的顺序给出；
+    **空元组 = 数据侧未声明**，此时 Adapter 必须**明确报错**，而不是把整包
+    当成载荷（`docs/07` §16 R83：静默降级会把「信封不一致」伪装成「字段全空」）。
+    """
 
     @property
     def key(self) -> str:
@@ -174,6 +195,11 @@ class ResolvedEndpoint:
     def requires_object_body(self) -> bool:
         """请求体是否必须为对象（`flat_object` / `body_kind = object`）。"""
         return self.body_kind == "object" or self.definition.schema_shape == "flat_object"
+
+    @property
+    def has_declared_read_path(self) -> bool:
+        """该端点是否声明了解包链（`docs/07` §16 R83；P134 新增）。"""
+        return bool(self.read_path)
 
 
 class MidasRegistry:
@@ -271,6 +297,10 @@ class MidasRegistry:
             body_kind=str(wrapper.get("body_kind") or ""),
             read_root=definition.read_root,
             delete_all_via_body=bool(override.get("delete_all_via_body")),
+            read_path=_read_path(
+                wrapper.get("read_root_path"),
+                definition=definition,
+            ),
         )
 
     # ===== Schema（`docs/04` §13 / §107）=====
@@ -430,6 +460,7 @@ def _definition(entry: Mapping[str, Any]) -> EndpointDefinition:
         products=tuple(str(item) for item in _as_sequence(entry.get("products"))),
         wrapper_write=str(wrapper.get("write") or "none"),
         read_root=str(wrapper.get("read_root") or ""),
+        read_root_path=_declared_read_path(wrapper.get("read_root_path")),
         schema_path=str(entry.get("schema") or ""),
         schema_shape=str(entry.get("schema_shape") or ""),
         solver=str(entry.get("solver") or ""),
@@ -449,6 +480,34 @@ def _definition(entry: Mapping[str, Any]) -> EndpointDefinition:
             if isinstance(value, Mapping)
         },
     )
+
+
+def _declared_read_path(value: object) -> tuple[str, ...]:
+    """数据侧的 `wrapper.read_root_path` → 元组（**不改写任何取值**）。
+
+    `registry/README.md` §4 的 `product_overrides` 允许各产品覆盖**响应信封**：
+    `CIVIL_DESIGNER` 实测业务载荷在 `result.return_value`（`docs/07` §16 R83），
+    而 NX 系的 `read_root` 与顶层键一致，故只有 Designer 需要声明这条链。
+    逗号分隔的字符串与列表两种写法都接受（与数据里 `methods` 的既有口径一致）。
+    """
+    return tuple(str(part).strip() for part in _as_sequence(value) if str(part).strip())
+
+
+def _read_path(declared: object, *, definition: EndpointDefinition) -> tuple[str, ...]:
+    """解包链的**唯一**判定点（`docs/07` §16 R83；P134 新增）。
+
+    顺序：**产品覆盖声明** → **端点定义声明** → `read_root` 兜底 → 空（未声明）。
+    空元组不是「整包即载荷」，而是「数据侧没有可用的解包链」——
+    Adapter 必须据此**明确报错**（`docs/07` §16 R83 禁止静默降级）。
+    """
+    override_chain = _declared_read_path(declared)
+    if override_chain:
+        return override_chain
+    if definition.read_root_path:
+        return definition.read_root_path
+    if definition.read_root:
+        return (definition.read_root,)
+    return ()
 
 
 def _as_sequence(value: object) -> tuple[object, ...]:

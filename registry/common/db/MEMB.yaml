@@ -27,6 +27,7 @@ product_overrides:
       write: none
       shape: flat
       body_kind: array
+      read_root_path: [result, return_value]
     delete_all_via_body: true
 availability: verified
 verified_on: ["gen-local", "designer-cloud"]

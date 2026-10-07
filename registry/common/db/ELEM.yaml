@@ -26,6 +26,7 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
+      read_root_path: [result, return_value]
 availability: verified
 verified_on: ["gen-local", "civil-cloud", "designer-cloud"]
 path_key_supported: true
