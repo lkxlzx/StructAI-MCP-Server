@@ -1151,7 +1151,7 @@ def test_main_without_transport_keeps_stdout_empty(tmp_path: Path) -> None:
     completed = _run_main(database_url=database_url)
     assert completed.returncode == 0, completed.stderr
     assert completed.stdout == ""
-    assert "batch=P40" in completed.stderr
+    assert f"batch={BATCH_ID}" in completed.stderr
 
 
 def test_main_stdio_without_a_client_keeps_stdout_empty(tmp_path: Path) -> None:

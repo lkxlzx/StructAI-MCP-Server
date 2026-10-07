@@ -141,7 +141,7 @@ __all__ = [
     "resolve_local_identity",
 ]
 
-BATCH_ID: Final[str] = "P40"
+BATCH_ID: Final[str] = "P42"
 
 logger = logging.getLogger("structai")
 
