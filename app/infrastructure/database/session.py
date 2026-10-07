@@ -66,6 +66,13 @@ def _sqlite_on_connect(dbapi_connection: Any, _connection_record: Any) -> None:
     cursor = dbapi_connection.cursor()
     try:
         cursor.execute("PRAGMA foreign_keys=ON")
+        # `docs/02` §36（连接级 PRAGMA）：WAL 让「一个写连接 + 多个读连接」可以共存 ——
+        # 这是 P40 / P41 传输层上线后的**必要**前提：MCP 的每个请求开自己的会话
+        # （`docs/02` §16 / §33），而长任务的 Worker 会与后续请求的写入并发。
+        # 没有 WAL 时 SQLite 的默认日志模式会让第二个写入者撞上 `database is locked`
+        # （`busy_timeout` 只有 5 秒，长任务远超这个窗口）。
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA busy_timeout=30000")
     finally:
         cursor.close()
 

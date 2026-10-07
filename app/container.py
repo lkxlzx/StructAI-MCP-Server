@@ -40,6 +40,7 @@ import logging
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Final
+from uuid import UUID
 
 from sqlalchemy import select, update
 from sqlalchemy.engine import make_url
@@ -49,6 +50,11 @@ from app.application.execution.confirmation import ConfirmationGuard, Confirmati
 from app.application.execution.context import ExecutionContext
 from app.application.execution.engineering_validator import EngineeringValidator
 from app.application.execution.idempotency import IdempotencyService
+from app.application.execution.identity import (
+    MCPAuthenticator,
+    MCPIdentity,
+    identity_from_security,
+)
 from app.application.execution.pipeline import ExecutionPipeline
 from app.application.execution.postconditions import PostconditionEvaluator
 from app.application.execution.preconditions import PreconditionEvaluator
@@ -132,9 +138,10 @@ __all__ = [
     "ExecutionSession",
     "build_container",
     "build_execution_runtime",
+    "resolve_local_identity",
 ]
 
-BATCH_ID: Final[str] = "P37"
+BATCH_ID: Final[str] = "P40"
 
 logger = logging.getLogger("structai")
 
@@ -229,6 +236,7 @@ class AppContainer:
                 else await CapabilityRegistry.load(self.engine, self.session_factory)
             ),
         )
+        runtime.session_factory = self.session_factory
         bound = await bind_mock_instances(runtime, self.session_factory)
         await register_health_checkers(runtime, self.engine)
         self.execution_service = runtime.execution
@@ -351,10 +359,12 @@ class ExecutionRuntime:
     notifications: NotificationService
     health_registry: HealthRegistry
     health: HealthService
+    session_factory: async_sessionmaker[AsyncSession] | None = None
     operation_registry: OperationRegistry | None = None
     capability_registry: CapabilityRegistry | None = None
     schema_registry: SchemaRegistry | None = None
     execution: ExecutionServiceFactory | None = None
+    password_service: PasswordService | None = None
 
     def ready(self) -> bool:
         """运行时是否具备执行条件（`docs/07` §14.4：Registry 未装配 → 不就绪）。"""
@@ -416,6 +426,7 @@ def build_execution_runtime(
         capability_registry=capability_registry,
         schema_registry=schema_registry or SchemaRegistry(),
     )
+    runtime.password_service = PasswordService()
     runtime.execution = ExecutionServiceFactory(runtime)
     return runtime
 
@@ -541,6 +552,46 @@ def _result_normalizer(
     return _normalize
 
 
+class _FactoryAuthenticator:
+    """把会话级安全服务适配成传输层的认证端口（`docs/03` §12；`docs/07` §8.1）。
+
+    ⚠️ 每次认证都开一个**自己的**数据库会话并立即关闭：HTTP 的鉴权中间件是
+    请求级的，而 `SecurityServices` 持有会话级的 `*Store`（`docs/02` §16 / §33），
+    两者不能共享同一个 `AsyncSession`（并发使用不安全）。因此这里按请求装配、
+    用完即关 —— 认证路径**零写入**（P10–P13 已用 SQL 级钩子证明），
+    故不涉及事务边界（`docs/02` §16：只有 UnitOfWork 能 commit / rollback）。
+
+    Attributes:
+        factory: 会话级装配工厂（`ExecutionServiceFactory`）。
+    """
+
+    def __init__(self, factory: ExecutionServiceFactory) -> None:
+        """绑定装配工厂。"""
+        self._factory = factory
+
+    @property
+    def factory(self) -> ExecutionServiceFactory:
+        """被绑定的装配工厂（只读用途）。"""
+        return self._factory
+
+    async def authenticate(self, token: str) -> MCPIdentity:
+        """凭据 → 服务端身份（`docs/02` §20；`docs/03` §12）。
+
+        Raises:
+            PermissionDeniedError: `STRUCTAI-4000` —— 凭据无效 / 会话失效
+                （错误形状与凭据种类无关，`docs/02` §17）。
+        """
+        session_factory = self._factory.runtime.session_factory
+        if session_factory is None:  # pragma: no cover - 装配错误
+            raise InternalError(
+                "HTTP transport authentication requires a session factory",
+                details={"stage": "container", "reason": "session_factory_not_bound"},
+            )
+        async with session_factory() as session:
+            security = self._factory.security_for(session)
+            return identity_from_security(await security.guard.build_context(token))
+
+
 class ExecutionServiceFactory:
     """会话级 `ExecutionService` 的**唯一**构造入口（`docs/02` §123）。
 
@@ -561,6 +612,30 @@ class ExecutionServiceFactory:
     def runtime(self) -> ExecutionRuntime:
         """被绑定的进程级运行时（只读用途；容器字段因此可达全部进程级对象）。"""
         return self._runtime
+
+    def security_for(self, session: AsyncSession) -> SecurityServices:
+        """按会话装配安全服务（`docs/02` §33 / §123；`docs/03` §12）。
+
+        传输层（HTTP 鉴权）需要「凭据 → 服务端身份」，而安全服务持有**会话级**
+        `*Store`（`docs/02` §16 / §33），故这里复用与 `create()` **同一套**
+        装配口径（同一个 `PasswordService`，同一个会话有效期），避免出现
+        两套可能失同步的判定。
+
+        Args:
+            session: 调用方的会话（由 `_FactoryAuthenticator` 按请求新建）。
+
+        Returns:
+            `SecurityServices`（含 `guard` 这一唯一安全入口，`docs/02` §40 / §41）。
+        """
+        return build_security_services(
+            build_security_stores(session),
+            password_service=self._runtime.password_service or PasswordService(),
+            session_lifetime_seconds=self._runtime.settings.session_expire_seconds,
+        )
+
+    def authenticator(self) -> MCPAuthenticator:
+        """传输层的认证端口（`docs/03` §12；见 `_FactoryAuthenticator`）。"""
+        return _FactoryAuthenticator(self)
 
     def create_service(
         self,
@@ -639,10 +714,14 @@ class ExecutionServiceFactory:
             worker=worker,
             operations=operations,
         )
-        security = build_security_services(
-            build_security_stores(session),
-            password_service=password_service or PasswordService(),
-            session_lifetime_seconds=settings.session_expire_seconds,
+        security = (
+            build_security_services(
+                build_security_stores(session),
+                password_service=password_service,
+                session_lifetime_seconds=settings.session_expire_seconds,
+            )
+            if password_service is not None
+            else self.security_for(session)
         )
         resource_store = build_resource_store(session)
         resolver = ResourceResolver(resource_store, tenant_access=security.tenant_access)
@@ -882,6 +961,63 @@ async def bind_mock_instances(
     if bound:
         await _mark_instances_connected(session_factory, bound)
     return tuple(bound)
+
+
+async def resolve_local_identity(
+    session_factory: async_sessionmaker[AsyncSession],
+) -> MCPIdentity:
+    """解析 STDIO 的**本地可信身份**（`docs/03` §11；`docs/07` §8.1）。
+
+    本地 STDIO 允许 *local trusted identity*，但 `docs/03` §11 明确「**不得**因为
+    STDIO 是本地连接就绕过 RBAC / Tenant Isolation / Audit」，故这里仍然
+    **只**从已配备的种子数据里取服务端事实（`docs/02` §43 / §44 的引导管理员），
+    并如实标注 `authentication_method = LOCAL`。
+
+    Args:
+        session_factory: 进程级会话工厂（`AppContainer.session_factory`）。
+
+    Returns:
+        `MCPIdentity`（身份 ＋ 该身份的有效权限快照）。
+
+    Raises:
+        InternalError: `STRUCTAI-7000` —— 数据库未配备 / 没有可用管理员
+            （**绝不**回落成匿名身份）。
+    """
+    from app.application.execution.identity import local_identity
+    from app.application.security import build_security_services
+    from app.application.security.context import (
+        AUTHENTICATION_METHOD_LOCAL,
+        IdentityContext,
+    )
+    from app.infrastructure.database.models.user import UserORM
+
+    try:
+        async with session_factory() as session:
+            user = (await session.execute(select(UserORM))).scalars().first()
+            if user is None:
+                raise InternalError(
+                    "No seeded user is available for the local stdio identity",
+                    details={"stage": "container", "reason": "local_identity_missing"},
+                )
+            security = build_security_services(
+                build_security_stores(session),
+                password_service=PasswordService(),
+            )
+            identity = IdentityContext(
+                user_id=UUID(str(user.id)),
+                tenant_id=UUID(str(user.tenant_id)),
+                roles=tuple(await security.roles.get_user_roles(str(user.id))),
+                authentication_method=AUTHENTICATION_METHOD_LOCAL,
+            )
+            permissions = await security.permissions.get_permissions(identity)
+    except InternalError:
+        raise
+    except Exception as error:
+        raise InternalError(
+            "Could not resolve the local stdio identity: database is not provisioned",
+            details={"stage": "container", "reason": "local_identity_unavailable"},
+        ) from error
+    return local_identity(identity, permissions=permissions)
 
 
 async def _mark_instances_connected(

@@ -571,9 +571,12 @@ class _RecordingService:
 
 
 def test_batch_id_is_a_batch_marker() -> None:
-    """门槛 ⑦（`docs/08` §3）：容器批次号已推进到本批（**P37**）。"""
+    """门槛 ⑦（`docs/08` §3）：容器批次号是一个**批次标记**（与具体批次无关）。
+
+    ⚠️ 断言**不**绑定 P37：后续批次（P40+）会推进 `BATCH_ID`，
+    本测试只要求它仍是 `P<两位数字>` 的形态（P05 起的既有口径）。
+    """
     assert re.fullmatch(r"P\d{2}", BATCH_ID), BATCH_ID
-    assert BATCH_ID == "P37"
 
 
 def test_mcp_layer_implements_exactly_the_first_four_frozen_steps() -> None:
