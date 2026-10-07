@@ -13,7 +13,7 @@ schema_ref:
   introspect: null
   source: repo_midas_api
 parser: db_generic
-products: [CIVIL_NX, GEN_NX]
+products: [GEN_NX]
 availability: verified
 verified_on: ["gen-local"]
 unavailable_on: ["civil-cloud"]

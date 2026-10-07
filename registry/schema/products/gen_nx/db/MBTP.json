@@ -2,5 +2,21 @@
   "key": "DB.MBTP",
   "uri": "DB/MBTP",
   "source": "help_center",
-  "schema": "{\n    \"TABLE\": {\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"Argument\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"TYPE\": {\n                \"description\": \"MemberType\",\n                \"type\": \"string\"\n            }\n        }\n    }\n}"
+  "schema": "{\n    \"TABLE\": {\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"Argument\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"TYPE\": {\n                \"description\": \"MemberType\",\n                \"type\": \"string\"\n            }\n        }\n    }\n}",
+  "response": {
+    "direction": "response",
+    "source": "l4_measured_envelope",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "MBTP"
+      ],
+      "properties": {
+        "MBTP": {
+          "type": "object"
+        }
+      }
+    }
+  }
 }

@@ -471,8 +471,13 @@ def test_p134_seven_and_verdict_requires_every_item() -> None:
     assert complete.missing == ()
 
 
-def test_p134_measured_endpoints_stay_partial_because_response_schema_is_missing() -> None:
-    """实测通过 L4 的端点**仍**保持 `PARTIAL`：缺「Response Schema 已确认」（R78）。"""
+def test_p134_measured_endpoints_are_verified_once_the_response_schema_exists() -> None:
+    """实测通过 L4 的端点：7 项 AND **全部**满足 → `VERIFIED`（R78 / R87）。
+
+    P136 起数据侧为**已实测**的端点声明了 response 方向 Schema
+    （`registry/tools/sync_response_schemas.py`），故「Response Schema 已确认」
+    不再是恒假的缺口；该项缺位时仍**如实**回到 `PARTIAL` 并报出缺哪一项。
+    """
     registry = support.registry()
 
     def evidence(key: str, **overrides: Any) -> dict[str, bool]:
@@ -489,11 +494,9 @@ def test_p134_measured_endpoints_stay_partial_because_response_schema_is_missing
 
     for key in ("DB.NODE", "DB.MATL", "DB.SECT", "DB.UNIT"):
         verdict = seven_and_verdict(evidence(key))
-        assert verdict.status == STATUS_PARTIAL, key
-        assert verdict.missing == ("response_schema_confirmed",), key
-        assert verdict.as_dict()["satisfied"] == [
-            item for item in SEVEN_AND_ITEMS if item != "response_schema_confirmed"
-        ]
+        assert verdict.status == STATUS_VERIFIED, key
+        assert verdict.missing == (), key
+        assert verdict.as_dict()["satisfied"] == list(SEVEN_AND_ITEMS), key
     # 无请求 Schema 的端点缺**两项**，同样如实标注（**不**猜、**不**补）
     project_status = seven_and_verdict(evidence("OPE.PROJECTSTATUS"))
     assert project_status.status == STATUS_PARTIAL
@@ -501,14 +504,16 @@ def test_p134_measured_endpoints_stay_partial_because_response_schema_is_missing
         "request_schema_confirmed",
         "response_schema_confirmed",
     )
-    # 补上 response Schema 后同一判定点会升级（证明 AND 是真的）
-    assert seven_and_verdict(evidence("DB.NODE", response_schema_confirmed=True)).status == (
-        STATUS_VERIFIED
+    # 把 response 一项改回假 → 立刻回到 `PARTIAL`（证明 AND 是真的）
+    assert seven_and_verdict(evidence("DB.NODE", response_schema_confirmed=False)).status == (
+        STATUS_PARTIAL
     )
     # 未实测 → 第 7 项为假；版本不在声明范围 → 第 6 项为假
     assert seven_and_verdict(evidence("DB.NODE", live_contract_test_passed=False)).status == (
         STATUS_PARTIAL
     )
+
+    # 版本不在声明范围 → 第 6 项为假（`registry/` 无版本字段，由清单声明决定）
     assert (
         registry_evidence(
             registry,

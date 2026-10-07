@@ -31,9 +31,13 @@
    缺失时 `MidasLiveBusinessEffect` 直接**拒绝**（`dedicated_test_project_not_declared`），
    **绝不**回落到「当前打开的项目」；创建 / 读回 / 删除**只**针对本次自己创建的 ID。
 5. **`VERIFIED` 的 7 项 AND 逐项可执行**（`seven_and_verdict` / `registry_evidence`）：
-   数据侧只提供 6 项里的一部分，**Response Schema 已确认** 这一项在本仓库的数据里
-   **恒为假**（`registry/` 无 response 方向 Schema）—— 故**任何**端点都**不**得升
-   `VERIFIED`，如实保持 `PARTIAL` 并报出缺哪一项（`docs/07` §16 R78）。
+   数据侧只提供 6 项里的一部分；**Response Schema 已确认** 这一项在 P136 之前
+   **恒为假**（`registry/` 只有请求方向 Schema，`docs/07` §16 R87）。P136 起数据侧为
+   **已实测**的端点补了 `direction: response` 的 `response` 块
+   （`registry/tools/sync_response_schemas.py`；`registry/README.md` §2.2），
+   故该项**按数据如实判定**：声明了即为真，未声明（`availability` 非 `verified`、
+   或该端点没有 Schema 文件）即为假 —— 缺项时如实保持 `PARTIAL` 并报出缺哪一项
+   （`docs/07` §16 R78 / R87）。
 6. **凭据只经运行环境**：本模块**不**读任何凭据（由 `MidasHttpClient` +
    `MidasEnvironmentCredential` 负责），记录里**只**有状态码 / 键名 / 哈希 ——
    **绝不**落库响应体原文、请求体原文或 MAPI-Key（`docs/07` §14.3）。
@@ -515,16 +519,18 @@ def registry_evidence(
 
 
 def _has_response_schema(registry: MidasRegistry, key: str) -> bool:
-    """数据侧是否存在 **response** 方向的 Schema（见裁决 5）。
+    """数据侧是否声明了 **response** 方向的 Schema（见裁决 5）。
 
-    ⚠️ `registry/` 目前**只有**请求 Schema（`midas_api_schemas.direction = "request"`），
-    因此本项在数据上**恒为假** —— 这正是 `VERIFIED` 不得升级的唯一原因，
-    也是「如实保持 `PARTIAL` 并说明缺哪一项」的可执行判定。
+    P136 起数据侧为**已实测**的端点补了 `response` 块
+    （`registry/tools/sync_response_schemas.py`；`registry/README.md` §2.2），
+    故本项**不再恒为假**：只有真声明了 `direction: response` 才为真。
+    未声明的端点（`availability` 非 `verified`、或没有 Schema 文件）仍如实判假 ——
+    这正是「如实保持 `PARTIAL` 并说明缺哪一项」的可执行判定（`docs/07` §16 R87）。
     """
-    document = registry.schema_document(key)
-    if document is None:
+    block = registry.response_schema_document(key)
+    if block is None:
         return False
-    return str(document.get("direction") or "request") == "response"
+    return str(block.get("direction") or "") == "response"
 
 
 # ===== L5 业务效果（`docs/04` §71 / §72；见裁决 4）=====

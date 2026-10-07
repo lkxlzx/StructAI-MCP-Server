@@ -593,8 +593,7 @@
       "uri": "/DB/CAMB",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/CAMB.yaml",
       "schema": "schema/common/db/CAMB.json",
@@ -812,8 +811,7 @@
       "uri": "/DB/CJFG",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/CJFG.yaml",
       "schema": "schema/common/db/CJFG.json",
@@ -967,8 +965,7 @@
       "uri": "/DB/CMCS",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/CMCS.yaml",
       "schema": "schema/common/db/CMCS.json",
@@ -1369,8 +1366,7 @@
       "uri": "/DB/CRGR",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/CRGR.yaml",
       "schema": "schema/common/db/CRGR.json",
@@ -1950,8 +1946,7 @@
       "uri": "/DB/DYFG",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/DYFG.yaml",
       "schema": "schema/common/db/DYFG.json",
@@ -2003,8 +1998,7 @@
       "uri": "/DB/DYLA",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/DYLA.yaml",
       "schema": "schema/common/db/DYLA.json",
@@ -2056,8 +2050,7 @@
       "uri": "/DB/DYNF",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/DYNF.yaml",
       "schema": "schema/common/db/DYNF.json",
@@ -2794,8 +2787,7 @@
       "uri": "/DB/EWSF",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/EWSF.yaml",
       "schema": "schema/common/db/EWSF.json",
@@ -3260,8 +3252,7 @@
       "uri": "/DB/GCMB",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/GCMB.yaml",
       "schema": "schema/common/db/GCMB.json",
@@ -3415,8 +3406,7 @@
       "uri": "/DB/GSBG",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/GSBG.yaml",
       "schema": "schema/common/db/GSBG.json",
@@ -7974,8 +7964,7 @@
       "uri": "/DB/PLCB",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/PLCB.yaml",
       "schema": "schema/common/db/PLCB.json",
@@ -8796,8 +8785,7 @@
       "uri": "/DB/RCHK",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/RCHK.yaml",
       "schema": "schema/common/db/RCHK.json",
@@ -9181,7 +9169,6 @@
       "uri": "/DB/SDHY",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/SDHY.yaml",
@@ -9234,7 +9221,6 @@
       "uri": "/DB/SDIS",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/SDIS.yaml",
@@ -10654,8 +10640,7 @@
       "uri": "/DB/STRPSSM",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/STRPSSM.yaml",
       "schema": "schema/common/db/STRPSSM.json",
@@ -11926,7 +11911,6 @@
       "uri": "/DB/THRS",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/THRS.yaml",
@@ -12648,8 +12632,7 @@
       "uri": "/DB/WVLD",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/WVLD.yaml",
       "schema": "schema/common/db/WVLD.json",
@@ -14567,7 +14550,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/MATD",
       "methods": "GET",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/MATD.yaml",
@@ -16568,7 +16550,6 @@
       "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
       "methods": "GET",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/src/AIK-SRC2K/MATD.yaml",

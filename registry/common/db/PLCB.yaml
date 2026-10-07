@@ -14,7 +14,7 @@ schema_ref:
   introspect: info/db/PLCB
   source: help_center
 parser: db_generic
-products: [CIVIL_NX, GEN_NX]
+products: [CIVIL_NX]
 availability: verified
 verified_on: ["civil-cloud"]
 unavailable_on: ["gen-local"]

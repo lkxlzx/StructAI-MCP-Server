@@ -35,6 +35,12 @@
    **空元组 = 数据侧未声明**，Adapter 据此**明确报错**（禁止 R83 描述的静默降级：
    取不到 `read_root` 就退回整包 → 转换器字段全 `None` 而不报错）。
    取值只来自数据与实测（`registry/README.md` §4 / §8.1），本模块**不**推断信封。
+6. **响应方向 Schema 与请求方向**：`registry/schema/**` 的**一份文件**同时承载两个方向 ——
+   `schema` = 请求方向（原样登记，**不改写**），`response` = **response 方向**
+   （`{direction, source, schema}`，由 `registry/tools/sync_response_schemas.py`
+   按**实测信封**生成，`registry/README.md` §2.2）。本模块只**读**两者：
+   `schema_json()` 给请求方向，`response_schema_json()` 给响应方向（未声明 → `None`）。
+   `docs/07` §16 R87 的判定点据此从「恒为假」变为「按数据如实判定」。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -335,6 +341,31 @@ class MidasRegistry:
             return None
         raw = document.get("schema")
         return raw if isinstance(raw, dict) else None
+
+    def response_schema_document(self, key: str) -> dict[str, Any] | None:
+        """端点 Schema 文件里的 **response 方向**块（`docs/07` §16 R87；P136 新增）。
+
+        数据侧在同一份 Schema 文件里用 `response` 块声明**实测过的响应信封**
+        （由 `registry/tools/sync_response_schemas.py` 生成；`registry/README.md` §2.2）。
+        **没有**该块 = 数据侧没有 response 方向 Schema（`availability` 非 `verified`
+        的端点一律没有）—— 返回 `None`，调用方据此**如实**判假，**不**猜。
+
+        Returns:
+            `{direction, source, schema}`；未声明时 `None`。
+        """
+        document = self.schema_document(key)
+        if document is None:
+            return None
+        block = document.get("response")
+        return dict(block) if isinstance(block, Mapping) else None
+
+    def response_schema_json(self, key: str) -> dict[str, Any] | None:
+        """**response 方向**的 JSON Schema 本体（未声明 → `None`，见裁决 6）。"""
+        block = self.response_schema_document(key)
+        if block is None:
+            return None
+        raw = block.get("schema")
+        return dict(raw) if isinstance(raw, Mapping) else None
 
     def effective_schema(self, key: str) -> dict[str, Any] | None:
         """剥离**请求体包装根键**后的生效 Schema（P09 同一口径，`docs/07` §16 R18）。

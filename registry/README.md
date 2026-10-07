@@ -57,6 +57,41 @@ JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schem
 （校验变宽松），故 Core 侧由 `SchemaEngine.check_schema()` 显式诊断。
 另：**20** 个端点仍**没有** JSON Schema（`docs/07` §16 R5），本目录不臆造。
 
+### 2.2 response 方向 Schema（P136 裁决，2026-10-08 之后）
+
+`registry/schema/**` 的**同一份文件**同时承载两个方向（**不**新增文件，故文件数仍 **616**、
+与 `manifest.json` 带 `schema` 的端点仍 **1:1**）：
+
+| 键 | 方向 | 来源 |
+| --- | --- | --- |
+| `schema` | 请求体 | 外部手册 / 权威来源**原样登记**（P136 **一行未改**） |
+| `response` | **响应信封** | `{direction: "response", source, schema}` —— 由 `tools/sync_response_schemas.py` 按**实测信封**生成 |
+
+**覆盖口径（「已实测」，**不**臆造）**：`availability == verified`（§4：至少一个实例 GET 成功）
+**且** `methods` 含 `GET` **且**该端点有可读的 Schema 文件 **且**声明了解包链 —— 共 **239** 个端点
+（`verified` + `GET` 的 245 个里，6 个尚无 Schema 文件：`DB.LCOM` / `OPE.PROJECTSTATUS` /
+`OPE.SECTPROP` / `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` / `VIEW.SELECT`）。
+
+**`response.schema` 只断言实测到的信封层级**（载荷字段一个都不写）：
+
+| 情形 | 分支 |
+| --- | --- |
+| NX 系（§4 的 `{<read_root>: {...}}` 实测口径） | `{"required": [<read_root>], "properties": {<read_root>: {"type": "object"}}}` |
+| 声明了解包链（`CIVIL_DESIGNER` 的 `result.return_value`，§8.1 / R83） | 按链逐层 `required` / `properties`，**叶子类型留空**（未实测 → 不猜） |
+| 一个端点的多个产品信封不同（如 `DB.NODE`） | `oneOf` 列出各分支 |
+
+**效果（`docs/07` §16 R87）**：`docs/04` §8 的 7 项 AND 里「Response Schema 已确认」
+不再恒为假 —— 判定点仍是**同一处**（`app/infrastructure/adapters/midas/live.py` 的
+`seven_and_verdict` / `registry_evidence`，经 `MidasRegistry.response_schema_document()` 读数据）。
+本批实测复核：**238** 个已实测端点 7 项全满足；唯一例外 `DB.MBTP` 缺「Request Schema 已确认」
+（它的 `schema` 是非法 JSON 字符串，见 §2.1 的 R19），**如实**保留 `PARTIAL`。
+
+```powershell
+python registry/tools/sync_manifest.py --write         # 先派生 manifest（products 等）
+python registry/tools/sync_response_schemas.py         # 预演（只打印差异）
+python registry/tools/sync_response_schemas.py --write # 写回（只追加 response 块）
+```
+
 ## 3. 统计
 
 - 端点定义（Registry key）：**636**
@@ -173,11 +208,14 @@ Core 侧 `code` 保持**自由字符串**（规范中立，Core 内不出现任�
 | --- | --- |
 | `tools/extract_design_codes.py` | 从官方手册抽取规范枚举 → `design_codes.yaml`（带条数断言，锚点漂移即报错） |
 | `tools/sync_manifest.py` | 以端点 YAML 为真源，重建 `manifest.json` 的派生字段；默认预演，`--write` 写回 |
+| `tools/sync_response_schemas.py` | 为**已实测**的端点补 `direction: response` 的 `response` 块（§2.2）；默认预演，`--write` 写回 |
 
 ```powershell
 python registry/tools/extract_design_codes.py
 python registry/tools/sync_manifest.py           # 预演（只打印差异）
 python registry/tools/sync_manifest.py --write   # 写回
+python registry/tools/sync_response_schemas.py   # 预演（只打印差异）
+python registry/tools/sync_response_schemas.py --write   # 写回（只追加 response 块）
 ```
 
 ### 8.1 ⚠️ 已知缺陷：`read_root` 曾是「从 URI 猜的」
@@ -220,3 +258,26 @@ Civil Designer 14，合计 **487**）做零副作用 `GET` 探测并落库 `mida
 
 > 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
 > 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。
+
+### 8.2 产品可得性差异：按实测收口 `products`（P136a）
+
+`docs/07` §16 **R85** 的 L4 实测（`docs/reports/P134_L4_L5_实测报告_v1.0.md` §4）
+记录了 **21** 条「数据侧声明了某产品、但该产品的实例上路由 `404`」的端点。
+P136 把该结论**落进数据**（**只**改 `products`；`availability` / `verified_on` /
+`unavailable_on` / `enabled` 一行未改 —— 故 `verification_status` 不变，`docs/07` §7.2）：
+
+| 组 | 条数 | 端点 | 改动 |
+| --- | --- | --- | --- |
+| GEN NX 上 `404` | **14** | `DB.CAMB` / `DB.CJFG` / `DB.CMCS` / `DB.CRGR` / `DB.DYFG` / `DB.DYLA` / `DB.DYNF` / `DB.EWSF` / `DB.GCMB` / `DB.GSBG` / `DB.PLCB` / `DB.RCHK` / `DB.STRPSSM` / `DB.WVLD` | `[CIVIL_NX, GEN_NX]` → `[CIVIL_NX]` |
+| CIVIL NX 上 `404` | **5** | `DB.SDHY` / `DB.SDIS` / `DB.THRS` / `DESIGN.RC.KDS-41-20-2022.MATD` / `DESIGN.SRC.AIK-SRC2K.MATD` | `[CIVIL_NX, GEN_NX]` → `[GEN_NX]` |
+| CIVIL NX 上 `404`，**本来**已如实记录 | **2** | `DB.UFTR` / `DB.UTBL` | **不动**（`unavailable_on: [civil-cloud]` + `availability: unverified` 已在） |
+
+**效果**：解析期即**如实失败**（`STRUCTAI-3000 endpoint_not_available_for_product`），
+不再发出必然 `404` 的请求（与 §4 的 `resolve` 口径一致）。实例级证据仍保留在
+`unavailable_on`（`instances.yaml` 口径）。
+
+⚠️ **`DB.SPAN` 不在改动面内**：它是 `CIVIL_NX` + `CIVIL_DESIGNER` 的**产品特有**端点。
+P136 的复核确认它在 `gen-local` 上**仍 `404`** —— 是否摘除其 `GEN_NX` 归**下一批**裁决。
+
+**证据**：`docs/reports/P136_数据侧收口与L4复核_v1.0.md` §2 / §4；
+可执行判定 = `tests/test_midas_registry_p136.py` + `tests/test_midas_write_probe_p135.py` 的 R85 用例。

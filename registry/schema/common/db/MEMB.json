@@ -20,5 +20,42 @@
         }
       }
     }
+  },
+  "response": {
+    "direction": "response",
+    "source": "l4_measured_envelope",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "oneOf": [
+        {
+          "required": [
+            "MEMB"
+          ],
+          "properties": {
+            "MEMB": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "result"
+          ],
+          "properties": {
+            "result": {
+              "type": "object",
+              "required": [
+                "return_value"
+              ],
+              "properties": {
+                "return_value": {}
+              }
+            }
+          }
+        }
+      ]
+    }
   }
 }

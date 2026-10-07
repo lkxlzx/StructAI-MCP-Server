@@ -13,10 +13,14 @@
    逐个执行 `list → create → read_back → delete`，**只**碰自己创建的编号、
    `DELETE` **必须**带路径 key、危险端点一律排除；无专用测试项目声明 → **明确拒绝**
    （`STRUCTAI-3000`）。
-2. **R85 如实保持**：L4 实测的产品可得性差异以 `unavailable_on` **记录**，
-   数据侧声明保留（`products` 不改），`verification_status` **不**因 CI 层记录升级。
-3. **R87 / R90 如实保持**：数据侧只有请求方向 Schema → 「Response Schema 已确认」恒为假；
-   补上 response 方向 Schema 后**同一判定点**即升 `VERIFIED`（AND 是真的）。
+2. **R85 已按实测落进数据（P136a）**：不可得的产品从 `products` 摘除、`unavailable_on`
+   保留实例级记录；判定口径（`availability` → `verification_status`）**一行未改**，
+   故本批**不**升级任何 `verification_status`（改数据不改判定）。
+3. **R87 已收口（P136b）**：数据侧为**已实测**的端点补了 `direction: response` 的
+   `response` 块（`registry/tools/sync_response_schemas.py`），故「Response Schema 已确认」
+   **按数据如实判定**：实测端点（`DB.NODE` 等）7 项 AND 全满足 → `VERIFIED`；
+   未实测 / 无 Schema 的端点仍**如实**缺项并保持 `PARTIAL`（**不**臆造）。
+   **R90（ETABS）不变**：无 ETABS 实测 → 不升。
 4. **新模块不得越界**（`docs/07` §14.1 / §14.2）。
 """
 
@@ -55,10 +59,10 @@ R85_GEN_NX_PRODUCT_GAPS: tuple[str, ...] = (
     "DB.STRPSSM",
     "DB.WVLD",
 )
-"""`docs/07` §16 R85：L4 实测在 **GEN NX** 上 `404` 而数据侧声明了 `GEN_NX` 的端点。
+"""`docs/07` §16 R85：L4 实测在 **GEN NX** 上 `404` 而数据侧曾声明 `GEN_NX` 的 14 个端点。
 
-⚠️ `DB.SPAN` **不**在此列：它未出现在 R85 的 11 条清单里，且实测在 `CIVIL_DESIGNER`
-上可用（**产品特有**端点），故本批**不**动它的 `products`。
+⚠️ `DB.SPAN` **不**在此列：R85 的 15 条「桥梁 / 铁路专项表」里它**不算**产品差异
+（实测在 `CIVIL_NX` + `CIVIL_DESIGNER` 上可用，是**产品特有**端点），故本批**不**动它。
 """
 
 R85_CIVIL_NX_PRODUCT_GAPS: tuple[str, ...] = (
@@ -70,7 +74,20 @@ R85_CIVIL_NX_PRODUCT_GAPS: tuple[str, ...] = (
     "DESIGN.RC.KDS-41-20-2022.MATD",
     "DESIGN.SRC.AIK-SRC2K.MATD",
 )
-"""`docs/07` §16 R85：L4 实测在 **CIVIL NX** 上 `404` 的 7 个端点（逐字照抄报告 §4.2）。"""
+"""`docs/07` §16 R85：L4 实测在 **CIVIL NX** 上 `404` 的 7 个端点（逐条复算报告 §4.2）。"""
+
+R85_CIVIL_NX_PRODUCT_GAPS_REMOVED: tuple[str, ...] = (
+    "DB.SDHY",
+    "DB.SDIS",
+    "DB.THRS",
+    "DESIGN.RC.KDS-41-20-2022.MATD",
+    "DESIGN.SRC.AIK-SRC2K.MATD",
+)
+"""其中数据侧原先声明了 `CIVIL_NX` → 已按实测**摘除**（P136a）。"""
+
+R85_CIVIL_NX_PRODUCT_GAPS_UNVERIFIED: tuple[str, ...] = ("DB.UFTR", "DB.UTBL")
+"""其中数据侧**本来**就标了 `availability: unverified` + `unavailable_on: [civil-cloud]`
+（`products` 保留 `CIVIL_NX`）→ 已如实记录，本批**不动**（改反而会臆造）。"""
 
 NODE_KEY = "DB.NODE"
 
@@ -118,6 +135,15 @@ def _client(transport: httpx.AsyncBaseTransport | None = None) -> MidasHttpClien
 def _registry() -> MidasRegistry:
     """数据侧 Registry（`registry/` 的唯一权威来源）。"""
     return support.registry()
+
+
+def _manifest_entry(key: str) -> dict[str, Any]:
+    """`registry/manifest.json` 的一条端点记录（`unavailable_on` 等字段的唯一来源）。"""
+    document = json.loads((_registry().root / "manifest.json").read_text(encoding="utf-8"))
+    for entry in document["endpoints"]:
+        if entry["key"] == key:
+            return entry
+    raise AssertionError(f"{key} not in registry/manifest.json")
 
 
 _UNSET: Any = object()
@@ -293,34 +319,49 @@ def test_p135d_a_short_write_surface_is_reported_not_hidden() -> None:
     assert keys == tuple(sorted(keys, key=lambda key: _registry().keys().index(key)))
 
 
-# ===== R85：产品可得性差异如实记录 =====
+# ===== R85：产品可得性差异按实测落进数据（P136a）=====
 
 
-def test_p135d_r85_gen_nx_product_gaps_are_recorded_in_the_registry() -> None:
-    """R85：GEN NX 上实测 `404` 的端点**存在且声明了 `GEN_NX`**（数据侧原文保留）。
+def test_p135d_r85_gen_nx_product_gaps_are_recorded_as_measured() -> None:
+    """R85：GEN NX 上实测 `404` 的端点**已按实测**把 `GEN_NX` 从 `products` 摘除。
 
-    ⚠️ 本批**不**改 `products`（R85 的「建议」需数据侧生成链复核）——
-    故可执行判定是「端点存在 + 声明保留 + 判定口径仍按 `availability` 机械映射」，
-    而**不是**声称这些端点在 GEN NX 上可用。
+    数据侧改动 = **只**改 `products`（`unavailable_on` 保留实例级实测记录）；
+    判定口径（`availability` → `verification_status`）**一行未改**，故解析期对
+    `GEN_NX` **如实失败**（`STRUCTAI-3000`），而不是发出一个必然 `404` 的请求。
     """
     registry = _registry()
     for key in R85_GEN_NX_PRODUCT_GAPS:
         definition = registry.endpoint(key)
-        assert "GEN_NX" in definition.products, key
-        assert definition.availability in {"verified", "unverified", "untested"}, key
-        resolved = registry.resolve(key=key, product="GEN_NX", method="GET")
-        assert resolved.verification_status == definition.verification_status, key
-        # 数据侧原文里的 `unavailable_on` 记录（`instances.yaml` 口径）如实保留
+        assert "GEN_NX" not in definition.products, key
+        assert "CIVIL_NX" in definition.products, key
+        assert "gen-local" in _manifest_entry(key)["unavailable_on"], key
         assert definition.availability == "verified", key
+        with pytest.raises(Exception) as failure:
+            registry.resolve(key=key, product="GEN_NX", method="GET")
+        assert getattr(failure.value, "code", "") == "STRUCTAI-3000", key
+        assert failure.value.details["reason"] == "endpoint_not_available_for_product", key
+        resolved = registry.resolve(key=key, product="CIVIL_NX", method="GET")
+        assert resolved.verification_status == definition.verification_status, key
 
 
-def test_p135d_r85_civil_nx_product_gaps_are_recorded_in_the_registry() -> None:
-    """R85：CIVIL NX 上实测 `404` 的 7 个端点同样**存在且声明保留**。"""
+def test_p135d_r85_civil_nx_product_gaps_are_recorded_as_measured() -> None:
+    """R85：CIVIL NX 上实测 `404` 的 7 个端点同样按实测收口（两种情形都如实记录）。"""
     registry = _registry()
     for key in R85_CIVIL_NX_PRODUCT_GAPS:
+        assert "civil-cloud" in _manifest_entry(key)["unavailable_on"], key
+    for key in R85_CIVIL_NX_PRODUCT_GAPS_REMOVED:
         definition = registry.endpoint(key)
-        assert "CIVIL_NX" in definition.products, key
-        assert definition.availability in {"verified", "unverified", "untested"}, key
+        assert "CIVIL_NX" not in definition.products, key
+        assert "GEN_NX" in definition.products, key
+        with pytest.raises(Exception) as failure:
+            registry.resolve(key=key, product="CIVIL_NX", method="GET")
+        assert getattr(failure.value, "code", "") == "STRUCTAI-3000", key
+    for key in R85_CIVIL_NX_PRODUCT_GAPS_UNVERIFIED:
+        definition = registry.endpoint(key)
+        # 数据侧原本已标 `unverified` + `unavailable_on` → **不动**（改反而会臆造）
+        assert definition.products == ("CIVIL_NX",), key
+        assert definition.availability == "unverified", key
+        assert definition.verification_status == "UNVERIFIED", key
 
 
 def test_p135d_r85_span_is_a_product_specific_endpoint() -> None:
@@ -331,7 +372,7 @@ def test_p135d_r85_span_is_a_product_specific_endpoint() -> None:
 
 
 def test_p135d_r85_measurement_never_promotes_a_verification_status() -> None:
-    """R85 / R78：判定口径仍**只**由 `availability` 机械映射（CI 层记录不升级）。"""
+    """R85 / R78：判定口径仍**只**由 `availability` 机械映射（数据改动不升级状态）。"""
     registry = _registry()
     for key in (*R85_GEN_NX_PRODUCT_GAPS, *R85_CIVIL_NX_PRODUCT_GAPS):
         definition = registry.endpoint(key)
@@ -345,20 +386,27 @@ def test_p135d_r85_measurement_never_promotes_a_verification_status() -> None:
         }
 
 
-# ===== R87 / R90：response 方向 Schema 缺失 =====
+# ===== R87：response 方向 Schema 已按实测补齐（P136b）=====
 
 
-def test_p135d_r87_and_r90_response_schema_absence_keeps_partial() -> None:
-    """R87 / R90：数据侧**只有**请求方向 Schema → 「Response Schema 已确认」恒为假。"""
+def test_p135d_r87_response_schema_is_declared_for_measured_endpoints() -> None:
+    """R87：已实测端点声明了 `direction: response`；请求方向原文**未被改写**。"""
     registry = _registry()
     for key in ("DB.NODE", "DB.MATL", "DB.SECT", "DB.UNIT"):
         document = registry.schema_document(key)
         assert document is not None, key
+        # 请求方向：数据侧原文（无 `direction` 键 → 按 `request` 解读，一行未改）
         assert str(document.get("direction") or "request") == "request", key
+        block = registry.response_schema_document(key)
+        assert block is not None and block["direction"] == "response", key
+        assert registry.response_schema_json(key) is not None, key
+    # 未实测 / 无 Schema 的端点**没有** response 块（**不**臆造）
+    assert registry.response_schema_document("DB.SWIND") is None
+    assert registry.response_schema_document("OPE.PROJECTSTATUS") is None
 
 
-def test_p135d_r87_a_missing_response_schema_is_the_only_reason_for_partial() -> None:
-    """补上 response 方向 Schema 后**同一判定点**即升 `VERIFIED`（AND 是真的）。"""
+def test_p135d_r87_the_response_schema_is_the_only_reason_for_partial() -> None:
+    """R87 / R78：补上 response 方向 Schema 后**同一判定点**升 `VERIFIED`（AND 是真的）。"""
     from app.infrastructure.adapters.midas.live import (
         PROBE_PASSED,
         SEVEN_AND_ITEMS,
@@ -368,8 +416,9 @@ def test_p135d_r87_a_missing_response_schema_is_the_only_reason_for_partial() ->
         seven_and_verdict,
     )
 
+    registry = _registry()
     evidence = registry_evidence(
-        _registry(),
+        registry,
         key="DB.NODE",
         product="GEN_NX",
         version="2026",
@@ -377,11 +426,29 @@ def test_p135d_r87_a_missing_response_schema_is_the_only_reason_for_partial() ->
         live_outcome=PROBE_PASSED,
     )
     assert set(evidence) == set(SEVEN_AND_ITEMS)
+    assert evidence["response_schema_confirmed"] is True
     verdict = seven_and_verdict(evidence)
-    assert verdict.status == STATUS_PARTIAL
-    assert verdict.missing == ("response_schema_confirmed",)
-    assert (
-        seven_and_verdict({**evidence, "response_schema_confirmed": True}).status == STATUS_VERIFIED
+    assert verdict.status == STATUS_VERIFIED
+    assert verdict.missing == ()
+    # 把该项改回假 → **只**缺这一项、立刻回到 `PARTIAL`（证明 AND 是真的）
+    downgraded = seven_and_verdict({**evidence, "response_schema_confirmed": False})
+    assert downgraded.status == STATUS_PARTIAL
+    assert downgraded.missing == ("response_schema_confirmed",)
+    # 无请求 Schema 的端点仍缺**两项**（如实标注，**不**补）
+    project_status = seven_and_verdict(
+        registry_evidence(
+            registry,
+            key="OPE.PROJECTSTATUS",
+            product="GEN_NX",
+            version="2026",
+            supported_versions=support.SUPPORTED_VERSIONS_SPEC,
+            live_outcome=PROBE_PASSED,
+        )
+    )
+    assert project_status.status == STATUS_PARTIAL
+    assert project_status.missing == (
+        "request_schema_confirmed",
+        "response_schema_confirmed",
     )
 
 
