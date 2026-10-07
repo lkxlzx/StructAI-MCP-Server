@@ -32,7 +32,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from enum import StrEnum
-from typing import Any, Final, Protocol
+from typing import Any, Final, Protocol, runtime_checkable
 
 from app.infrastructure.adapters.etabs.errors import EtabsConnectionError
 
@@ -56,6 +56,7 @@ class CredentialProviderLike(Protocol):
         ...
 
 
+@runtime_checkable
 class ComDispatch(Protocol):
     """COM 派发端口（见裁决 1；实现由部署方注入）。
 

@@ -76,6 +76,7 @@ import json
 import logging
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from time import perf_counter
 from typing import Any, Final, Protocol
 from uuid import UUID
 
@@ -228,6 +229,7 @@ METRIC_REQUESTS_TOTAL: Final[str] = "structai_requests_total"
 METRIC_TASK_TOTAL: Final[str] = "structai_task_total"
 METRIC_TASK_FAILED_TOTAL: Final[str] = "structai_task_failed_total"
 METRIC_AUDIT_TOTAL: Final[str] = "structai_audit_total"
+METRIC_REQUEST_DURATION: Final[str] = "structai_request_duration_seconds"
 METRIC_EVENTS_TOTAL: Final[str] = "structai_events_total"
 """本服务写入的标准指标名（`docs/02` §14 清单的子集）。"""
 
@@ -386,6 +388,7 @@ class ExecutionService:
             StructAIError: 20 码契约内的任何失败（闸门链的拒绝、任务失败、
                 未装配端口等）；失败时**不**吞异常，只补记审计 / Trace / Event。
         """
+        started_at = perf_counter()
         mcp_span = await self._start_span(
             str(TraceSpanKind.MCP),
             "MCP",
@@ -415,12 +418,24 @@ class ExecutionService:
                 (tool_span, mcp_span),
                 status=str(TraceStatus.ERROR),
             )
+            self._observe_request_duration(request, started_at)
             if not task_created:
                 # 见模块裁决 5：Task 创建**之前**的拒绝在这里记审计；
                 # 已进 Worker 的失败由 `execute()` 记过（避免双计）。
                 await self._record_refusal(request, error)
             raise
         await self._finish_spans((tool_span, mcp_span), status=str(TraceStatus.OK))
+        # `docs/02` §14 的 `structai_requests_total` / `structai_request_duration_seconds`
+        # 必须在**成功**路径上也可见（P135c：真实一次 MCP 调用端到端可见）。
+        self._count(
+            METRIC_REQUESTS_TOTAL,
+            labels={
+                "tool": request.tool,
+                "operation": request.operation,
+                "status": str(AuditResult.SUCCESS),
+            },
+        )
+        self._observe_request_duration(request, started_at)
         return outcome
 
     # ===== 入口二：TaskExecutor 端口（P22–P28 的 Worker 调用；`docs/02` §88）=====
@@ -849,6 +864,20 @@ class ExecutionService:
         if self._metrics is None:
             return
         self._metrics.counter(name, value, labels)
+
+    def _observe_request_duration(self, request: PipelineRequest, started_at: float) -> None:
+        """记录一次请求的耗时观测（`docs/02` §14 的 `structai_request_duration_seconds`）。
+
+        ⚠️ 只放**低基数**标签（`tool` / `operation`），与 `_count` 同一口径；
+        租户 / 用户 / 请求标识一律不进标签（`docs/02` §15 的高基数清单）。
+        """
+        if self._metrics is None:
+            return
+        self._metrics.observe(
+            METRIC_REQUEST_DURATION,
+            max(perf_counter() - started_at, 0.0),
+            {"tool": request.tool, "operation": request.operation},
+        )
 
     async def _emit(
         self,

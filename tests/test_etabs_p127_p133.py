@@ -224,7 +224,9 @@ def test_p127_second_software_needs_no_core_change() -> None:
         path.read_text(encoding="utf-8") for path in support.ETABS_PACKAGE_DIR.glob("*.py")
     )
     assert "ETABS" in inside and "CSI" in inside
-    assert len(list(support.ETABS_PACKAGE_DIR.glob("*.py"))) == 12
+    # P127–P133 交付 12 个文件；P135 新增 `dispatch.py` / `concurrency.py`（R88 / R93 裁决）
+    # → 仍**只**在本子包内增长，Core 一行未改（`docs/07` §14.2 的厂商红线不变）。
+    assert len(list(support.ETABS_PACKAGE_DIR.glob("*.py"))) == 14
 
 
 # ===== P128：可追溯的 Registry / Schema / Capability 映射 =====
@@ -646,7 +648,7 @@ def test_p133_hardening_table_covers_docs_04_section_151_item_by_item() -> None:
 def test_p133_subpackage_holds_no_logging_observability_or_persistence() -> None:
     """门槛 ⑥：Adapter 侧**零**日志 / 零观测 / 零持久化（`docs/07` §14.1 / §14.3）。"""
     modules = sorted(support.ETABS_PACKAGE_DIR.glob("*.py"))
-    assert len(modules) == 12
+    assert len(modules) == 14
     imported: set[str] = set()
     for path in modules:
         imported.update(core.imported_modules(path))

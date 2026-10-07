@@ -50,6 +50,11 @@ from app.infrastructure.adapters.midas.client import (
     guard_verified,
 )
 from app.infrastructure.adapters.midas.errors import RegistryMappingNotVerified
+from app.infrastructure.adapters.midas.hardening import (
+    HARDENING,
+    HARDENING_ITEMS,
+    HardeningItem,
+)
 from app.infrastructure.adapters.midas.health import HEALTH_CHECK_ENDPOINT, MidasHealthChecker
 from app.infrastructure.adapters.midas.import_registry import (
     ImportReport,
@@ -83,6 +88,18 @@ from app.infrastructure.adapters.midas.transforms import (
     TRANSFORMER_REGISTRY,
     SchemaBoundTransformer,
 )
+from app.infrastructure.adapters.midas.write_probe import (
+    WRITE_METHODS,
+    WRITE_PROBE_FAILED,
+    WRITE_PROBE_NO_PAYLOAD,
+    WRITE_PROBE_NO_READBACK,
+    WRITE_PROBE_PASSED,
+    MidasLiveWriteProbe,
+    WriteProbeOutcome,
+    WriteProbeReport,
+    derive_body,
+    transformer_name_for,
+)
 
 __all__ = [
     "MIDAS_ADAPTER_NAME",
@@ -98,9 +115,20 @@ __all__ = [
     "MIDAS_TABLE_NAMES",
     "MIDAS_VENDOR",
     "OPERATION_PLANS",
+    "HARDENING",
+    "HARDENING_ITEMS",
     "TRANSFORMER_REGISTRY",
+    "MidasLiveWriteProbe",
+    "WRITE_METHODS",
+    "WRITE_PROBE_FAILED",
+    "WRITE_PROBE_NO_PAYLOAD",
+    "WRITE_PROBE_NO_READBACK",
+    "WRITE_PROBE_PASSED",
+    "WriteProbeOutcome",
+    "WriteProbeReport",
     "BuiltRequest",
     "DesignCodeProbe",
+    "HardeningItem",
     "EndpointStep",
     "ImportReport",
     "MidasAdapter",
@@ -117,6 +145,8 @@ __all__ = [
     "guard_destructive",
     "guard_enabled",
     "guard_shape",
+    "derive_body",
+    "transformer_name_for",
     "guard_solver",
     "guard_verified",
     "install",
