@@ -77,9 +77,8 @@ CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（只依赖标准库；见 `registry/README.md` §8）。"""
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
-"""`registry/schema/**`（R5 裁决 B：**未**新增任何文件）。"""
-
-EXPECTED_SCHEMA_FILES = 616
+"""`registry/schema/**`（R5 裁决 B：**不**为无请求体端点新增文件）。"""
+EXPECTED_SCHEMA_FILES = 620
 """Schema 文件数（R5 裁决 B 下**不变**）。"""
 
 TEMPLATE_KEYS = (
@@ -590,7 +589,7 @@ def test_p139_r5_remaining_gaps_are_backed_by_data_side_facts() -> None:
     concurrent = _post_table_entry("Concurrent Joint Force")
     assert concurrent["table_types"] == [] and concurrent.get("json_schema")
     shear = _post_table_entry("Story Shear Force Coefficient")
-    assert "STORY_SHEAR_FOR_RS" in (shear.get("table_types") or []), "手册声明的是别的 token"
+    assert "STORY_SHEAR_FOR_RS" in (shear.get("table_types") or []), "手册记的是兄弟 token"
     assert not shear.get("json_schema")
 
     # `OPE.BMLD`：手册**没有** `ope/BMLD` 条目；数据侧也没有 Schema 文件 / 解包链
@@ -601,9 +600,11 @@ def test_p139_r5_remaining_gaps_are_backed_by_data_side_facts() -> None:
     db = registry.endpoint("DB.BMLD")
     assert ope.uri == "/OPE/BMLD" and ope.methods == ("POST",)
     assert db.uri == "/DB/BMLD" and "GET" in db.methods
-    assert registry.schema_document("OPE.BMLD") is None
-    assert not ope.read_root
+    assert not ope.read_root, "`/OPE/BMLD` 仍无实测解包链（P140 只补了**请求** Schema）"
     # ⚠️ 实测（P139，gen-local，**只读** `GET`，零副作用）：`/OPE/BMLD` → `405`（只允许 `POST`）、
-    # `/DB/BMLD` → `200` ⇒ 两条路由的**方法集不同**，不能视为同一操作；官方确认前如实留缺。
-    # 该实测**不**在 CI 里复跑（需真实实例），逐条证据见 `docs/reports/P139_…md` §5。
+    # `/DB/BMLD` → `200` ⇒ 方法集不同 ⇒ **不是**同一操作（P140 起其 Schema 另有来源）。
+    # 该实测**不**在 CI 里复跑（需真实实例），证据见 `P139_…md` §5 与 `P140_…md` §3。
     assert ope.products == ("CIVIL_NX",), "云实例**不**调用：本批只在 GEN NX 上做只读复核"
+    # P140：这 4 条 R5 缺口已由 `registry/tools/sync_request_schemas.py` **机械补齐** →
+    # `schema_document` 不再为 `None`（P139 时记的是 `None`；本行由 P140 逐条更新，**不**放宽）。
+    assert registry.schema_document("OPE.BMLD") is not None

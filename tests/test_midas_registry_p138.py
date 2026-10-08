@@ -94,7 +94,7 @@ DOC_PATH = REPO_ROOT / "MIDAS_API_开发文档_v1.0.md"
 FIX_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "fix_schema_defects.py"
 """R19 收口的**唯一**实现落点（生成链归一工具）。"""
 
-EXPECTED_SCHEMA_FILES = 616
+EXPECTED_SCHEMA_FILES = 620
 """`registry/schema/**` 文件数（P138a **未**新增 / 未删除文件）。"""
 
 PLACEHOLDER_FILES = (
@@ -118,7 +118,6 @@ R5_ENDPOINTS = (
     "DB.LCOM",
     "DOC.CLOSEALL",
     "DOC.EXIT",
-    "OPE.BMLD",
     "OPE.CPCREATE",
     "OPE.CPEXPORT",
     "OPE.CPUPDATEMODEL",
@@ -131,12 +130,9 @@ R5_ENDPOINTS = (
     "OPE.STORYPROP",
     "OPE.STORY_IRR_PARAM",
     "OPE.STORY_PARAM",
-    "POST.TABLE.CONCURRENT_JOINT_FORCE",
-    "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT",
-    "POST.TABLE.WEIGHT_IRREGULARITY_X",
     "VIEW.SELECT",
 )
-"""`docs/07` §16 R5：数据侧 **20** 个没有 JSON Schema 的端点。"""
+"""`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P140 起 **16** 个）。"""
 
 WRITE_PATH_TOTAL = 609
 """写路径端点（`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）= R4 / R14 的**分母**。"""
@@ -412,8 +408,12 @@ def _r5_class(key: str, manual_uris: dict[str, list[str]], code_uris: dict[str, 
     return "absent_from_nx_manual"
 
 
-def test_p138b_the_twenty_missing_schemas_are_classified_by_measurement() -> None:
-    """R5：20 个无 Schema 端点 → **5** 类，逐类条数**实测**（**不**沿用猜测分组）。"""
+def test_p138b_the_sixteen_missing_schemas_are_classified_by_measurement() -> None:
+    """R5：**16** 个仍无 Schema 的端点 → **3** 类，逐类条数**实测**（**不**沿用猜测分组）。
+
+    P138b 时是 20 个 / 5 类；**P140** 把其中 **4** 个补齐（见 `sync_request_schemas.py`）
+    → `uri_differs_in_manual` 与 `post_table_key_without_manual_table_type` **清零**。
+    """
     manual_uris: dict[str, list[str]] = {}
     code_uris: dict[str, list[str]] = {}
     for entry in _manual_entries():
@@ -435,16 +435,19 @@ def test_p138b_the_twenty_missing_schemas_are_classified_by_measurement() -> Non
     assert {name: len(keys) for name, keys in classes.items()} == {
         "no_request_body": 4,
         "manual_has_no_json_schema": 5,
-        "uri_differs_in_manual": 1,
-        "post_table_key_without_manual_table_type": 3,
+        "uri_differs_in_manual": 0,
+        "post_table_key_without_manual_table_type": 0,
         "absent_from_nx_manual": 7,
     }
-    assert sum(len(keys) for keys in classes.values()) == 20
+    assert sum(len(keys) for keys in classes.values()) == 16
     # 与提示词里的猜测分组**不同**的两处，如实固定为实测结果：
     # ① `OPE.MEMB` / `OPE.STOR` / `OPE.STORPROP` / `OPE.STORY_*_PARAM` 的手册条目**就是同一 URI**，
     #    只是手册没有 `json_schema`（只有参数表）—— 不是「URI 不同」；
-    # ② `POST.TABLE.*` 的 3 个端点：手册条目的 `table_types` 为空，无法机械确认同一操作。
-    assert classes["uri_differs_in_manual"] == ["OPE.BMLD"]
+    # ② **P140 已补齐 4 个**：`OPE.BMLD`（开发文档给出完整 JSON Schema）·
+    #    `POST.TABLE.{WEIGHT_IRREGULARITY_X, CONCURRENT_JOINT_FORCE}`（手册 TABLE_TYPE.enum）·
+    #    `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT`（同族手册条目的规格表）→ 后两类**清零**。
+    assert classes["uri_differs_in_manual"] == []
+    assert classes["post_table_key_without_manual_table_type"] == []
     assert classes["manual_has_no_json_schema"] == [
         "OPE.MEMB",
         "OPE.STOR",
@@ -470,7 +473,7 @@ def test_p138b_the_twenty_missing_schemas_are_classified_by_measurement() -> Non
 
 
 def test_p138b_no_schema_was_invented_for_the_r5_endpoints() -> None:
-    """R5 收口**不**臆造：Schema 文件仍 **616** 个，20 个端点仍无 Schema。"""
+    """R5 收口**不**臆造：Schema 文件 = **620** 个，仍无 Schema 的 **16** 个端点逐条可查。"""
     assert len(sorted(SCHEMA_ROOT.rglob("*.json"))) == EXPECTED_SCHEMA_FILES
     manifest = {entry["key"]: entry for entry in _manifest_entries()}
     assert [key for key in R5_ENDPOINTS if manifest[key].get("schema")] == []

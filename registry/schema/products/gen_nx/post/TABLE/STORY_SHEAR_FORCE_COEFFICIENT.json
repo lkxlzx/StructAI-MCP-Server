@@ -1,0 +1,82 @@
+{
+  "key": "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT",
+  "uri": "POST/TABLE",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Story Shear(R.S Analysis) - Analysis Story Table↗Story Shear Force Coefficient(R.S.Analysis) - Story Result Table↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "TABLE_NAME": {
+            "description": "Table Name\n\n • Response Table Title",
+            "type": "string"
+          },
+          "TABLE_TYPE": {
+            "description": "Result Table Type\n\n • \"STORY_SHEAR_FORCE_COEFFICIENT\"（本端点的 token 由 **API 实测**确认（GEN NX `POST /POST/TABLE` → `200`）；手册把本表与 `STORY_SHEAR_FOR_RS` 合并在**同一条目**里，故其规格表记的是**兄弟 token**。）",
+            "type": "string"
+          },
+          "EXPORT_PATH": {
+            "description": "Result Table Save Path",
+            "type": "string"
+          },
+          "UNIT": {
+            "description": "Response Unit Setting",
+            "type": "object",
+            "properties": {
+              "FORCE": {
+                "description": "Force",
+                "type": "string"
+              },
+              "DIST": {
+                "description": "Length",
+                "type": "string"
+              },
+              "HEAT": {
+                "description": "Heat",
+                "type": "string"
+              },
+              "TEMP": {
+                "description": "Temperature",
+                "type": "string"
+              }
+            }
+          },
+          "STYLES": {
+            "description": "Response Number Format",
+            "type": "object",
+            "properties": {
+              "FORMAT": {
+                "description": "Number Format\n\n • \"Default\"\n\n • \"Fixed\"\n\n • \"Scientific\"\n\n • \"General\"",
+                "type": "string"
+              },
+              "PLACE": {
+                "description": "Digit Place\n\n • 0 to 15",
+                "type": "integer"
+              }
+            }
+          },
+          "COMPONENTS": {
+            "description": "Components of Result Table",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "LOAD_CASE_NAMES": {
+            "description": "• Response Spectrum\n\n   ◦ NAME + \"(RS)\"",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "TABLE_TYPE"
+        ]
+      }
+    }
+  }
+}

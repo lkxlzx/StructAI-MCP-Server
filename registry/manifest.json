@@ -19370,8 +19370,8 @@
         "CIVIL_NX"
       ],
       "definition": "products/civil_nx/ope/BMLD.yaml",
-      "schema": "",
-      "schema_source": "unavailable",
+      "schema": "schema/products/civil_nx/ope/BMLD.json",
+      "schema_source": "civil_nx_manual",
       "table_type": "",
       "title": "Beam Detail Analysis",
       "title_zh": "",
@@ -22300,8 +22300,8 @@
         "GEN_NX"
       ],
       "definition": "products/gen_nx/post/TABLE/CONCURRENT_JOINT_FORCE.yaml",
-      "schema": "",
-      "schema_source": "unavailable",
+      "schema": "schema/products/gen_nx/post/TABLE/CONCURRENT_JOINT_FORCE.json",
+      "schema_source": "help_center",
       "table_type": "CONCURRENT_JOINT_FORCE",
       "title": "Concurrent Joint Force",
       "title_zh": "",
@@ -28077,8 +28077,8 @@
         "GEN_NX"
       ],
       "definition": "products/gen_nx/post/TABLE/STORY_SHEAR_FORCE_COEFFICIENT.yaml",
-      "schema": "",
-      "schema_source": "unavailable",
+      "schema": "schema/products/gen_nx/post/TABLE/STORY_SHEAR_FORCE_COEFFICIENT.json",
+      "schema_source": "help_center_spec_table",
       "table_type": "STORY_SHEAR_FORCE_COEFFICIENT",
       "title": "Story Shear Force Coefficient (R.S. Analysis)",
       "title_zh": "",
@@ -29588,8 +29588,8 @@
         "GEN_NX"
       ],
       "definition": "products/gen_nx/post/TABLE/WEIGHT_IRREGULARITY_X.yaml",
-      "schema": "",
-      "schema_source": "unavailable",
+      "schema": "schema/products/gen_nx/post/TABLE/WEIGHT_IRREGULARITY_X.json",
+      "schema_source": "help_center",
       "table_type": "WEIGHT_IRREGULARITY_X",
       "title": "Weight Irregularity Check",
       "title_zh": "",

@@ -1,0 +1,146 @@
+{
+  "key": "POST.TABLE.CONCURRENT_JOINT_FORCE",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE",
+          "LOAD_CASE_NAMES",
+          "ADDITIONAL"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Result Table Type",
+            "enum": [
+              "CONCURRENT_JOINT_FORCE"
+            ]
+          },
+          "LOAD_CASE_NAMES": {
+            "type": "array",
+            "description": "Load Case Names",
+            "items": {
+              "type": "string"
+            }
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Response Table Title",
+            "default": "Concurrent Joint Force"
+          },
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "properties": {
+              "FORCE": {
+                "type": "string"
+              },
+              "DIST": {
+                "type": "string"
+              },
+              "HEAT": {
+                "type": "string"
+              },
+              "TEMP": {
+                "type": "string"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "enum": [
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ]
+              },
+              "PLACE": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "description": "Components of Result Table",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Index",
+                "Elem.",
+                "Load",
+                "Elem./Component",
+                "9[J]/Fx",
+                "9[J]/Fy",
+                "9[J]/Fz",
+                "9[J]/Mx",
+                "9[J]/My",
+                "9[J]/Mz",
+                "10[I]/Fx",
+                "10[I]/Fy",
+                "10[I]/Fz",
+                "10[I]/Mx",
+                "10[I]/My",
+                "10[I]/Mz"
+              ]
+            }
+          },
+          "ADDITIONAL": {
+            "type": "object",
+            "required": [
+              "SET_REACTION_PARAMS"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "SET_REACTION_PARAMS": {
+                "type": "object",
+                "required": [
+                  "NODE_KEY",
+                  "COMPONENT"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "NODE_KEY": {
+                    "type": "integer",
+                    "description": "Reaction Node ID"
+                  },
+                  "COMPONENT": {
+                    "type": "string",
+                    "description": "Reaction Components (0=False, 1=True)",
+                    "pattern": "^[01]{6}$",
+                    "minLength": 6,
+                    "maxLength": 6,
+                    "examples": [
+                      "111111",
+                      "100001",
+                      "000111"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

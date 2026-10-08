@@ -34,15 +34,15 @@ registry/
 
 ### 2.1 JSON Schema 方言与装载现状（P09 裁决，2026-10-05）
 
-`registry/schema/` 的 **616** 个文件是**请求体 Schema**，形态有两种：`{<请求体包装根键>: <JSON Schema>}`
+`registry/schema/` 的 **620** 个文件是**请求体 Schema**（P140 起；P138a 时 616），形态有两种：`{<请求体包装根键>: <JSON Schema>}`
 （如 `ACTL` / `Argument` / `TABLE`；**378** 个）与直接就是 JSON Schema（**238** 个）。
 
 | 项 | 实测值 | 说明 |
 | --- | --- | --- |
-| 文件数 | **616** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件） |
-| 可装载 | **616** | 剥离包装根键后原样登记（**不改写任何取值**） |
+| 文件数 | **620** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件；P140 起） |
+| 可装载 | **620** | 剥离包装根键后原样登记（**不改写任何取值**） |
 | 无法装载 | **0** | P138a 前为 **1**（`products/gen_nx/db/MBTP.json` 的 `schema` 是**坏串**，见下） |
-| `$schema` 声明 | **441** `draft-07` / **175** 未声明 | 按**生效 Schema**（剥离包装根键后）统计 |
+| `$schema` 声明 | **442** `draft-07` / **178** 未声明 | 按**生效 Schema**（剥离包装根键后）统计（P140 起） |
 | 不是合法 JSON Schema | **0** | P138a 前为 **4**（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 + `OPE.EDMP` 的 `type: "Number"`） |
 
 **方言裁决（`docs/07` §16 R18）**：**按各 Schema 自身声明的方言校验**（draft-07 → `Draft7Validator`；
@@ -53,13 +53,13 @@ registry/
 
 ⚠️ **R19 已收口（P138a）**：本目录**不再有**数据缺陷 —— 修复固化在生成链工具
 `registry/tools/fix_schema_defects.py`（见 §8.3），逐条差异可复算；`SchemaEngine.check_schema()`
-的失败数 **4 → 0**，**616/616** 可装载。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，
+的失败数 **4 → 0**，**620/620** 可装载（P140 起）。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，
 非法关键字会被**静默忽略**（校验变宽松），故 Core 侧仍由 `check_schema()` 显式诊断。
-另：**20** 个端点仍**没有** JSON Schema（`docs/07` §16 R5，P138b 已按**实测**分类，见 §8.4），本目录不臆造。
+另：**16** 个端点仍**没有** JSON Schema（`docs/07` §16 R5；P138b 分类 20 个、**P140 补齐 4 个**，见 §8.4），本目录不臆造。
 
 ### 2.2 response 方向 Schema（P136 裁决，2026-10-08 之后）
 
-`registry/schema/**` 的**同一份文件**同时承载两个方向（**不**新增文件，故文件数仍 **616**、
+`registry/schema/**` 的**同一份文件**同时承载两个方向（**不**新增文件，故 P136 时文件数仍 **616**、
 与 `manifest.json` 带 `schema` 的端点仍 **1:1**）：
 
 | 键 | 方向 | 来源 |
@@ -96,7 +96,7 @@ registry/
 `midas_api_schemas`（`direction = "response"`，URI = `midas://<product>/<code>/response/v1`），
 并**回填** `midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
 （存的是 Schema 行的 id，与 `request_schema*` 同口径）—— 该表自 **P138a** 起为
-**855** 行 = 请求 **616** + 响应 **239**（P137a 时为 854 = 615 + 239）；未声明 `response`
+**859** 行 = 请求 **620** + 响应 **239**（P140 起；P137a 时为 854 = 615 + 239）；未声明 `response`
 块的端点仍为 `None`（**不**臆造）。
 数据侧仍**可复算**：`sync_manifest.py` / `sync_response_schemas.py` / `fix_schema_defects.py`
 预演差异均为 **0**。
@@ -139,7 +139,7 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 ## 3. 统计
 
 - 端点定义（Registry key）：**636**
-- JSON Schema 文件：**616**
+- JSON Schema 文件：**620**（P140 起；P138a 时 616）
 
 | 桶 | 数量 | 说明 |
 | --- | --- | --- |
@@ -255,6 +255,7 @@ Core 侧 `code` 保持**自由字符串**（规范中立，Core 内不出现任�
 | `tools/sync_response_schemas.py` | 为**已实测**的端点补 `direction: response` 的 `response` 块（§2.2）；默认预演，`--write` 写回 |
 | `tools/fix_schema_defects.py` | **R19 生成链归一**（§8.3）：坏串重建 / 占位分支合法化 / `type` 大小写；`--check` 自检不变量 |
 | `tools/check_write_templates.py` | **写路径请求体模板复算**（§2.3 / §8.5）：来源 = 手册示例 + 逐条 `adjustments`；字段不超出数据侧 Schema；前置链可执行；不合规退出码 1 |
+| `tools/sync_request_schemas.py` | **R5 剩余补齐**（§8.4）：从上游手册 / 开发文档**机械生成**请求 Schema 文件（`manual_json_schema` / `manual_spec_table` / `dev_doc_json_schema`）；默认预演，`--write` 写回，`--check` 断言「已落盘 == 机械结果」 |
 
 ```powershell
 python registry/tools/extract_design_codes.py
@@ -351,14 +352,15 @@ P136 把该结论**落进数据**（**只**改 `products`；`availability` / `ve
 | **22** 处占位分支 `"...(전체 N개)"`（**7** 个文件） | 换成**合法**兜底分支：`type` 由**已转录成员**推断、`description` 注明「手册该表共 N 项，仅转录前 K 项（未逐项转录）」；`oneOf` → **`anyOf`** | 占位串**出自手册原文** `MIDAS_API_开发文档_v1.0.md`（该文件里同样出现 **22** 次）；`oneOf` 必须换关键字，否则兜底分支会让已转录取值**恰好匹配两次**、把合法取值全判为非法 |
 | `OPE.EDMP` 的 `type: "Number"`（2 处） | `type` 大小写归一（`Number` / `String` / `Boolean` / `Object` / `Array` / `Integer` / `Null` → 小写） | 上游手册 `specifications` 参数表里另有 **1344** 处 `"Number"`，属**参数表**口径、**不**在 Schema 生成链内 |
 
-**效果**：**616/616** 可装载（原 615）、`SchemaEngine.check_schema()` 失败 **4 → 0**、
+**效果**：**620/620** 可装载（P138a 时 616）、`SchemaEngine.check_schema()` 失败 **4 → 0**、
 `draft-07` 声明 **440 → 441**；`sync_manifest.py` / `sync_response_schemas.py` 预演差异仍为 **0**。
 可执行判定：`python registry/tools/fix_schema_defects.py --check` +
 `tests/test_midas_registry_p138.py`。
 
-### 8.4 R5：20 个无 Schema 端点按**实测**分类（P138b）
+### 8.4 R5：无 Schema 端点按**实测**分类（P138b；P140 补齐 4 条）
 
-**不**臆造、**不**新增文件（Schema 文件仍 **616** 个）。判据全部来自数据文件本身：
+**不**臆造：P138b **未**新增文件（当时 Schema 文件仍 **616** 个）；**P140** 补 4 个（见本节末），
+故现为 **620** 个。判据全部来自数据文件本身：
 
 | 类 | 条数 | 端点 | 判据（可执行） |
 | --- | --- | --- | --- |
@@ -373,7 +375,21 @@ P136 把该结论**落进数据**（**只**改 `products`；`availability` / `ve
 同 URI 条目（旧提示词把它归入「手册完全没有」）。可执行判定 =
 `tests/test_midas_registry_p138.py::test_p138b_the_twenty_missing_schemas_are_classified_by_measurement`。
 
-### 8.5 R5 裁决 B（无请求体 ⇒ 不建 Schema 文件）+ R5 剩余（P139）
+**P140 的 R5 补齐（4 条，**不**臆造）**：`registry/tools/sync_request_schemas.py` 把**上游资料已有**的
+请求 Schema **机械生成**落盘 —— 于是 20 个无 Schema 端点 → **16** 个（`registry/schema/**` = **620**）：
+
+| 端点 | 来源（可复算） | 新文件 |
+| --- | --- | --- |
+| `POST.TABLE.WEIGHT_IRREGULARITY_X` | 手册条目「Weight Irregularity Check - Analysis Story Table」的 `json_schema`（`TABLE_TYPE.enum` 含该 token） | `schema/products/gen_nx/post/TABLE/WEIGHT_IRREGULARITY_X.json` |
+| `POST.TABLE.CONCURRENT_JOINT_FORCE` | 手册条目「Concurrent Joint Force Table」的 `json_schema`（`TABLE_TYPE.enum = ["CONCURRENT_JOINT_FORCE"]`） | `…/CONCURRENT_JOINT_FORCE.json` |
+| `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT` | 手册**同族条目**的**规格表**（该条目无 `json_schema`；标题同时含本表名） | `…/STORY_SHEAR_FORCE_COEFFICIENT.json` |
+| `OPE.BMLD` | `MIDAS_API_开发文档_v1.0.md` 的 `/OPE/BMLD` 章节里**已给出**的完整 JSON Schema | `schema/products/civil_nx/ope/BMLD.json` |
+
+⚠️ **更正**：P138b 把前两条判为「手册 `table_types` 为空 ⇒ 无法机械确认」，那是**只看字段、漏看
+`json_schema` 本体**；`OPE.BMLD` 也**不是**「无法确认同一操作」的悬案 —— 它是 **Beam Detail Analysis**
+（与 `db/BMLD` 的「梁单元荷载」不同操作）。逐条证据见 `docs/reports/P140_R5剩余补齐_v1.0.md`。
+
+### 8.5 R5 裁决 B（无请求体 ⇒ 不建 Schema 文件）+ R5 剩余（P139 / **P140 已补齐 4 条**）
 
 P138b 之后，`OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 的**唯一**缺口是
 `docs/04` §8 的 7 项 AND 里的「Response Schema 已确认」——它们连 Schema 文件都没有
@@ -381,12 +397,12 @@ P138b 之后，`OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 的**唯一*
 
 | 项 | 值 |
 | --- | --- |
-| 裁决 | **B**：无请求体 ⇒ **不**建 Schema 文件（`registry/schema/**` 仍 **616** 个，与 `manifest.json` 带 `schema` 的端点仍 **1:1**） |
+| 裁决 | **B**：无请求体 ⇒ **不**建 Schema 文件（`registry/schema/**` 的**请求体** Schema 与 `manifest.json` 带 `schema` 的端点仍 **1:1**） |
 | 依据 ① | 这 3 个端点**确实没有请求体**（`methods` 不含 `POST` / `PUT` / `PATCH`）→ 请求方向 Schema 是**类别错误**（P138b 已把该项判为「不适用」） |
-| 依据 ② | `registry/schema/**` 的定义是**请求体 Schema**；允许「无请求体也建文件」会改变 §2.1 那条 **1:1 不变量**的**含义**（616 → 619、加载器 / 导入器 / P08 / P09 断言都要跟着改） |
+| 依据 ② | `registry/schema/**` 的定义是**请求体 Schema**；允许「无请求体也建文件」会改变 §2.1 那条 **1:1 不变量**的**含义**（620 → 623、加载器 / 导入器 / P08 / P09 断言都要跟着改） |
 | 依据 ③ | 收益有限：`verification_status` 由 `availability` 机械映射（`docs/07` §16 R78），与 7 项 AND **不是**同一件事 → 本裁决**不影响**任何 `verification_status` |
 | 后果（如实） | 这 3 个端点如实保持 7 项 AND 的 `PARTIAL`（`missing = ["response_schema_confirmed"]`） |
-| 恢复条件 | 若将来**显式**允许「无请求体端点的 response-only Schema 文件」：需同步 §2.1 / §3 与 P08 / P09 的「文件数 ↔ manifest 1:1」断言（616 → 619），届时同一判定点即由假转真 |
+| 恢复条件 | 若将来**显式**允许「无请求体端点的 response-only Schema 文件」：需同步 §2.1 / §3 与 P08 / P09 的「文件数 ↔ manifest 1:1」断言（**620 → 623**），届时同一判定点即由假转真 |
 | 可执行判定 | `tests/test_midas_write_templates_p139.py::test_p139_r5_decision_b_no_response_only_schema_file` |
 
 `DB.LCOM` **不**在这 3 个里：它同样没有请求体，但**连实测解包链都没有**（`read_root` 为空）

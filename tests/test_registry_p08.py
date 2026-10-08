@@ -816,8 +816,8 @@ async def test_software_registry_reads_the_mock_software_chain(
 # ===== ⑥ API Registry（`docs/02` §23；数据源 = `registry/`）=====
 
 
-def test_api_registry_loads_636_endpoints_and_616_schemas() -> None:
-    """门槛 ⑥：`registry/` 是唯一数据源；636 端点 / 616 Schema 可装载。"""
+def test_api_registry_loads_636_endpoints_and_620_schemas() -> None:
+    """门槛 ⑥：`registry/` 是唯一数据源；636 端点 / 620 Schema 可装载（P140 起）。"""
     registry = ApiRegistry.load(REPO_ROOT / "registry")
 
     keys = registry.endpoint_keys()
@@ -825,13 +825,13 @@ def test_api_registry_loads_636_endpoints_and_616_schemas() -> None:
     assert len(set(keys)) == 636
 
     schemas = registry.request_schemas()
-    assert len(schemas) == 616
+    assert len(schemas) == 620
     for relative in schemas:
         assert (REPO_ROOT / "registry" / relative).is_file(), relative
 
     summary = registry.summary()
     assert summary["endpoints"] == 636
-    assert summary["schemas"] == 616
+    assert summary["schemas"] == 620
     assert summary["products"] == ["CIVIL_DESIGNER", "CIVIL_NX", "GEN_NX"]
     assert summary["disabled"] == ["DB.SWIND"]
 

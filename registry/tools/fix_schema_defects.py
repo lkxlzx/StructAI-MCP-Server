@@ -55,6 +55,15 @@ PLACEHOLDER_KEYWORDS = ("enum", "oneOf", "anyOf", "allOf")
 DEFAULT_MANUAL = "MIDAS_API_Online_Manual_数据_v1.0.json"
 DEFAULT_DOC = "MIDAS_API_开发文档_v1.0.md"
 
+EXPECTED_SCHEMA_FILES = 620
+"""`registry/schema/**` 的文件数（**不变量**）。
+
+P138a（R19 收口）时为 **616**；**P140** 的 R5 补齐**新增 4** 个请求 Schema 文件
+（`POST.TABLE.{WEIGHT_IRREGULARITY_X, CONCURRENT_JOINT_FORCE, STORY_SHEAR_FORCE_COEFFICIENT}` 与
+`OPE.BMLD`），由 `registry/tools/sync_request_schemas.py` 从上游手册 / 开发文档**机械生成**
+（`--check` 断言「已落盘 == 机械结果」）→ **616 + 4 = 620**。
+"""
+
 
 # ===== 1. 尾部闭合符修复（只补缺失的闭合符，绝不猜内容）=====
 
@@ -332,8 +341,8 @@ def check_invariants(registry_root: pathlib.Path) -> list[str]:
     """R19 修复后的不变量（CI 可执行判定）；返回违规清单。"""
     violations: list[str] = []
     files = collect_files(registry_root)
-    if len(files) != 616:
-        violations.append(f"registry/schema/** 文件数 = {len(files)}，期望 616")
+    if len(files) != EXPECTED_SCHEMA_FILES:
+        violations.append(f"registry/schema/** 文件数 = {len(files)}，期望 {EXPECTED_SCHEMA_FILES}")
     for path in files:
         relative = path.relative_to(registry_root).as_posix()
         try:

@@ -7,10 +7,9 @@ tool_map:
 wrapper:
   write: Argument
 schema_ref:
-  local: null
+  local: schema/products/gen_nx/post/TABLE/CONCURRENT_JOINT_FORCE.json
   introspect: null
-  source: unavailable
-  unavailable_reason: 源手册（Help Center）未提供该 Analysis Story Table 的 JSON Schema，仅有 Request/Response 示例
+  source: help_center
 parser: post_table
 products: [GEN_NX]
 availability: untested

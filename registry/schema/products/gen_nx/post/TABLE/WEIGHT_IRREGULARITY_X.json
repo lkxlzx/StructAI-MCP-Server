@@ -1,0 +1,125 @@
+{
+  "key": "POST.TABLE.WEIGHT_IRREGULARITY_X",
+  "uri": "POST/TABLE",
+  "source": "help_center",
+  "schema": {
+    "type": "object",
+    "required": [
+      "Argument"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "required": [
+          "TABLE_TYPE"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "EXPORT_PATH": {
+            "type": "string",
+            "description": "Result Table Save Path"
+          },
+          "TABLE_NAME": {
+            "type": "string",
+            "description": "Response Table Title",
+            "default": ""
+          },
+          "TABLE_TYPE": {
+            "type": "string",
+            "description": "Weight Irregularity Check Result Table Type",
+            "enum": [
+              "WEIGHT_IRREGULARITY_X",
+              "WEIGHT_IRREGULARITY_Y"
+            ]
+          },
+          "UNIT": {
+            "type": "object",
+            "description": "Response Unit Setting",
+            "additionalProperties": false,
+            "properties": {
+              "FORCE": {
+                "type": "string",
+                "description": "Force unit",
+                "default": "KGF"
+              },
+              "DIST": {
+                "type": "string",
+                "description": "Length/Distance unit",
+                "default": "MM"
+              },
+              "HEAT": {
+                "type": "string",
+                "description": "Heat unit",
+                "default": "CAL"
+              },
+              "TEMP": {
+                "type": "string",
+                "description": "Temperature unit",
+                "default": "C"
+              }
+            }
+          },
+          "STYLES": {
+            "type": "object",
+            "description": "Response Number Format",
+            "additionalProperties": false,
+            "properties": {
+              "FORMAT": {
+                "type": "string",
+                "description": "Number format",
+                "enum": [
+                  "DEFAULT",
+                  "Default",
+                  "Fixed",
+                  "Scientific",
+                  "General"
+                ],
+                "default": "DEFAULT"
+              },
+              "PLACE": {
+                "type": "integer",
+                "description": "Digit place",
+                "minimum": 0,
+                "maximum": 15,
+                "default": 0
+              }
+            }
+          },
+          "LOAD_CASE_NAMES": {
+            "type": "array",
+            "description": "StaticLoad/LoadCombinationName&Type",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SET_CALCULATION_METHOD": {
+            "type": "object",
+            "description": "Weight irregularity calculation method options",
+            "additionalProperties": false,
+            "properties": {
+              "STORY_DRIFT_METHOD": {
+                "type": "string",
+                "description": "Story drift calculation method",
+                "enum": [
+                  "Drift at the Center of Mass",
+                  "Max. Drift of Outer Extreme Points",
+                  "Max. Drift of All Vertical Elements"
+                ],
+                "default": ""
+              }
+            }
+          },
+          "COMPONENTS": {
+            "type": "array",
+            "description": "Components of Result Table",
+            "items": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
