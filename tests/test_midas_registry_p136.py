@@ -27,6 +27,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import pytest
 import yaml
 
 import midas_p119_p126_support as support
@@ -221,10 +222,9 @@ def test_p136_measured_endpoints_are_verified_on_all_seven_items() -> None:
             fully += 1
             continue
         partial.append((key, verdict.missing))
-    assert fully == RESPONSE_BLOCK_ENDPOINTS - 1
-    # 唯一例外 = `DB.MBTP`：它的请求 Schema 是**非法 JSON 字符串**（`docs/07` §16 R19），
-    # 故缺「Request Schema 已确认」—— 如实保留 `PARTIAL`，**不**补、**不**猜。
-    assert partial == [("DB.MBTP", ("request_schema_confirmed",))]
+    # P138a（R19 收口）后**没有**例外：`DB.MBTP` 的请求 Schema 已从上游重建为合法对象
+    assert fully == RESPONSE_BLOCK_ENDPOINTS
+    assert partial == []
 
 
 def test_p136_unmeasured_endpoints_stay_partial_and_report_what_is_missing() -> None:
@@ -278,16 +278,27 @@ def test_p136_r85_keeps_the_instance_level_record_and_never_moves_a_status() -> 
         assert "CIVIL_NX" in definition.products, key
 
 
-def test_p136_span_is_left_alone_and_its_measurement_is_recorded() -> None:
-    """R85：`DB.SPAN` **不**属本批的 `products` 改动（产品特有），但实测记录保留。
+def test_p138_span_gen_nx_is_removed_consistently_with_the_fourteen() -> None:
+    """R85 裁决（P138d，选项 A）：`DB.SPAN` 的 `GEN_NX` **一致地**摘除。
 
-    ⚠️ 本批的**实测复核**（`docs/reports/P136_…md` §4）确认它在 `gen-local` 上仍 `404`
-    —— 是否摘除 `GEN_NX` 属**下一批**的裁决，本批**不**擅自扩大改动面。
+    依据（**可执行**）：`DB.SPAN` 与 P136 已摘除的 **14** 条**同形** —— 在 `gen-local`
+    上 `404`（`unavailable_on`）、在非 GEN 实例上可用；把「实测 `404` 的产品从 `products`
+    摘除」的口径只用在这 14 条上、却对同形的 `DB.SPAN` 例外，是**口径不一致**。
+    `availability` / `verified_on` / `unavailable_on` / `enabled` **一行未改**（改数据不改判定）。
+    恢复条件：**更新**的 GEN NX 构建上 `/DB/SPAN` 路由成功（新的 L4 `PASSED`）→ 恢复 `GEN_NX`。
     """
     definition = _registry().endpoint("DB.SPAN")
     assert "CIVIL_DESIGNER" in definition.products
     assert "CIVIL_NX" in definition.products
-    assert "gen-local" in _entry("DB.SPAN")["unavailable_on"]
+    assert "GEN_NX" not in definition.products, "R85 裁决 A：与 14 条同形 → 一致摘除"
+    entry = _entry("DB.SPAN")
+    assert "gen-local" in entry["unavailable_on"]
+    assert definition.availability == "verified", "判定口径未改（仍由 availability 机械映射）"
+    # 解析期即如实失败（不再发必然 404 的请求）
+    with pytest.raises(Exception) as failure:
+        _registry().resolve(key="DB.SPAN", product="GEN_NX", method="GET")
+    assert getattr(failure.value, "code", "") == "STRUCTAI-3000"
+    assert failure.value.details["reason"] == "endpoint_not_available_for_product"
 
 
 # ===== 红线：数据侧工具不得引入新依赖 / 不得进 `app/` =====

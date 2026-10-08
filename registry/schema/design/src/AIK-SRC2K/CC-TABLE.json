@@ -178,13 +178,20 @@
             "description": "Components of SRC Column Checking Result Table (SSRC79 style). SEL is not included.",
             "items": {
               "type": "string",
-              "enum": [
-                "CHK",
-                "MEMB",
-                "SECT",
-                "COM",
-                "SHR",
-                "...(전체 31개)"
+              "anyOf": [
+                {
+                  "enum": [
+                    "CHK",
+                    "MEMB",
+                    "SECT",
+                    "COM",
+                    "SHR"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "description": "MIDAS 手册该表共 31 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                }
               ]
             }
           }

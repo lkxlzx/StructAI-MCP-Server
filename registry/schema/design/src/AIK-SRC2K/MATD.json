@@ -59,7 +59,7 @@
                   "GRADE": {
                     "type": "string",
                     "description": "Steel grade when CODE is Standard.",
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "const": "SS235",
                         "title": "SS235"
@@ -80,7 +80,10 @@
                         "const": "SS450",
                         "title": "SS450"
                       },
-                      "...(전체 68개)"
+                      {
+                        "type": "string",
+                        "description": "MIDAS 手册该表共 68 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                      }
                     ]
                   },
                   "NAME": {
@@ -200,7 +203,7 @@
                   "GRADE": {
                     "type": "string",
                     "description": "Concrete grade when CODE is Standard.",
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "const": "C15",
                         "title": "C15"
@@ -221,7 +224,10 @@
                         "const": "C27",
                         "title": "C27"
                       },
-                      "...(전체 20개)"
+                      {
+                        "type": "string",
+                        "description": "MIDAS 手册该表共 20 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                      }
                     ]
                   },
                   "FC": {

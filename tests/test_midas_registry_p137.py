@@ -79,14 +79,20 @@ from app.infrastructure.database.base import utcnow
 IMPORT_REGISTRY_PATH = Path("app/infrastructure/adapters/midas/import_registry.py")
 """P137a / P137b 的实现落点（唯一）。"""
 
-REQUEST_SCHEMA_ROWS = 615
-"""请求方向 Schema 行数（616 个文件里 `DB.MBTP` 无法装载，R19）。"""
+REQUEST_SCHEMA_ROWS = 616
+"""请求方向 Schema 行数（P138a 起 **616**：`DB.MBTP` 的坏串已从上游重建，R19 收口）。"""
 
 RESPONSE_SCHEMA_ROWS = 239
 """响应方向 Schema 行数 = 已实测端点（`availability = verified` + `GET` + 有 Schema 文件）。"""
 
+REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 4
+"""无请求体（`methods` 不含 `POST`/`PUT`/`PATCH`）的端点 —— P138b 裁决后该项视为满足。
+
+`DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT`：没有请求体就没有请求 Schema
+可确认，故 `request_schema_confirmed` 对它们**不适用**（`live.not_applicable_items()`）。"""
+
 TOTAL_SCHEMA_ROWS = REQUEST_SCHEMA_ROWS + RESPONSE_SCHEMA_ROWS
-"""两个方向合计 **854** 行（P137a 之前的断言值 615 只覆盖请求方向）。"""
+"""两个方向合计 **855** 行（请求 **616** + 响应 **239**）。"""
 
 SOURCE_ROWS = 11
 """`midas_api_sources` 行数（8 个 provenance 标题 ∪ 7 个 Schema `source`，含
@@ -178,7 +184,7 @@ def _imported_modules(path: Path) -> set[str]:
 
 
 async def test_p137a_schemas_are_imported_in_both_directions(tmp_path: Path) -> None:
-    """P137a：请求 **615** + 响应 **239** = **854** 行，响应方向有自己的 URI（不新增文件）。"""
+    """P137a：请求 **616** + 响应 **239** = **855** 行，响应方向有自己的 URI（不新增文件）。"""
     engine, report, factory = await _import(tmp_path)
     assert report.totals["midas_api_schemas"] == TOTAL_SCHEMA_ROWS
     request_rows = await _schema_rows(factory, direction=REQUEST_DIRECTION)
@@ -205,13 +211,16 @@ async def test_p137a_schemas_are_imported_in_both_directions(tmp_path: Path) -> 
         schema_uri_for(NODE_KEY, product="CIVIL NX", direction=RESPONSE_DIRECTION)
     ].schema_json
     assert node_schema["type"] == "object" and node_schema["oneOf"], "多信封 → `oneOf` 原样保留"
-    # 请求方向**一行未改**（含 `DB.MBTP` 仍无法装载 → 没有请求方向行）
+    # 请求方向：P138a 起 `DB.MBTP` **也**有请求方向行（坏串已从上游重建为合法对象）
     request_by_uri = {row.schema_uri: row for row in request_rows}
     assert request_by_uri[
         schema_uri_for(NODE_KEY, product="CIVIL NX")
     ].schema_json == registry.schema_json(NODE_KEY)
-    assert schema_uri_for("DB.MBTP", product="CIVIL NX") not in request_by_uri
-    # `DB.MBTP` 的 `response` 块是**合法对象** → 如实登记（R19 只影响请求方向）
+    mbpt_uri = schema_uri_for("DB.MBTP", product="CIVIL NX")
+    assert mbpt_uri in request_by_uri
+    assert request_by_uri[mbpt_uri].schema_json == registry.schema_json("DB.MBTP")
+    assert request_by_uri[mbpt_uri].schema_json["TABLE"]["$schema"].endswith("draft-07/schema#")
+    # `DB.MBTP` 的 `response` 块同样登记在自己的 URI 上
     assert schema_uri_for("DB.MBTP", product="CIVIL NX", direction=RESPONSE_DIRECTION) in by_uri
 
 
@@ -339,7 +348,7 @@ async def test_p137b_seven_and_is_reported_truthfully_without_promoting_any_stat
     assert summary["satisfied"] == {
         "official_endpoint_confirmed": 636,
         "http_method_confirmed": 635,  # `DB.SWIND` 没有任何方法（R9）
-        "request_schema_confirmed": REQUEST_SCHEMA_ROWS,
+        "request_schema_confirmed": REQUEST_SCHEMA_ROWS + REQUEST_SCHEMA_NOT_APPLICABLE_ROWS,
         "response_schema_confirmed": RESPONSE_SCHEMA_ROWS,
         "product_scope_confirmed": 636,
         "version_range_confirmed": 636,
@@ -417,7 +426,7 @@ async def test_p137b_ci_records_never_promote_a_verification_status(tmp_path: Pa
 
 
 def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
-    """P137b：L4 结论**显式**传入时同一判定点如实升 `VERIFIED`（238 + 1 例外 = R19）。"""
+    """P137b：L4 结论**显式**传入时同一判定点如实升 `VERIFIED`（P138a 后 **239/239**，无例外）。"""
     registry = support.registry()
     covered = _covered_keys(registry)
     report = seven_and_report(
@@ -427,9 +436,10 @@ def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
         live_outcomes={key: PROBE_PASSED for key in covered},
     )
     assert report.live_outcomes == RESPONSE_SCHEMA_ROWS
+    # P138a（R19 收口）后 `DB.MBTP` 的请求 Schema 已是合法对象 → **不再**是例外
     assert report.verdicts == {
-        STATUS_VERIFIED: RESPONSE_SCHEMA_ROWS - 1,
-        STATUS_PARTIAL: 636 - (RESPONSE_SCHEMA_ROWS - 1),
+        STATUS_VERIFIED: RESPONSE_SCHEMA_ROWS,
+        STATUS_PARTIAL: 636 - RESPONSE_SCHEMA_ROWS,
     }
     evidence = registry_evidence(
         registry,
@@ -440,8 +450,9 @@ def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
         live_outcome=PROBE_PASSED,
     )
     verdict = seven_and_verdict(evidence)
-    assert verdict.status == STATUS_PARTIAL
-    assert verdict.missing == ("request_schema_confirmed",), "唯一缺口 = R19 的请求 Schema 缺陷"
+    assert verdict.status == STATUS_VERIFIED
+    assert verdict.missing == (), "R19 收口后 `DB.MBTP` 的 7 项 AND **全满足**"
+    assert evidence["request_schema_confirmed"] is True
     # 报告**不**回写任何状态：端点状态仍由 `availability` 机械映射
     assert registry.endpoint("DB.MBTP").verification_status == "VERIFIED"
     assert registry.endpoint("DOC.NEW").verification_status == "PARTIAL"

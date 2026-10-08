@@ -10002,8 +10002,7 @@
       "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_DESIGNER",
-        "CIVIL_NX",
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "common/db/SPAN.yaml",
       "schema": "schema/common/db/SPAN.json",

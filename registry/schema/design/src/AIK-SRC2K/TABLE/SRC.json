@@ -83,13 +83,20 @@
             "description": "Components of Result Table",
             "items": {
               "type": "string",
-              "enum": [
-                "Memb",
-                "Part",
-                "LComName",
-                "Type",
-                "Fx",
-                "...(전체 10개)"
+              "anyOf": [
+                {
+                  "enum": [
+                    "Memb",
+                    "Part",
+                    "LComName",
+                    "Type",
+                    "Fx"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "description": "MIDAS 手册该表共 10 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                }
               ]
             }
           },

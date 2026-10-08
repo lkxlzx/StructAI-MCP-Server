@@ -245,8 +245,9 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
         report = await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
     await engine.dispose()
-    # P137a 起两个方向各占一行：请求 **615** + 响应 **239** = **854**（逐条更新，**不**放宽）
-    assert report.totals["midas_api_schemas"] == 615 + 239
+    # P137a 起两个方向各占一行；P138a 起请求方向 **616**（原 `DB.MBTP` 的坏串已从上游重建）
+    # → 请求 **616** + 响应 **239** = **855**（逐条更新，**不**放宽）
+    assert report.totals["midas_api_schemas"] == 616 + 239
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 
@@ -285,12 +286,23 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
     assert response_row.id != row.id
 
 
-def test_p120_unresolvable_schema_is_the_documented_data_defect() -> None:
-    """`docs/07` §16 R19：616 个文件里 **1** 个（`DB.MBTP`）无法装载，**不**臆造。"""
+def test_p120_every_schema_file_loads_after_the_p138a_fix() -> None:
+    """`docs/07` §16 R19 收口：616 个文件**全部**可装载（原 1 个 = `DB.MBTP` 的坏串）。"""
     registry = support.registry()
     keys = [key for key in registry.keys() if registry.schema_json(key) is not None]
-    assert len(keys) == 615
-    assert registry.schema_json("DB.MBTP") is None
+    assert len(keys) == 616
+    # P138a：坏串已按上游手册重建为**对象**（不再 `None`）
+    assert registry.schema_json("DB.MBTP") == {
+        "TABLE": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "Argument": {
+                "type": "object",
+                "properties": {
+                    "TYPE": {"description": "MemberType", "type": "string"},
+                },
+            },
+        }
+    }
     assert registry.endpoint("DB.MBTP").schema_path.endswith("MBTP.json")
 
 

@@ -61,8 +61,9 @@ R85_GEN_NX_PRODUCT_GAPS: tuple[str, ...] = (
 )
 """`docs/07` §16 R85：L4 实测在 **GEN NX** 上 `404` 而数据侧曾声明 `GEN_NX` 的 14 个端点。
 
-⚠️ `DB.SPAN` **不**在此列：R85 的 15 条「桥梁 / 铁路专项表」里它**不算**产品差异
-（实测在 `CIVIL_NX` + `CIVIL_DESIGNER` 上可用，是**产品特有**端点），故本批**不**动它。
+⚠️ `DB.SPAN` 于 **P138d 一致摘除**（选项 A）：它与这 14 条**同形**（`gen-local` 上 `404`、
+在非 GEN 实例上可用），故 `GEN_NX` 也从它的 `products` 摘除（见
+`tests/test_midas_registry_p136.py::test_p138_span_gen_nx_is_removed_consistently_with_the_fourteen`）。
 """
 
 R85_CIVIL_NX_PRODUCT_GAPS: tuple[str, ...] = (
@@ -230,6 +231,9 @@ async def test_p135d_write_probe_creates_reads_back_and_deletes_only_its_own_id(
         project=DedicatedTestProject(name="p135"),
         limit=0,
         only=("DB.NODE",),
+        # 离线假传输**故意**带既有编号 `1`（验证「只挑未占用编号」）→ 显式关闭空项目闸门；
+        # 真实实例路径默认**开启**（`EMPTINESS_GATE_KEYS`，见 P138c 的闸门用例）。
+        emptiness_keys=(),
     )
     report = await probe.probe()
     assert report.product == "CIVIL_NX"
@@ -296,6 +300,8 @@ async def test_p135d_write_probe_reports_native_failures_without_raising() -> No
         project=DedicatedTestProject(name="p135"),
         limit=0,
         only=("DB.NODE",),
+        # 同上：离线假传输带既有编号 → 显式关闭空项目闸门（只测「读回缺失」归类分支）
+        emptiness_keys=(),
     )
     report = await probe.probe()
     outcome = report.outcomes[0]
@@ -365,9 +371,11 @@ def test_p135d_r85_civil_nx_product_gaps_are_recorded_as_measured() -> None:
 
 
 def test_p135d_r85_span_is_a_product_specific_endpoint() -> None:
-    """R85：`DB.SPAN` **不**在 GEN NX 清单里，且在 `CIVIL_DESIGNER` 上可用（产品特有）。"""
+    """R85（P138d 裁决 A）：`DB.SPAN` 的 `GEN_NX` 已**一致摘除**；`CIVIL_DESIGNER` 仍可用。"""
     definition = _registry().endpoint("DB.SPAN")
     assert "CIVIL_DESIGNER" in definition.products
+    assert "CIVIL_NX" in definition.products
+    assert "GEN_NX" not in definition.products, "与已摘除的 14 条同形 → 一致摘除"
     assert "DB.SPAN" not in R85_GEN_NX_PRODUCT_GAPS
 
 
@@ -434,7 +442,8 @@ def test_p135d_r87_the_response_schema_is_the_only_reason_for_partial() -> None:
     downgraded = seven_and_verdict({**evidence, "response_schema_confirmed": False})
     assert downgraded.status == STATUS_PARTIAL
     assert downgraded.missing == ("response_schema_confirmed",)
-    # 无请求 Schema 的端点仍缺**两项**（如实标注，**不**补）
+    # 无请求 Schema 的**纯 GET** 端点（P138b 裁决：请求 Schema 对该端点**不适用**）
+    # → 只剩**真实**缺口一项：它连 Schema 文件都没有，故没有 `response` 块。
     project_status = seven_and_verdict(
         registry_evidence(
             registry,
@@ -446,10 +455,7 @@ def test_p135d_r87_the_response_schema_is_the_only_reason_for_partial() -> None:
         )
     )
     assert project_status.status == STATUS_PARTIAL
-    assert project_status.missing == (
-        "request_schema_confirmed",
-        "response_schema_confirmed",
-    )
+    assert project_status.missing == ("response_schema_confirmed",)
 
 
 # ===== 红线 =====

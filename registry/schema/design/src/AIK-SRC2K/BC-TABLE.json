@@ -219,13 +219,20 @@
             "description": "Components of SRC Checking Result Table",
             "items": {
               "type": "string",
-              "enum": [
-                "MEMB",
-                "SECT",
-                "Span",
-                "Section",
-                "Bc",
-                "...(전체 27개)"
+              "anyOf": [
+                {
+                  "enum": [
+                    "MEMB",
+                    "SECT",
+                    "Span",
+                    "Section",
+                    "Bc"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "description": "MIDAS 手册该表共 27 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                }
               ]
             }
           }

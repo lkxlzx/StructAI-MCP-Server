@@ -497,13 +497,11 @@ def test_p134_measured_endpoints_are_verified_once_the_response_schema_exists() 
         assert verdict.status == STATUS_VERIFIED, key
         assert verdict.missing == (), key
         assert verdict.as_dict()["satisfied"] == list(SEVEN_AND_ITEMS), key
-    # 无请求 Schema 的端点缺**两项**，同样如实标注（**不**猜、**不**补）
+    # 无请求 Schema 的**纯 GET** 端点：请求 Schema 对该端点**不适用**（P138b 裁决），
+    # 故只剩**真实**缺口一项（它没有 Schema 文件 → 没有 `response` 块）
     project_status = seven_and_verdict(evidence("OPE.PROJECTSTATUS"))
     assert project_status.status == STATUS_PARTIAL
-    assert project_status.missing == (
-        "request_schema_confirmed",
-        "response_schema_confirmed",
-    )
+    assert project_status.missing == ("response_schema_confirmed",)
     # 把 response 一项改回假 → 立刻回到 `PARTIAL`（证明 AND 是真的）
     assert seven_and_verdict(evidence("DB.NODE", response_schema_confirmed=False)).status == (
         STATUS_PARTIAL

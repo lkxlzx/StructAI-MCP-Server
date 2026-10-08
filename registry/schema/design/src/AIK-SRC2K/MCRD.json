@@ -54,7 +54,7 @@
                   "NAME": {
                     "type": "string",
                     "description": "Main rebar size designation.",
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "title": "D4",
                         "const": "D4"
@@ -75,7 +75,10 @@
                         "title": "D8",
                         "const": "D8"
                       },
-                      "...(전체 19개)"
+                      {
+                        "type": "string",
+                        "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                      }
                     ]
                   },
                   "ROW": {
@@ -103,7 +106,7 @@
                   "NAME": {
                     "type": "string",
                     "description": "Hoop/tie rebar size designation.",
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "title": "D4",
                         "const": "D4"
@@ -124,7 +127,10 @@
                         "title": "D8",
                         "const": "D8"
                       },
-                      "...(전체 19개)"
+                      {
+                        "type": "string",
+                        "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                      }
                     ]
                   },
                   "DIST": {

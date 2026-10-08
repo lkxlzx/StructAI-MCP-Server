@@ -132,11 +132,11 @@ FROZEN_DEPENDENCIES = (
 EXPECTED_SCHEMA_FILES = 616
 """`registry/README.md` §3：数据侧 Schema 文件数。"""
 
-EXPECTED_REGISTERED = 615
-"""本批实际登记的 Schema 数（616 − 1 个无法还原，见 `UNRESOLVABLE_FILES`）。"""
+EXPECTED_REGISTERED = 616
+"""数据侧 Schema 数（P138a 起 **616 个文件全部可装载** —— 原 `DB.MBTP` 的坏串已从上游重建）。"""
 
-EXPECTED_DRAFT7 = 440
-"""数据侧声明 `draft-07` 的 Schema 数（本批实测）。"""
+EXPECTED_DRAFT7 = 441
+"""数据侧声明 `draft-07` 的 Schema 数（P138a 起 **441**：原 `DB.MBTP` 的坏串未计入）。"""
 
 EXPECTED_UNDECLARED = 175
 """数据侧**未**声明 `$schema` 的 Schema 数（本批实测；R18 的另一半）。"""
@@ -167,18 +167,11 @@ ENDPOINTS_WITHOUT_SCHEMA = frozenset(
 )
 """`docs/07` §16 R5：数据侧 **20** 个没有 JSON Schema 的端点（本批实测清单）。"""
 
-UNRESOLVABLE_FILES = ("products/gen_nx/db/MBTP.json",)
-"""数据缺陷：`schema` 是**非法 JSON 字符串**，无法还原成对象（`docs/07` §16 R19）。"""
+UNRESOLVABLE_FILES: tuple[str, ...] = ()
+"""无法还原成对象的 Schema 文件 —— P138a（R19 收口）后为 **空**（原 1 个 = `DB.MBTP`）。"""
 
-DEFECTIVE_SCHEMA_IDS = frozenset(
-    {
-        "structai://schema/design/src/aik-src2k/matd/v1",
-        "structai://schema/design/src/aik-src2k/mcrd/v1",
-        "structai://schema/design/src/aik-src2k/mrbd/v1",
-        "structai://schema/ope/edmp/v1",
-    }
-)
-"""不是合法 JSON Schema 的 4 个已登记 id（`docs/07` §16 R19；由 `check_schema` 诊断）。"""
+DEFECTIVE_SCHEMA_IDS: frozenset[str] = frozenset()
+"""不是合法 JSON Schema 的已登记 id —— P138a（R19 收口）后为 **空**（原 4 个）。"""
 
 ALIGNED_OPERATION_URIS = frozenset(
     {
@@ -491,7 +484,7 @@ def test_load_rejects_a_malformed_schema_file(tmp_path: Path) -> None:
 
 
 def test_load_covers_every_data_side_schema_file(schema_registry: SchemaRegistry) -> None:
-    """门槛 ③：616 个文件 → 615 个登记 + 1 个无法还原（逐项计数可复算）。"""
+    """门槛 ③：616 个文件 → **616 个登记**、**0 个**无法还原（P138a 后，逐项计数可复算）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
 
@@ -500,14 +493,14 @@ def test_load_covers_every_data_side_schema_file(schema_registry: SchemaRegistry
     assert report.files == EXPECTED_SCHEMA_FILES
     assert report.registered == EXPECTED_REGISTERED
     assert len(schema_registry) == EXPECTED_REGISTERED
-    assert tuple(path for path, _ in report.unresolvable) == UNRESOLVABLE_FILES
-    assert "not valid JSON" in report.unresolvable[0][1]
+    assert tuple(path for path, _ in report.unresolvable) == UNRESOLVABLE_FILES == ()
+    assert report.unresolvable == ()
 
     summary = schema_registry.summary()
     assert summary["files"] == EXPECTED_SCHEMA_FILES
     assert summary["schemas"] == EXPECTED_REGISTERED
     assert summary["envelopes"] + summary["verbatim"] == EXPECTED_REGISTERED
-    assert summary["unresolvable"] == [[UNRESOLVABLE_FILES[0], report.unresolvable[0][1]]]
+    assert summary["unresolvable"] == []
 
 
 def test_loaded_ids_correspond_one_to_one_with_the_manifest(
@@ -527,7 +520,7 @@ def test_loaded_ids_correspond_one_to_one_with_the_manifest(
     assert file_keys == with_schema
     assert file_keys.isdisjoint(without_schema)
 
-    expected_ids = {schema_id_for(key) for key in with_schema} - {schema_id_for("DB.MBTP")}
+    expected_ids = {schema_id_for(key) for key in with_schema}
     assert set(schema_registry.registered_ids()) == expected_ids
 
 
@@ -676,23 +669,28 @@ def test_undeclared_draft7_only_construct_fails_loudly_not_silently() -> None:
     assert excinfo.value.details["dialect"] == DEFAULT_DIALECT
 
 
-def test_check_schema_flags_exactly_the_four_defective_schemas(
+def test_check_schema_finds_no_defective_schema_after_the_p138a_fix(
     schema_registry: SchemaRegistry,
     schema_engine: SchemaEngine,
 ) -> None:
-    """门槛 ④（R19）：615 个已登记 Schema 中恰好 **4** 个不是合法 JSON Schema。"""
+    """门槛 ④（R19 收口）：**616** 个已登记 Schema **全部**是其方言下的合法 JSON Schema。
+
+    P138a 之前恰好 4 个不合规（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 +
+    `OPE.EDMP` 的 `type: "Number"`）；修复固化在 `registry/tools/fix_schema_defects.py`
+    （生成链归一），故本用例**不**放宽断言，而是断言失败数 **0**。
+    """
     failures: dict[str, str] = {}
     for schema_id in schema_registry.registered_ids():
         try:
             schema_engine.check_schema(schema_id)
-        except InternalError as error:
+        except InternalError as error:  # pragma: no cover - 回归时会走到这里
             assert error.code == "STRUCTAI-7000"
             assert set(error.details) == {"schema_id", "dialect", "reason"}
             failures[schema_id] = error.details["reason"]
 
-    assert set(failures) == DEFECTIVE_SCHEMA_IDS
-    assert all(reason for reason in failures.values())
-    assert len(schema_registry) - len(failures) == 611
+    assert failures == {}
+    assert set(failures) == DEFECTIVE_SCHEMA_IDS == frozenset()
+    assert len(schema_registry) == EXPECTED_REGISTERED == 616
 
 
 # ===== ③/⑥ P07 固化的 URI 口径（落库侧）=====

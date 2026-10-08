@@ -45,11 +45,11 @@
             },
             "PARAMETER": {
               "description": "Parameter Value(a)",
-              "type": "Number"
+              "type": "number"
             },
             "H_VS": {
               "description": "Change Property Value h(v/s)",
-              "type": "Number"
+              "type": "number"
             }
           }
         }

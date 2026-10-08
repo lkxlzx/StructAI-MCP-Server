@@ -71,7 +71,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -92,7 +92,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -114,7 +117,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -135,7 +138,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -167,7 +173,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -188,7 +194,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -210,7 +219,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -231,7 +240,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -287,7 +299,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -308,7 +320,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -330,7 +345,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -351,7 +366,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -383,7 +401,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -404,7 +422,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -426,7 +447,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -447,7 +468,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -503,7 +527,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -524,7 +548,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -546,7 +573,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of top rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -567,7 +594,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -599,7 +629,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the first layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -620,7 +650,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -642,7 +675,7 @@
                           "NAME": {
                             "type": "string",
                             "description": "Rebar size designation for the second layer of bottom rebars.",
-                            "oneOf": [
+                            "anyOf": [
                               {
                                 "title": "D4",
                                 "const": "D4"
@@ -663,7 +696,10 @@
                                 "title": "D8",
                                 "const": "D8"
                               },
-                              "...(전체 19개)"
+                              {
+                                "type": "string",
+                                "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                              }
                             ]
                           },
                           "NUM": {
@@ -702,7 +738,7 @@
               "SHEAR_BAR": {
                 "type": "string",
                 "description": "Stirrup rebar size designation.",
-                "oneOf": [
+                "anyOf": [
                   {
                     "title": "D4",
                     "const": "D4"
@@ -723,7 +759,10 @@
                     "title": "D8",
                     "const": "D8"
                   },
-                  "...(전체 19개)"
+                  {
+                    "type": "string",
+                    "description": "MIDAS 手册该表共 19 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                  }
                 ]
               }
             }

@@ -35,16 +35,15 @@ registry/
 ### 2.1 JSON Schema 方言与装载现状（P09 裁决，2026-10-05）
 
 `registry/schema/` 的 **616** 个文件是**请求体 Schema**，形态有两种：`{<请求体包装根键>: <JSON Schema>}`
-（如 `ACTL` / `Argument` / `TABLE`；**377** 个）与直接就是 JSON Schema（**237** 个）；另有 **1** 个
-（`DB.MBTP`）把 JSON 存成了**非法字符串**（见下）。
+（如 `ACTL` / `Argument` / `TABLE`；**378** 个）与直接就是 JSON Schema（**238** 个）。
 
 | 项 | 实测值 | 说明 |
 | --- | --- | --- |
 | 文件数 | **616** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件） |
-| 可装载 | **615** | 剥离包装根键后原样登记（**不改写任何取值**） |
-| 无法装载 | **1** | `products/gen_nx/db/MBTP.json`：`schema` 是字符串且**不是合法 JSON**（缺 1 个 `}`） |
-| `$schema` 声明 | **440** `draft-07` / **175** 未声明 | 按**生效 Schema**（剥离包装根键后）统计 |
-| 不是合法 JSON Schema | **4** | `DESIGN.SRC.AIK-SRC2K.MATD` / `.MCRD` / `.MRBD`、`OPE.EDMP`（占位字符串 / 非法子 schema） |
+| 可装载 | **616** | 剥离包装根键后原样登记（**不改写任何取值**） |
+| 无法装载 | **0** | P138a 前为 **1**（`products/gen_nx/db/MBTP.json` 的 `schema` 是**坏串**，见下） |
+| `$schema` 声明 | **441** `draft-07` / **175** 未声明 | 按**生效 Schema**（剥离包装根键后）统计 |
+| 不是合法 JSON Schema | **0** | P138a 前为 **4**（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 + `OPE.EDMP` 的 `type: "Number"`） |
 
 **方言裁决（`docs/07` §16 R18）**：**按各 Schema 自身声明的方言校验**（draft-07 → `Draft7Validator`；
 未声明 / 未知 → 项目标准 **Draft 2020-12**，`docs/02` §12 / §13 / §22）。
@@ -52,10 +51,11 @@ registry/
 （`exclusiveMinimum` 布尔 vs 数值、`definitions` / `items` / `prefixItems`），实测 draft-07 的数组形式 `items`
 喂给 2020-12 校验器时直接抛异常。Core 自有的 `schemas/`（`docs/02` §22）仍一律用 Draft 2020-12。
 
-⚠️ **本目录的 5 个数据缺陷**（`docs/07` §16 R19，待数据侧生成链修复）：上表「无法装载 1 个」+「不是合法
-JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，非法关键字会被**静默忽略**
-（校验变宽松），故 Core 侧由 `SchemaEngine.check_schema()` 显式诊断。
-另：**20** 个端点仍**没有** JSON Schema（`docs/07` §16 R5），本目录不臆造。
+⚠️ **R19 已收口（P138a）**：本目录**不再有**数据缺陷 —— 修复固化在生成链工具
+`registry/tools/fix_schema_defects.py`（见 §8.3），逐条差异可复算；`SchemaEngine.check_schema()`
+的失败数 **4 → 0**，**616/616** 可装载。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，
+非法关键字会被**静默忽略**（校验变宽松），故 Core 侧仍由 `check_schema()` 显式诊断。
+另：**20** 个端点仍**没有** JSON Schema（`docs/07` §16 R5，P138b 已按**实测**分类，见 §8.4），本目录不臆造。
 
 ### 2.2 response 方向 Schema（P136 裁决，2026-10-08 之后）
 
@@ -83,19 +83,28 @@ JSON Schema 4 个」。注意 `jsonschema` 在实例校验时**不**检查 Schem
 **效果（`docs/07` §16 R87）**：`docs/04` §8 的 7 项 AND 里「Response Schema 已确认」
 不再恒为假 —— 判定点仍是**同一处**（`app/infrastructure/adapters/midas/live.py` 的
 `seven_and_verdict` / `registry_evidence`，经 `MidasRegistry.response_schema_document()` 读数据）。
-本批实测复核：**238** 个已实测端点 7 项全满足；唯一例外 `DB.MBTP` 缺「Request Schema 已确认」
-（它的 `schema` 是非法 JSON 字符串，见 §2.1 的 R19），**如实**保留 `PARTIAL`。
+**P138a 收口后**：**239 / 239** 个已实测端点 7 项全满足 —— 原唯一例外 `DB.MBTP`
+（缺「Request Schema 已确认」，因它的 `schema` 是非法 JSON 字符串）已按上游手册重建为合法对象。
 
-**落库（P137a，2026-10-08 之后）**：`registry/**` **一行未改**（P137 只改导入器），但
-`MidasRegistryImporter` 现在把 `response` 块**也**导进 `midas_api_schemas`
-（`direction = "response"`，URI = `midas://<product>/<code>/response/v1`），并**回填**
-`midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`（存的是
-Schema 行的 id，与 `request_schema*` 同口径）—— 故该表从 **615** 行（仅请求方向）变为
-**854** 行 = **615 + 239**；未声明 `response` 块的端点仍为 `None`（**不**臆造）。
-数据侧仍**可复算**：`sync_manifest.py` / `sync_response_schemas.py` 预演差异均为 **0**。
+**`request_schema_confirmed` 对无请求体端点「不适用」（P138b 裁决）**：`methods` 不含
+`POST` / `PUT` / `PATCH` 的端点（`DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` /
+`VIEW.SELECT`）**没有请求体**，把「没有请求 Schema」判成缺口是**类别错误**（会让这类端点**永远**
+`PARTIAL`）→ 该项视为满足，并由 `live.not_applicable_items()` **如实**报出。判定口径**未改**：
+`verification_status` 仍只由 `availability` 机械映射（`docs/07` §7.2 / §16 R78）。
+
+**落库（P137a，2026-10-08 之后）**：`MidasRegistryImporter` 把**两个方向**都导进
+`midas_api_schemas`（`direction = "response"`，URI = `midas://<product>/<code>/response/v1`），
+并**回填** `midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
+（存的是 Schema 行的 id，与 `request_schema*` 同口径）—— 该表自 **P138a** 起为
+**855** 行 = 请求 **616** + 响应 **239**（P137a 时为 854 = 615 + 239）；未声明 `response`
+块的端点仍为 `None`（**不**臆造）。
+数据侧仍**可复算**：`sync_manifest.py` / `sync_response_schemas.py` / `fix_schema_defects.py`
+预演差异均为 **0**。
 
 ```powershell
-python registry/tools/sync_manifest.py --write         # 先派生 manifest（products 等）
+python registry/tools/fix_schema_defects.py --check   # R19 不变量自检（CI）
+python registry/tools/fix_schema_defects.py --write   # 生成链归一（幂等）
+python registry/tools/sync_manifest.py --write         # 派生 manifest（products 等）
 python registry/tools/sync_response_schemas.py         # 预演（只打印差异）
 python registry/tools/sync_response_schemas.py --write # 写回（只追加 response 块）
 ```
@@ -217,6 +226,7 @@ Core 侧 `code` 保持**自由字符串**（规范中立，Core 内不出现任�
 | `tools/extract_design_codes.py` | 从官方手册抽取规范枚举 → `design_codes.yaml`（带条数断言，锚点漂移即报错） |
 | `tools/sync_manifest.py` | 以端点 YAML 为真源，重建 `manifest.json` 的派生字段；默认预演，`--write` 写回 |
 | `tools/sync_response_schemas.py` | 为**已实测**的端点补 `direction: response` 的 `response` 块（§2.2）；默认预演，`--write` 写回 |
+| `tools/fix_schema_defects.py` | **R19 生成链归一**（§8.3）：坏串重建 / 占位分支合法化 / `type` 大小写；`--check` 自检不变量 |
 
 ```powershell
 python registry/tools/extract_design_codes.py
@@ -224,6 +234,8 @@ python registry/tools/sync_manifest.py           # 预演（只打印差异）
 python registry/tools/sync_manifest.py --write   # 写回
 python registry/tools/sync_response_schemas.py   # 预演（只打印差异）
 python registry/tools/sync_response_schemas.py --write   # 写回（只追加 response 块）
+python registry/tools/fix_schema_defects.py --check     # R19 不变量自检（CI；不合规退出码 1）
+python registry/tools/fix_schema_defects.py --write     # 生成链归一（幂等）
 ```
 
 ### 8.1 ⚠️ 已知缺陷：`read_root` 曾是「从 URI 猜的」
@@ -284,8 +296,46 @@ P136 把该结论**落进数据**（**只**改 `products`；`availability` / `ve
 不再发出必然 `404` 的请求（与 §4 的 `resolve` 口径一致）。实例级证据仍保留在
 `unavailable_on`（`instances.yaml` 口径）。
 
-⚠️ **`DB.SPAN` 不在改动面内**：它是 `CIVIL_NX` + `CIVIL_DESIGNER` 的**产品特有**端点。
-P136 的复核确认它在 `gen-local` 上**仍 `404`** —— 是否摘除其 `GEN_NX` 归**下一批**裁决。
+**`DB.SPAN` 的 `GEN_NX` 已按同一口径摘除（P138d 裁决 A）**：它与上表 **14** 条**同形**
+（`verified_on` 有非 GEN 实例、`unavailable_on` 有 `gen-local`、在 `gen-local` 上 `404`）——
+只对那 14 条摘除、却对同形的 `DB.SPAN` 例外，是**口径不一致**。故其 `products` 由
+`[CIVIL_DESIGNER, CIVIL_NX, GEN_NX]` 改为 `[CIVIL_DESIGNER, CIVIL_NX]`（**只**改 `products`）。
+**恢复条件**：**更新**的 GEN NX 构建上 `/DB/SPAN` 路由成功（新的 L4 `PASSED`）→ 恢复 `GEN_NX`。
+依据：`docs/07` §16 **R85**；可执行判定 =
+`tests/test_midas_registry_p136.py::test_p138_span_gen_nx_is_removed_consistently_with_the_fourteen`。
 
 **证据**：`docs/reports/P136_数据侧收口与L4复核_v1.0.md` §2 / §4；
 可执行判定 = `tests/test_midas_registry_p136.py` + `tests/test_midas_write_probe_p135.py` 的 R85 用例。
+
+### 8.3 R19 收口：生成链归一（P138a）
+
+`tools/fix_schema_defects.py`（只依赖标准库、默认**预演**、`--write` 写回、**幂等**）
+把 `registry/schema/**` 的 **3** 类缺陷一次修完，**不**手改单个产物文件：
+
+| 缺陷 | 修法 | 依据 |
+| --- | --- | --- |
+| `DB.MBTP` 的 `schema` 是**坏串**（缺 1 个 `}`） | **从上游手册重新生成**：`MIDAS_API_Online_Manual_数据_v1.0.json` 的 `endpoints[].json_schema` 是**同一条坏串** → 补齐尾部闭合符后落成**对象** | 逐字节比对：374 个 `help_center` Schema 里 **373** 个与上游解析结果**完全相等**，唯一例外就是它 |
+| **22** 处占位分支 `"...(전체 N개)"`（**7** 个文件） | 换成**合法**兜底分支：`type` 由**已转录成员**推断、`description` 注明「手册该表共 N 项，仅转录前 K 项（未逐项转录）」；`oneOf` → **`anyOf`** | 占位串**出自手册原文** `MIDAS_API_开发文档_v1.0.md`（该文件里同样出现 **22** 次）；`oneOf` 必须换关键字，否则兜底分支会让已转录取值**恰好匹配两次**、把合法取值全判为非法 |
+| `OPE.EDMP` 的 `type: "Number"`（2 处） | `type` 大小写归一（`Number` / `String` / `Boolean` / `Object` / `Array` / `Integer` / `Null` → 小写） | 上游手册 `specifications` 参数表里另有 **1344** 处 `"Number"`，属**参数表**口径、**不**在 Schema 生成链内 |
+
+**效果**：**616/616** 可装载（原 615）、`SchemaEngine.check_schema()` 失败 **4 → 0**、
+`draft-07` 声明 **440 → 441**；`sync_manifest.py` / `sync_response_schemas.py` 预演差异仍为 **0**。
+可执行判定：`python registry/tools/fix_schema_defects.py --check` +
+`tests/test_midas_registry_p138.py`。
+
+### 8.4 R5：20 个无 Schema 端点按**实测**分类（P138b）
+
+**不**臆造、**不**新增文件（Schema 文件仍 **616** 个）。判据全部来自数据文件本身：
+
+| 类 | 条数 | 端点 | 判据（可执行） |
+| --- | --- | --- | --- |
+| `no_request_body` | **4** | `DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` | `methods` 不含 `POST`/`PUT`/`PATCH` ⇒ **没有请求体**，不需要请求 Schema |
+| `manual_has_no_json_schema` | **5** | `OPE.MEMB` / `OPE.STOR` / `OPE.STORPROP` / `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` | 手册**有同一个 URI** 的条目，但 `json_schema` 为空（只有参数表） |
+| `uri_differs_in_manual` | **1** | `OPE.BMLD` | 手册**没有**该 URI，只有同名 code 的 `db/BMLD` ⇒ **无法确认同一操作**，如实留缺 |
+| `post_table_key_without_manual_table_type` | **3** | `POST.TABLE.{CONCURRENT_JOINT_FORCE, STORY_SHEAR_FORCE_COEFFICIENT, WEIGHT_IRREGULARITY_X}` | 手册条目的 `table_types` 为空 ⇒ 无法机械确认同一操作，如实留缺 |
+| `absent_from_nx_manual` | **7** | `DOC.CLOSEALL` / `DOC.EXIT` / `OPE.CP{CREATE,EXPORT,UPDATEMODEL,UPDATERESULT}` / `OPE.STORYPROP` | 手册**完全没有**该 URI，也没有同名 code |
+
+⚠️ 与旧提示词里的分组**不同**的两处（以**实测**为准）：① `OPE.MEMB` / `OPE.STOR` / `OPE.STORPROP` /
+`OPE.STORY_*_PARAM` 的手册条目**就是同一个 URI**（不是「URI 不同」）；② `OPE.STORPROP` 在手册里**有**
+同 URI 条目（旧提示词把它归入「手册完全没有」）。可执行判定 =
+`tests/test_midas_registry_p138.py::test_p138b_the_twenty_missing_schemas_are_classified_by_measurement`。

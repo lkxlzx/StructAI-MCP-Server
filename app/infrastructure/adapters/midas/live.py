@@ -76,6 +76,7 @@ from app.infrastructure.database.base import utcnow
 __all__ = [
     "CONTRACT_LEVEL_L4",
     "CONTRACT_LEVEL_L5",
+    "BODY_METHODS",
     "EMPTY_BLOCK_KEY",
     "LIVE_PROJECT_ENV",
     "MAX_PROBE_ATTEMPTS",
@@ -87,6 +88,8 @@ __all__ = [
     "SEVEN_AND_ITEMS",
     "STATUS_PARTIAL",
     "STATUS_VERIFIED",
+    "WRITE_PATH_METHODS",
+    "WriteCoverage",
     "BusinessEffectOutcome",
     "DedicatedTestProject",
     "LiveProbeReport",
@@ -95,11 +98,16 @@ __all__ = [
     "MidasLiveProber",
     "SevenAndVerdict",
     "dedicated_test_project_from_env",
+    "has_request_body",
+    "not_applicable_items",
     "live_opt_in_from_env",
     "read_verifications",
     "record_verifications",
     "registry_evidence",
     "seven_and_verdict",
+    "write_only_keys",
+    "write_path_coverage",
+    "write_path_keys",
 ]
 
 CONTRACT_LEVEL_L4: Final[str] = "L4"
@@ -138,6 +146,46 @@ SEVEN_AND_ITEMS: Final[tuple[str, ...]] = (
     "live_contract_test_passed",
 )
 """`docs/04` §8 的 `VERIFIED` 七项 AND（逐条照抄；见裁决 5）。"""
+
+BODY_METHODS: Final[tuple[str, ...]] = ("POST", "PUT", "PATCH")
+"""会产生**请求体**的方法（`docs/07` §6；`DELETE` 的 key 走路径 / 查询，不算请求体）。"""
+
+
+def has_request_body(registry: MidasRegistry, key: str) -> bool:
+    """该端点是否可能有**请求体**（`methods` 里含 `BODY_METHODS` 之一）。
+
+    Args:
+        registry: 已装载的 `registry/`。
+        key: Registry key。
+
+    Returns:
+        含 `POST` / `PUT` / `PATCH` 时为真；纯 `GET` 端点（如 `OPE.PROJECTSTATUS`）为假。
+    """
+    methods = {str(method).upper() for method in registry.endpoint(key).methods}
+    return any(method in methods for method in BODY_METHODS)
+
+
+def not_applicable_items(registry: MidasRegistry, key: str) -> tuple[str, ...]:
+    """7 项 AND 里对**该端点不适用**（因而不构成缺口）的项 —— P138b 裁决。
+
+    裁决（`docs/07` §16 R5，P138b）：`request_schema_confirmed` 对**无请求体**的端点
+    （`methods` 不含 `POST` / `PUT` / `PATCH`）**不适用** —— 没有请求体就没有请求 Schema
+    可确认，把「没有请求 Schema」判成缺口是**类别错误**，会让这类端点**永远** `PARTIAL`。
+    本函数把该裁决变成**可执行判定**：不适用 ⇒ 该项视为满足（`registry_evidence` 里为真），
+    同时**如实**报出「是哪一项、为什么」。
+
+    ⚠️ 只对**无请求体**的端点生效：带 `POST` 的端点（如 `OPE.STORY_PARAM`）仍如实判假。
+
+    Args:
+        registry: 已装载的 `registry/`。
+        key: Registry key。
+
+    Returns:
+        不适用项名（当前至多一项）；不适用时为**空元组**。
+    """
+    if has_request_body(registry, key):
+        return ()
+    return ("request_schema_confirmed",)
 
 
 # ===== L4 探针 =====
@@ -436,6 +484,118 @@ async def read_verifications(
     return tuple((await session.execute(statement)).scalars().all())
 
 
+# ===== 写路径覆盖（`docs/07` §16 R4 / R14；P138c）=====
+
+
+WRITE_PATH_METHODS: Final[tuple[str, ...]] = ("POST", "PUT", "DELETE", "PATCH")
+"""数据侧「**写路径**」方法集 —— R4 / R14 覆盖率的**分母**口径（唯一）。"""
+
+
+def write_path_keys(registry: MidasRegistry) -> tuple[str, ...]:
+    """数据侧**写路径端点**（`methods` 含 `WRITE_PATH_METHODS` 之一），按 key 升序。
+
+    ⚠️ 这是 R4 / R14 覆盖率的**分母**（**唯一**口径）：凡有写入方法的端点，其写路径都
+    需要真实 L5 才算覆盖 —— 只读 L4 探针只覆盖 `GET`（`registry/README.md` §8.1）。
+    其中**连 `GET` 都没有**的那部分（`write_only_keys`）是只读探针**完全**覆盖不到的。
+    """
+    keys: list[str] = []
+    for key in registry.keys():
+        try:
+            definition = registry.endpoint(key)
+        except Exception:  # noqa: BLE001 - 数据缺陷不应打断枚举
+            continue
+        methods = {str(method).upper() for method in definition.methods}
+        if any(method in methods for method in WRITE_PATH_METHODS):
+            keys.append(key)
+    return tuple(sorted(keys))
+
+
+def write_only_keys(registry: MidasRegistry) -> tuple[str, ...]:
+    """数据侧**只写端点**（`methods` **不含** `GET`）—— 只读探针**完全**覆盖不到的那部分。
+
+    这是 R4 / R14 里「只读探针覆盖不到」那句话的**可执行**含义（旧记录写 369 / 379，
+    与任何可执行判定都对不上，已按本函数重算）。
+    """
+    keys: list[str] = []
+    for key in registry.keys():
+        try:
+            definition = registry.endpoint(key)
+        except Exception:  # noqa: BLE001 - 数据缺陷不应打断枚举
+            continue
+        methods = {str(method).upper() for method in definition.methods}
+        if "GET" not in methods:
+            keys.append(key)
+    return tuple(sorted(keys))
+
+
+@dataclass(frozen=True, slots=True)
+class WriteCoverage:
+    """写路径覆盖的**唯一**口径（R4 / R14 共用；P138c 裁决）。"""
+
+    covered: int
+    total: int
+    write_only: int = 0
+    covered_keys: tuple[str, ...] = ()
+    total_keys: tuple[str, ...] = ()
+
+    @property
+    def ratio(self) -> str:
+        """`<分子> / <分母>`（报告与文档**只**引用它，避免两处口径不一致）。"""
+        return f"{self.covered} / {self.total}"
+
+    def as_dict(self) -> dict[str, Any]:
+        """诊断映射（**不含**凭据 / 响应体）。"""
+        return {
+            "covered": self.covered,
+            "total": self.total,
+            "write_only": self.write_only,
+            "ratio": self.ratio,
+            "covered_keys": list(self.covered_keys),
+        }
+
+
+def write_path_coverage(
+    registry: MidasRegistry,
+    rows: Iterable[object],
+    *,
+    contract_level: str = CONTRACT_LEVEL_L5,
+) -> WriteCoverage:
+    """按 `midas_api_verifications` 的 **L5** 行重算写路径覆盖（R4 / R14 的统一判定）。
+
+    分子 = 有 `contract_level == L5` 且 `status == PASSED` 记录的**去重** key ∩ 写路径端点；
+    分母 = `write_path_keys(registry)`。**不**沿用任何手工誊抄的旧数（P137 记录 R4 为
+    `11 / 369`、R14 为 `379`，两处口径不一致）。
+
+    Args:
+        registry: 已装载的 `registry/`。
+        rows: 验证记录（`MidasApiVerificationORM`，或任何带 `endpoint_key` /
+            `contract_level` / `status` 属性的对象）。
+        contract_level: 计入的行级口径；缺省 **L5**。
+
+    Returns:
+        `WriteCoverage`（分子 / 分母 / 逐 key 证据）。
+    """
+    write_keys = write_path_keys(registry)
+    allowed = set(write_keys)
+    passed: set[str] = set()
+    for row in rows:
+        if str(getattr(row, "contract_level", "")) != str(contract_level):
+            continue
+        if str(getattr(row, "status", "")) != PROBE_PASSED:
+            continue
+        key = str(getattr(row, "endpoint_key", ""))
+        if key in allowed:
+            passed.add(key)
+    covered = tuple(sorted(passed))
+    return WriteCoverage(
+        covered=len(covered),
+        total=len(write_keys),
+        write_only=len(write_only_keys(registry)),
+        covered_keys=covered,
+        total_keys=write_keys,
+    )
+
+
 # ===== 七项 AND（`docs/04` §8；`docs/07` §16 R1 / R78）=====
 
 
@@ -508,7 +668,10 @@ def registry_evidence(
     return {
         "official_endpoint_confirmed": bool(definition.uri.startswith("/")),
         "http_method_confirmed": method_ok,
-        "request_schema_confirmed": registry.effective_schema(key) is not None,
+        "request_schema_confirmed": (
+            registry.effective_schema(key) is not None
+            or "request_schema_confirmed" in not_applicable_items(registry, key)
+        ),
         "response_schema_confirmed": _has_response_schema(registry, key),
         "product_scope_confirmed": product in definition.products
         or product in definition.overrides,

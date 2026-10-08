@@ -15,7 +15,7 @@ schema_ref:
   source: help_center
   params_ref: "designer_params.json#DB/SPAN"
 parser: db_generic
-products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
+products: [CIVIL_DESIGNER, CIVIL_NX]
 product_overrides:
   CIVIL_DESIGNER:
     uri: DB/SPAN

@@ -2,7 +2,20 @@
   "key": "DB.MBTP",
   "uri": "DB/MBTP",
   "source": "help_center",
-  "schema": "{\n    \"TABLE\": {\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"Argument\": {\n        \"type\": \"object\",\n        \"properties\": {\n            \"TYPE\": {\n                \"description\": \"MemberType\",\n                \"type\": \"string\"\n            }\n        }\n    }\n}",
+  "schema": {
+    "TABLE": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "TYPE": {
+            "description": "MemberType",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
   "response": {
     "direction": "response",
     "source": "l4_measured_envelope",

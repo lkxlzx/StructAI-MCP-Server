@@ -95,26 +95,38 @@
                     "RANGE_MAX": {
                       "type": "number",
                       "description": "Range Max value (only for General Design Code)",
-                      "enum": [
-                        1,
-                        0.95,
-                        0.9,
-                        0.85,
-                        0.8,
-                        "...(전체 11개)"
+                      "anyOf": [
+                        {
+                          "enum": [
+                            1,
+                            0.95,
+                            0.9,
+                            0.85,
+                            0.8
+                          ]
+                        },
+                        {
+                          "description": "MIDAS 手册该表共 11 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                        }
                       ],
                       "default": 1
                     },
                     "RANGE_MIN": {
                       "type": "number",
                       "description": "Range Min value (only for General Design Code)",
-                      "enum": [
-                        1,
-                        0.95,
-                        0.9,
-                        0.85,
-                        0.8,
-                        "...(전체 11개)"
+                      "anyOf": [
+                        {
+                          "enum": [
+                            1,
+                            0.95,
+                            0.9,
+                            0.85,
+                            0.8
+                          ]
+                        },
+                        {
+                          "description": "MIDAS 手册该表共 11 项，仅转录前 5 项（未逐项转录）；未转录取值由本分支放行，不编造枚举值。"
+                        }
                       ],
                       "default": 0.5
                     }

@@ -59,6 +59,7 @@ from app.infrastructure.adapters.midas.registry import MidasRegistry, ResolvedEn
 from app.infrastructure.adapters.midas.transforms import TRANSFORMER_REGISTRY
 
 __all__ = [
+    "EMPTINESS_GATE_KEYS",
     "WRITE_PROBE_FAILED",
     "WRITE_PROBE_NO_PAYLOAD",
     "WRITE_PROBE_NO_READBACK",
@@ -79,6 +80,14 @@ WRITE_PROBE_NO_READBACK: Final[str] = "NO_READBACK"
 
 WRITE_METHODS: Final[tuple[str, ...]] = ("POST", "PUT")
 """本探针实际发出的**写入**方法（`DELETE` 只作清理，见裁决 3）。"""
+
+EMPTINESS_GATE_KEYS: Final[tuple[str, ...]] = ("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT")
+"""「目标项目必须为空」闸门的只读哨兵端点（见裁决 8 / P138c）。
+
+`MidasLiveWriteProbe` 在发**任何**写请求之前，先对这 4 个端点各做一次**只读** `GET`：
+只要有一个端点已有既有编号，就**拒绝**（`STRUCTAI-3000 dedicated_test_project_not_empty`）
+且**零**写请求 —— 这样「专用空项目」不再依赖**手工**核对（`docs/reports/P137…` §4 的边界）。
+传 `emptiness_keys=()` 可**显式**关闭闸门（只用于离线单测的编号选择分支）。"""
 
 _TRANSFORMER_SUFFIX: Final[str] = ".v1"
 """Transformer 名的后缀（`transforms.py` 的注册键形如 `midas.node.v1`）。"""
@@ -257,6 +266,7 @@ class MidasLiveWriteProbe:
         methods: Sequence[str] = WRITE_METHODS,
         limit: int = 0,
         only: Sequence[str] = (),
+        emptiness_keys: Sequence[str] | None = None,
     ) -> None:
         """绑定客户端 / Registry / 专用项目声明（**不**做 I/O）。
 
@@ -268,6 +278,9 @@ class MidasLiveWriteProbe:
             methods: 参与探测的写入方法；缺省 `POST` / `PUT`（见裁决 5）。
             limit: 最多探测的端点数；`0` 表示不设限（验收用 `limit=3` 等小值）。
             only: 只探测这些 key（给出时**忽略** `limit`）；缺省空 = 全部候选。
+            emptiness_keys: 空项目闸门的只读哨兵端点（见裁决 8）；`None` → 用
+                `EMPTINESS_GATE_KEYS`（**生产路径的默认**）；传 `()` → **显式**关闭闸门
+                （只用于离线单测的编号选择分支，**不**用于真实实例）。
         """
         self._client = client
         self._registry = registry
@@ -276,6 +289,10 @@ class MidasLiveWriteProbe:
         self._methods = tuple(str(item).upper() for item in methods)
         self._limit = max(int(limit), 0)
         self._only = tuple(str(item) for item in only)
+        self._emptiness_keys = tuple(
+            EMPTINESS_GATE_KEYS if emptiness_keys is None else emptiness_keys
+        )
+        self._emptiness_confirmed = False
 
     @property
     def project(self) -> DedicatedTestProject | None:
@@ -335,6 +352,8 @@ class MidasLiveWriteProbe:
         """
         if self._project is None:
             raise MidasCapabilityError("dedicated_test_project_not_declared")
+        # 裁决 8（P138c）：发**任何**写请求之前，先做只读的「项目必须为空」闸门
+        await self.assert_project_empty()
         outcomes = [await self.probe_key(key) for key in self.candidate_keys()]
         return WriteProbeReport(product=self._product, outcomes=tuple(outcomes))
 
@@ -347,10 +366,15 @@ class MidasLiveWriteProbe:
         Returns:
             `WriteProbeOutcome`；任何原生失败都被归类而**不**上抛（见裁决 7）。
         """
+        # 裁决 8（P138c）：单端点入口也**先**过空项目闸门（`probe()` 已确认则跳过）
+        await self.assert_project_empty()
         transformer_name = transformer_name_for(key)
         read = self._registry.resolve(key=key, product=self._product, method="GET")
         write_method = self._write_method(key)
-        if not transformer_name or not write_method:
+        # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c）：批量路径**不得**因此抛 `KeyError`，
+        # 而应如实归入 `NO_PAYLOAD_TEMPLATE`（**零**写请求）。
+        factory = TRANSFORMER_REGISTRY.get(transformer_name)
+        if not transformer_name or not write_method or factory is None:
             return WriteProbeOutcome(
                 key=key,
                 method=write_method or "",
@@ -369,7 +393,7 @@ class MidasLiveWriteProbe:
                 outcome=WRITE_PROBE_NO_PAYLOAD,
                 detail="no_request_body_template",
             )
-        transformer = TRANSFORMER_REGISTRY[transformer_name](self._registry)
+        transformer = factory(self._registry)
         created_id = ""
         cleaned = False
         try:
@@ -422,6 +446,47 @@ class MidasLiveWriteProbe:
             # 兜底：**只**删除本次自己创建的 ID（见裁决 3）
             if created_id and not cleaned:
                 await self._best_effort_delete(key, created_id)
+
+    async def assert_project_empty(self) -> None:
+        """发**写请求前**的只读闸门：专用测试项目必须为空（见裁决 8 / P138c）。
+
+        对每个哨兵端点（`EMPTINESS_GATE_KEYS`）做**只读** `GET`，用数据侧解包链读既有编号：
+        只要有一个端点非空 → **拒绝**，且**零**写请求已发出。一个哨兵都读不到时同样**拒绝**
+        （**不**在无法核对的情况下盲写）。`probe()` / `probe_key()` 都会先调用本方法。
+
+        Raises:
+            MidasCapabilityError: `STRUCTAI-3000`：
+                `dedicated_test_project_not_empty`（带 `endpoint` / `existing` 诊断字段，
+                **不含**响应体原文与凭据），或 `dedicated_test_project_emptiness_unverified`
+                （所有哨兵都读不到）。
+        """
+        if self._emptiness_confirmed or not self._emptiness_keys:
+            return
+        checked = 0
+        for key in self._emptiness_keys:
+            try:
+                definition = self._registry.endpoint(key)
+            except Exception:  # noqa: BLE001 - 数据侧缺该哨兵不应打断闸门
+                continue
+            if self._product not in definition.products or not definition.enabled:
+                continue
+            if "GET" not in definition.methods:
+                continue
+            try:
+                resolved = self._registry.resolve(key=key, product=self._product, method="GET")
+                existing = await self._existing_ids(resolved)
+            except Exception:  # noqa: BLE001 - 该哨兵不可读 → 不计入核对
+                continue
+            checked += 1
+            if existing:
+                raise MidasCapabilityError(
+                    "dedicated_test_project_not_empty",
+                    endpoint=key,
+                    existing=len(existing),
+                )
+        if not checked:
+            raise MidasCapabilityError("dedicated_test_project_emptiness_unverified")
+        self._emptiness_confirmed = True
 
     # ===== 内部 =====
 
