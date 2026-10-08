@@ -109,6 +109,33 @@ python registry/tools/sync_response_schemas.py         # 预演（只打印差�
 python registry/tools/sync_response_schemas.py --write # 写回（只追加 response 块）
 ```
 
+## 2.3 写路径请求体模板（P139）
+
+`registry/live/write_templates.json` 是**写路径 L5** 的请求体**唯一**来源（`docs/07` §16 R4 / R14 的分子）。
+P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零值 / 空引用请求体被实例拒绝
+（GEN NX 的 10 个可探候选里 9 个 `400 software_api_error`）→ P139 把**真实请求体**落成**数据**
+（**不**硬编码进 Core：`app/**` 里 0 处模板取值）。
+
+| 键 | 说明 |
+| --- | --- |
+| `templates.<key>.source` | `{kind, uri, example, example_id, url, retrieved_at}`：**来源可追溯**（上游手册的哪个示例、哪条包装编号、抓取日期） |
+| `templates.<key>.body` | 请求体（**未**包装；包装键仍由数据侧 Transformer 的 `wrapper_key()` 决定） |
+| `templates.<key>.adjustments` | 逐条 `{path, from, to, why}`：对示例的**每一处**改动都要写明理由；`kind = manual_example` 时**必须**为空 |
+| `templates.<key>.prerequisites` | 前置对象 `{key, item_id, body, source, adjustments}`：目标请求体引用的对象**必须**先存在 → 探针按顺序创建、**逆序**删除（**只**碰自建编号） |
+
+**可复算（`tools/check_write_templates.py`，只依赖标准库）**：每条 `body` 必须**等于**
+「上游手册 `MIDAS_API_Online_Manual_数据_v1.0.json` 的 `endpoints[].examples[].json` 某个编号下的条目」
+再施加本文件声明的 `adjustments`；此外 body 的字段名**不得**超出该端点的数据侧请求 Schema，
+前置链的 key 必须已登记 / 已启用 / 含 `POST`。`tests/test_midas_write_templates_p139.py` 另用
+`jsonschema`（按各 Schema 声明的方言）逐条校验 body。
+
+**覆盖面（2026-10-08 之后实测）**：GEN NX 的 **10** 个可探候选 → **10 / 10 `PASSED`**
+（P138c 时为 1 / 10）；`live.write_path_coverage()` = **`10 / 609`**。**没有**模板的端点仍走
+`derive_body()`，两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`（**不**猜字段、**不**发请求）。
+
+**模板**不能**改任何判定**：`verification_status` 仍只由 `availability` 机械映射
+（`docs/07` §16 R78）；模板文件里**不得**出现 `availability` / `verification_status` / `products` / `verified_on`。
+
 ## 3. 统计
 
 - 端点定义（Registry key）：**636**
@@ -227,6 +254,7 @@ Core 侧 `code` 保持**自由字符串**（规范中立，Core 内不出现任�
 | `tools/sync_manifest.py` | 以端点 YAML 为真源，重建 `manifest.json` 的派生字段；默认预演，`--write` 写回 |
 | `tools/sync_response_schemas.py` | 为**已实测**的端点补 `direction: response` 的 `response` 块（§2.2）；默认预演，`--write` 写回 |
 | `tools/fix_schema_defects.py` | **R19 生成链归一**（§8.3）：坏串重建 / 占位分支合法化 / `type` 大小写；`--check` 自检不变量 |
+| `tools/check_write_templates.py` | **写路径请求体模板复算**（§2.3 / §8.5）：来源 = 手册示例 + 逐条 `adjustments`；字段不超出数据侧 Schema；前置链可执行；不合规退出码 1 |
 
 ```powershell
 python registry/tools/extract_design_codes.py
@@ -273,13 +301,13 @@ Civil Designer 14，合计 **487**）做零副作用 `GET` 探测并落库 `mida
 | `OPE.STORY_PARAM` | （空） | **`STORY_PARAM`** | gen-local |
 | `VIEW.SELECT` | （空） | **`SELECT`** | gen-local |
 
-**写路径的实测覆盖（P138c 收口为一条可执行口径）**：写路径端点 = `methods` 含
+**写路径的实测覆盖（P138c 收口为一条可执行口径；P139 用模板把它推上去）**：写路径端点 = `methods` 含
 `POST`/`PUT`/`DELETE`/`PATCH` 的端点 = **609**（`live.write_path_keys()`），其中**连 `GET` 都没有**
 的 **368** 个（`live.write_only_keys()`）才是只读探针**完全**覆盖不到的。覆盖率
 `live.write_path_coverage()`（分子 = `midas_api_verifications` 的 L5 `PASSED` **去重** key）：
-**2026-10-08 之后在专用空项目上真实批量实测 = `1 / 609`**（GEN NX 的 **10** 个可探候选里
-`DB.NODE` `PASSED`、其余 **9** 个 `400 software_api_error`）。旧记录 `11 / 369`（R4）与 `379`（R14）
-与任何可执行判定都对不上，**作废**（跟踪项见 `docs/07` §16 R4 / R14）。
+**P139 在专用空项目上真实批量实测 = `10 / 609`** —— GEN NX 的 **10** 个可探候选**逐条** `PASSED`
+（请求体由 §2.3 的数据侧模板给出，前置对象由探针自建并**逆序**清理；P138c 时同一口径为 `1 / 609`）。
+旧记录 `11 / 369`（R4）与 `379`（R14）与任何可执行判定都对不上，**作废**（跟踪项见 `docs/07` §16 R4 / R14）。
 
 > 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
 > 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。
@@ -344,3 +372,33 @@ P136 把该结论**落进数据**（**只**改 `products`；`availability` / `ve
 `OPE.STORY_*_PARAM` 的手册条目**就是同一个 URI**（不是「URI 不同」）；② `OPE.STORPROP` 在手册里**有**
 同 URI 条目（旧提示词把它归入「手册完全没有」）。可执行判定 =
 `tests/test_midas_registry_p138.py::test_p138b_the_twenty_missing_schemas_are_classified_by_measurement`。
+
+### 8.5 R5 裁决 B（无请求体 ⇒ 不建 Schema 文件）+ R5 剩余（P139）
+
+P138b 之后，`OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 的**唯一**缺口是
+`docs/04` §8 的 7 项 AND 里的「Response Schema 已确认」——它们连 Schema 文件都没有
+（`sync_response_schemas.py` 要求**有文件**才追加 `response` 块）。**P139 显式裁决：选项 B。**
+
+| 项 | 值 |
+| --- | --- |
+| 裁决 | **B**：无请求体 ⇒ **不**建 Schema 文件（`registry/schema/**` 仍 **616** 个，与 `manifest.json` 带 `schema` 的端点仍 **1:1**） |
+| 依据 ① | 这 3 个端点**确实没有请求体**（`methods` 不含 `POST` / `PUT` / `PATCH`）→ 请求方向 Schema 是**类别错误**（P138b 已把该项判为「不适用」） |
+| 依据 ② | `registry/schema/**` 的定义是**请求体 Schema**；允许「无请求体也建文件」会改变 §2.1 那条 **1:1 不变量**的**含义**（616 → 619、加载器 / 导入器 / P08 / P09 断言都要跟着改） |
+| 依据 ③ | 收益有限：`verification_status` 由 `availability` 机械映射（`docs/07` §16 R78），与 7 项 AND **不是**同一件事 → 本裁决**不影响**任何 `verification_status` |
+| 后果（如实） | 这 3 个端点如实保持 7 项 AND 的 `PARTIAL`（`missing = ["response_schema_confirmed"]`） |
+| 恢复条件 | 若将来**显式**允许「无请求体端点的 response-only Schema 文件」：需同步 §2.1 / §3 与 P08 / P09 的「文件数 ↔ manifest 1:1」断言（616 → 619），届时同一判定点即由假转真 |
+| 可执行判定 | `tests/test_midas_write_templates_p139.py::test_p139_r5_decision_b_no_response_only_schema_file` |
+
+`DB.LCOM` **不**在这 3 个里：它同样没有请求体，但**连实测解包链都没有**（`read_root` 为空）
+→ 连 `response` 块都无从生成。
+
+**R5 剩余（**逐条**有数据侧依据，**不**臆造）**：
+
+| 类 | 端点 | 缺口（可复算的判据） | 恢复条件 |
+| --- | --- | --- | --- |
+| `post_table_key_without_manual_table_type` | `POST.TABLE.{WEIGHT_IRREGULARITY_X, CONCURRENT_JOINT_FORCE}` | 手册近名条目**有** `json_schema` 但 `table_types` **为空** ⇒ 没有**机械**链接 | 手册侧补 `table_types` |
+| 同上 | `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT` | 手册近名条目声明的是**别的** token（`["STORY_SHEAR_FOR_RS"]`）且**没有** `json_schema` | 同上 |
+| `uri_differs_in_manual` | `OPE.BMLD` | 手册**只有** `db/BMLD`；**本批只读实测**：`GET /OPE/BMLD` → **`405`**（只允许 `POST`）、`GET /DB/BMLD` → **`200`** ⇒ 两条路由**方法集不同**，不能视为同一操作 | 官方确认二者语义关系 |
+
+⚠️ 只读实测**不**在 CI 里复跑（需真实实例）；CI 侧固定的是**数据侧**事实
+（`test_p139_r5_remaining_gaps_are_backed_by_data_side_facts`）。

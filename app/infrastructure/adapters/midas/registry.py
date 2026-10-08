@@ -57,6 +57,11 @@ from pathlib import Path
 from typing import Any, Final
 
 from app.infrastructure.adapters.midas.errors import MidasCapabilityError, MidasConnectionError
+from app.infrastructure.adapters.midas.write_templates import (
+    WritePayloadTemplate,
+    WriteTemplateSet,
+    load_write_templates,
+)
 
 __all__ = [
     "DEPRECATED",
@@ -222,6 +227,7 @@ class MidasRegistry:
         self._root = root
         self._definitions = dict(definitions)
         self._order = tuple(order)
+        self._write_templates: WriteTemplateSet | None = None
 
     # ===== 查询 =====
 
@@ -408,6 +414,27 @@ class MidasRegistry:
                 if isinstance(element, Mapping):
                     return dict(element)
         return dict(effective)
+
+    # ===== 写路径请求体模板（P139；数据侧 `registry/live/write_templates.json`）=====
+
+    def write_templates(self) -> WriteTemplateSet:
+        """装载数据侧**写路径请求体模板**（惰性；缺文件 → 空集合）。
+
+        P138c 的真实批量实测暴露：`write_probe.derive_body()` 机械派生的零值请求体
+        被实例拒绝（9 / 10 个候选 `400`）。P139 把**真实请求体**落成数据
+        （`registry/live/write_templates.json`，由 `registry/tools/check_write_templates.py`
+        逐条复算），本方法只是它的**唯一**读取点 —— Core 里**不**硬编码任何模板。
+
+        Returns:
+            `WriteTemplateSet`（首次调用后缓存；`registry/` 是只读数据）。
+        """
+        if self._write_templates is None:
+            self._write_templates = load_write_templates(self._root)
+        return self._write_templates
+
+    def write_template(self, key: str) -> WritePayloadTemplate | None:
+        """按端点 key 取写路径请求体模板（无模板 → `None`，调用方回落 `derive_body`）。"""
+        return self.write_templates().get(str(key))
 
     def summary(self) -> dict[str, Any]:
         """装配摘要（供启动日志与验收证据；**不含** secret）。"""

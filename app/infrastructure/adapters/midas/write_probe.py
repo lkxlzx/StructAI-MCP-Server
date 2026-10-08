@@ -38,6 +38,18 @@
    计数与逐条明细进 `WriteProbeReport`，供 `midas_api_verifications` 的 L5 行落地。
 7. **失败只归类，不上抛**：单个端点的原生失败是**数据**（`docs/02` §25 的同一口径），
    由调用方决定如何处理；只有「未声明专用项目」这一**纪律**问题才抛异常。
+8. **请求体模板是数据**（P139，`docs/07` §16 R4 的分子）：`registry/live/write_templates.json`
+   声明每个写端点的**真实请求体**（来源 = 上游手册示例 + 逐条 `adjustments`，由
+   `registry/tools/check_write_templates.py` **逐条复算**）与**前置链**。本模块**只**读它：
+   有模板用模板，无模板仍走 `derive_body()`；两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`
+   （**不**猜字段、**不**发请求）。**不**放宽判定：`PASSED` 仍要求
+   「创建 → 读回 → 按路径 key 删除」三步全成立（见裁决 6）。
+9. **前置链只碰自建编号**（P139）：模板声明的 `prerequisites` 由本模块**按顺序**创建
+   （编号即目标请求体引用的编号，**全部**是本次自建），目标删除后**逆序**删除；
+   任一步失败 → 目标如实记 `FAILED`（`detail` = `prerequisite_failed:<key>#<id>:<原因>`），
+   **不**美化、**不**继续写。
+10. **状态码保真**（P139）：`status_code` 来自**响应**（`MidasHttpClient.send_result()`），
+   不再是常量 `200`；失败路径仍以异常归类（`details.status_code` 即原生状态码）。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -57,9 +69,14 @@ from app.infrastructure.adapters.midas.errors import MidasCapabilityError
 from app.infrastructure.adapters.midas.live import DedicatedTestProject
 from app.infrastructure.adapters.midas.registry import MidasRegistry, ResolvedEndpoint
 from app.infrastructure.adapters.midas.transforms import TRANSFORMER_REGISTRY
+from app.infrastructure.adapters.midas.write_templates import (
+    WritePayloadTemplate,
+    WritePrerequisite,
+)
 
 __all__ = [
     "EMPTINESS_GATE_KEYS",
+    "PAYLOAD_SOURCE_SCHEMA_DERIVED",
     "WRITE_PROBE_FAILED",
     "WRITE_PROBE_NO_PAYLOAD",
     "WRITE_PROBE_NO_READBACK",
@@ -81,13 +98,21 @@ WRITE_PROBE_NO_READBACK: Final[str] = "NO_READBACK"
 WRITE_METHODS: Final[tuple[str, ...]] = ("POST", "PUT")
 """本探针实际发出的**写入**方法（`DELETE` 只作清理，见裁决 3）。"""
 
+PAYLOAD_SOURCE_SCHEMA_DERIVED: Final[str] = "schema_derived"
+"""请求体来源：数据侧 Schema **机械派生**（`derive_body()`，见裁决 8）。
+
+⚠️ 模板来源的取值**只**来自数据侧声明（`manual_example` / `manual_example_adjusted` /
+`explicit_injection`）—— 本模块**不**自造来源标签，取不到模板即回落本值。
+"""
+
 EMPTINESS_GATE_KEYS: Final[tuple[str, ...]] = ("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT")
 """「目标项目必须为空」闸门的只读哨兵端点（见裁决 8 / P138c）。
 
 `MidasLiveWriteProbe` 在发**任何**写请求之前，先对这 4 个端点各做一次**只读** `GET`：
 只要有一个端点已有既有编号，就**拒绝**（`STRUCTAI-3000 dedicated_test_project_not_empty`）
 且**零**写请求 —— 这样「专用空项目」不再依赖**手工**核对（`docs/reports/P137…` §4 的边界）。
-传 `emptiness_keys=()` 可**显式**关闭闸门（只用于离线单测的编号选择分支）。"""
+传 `emptiness_keys=()` 可**显式**关闭闸门（只用于离线单测的编号选择分支）。
+"""
 
 _TRANSFORMER_SUFFIX: Final[str] = ".v1"
 """Transformer 名的后缀（`transforms.py` 的注册键形如 `midas.node.v1`）。"""
@@ -109,7 +134,11 @@ class WriteProbeOutcome:
         read_back: 读回是否命中。
         deleted: 是否已按路径 key 清理。
         detail: 非敏感诊断词（**只**含原因与状态码，**不含**响应体原文）。
-        status_code: 原生状态码；未发请求时为 `0`。
+        status_code: 原生状态码（来自响应，见裁决 10）；未发请求时为 `0`。
+        payload_source: 请求体来源 —— 数据侧模板的 `source.kind`
+            （`manual_example` / `manual_example_adjusted` / `explicit_injection`）
+            或 `PAYLOAD_SOURCE_SCHEMA_DERIVED`（机械派生，见裁决 8）。
+        prerequisites: 本次创建并已清理的**前置对象**标签（`<key>#<item_id>`，见裁决 9）。
     """
 
     key: str
@@ -121,6 +150,8 @@ class WriteProbeOutcome:
     deleted: bool = False
     detail: str = ""
     status_code: int = 0
+    payload_source: str = ""
+    prerequisites: tuple[str, ...] = ()
 
     @property
     def is_passed(self) -> bool:
@@ -267,6 +298,7 @@ class MidasLiveWriteProbe:
         limit: int = 0,
         only: Sequence[str] = (),
         emptiness_keys: Sequence[str] | None = None,
+        templates: Mapping[str, WritePayloadTemplate] | None = None,
     ) -> None:
         """绑定客户端 / Registry / 专用项目声明（**不**做 I/O）。
 
@@ -281,6 +313,9 @@ class MidasLiveWriteProbe:
             emptiness_keys: 空项目闸门的只读哨兵端点（见裁决 8）；`None` → 用
                 `EMPTINESS_GATE_KEYS`（**生产路径的默认**）；传 `()` → **显式**关闭闸门
                 （只用于离线单测的编号选择分支，**不**用于真实实例）。
+            templates: **显式注入**的请求体模板（`key → WritePayloadTemplate`）；
+                `None`（缺省）→ 用数据侧 `registry/live/write_templates.json`
+                （经 `MidasRegistry.write_template()` 读取，见裁决 8）。
         """
         self._client = client
         self._registry = registry
@@ -293,6 +328,9 @@ class MidasLiveWriteProbe:
             EMPTINESS_GATE_KEYS if emptiness_keys is None else emptiness_keys
         )
         self._emptiness_confirmed = False
+        self._templates: Mapping[str, WritePayloadTemplate] | None = (
+            None if templates is None else dict(templates)
+        )
 
     @property
     def project(self) -> DedicatedTestProject | None:
@@ -303,6 +341,19 @@ class MidasLiveWriteProbe:
     def product(self) -> str:
         """数据侧产品键。"""
         return self._product
+
+    def template_for(self, key: str) -> WritePayloadTemplate | None:
+        """该端点的写路径请求体模板（数据侧声明；显式注入优先，见裁决 8）。
+
+        Args:
+            key: Registry key。
+
+        Returns:
+            模板；**没有**模板时 `None` —— 调用方回落 `derive_body()`（**不**猜字段）。
+        """
+        if self._templates is not None:
+            return self._templates.get(str(key))
+        return self._registry.write_template(str(key))
 
     def candidate_keys(self) -> tuple[str, ...]:
         """可进入三步链的端点 key（见裁决 1 / 5）。
@@ -362,7 +413,7 @@ class MidasLiveWriteProbe:
         return WriteProbeReport(product=self._product, outcomes=tuple(outcomes))
 
     async def probe_key(self, key: str) -> WriteProbeOutcome:
-        """对**单个**端点执行三步链（见裁决 1–6）。
+        """对**单个**端点执行三步链（见裁决 1–6 / 8 / 9）。
 
         Args:
             key: `registry/` 的端点 key。
@@ -387,8 +438,14 @@ class MidasLiveWriteProbe:
                 detail="no_transformer_for_endpoint",
             )
         write = self._registry.resolve(key=key, product=self._product, method=write_method)
-        schema = self._registry.effective_schema(key)
-        body = derive_body(schema)
+        # 裁决 8（P139）：**优先**用数据侧模板；无模板仍走 `derive_body()`（**不**猜字段）。
+        template = self.template_for(key)
+        if template is None:
+            body = derive_body(self._registry.effective_schema(key))
+            payload_source = PAYLOAD_SOURCE_SCHEMA_DERIVED
+        else:
+            body = template.body
+            payload_source = template.source or PAYLOAD_SOURCE_SCHEMA_DERIVED
         if body is None:
             return WriteProbeOutcome(
                 key=key,
@@ -400,11 +457,31 @@ class MidasLiveWriteProbe:
         transformer = factory(self._registry)
         created_id = ""
         cleaned = False
+        # ⚠️ 目标**是否真的发过创建请求**：前置失败时 `created_id` 已算好但**没有**创建，
+        # 此时**不得**发目标清理请求（否则前置失败路径也带上一条多余写请求）。
+        target_sent = False
+        created: list[WritePrerequisite] = []
         try:
             existing = await self._existing_ids(read)
             created_id = str(
                 max((int(item) for item in existing if str(item).isdigit()), default=0) + 1
             )
+            # 裁决 9（P139）：**先**建模板声明的前置对象（编号即目标请求体引用的编号）
+            for prerequisite in () if template is None else template.prerequisites:
+                try:
+                    await self._create_prerequisite(prerequisite)
+                except Exception as error:  # noqa: BLE001 - 前置失败 → 目标如实 FAILED
+                    return WriteProbeOutcome(
+                        key=key,
+                        method=write_method,
+                        path=write.uri,
+                        outcome=WRITE_PROBE_FAILED,
+                        detail=(f"prerequisite_failed:{prerequisite.label()}:{_reason_of(error)}"),
+                        status_code=_status_of(error),
+                        payload_source=payload_source,
+                        prerequisites=tuple(item.label() for item in created),
+                    )
+                created.append(prerequisite)
             create_request = self._client.build_request(
                 write,
                 operation=f"LIVE.WRITE.{key}",
@@ -414,6 +491,7 @@ class MidasLiveWriteProbe:
                 allow_unverified=True,
             )
             status = await self._send(create_request)
+            target_sent = True
             read_back = created_id in await self._existing_ids(read)
             # ⚠️ 删除必须用 **DELETE** 方法的解析结果（`docs/07` §6.4 的路径 key）
             delete_request = self._client.build_request(
@@ -433,6 +511,8 @@ class MidasLiveWriteProbe:
                 deleted=True,
                 detail="create_read_delete_confirmed" if read_back else "read_back_missing",
                 status_code=status,
+                payload_source=payload_source,
+                prerequisites=tuple(item.label() for item in created),
             )
         except Exception as error:  # noqa: BLE001 - 见裁决 7：归类而不上抛
             return WriteProbeOutcome(
@@ -445,11 +525,43 @@ class MidasLiveWriteProbe:
                 deleted=False,
                 detail=_reason_of(error),
                 status_code=_status_of(error),
+                payload_source=payload_source,
+                prerequisites=tuple(item.label() for item in created),
             )
         finally:
-            # 兜底：**只**删除本次自己创建的 ID（见裁决 3）
-            if created_id and not cleaned:
+            # 兜底（见裁决 3 / 9）：先删**自己创建的**目标编号，再**逆序**删前置对象
+            if created_id and target_sent and not cleaned:
                 await self._best_effort_delete(key, created_id)
+            for prerequisite in reversed(created):
+                await self._best_effort_delete(prerequisite.key, prerequisite.item_id)
+
+    async def _create_prerequisite(self, prerequisite: WritePrerequisite) -> None:
+        """创建一个**前置对象**（见裁决 9；失败即上抛，由 `probe_key` 归类）。
+
+        Raises:
+            MidasCapabilityError: `STRUCTAI-3000` —— 前置端点的 Transformer 未注册
+                （数据缺陷**不**静默跳过）。
+        """
+        factory = TRANSFORMER_REGISTRY.get(transformer_name_for(prerequisite.key))
+        if factory is None:
+            raise MidasCapabilityError(
+                "prerequisite_transformer_not_registered", endpoint=prerequisite.key
+            )
+        write = self._registry.resolve(
+            key=prerequisite.key,
+            product=self._product,
+            method=self._write_method(prerequisite.key),
+        )
+        transformer = factory(self._registry)
+        request = self._client.build_request(
+            write,
+            operation=f"LIVE.WRITE.PREREQ.{prerequisite.key}",
+            body=prerequisite.body,
+            wrapper=transformer.wrapper_key(),
+            item_id=prerequisite.item_id,
+            allow_unverified=True,
+        )
+        await self._send(request)
 
     async def assert_project_empty(self) -> None:
         """发**写请求前**的只读闸门：专用测试项目必须为空（见裁决 8 / P138c）。
@@ -523,9 +635,14 @@ class MidasLiveWriteProbe:
         return ()
 
     async def _send(self, request: Any) -> int:
-        """发出一条已构造的请求，返回状态码（响应体**不**落任何字段）。"""
-        await self._client.send(request)
-        return 200
+        """发出一条已构造的请求，返回**原生**状态码（响应体**不**落任何字段）。
+
+        P139（见裁决 10）：状态码来自**响应**（`MidasHttpClient.send_result()`），
+        不再是常量 `200` —— `2xx` 的原生状态码原样回传；`4xx` / `5xx` 由客户端归一化后
+        抛出，`_status_of()` 从异常 `details.status_code` 取**同一**事实。
+        """
+        result = await self._client.send_result(request)
+        return int(result.status_code)
 
     async def _best_effort_delete(self, key: str, item_id: str) -> None:
         """兜底删除**自己创建的**编号（失败只忽略，不影响原始结论）。"""

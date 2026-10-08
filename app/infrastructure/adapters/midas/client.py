@@ -73,6 +73,7 @@ __all__ = [
     "CredentialProviderLike",
     "MidasHttpClient",
     "ProbeResponse",
+    "SendResult",
     "guard_destructive",
     "guard_enabled",
     "guard_shape",
@@ -141,6 +142,23 @@ class ProbeResponse:
     payload: dict[str, Any]
     body_bytes: int
     json_ok: bool
+
+
+@dataclass(frozen=True, slots=True)
+class SendResult:
+    """一次已构造请求的**保真**结果（P139：状态码来自响应，不是常量）。
+
+    `send()` 只回载荷，调用方拿不到原生状态码 —— P135 的写路径探针因此把
+    `status_code` 写成了常量 `200`（`400` 只在 `detail` 里体现）。本类型把
+    「原生状态码 + 解析后的载荷」一起回传，让 L5 证据里的状态码**逐条可断言**。
+
+    ⚠️ 仍然**不**把响应体原文落库 / 进日志（`docs/07` §14.3）：载荷只用于统计
+    顶层键与信封形态；`4xx` / `5xx` 依旧由 `_raise_for_status()` 归一化后抛出
+    （错误路径的 `status_code` 落在异常 `details` 里）。
+    """
+
+    status_code: int
+    payload: dict[str, Any]
 
 
 # ===== 护栏（纯函数；`docs/07` §7.3 / §7.6；见裁决 3）=====
@@ -366,6 +384,17 @@ class MidasHttpClient:
 
     async def send(self, request: BuiltRequest) -> dict[str, Any]:
         """发出已构造的请求并解析 JSON（错误一律归一化）。"""
+        return (await self.send_result(request)).payload
+
+    async def send_result(self, request: BuiltRequest) -> SendResult:
+        """发出已构造的请求，**如实**回报原生状态码 + 解析后的载荷（P139）。
+
+        Returns:
+            `SendResult`；`2xx` 的原生状态码**原样**回传（不再假定 `200`）。
+
+        Raises:
+            MidasAPIError 及其子类：`4xx` / `5xx`（`details.status_code` 即原生状态码）。
+        """
         response = await self._request(
             request.method,
             request.uri,
@@ -373,7 +402,10 @@ class MidasHttpClient:
             budget_seconds=request.budget_seconds,
             endpoint=request.endpoint,
         )
-        return _json_body(response, endpoint=request.endpoint)
+        return SendResult(
+            status_code=int(response.status_code),
+            payload=_json_body(response, endpoint=request.endpoint),
+        )
 
     async def get(self, path: str, *, budget_seconds: float | None = None) -> dict[str, Any]:
         """`GET {path}`（`docs/04` §6）。"""

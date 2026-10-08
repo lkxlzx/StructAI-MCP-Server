@@ -71,6 +71,7 @@ from app.infrastructure.adapters.midas.live import (
 from app.infrastructure.adapters.midas.registry import MidasRegistry
 from app.infrastructure.adapters.midas.write_probe import (
     EMPTINESS_GATE_KEYS,
+    PAYLOAD_SOURCE_SCHEMA_DERIVED,
     WRITE_PROBE_FAILED,
     WRITE_PROBE_NO_PAYLOAD,
     WRITE_PROBE_NO_READBACK,
@@ -754,6 +755,23 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
     assert coverage.total == len(write_path_keys(registry))
     assert coverage.covered == len(report.passed())
     assert coverage.ratio.startswith(f"{coverage.covered} / ")
+    # P139（本轮）：模板 + 前置链之后，**全量**候选必须**逐条** `PASSED`
+    # （`docs/07` §16 R4 / R14 的分子；P138c 时只有 `DB.NODE` 一条）。用 `limit` 试跑时不做该断言。
+    if not os.environ.get("MIDAS_LIVE_WRITE_LIMIT"):
+        assert report.counts() == {
+            WRITE_PROBE_PASSED: len(report.keys()),
+            WRITE_PROBE_FAILED: 0,
+            WRITE_PROBE_NO_PAYLOAD: 0,
+            WRITE_PROBE_NO_READBACK: 0,
+        }, [(outcome.key, outcome.outcome, outcome.detail) for outcome in report.outcomes]
+        assert coverage.covered == len(report.keys())
+        assert set(coverage.covered_keys) == set(report.keys())
+        # 每条都走的是**数据侧模板**（`DB.NODE` 例外：机械派生的 body 实测已被接受）
+        for outcome in report.outcomes:
+            if outcome.key == "DB.NODE":
+                assert outcome.payload_source == PAYLOAD_SOURCE_SCHEMA_DERIVED
+            else:
+                assert outcome.payload_source in {"manual_example", "manual_example_adjusted"}
 
 
 def test_p138c_candidates_are_the_probeable_set_only() -> None:

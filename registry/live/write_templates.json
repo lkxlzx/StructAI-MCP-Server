@@ -1,0 +1,761 @@
+{
+  "version": 1,
+  "note": [
+    "P139：写路径 L5 的请求体模板（docs/07 §16 R4 / R14 的**分子**）。",
+    "来源可追溯：每一条 body 都由 registry/tools/check_write_templates.py 从**上游手册**",
+    "(MIDAS_API_Online_Manual_数据_v1.0.json 的 endpoints[].examples[].json) 逐条**复算**——",
+    "body 必须等于「手册示例的某个 Assign 编号下的条目」再施加本文件声明的 adjustments。",
+    "因此本文件**不是**手工誊抄：任何取值漂移都会被 --check 逐条报出。",
+    "前置链（prerequisites）只用于「目标请求体引用的对象必须先存在」：探针按顺序创建、",
+    "读回、**逆序**删除，且**只**碰自建的编号（编号即请求体里引用的编号）。",
+    "纪律：只碰自建 ID；DELETE 必带路径 key；只在专用空项目上执行；绝不调用云实例。"
+  ],
+  "measured_on": {
+    "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
+    "measured_at": "P139 实测（每条 body 均在专用空项目上 POST 成功）",
+    "manual": "MIDAS_API_Online_Manual_数据_v1.0.json"
+  },
+  "templates": {
+    "DB.BMLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/BMLD",
+        "example": "Beam Loads",
+        "example_id": "115",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35952826746521-Beam-Loads",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "L",
+            "GROUP_NAME": "",
+            "CMD": "BEAM",
+            "TYPE": "UNILOAD",
+            "DIRECTION": "GZ",
+            "USE_PROJECTION": false,
+            "USE_ECCEN": false,
+            "D": [0, 1, 0, 0],
+            "P": [-50, -50, 0, 0]
+          }
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "L",
+              "why": "目标请求体按 LCNAME 引用荷载工况；示例名 DL 在本项目不存在，故用自建的 L"
+            },
+            {
+              "path": "TYPE",
+              "from": "D",
+              "to": "L",
+              "why": "荷载工况名与类型一致（L = Live Load，见手册 Load Type 枚举表）"
+            }
+          ],
+          "body": {"NAME": "L", "TYPE": "L", "DESC": "DeadLoads"}
+        },
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/MATL",
+            "example": "Standard",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993-Material-Properties",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "TYPE": "STEEL",
+            "NAME": "DB_Steel",
+            "HE_SPEC": 0,
+            "HE_COND": 0,
+            "PLMT": 0,
+            "P_NAME": "",
+            "bMASS_DENS": false,
+            "DAMP_RAT": 0.02,
+            "PARAM": [
+              {
+                "P_TYPE": 1,
+                "STANDARD": "EN05(S)",
+                "CODE": "",
+                "DB": "S450",
+                "bELAST": false,
+                "ELAST": 210000000
+              }
+            ]
+          }
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/SECT",
+            "example": "Offset : Left-Top",
+            "example_id": "6001",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35808653964185-Section-Properties-Common",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "SECTTYPE": "DBUSER",
+            "SECT_NAME": "LT_Const",
+            "SECT_BEFORE": {
+              "OFFSET_PT": "LT",
+              "HORZ_OFFSET_OPT": 0,
+              "VERT_OFFSET_OPT": 0,
+              "USE_SHEAR_DEFORM": false,
+              "USE_WARPING_EFFECT": false,
+              "SHAPE": "SB",
+              "DATATYPE": 2,
+              "SECT_I": {"vSIZE": [1, 1]}
+            }
+          }
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
+            },
+            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 0, "Z": 0}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "2",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
+            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 1, "Y": 0, "Z": 0}
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/ELEM",
+            "example": "Beam Type",
+            "example_id": "198",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806934300825-Element",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NODE",
+              "from": [30, 74],
+              "to": [1, 2],
+              "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
+            }
+          ],
+          "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0}
+        }
+      ]
+    },
+    "DB.BODF": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/BODF",
+        "example": "Self-Weight",
+        "example_id": "2",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35952708909337-Self-Weight",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"LCNAME": "D", "GROUP_NAME": "", "FV": [0, 0, -1]},
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "D",
+              "why": "目标请求体按 LCNAME = D 引用荷载工况（示例自身即用 D）"
+            }
+          ],
+          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+        }
+      ]
+    },
+    "DB.CNLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/CNLD",
+        "example": "Nodal Loads",
+        "example_id": "8",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35952812160281-Nodal-Loads",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "D",
+            "GROUP_NAME": "",
+            "FX": 10,
+            "FY": 20,
+            "FZ": 30,
+            "MX": -40,
+            "MY": -50,
+            "MZ": -60
+          }
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "D",
+              "why": "目标请求体按 LCNAME = D 引用荷载工况（示例自身即用 D）"
+            }
+          ],
+          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -1, "to": 0, "why": "坐标取 0：条目按 ID = 1 引用该节点"},
+            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 0, "Z": 0}
+        }
+      ]
+    },
+    "DB.CONS": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example_adjusted",
+        "uri": "db/CONS",
+        "example": "Define Supports",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35944759597337-Constraint-Support",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [
+        {
+          "path": "ITEMS[0].GROUP_NAME",
+          "from": "Service",
+          "to": "",
+          "why": "示例用了本项目不存在的边界组名 Service → 实例 400 Unknown Error（P139 实测）；空串 = 不分组 → 200"
+        }
+      ],
+      "body": {"ITEMS": [{"ID": 1, "GROUP_NAME": "", "CONSTRAINT": "1111000"}]},
+      "prerequisites": [
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -1, "to": 0, "why": "坐标取 0：条目按 ID = 1 引用该节点"},
+            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 0, "Z": 0}
+        }
+      ]
+    },
+    "DB.ELEM": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example_adjusted",
+        "uri": "db/ELEM",
+        "example": "Beam Type",
+        "example_id": "198",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35806934300825-Element",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [
+        {
+          "path": "NODE",
+          "from": [30, 74],
+          "to": [1, 2],
+          "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
+        }
+      ],
+      "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0},
+      "prerequisites": [
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/MATL",
+            "example": "Standard",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993-Material-Properties",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "TYPE": "STEEL",
+            "NAME": "DB_Steel",
+            "HE_SPEC": 0,
+            "HE_COND": 0,
+            "PLMT": 0,
+            "P_NAME": "",
+            "bMASS_DENS": false,
+            "DAMP_RAT": 0.02,
+            "PARAM": [
+              {
+                "P_TYPE": 1,
+                "STANDARD": "EN05(S)",
+                "CODE": "",
+                "DB": "S450",
+                "bELAST": false,
+                "ELAST": 210000000
+              }
+            ]
+          }
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/SECT",
+            "example": "Offset : Left-Top",
+            "example_id": "6001",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35808653964185-Section-Properties-Common",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "SECTTYPE": "DBUSER",
+            "SECT_NAME": "LT_Const",
+            "SECT_BEFORE": {
+              "OFFSET_PT": "LT",
+              "HORZ_OFFSET_OPT": 0,
+              "VERT_OFFSET_OPT": 0,
+              "USE_SHEAR_DEFORM": false,
+              "USE_WARPING_EFFECT": false,
+              "SHAPE": "SB",
+              "DATATYPE": 2,
+              "SECT_I": {"vSIZE": [1, 1]}
+            }
+          }
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
+            },
+            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 0, "Z": 0}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "2",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
+            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 1, "Y": 0, "Z": 0}
+        }
+      ]
+    },
+    "DB.MATL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/MATL",
+        "example": "Standard",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993-Material-Properties",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "TYPE": "STEEL",
+        "NAME": "DB_Steel",
+        "HE_SPEC": 0,
+        "HE_COND": 0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.02,
+        "PARAM": [
+          {
+            "P_TYPE": 1,
+            "STANDARD": "EN05(S)",
+            "CODE": "",
+            "DB": "S450",
+            "bELAST": false,
+            "ELAST": 210000000
+          }
+        ]
+      },
+      "prerequisites": []
+    },
+    "DB.PRES": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example_adjusted",
+        "uri": "db/PRES",
+        "example": "Plate/Plane Stress(Face) : Uniform",
+        "example_id": "116",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35953322434457-Assign-Pressure-Loads",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [
+        {
+          "path": "ITEMS[0].LCNAME",
+          "from": "Element_Type1",
+          "to": "D",
+          "why": "荷载工况名必须指向**自建**的工况；示例名在本项目不存在"
+        }
+      ],
+      "body": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "D",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [-10, 0, 0, 0, 0]
+          }
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "D",
+              "why": "目标请求体按 LCNAME = D 引用荷载工况"
+            }
+          ],
+          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+        },
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/MATL",
+            "example": "Standard",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993-Material-Properties",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "TYPE": "STEEL",
+            "NAME": "DB_Steel",
+            "HE_SPEC": 0,
+            "HE_COND": 0,
+            "PLMT": 0,
+            "P_NAME": "",
+            "bMASS_DENS": false,
+            "DAMP_RAT": 0.02,
+            "PARAM": [
+              {
+                "P_TYPE": 1,
+                "STANDARD": "EN05(S)",
+                "CODE": "",
+                "DB": "S450",
+                "bELAST": false,
+                "ELAST": 210000000
+              }
+            ]
+          }
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/SECT",
+            "example": "Offset : Left-Top",
+            "example_id": "6001",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35808653964185-Section-Properties-Common",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "SECTTYPE": "DBUSER",
+            "SECT_NAME": "LT_Const",
+            "SECT_BEFORE": {
+              "OFFSET_PT": "LT",
+              "HORZ_OFFSET_OPT": 0,
+              "VERT_OFFSET_OPT": 0,
+              "USE_SHEAR_DEFORM": false,
+              "USE_WARPING_EFFECT": false,
+              "SHAPE": "SB",
+              "DATATYPE": 2,
+              "SECT_I": {"vSIZE": [1, 1]}
+            }
+          }
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "四节点矩形板：(0,0) (1,0) (1,1) (0,1) —— 几何必须非退化"
+            },
+            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 0, "Z": 0}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "2",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -2, "to": 1, "why": "同上"},
+            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
+            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 1, "Y": 0, "Z": 0}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "3",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "3",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -3, "to": 1, "why": "同上"},
+            {"path": "Y", "from": -3, "to": 1, "why": "同上"},
+            {"path": "Z", "from": -3, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 1, "Y": 1, "Z": 0}
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "4",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169-Node",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {"path": "X", "from": -1, "to": 0, "why": "同上"},
+            {"path": "Y", "from": -1, "to": 1, "why": "同上"},
+            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+          ],
+          "body": {"X": 0, "Y": 1, "Z": 0}
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/ELEM",
+            "example": "4 Nodes Thin Plate",
+            "example_id": "31",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806934300825-Element",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NODE",
+              "from": [57, 70, 71, 58],
+              "to": [1, 2, 3, 4],
+              "why": "只引用**自建**节点；且模型**只含板单元**（P139 实测：有梁单元时压力荷载 400 单元类型不符）"
+            }
+          ],
+          "body": {
+            "TYPE": "PLATE",
+            "MATL": 1,
+            "SECT": 1,
+            "NODE": [1, 2, 3, 4],
+            "ANGLE": 0,
+            "STYPE": 2
+          }
+        }
+      ]
+    },
+    "DB.SECT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SECT",
+        "example": "Offset : Left-Top",
+        "example_id": "6001",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35808653964185-Section-Properties-Common",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "SECTTYPE": "DBUSER",
+        "SECT_NAME": "LT_Const",
+        "SECT_BEFORE": {
+          "OFFSET_PT": "LT",
+          "HORZ_OFFSET_OPT": 0,
+          "VERT_OFFSET_OPT": 0,
+          "USE_SHEAR_DEFORM": false,
+          "USE_WARPING_EFFECT": false,
+          "SHAPE": "SB",
+          "DATATYPE": 2,
+          "SECT_I": {"vSIZE": [1, 1]}
+        }
+      },
+      "prerequisites": []
+    },
+    "DB.STLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/STLD",
+        "example": "Static Load Cases",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "DL", "TYPE": "D", "DESC": "DeadLoads"},
+      "prerequisites": []
+    }
+  }
+}
