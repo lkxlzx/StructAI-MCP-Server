@@ -7,10 +7,9 @@ tool_map:
 wrapper:
   write: Argument
 schema_ref:
-  local: null
+  local: schema/products/gen_nx/ope/STOR.json
   introspect: null
-  source: unavailable
-  unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
+  source: help_center_spec_table
 parser: generic
 products: [GEN_NX]
 availability: untested

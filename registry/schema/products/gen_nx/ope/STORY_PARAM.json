@@ -1,0 +1,40 @@
+{
+  "key": "OPE.STORY_PARAM",
+  "uri": "OPE/STORY_PARAM",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Story Check Parameter ↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "COUNTRY_CODE": {
+            "description": "Set Country Code\n\n • \"NTC2012\"\n\n • \"NTC2008\"\n\n • \"KBC2009\"\n\n • \"NTC2012\"\n\n • \"NSR-10\"\n\n • \"NTC2018\"\n\n • \"NTCS2020\"\n\n • \"IS1893(2016)\"\n\n • \"IS16700(2023)\"",
+            "type": "string"
+          }
+        },
+        "required": [
+          "COUNTRY_CODE"
+        ]
+      }
+    }
+  },
+  "response": {
+    "direction": "response",
+    "source": "l4_measured_envelope",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "STORY_PARAM"
+      ],
+      "properties": {
+        "STORY_PARAM": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

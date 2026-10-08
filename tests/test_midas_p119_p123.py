@@ -246,9 +246,10 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
         await session.commit()
     await engine.dispose()
     # P137a 起两个方向各占一行；P138a 起请求方向 **616**（原 `DB.MBTP` 的坏串已从上游重建）；
-    # P140 的 R5 补齐再 +4（手册 json_schema ×2 / 规格表 ×1 / 开发文档 ×1）
-    # → 请求 **620** + 响应 **239** = **859**（逐条更新，**不**放宽）
-    assert report.totals["midas_api_schemas"] == 620 + 239
+    # P140 的 R5 补齐再 +4（手册 json_schema ×2 / 规格表 ×1 / 开发文档 ×1）；
+    # P141 再 +5（手册**同 URI** 条目的规格表）→ 请求 **625**；其中 2 个同时获得 response 块
+    # → 响应 **239 + 2 = 241**；合计 **864**（逐条更新，**不**放宽）
+    assert report.totals["midas_api_schemas"] == 625 + 241
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 
@@ -287,11 +288,11 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
     assert response_row.id != row.id
 
 
-def test_p120_every_schema_file_loads_after_the_p138a_and_p140_fixes() -> None:
-    """`docs/07` §16 R19 / R5 收口：620 个文件**全部**可装载（P140 起；原 616 + R5 补齐 4 个）。"""
+def test_p120_every_schema_file_loads_after_the_p138a_p140_p141_fixes() -> None:
+    """`docs/07` §16 R19 / R5 收口：625 个文件**全部**可装载（P141 起：616 + 4 + 5）。"""
     registry = support.registry()
     keys = [key for key in registry.keys() if registry.schema_json(key) is not None]
-    assert len(keys) == 620
+    assert len(keys) == 625
     # P138a：坏串已按上游手册重建为**对象**（不再 `None`）
     assert registry.schema_json("DB.MBTP") == {
         "TABLE": {

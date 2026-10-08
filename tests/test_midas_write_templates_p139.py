@@ -78,8 +78,8 @@ CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
 """`registry/schema/**`（R5 裁决 B：**不**为无请求体端点新增文件）。"""
-EXPECTED_SCHEMA_FILES = 620
-"""Schema 文件数（R5 裁决 B 下**不变**）。"""
+EXPECTED_SCHEMA_FILES = 625
+"""Schema 文件数（P141 起 **625**；R5 裁决 B 本身仍**不**为无请求体端点新增文件）。"""
 
 TEMPLATE_KEYS = (
     "DB.BMLD",
@@ -395,11 +395,14 @@ async def test_p139_a_declared_template_is_sent_and_its_chain_runs_in_order() ->
     outcome = report.outcomes[0]
     assert outcome.outcome == WRITE_PROBE_PASSED, outcome
     assert outcome.payload_source == "explicit_injection"
-    assert outcome.prerequisites == ("DB.STLD#7",)
+    # ⚠️ P141 / R96：模板里的 `item_id = "7"` 只是**来源定位**；探针把编号**重新分配**成
+    # 「该端点既有编号的 max + 1」（此处 `DB.STLD` 为空 → 1），因此标签是 #1 而不是 #7。
+    assert outcome.prerequisites == ("DB.STLD#1",)
     assert outcome.status_code == 200
     assert outcome.created_id == "1"
     assert outcome.read_back is True and outcome.deleted is True
-    # 顺序：只读闸门（4 个哨兵）→ 目标 list → **前置创建** → 目标创建 → 读回 → 目标删除 → 前置删除
+    # 顺序：只读闸门（4 个哨兵）→ 目标 list → **前置端点既有编号**（R96 的 max+1 依据）
+    # → **前置创建** → 目标创建 → 读回 → 目标删除 → 前置删除
     assert transport.paths() == [
         "/DB/NODE",
         "/DB/ELEM",
@@ -407,10 +410,11 @@ async def test_p139_a_declared_template_is_sent_and_its_chain_runs_in_order() ->
         "/DB/SECT",
         "/DB/NODE",
         "/DB/STLD",
+        "/DB/STLD",
         "/DB/NODE",
         "/DB/NODE",
         "/DB/NODE/1",
-        "/DB/STLD/7",
+        "/DB/STLD/1",
     ]
     posted = [
         body for method, path, body in transport.calls if method == "POST" and path == "/DB/NODE"
@@ -436,7 +440,7 @@ async def test_p139_a_failing_prerequisite_marks_the_target_failed_with_zero_tar
     report = await _probe(transport, templates={"DB.NODE": template}).probe()
     outcome = report.outcomes[0]
     assert outcome.outcome == WRITE_PROBE_FAILED, outcome
-    assert outcome.detail == "prerequisite_failed:DB.STLD#7:software_api_error"
+    assert outcome.detail == "prerequisite_failed:DB.STLD#1:software_api_error"
     assert outcome.status_code == 400
     assert outcome.created_id == "" and outcome.read_back is False and outcome.deleted is False
     assert [path for _method, path, _body in transport.write_calls()] == ["/DB/STLD"]

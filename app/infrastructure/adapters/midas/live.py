@@ -85,6 +85,7 @@ __all__ = [
     "PROBE_PARTIAL",
     "PROBE_PASSED",
     "PROBE_SKIPPED",
+    "RESULT_QUERY_NAMESPACE",
     "SEVEN_AND_ITEMS",
     "STATUS_PARTIAL",
     "STATUS_VERIFIED",
@@ -101,9 +102,11 @@ __all__ = [
     "has_request_body",
     "not_applicable_items",
     "live_opt_in_from_env",
+    "model_write_keys",
     "read_verifications",
     "record_verifications",
     "registry_evidence",
+    "result_query_keys",
     "seven_and_verdict",
     "write_only_keys",
     "write_path_coverage",
@@ -174,7 +177,7 @@ def not_applicable_items(registry: MidasRegistry, key: str) -> tuple[str, ...]:
     本函数把该裁决变成**可执行判定**：不适用 ⇒ 该项视为满足（`registry_evidence` 里为真），
     同时**如实**报出「是哪一项、为什么」。
 
-    ⚠️ 只对**无请求体**的端点生效：带 `POST` 的端点（如 `OPE.STORY_PARAM`）仍如实判假。
+    ⚠️ 只对**无请求体**的端点生效：带 `POST` 的端点（如 `OPE.STORYPROP`）仍如实判假。
 
     Args:
         registry: 已装载的 `registry/`。
@@ -490,6 +493,22 @@ async def read_verifications(
 WRITE_PATH_METHODS: Final[tuple[str, ...]] = ("POST", "PUT", "DELETE", "PATCH")
 """数据侧「**写路径**」方法集 —— R4 / R14 覆盖率的**分母**口径（唯一）。"""
 
+RESULT_QUERY_NAMESPACE: Final[str] = "POST"
+"""**结果表 / 文本导出**命名空间（`/POST/TABLE` · `/POST/TEXT` · `/POST/PM` ·
+`/POST/STEELCODECHECK`）。
+
+这些端点是**查询**：请求体用 `Argument.TABLE_TYPE`（或表名）**取表**，响应就是表本身；
+它们**不创建 / 不修改 / 不删除**任何模型对象 → `docs/07` §16 R4 / R14 的 L5 三步链
+（创建 → 读回 → 按路径 key 删除）**结构上不适用**（没有「自建 ID」可读回 / 可删）。
+
+⚠️ **裁决（P141）：不挪分母。** `write_path_keys()` 仍是 R4 / R14 的**分母**（**609**）；
+本常量只把分母**显式划分**成「**模型写端点**」与「**结果表 / 文本查询端点**」两个子桶，
+并**同时**报两个覆盖率（`WriteCoverage.ratio` = 原口径；`WriteCoverage.model_write_ratio` =
+子桶口径）—— 既**不**放宽判定，也**不**用子桶掩盖任何未覆盖的模型写端点。
+
+**恢复 / 变更条件**：若将来要改用子桶作为 R4 / R14 的正式分母，必须是一次**显式裁决**
+（写明判据与影响面），**不**得由本函数自动改变 `write_path_keys()` 的口径。"""
+
 
 def write_path_keys(registry: MidasRegistry) -> tuple[str, ...]:
     """数据侧**写路径端点**（`methods` 含 `WRITE_PATH_METHODS` 之一），按 key 升序。
@@ -528,20 +547,50 @@ def write_only_keys(registry: MidasRegistry) -> tuple[str, ...]:
     return tuple(sorted(keys))
 
 
+def result_query_keys(registry: MidasRegistry) -> tuple[str, ...]:
+    """分母里的**结果表 / 文本查询**端点（`namespace == RESULT_QUERY_NAMESPACE`；见该常量）。
+
+    Returns:
+        按 key 升序；`write_path_keys()` 的**子集**（判据只看数据侧的 `namespace`）。
+    """
+    namespace = f"{RESULT_QUERY_NAMESPACE}."
+    return tuple(key for key in write_path_keys(registry) if key.startswith(namespace))
+
+
+def model_write_keys(registry: MidasRegistry) -> tuple[str, ...]:
+    """分母里的**模型写**端点 = `write_path_keys()` − `result_query_keys()`（见上方常量）。"""
+    excluded = set(result_query_keys(registry))
+    return tuple(key for key in write_path_keys(registry) if key not in excluded)
+
+
 @dataclass(frozen=True, slots=True)
 class WriteCoverage:
-    """写路径覆盖的**唯一**口径（R4 / R14 共用；P138c 裁决）。"""
+    """写路径覆盖的**唯一**口径（R4 / R14 共用；P138c 裁决，P141 加**子桶**）。
+
+    `total` / `ratio` 仍是 R4 / R14 的**正式**口径（`write_path_keys()`，**609**）；
+    `model_write` / `model_write_ratio` 是**同一分母**下的子桶（见 `RESULT_QUERY_NAMESPACE`），
+    只用于说明「结果表 / 文本查询端点」在 L5 三步链下**结构上不适用**的那一部分，
+    **不**替代正式口径、**不**放宽任何判定。
+    """
 
     covered: int
     total: int
     write_only: int = 0
     covered_keys: tuple[str, ...] = ()
     total_keys: tuple[str, ...] = ()
+    result_query: int = 0
+    model_write: int = 0
+    model_write_covered: int = 0
 
     @property
     def ratio(self) -> str:
         """`<分子> / <分母>`（报告与文档**只**引用它，避免两处口径不一致）。"""
         return f"{self.covered} / {self.total}"
+
+    @property
+    def model_write_ratio(self) -> str:
+        """**子桶**口径：`<模型写分子> / <模型写分母>`（见 `RESULT_QUERY_NAMESPACE` 的裁决）。"""
+        return f"{self.model_write_covered} / {self.model_write}"
 
     def as_dict(self) -> dict[str, Any]:
         """诊断映射（**不含**凭据 / 响应体）。"""
@@ -550,6 +599,10 @@ class WriteCoverage:
             "total": self.total,
             "write_only": self.write_only,
             "ratio": self.ratio,
+            "result_query": self.result_query,
+            "model_write": self.model_write,
+            "model_write_covered": self.model_write_covered,
+            "model_write_ratio": self.model_write_ratio,
             "covered_keys": list(self.covered_keys),
         }
 
@@ -587,12 +640,18 @@ def write_path_coverage(
         if key in allowed:
             passed.add(key)
     covered = tuple(sorted(passed))
+    model_keys = model_write_keys(registry)
+    model_allowed = set(model_keys)
+    model_covered = tuple(key for key in covered if key in model_allowed)
     return WriteCoverage(
         covered=len(covered),
         total=len(write_keys),
         write_only=len(write_only_keys(registry)),
         covered_keys=covered,
         total_keys=write_keys,
+        result_query=len(result_query_keys(registry)),
+        model_write=len(model_keys),
+        model_write_covered=len(model_covered),
     )
 
 

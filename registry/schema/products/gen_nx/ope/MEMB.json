@@ -1,0 +1,41 @@
+{
+  "key": "OPE.MEMB",
+  "uri": "OPE/MEMB",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Member Assignment ↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "ASSIGN_TYPE": {
+            "description": "Assign Type\n\n • \"MANUAL\"\n\n • \"AUTO\"",
+            "type": "string"
+          },
+          "SELECTION_TYPE": {
+            "description": "Selection Type\n\n • \"ALL\"\n\n • \"SELECTION\"",
+            "type": "string"
+          },
+          "ELEM_LIST": {
+            "description": "Element List",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "ALLOW_SINGLE": {
+            "description": "Allow Single Element Member",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ASSIGN_TYPE",
+          "SELECTION_TYPE",
+          "ALLOW_SINGLE"
+        ]
+      }
+    }
+  }
+}

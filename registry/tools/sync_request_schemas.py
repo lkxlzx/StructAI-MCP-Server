@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-R5 剩余补齐：为「上游资料**已有**请求 Schema / 规格表」的端点生成请求 Schema 文件（P140）。
+R5 剩余补齐：为「上游资料**已有**请求 Schema / 规格表」的端点生成请求 Schema 文件（P140 · P141）。
 
 背景（`docs/07` §16 **R5** / §16.1）
 ----------------------------------
 `registry/schema/**` 里有 **20** 个端点没有请求 Schema（P138b 按**实测**分成 5 类）。
-其中 **4** 个的来源其实**可复算** —— 上游资料里已经有请求 Schema 或完整规格表，
-只是数据侧还没落盘。本工具把这 4 个**机械生成**出来（**不**手抄、**不**臆造）：
+其中 **9** 个的来源其实**可复算** —— 上游资料里已经有请求 Schema / 完整规格表 /
+开发文档 JSON Schema，只是数据侧还没落盘。本工具把这 9 个**机械生成**出来
+（**不**手抄、**不**臆造）。四类来源（括号里是落盘的 `source` 取值）：
 
-| 来源 | 判据（工具**逐条断言**） | 端点 |
+| 类 | 判据（工具**逐条断言**） | 端点 |
 | --- | --- | --- |
-| `manual_json_schema` | 手册 `endpoints[].json_schema` 里 `TABLE_TYPE.enum` **包含**该端点 token | `POST.TABLE.WEIGHT_IRREGULARITY_X` · `POST.TABLE.CONCURRENT_JOINT_FORCE` |
-| `manual_spec_table` | 手册条目**没有** `json_schema`，但有**完整规格表**（`specifications`） | `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT` |
-| `dev_doc_json_schema` | `MIDAS_API_开发文档_v1.0.md` 的端点章节里**已给出**完整 JSON Schema | `OPE.BMLD` |
+| `manual_json_schema`（`help_center`） | 手册 `endpoints[].json_schema` 里 `TABLE_TYPE.enum` **包含**该端点 token | `POST.TABLE.WEIGHT_IRREGULARITY_X` · `POST.TABLE.CONCURRENT_JOINT_FORCE` |
+| `manual_spec_table`（`help_center_spec_table`） | 手册条目**没有** `json_schema`，但有**完整规格表**（`specifications`） | `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT` |
+| `dev_doc_json_schema`（`civil_nx_manual`） | `MIDAS_API_开发文档_v1.0.md` 的端点章节里**已给出**完整 JSON Schema | `OPE.BMLD` |
+| `manual_spec_table` · **同 URI**（`help_center_spec_table`） | **P141**：手册条目与端点**同一 `input_uri`**（`uri:` 定位串，工具会断言两者一致）或按 `title:` 定位，且有完整规格表 | `OPE.MEMB` · `OPE.STOR` · `OPE.STORPROP` · `OPE.STORY_IRR_PARAM` · `OPE.STORY_PARAM` |
 
 规格表 → JSON Schema 的**机械规则**（全部取自表格本身，无人工取值）
 -----------------------------------------------------------------
@@ -31,6 +33,11 @@ R5 剩余补齐：为「上游资料**已有**请求 Schema / 规格表」的端
 
 幂等：默认**预演**（只打印差异），`--write` 写回；`--check` 断言「已落盘 == 机械结果」。
 只依赖标准库（数据侧工具不引入新依赖）。
+
+⚠️ **只拥有 `key` / `uri` / `source` / `schema` 四个键**：同一批文件里由
+`sync_response_schemas.py` 追加的 `response` 块（L4 实测信封，`docs/07` §16 R87 / R90）
+在装配时**原样透传**（`with_preserved_response()`）—— 两个工具写同一批文件，
+不透明传就会互相抹掉对方的内容。
 """
 
 from __future__ import annotations
@@ -66,7 +73,38 @@ SPEC_TABLE_SOURCES: tuple[tuple[str, str, str, str], ...] = (
         "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT",
         "schema/products/gen_nx/post/TABLE/STORY_SHEAR_FORCE_COEFFICIENT.json",
         "help_center_spec_table",
-        "Story Shear Force Coefficient",
+        "title:Story Shear Force Coefficient",
+    ),
+    # P141：`manual_has_no_json_schema` 的 5 条（手册**同 URI** 条目只有规格表）
+    (
+        "OPE.MEMB",
+        "schema/products/gen_nx/ope/MEMB.json",
+        "help_center_spec_table",
+        "uri:ope/MEMB",
+    ),
+    (
+        "OPE.STOR",
+        "schema/products/gen_nx/ope/STOR.json",
+        "help_center_spec_table",
+        "uri:ope/STOR",
+    ),
+    (
+        "OPE.STORPROP",
+        "schema/products/gen_nx/ope/STORPROP.json",
+        "help_center_spec_table",
+        "uri:ope/STORPROP",
+    ),
+    (
+        "OPE.STORY_IRR_PARAM",
+        "schema/products/gen_nx/ope/STORY_IRR_PARAM.json",
+        "help_center_spec_table",
+        "uri:ope/STORY_IRR_PARAM",
+    ),
+    (
+        "OPE.STORY_PARAM",
+        "schema/products/gen_nx/ope/STORY_PARAM.json",
+        "help_center_spec_table",
+        "uri:ope/STORY_PARAM",
     ),
 )
 
@@ -139,16 +177,40 @@ def entry_by_table_type(entries: list[dict[str, Any]], token: str) -> dict[str, 
     return matches[0]
 
 
-def entry_by_title(entries: list[dict[str, Any]], fragment: str) -> dict[str, Any]:
-    """按标题片段定位条目（**恰好一条**且**没有** `json_schema`，否则报错）。"""
-    matches = [
-        entry for entry in entries if fragment.lower() in str(entry.get("title") or "").lower()
-    ]
+def entry_by_locator(
+    entries: list[dict[str, Any]], locator: str, *, endpoint_uri: str
+) -> dict[str, Any]:
+    """按**声明的定位串**定位手册条目（**恰好一条**且**没有** `json_schema`，否则报错）。
+
+    定位串两种（**不**猜）：
+
+    - `uri:<input_uri>`：手册条目的 `input_uri` **逐字等于**它 —— 并**断言**该 URI 就是
+      端点在数据侧的 URI（这正是 R5 的 `manual_has_no_json_schema` 类判据：**手册有同一个 URI**
+      的条目，只是没有 `json_schema`）；
+    - `title:<片段>`：手册条目的标题含该片段（如手册把两张表合并在同一条目里时用）。
+    """
+    kind, _, value = locator.partition(":")
+    if kind == "uri":
+        wanted = value.strip().lower()
+        if wanted != endpoint_uri.strip().lower():
+            raise SystemExit(f"❌ 定位串 {locator!r} 与端点 URI {endpoint_uri!r} 不一致")
+        matches = [
+            entry for entry in entries if str(entry.get("input_uri") or "").lower() == wanted
+        ]
+    elif kind == "title":
+        fragment = value.strip().lower()
+        matches = [
+            entry
+            for entry in entries
+            if fragment in str(entry.get("title") or "").lower()
+        ]
+    else:
+        raise SystemExit(f"❌ 未知的定位串种类：{locator!r}")
     if len(matches) != 1:
-        raise SystemExit(f"❌ 标题含 {fragment!r} 的手册条目数 = {len(matches)}，期望 1")
+        raise SystemExit(f"❌ 定位串 {locator!r} 命中的手册条目数 = {len(matches)}，期望 1")
     entry = matches[0]
     if entry.get("json_schema"):
-        raise SystemExit(f"❌ {fragment!r} 的条目**有** json_schema → 应改走 manual_json_schema")
+        raise SystemExit(f"❌ {locator!r} 的条目**有** json_schema → 应改走 manual_json_schema")
     return entry
 
 
@@ -290,8 +352,10 @@ def build_documents(repo: pathlib.Path) -> list[tuple[str, dict[str, Any], str]]
             )
         )
 
-    for key, relative, source, fragment in SPEC_TABLE_SOURCES:
-        entry = entry_by_title(entries, fragment)
+    for key, relative, source, fragment in SPEC_TABLE_SOURCES:  # `fragment` = 定位串（见 entry_by_locator）
+        entry = entry_by_locator(
+            entries, fragment, endpoint_uri=str(manifest[key]["uri"]).lstrip("/")
+        )
         schema = spec_table_schema(
             entry,
             token=str(manifest[key]["table_type"]),
@@ -328,6 +392,30 @@ def build_documents(repo: pathlib.Path) -> list[tuple[str, dict[str, Any], str]]
     return documents
 
 
+def with_preserved_response(path: pathlib.Path, document: dict[str, Any]) -> dict[str, Any]:
+    """把**别人拥有**的 `response` 块透传进本次装配结果（本工具**不**生成也不改写它）。
+
+    本工具只拥有 `key` / `uri` / `source` / `schema` **四个**键；`response` 由
+    `sync_response_schemas.py` 依 **L4 实测信封**追加（`docs/07` §16 R87 / R90）。
+    两个工具写**同一批文件**，因此装配时必须透传 —— 否则 `--write` / `--check`
+    会把另一个工具刚写的块**抹掉**。
+
+    P141 实测：这 5 个端点补完请求 Schema 后，`OPE.STORY_IRR_PARAM` 与
+    `OPE.STORY_PARAM` **立刻**满足 `sync_response_schemas.py` 的全部条件
+    （`availability == verified` + 有 `GET` + 有可读 Schema 文件 + 声明了解包链）
+    → 同一次收口里两个工具都会碰这两个文件。
+    """
+    if not path.is_file():
+        return document
+    try:
+        current = json.loads(path.read_text(encoding="utf-8"))
+    except ValueError:
+        return document
+    if isinstance(current, dict) and "response" in current:
+        return {**document, "response": current["response"]}
+    return document
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="R5 剩余补齐：生成请求 Schema 文件")
     parser.add_argument("--repo", default=".")
@@ -343,6 +431,7 @@ def main(argv: list[str] | None = None) -> int:
     missing: list[str] = []
     for relative, document, origin in documents:
         path = registry / relative
+        document = with_preserved_response(path, document)
         text = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
         current = path.read_text(encoding="utf-8") if path.is_file() else None
         if current == text:
@@ -360,7 +449,7 @@ def main(argv: list[str] | None = None) -> int:
         if changed:
             print("❌ --check：已落盘内容与机械结果不一致（或文件缺失）")
             return 1
-        print("✅ --check：4 个文件与机械结果一致")
+        print(f"✅ --check：{len(documents)} 个文件与机械结果一致")
         return 0
     if args.write:
         print("WROTE registry/schema/**" if changed else "无差异，未写入。")

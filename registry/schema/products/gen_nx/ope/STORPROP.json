@@ -1,0 +1,34 @@
+{
+  "key": "OPE.STORPROP",
+  "uri": "OPE/STORPROP",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Story Properties ↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "FORCE_UNIT": {
+            "description": "Force Unit of Response Unit Setting\n\n • \"N\", \"KN\", \"KGF\", \"TONF\", \"LBF\", \"KIPS\"",
+            "type": "string"
+          },
+          "LENGTH_UNIT": {
+            "description": "Length Unit of Response Unit Setting\n\n • \"M\", \"CM\", \"MM\", \"FT\", \"IN\"",
+            "type": "string"
+          },
+          "FORMAT": {
+            "description": "Response Number Format\n\n • \"Fixed\", \"Scientific\"",
+            "type": "string"
+          },
+          "PLACE": {
+            "description": "Digit Place of Response Number Format\n\n • 0 to 15",
+            "type": "string"
+          }
+        },
+        "required": []
+      }
+    }
+  }
+}

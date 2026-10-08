@@ -8,7 +8,12 @@
     "因此本文件**不是**手工誊抄：任何取值漂移都会被 --check 逐条报出。",
     "前置链（prerequisites）只用于「目标请求体引用的对象必须先存在」：探针按顺序创建、",
     "读回、**逆序**删除，且**只**碰自建的编号（编号即请求体里引用的编号）。",
-    "纪律：只碰自建 ID；DELETE 必带路径 key；只在专用空项目上执行；绝不调用云实例。"
+    "纪律：只碰自建 ID；DELETE 必带路径 key；只在专用空项目上执行；绝不调用云实例。",
+    "非空项目（R96）：prerequisites[].references 声明「该前置编号出现在**哪些 body 的哪些路径**」",
+    "（in = owner 表示目标自身 body，或同一模板里另一个前置的 <key>#<id>）；模板的 self_references",
+    "声明目标自身编号在 body 里的位置；target_id_source = <key>#<id> 表示**目标自身**的编号取该前置",
+    "分配到的编号（如 DB.CONS 的 Assign 键就是它那个节点号）—— 反向依赖，不与既有编号冲突。",
+    "声明目标自身编号在 body 里的位置。探针据此把编号一律改成 max+1 后再发请求（默认仍要求空项目）。"
   ],
   "measured_on": {
     "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
@@ -27,6 +32,7 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
+      "self_references": [["ITEMS", 0, "ID"]],
       "body": {
         "ITEMS": [
           {
@@ -74,6 +80,7 @@
         {
           "key": "DB.MATL",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -107,6 +114,7 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -134,6 +142,7 @@
         {
           "key": "DB.NODE",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -157,6 +166,7 @@
         {
           "key": "DB.NODE",
           "item_id": "2",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -242,6 +252,8 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
+      "self_references": [["ITEMS", 0, "ID"]],
+      "target_id_source": "DB.NODE#1",
       "body": {
         "ITEMS": [
           {
@@ -317,6 +329,8 @@
           "why": "示例用了本项目不存在的边界组名 Service → 实例 400 Unknown Error（P139 实测）；空串 = 不分组 → 200"
         }
       ],
+      "self_references": [["ITEMS", 0, "ID"]],
+      "target_id_source": "DB.NODE#1",
       "body": {"ITEMS": [{"ID": 1, "GROUP_NAME": "", "CONSTRAINT": "1111000"}]},
       "prerequisites": [
         {
@@ -362,6 +376,7 @@
         {
           "key": "DB.MATL",
           "item_id": "1",
+          "references": [{"in": "owner", "path": ["MATL"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -395,6 +410,7 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
+          "references": [{"in": "owner", "path": ["SECT"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -422,6 +438,7 @@
         {
           "key": "DB.NODE",
           "item_id": "1",
+          "references": [{"in": "owner", "path": ["NODE", 0]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -445,6 +462,7 @@
         {
           "key": "DB.NODE",
           "item_id": "2",
+          "references": [{"in": "owner", "path": ["NODE", 1]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -513,6 +531,7 @@
           "why": "荷载工况名必须指向**自建**的工况；示例名在本项目不存在"
         }
       ],
+      "self_references": [["ITEMS", 0, "ID"]],
       "body": {
         "ITEMS": [
           {
@@ -552,6 +571,7 @@
         {
           "key": "DB.MATL",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -585,6 +605,7 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -612,6 +633,7 @@
         {
           "key": "DB.NODE",
           "item_id": "1",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -635,6 +657,7 @@
         {
           "key": "DB.NODE",
           "item_id": "2",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -653,6 +676,7 @@
         {
           "key": "DB.NODE",
           "item_id": "3",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 2]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -671,6 +695,7 @@
         {
           "key": "DB.NODE",
           "item_id": "4",
+          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 3]}],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",

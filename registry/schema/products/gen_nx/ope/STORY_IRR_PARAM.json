@@ -1,0 +1,50 @@
+{
+  "key": "OPE.STORY_IRR_PARAM",
+  "uri": "OPE/STORY_IRR_PARAM",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Story Irregularity Check Parameter ↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "COUNTRY_CODE": {
+            "description": "Set Country Code\n\n • \"NTC2018\"\n\n • \"NTC2012\"\n\n • \"NTC2008\"\n\n • \"KBC2009\"\n\n • \"NSR-10\"\n\n • \"NTCS2020\"\n\n • \"NTCS2023\"\n\n • \"NSCP2015\"\n\n • \"IS1893(2016)\"\n\n • \"IS16700(2023)\"",
+            "type": "string"
+          },
+          "STORY_DRIFT_METHOD": {
+            "description": "Story Drift Method\n\n • \"Drift at the Center of Mass\"\n\n • \"Max. Drift of Outer Extreme Points\"\n\n • \"Max. Drift of All Vertical Elements\"",
+            "type": "string"
+          },
+          "SEISMIC_BEHAVIOR_FACTOR": {
+            "description": "Seismic Behavior Factor\n\n • \"4\"\n\n • \"3 or below\"",
+            "type": "string"
+          }
+        },
+        "required": [
+          "COUNTRY_CODE",
+          "STORY_DRIFT_METHOD",
+          "SEISMIC_BEHAVIOR_FACTOR"
+        ]
+      }
+    }
+  },
+  "response": {
+    "direction": "response",
+    "source": "l4_measured_envelope",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "STORY_IRR_PARAM"
+      ],
+      "properties": {
+        "STORY_IRR_PARAM": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

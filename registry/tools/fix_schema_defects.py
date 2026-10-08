@@ -55,15 +55,14 @@ PLACEHOLDER_KEYWORDS = ("enum", "oneOf", "anyOf", "allOf")
 DEFAULT_MANUAL = "MIDAS_API_Online_Manual_数据_v1.0.json"
 DEFAULT_DOC = "MIDAS_API_开发文档_v1.0.md"
 
-EXPECTED_SCHEMA_FILES = 620
+EXPECTED_SCHEMA_FILES = 625
 """`registry/schema/**` 的文件数（**不变量**）。
 
-P138a（R19 收口）时为 **616**；**P140** 的 R5 补齐**新增 4** 个请求 Schema 文件
-（`POST.TABLE.{WEIGHT_IRREGULARITY_X, CONCURRENT_JOINT_FORCE, STORY_SHEAR_FORCE_COEFFICIENT}` 与
-`OPE.BMLD`），由 `registry/tools/sync_request_schemas.py` 从上游手册 / 开发文档**机械生成**
-（`--check` 断言「已落盘 == 机械结果」）→ **616 + 4 = 620**。
+P138a（R19 收口）时为 **616**；**P140** 的 R5 补齐新增 **4** 个、**P141** 再新增 **5** 个
+（`OPE.MEMB` / `OPE.STOR` / `OPE.STORPROP` / `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM`），
+全部由 `registry/tools/sync_request_schemas.py` 从上游手册 / 开发文档**机械生成**
+（`--check` 断言「已落盘 == 机械结果」）→ **616 + 4 + 5 = 625**。
 """
-
 
 # ===== 1. 尾部闭合符修复（只补缺失的闭合符，绝不猜内容）=====
 

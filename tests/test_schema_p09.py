@@ -7,9 +7,9 @@
    **不**返回 `False` / 静默通过；
 ② `SchemaRegistry`（`docs/02` §14 / §15 / §22）：id 口径 `structai://schema/<…>/v1`；
    未注册 id → `NotFoundError`（P08 已落地，不得回退，**不**自造 `STRUCTAI-xxxx` 码）；
-③ Schema 装载：`registry/schema/` 的 **620** 个 Schema 与 P07 固化的
-   `input_schema` / `output_schema` URI 对齐，并说明无法对齐的部分（16 个端点无 Schema，R5）；
-④ JSON Schema 版本裁决（`docs/07` §16 R18）：442 draft-07 / 178 未声明 / 0 个非法（P140 起）；
+③ Schema 装载：`registry/schema/` 的 **625** 个 Schema 与 P07 固化的
+   `input_schema` / `output_schema` URI 对齐，并说明无法对齐的部分（11 个端点无 Schema，R5）；
+④ JSON Schema 版本裁决（`docs/07` §16 R18）：447 draft-07 / 178 未声明 / 0 个非法（P141 起）；
 ⑤ 分层与边界（`docs/07` §14.1 / §2.2）：`SchemaEngine` 只做「Schema → 参数」校验，
    `EngineeringValidator` 本批**不**实现；容器形状仍为 `docs/02` §33 的冻结形状；
 ⑥ 回归：`python -m app.main` 退出码 0（stdout 0 字节；未配备库与已配备库两种情形）、
@@ -129,14 +129,14 @@ FROZEN_DEPENDENCIES = (
 )
 """`docs/07` §3.1 / §3.2 冻结的运行期依赖（本批不得引入新依赖）。"""
 
-EXPECTED_SCHEMA_FILES = 620
+EXPECTED_SCHEMA_FILES = 625
 """`registry/README.md` §3：数据侧 Schema 文件数。"""
 
-EXPECTED_REGISTERED = 620
-"""数据侧 Schema 数（P140 起 **620** —— P138a 收口 R19 + P140 补 4 个请求 Schema）。"""
+EXPECTED_REGISTERED = 625
+"""数据侧 Schema 数（P141 起 **625** —— P138a 收口 R19 + P140 补 4 个 + P141 补 5 个）。"""
 
-EXPECTED_DRAFT7 = 442
-"""数据侧声明 `draft-07` 的 Schema 数（P140 起 **442**：P138a 收口后 441 + 规格表派生的 1 个）。"""
+EXPECTED_DRAFT7 = 447
+"""数据侧声明 `draft-07` 的 Schema 数（P141 起 **447**：P140 的 442 + P141 规格表派生的 5 个）。"""
 
 EXPECTED_UNDECLARED = 178
 """数据侧**未**声明 `$schema` 的 Schema 数（本批实测；R18 的另一半）。"""
@@ -150,22 +150,19 @@ ENDPOINTS_WITHOUT_SCHEMA = frozenset(
         "OPE.CPEXPORT",
         "OPE.CPUPDATEMODEL",
         "OPE.CPUPDATERESULT",
-        "OPE.MEMB",
         "OPE.PROJECTSTATUS",
         "OPE.SECTPROP",
-        "OPE.STOR",
-        "OPE.STORPROP",
         "OPE.STORYPROP",
-        "OPE.STORY_IRR_PARAM",
-        "OPE.STORY_PARAM",
         "VIEW.SELECT",
     }
 )
-"""`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P140 起 **16** 个）。
+"""`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P141 起 **11** 个）。
 
 P140 补齐的 **4** 个（`OPE.BMLD` · `POST.TABLE.{WEIGHT_IRREGULARITY_X, CONCURRENT_JOINT_FORCE,
-STORY_SHEAR_FORCE_COEFFICIENT}`）由 `registry/tools/sync_request_schemas.py` 从上游手册 / 开发文档
-**机械生成**（`--check` 断言「已落盘 == 机械结果」）。
+STORY_SHEAR_FORCE_COEFFICIENT}`）与 P141 补齐的 **5** 个（`OPE.{MEMB, STOR, STORPROP,
+STORY_IRR_PARAM, STORY_PARAM}` —— 手册**同 URI** 条目只有规格表、没有 `json_schema`）
+均由 `registry/tools/sync_request_schemas.py` 从上游手册 / 开发文档**机械生成**
+（`--check` 断言「已落盘 == 机械结果」）。
 """
 
 UNRESOLVABLE_FILES: tuple[str, ...] = ()
@@ -485,7 +482,7 @@ def test_load_rejects_a_malformed_schema_file(tmp_path: Path) -> None:
 
 
 def test_load_covers_every_data_side_schema_file(schema_registry: SchemaRegistry) -> None:
-    """门槛 ③：620 个文件 → **620 个登记**、**0 个**无法还原（P138a + P140 后逐项可复算）。"""
+    """门槛 ③：625 个文件 → **625 个登记**、**0 个**无法还原（P138a + P140 + P141 后可复算）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
 
@@ -525,11 +522,11 @@ def test_loaded_ids_correspond_one_to_one_with_the_manifest(
     assert set(schema_registry.registered_ids()) == expected_ids
 
 
-def test_sixteen_endpoints_still_have_no_schema_on_the_data_side() -> None:
-    """门槛 ③（`docs/07` §16 R5）：**16** 个端点仍无 Schema（P140 起）。"""
+def test_eleven_endpoints_still_have_no_schema_on_the_data_side() -> None:
+    """门槛 ③（`docs/07` §16 R5）：**11** 个端点仍无 Schema（P141 起）。"""
     manifest = json.loads((REGISTRY_ROOT / "manifest.json").read_text(encoding="utf-8"))
     without = [item for item in manifest["endpoints"] if not item.get("schema")]
-    assert len(without) == len(ENDPOINTS_WITHOUT_SCHEMA) == 16
+    assert len(without) == len(ENDPOINTS_WITHOUT_SCHEMA) == 11
     assert {item["key"] for item in without} == ENDPOINTS_WITHOUT_SCHEMA
 
 
@@ -597,7 +594,7 @@ def test_envelope_root_keys_are_stripped_and_multi_root_documents_kept(
 
 
 def test_dialect_distribution_matches_the_measured_data(schema_registry: SchemaRegistry) -> None:
-    """门槛 ④：442 个 draft-07 + 178 个未声明（+ 0 个无法装载；P140 起）。"""
+    """门槛 ④：447 个 draft-07 + 178 个未声明（+ 0 个无法装载；P141 起）。"""
     report = schema_registry.report()
     assert report is not None
     assert dict(report.dialects) == {
@@ -674,7 +671,7 @@ def test_check_schema_finds_no_defective_schema_after_the_p138a_fix(
     schema_registry: SchemaRegistry,
     schema_engine: SchemaEngine,
 ) -> None:
-    """门槛 ④（R19 / P140）：**620** 个已登记 Schema **全部**是其方言下的合法 JSON Schema。
+    """门槛 ④（R19 / P140 / P141）：**625** 个已登记 Schema **全部**是其方言下的合法 JSON Schema。
 
     P138a 之前恰好 4 个不合规（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 +
     `OPE.EDMP` 的 `type: "Number"`）；修复固化在 `registry/tools/fix_schema_defects.py`
@@ -691,7 +688,7 @@ def test_check_schema_finds_no_defective_schema_after_the_p138a_fix(
 
     assert failures == {}
     assert set(failures) == DEFECTIVE_SCHEMA_IDS == frozenset()
-    assert len(schema_registry) == EXPECTED_REGISTERED == 620
+    assert len(schema_registry) == EXPECTED_REGISTERED == 625
 
 
 # ===== ③/⑥ P07 固化的 URI 口径（落库侧）=====

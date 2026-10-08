@@ -1,0 +1,57 @@
+{
+  "key": "OPE.STOR",
+  "uri": "OPE/STOR",
+  "source": "help_center_spec_table",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Story Calculation ↗",
+    "type": "object",
+    "properties": {
+      "Argument": {
+        "type": "object",
+        "properties": {
+          "SEIS_ECC": {
+            "description": "Seismic Accidental Eccentricity",
+            "type": "object",
+            "properties": {
+              "INC_SEIS_ECC": {
+                "description": "Include Seismic Accidental Eccentricity",
+                "type": "boolean"
+              },
+              "SEIS_ECC_VALUE": {
+                "description": "Value of Seismic Accidental Eccentricity(%)",
+                "type": "number"
+              }
+            },
+            "required": [
+              "INC_SEIS_ECC",
+              "SEIS_ECC_VALUE"
+            ]
+          },
+          "WIND_ECC": {
+            "description": "Wind Eccentricity",
+            "type": "object",
+            "properties": {
+              "INC_WIND_ECC": {
+                "description": "Include Wind Eccentricity",
+                "type": "boolean"
+              },
+              "WIND_ECC_VALUE": {
+                "description": "Value of Wind Eccentricity(%)",
+                "type": "number"
+              }
+            },
+            "required": [
+              "INC_WIND_ECC",
+              "WIND_ECC_VALUE"
+            ]
+          }
+        },
+        "required": [
+          "SEIS_ECC",
+          "WIND_ECC"
+        ]
+      }
+    }
+  }
+}

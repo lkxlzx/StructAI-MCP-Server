@@ -63,13 +63,13 @@ DEV_DOC_PATH = REPO_ROOT / "MIDAS_API_开发文档_v1.0.md"
 """开发文档（`/OPE/BMLD` 章节里有**完整** JSON Schema，来源《midas Civil NX - API 用户手册》）。"""
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
-"""`registry/schema/**`（本批 **616 → 620**）。"""
+"""`registry/schema/**`（P140 起 **616 → 620**；P141 再 → **625**）。"""
 
-EXPECTED_SCHEMA_FILES = 620
-"""本批之后的数据侧 Schema 文件数。"""
+EXPECTED_SCHEMA_FILES = 625
+"""本批之后的数据侧 Schema 文件数（P141 起 **625**）。"""
 
-EXPECTED_WITHOUT_SCHEMA = 16
-"""本批之后仍无 Schema 的端点数（P138b 的 20 − 本批补齐的 4）。"""
+EXPECTED_WITHOUT_SCHEMA = 11
+"""本批之后仍无 Schema 的端点数（P138b 的 20 − P140 的 4 − P141 的 5）。"""
 
 CLOSED_KEYS = (
     "OPE.BMLD",
@@ -146,13 +146,22 @@ def _dev_doc_json_schema() -> dict[str, Any]:
 
 
 def test_p140_the_four_files_match_the_mechanical_result() -> None:
-    """门槛：4 个文件**逐字节**等于生成器的机械结果；`--check` 退出码 0。"""
+    """门槛：P140 的 4 个文件**逐字节**等于生成器的机械结果；`--check` 退出码 0。
+
+    P141 起生成器覆盖 **9** 个端点（P140 的 4 个 + P141 的 5 个）—— 本用例只断言
+    P140 的 **4** 个，P141 的 5 个由 `test_midas_request_schemas_p141.py` 断言
+    （各批自证，**不**互相代替）。文件内容按工具的**装配口径**比较
+    （`with_preserved_response()` 会透传由 `sync_response_schemas.py` 追加的 `response` 块）。
+    """
     module = _tool()
     documents = module.build_documents(REPO_ROOT)
-    assert len(documents) == len(CLOSED_KEYS)
-    for relative, document, _origin in documents:
-        text = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
-        assert (REPO_ROOT / "registry" / relative).read_text(encoding="utf-8") == text, relative
+    selected = [item for item in documents if item[1]["key"] in CLOSED_KEYS]
+    assert len(selected) == len(CLOSED_KEYS)
+    for relative, document, _origin in selected:
+        path = REPO_ROOT / "registry" / relative
+        merged = module.with_preserved_response(path, document)
+        text = json.dumps(merged, ensure_ascii=False, indent=2) + "\n"
+        assert path.read_text(encoding="utf-8") == text, relative
     assert module.main(["--repo", str(REPO_ROOT), "--check"]) == 0
 
 
@@ -240,8 +249,8 @@ def test_p140_ope_bmld_is_not_the_same_operation_as_db_bmld() -> None:
 # ===== 2. 计数与判定（离线）=====
 
 
-def test_p140_the_closure_adds_exactly_four_files_and_leaves_sixteen_without() -> None:
-    """门槛：`registry/schema/**` = **620**；仍无 Schema 的端点 = **16**（原 20 − 4）。"""
+def test_p140_the_closure_adds_exactly_four_files_and_leaves_eleven_without() -> None:
+    """门槛：`registry/schema/**` = **625**；仍无 Schema 的端点 = **11**（20 − 4 − 5，P141 起）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
     registry = _registry()

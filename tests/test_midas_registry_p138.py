@@ -94,8 +94,8 @@ DOC_PATH = REPO_ROOT / "MIDAS_API_开发文档_v1.0.md"
 FIX_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "fix_schema_defects.py"
 """R19 收口的**唯一**实现落点（生成链归一工具）。"""
 
-EXPECTED_SCHEMA_FILES = 620
-"""`registry/schema/**` 文件数（P138a **未**新增 / 未删除文件）。"""
+EXPECTED_SCHEMA_FILES = 625
+"""`registry/schema/**` 文件数（P141 起 **625**：P138a 未增减，P140 +4，P141 +5）。"""
 
 PLACEHOLDER_FILES = (
     "design/src/AIK-SRC2K/BC-TABLE.json",
@@ -122,17 +122,12 @@ R5_ENDPOINTS = (
     "OPE.CPEXPORT",
     "OPE.CPUPDATEMODEL",
     "OPE.CPUPDATERESULT",
-    "OPE.MEMB",
     "OPE.PROJECTSTATUS",
     "OPE.SECTPROP",
-    "OPE.STOR",
-    "OPE.STORPROP",
     "OPE.STORYPROP",
-    "OPE.STORY_IRR_PARAM",
-    "OPE.STORY_PARAM",
     "VIEW.SELECT",
 )
-"""`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P140 起 **16** 个）。"""
+"""`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P141 起 **11** 个）。"""
 
 WRITE_PATH_TOTAL = 609
 """写路径端点（`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）= R4 / R14 的**分母**。"""
@@ -261,7 +256,7 @@ def _probe(
 
 
 def test_p138a_schema_registry_loads_all_616_and_check_schema_is_clean() -> None:
-    """门槛：616 个文件 → **616** 个登记、**0** 个无法还原、`check_schema` **0** 失败。"""
+    """门槛：625 个文件 → **625** 个登记、**0** 个无法还原、`check_schema` **0** 失败。"""
     from app.infrastructure.registry.schema_registry import SchemaRegistry
 
     registry = SchemaRegistry.load(REPO_ROOT / "registry")
@@ -408,11 +403,12 @@ def _r5_class(key: str, manual_uris: dict[str, list[str]], code_uris: dict[str, 
     return "absent_from_nx_manual"
 
 
-def test_p138b_the_sixteen_missing_schemas_are_classified_by_measurement() -> None:
-    """R5：**16** 个仍无 Schema 的端点 → **3** 类，逐类条数**实测**（**不**沿用猜测分组）。
+def test_p138b_the_eleven_missing_schemas_are_classified_by_measurement() -> None:
+    """R5：**11** 个仍无 Schema 的端点 → **3** 类，逐类条数**实测**（**不**沿用猜测分组）。
 
-    P138b 时是 20 个 / 5 类；**P140** 把其中 **4** 个补齐（见 `sync_request_schemas.py`）
-    → `uri_differs_in_manual` 与 `post_table_key_without_manual_table_type` **清零**。
+    P138b 时是 20 个 / 5 类；**P140** 把其中 **4** 个补齐、**P141** 再补齐 **5** 个
+    （见 `registry/tools/sync_request_schemas.py`）→ `uri_differs_in_manual` ·
+    `post_table_key_without_manual_table_type` · `manual_has_no_json_schema` **全部清零**。
     """
     manual_uris: dict[str, list[str]] = {}
     code_uris: dict[str, list[str]] = {}
@@ -434,12 +430,12 @@ def test_p138b_the_sixteen_missing_schemas_are_classified_by_measurement() -> No
         classes[_r5_class(key, manual_uris, code_uris)].append(key)
     assert {name: len(keys) for name, keys in classes.items()} == {
         "no_request_body": 4,
-        "manual_has_no_json_schema": 5,
+        "manual_has_no_json_schema": 0,
         "uri_differs_in_manual": 0,
         "post_table_key_without_manual_table_type": 0,
         "absent_from_nx_manual": 7,
     }
-    assert sum(len(keys) for keys in classes.values()) == 16
+    assert sum(len(keys) for keys in classes.values()) == 11
     # 与提示词里的猜测分组**不同**的两处，如实固定为实测结果：
     # ① `OPE.MEMB` / `OPE.STOR` / `OPE.STORPROP` / `OPE.STORY_*_PARAM` 的手册条目**就是同一 URI**，
     #    只是手册没有 `json_schema`（只有参数表）—— 不是「URI 不同」；
@@ -448,13 +444,9 @@ def test_p138b_the_sixteen_missing_schemas_are_classified_by_measurement() -> No
     #    `POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT`（同族手册条目的规格表）→ 后两类**清零**。
     assert classes["uri_differs_in_manual"] == []
     assert classes["post_table_key_without_manual_table_type"] == []
-    assert classes["manual_has_no_json_schema"] == [
-        "OPE.MEMB",
-        "OPE.STOR",
-        "OPE.STORPROP",
-        "OPE.STORY_IRR_PARAM",
-        "OPE.STORY_PARAM",
-    ]
+    assert classes["uri_differs_in_manual"] == []
+    assert classes["post_table_key_without_manual_table_type"] == []
+    assert classes["manual_has_no_json_schema"] == []
     assert classes["no_request_body"] == [
         "DB.LCOM",
         "OPE.PROJECTSTATUS",
@@ -473,7 +465,7 @@ def test_p138b_the_sixteen_missing_schemas_are_classified_by_measurement() -> No
 
 
 def test_p138b_no_schema_was_invented_for_the_r5_endpoints() -> None:
-    """R5 收口**不**臆造：Schema 文件 = **620** 个，仍无 Schema 的 **16** 个端点逐条可查。"""
+    """R5 收口**不**臆造：Schema 文件 = **625** 个，仍无 Schema 的 **11** 个端点逐条可查。"""
     assert len(sorted(SCHEMA_ROOT.rglob("*.json"))) == EXPECTED_SCHEMA_FILES
     manifest = {entry["key"]: entry for entry in _manifest_entries()}
     assert [key for key in R5_ENDPOINTS if manifest[key].get("schema")] == []
@@ -497,7 +489,9 @@ def test_p138b_request_schema_is_not_applicable_without_a_request_body() -> None
         assert evidence["request_schema_confirmed"] is True, key
         assert evidence["response_schema_confirmed"] is False, key
     # 带请求体的端点（手册**没有**给 Schema）仍**如实**判假 —— 裁决只覆盖无请求体端点
-    for key in ("OPE.STORY_PARAM", "OPE.STORY_IRR_PARAM", "OPE.MEMB", "OPE.STOR"):
+    # 带请求体、但**仍**没有请求 Schema 的端点仍**如实**判假 —— 裁决只覆盖无请求体端点
+    # （P141 补齐 5 个后，这 5 个的该项转为**真**，见下一段）
+    for key in ("OPE.STORYPROP", "OPE.CPCREATE", "OPE.CPEXPORT"):
         assert has_request_body(registry, key) is True, key
         assert not_applicable_items(registry, key) == (), key
         evidence = registry_evidence(
@@ -509,6 +503,18 @@ def test_p138b_request_schema_is_not_applicable_without_a_request_body() -> None
             live_outcome=PROBE_PASSED,
         )
         assert evidence["request_schema_confirmed"] is False, key
+    # P141 补齐的 **5** 个：有请求体 **且**已有 Schema 文件 → 该项**如实**为真
+    for key in ("OPE.MEMB", "OPE.STOR", "OPE.STORPROP", "OPE.STORY_IRR_PARAM", "OPE.STORY_PARAM"):
+        assert has_request_body(registry, key) is True, key
+        evidence = registry_evidence(
+            registry,
+            key=key,
+            product=registry.endpoint(key).products[0],
+            version="2026",
+            supported_versions=support.SUPPORTED_VERSIONS_SPEC,
+            live_outcome=PROBE_PASSED,
+        )
+        assert evidence["request_schema_confirmed"] is True, key
 
 
 def test_p138b_the_na_adjudication_never_promotes_a_verification_status() -> None:

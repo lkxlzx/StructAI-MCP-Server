@@ -21,6 +21,17 @@ P139 为这 9 个端点补了**真实请求体模板**。模板**不得**是「�
 3. **前置链可执行**：`prerequisites[].key` 必须是已登记、已启用、含 `POST` 且有
    Schema 文件的端点；`item_id` 必须是正整数（探针**只**碰自建的编号）。
 
+4. **目标编号来源可判**（P141 / R96 的反向依赖）：模板的 `target_id_source` 必须为空串或
+   本模板里某个前置的 `<key>#<item_id>` 标签；被指向的前置**不得**又用 `id_source = "target"`
+   （否则是循环依赖）。`DB.CONS` / `DB.CNLD` 的 `Assign` 键就是它那个节点号 —— 目标编号
+   **取前置**编号，因此非空项目上也不会与既有编号冲突。
+
+5. **编号声明可判**（P141 / R96）：`prerequisites[].id_source` 必须是 `allocated` / `target`；
+   `prerequisites[].references[].in` 必须是 `owner` 或本模板里另一个前置的 `<key>#<id>`，
+   且其 `path` 必须**存在**、当前取值必须**恰好**等于该前置声明的 `item_id`；模板的
+   `self_references` 各路径必须存在且取值为正整数编号。**不**做「body 里每个像编号的整数
+   都必须被声明」这类判定（同一个整数可能同时是材质号 / 截面号 / 枚举值，无从机械区分）。
+
 用法（仓库根目录执行）
 ----------------------
     python registry/tools/check_write_templates.py           # 校验（不合规退出码 1）
@@ -183,7 +194,14 @@ def check(repo: pathlib.Path) -> tuple[list[str], list[str], dict[str, int]]:
     manifest = json.loads((repo / "registry" / MANIFEST_FILENAME).read_text(encoding="utf-8"))
     endpoints = {str(entry["key"]): entry for entry in manifest["endpoints"]}
 
-    counts = {"templates": len(templates), "bodies": 0, "manual_example": 0, "unverifiable": 0}
+    counts = {
+        "templates": len(templates),
+        "bodies": 0,
+        "manual_example": 0,
+        "unverifiable": 0,
+        "references": 0,
+        "self_references": 0,
+    }
     for key, template in sorted(templates.items()):
         entry_errors = _check_endpoint(key, template, examples, endpoints, repo, counts, notes)
         errors.extend(entry_errors)
@@ -249,6 +267,7 @@ def _check_endpoint(
                 indent="    ",
             )
         )
+    _check_references(key, template, prerequisites, errors, counts)
     return errors
 
 
@@ -316,6 +335,103 @@ def _check_body(
     return errors
 
 
+def _parts_of(path: Any) -> list[Any] | None:
+    """JSON 数组形态的路径 → `list`（非数组 / 空 / 段类型不符 → `None`）。"""
+    if not isinstance(path, list) or not path:
+        return None
+    for segment in path:
+        if isinstance(segment, bool) or not isinstance(segment, (str, int)):
+            return None
+    return list(path)
+
+
+def _check_reference_value(
+    where: str, container: dict[str, Any], path: Any, item_id: str, errors: list[str]
+) -> None:
+    """该路径必须**存在**；给了 `item_id` 时取值必须**恰好**是它（`from` 口径，**不**猜）。"""
+    parts = _parts_of(path)
+    if parts is None:
+        errors.append(f"{where}: path 必须是「字符串键 + 整数下标」的非空数组")
+        return
+    node: Any = container.get("body")
+    for step in parts:
+        try:
+            node = node[step]
+        except (KeyError, IndexError, TypeError):
+            errors.append(f"{where}: body 里没有路径 {parts!r}")
+            return
+    if item_id:
+        if node != int(item_id):
+            errors.append(
+                f"{where}: 路径 {parts!r} 的取值是 {node!r}，声明的前置编号是 {item_id!r}"
+            )
+        return
+    if isinstance(node, bool) or not isinstance(node, int) or node <= 0:
+        errors.append(f"{where}: 路径 {parts!r} 的取值 {node!r} 不是正整数编号")
+
+
+def _check_references(
+    key: str,
+    template: dict[str, Any],
+    prerequisites: list[Any],
+    errors: list[str],
+    counts: dict[str, int],
+) -> None:
+    """校验 P141 / R96 的编号声明（`id_source` / `references` / `self_references`）。
+
+    ⚠️ 本函数**只**做**可判**的检查：声明的路径必须存在、且当前取值必须**恰好**等于声明的编号
+    （这样运行期的「写回」才是良定义的）。**不**做「body 里每个像编号的整数都必须被声明」
+    这类判定 —— 同一个整数（如 `1`）可能同时是材质号 / 截面号 / 节点号 / 枚举值，
+    无从机械区分，硬判只会制造假阳性。
+    """
+    labels: dict[str, dict[str, Any]] = {"owner": template}
+    for prerequisite in prerequisites:
+        if isinstance(prerequisite, dict):
+            labels[f"{prerequisite.get('key')}#{prerequisite.get('item_id')}"] = prerequisite
+    target_id_source = str(template.get("target_id_source") or "")
+    if target_id_source:
+        source_entry = labels.get(target_id_source)
+        if source_entry is None or source_entry is template:
+            errors.append(
+                f"{key}: target_id_source = {target_id_source!r} 不是本模板里某个前置的标签"
+            )
+        elif str(source_entry.get("id_source") or "allocated") == "target":
+            errors.append(f"{key}: target_id_source 指向的前置又用 id_source = target → 循环依赖")
+    for index, prerequisite in enumerate(prerequisites):
+        if not isinstance(prerequisite, dict):
+            continue
+        where = f"{key}.prerequisites[{index}]"
+        item_id = str(prerequisite.get("item_id") or "")
+        id_source = str(prerequisite.get("id_source") or "allocated")
+        if id_source not in {"allocated", "target"}:
+            errors.append(f"{where}: id_source = {id_source!r} 不在 {{allocated, target}} 里")
+        references = prerequisite.get("references") or []
+        if not isinstance(references, list):
+            errors.append(f"{where}: references 不是数组")
+            continue
+        counts["references"] += len(references)
+        for position, reference in enumerate(references):
+            at = f"{where}.references[{position}]"
+            if not isinstance(reference, dict):
+                errors.append(f"{at}: 不是对象")
+                continue
+            label = str(reference.get("in") or "")
+            container = labels.get(label)
+            if container is None:
+                errors.append(f"{at}: in = {label!r} 不是 owner、也不是本模板里的前置标签")
+                continue
+            _check_reference_value(at, container, reference.get("path"), item_id, errors)
+    self_references = template.get("self_references") or []
+    if not isinstance(self_references, list):
+        errors.append(f"{key}: self_references 不是数组")
+        return
+    counts["self_references"] += len(self_references)
+    for position, path in enumerate(self_references):
+        _check_reference_value(
+            f"{key}.self_references[{position}]", template, path, "", errors
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", default=".")
@@ -328,6 +444,8 @@ def main() -> int:
     print(f"端点模板 = {counts['templates']}；校验的 body 数 = {counts['bodies']}")
     print(f"来源 = 手册示例（含调整）的 body 数 = {counts['manual_example']}")
     print(f"不可判（无请求 Schema）的 body 数 = {counts['unverifiable']}")
+    print(f"引用的编号路径（references）= {counts['references']}")
+    print(f"目标自身编号路径（self_references）= {counts['self_references']}")
     if notes and not args.summary:
         print("-" * 90)
         for note in notes:

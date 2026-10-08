@@ -12,10 +12,10 @@
 
 落地裁决（本文件的硬事实，不美化）
 --------------------------------
-1. **两个方向都落库**：`midas_api_schemas` 按 `schema_uri` 各占一行 —— 请求方向 **620** 行
-   （P138a 收口 R19 的 616 + P140 的 R5 补齐 4 个）、响应方向 **239** 行
+1. **两个方向都落库**：`midas_api_schemas` 按 `schema_uri` 各占一行 —— 请求方向 **625** 行
+   （P138a 收口 R19 的 616 + P140 的 R5 补齐 4 个 + P141 的 5 个）、响应方向 **241** 行
    （`availability = verified` + `GET` + 有 Schema 文件，`registry/tools/sync_response_schemas.py`
-   的判定），合计 **859** 行；响应方向的 URI = `midas://<product>/<code>/response/v1`。
+   的判定），合计 **864** 行；响应方向的 URI = `midas://<product>/<code>/response/v1`。
 2. **回填**：`midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
    指向**响应方向**的 Schema 行 id（与 `request_schema*` 同口径）；未声明 `response` 块的端点
    仍为 `None`（**不**臆造）。
@@ -79,11 +79,14 @@ from app.infrastructure.database.base import utcnow
 IMPORT_REGISTRY_PATH = Path("app/infrastructure/adapters/midas/import_registry.py")
 """P137a / P137b 的实现落点（唯一）。"""
 
-REQUEST_SCHEMA_ROWS = 620
-"""请求方向 Schema 行数（P140 起 **620**：P138a 收口 R19 后 616 + R5 补齐 4 个请求 Schema）。"""
+REQUEST_SCHEMA_ROWS = 625
+"""请求方向 Schema 行数（P141 起 **625**：P138a 收口 R19 后 616 + P140 的 4 个 + P141 的 5 个）。"""
 
-RESPONSE_SCHEMA_ROWS = 239
-"""响应方向 Schema 行数 = 已实测端点（`availability = verified` + `GET` + 有 Schema 文件）。"""
+RESPONSE_SCHEMA_ROWS = 241
+"""响应方向 Schema 行数 = 已实测端点（`availability = verified` + `GET` + 有 Schema 文件）。
+
+P141 起 **241**：P141 补齐的 `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` 请求 Schema 落盘后
+**立刻**满足 `sync_response_schemas.py` 的全部条件，同批追加了 `response` 块。"""
 
 REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 4
 """无请求体（`methods` 不含 `POST`/`PUT`/`PATCH`）的端点 —— P138b 裁决后该项视为满足。
@@ -92,7 +95,7 @@ REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 4
 可确认，故 `request_schema_confirmed` 对它们**不适用**（`live.not_applicable_items()`）。"""
 
 TOTAL_SCHEMA_ROWS = REQUEST_SCHEMA_ROWS + RESPONSE_SCHEMA_ROWS
-"""两个方向合计 **859** 行（请求 **620** + 响应 **239**；P140 起）。"""
+"""两个方向合计 **864** 行（请求 **625** + 响应 **241**；P141 起）。"""
 
 SOURCE_ROWS = 11
 """`midas_api_sources` 行数（8 个 provenance 标题 ∪ 7 个 Schema `source`，含
@@ -184,7 +187,7 @@ def _imported_modules(path: Path) -> set[str]:
 
 
 async def test_p137a_schemas_are_imported_in_both_directions(tmp_path: Path) -> None:
-    """P137a：请求 **620** + 响应 **239** = **859** 行（P140 起）。"""
+    """P137a：请求 **625** + 响应 **241** = **864** 行（P141 起）。"""
     engine, report, factory = await _import(tmp_path)
     assert report.totals["midas_api_schemas"] == TOTAL_SCHEMA_ROWS
     request_rows = await _schema_rows(factory, direction=REQUEST_DIRECTION)

@@ -9,7 +9,7 @@
 ③ `CapabilityRegistry`：`capabilities` 表 41 条可查询；`operation_capabilities` 由本批落库；
 ④ `SchemaRegistry`：`register` / `get`；未注册 id → `NotFoundError`（且**不**新增错误码）；
 ⑤ `SoftwareRegistry`：`get_instance` / `get_product` / `get_version` / `list_instances`；
-⑥ API Registry：九字段；636 端点 / 616 Schema 可装载；取值只能来自数据文件；
+⑥ API Registry：九字段；636 端点 / 625 Schema 可装载；取值只能来自数据文件；
 ⑦ 失败即不就绪：Registry 校验失败 → `InternalError` 且容器**不**进入 READY；
 ⑧ 未配备的库不阻断启动（`python -m app.main` 回归门槛）；
 ⑨ 质量：由 `ruff` / `mypy` 覆盖（本文件不重复）；
@@ -816,8 +816,8 @@ async def test_software_registry_reads_the_mock_software_chain(
 # ===== ⑥ API Registry（`docs/02` §23；数据源 = `registry/`）=====
 
 
-def test_api_registry_loads_636_endpoints_and_620_schemas() -> None:
-    """门槛 ⑥：`registry/` 是唯一数据源；636 端点 / 620 Schema 可装载（P140 起）。"""
+def test_api_registry_loads_636_endpoints_and_625_schemas() -> None:
+    """门槛 ⑥：`registry/` 是唯一数据源；636 端点 / 625 Schema 可装载（P141 起）。"""
     registry = ApiRegistry.load(REPO_ROOT / "registry")
 
     keys = registry.endpoint_keys()
@@ -825,13 +825,13 @@ def test_api_registry_loads_636_endpoints_and_620_schemas() -> None:
     assert len(set(keys)) == 636
 
     schemas = registry.request_schemas()
-    assert len(schemas) == 620
+    assert len(schemas) == 625
     for relative in schemas:
         assert (REPO_ROOT / "registry" / relative).is_file(), relative
 
     summary = registry.summary()
     assert summary["endpoints"] == 636
-    assert summary["schemas"] == 620
+    assert summary["schemas"] == 625
     assert summary["products"] == ["CIVIL_DESIGNER", "CIVIL_NX", "GEN_NX"]
     assert summary["disabled"] == ["DB.SWIND"]
 
