@@ -2,7 +2,8 @@
 
 > 本批 = `docs/08` §3 的 **P137**（`docs/07` §12.2 的 MIDAS 批次）。
 > 结论一句话：**P137a / P137b 已落地并可复算（CI 可跑）**；
-> **P137c（真实 L5 写路径）未执行** —— 缺专用测试项目声明，用例 `pytest.skip`，**不**伪造。
+> **P137c（真实 L5 写路径）已在专用空项目上执行并 `PASSED`** —— `GET /DB/NODE`（空）→ `POST /DB/NODE` 建
+> **1** 号 → 读回 → `DELETE /DB/NODE/1` → 再次为空；缺声明时用例仍 `pytest.skip`（**不**伪造）。
 
 ## 1. 口径
 
@@ -51,15 +52,45 @@
 **纪律（可执行断言）**：写入 L1 记录后再导入，端点 `verification_status` 与报告**逐条不变**；
 端点行的状态仍**只**由 `availability` 机械映射（`docs/07` §7.2）。
 
-## 4. 真实 L5 写路径（P137c）：**未执行**，如实标注
+## 4. 真实 L5 写路径（P137c）：**已在专用空项目上执行并 `PASSED`**
 
-- 条件：`MIDAS_LIVE_L4=1` + `MIDAS_LIVE_PROJECT=<专用测试项目标识>` + `MIDAS_BASE_URL` + `MIDAS_MAPI_KEY`
-  （`docs/04` §72 四要素）。
-- 本机**未**声明专用测试项目 → `tests/test_midas_registry_p137.py` 的 P137c 用例 `pytest.skip`
-  （**不**失败、**不**伪造）；缺声明时 `MidasLiveWriteProbe` 仍 `STRUCTAI-3000 dedicated_test_project_not_declared`
-  且**零** transport 调用（P135 的离线断言继续有效）。
-- 写路径实测覆盖仍 **11 / 369**（R4 / R14 未收口）。
-- 纪律：**只**碰自己创建的编号；`DELETE` **必带**路径 key；绝不触碰生产项目。
+条件（`docs/04` §72 四要素）：`MIDAS_LIVE_L4=1` + `MIDAS_LIVE_PROJECT=<专用测试项目标识>` +
+`MIDAS_BASE_URL` / `MIDAS_MAPI_KEY`（后两者由 `scripts/load-midas-env.ps1 -Instance gen` 注入；
+凭据**只**经环境变量，未落任何文件）。
+
+**执行前的只读前置核对**（零写请求）：`DB.NODE` / `DB.ELEM` / `DB.MATL` / `DB.SECT` 的既有编号
+均为 **0**，`OPE.PROJECTSTATUS` 计数表全 **0**（仅「结构类型 = 1」是枚举值）→ 确认是**空白项目**，
+不是 P134 时的 `portrait_truss_80m`（当时 12 个节点）；6 个只读端点全部 `200` + 信封命中。
+
+**三步链实测（脱敏证据：不落响应体、不落凭据）**：
+
+| 步骤 | 请求 | 结果 |
+| --- | --- | --- |
+| 1 列既有编号 | `GET /DB/NODE` | 既有编号 **0** 个 → 自建编号 = `max + 1` = **1** |
+| 2 创建 | `POST /DB/NODE`（体由数据侧 Schema 机械派生 + `Assign` 包装） | 未抛异常 |
+| 3 读回 | `GET /DB/NODE` | `read_back = True`（编号 `1` 出现） |
+| 4 删除 | `DELETE /DB/NODE/1`（**必带**路径 key） | `deleted = True` |
+| 5 清理核对 | `GET /DB/NODE` | 既有编号 **0** 个 → **项目再次为空** |
+
+结论：`outcome = PASSED`、`detail = create_read_delete_confirmed`；
+`WriteProbeReport.counts() = {PASSED: 1, FAILED: 0, NO_PAYLOAD_TEMPLATE: 0, NO_READBACK: 0}`；
+证据串（key / method / path / detail / created_id）**不含** MAPI-Key。
+
+官方用例（同一环境）：`python -m pytest tests/test_midas_registry_p137.py -k p137c -v` →
+`test_p137c_live_l5_is_skipped_without_the_documented_declaration` **PASSED**、
+`test_p137c_live_l5_write_path_only_touches_its_own_id` **PASSED**（2 passed, 9 deselected）。
+
+**如实标注的边界（不夸大）**：
+
+- 「专用测试项目」仍是**用户声明**（`MIDAS_LIVE_PROJECT`）：MIDAS API **无法**从服务端核对当前打开的
+  项目名（`OPE.PROJECTSTATUS` 只给计数表）→ 本次的「空」是**手工只读核对**的，**不**是代码里的闸门；
+  把该核对固化成 `STRUCTAI-3000 dedicated_test_project_not_empty` 的前置检查归**下一批**。
+- 写路径覆盖**未**据此改数：R4 记 **11 / 369**、R14 记 **379**（两处口径**不一致**），分子与分母都需用
+  **可执行判定**（`midas_api_verifications` 的 L5 行清单）重新核算 —— 本批只如实记录
+  「`DB.NODE` 的写路径已在真实实例上跑通」这一条事实。
+- 探针的 `WriteProbeOutcome.status_code` 是**常量 200**（`MidasLiveWriteProbe._send` 返回 200，**不是**
+  原生状态码；失败路径以异常归类为 `FAILED`）→ 记录原生状态码属下一批的小保真度改进。
+- 纪律（继续有效）：**只**碰自己创建的编号；`DELETE` **必带**路径 key；绝不触碰生产项目。
 
 ## 5. 数据侧可复算（本批**未**改 `registry/**`）
 
@@ -85,6 +116,8 @@ commit() / rollback()                     -> 仅 app/infrastructure/database/uni
 ```
 
 > 3 skipped = P134 的 2 项（L4 / L5 真实实例）+ 本批 P137c 的 1 项（真实 L5 写路径）。
+> 另：本批在**专用空项目**上单独跑了 P137c（`MIDAS_LIVE_L4=1` + `MIDAS_LIVE_PROJECT=<标识>`）→ **2 passed**（详见 §4）；
+> 该次运行**不**改变 CI 基线的 3 skipped（缺声明时仍 `pytest.skip`）。
 > 1 条 `PytestUnhandledThreadExceptionWarning`（aiosqlite 线程清理）**不**来自本批文件
 > —— 单跑 `tests/test_midas_p119_p123.py` + `tests/test_midas_registry_p137.py` 无该 warning。
 
@@ -104,5 +137,8 @@ commit() / rollback()                     -> 仅 app/infrastructure/database/uni
 1. **R19 / R5 数据侧缺陷收口**（CI 可跑）：`DB.MBTP` 的请求方向 `schema` 修正为对象
    （615 → 616）、`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` / `OPE.EDMP` 补成合法 Schema
    （`check_schema` 的 4 个失败 → 0）、**20** 个无 Schema 端点补齐（取不到则如实留缺）。
-2. **真实 L5 写路径实测**（需专用测试项目声明）：就绪后跑 P137c 用例，收口 R4 / R14 的写路径覆盖。
+2. **L5 写路径**：`DB.NODE` 的三步链**已在专用空项目上跑通**（§4）。下一批两件事：① 把「项目必须为空」
+   固化成代码闸门（`STRUCTAI-3000 dedicated_test_project_not_empty`，发写请求前拒绝）；② 用同一专用空项目
+   **批量**跑候选写路径端点（`MidasLiveWriteProbe.candidate_keys()`），并把 R4 / R14 的覆盖分子分母按
+   `midas_api_verifications` 的 L5 行**重新核算**（当前 **11 / 369** 与 **379** 两处口径**不一致**）。
 3. `DB.SPAN` 的 `GEN_NX` 是否摘除（R85 的遗留裁决）。
