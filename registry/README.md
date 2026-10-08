@@ -273,8 +273,13 @@ Civil Designer 14，合计 **487**）做零副作用 `GET` 探测并落库 `mida
 | `OPE.STORY_PARAM` | （空） | **`STORY_PARAM`** | gen-local |
 | `VIEW.SELECT` | （空） | **`SELECT`** | gen-local |
 
-**仍未实测**：**379** 个端点只有 `POST` / `PUT` / `DELETE`（写路径），只读探针覆盖不到，
-需**专用测试项目**才能安全覆盖（跟踪项见 `docs/07` R4 / R14）。
+**写路径的实测覆盖（P138c 收口为一条可执行口径）**：写路径端点 = `methods` 含
+`POST`/`PUT`/`DELETE`/`PATCH` 的端点 = **609**（`live.write_path_keys()`），其中**连 `GET` 都没有**
+的 **368** 个（`live.write_only_keys()`）才是只读探针**完全**覆盖不到的。覆盖率
+`live.write_path_coverage()`（分子 = `midas_api_verifications` 的 L5 `PASSED` **去重** key）：
+**2026-10-08 之后在专用空项目上真实批量实测 = `1 / 609`**（GEN NX 的 **10** 个可探候选里
+`DB.NODE` `PASSED`、其余 **9** 个 `400 software_api_error`）。旧记录 `11 / 369`（R4）与 `379`（R14）
+与任何可执行判定都对不上，**作废**（跟踪项见 `docs/07` §16 R4 / R14）。
 
 > 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
 > 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。

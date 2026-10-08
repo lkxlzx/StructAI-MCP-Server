@@ -703,7 +703,10 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
         registry,
         product="GEN_NX",
         project=dedicated_test_project_from_env(os.environ),
-        limit=3,
+        # `0` = 跑**全部**可探候选（GEN NX 上 = **10** 个）；可用 `MIDAS_LIVE_WRITE_LIMIT`
+        # 先给小值谨慎试跑（P138c 实测先跑了 `limit=3`：3 个候选全部 400 `software_api_error`、
+        # **零**残留，清理核对通过）。
+        limit=int(os.environ.get("MIDAS_LIVE_WRITE_LIMIT") or 0),
     )
     try:
         report = await probe.probe()
@@ -751,3 +754,24 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
     assert coverage.total == len(write_path_keys(registry))
     assert coverage.covered == len(report.passed())
     assert coverage.ratio.startswith(f"{coverage.covered} / ")
+
+
+def test_p138c_candidates_are_the_probeable_set_only() -> None:
+    """候选集**只**含「Transformer **已注册**」的端点（否则 `limit` 白占、覆盖永远为 0）。
+
+    P138c 的**真实批量实测**暴露：`candidate_keys()` 原先只校验「Transformer 名可派生」，
+    于是 `DB.ACTL` / `DB.ACTL-M1` / `DB.BCCT` 这些**未注册** Transformer 的端点占满了前 3 个
+    名额 → 三条全记 `NO_PAYLOAD_TEMPLATE`、**零**写请求、覆盖率仍 `0 / 609`。
+    """
+    from app.infrastructure.adapters.midas.transforms import TRANSFORMER_REGISTRY
+    from app.infrastructure.adapters.midas.write_probe import transformer_name_for
+
+    probe = _probe(_NxStub(), only=(), limit=0, product="CIVIL_NX")
+    keys = probe.candidate_keys()
+    assert keys, "候选集不得为空（否则批量覆盖无意义）"
+    for key in keys:
+        assert TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is not None, key
+    # `-M1`（`HYPER_S` 专属）没有已注册的 Transformer → 不入候选
+    assert all("-M1" not in key for key in keys)
+    # 已实现三步链的端点**必须**在候选集里（否则真实批量永远跑不出 PASSED）
+    assert "DB.NODE" in keys

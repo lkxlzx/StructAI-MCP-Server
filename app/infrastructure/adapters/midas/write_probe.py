@@ -308,9 +308,11 @@ class MidasLiveWriteProbe:
         """可进入三步链的端点 key（见裁决 1 / 5）。
 
         Returns:
-            满足「有写方法 + 有读路径 + 有 Transformer + 非危险形态」的 key，
+            满足「有写方法 + 有读路径 + 有**已注册**的 Transformer + 非危险形态」的 key，
             顺序取自 `registry.keys()`（确定性）；`limit` 生效时**截断**；
             给了 `only` 时**原样**返回（验收可据此只跑一个端点）。
+            ⚠️ Transformer **名可派生但未注册**的端点**不**入候选（P138c 批量实测：否则
+            只会白占 `limit` 并记成 `NO_PAYLOAD_TEMPLATE`）。
         """
         if self._only:
             return self._only
@@ -334,7 +336,9 @@ class MidasLiveWriteProbe:
                 continue
             if "GET" not in definition.methods or not definition.read_root:
                 continue
-            if not transformer_name_for(key):
+            # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c 批量实测暴露）：未注册的端点
+            # 进不了三步链，只会白占 `limit` 并记成 `NO_PAYLOAD_TEMPLATE`。
+            if TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None:
                 continue
             selected.append(key)
             if self._limit and len(selected) >= self._limit:
