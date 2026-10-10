@@ -100,6 +100,7 @@ TEMPLATE_KEYS = (
     "DB.GSTP",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LDGR",
     "DB.LENG",
     "DB.MATL",
     "DB.MBTP",
@@ -107,11 +108,17 @@ TEMPLATE_KEYS = (
     "DB.MVCD",
     "DB.MVHLTR",
     "DB.PDEL",
+    "DB.PJCF",
+    "DB.PNLD",
     "DB.PRES",
     "DB.SECT",
+    "DB.SMCT",
+    "DB.SPFC",
     "DB.STLD",
+    "DB.THFC",
+    "DB.THIK",
 )
-"""P139 的 9 + P142 的 1 + P144 的 7 + P145 的 11 = **28** 个模板。"""
+"""P139 的 9 + P142 的 1 + P144 的 7 + P145 的 11 + P146 的 7 = **35** 个模板。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
@@ -132,6 +139,7 @@ PROBED_KEYS = (
     "DB.GSTP",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LDGR",
     "DB.LENG",
     "DB.MATL",
     "DB.MBTP",
@@ -140,14 +148,20 @@ PROBED_KEYS = (
     "DB.MVHLTR",
     "DB.NODE",
     "DB.PDEL",
+    "DB.PJCF",
+    "DB.PNLD",
     "DB.PRES",
     "DB.SECT",
+    "DB.SMCT",
+    "DB.SPFC",
     "DB.STLD",
+    "DB.THFC",
+    "DB.THIK",
 )
-"""GEN NX 上的 **29** 个可探候选（P145 起；`DB.NODE` 走机械派生的 body）。"""
+"""GEN NX 上的 **36** 个可探候选（P146 起；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 64
-"""复算的 body 总数（P145 起 **64** = 28 个目标 + 36 个前置对象）。"""
+EXPECTED_BODIES = 71
+"""复算的 body 总数（P146 起 **71** = 35 个目标 + 36 个前置对象）。"""
 
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。"""

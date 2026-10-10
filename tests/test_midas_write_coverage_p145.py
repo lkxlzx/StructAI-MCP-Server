@@ -34,7 +34,7 @@
 4. **离线三步链**：`DB.LENG` / `DB.MBTP` / `DB.MVHLTR` 逐个跑通「建前置 → 创建 → 读回 →
    按路径 key 删除」，发送的请求体**逐字节**等于数据侧模板 `body`，跑完**零残留**。
 5. **口径不变**：分母仍 **609**（`model_write` 子桶 **410**）；分子 = L5 `PASSED` 去重 key
-   （本批 **29 / 609**，`model_write_ratio` **29 / 410**）。
+   （P145 时 **29 / 609**、`model_write_ratio` **29 / 410**；P146 起 **36 / 609** / **36 / 410**）。
 6. **跨产品**：CIVIL NX **25 / 25 `PASSED`**（云端 `201`）—— 分子按 **registry key** 去重，
    故**不**增加分子（跨产品是另一条证据）。
 """
@@ -125,6 +125,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.GSTP",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LDGR",
         "DB.LENG",
         "DB.MATL",
         "DB.MBTP",
@@ -133,9 +134,15 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NODE",
         "DB.PDEL",
+        "DB.PJCF",
+        "DB.PNLD",
         "DB.PRES",
         "DB.SECT",
+        "DB.SMCT",
+        "DB.SPFC",
         "DB.STLD",
+        "DB.THFC",
+        "DB.THIK",
     ),
     "CIVIL_NX": (
         "DB.BMLD",
@@ -154,28 +161,35 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.GSTP",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LDGR",
         "DB.MATL",
         "DB.MLFC",
         "DB.MVCD",
         "DB.MVHLTR",
         "DB.NODE",
         "DB.PDEL",
+        "DB.PJCF",
+        "DB.PNLD",
         "DB.PRES",
         "DB.SECT",
+        "DB.SMCT",
+        "DB.SPFC",
         "DB.STLD",
+        "DB.THFC",
+        "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**29 / 25 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**36 / 32 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 524, "CIVIL_NX": 457, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 517, "CIVIL_NX": 450, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。"""
 
-EXPECTED_TEMPLATES = 28
-"""模板条数（P144 的 29 − `DB.HPCE` 1 + 本批 11 中的 11 = **28**）。"""
+EXPECTED_TEMPLATES = 35
+"""模板条数（P146 起 **35** = P145 的 28 + 本批 7）。"""
 
-EXPECTED_BODIES = 64
-"""复算的 body 总数（**64** = 28 个目标 + 36 个前置对象；本批 +10 个前置）。"""
+EXPECTED_BODIES = 71
+"""复算的 body 总数（P146 起 **71** = 35 个目标 + 36 个前置对象）。"""
 
 EXPECTED_REFERENCES = 22
 """`prerequisites[].references` 的条数（本批 +8：两个端点各 4 条）。"""
@@ -400,22 +414,22 @@ async def test_p145_the_three_chains_run_offline_with_zero_residue() -> None:
 # ===== 4. 口径（判定 5 / 6）=====
 
 
-def test_p145_coverage_counts_twenty_nine_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；29 / 609（`model_write_ratio` 29 / 410）。"""
+def test_p145_coverage_counts_thirty_six_of_609() -> None:
+    """门槛：分子 = L5 `PASSED` 去重 key；36 / 609（`model_write_ratio` 36 / 410）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 29
-    assert coverage.ratio == f"29 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"29 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 36
+    assert coverage.ratio == f"36 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"36 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # CIVIL NX 的候选（25）与 GEN NX 共用同一批 key 去重 ⇒ 分子**不**因跨产品而翻倍
     civil = write_path_coverage(
         registry, [_Row(key, product="CIVIL_NX") for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]]
     )
-    assert civil.covered == 25
-    assert civil.ratio == f"25 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 32
+    assert civil.ratio == f"32 / {WRITE_PATH_TOTAL}"
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0
     assert write_path_coverage(registry, [_Row("DB.NODE", status="FAILED")]).covered == 0

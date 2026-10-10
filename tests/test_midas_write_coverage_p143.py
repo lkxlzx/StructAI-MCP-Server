@@ -64,6 +64,7 @@ DB_CODES = (
     "DB.GSTP",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LDGR",
     "DB.LENG",
     "DB.MATL",
     "DB.MBTP",
@@ -72,11 +73,17 @@ DB_CODES = (
     "DB.MVHLTR",
     "DB.NODE",
     "DB.PDEL",
+    "DB.PJCF",
+    "DB.PNLD",
     "DB.PRES",
     "DB.SECT",
+    "DB.SMCT",
+    "DB.SPFC",
     "DB.STLD",
+    "DB.THFC",
+    "DB.THIK",
 )
-"""`GEN_NX` 上的 **29** 个候选（P144 起：12 个有 Transformer + 17 个只有数据侧模板；P145 +11）。"""
+"""`GEN_NX` 上的 **36** 个候选（12 个有 Transformer + 24 个只有数据侧模板；P146 +7）。"""
 
 CIVIL_CODES = (
     "DB.BMLD",
@@ -95,17 +102,24 @@ CIVIL_CODES = (
     "DB.GSTP",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LDGR",
     "DB.MATL",
     "DB.MLFC",
     "DB.MVCD",
     "DB.MVHLTR",
     "DB.NODE",
     "DB.PDEL",
+    "DB.PJCF",
+    "DB.PNLD",
     "DB.PRES",
     "DB.SECT",
+    "DB.SMCT",
+    "DB.SPFC",
     "DB.STLD",
+    "DB.THFC",
+    "DB.THIK",
 )
-"""`CIVIL_NX` 上的 **25** 个候选（`DB.DCTL`/`DB.DSTL`/`DB.LENG`/`DB.MBTP` 不含 `CIVIL_NX`）。"""
+"""`CIVIL_NX` 上的 **32** 个候选（`DB.DCTL`/`DB.DSTL`/`DB.LENG`/`DB.MBTP` 不含 `CIVIL_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -210,8 +224,8 @@ def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
-    assert gen.covered == civil.covered == len(keys) == 29
-    assert gen.ratio == civil.ratio == f"29 / {WRITE_PATH_TOTAL}"
+    assert gen.covered == civil.covered == len(keys) == 36
+    assert gen.ratio == civil.ratio == f"36 / {WRITE_PATH_TOTAL}"
     assert set(civil.covered_keys) == set(keys)
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0

@@ -78,6 +78,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.GSTP",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LDGR",
         "DB.LENG",
         "DB.MATL",
         "DB.MBTP",
@@ -86,9 +87,15 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NODE",
         "DB.PDEL",
+        "DB.PJCF",
+        "DB.PNLD",
         "DB.PRES",
         "DB.SECT",
+        "DB.SMCT",
+        "DB.SPFC",
         "DB.STLD",
+        "DB.THFC",
+        "DB.THIK",
     ),
     "CIVIL_NX": (
         "DB.BMLD",
@@ -107,22 +114,29 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.GSTP",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LDGR",
         "DB.MATL",
         "DB.MLFC",
         "DB.MVCD",
         "DB.MVHLTR",
         "DB.NODE",
         "DB.PDEL",
+        "DB.PJCF",
+        "DB.PNLD",
         "DB.PRES",
         "DB.SECT",
+        "DB.SMCT",
+        "DB.SPFC",
         "DB.STLD",
+        "DB.THFC",
+        "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**29 / 25 / 0**；P145 起）。"""
+"""三产品各自的候选集（**36 / 32 / 0**；P146 起）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 524, "CIVIL_NX": 457, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P145 起下降）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 517, "CIVIL_NX": 450, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P146 起）。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
 """**如实留缺**的 3 个端点（R101）：手册示例与本 build 字段集不一致 / 按构件号取值。"""
@@ -264,20 +278,20 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 # ===== 3. 口径（判定 5）=====
 
 
-def test_p144_coverage_counts_twenty_nine_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；29 / 609（`model_write_ratio` 29 / 410）。"""
+def test_p144_coverage_counts_thirty_six_of_609() -> None:
+    """门槛：分子 = L5 `PASSED` 去重 key；36 / 609（`model_write_ratio` 36 / 410）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 29
-    assert coverage.ratio == f"29 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"29 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 36
+    assert coverage.ratio == f"36 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"36 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 分子是**数据驱动**的：少一条 L5 行即少一个覆盖
     fewer = write_path_coverage(registry, [_Row(key) for key in keys[:-1]])
-    assert fewer.ratio == f"28 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"35 / {WRITE_PATH_TOTAL}"
     # CIVIL NX 的候选（25）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == 25
-    assert civil.ratio == f"25 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 32
+    assert civil.ratio == f"32 / {WRITE_PATH_TOTAL}"

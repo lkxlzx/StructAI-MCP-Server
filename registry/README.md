@@ -135,19 +135,23 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-08 之后实测；**P145 更新**）**：GEN NX 的 **29** 个可探候选 → **29 / 29 `PASSED`**
-（P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；CIVIL NX **25 / 25 `PASSED`**
-（云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；`live.write_path_coverage()` = **`29 / 609`**（分母**不挪**）。
+**覆盖面（2026-10-08 之后实测；**P146 更新**）**：GEN NX 的 **36** 个可探候选 → **36 / 36 `PASSED`**
+（P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
+CIVIL NX **32 / 32 `PASSED`**（P145 为 25 / 25，云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
+`live.write_path_coverage()` = **`36 / 609`**（分母**不挪**）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **524** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **517** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`29 / 410`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`36 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 ⚠️ **目标编号可以取前置的编号（P145）**：按**构件号**取值的端点（`DB.LENG` / `DB.MBTP`）用
 `target_id_source = "DB.ELEM#1"` 让目标自身的 `Assign` 键取**自建单元**的编号；而**键是名字**的端点
 （`DB.HPCE`）**无法**用该机制表达 ⇒ **如实留缺**（`docs/07` §16.1 **R102**）。
+⚠️ **R103（P146）**：手册示例被本 build **拒绝**（`DB.SKEW`：3 个变体全 `400 software_api_error`）
+或**建了读不回**（`DB.HSPT` / `DB.MADO`：`POST 200` 但 `GET` 为空）的端点 ⇒ 模板**不写**、**不**入候选
+（与 R101 的 `DB.EDMP` 同形）；成因**不是**数据缺陷（字段全在请求 Schema 里声明）。
 **没有**模板的端点仍走 `derive_body()`，两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`
 （**不**猜字段、**不**发请求）。
 
@@ -592,3 +596,26 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   （端点仍 `enabled` / `verified` / 写方法齐全）。`DB.HPCE` 是否该加**写侧产品覆盖**留待**显式裁决**。
 - **跨产品**：CIVIL NX **25 / 25 `PASSED`**（云端 `201`）—— 分子按 **registry key** 去重 ⇒ **不**增加分子。
 - 可执行判定 = `tests/test_midas_write_coverage_p145.py`（7 项）· `docs/reports/P145_…md`。
+
+**⑦ P146 更新（第三批 10 个端点；新增 `docs/07` §16.1 R103）**：**7** 条模板跑通、**3** 条如实留缺。
+
+- **7 个跑通**（全部**只有数据侧模板**、**零前置链**）：`DB.LDGR` / `DB.PJCF` / `DB.PNLD` /
+  `DB.SMCT` / `DB.SPFC` / `DB.THFC` / `DB.THIK` ⇒ 模板 **28 → 35**、复算 body **64 → 71**
+  （`references` 仍 **22** / `self_references` 仍 **4**）；真实 L5 **36 / 36 `PASSED`**
+  （GEN NX 空项目）⇒ 覆盖率 **`29 / 609` → `36 / 609`**（`model_write_ratio` **`29 / 410` → `36 / 410`**）；
+  候选集 GEN NX **29 → 36** · CIVIL NX **25 → 32** · Civil Designer 仍 **0**
+  （blocked **524 → 517** / **457 → 450** / **31**）；跑前 / 跑后哨兵（**43** 个端点）**全空**。
+- **`DB.SKEW` 如实留缺（R103）**：手册的 **3** 个变体（`Angle Type` / `3 Points Type` /
+  `Vector Type`）逐个 `POST` → **全部** `400 software_api_error`；`GET /DB/SKEW` 始终空
+  ⇒ 本 build **拒绝**手册的**每一个**取值形态，而 `adjustments` **只**能改**值**、**不能**改结构
+  ⇒ 数据侧**无法**推出可接受形态；模板**不写**、不入候选。
+- **`DB.HSPT` / `DB.MADO` 如实留缺（R103）**：`POST` → **`200`**（`HSPT` 回显
+  `{"HSPT": {"1": {...}}}`、`MADO` 回**空表** `{"MADO": {}}`），但紧随的 `GET` **读不回**
+  （`{"HSPT": {}}` / `{"MADO": {}}`）⇒ 三步链的「读回」**不成立**（与 R101 的 `DB.EDMP` 同形）
+  ⇒ 模板**不写**、不入候选；**绝不**放宽「创建 → 读回 → 按路径 key 删除」。
+  三个留缺端点的**字段**全在请求 Schema 里声明 ⇒ 成因**不是**数据缺陷（端点仍 `enabled` /
+  `verified` / 写方法齐全，数据侧**未**动）。
+- **`DB.SSEIS` 本批**不**纳入**：其请求 Schema 把条目字段声明在 `Assign` 的
+  **`patternProperties`**（`^[0-9]+$`）下，而 `check_write_templates.py` 的 `request_schema()`
+  **只**读 `properties` ⇒ 该形状下「字段不臆造」**不可判**（**不**改工具、**不**放宽判定）。
+- 可执行判定 = `tests/test_midas_write_coverage_p146.py`（9 项）· `docs/reports/P146_…md`。

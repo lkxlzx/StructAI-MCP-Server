@@ -1406,6 +1406,104 @@
       "adjustments": [],
       "body": {"NAME": "DL", "TYPE": "D", "DESC": "DeadLoads"},
       "prerequisites": []
+    },
+    "DB.LDGR": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/LDGR",
+        "example": "Load Group",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35804975346841",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "SW"},
+      "prerequisites": []
+    },
+    "DB.PJCF": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/PJCF",
+        "example": "Project Information",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35801869341337",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"PROJECT": "Cable", "REVISION": "940", "USER": "LJW", "EMAIL": "cle1123", "ADDRESS": "MIDASIT", "TEL": "031789", "FAX": "031789", "CLIENT": "MIDASIT", "TITLE": "CableBridge", "ENGINEER": "A", "EDATE": "23.11", "CHECK1": "B", "CDATE1": "24.11", "CHECK2": "C", "CDATE2": "24.12", "CHECK3": "D", "CDATE3": "24.12", "APPROVE": "E", "ADATE": "14.2", "COMMENT": "Good"},
+      "prerequisites": []
+    },
+    "DB.PNLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/PNLD",
+        "example": "Points",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35953492119321",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "Point_examples", "DESC": "API_example", "LTYPE": "POINT", "POINTLOAD": [{"X": 0, "Y": 0, "F": -10}, {"X": 1, "Y": -1, "F": 10.5}], "COPY_X": [5, 5, 5], "COPY_Y": [4.5], "SEQ": 1},
+      "prerequisites": []
+    },
+    "DB.SPFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SPFC",
+        "example": "User Type",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35963686253593",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "RS_func", "iTYPE": 1, "iMETHOD": 0, "SCALE": 1, "GRAV": 9.806, "DRATIO": 0.05, "DESC": "", "aFUNC": [{"PERIOD": 0, "VALUE": 0.11}, {"PERIOD": 0.06, "VALUE": 0.308}, {"PERIOD": 0.12, "VALUE": 0.308}, {"PERIOD": 0.18, "VALUE": 0.308}, {"PERIOD": 0.24, "VALUE": 0.308}, {"PERIOD": 0.3, "VALUE": 0.308}, {"PERIOD": 0.36, "VALUE": 0.2567}, {"PERIOD": 0.42, "VALUE": 0.22}, {"PERIOD": 0.48, "VALUE": 0.1925}, {"PERIOD": 0.54, "VALUE": 0.1711}, {"PERIOD": 0.6, "VALUE": 0.154}, {"PERIOD": 0.66, "VALUE": 0.14}, {"PERIOD": 0.72, "VALUE": 0.1283}, {"PERIOD": 0.78, "VALUE": 0.1185}, {"PERIOD": 0.84, "VALUE": 0.11}, {"PERIOD": 0.9, "VALUE": 0.1027}, {"PERIOD": 0.96, "VALUE": 0.0963}, {"PERIOD": 1.02, "VALUE": 0.0906}, {"PERIOD": 1.08, "VALUE": 0.0856}, {"PERIOD": 1.14, "VALUE": 0.0811}, {"PERIOD": 1.2, "VALUE": 0.077}, {"PERIOD": 1.26, "VALUE": 0.0733}, {"PERIOD": 1.32, "VALUE": 0.07}, {"PERIOD": 1.38, "VALUE": 0.067}, {"PERIOD": 1.44, "VALUE": 0.0642}, {"PERIOD": 1.5, "VALUE": 0.0616}, {"PERIOD": 1.56, "VALUE": 0.0592}, {"PERIOD": 1.62, "VALUE": 0.057}, {"PERIOD": 1.68, "VALUE": 0.055}, {"PERIOD": 1.74, "VALUE": 0.0531}, {"PERIOD": 1.8, "VALUE": 0.0513}, {"PERIOD": 1.86, "VALUE": 0.0497}, {"PERIOD": 1.92, "VALUE": 0.0481}, {"PERIOD": 1.98, "VALUE": 0.0467}, {"PERIOD": 2.04, "VALUE": 0.0453}, {"PERIOD": 2.1, "VALUE": 0.044}, {"PERIOD": 2.16, "VALUE": 0.0428}, {"PERIOD": 2.22, "VALUE": 0.0416}, {"PERIOD": 2.28, "VALUE": 0.0405}, {"PERIOD": 2.34, "VALUE": 0.0395}, {"PERIOD": 2.4, "VALUE": 0.0385}, {"PERIOD": 2.46, "VALUE": 0.0376}, {"PERIOD": 2.52, "VALUE": 0.0367}, {"PERIOD": 2.58, "VALUE": 0.0358}, {"PERIOD": 2.64, "VALUE": 0.035}, {"PERIOD": 2.7, "VALUE": 0.0342}, {"PERIOD": 2.76, "VALUE": 0.0335}, {"PERIOD": 2.82, "VALUE": 0.0328}, {"PERIOD": 2.88, "VALUE": 0.0321}, {"PERIOD": 2.94, "VALUE": 0.0314}, {"PERIOD": 3, "VALUE": 0.0308}, {"PERIOD": 3.06, "VALUE": 0.0296}, {"PERIOD": 3.12, "VALUE": 0.0285}, {"PERIOD": 3.18, "VALUE": 0.0274}, {"PERIOD": 3.24, "VALUE": 0.0264}, {"PERIOD": 3.3, "VALUE": 0.0255}, {"PERIOD": 3.36, "VALUE": 0.0246}, {"PERIOD": 3.42, "VALUE": 0.0237}, {"PERIOD": 3.48, "VALUE": 0.0229}, {"PERIOD": 3.54, "VALUE": 0.0221}, {"PERIOD": 3.6, "VALUE": 0.0214}, {"PERIOD": 3.66, "VALUE": 0.0207}, {"PERIOD": 3.72, "VALUE": 0.02}, {"PERIOD": 3.78, "VALUE": 0.0194}, {"PERIOD": 3.84, "VALUE": 0.0188}, {"PERIOD": 3.9, "VALUE": 0.0182}, {"PERIOD": 3.96, "VALUE": 0.0177}, {"PERIOD": 4.02, "VALUE": 0.0172}, {"PERIOD": 4.08, "VALUE": 0.0167}, {"PERIOD": 4.14, "VALUE": 0.0162}, {"PERIOD": 4.2, "VALUE": 0.0157}, {"PERIOD": 4.26, "VALUE": 0.0153}, {"PERIOD": 4.32, "VALUE": 0.0149}, {"PERIOD": 4.38, "VALUE": 0.0144}, {"PERIOD": 4.44, "VALUE": 0.0141}, {"PERIOD": 4.5, "VALUE": 0.0137}, {"PERIOD": 4.56, "VALUE": 0.0133}, {"PERIOD": 4.62, "VALUE": 0.013}, {"PERIOD": 4.68, "VALUE": 0.0127}, {"PERIOD": 4.74, "VALUE": 0.0123}, {"PERIOD": 4.8, "VALUE": 0.012}, {"PERIOD": 4.86, "VALUE": 0.0117}, {"PERIOD": 4.92, "VALUE": 0.0115}, {"PERIOD": 4.98, "VALUE": 0.0112}, {"PERIOD": 5.04, "VALUE": 0.0109}, {"PERIOD": 5.1, "VALUE": 0.0107}, {"PERIOD": 5.16, "VALUE": 0.0104}, {"PERIOD": 5.22, "VALUE": 0.0102}, {"PERIOD": 5.28, "VALUE": 0.0099}, {"PERIOD": 5.34, "VALUE": 0.0097}, {"PERIOD": 5.4, "VALUE": 0.0095}, {"PERIOD": 5.46, "VALUE": 0.0093}, {"PERIOD": 5.52, "VALUE": 0.0091}, {"PERIOD": 5.58, "VALUE": 0.0089}, {"PERIOD": 5.64, "VALUE": 0.0087}, {"PERIOD": 5.7, "VALUE": 0.0085}, {"PERIOD": 5.76, "VALUE": 0.0084}, {"PERIOD": 5.82, "VALUE": 0.0082}, {"PERIOD": 5.88, "VALUE": 0.008}, {"PERIOD": 5.94, "VALUE": 0.0079}, {"PERIOD": 6, "VALUE": 0.0077}]},
+      "prerequisites": []
+    },
+    "DB.THFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/THFC",
+        "example": "Time Function",
+        "example_id": "4",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35964507702937",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "ElCentroSite_Scale", "FUNCTYPE": 1, "iTYPE": 1, "iMETHOD": 0, "SCALE": 1, "GRAV": 9.806, "aFUNCDATA": [{"TIME": 0.02, "VALUE": 0.0051703039}, {"TIME": 0.04, "VALUE": 0.0042117071}, {"TIME": 0.06, "VALUE": 0.0032429125}], "DESC": "1940,ElCentroSite,270Deg"},
+      "prerequisites": []
+    },
+    "DB.THIK": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/THIK",
+        "example": "In-plane & Out-of-plane has same value",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35942236652697",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "1", "TYPE": "VALUE", "bINOUT": false, "T_IN": 0.1, "T_OUT": 0, "O_VALUE": 0},
+      "prerequisites": []
+    },
+    "DB.SMCT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SMCT",
+        "example": "Settlement Analysis Control Data",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35990184995481",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"CONCURRENT_CALC": true, "CONCURRENT_LINK": false},
+      "prerequisites": []
     }
   }
 }
