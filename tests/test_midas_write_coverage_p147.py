@@ -29,7 +29,7 @@
    等于数据侧模板 `body`，跑完**零残留**。
 6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
    P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（P147 时 **46 / 609**、
-   `model_write_ratio` **46 / 410**；P148 起 **58 / 609** / **58 / 410**）。
+   `model_write_ratio` **46 / 410**；P149-B2 起 **61 / 633** / **61 / 434**）。
 """
 
 from __future__ import annotations
@@ -117,6 +117,7 @@ INTROSPECT_UNKNOWN_FIELDS: dict[str, int] = dict.fromkeys(INTROSPECTED_KEYS, 0)
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -133,6 +134,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -151,6 +153,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -177,6 +180,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -191,6 +195,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -207,6 +212,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -228,18 +234,18 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**61 / 52 / 0**；P149-B2 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 512, "CIVIL_NX": 448, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
-P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）。"""
+P149-B2 起 **512 / 448 / 31**（P149-A 为 515 / 451 / 31；P148 为 495 / 433 / 31）。"""
 
-EXPECTED_TEMPLATES = 57
-"""模板条数（P148 起 **57** = P147 的 45 + P148 的 12）。"""
+EXPECTED_TEMPLATES = 60
+"""模板条数（P149-B2 起 **60** = P148 的 57 + P149-B2 的 3）。"""
 
-EXPECTED_BODIES = 101
-"""复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
+EXPECTED_BODIES = 104
+"""复算的 body 总数（P149-B2 起 **104** = 60 个目标 + 44 个前置对象）。"""
 
 EXPECTED_REFERENCES = 23
 """`prerequisites[].references` 的条数（P148 起 **23** = P147 的 22 + P148 的 1）。"""
@@ -318,8 +324,8 @@ class _Row:
 
 
 def test_p147_the_candidate_gate_counts_46_and_39_and_0() -> None:
-    """门槛：三产品候选集 **58 / 49 / 0**、blocked **515 / 451 / 31**（P149-A：方法集按只读
-    `OPTIONS` 实测修正后重算；P148 为 495 / 433 / 31），逐产品可复算。"""
+    """门槛：三产品候选集 **61 / 52 / 0**、blocked **512 / 448 / 31**（P149-B2：+3 个真实 L5
+    `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -341,7 +347,7 @@ def test_p147_the_candidate_gate_counts_46_and_39_and_0() -> None:
 
 
 def test_p147_the_templates_are_recomputable_from_the_manual() -> None:
-    """门槛：模板 57 / body 101 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
+    """门槛：模板 60 / body 104 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -453,26 +459,26 @@ async def test_p147_the_ten_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p147_coverage_counts_forty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；61 / 633（`model_write_ratio` 61 / 434；P149-B2 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 58
-    assert coverage.ratio == "58 / 633"
+    assert coverage.covered == len(keys) == 61
+    assert coverage.ratio == "61 / 633"
     assert coverage.model_write == MODEL_WRITE_TOTAL
-    assert coverage.model_write_covered == 58
-    assert coverage.model_write_ratio == "58 / 434"
+    assert coverage.model_write_covered == 61
+    assert coverage.model_write_ratio == "61 / 434"
     assert set(coverage.covered_keys) == set(keys)
 
 
 def test_p147_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
-    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 49 条时原分子仍为 49。"""
+    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 52 条时原分子仍为 52。"""
     registry = _registry()
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 49
+    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 52
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "49 / 633"
+    assert civil.ratio == "52 / 633"
 
 
 def test_p147_the_ten_new_keys_are_delivered_by_the_data_side_only() -> None:

@@ -20,14 +20,15 @@
    `DB.HSPT` / `DB.MADO`（`POST 200` 但 `GET` **读不回** —— 与 R101 的 `DB.EDMP` 同形）
    ⇒ 模板**不写**、不入候选；数据侧**未**被改动（端点仍 `enabled` / `verified` / 写方法齐全，
    且手册示例的**每个**字段都在请求 Schema 里声明）。
-4. **`DB.SSEIS` 的 Schema 形状（本批**不**纳入）**：其请求 Schema 把条目字段声明在
-   `patternProperties`（`^[0-9]+$`）下，而复算工具**只**读 `properties` ⇒ 该端点在本工具口径下
-   **不可判** ⇒ **不**改工具、**不**放宽判定、**不**写模板（留待工具支持该形状后再纳入）。
+4. **`DB.SSEIS`（P149-B2 起**不**纳入：未取得实测结论）**：其请求 Schema 把条目字段声明在
+   `patternProperties`（`^[0-9]+$`）下；P149-B2 起 `request_schema()` **会**剥到**条目** Schema ⇒
+   **已可判**（判定**变强**，不是放宽），模板的字段复算已通过；但本批实测被实例崩溃中断 ⇒
+   记为 `UNVERIFIED_instance_crashed_pending_retest`，**不**写模板、**不**入候选。
 5. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板 `body`，跑完**零残留**。
 6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
    P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（P146 时 **36 / 609** / **36 / 410**；
-   P148 起 **58 / 609** / **58 / 410**）。
+   P149-B2 起 **61 / 633** / **61 / 434**（P148 为 58 / 609 / 58 / 410））。
 """
 
 from __future__ import annotations
@@ -97,11 +98,13 @@ SKEW_VARIANTS_TRIED = ("Angle Type", "3 Points Type", "Vector Type")
 """`DB.SKEW` 实测被拒的 **3** 个手册变体（全部 `400 software_api_error`）。"""
 
 PATTERN_PROPERTIES_KEY = "DB.SSEIS"
-"""请求 Schema 用 `patternProperties` 声明条目字段 ⇒ 复算工具口径下**不可判**（本批不纳入）。"""
+"""请求 Schema 用 `patternProperties` 声明条目字段；P149-B2 起工具已剥到条目 Schema ⇒
+形状可判，但实例崩溃未取得实测结论 ⇒ 留缺。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -118,6 +121,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -136,6 +140,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -162,6 +167,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -176,6 +182,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -192,6 +199,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -213,18 +221,18 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**61 / 52 / 0**；P149-B2 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 512, "CIVIL_NX": 448, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
-P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）。"""
+P149-B2 起 **512 / 448 / 31**（P149-A 为 515 / 451 / 31；P148 为 495 / 433 / 31）。"""
 
-EXPECTED_TEMPLATES = 57
-"""模板条数（P148 起 **57** = P146 的 35 + P147 的 10 + P148 的 12）。"""
+EXPECTED_TEMPLATES = 60
+"""模板条数（P149-B2 起 **60** = P148 的 57 + P149-B2 的 3）。"""
 
-EXPECTED_BODIES = 101
-"""复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
+EXPECTED_BODIES = 104
+"""复算的 body 总数（P149-B2 起 **104** = 60 个目标 + 44 个前置对象）。"""
 
 EXPECTED_REFERENCES = 23
 """`prerequisites[].references` 的条数（P148 起 **23** = P147 的 22 + P148 的 1）。"""
@@ -303,8 +311,8 @@ class _Row:
 
 
 def test_p146_the_candidate_gate_counts_36_and_32_and_0() -> None:
-    """门槛：三产品候选集 **58 / 49 / 0**、blocked **515 / 451 / 31**（P149-A：方法集按只读
-    `OPTIONS` 实测修正后重算；P148 为 495 / 433 / 31），逐产品可复算。"""
+    """门槛：三产品候选集 **61 / 52 / 0**、blocked **512 / 448 / 31**（P149-B2：+3 个真实 L5
+    `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -327,7 +335,7 @@ def test_p146_the_candidate_gate_counts_36_and_32_and_0() -> None:
 
 
 def test_p146_the_templates_are_recomputable_from_the_manual() -> None:
-    """门槛：模板 57 / body 101 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
+    """门槛：模板 60 / body 104 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -399,16 +407,17 @@ def test_p146_skew_hspt_and_mado_are_honestly_left_out_with_native_evidence() ->
 
 
 def test_p146_sseis_is_not_admitted_because_its_schema_shape_is_unjudgeable() -> None:
-    """门槛（判定 4）：`DB.SSEIS` 的条目字段在 `patternProperties` 下 ⇒ 工具口径下**不可判**。"""
+    """门槛（判定 4）：`DB.SSEIS` 的条目字段在 `patternProperties` 下；P149-B2 起工具**已**剥到
+    条目 Schema ⇒ 形状**可判**（判定变强），但本批实测未取得结论 ⇒ 仍不入候选。"""
     registry = _registry()
     assert registry.write_template(PATTERN_PROPERTIES_KEY) is None
     assert PATTERN_PROPERTIES_KEY not in _probe("GEN_NX").candidate_keys()
     schema = registry.effective_schema(PATTERN_PROPERTIES_KEY) or {}
     assign = (schema.get("properties") or {}).get("Assign") or {}
-    # 复算工具**只**读 `properties`（`request_schema()`），故该形状下 `body` 的字段判定不可判
+    # 复算工具（`request_schema()`）P149-B2 起**会**剥到 `patternProperties` 的**条目** Schema
     assert "properties" not in assign
     assert "^[0-9]+$" in (assign.get("patternProperties") or {})
-    # 因此本批**不**纳入它 —— 端点本身仍是可写、已验证的（数据侧未被改动）
+    # 因此本批**不**纳入它（留缺：`UNVERIFIED_instance_crashed_pending_retest`）；端点仍是可写的
     definition = registry.endpoint(PATTERN_PROPERTIES_KEY)
     assert definition.enabled is True
     assert definition.availability == "verified"
@@ -448,26 +457,26 @@ async def test_p146_the_seven_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p146_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；61 / 633（`model_write_ratio` 61 / 434；P149-B2 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 58
-    assert coverage.ratio == "58 / 633"
+    assert coverage.covered == len(keys) == 61
+    assert coverage.ratio == "61 / 633"
     assert coverage.model_write == MODEL_WRITE_TOTAL
-    assert coverage.model_write_covered == 58
-    assert coverage.model_write_ratio == "58 / 434"
+    assert coverage.model_write_covered == 61
+    assert coverage.model_write_ratio == "61 / 434"
     assert set(coverage.covered_keys) == set(keys)
 
 
 def test_p146_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
-    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 49 条时原分子仍为 49。"""
+    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 52 条时原分子仍为 52。"""
     registry = _registry()
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 49
+    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 52
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "49 / 633"
+    assert civil.ratio == "52 / 633"
 
 
 def test_p146_the_seven_new_keys_are_delivered_by_the_data_side_only() -> None:

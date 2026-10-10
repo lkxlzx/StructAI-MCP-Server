@@ -62,6 +62,7 @@ TEMPLATE_ONLY_KEYS = (
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -78,6 +79,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -96,6 +98,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -122,6 +125,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_NX": (
         "DB.BMLD",
+        "DB.BNGR",
         "DB.BODF",
         "DB.CCFC",
         "DB.CNLD",
@@ -136,6 +140,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
+        "DB.GRUP",
         "DB.GSTP",
         "DB.HHCT",
         "DB.HSFC",
@@ -152,6 +157,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.MVHLTR",
         "DB.NMAS",
         "DB.NODE",
+        "DB.NPLN",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
@@ -173,12 +179,12 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**58 / 49 / 0**；P148 起）。"""
+"""三产品各自的候选集（**61 / 52 / 0**；P149-B2：+3 个真实 L5 `PASSED` 候选）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 512, "CIVIL_NX": 448, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
-P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）：只读 `OPTIONS` 实测修正方法集后，新进入
+P149-B2 起 **512 / 448 / 31**（P149-A 为 515 / 451 / 31）：只读 `OPTIONS` 实测修正方法集后，新进入
 「有写方法」集合的端点绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
@@ -252,8 +258,8 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
 
 
 def test_p144_the_candidate_gate_is_a_transformer_or_a_data_side_template() -> None:
-    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 58 / 49 / 0、blocked
-    515 / 451 / 31（P149-A：方法集按只读 `OPTIONS` 实测修正后重算），逐产品可复算。"""
+    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 61 / 52 / 0、blocked
+    512 / 448 / 31（P149-B2：+3 个真实 L5 `PASSED` 候选），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -330,19 +336,19 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 
 
 def test_p144_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；61 / 633（`model_write_ratio` 61 / 434；P149-B2 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 58
-    assert coverage.ratio == f"58 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"58 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 61
+    assert coverage.ratio == f"61 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"61 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 分子是**数据驱动**的：少一条 L5 行即少一个覆盖
     fewer = write_path_coverage(registry, [_Row(key) for key in keys[:-1]])
-    assert fewer.ratio == f"57 / {WRITE_PATH_TOTAL}"
-    # CIVIL NX 的候选（49）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
+    assert fewer.ratio == f"60 / {WRITE_PATH_TOTAL}"
+    # CIVIL NX 的候选（52）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == 49
-    assert civil.ratio == f"49 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 52
+    assert civil.ratio == f"52 / {WRITE_PATH_TOTAL}"

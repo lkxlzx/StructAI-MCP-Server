@@ -151,8 +151,30 @@ def apply_adjustments(item: Any, adjustments: list[dict[str, Any]]) -> Any:
 # ===== 数据侧 Schema（字段不臆造）=====
 
 
+def _item_schema(node: dict[str, Any]) -> dict[str, Any] | None:
+    """键控对象**包装节点** → **条目** Schema（取不到 → `None`）。
+
+    两种形状（`registry/schema/**` 实测都有）：
+    * `properties` 直连条目字段（包装节点**就是**条目 Schema）；
+    * `patternProperties` 的 `^[0-9]+$` 下才是条目字段（`ID → 条目` 键控对象）。
+
+    ⚠️ P149-B 修：旧版**只**认 `properties` ⇒ `patternProperties` 形状下退化为「拿**根**
+    Schema 判条目」——`unknown_fields()` 会把条目字段全部误判为「未声明」（假错）。
+    修后条目字段按**条目 Schema** 复算（判定**变强**，不是放宽）。
+    """
+    if isinstance(node.get("properties"), dict):
+        return node
+    patterns = node.get("patternProperties")
+    if isinstance(patterns, dict):
+        for pattern in ("^[0-9]+$", "^[0-9]+"):
+            child = patterns.get(pattern)
+            if isinstance(child, dict) and isinstance(child.get("properties"), dict):
+                return child
+    return None
+
+
 def request_schema(repo: pathlib.Path, relative: str) -> dict[str, Any] | None:
-    """端点 Schema 文件的**请求方向**生效 Schema（剥离包装根键；无文件 → `None`）。"""
+    """端点 Schema 文件的**请求方向**生效 Schema（剥离包装根键 → **条目** Schema；无文件 → `None`）。"""
     if not relative:
         return None
     path = repo / "registry" / relative
@@ -166,8 +188,10 @@ def request_schema(repo: pathlib.Path, relative: str) -> dict[str, Any] | None:
     if isinstance(properties, dict):
         for wrapper in ("Argument", "Assign"):
             node = properties.get(wrapper)
-            if isinstance(node, dict) and isinstance(node.get("properties"), dict):
-                return node
+            if isinstance(node, dict):
+                item = _item_schema(node)
+                if item is not None:
+                    return item
     return schema
 
 

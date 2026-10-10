@@ -19,7 +19,8 @@
     "body 原样照抄手册示例（零 adjustments），前置链 = 两条 DB.STLD（DC / DW，即手册示例 ITEM[].LCNAME 引用的工况名）。",
     "P147：新增 10 条**定义类独立表**模板（Tendon Group / 时变材料 / 地震装置 / 推覆控制 / 土层参数）—— body 原样照抄手册示例（零 adjustments、零前置链）；每条都在落盘前用**只读**自省 GET /info/db/<CODE> 核对过「手册示例字段 ⊆ 本 build 接受字段」（unknown = 0）。另 3 个端点（DB.TDMF / DB.THGC / DB.MVCT）的手册示例被本 build **拒绝**（`POST` → `400 software_api_error`，与 R103 的 DB.SKEW 同形）⇒ 模板**不写**、不入候选，如实留缺（见 docs/07 §16.1 R104）。",
     "P148：新增 12 条**定义类独立表**模板（荷载序列 / 外部预应力工况 / 水化热分析控制 / 移动荷载分析控制 ×4 / 地震荷载参数 / 楼层数据 / 小位移初始力控制 / 节点质量 / 钢束特性）—— body 全部原样照抄手册示例（零 adjustments）；10 条零前置链，2 类用**既有**前置机制（DB.EXLD / DB.LDSQ / DB.EFCT 补 DB.STLD 工况名；DB.NMAS 用 target_id_source 取自建节点号；DB.TDNT 补 DB.MATL）。落盘前逐条用**只读**自省 GET /info/db/<CODE> 核对「手册示例字段 ⊆ 本 build 接受字段」（unknown = 0）。DB.IMFM 的手册**两个**条目（STEEL_NAME / CONC+REBAR）都被本 build **拒绝**（`POST` → `400 software_api_error`，与 R103 / R104 同形）⇒ 模板**不写**、不入候选，如实留缺（见 docs/07 §16.1 R105）。",
-    "P149-B：模板来源从**一份**扩为**两份** —— 既有 `MIDAS_API_Online_Manual_数据_v1.0.json`（Help Center 抓取）+ 新增 `MIDAS_API_Online_Manual_Gen_NX_v1.0.json`（上游 NX 手册 `midas Gen API 使用手册.md` 的**机械抽取**，由 `registry/tools/sync_manual_index.py` 生成：841 条目 / 607 有示例 / 1488 个示例）。`registry/tools/check_write_templates.py` 改为**多来源**逐条复算：URI 按 `normalize_uri()`（去前导斜杠 + 小写）查表、两个来源**合并**（先到先得，同一路由在多章节重复出现时**不**互相覆盖）。因此本文件的 `source.uri` 只需与**某一**来源里的写法一致（如 `db/POGD` 来自旧来源、`DB/REBB` 来自新来源）。"
+    "P149-B：模板来源从**一份**扩为**两份** —— 既有 `MIDAS_API_Online_Manual_数据_v1.0.json`（Help Center 抓取）+ 新增 `MIDAS_API_Online_Manual_Gen_NX_v1.0.json`（上游 NX 手册 `midas Gen API 使用手册.md` 的**机械抽取**，由 `registry/tools/sync_manual_index.py` 生成：841 条目 / 607 有示例 / 1488 个示例）。`registry/tools/check_write_templates.py` 改为**多来源**逐条复算：URI 按 `normalize_uri()`（去前导斜杠 + 小写）查表、两个来源**合并**（先到先得，同一路由在多章节重复出现时**不**互相覆盖）。因此本文件的 `source.uri` 只需与**某一**来源里的写法一致（如 `db/POGD` 来自旧来源、`DB/REBB` 来自新来源）。",
+    "P149-B（第二子批）：本文件的条目**由 `registry/tools/sync_write_templates.py` 机械生成/维护** —— 对「已具备可判形态但**既无 Transformer 又无模板**」的端点，按「旧来源 → 新来源」顺序取**第一个**可用手册示例条目，原样照抄（`manual_example`、零 adjustments、零前置链）；实测被拒 / 读不回 / 无可用示例的端点列入 `registry/live/write_template_left_out.json`，本工具会**主动剔除**它们的模板。改本文件必须走该工具的 --write，并用 --check 断言一致。"
   ],
   "measured_on": {
     "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
@@ -38,7 +39,13 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "self_references": [["ITEMS", 0, "ID"]],
+      "self_references": [
+        [
+          "ITEMS",
+          0,
+          "ID"
+        ]
+      ],
       "body": {
         "ITEMS": [
           {
@@ -50,8 +57,18 @@
             "DIRECTION": "GZ",
             "USE_PROJECTION": false,
             "USE_ECCEN": false,
-            "D": [0, 1, 0, 0],
-            "P": [-50, -50, 0, 0]
+            "D": [
+              0,
+              1,
+              0,
+              0
+            ],
+            "P": [
+              -50,
+              -50,
+              0,
+              0
+            ]
           }
         ]
       },
@@ -81,12 +98,23 @@
               "why": "荷载工况名与类型一致（L = Live Load，见手册 Load Type 枚举表）"
             }
           ],
-          "body": {"NAME": "L", "TYPE": "L", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "L",
+            "TYPE": "L",
+            "DESC": "DeadLoads"
+          }
         },
         {
           "key": "DB.MATL",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -120,7 +148,14 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "SECT"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -141,14 +176,27 @@
               "USE_WARPING_EFFECT": false,
               "SHAPE": "SB",
               "DATATYPE": 2,
-              "SECT_I": {"vSIZE": [1, 1]}
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
             }
           }
         },
         {
           "key": "DB.NODE",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                0
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -164,15 +212,37 @@
               "to": 0,
               "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
             },
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "2",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                1
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -182,11 +252,30 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
-            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -2,
+              "to": 1,
+              "why": "同上：与 1 号节点不重合"
+            },
+            {
+              "path": "Y",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 0, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.ELEM",
@@ -202,27 +291,45 @@
           "adjustments": [
             {
               "path": "NODE",
-              "from": [30, 74],
-              "to": [1, 2],
+              "from": [
+                30,
+                74
+              ],
+              "to": [
+                1,
+                2
+              ],
               "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
             }
           ],
-          "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0}
+          "body": {
+            "TYPE": "BEAM",
+            "MATL": 1,
+            "SECT": 1,
+            "NODE": [
+              1,
+              2
+            ],
+            "ANGLE": 0
+          }
         }
       ]
     },
-    "DB.CCFC": {
+    "DB.BNGR": {
       "wrapper": "Assign",
       "source": {
         "kind": "manual_example",
-        "uri": "db/CCFC",
-        "example": "Convection Coefficient Functions",
+        "uri": "db/BNGR",
+        "example": "Boundary Group",
         "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35988168533785",
-        "retrieved_at": "2025-11-04"
+        "url": "https://support.midasuser.com/hc/en-us/articles/35804937452313",
+        "retrieved_at": "2026-10-10"
       },
       "adjustments": [],
-      "body": {"NAME": "ConvectionCoeff", "TYPE": "CONST", "COEF": 15},
+      "body": {
+        "NAME": "fix1",
+        "AUTOTYPE": 0
+      },
       "prerequisites": []
     },
     "DB.BODF": {
@@ -236,7 +343,15 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"LCNAME": "D", "GROUP_NAME": "", "FV": [0, 0, -1]},
+      "body": {
+        "LCNAME": "D",
+        "GROUP_NAME": "",
+        "FV": [
+          0,
+          0,
+          -1
+        ]
+      },
       "prerequisites": [
         {
           "key": "DB.STLD",
@@ -257,9 +372,31 @@
               "why": "目标请求体按 LCNAME = D 引用荷载工况（示例自身即用 D）"
             }
           ],
-          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "D",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         }
       ]
+    },
+    "DB.CCFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/CCFC",
+        "example": "Convection Coefficient Functions",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35988168533785",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "ConvectionCoeff",
+        "TYPE": "CONST",
+        "COEF": 15
+      },
+      "prerequisites": []
     },
     "DB.CNLD": {
       "wrapper": "Assign",
@@ -272,7 +409,13 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "self_references": [["ITEMS", 0, "ID"]],
+      "self_references": [
+        [
+          "ITEMS",
+          0,
+          "ID"
+        ]
+      ],
       "target_id_source": "DB.NODE#1",
       "body": {
         "ITEMS": [
@@ -309,7 +452,11 @@
               "why": "目标请求体按 LCNAME = D 引用荷载工况（示例自身即用 D）"
             }
           ],
-          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "D",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         },
         {
           "key": "DB.NODE",
@@ -323,27 +470,32 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -1, "to": 0, "why": "坐标取 0：条目按 ID = 1 引用该节点"},
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "坐标取 0：条目按 ID = 1 引用该节点"
+            },
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         }
       ]
-    },
-    "DB.CUTL": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/CUTL",
-        "example": "Cutting Line",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35991257189017",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "Cut-Line#1", "DIR": "NORMAL", "PT1X": 8.95, "PT1Y": 11.0725, "PT1Z": 1.205, "PT2X": 8.95, "PT2Y": -1.0725, "PT2Z": 1.205, "R": 255, "G": 0, "B": 0, "TYPE": 0},
-      "prerequisites": []
     },
     "DB.CONS": {
       "wrapper": "Assign",
@@ -363,9 +515,23 @@
           "why": "示例用了本项目不存在的边界组名 Service → 实例 400 Unknown Error（P139 实测）；空串 = 不分组 → 200"
         }
       ],
-      "self_references": [["ITEMS", 0, "ID"]],
+      "self_references": [
+        [
+          "ITEMS",
+          0,
+          "ID"
+        ]
+      ],
       "target_id_source": "DB.NODE#1",
-      "body": {"ITEMS": [{"ID": 1, "GROUP_NAME": "", "CONSTRAINT": "1111000"}]},
+      "body": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1111000"
+          }
+        ]
+      },
       "prerequisites": [
         {
           "key": "DB.NODE",
@@ -379,13 +545,59 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -1, "to": 0, "why": "坐标取 0：条目按 ID = 1 引用该节点"},
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "坐标取 0：条目按 ID = 1 引用该节点"
+            },
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         }
       ]
+    },
+    "DB.CUTL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/CUTL",
+        "example": "Cutting Line",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35991257189017",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Cut-Line#1",
+        "DIR": "NORMAL",
+        "PT1X": 8.95,
+        "PT1Y": 11.0725,
+        "PT1Z": 1.205,
+        "PT2X": 8.95,
+        "PT2Y": -1.0725,
+        "PT2Z": 1.205,
+        "R": 255,
+        "G": 0,
+        "B": 0,
+        "TYPE": 0
+      },
+      "prerequisites": []
     },
     "DB.DCON": {
       "wrapper": "Assign",
@@ -398,7 +610,9 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"DGNCODE": "KCI-USD12"},
+      "body": {
+        "DGNCODE": "KCI-USD12"
+      },
       "prerequisites": []
     },
     "DB.DCTL": {
@@ -412,7 +626,12 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"FRAMEX": "Braced Non-sway", "FRAMEY": "Braced Non-sway", "bAUTOKF": false, "DT": "XY"},
+      "body": {
+        "FRAMEX": "Braced Non-sway",
+        "FRAMEY": "Braced Non-sway",
+        "bAUTOKF": false,
+        "DT": "XY"
+      },
       "prerequisites": []
     },
     "DB.DSTL": {
@@ -433,8 +652,83 @@
           "why": "本 build 不接受手册示例的 Eurocode3-2:05（实测 POST /DB/DSTL → 400「钢结构设计控制 数据内有错误」）；Eurocode3:05 实测被接受（200）"
         }
       ],
-      "body": {"DGNCODE": "Eurocode3:05"},
+      "body": {
+        "DGNCODE": "Eurocode3:05"
+      },
       "prerequisites": []
+    },
+    "DB.EFCT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/EFCT",
+        "example": "Small Displacement/Initial Force Control Data",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35988927684633",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "bADDLC": false,
+        "LCNAME": "DL",
+        "bUSECOMB": true,
+        "COMB_LIST": [
+          {
+            "LCNAME": "DL",
+            "FACTOR": 1.2
+          },
+          {
+            "LCNAME": "LL",
+            "FACTOR": 1
+          }
+        ],
+        "bCHECK_GEOM_STIFF": false
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "NAME": "DL",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "LL",
+              "why": "目标请求体的 COMB_LIST 第二个工况名是 LL"
+            }
+          ],
+          "body": {
+            "NAME": "LL",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        }
+      ]
     },
     "DB.EIGV": {
       "wrapper": "Assign",
@@ -447,7 +741,28 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"TYPE": "RITZ", "bINCNL": false, "iGNUM": 1, "vRITZ": [{"KIND": "GROUND", "GROUND": "ACCX", "iNOG": 30}, {"KIND": "GROUND", "GROUND": "ACCY", "iNOG": 30}, {"KIND": "GROUND", "GROUND": "ACCZ", "iNOG": 30}]},
+      "body": {
+        "TYPE": "RITZ",
+        "bINCNL": false,
+        "iGNUM": 1,
+        "vRITZ": [
+          {
+            "KIND": "GROUND",
+            "GROUND": "ACCX",
+            "iNOG": 30
+          },
+          {
+            "KIND": "GROUND",
+            "GROUND": "ACCY",
+            "iNOG": 30
+          },
+          {
+            "KIND": "GROUND",
+            "GROUND": "ACCZ",
+            "iNOG": 30
+          }
+        ]
+      },
       "prerequisites": []
     },
     "DB.ELEM": {
@@ -463,17 +778,39 @@
       "adjustments": [
         {
           "path": "NODE",
-          "from": [30, 74],
-          "to": [1, 2],
+          "from": [
+            30,
+            74
+          ],
+          "to": [
+            1,
+            2
+          ],
           "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
         }
       ],
-      "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0},
+      "body": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          1,
+          2
+        ],
+        "ANGLE": 0
+      },
       "prerequisites": [
         {
           "key": "DB.MATL",
           "item_id": "1",
-          "references": [{"in": "owner", "path": ["MATL"]}],
+          "references": [
+            {
+              "in": "owner",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -507,7 +844,14 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
-          "references": [{"in": "owner", "path": ["SECT"]}],
+          "references": [
+            {
+              "in": "owner",
+              "path": [
+                "SECT"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -528,14 +872,27 @@
               "USE_WARPING_EFFECT": false,
               "SHAPE": "SB",
               "DATATYPE": 2,
-              "SECT_I": {"vSIZE": [1, 1]}
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
             }
           }
         },
         {
           "key": "DB.NODE",
           "item_id": "1",
-          "references": [{"in": "owner", "path": ["NODE", 0]}],
+          "references": [
+            {
+              "in": "owner",
+              "path": [
+                "NODE",
+                0
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -551,15 +908,37 @@
               "to": 0,
               "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
             },
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "2",
-          "references": [{"in": "owner", "path": ["NODE", 1]}],
+          "references": [
+            {
+              "in": "owner",
+              "path": [
+                "NODE",
+                1
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -569,11 +948,30 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
-            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -2,
+              "to": 1,
+              "why": "同上：与 1 号节点不重合"
+            },
+            {
+              "path": "Y",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 0, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 0,
+            "Z": 0
+          }
         }
       ]
     },
@@ -588,7 +986,14 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "Tresca_None", "MODEL_TYPE": "TR", "TRESCA": {"INIT_YIELD_STRESS": 30000, "OPT_HARDENING": 0}},
+      "body": {
+        "NAME": "Tresca_None",
+        "MODEL_TYPE": "TR",
+        "TRESCA": {
+          "INIT_YIELD_STRESS": 30000,
+          "OPT_HARDENING": 0
+        }
+      },
       "prerequisites": []
     },
     "DB.ETFC": {
@@ -602,8 +1007,82 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "AmbientTemperature", "TYPE": "CONST", "TEMP": 30},
+      "body": {
+        "NAME": "AmbientTemperature",
+        "TYPE": "CONST",
+        "TEMP": 30
+      },
       "prerequisites": []
+    },
+    "DB.EXLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/EXLD",
+        "example": "External Type Load Case for Pretension",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35954841849753",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "LCNAME_ITEM": [
+          "PrS1",
+          "PrS2"
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "PrS1",
+              "why": "目标请求体的 LCNAME_ITEM 第一个工况名是 PrS1"
+            }
+          ],
+          "body": {
+            "NAME": "PrS1",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "PrS2",
+              "why": "目标请求体的 LCNAME_ITEM 第二个工况名是 PrS2"
+            }
+          ],
+          "body": {
+            "NAME": "PrS2",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        }
+      ]
     },
     "DB.FBLD": {
       "wrapper": "Assign",
@@ -620,8 +1099,16 @@
         "NAME": "Floor_example",
         "DESC": "",
         "ITEM": [
-          {"LCNAME": "DC", "FLOOR_LOAD": 10, "OPT_SUB_BEAM_WEIGHT": true},
-          {"LCNAME": "DW", "FLOOR_LOAD": 20, "OPT_SUB_BEAM_WEIGHT": true}
+          {
+            "LCNAME": "DC",
+            "FLOOR_LOAD": 10,
+            "OPT_SUB_BEAM_WEIGHT": true
+          },
+          {
+            "LCNAME": "DW",
+            "FLOOR_LOAD": 20,
+            "OPT_SUB_BEAM_WEIGHT": true
+          }
         ]
       },
       "prerequisites": [
@@ -644,7 +1131,11 @@
               "why": "目标请求体按 LCNAME = DC 引用荷载工况（手册 FBLD 示例自身的第一个工况名）"
             }
           ],
-          "body": {"NAME": "DC", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "DC",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         },
         {
           "key": "DB.STLD",
@@ -665,7 +1156,11 @@
               "why": "目标请求体按 LCNAME = DW 引用荷载工况（手册 FBLD 示例自身的第二个工况名）"
             }
           ],
-          "body": {"NAME": "DW", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "DW",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         }
       ]
     },
@@ -680,7 +1175,54 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "Conc_Kent&Park", "MATL_TYPE": "CONC", "HYS_MODEL": "KPM", "CONC": {"KENPAR": {"FC": 30000, "EC0": 0.002, "K": 1, "ECU": 0.003, "PARTIAL_FACT": 1, "EC1_METHOD": 0, "EC1": 0.0025, "STRENGTH_AFTER": 1}}},
+      "body": {
+        "NAME": "Conc_Kent&Park",
+        "MATL_TYPE": "CONC",
+        "HYS_MODEL": "KPM",
+        "CONC": {
+          "KENPAR": {
+            "FC": 30000,
+            "EC0": 0.002,
+            "K": 1,
+            "ECU": 0.003,
+            "PARTIAL_FACT": 1,
+            "EC1_METHOD": 0,
+            "EC1": 0.0025,
+            "STRENGTH_AFTER": 1
+          }
+        }
+      },
+      "prerequisites": []
+    },
+    "DB.GRUP": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/GRUP",
+        "example": "Structure Group",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35802441712921",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "CENTER_",
+        "P_TYPE": 0,
+        "N_LIST": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "E_LIST": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
       "prerequisites": []
     },
     "DB.GSTP": {
@@ -694,7 +1236,113 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "GS_Damping", "SPRING": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "MASS": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "DAMPING": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "OPT_STIFFNESS": true, "OPT_MASS": true, "OPT_DAMPING": true},
+      "body": {
+        "NAME": "GS_Damping",
+        "SPRING": [
+          1,
+          7,
+          12,
+          16,
+          19,
+          21,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          17,
+          18,
+          20
+        ],
+        "MASS": [
+          1,
+          7,
+          12,
+          16,
+          19,
+          21,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          17,
+          18,
+          20
+        ],
+        "DAMPING": [
+          1,
+          7,
+          12,
+          16,
+          19,
+          21,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14,
+          15,
+          17,
+          18,
+          20
+        ],
+        "OPT_STIFFNESS": true,
+        "OPT_MASS": true,
+        "OPT_DAMPING": true
+      },
+      "prerequisites": []
+    },
+    "DB.HHCT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/HHCT",
+        "example": "General",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989317531417",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "FINAL_STAGE": true,
+        "STAGE_NAME": "",
+        "THETA": 1,
+        "INIT_TEMP": 20,
+        "EVAL": "GAUSS",
+        "OPT_USE_EQUI_AGE": true,
+        "OPT_INCL_SELF_WEIGHT": false,
+        "SELF_WEIGHT_FACTOR": -1,
+        "OPT_IS_CREEP_SHRINKAGE": true,
+        "ITEM": {
+          "TYPE": "BOTH",
+          "CREEP_CALC_METHOD": 0,
+          "M_GENERAL": {
+            "ITER": 20,
+            "TOL": 0.001
+          }
+        }
+      },
       "prerequisites": []
     },
     "DB.HSFC": {
@@ -708,7 +1356,26 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "F1", "TYPE": "USER", "IS_ADIABATIC_TEMP": false, "SCALE_FACTOR": 1, "ITEM": [{"TIME": 0, "VALUE": 0}, {"TIME": 1, "VALUE": 5}, {"TIME": 2, "VALUE": 10}]},
+      "body": {
+        "NAME": "F1",
+        "TYPE": "USER",
+        "IS_ADIABATIC_TEMP": false,
+        "SCALE_FACTOR": 1,
+        "ITEM": [
+          {
+            "TIME": 0,
+            "VALUE": 0
+          },
+          {
+            "TIME": 1,
+            "VALUE": 5
+          },
+          {
+            "TIME": 2,
+            "VALUE": 10
+          }
+        ]
+      },
       "prerequisites": []
     },
     "DB.IEHC": {
@@ -722,8 +1389,112 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"BEAM_LOC": 1, "BeamDivNumNy": 15, "BeamDivNumNz": 20, "WallConsOut": false, "WallDivNumZ": 8, "WallDivNumY": 1, "dR": 0.4, "WAreaSize": "AUTO", "OPT_ConsiderRebarArea1D": false, "OPT_ConsiderRebarAreaWall": false, "FAreaSizeCore": 1, "FAreaSizeCover": 1, "WAreaSizeCover": 1, "BeamDivNumNyCover": 20, "BeamDivNumNzCover": 15, "WallDivNumZCover": 8, "WallDivNumYCover": 1},
+      "body": {
+        "BEAM_LOC": 1,
+        "BeamDivNumNy": 15,
+        "BeamDivNumNz": 20,
+        "WallConsOut": false,
+        "WallDivNumZ": 8,
+        "WallDivNumY": 1,
+        "dR": 0.4,
+        "WAreaSize": "AUTO",
+        "OPT_ConsiderRebarArea1D": false,
+        "OPT_ConsiderRebarAreaWall": false,
+        "FAreaSizeCore": 1,
+        "FAreaSizeCover": 1,
+        "WAreaSizeCover": 1,
+        "BeamDivNumNyCover": 20,
+        "BeamDivNumNzCover": 15,
+        "WallDivNumZCover": 8,
+        "WallDivNumYCover": 1
+      },
       "prerequisites": []
+    },
+    "DB.LDGR": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/LDGR",
+        "example": "Load Group",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35804975346841",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "SW"
+      },
+      "prerequisites": []
+    },
+    "DB.LDSQ": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/LDSQ",
+        "example": "Load Sequence for Nonlinear",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35988663234329",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "LCNAME_ITEM": [
+          "DL(BC)4",
+          "DL(AC)"
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "DL(BC)4",
+              "why": "目标请求体的 LCNAME_ITEM 第一个工况名是 DL(BC)4"
+            }
+          ],
+          "body": {
+            "NAME": "DL(BC)4",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "DL(AC)",
+              "why": "目标请求体的 LCNAME_ITEM 第二个工况名是 DL(AC)"
+            }
+          ],
+          "body": {
+            "NAME": "DL(AC)",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
+        }
+      ]
     },
     "DB.LENG": {
       "wrapper": "Assign",
@@ -737,12 +1508,26 @@
       },
       "adjustments": [],
       "target_id_source": "DB.ELEM#1",
-      "body": {"LY": 9.464111, "LZ": 4, "LB": 4, "bNOTUSE": false, "bAUTOCALC": false, "LT": 9.464111},
+      "body": {
+        "LY": 9.464111,
+        "LZ": 4,
+        "LB": 4,
+        "bNOTUSE": false,
+        "bAUTOCALC": false,
+        "LT": 9.464111
+      },
       "prerequisites": [
         {
           "key": "DB.MATL",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -776,7 +1561,14 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "SECT"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -797,14 +1589,27 @@
               "USE_WARPING_EFFECT": false,
               "SHAPE": "SB",
               "DATATYPE": 2,
-              "SECT_I": {"vSIZE": [1, 1]}
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
             }
           }
         },
         {
           "key": "DB.NODE",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                0
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -820,15 +1625,37 @@
               "to": 0,
               "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
             },
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "2",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                1
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -838,11 +1665,30 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
-            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -2,
+              "to": 1,
+              "why": "同上：与 1 号节点不重合"
+            },
+            {
+              "path": "Y",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 0, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.ELEM",
@@ -858,12 +1704,27 @@
           "adjustments": [
             {
               "path": "NODE",
-              "from": [30, 74],
-              "to": [1, 2],
+              "from": [
+                30,
+                74
+              ],
+              "to": [
+                1,
+                2
+              ],
               "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
             }
           ],
-          "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0}
+          "body": {
+            "TYPE": "BEAM",
+            "MATL": 1,
+            "SECT": 1,
+            "NODE": [
+              1,
+              2
+            ],
+            "ANGLE": 0
+          }
         }
       ]
     },
@@ -912,12 +1773,21 @@
       },
       "adjustments": [],
       "target_id_source": "DB.ELEM#1",
-      "body": {"TYPE": "COLUMN"},
+      "body": {
+        "TYPE": "COLUMN"
+      },
       "prerequisites": [
         {
           "key": "DB.MATL",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -951,7 +1821,14 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "SECT"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -972,14 +1849,27 @@
               "USE_WARPING_EFFECT": false,
               "SHAPE": "SB",
               "DATATYPE": 2,
-              "SECT_I": {"vSIZE": [1, 1]}
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
             }
           }
         },
         {
           "key": "DB.NODE",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                0
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -995,15 +1885,37 @@
               "to": 0,
               "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
             },
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "2",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                1
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -1013,11 +1925,30 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -2, "to": 1, "why": "同上：与 1 号节点不重合"},
-            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -2,
+              "to": 1,
+              "why": "同上：与 1 号节点不重合"
+            },
+            {
+              "path": "Y",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 0, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.ELEM",
@@ -1033,12 +1964,27 @@
           "adjustments": [
             {
               "path": "NODE",
-              "from": [30, 74],
-              "to": [1, 2],
+              "from": [
+                30,
+                74
+              ],
+              "to": [
+                1,
+                2
+              ],
               "why": "只引用**自建**节点；示例引用的 30 / 74 在本项目不存在"
             }
           ],
-          "body": {"TYPE": "BEAM", "MATL": 1, "SECT": 1, "NODE": [1, 2], "ANGLE": 0}
+          "body": {
+            "TYPE": "BEAM",
+            "MATL": 1,
+            "SECT": 1,
+            "NODE": [
+              1,
+              2
+            ],
+            "ANGLE": 0
+          }
         }
       ]
     },
@@ -1053,7 +1999,34 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "Force_Deform", "TYPE": "FORCE", "SYMM": false, "FUNC_ID": 0, "ITEMS": [{"X": -0.2, "Y": -1200}, {"X": -0.1, "Y": -1000}, {"X": 0, "Y": 0}, {"X": 0.1, "Y": 1000}, {"X": 0.2, "Y": 1200}]},
+      "body": {
+        "NAME": "Force_Deform",
+        "TYPE": "FORCE",
+        "SYMM": false,
+        "FUNC_ID": 0,
+        "ITEMS": [
+          {
+            "X": -0.2,
+            "Y": -1200
+          },
+          {
+            "X": -0.1,
+            "Y": -1000
+          },
+          {
+            "X": 0,
+            "Y": 0
+          },
+          {
+            "X": 0.1,
+            "Y": 1000
+          },
+          {
+            "X": 0.2,
+            "Y": 1200
+          }
+        ]
+      },
       "prerequisites": []
     },
     "DB.MVCD": {
@@ -1067,7 +2040,148 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"CODE": "EUROCODE"},
+      "body": {
+        "CODE": "EUROCODE"
+      },
+      "prerequisites": []
+    },
+    "DB.MVCTBS": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/MVCTbs",
+        "example": "Moving Load Analysis Control",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989838706969",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "iIGP": 0,
+        "UNUMT": 3,
+        "PLATE": "NODAL",
+        "bSTRCALC": true,
+        "bCONCURRENT": true,
+        "FRAME": "AXIAL",
+        "bCSTRCALC": true,
+        "bREAC": true,
+        "bRGP": false,
+        "RGP": "",
+        "bDISP": true,
+        "bDGP": false,
+        "DGP": "",
+        "bFM": true,
+        "bFGP": false,
+        "FGP": "",
+        "bL": true,
+        "bLG": false,
+        "LGP": "",
+        "NUMLANE": 0
+      },
+      "prerequisites": []
+    },
+    "DB.MVCTCH": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/MVCTch",
+        "example": "Moving Load Analysis Control",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989644995609",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "POINT": "INF",
+        "iIGP": 0,
+        "UNUMT": 3,
+        "PLATE": "NODAL",
+        "bSTRCALC": true,
+        "FRAME": "AXIAL",
+        "bCSTRCALC": true,
+        "bREAC": true,
+        "bRG": false,
+        "RGN": "",
+        "bDISP": true,
+        "bDG": false,
+        "DGN": "",
+        "bFM": true,
+        "bFG": false,
+        "FGN": "",
+        "bL": true,
+        "bLG": false,
+        "LGN": "",
+        "bIF": true,
+        "iCODETYPE": 0,
+        "iNFM": 0,
+        "bBC": true,
+        "iBC": 0,
+        "FREQ": {
+          "USER_F": 2.3
+        }
+      },
+      "prerequisites": []
+    },
+    "DB.MVCTID": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/MVCTid",
+        "example": "Moving Load Analysis Control",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989643553305",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "iIGP": 0,
+        "UNUMT": 3,
+        "PLATE": "NODAL",
+        "bSTRCALC": true,
+        "FRAME": "AXIAL",
+        "bCSTRCALC": true,
+        "bREAC": true,
+        "bRGP": false,
+        "RGP": "",
+        "bDISP": true,
+        "bDGP": false,
+        "DGP": "",
+        "bFM": true,
+        "bFGP": false,
+        "FGP": "",
+        "bL": true,
+        "bLG": false,
+        "LGP": "",
+        "BRIDGE": 0,
+        "TRACKS": 0,
+        "WIDTHTYPE": 0,
+        "WIDTH": 0,
+        "DEPTH": 10,
+        "VHMAX": 10
+      },
+      "prerequisites": []
+    },
+    "DB.MVCTTR": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/MVCTtr",
+        "example": "Moving Load Analysis Control",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989924517401",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "LOAD_POINT_SEL": 1,
+        "INFL_GEN_POINT": 0,
+        "NUM_UNIT_LOAD": 3,
+        "ANALYSIS_RESULT": 2,
+        "OPT_COMBINED_STR": true,
+        "OPT_REACTIONS": true,
+        "OPT_DISPLACEMENTS": true,
+        "OPT_FORCE": false
+      },
       "prerequisites": []
     },
     "DB.MVHLTR": {
@@ -1081,7 +2195,121 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "Trans_Medians", "P": 120, "W": 2.3, "LW": 10, "NUM": 4, "DW": 0.3, "DV": 0.4, "DE": 0.5, "OPT_MEDIAN_STRIP": true, "ML": 15, "MW": 1, "LEFT_LANES": 2},
+      "body": {
+        "NAME": "Trans_Medians",
+        "P": 120,
+        "W": 2.3,
+        "LW": 10,
+        "NUM": 4,
+        "DW": 0.3,
+        "DV": 0.4,
+        "DE": 0.5,
+        "OPT_MEDIAN_STRIP": true,
+        "ML": 15,
+        "MW": 1,
+        "LEFT_LANES": 2
+      },
+      "prerequisites": []
+    },
+    "DB.NMAS": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/NMAS",
+        "example": "Nodal Masses",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35952994344985",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "mX": 1,
+        "mY": 2,
+        "mZ": 3,
+        "rmX": 4,
+        "rmY": 5,
+        "rmZ": 6
+      },
+      "target_id_source": "DB.NODE#1",
+      "prerequisites": [
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/NODE",
+            "example": "Node",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"
+            },
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
+          ],
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
+        }
+      ]
+    },
+    "DB.NPLN": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/NPLN",
+        "example": "Named Plane",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35805287066649",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "NP11",
+        "TYPE": 1,
+        "TOL": 1,
+        "POINT": [
+          {
+            "ITEM": [
+              0,
+              235,
+              0
+            ]
+          },
+          {
+            "ITEM": [
+              0,
+              9710,
+              0
+            ]
+          },
+          {
+            "ITEM": [
+              15250,
+              9710,
+              0
+            ]
+          }
+        ]
+      },
       "prerequisites": []
     },
     "DB.PDEL": {
@@ -1095,7 +2323,20 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"ITER": 5, "TOL": 1e-05, "PDEL_CASES": [{"LCNAME": "A", "FACTOR": 1}, {"LCNAME": "B", "FACTOR": 1}]},
+      "body": {
+        "ITER": 5,
+        "TOL": 1e-05,
+        "PDEL_CASES": [
+          {
+            "LCNAME": "A",
+            "FACTOR": 1
+          },
+          {
+            "LCNAME": "B",
+            "FACTOR": 1
+          }
+        ]
+      },
       "prerequisites": [
         {
           "key": "DB.STLD",
@@ -1116,7 +2357,11 @@
               "why": "目标请求体按 LCNAME = A 引用荷载工况（手册示例自身的第一个工况名）"
             }
           ],
-          "body": {"NAME": "A", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "A",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         },
         {
           "key": "DB.STLD",
@@ -1137,9 +2382,392 @@
               "why": "目标请求体按 LCNAME = B 引用荷载工况（手册示例自身的第二个工况名）"
             }
           ],
-          "body": {"NAME": "B", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "B",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         }
       ]
+    },
+    "DB.PJCF": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/PJCF",
+        "example": "Project Information",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35801869341337",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "PROJECT": "Cable",
+        "REVISION": "940",
+        "USER": "LJW",
+        "EMAIL": "cle1123",
+        "ADDRESS": "MIDASIT",
+        "TEL": "031789",
+        "FAX": "031789",
+        "CLIENT": "MIDASIT",
+        "TITLE": "CableBridge",
+        "ENGINEER": "A",
+        "EDATE": "23.11",
+        "CHECK1": "B",
+        "CDATE1": "24.11",
+        "CHECK2": "C",
+        "CDATE2": "24.12",
+        "CHECK3": "D",
+        "CDATE3": "24.12",
+        "APPROVE": "E",
+        "ADATE": "14.2",
+        "COMMENT": "Good"
+      },
+      "prerequisites": []
+    },
+    "DB.PNLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/PNLD",
+        "example": "Points",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35953492119321",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Point_examples",
+        "DESC": "API_example",
+        "LTYPE": "POINT",
+        "POINTLOAD": [
+          {
+            "X": 0,
+            "Y": 0,
+            "F": -10
+          },
+          {
+            "X": 1,
+            "Y": -1,
+            "F": 10.5
+          }
+        ],
+        "COPY_X": [
+          5,
+          5,
+          5
+        ],
+        "COPY_Y": [
+          4.5
+        ],
+        "SEQ": 1
+      },
+      "prerequisites": []
+    },
+    "DB.POGD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/POGD",
+        "example": "Pushover Analysis Control Data",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35992664632601",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "GEOMNONLINEAR_TYPE": "NONE",
+        "INITLOADMETHOD": "PERFORM_ANAL",
+        "INITLOAD": [],
+        "bCONSIGNOREELEM": true,
+        "NONL_OPT": {
+          "bPERMITFAIL": true,
+          "SUBSTEP": 10,
+          "MAXITER": 10,
+          "bDISPLNORM": true,
+          "bFORCENORM": false,
+          "bENERGYNORM": false,
+          "DISPLNORM": 0.001,
+          "FORCENORM": 0.001,
+          "ENERGYNORM": 0.001,
+          "bSHEARYIELDSTOP": false,
+          "BSHEARYIELDSTOPBEAM": true,
+          "bSHEARYIELDSTOPWALL": false,
+          "bAXIALYIELDSTOP": false,
+          "bAXIALYIELDSTOPBEAM": true,
+          "bAXIALYIELDSTOPWALL": false,
+          "bAXIALYIELDSTOPTRUSS": false,
+          "bSUPPORTDZDIRSTOP": false,
+          "bSUPPORTSTOPUPLIFTING": false,
+          "bSUPPORTSTOPCOLLAPSE": false
+        },
+        "PHOP_OPT": {
+          "bCONSREBARAREA1D": false,
+          "BEAM_CORE_SIZE": "AUTO",
+          "BEAM_CORE_DIV_Y": 15,
+          "BEAM_CORE_DIV_Z": 15,
+          "BEAM_COVER_SIZE": "EQUAL",
+          "BEAM_COVER_DIV_Y": 15,
+          "BEAM_COVER_DIV_Z": 15,
+          "bCONSREBARAREAWALL": false,
+          "bWALLCONSOUT": true,
+          "WALL_CORE_SIZE": "AUTO",
+          "WALL_CORE_DIV_Z": 8,
+          "WALL_CORE_DIV_Y": 8,
+          "WALL_COVER_SIZE": "AUTO",
+          "WALL_COVER_DIV_Z": 8,
+          "WALL_COVER_DIV_Y": 1,
+          "SHEAR_R": 0.4,
+          "bASSIGNBYMEMBER": true,
+          "bTRI_SYM": true,
+          "TRI_TENS_A1": 0.1,
+          "TRI_TENS_A2": 0.05,
+          "TRI_COMP_A1": 0.1,
+          "TRI_COMP_A2": 0.05,
+          "bBI_SYM": true,
+          "BI_TENS_A1": 0.05,
+          "BI_COMP_A1": 0.05,
+          "PSPR_APPLY_TYPE": "ASSUME",
+          "ELNK_APPLY_TYPE": "APPLY",
+          "bUSEAUTOCALCREFERENCE": true,
+          "RCDGNCODE": "KISTEC2019",
+          "LOC_BEAM": "M",
+          "LOC_COLUMN": "I",
+          "SF_WALL": 1.6,
+          "bSF_BRITTLE": false,
+          "SF_BRITTLE": 1.6,
+          "bSF_EARTHQUAKE": false,
+          "SF_EARTHQUAKE": 0.85,
+          "bSF_SMOOTH_BAR": false,
+          "SF_SMOOTH_BAR": 0.575,
+          "CONFIDENCE": 1,
+          "bBUCKLING": true,
+          "bCALCAXIALFORCE": true
+        },
+        "NODECONNECTIVITY": "PINNED",
+        "bSHOWGRAPHAFTER": true,
+        "bSHOWGRAPGHDURING": false
+      },
+      "prerequisites": []
+    },
+    "DB.POSL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/POSL",
+        "example": "",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/49511410691609",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "KDS(2019)",
+        "CODE": "KDS(41-17-00:2019)",
+        "METHOD": "RES_DISP",
+        "SZ": "1",
+        "EPA": 0.22,
+        "SC": "S1",
+        "FA": 1.12,
+        "FV": 0.84,
+        "SDS": 0.41066666666666674,
+        "SD1": 0.12319999999999999,
+        "USER_GROUP": "1",
+        "IF": 1.2,
+        "RMF": 3
+      },
+      "prerequisites": []
+    },
+    "DB.POSP": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/POSP",
+        "example": "Import to Json",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/49510865840537",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Soil-1",
+        "DESC": "",
+        "OPT_USE_N": false,
+        "GROUND_LEVEL": 6,
+        "BEDROCK_LEVEL": -21,
+        "FOOTING_LEVEL": -17.5,
+        "ITEMS": [
+          {
+            "HEIGHT": 7,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 11449,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 11449,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 11449,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 15913,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 15913,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 15913,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 160,
+            "KH": 15913,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 17,
+            "VS": 187,
+            "KH": 20511,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 193,
+            "KH": 21533,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 210,
+            "KH": 25565,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 215,
+            "KH": 26986,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 221,
+            "KH": 28690,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 224,
+            "KH": 45496,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 228,
+            "KH": 47246,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 215,
+            "KH": 41559,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 181,
+            "KH": 30014,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 171,
+            "KH": 27391,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 167,
+            "KH": 26342,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 169,
+            "KH": 26867,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 18,
+            "VS": 479,
+            "KH": 213426,
+            "DISP": 0.001
+          },
+          {
+            "HEIGHT": 1,
+            "ANGLE_OR_N": 30,
+            "DENSITY": 24,
+            "VS": 736,
+            "KH": 476345,
+            "DISP": 0.001
+          }
+        ]
+      },
+      "prerequisites": []
     },
     "DB.PRES": {
       "wrapper": "Assign",
@@ -1159,7 +2787,13 @@
           "why": "荷载工况名必须指向**自建**的工况；示例名在本项目不存在"
         }
       ],
-      "self_references": [["ITEMS", 0, "ID"]],
+      "self_references": [
+        [
+          "ITEMS",
+          0,
+          "ID"
+        ]
+      ],
       "body": {
         "ITEMS": [
           {
@@ -1170,7 +2804,13 @@
             "ELEM_TYPE": "PLATE",
             "FACE_EDGE_TYPE": "FACE",
             "DIRECTION": "LZ",
-            "FORCES": [-10, 0, 0, 0, 0]
+            "FORCES": [
+              -10,
+              0,
+              0,
+              0,
+              0
+            ]
           }
         ]
       },
@@ -1194,12 +2834,23 @@
               "why": "目标请求体按 LCNAME = D 引用荷载工况"
             }
           ],
-          "body": {"NAME": "D", "TYPE": "D", "DESC": "DeadLoads"}
+          "body": {
+            "NAME": "D",
+            "TYPE": "D",
+            "DESC": "DeadLoads"
+          }
         },
         {
           "key": "DB.MATL",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["MATL"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/MATL",
@@ -1233,7 +2884,14 @@
         {
           "key": "DB.SECT",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["SECT"]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "SECT"
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example",
             "uri": "db/SECT",
@@ -1254,14 +2912,27 @@
               "USE_WARPING_EFFECT": false,
               "SHAPE": "SB",
               "DATATYPE": 2,
-              "SECT_I": {"vSIZE": [1, 1]}
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
             }
           }
         },
         {
           "key": "DB.NODE",
           "item_id": "1",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 0]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                0
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -1277,15 +2948,37 @@
               "to": 0,
               "why": "四节点矩形板：(0,0) (1,0) (1,1) (0,1) —— 几何必须非退化"
             },
-            {"path": "Y", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 0, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "2",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 1]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                1
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -1295,16 +2988,43 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -2, "to": 1, "why": "同上"},
-            {"path": "Y", "from": -2, "to": 0, "why": "同上"},
-            {"path": "Z", "from": -2, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -2,
+              "to": 1,
+              "why": "同上"
+            },
+            {
+              "path": "Y",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -2,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 0, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 0,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "3",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 2]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                2
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -1314,16 +3034,43 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -3, "to": 1, "why": "同上"},
-            {"path": "Y", "from": -3, "to": 1, "why": "同上"},
-            {"path": "Z", "from": -3, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -3,
+              "to": 1,
+              "why": "同上"
+            },
+            {
+              "path": "Y",
+              "from": -3,
+              "to": 1,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -3,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 1, "Y": 1, "Z": 0}
+          "body": {
+            "X": 1,
+            "Y": 1,
+            "Z": 0
+          }
         },
         {
           "key": "DB.NODE",
           "item_id": "4",
-          "references": [{"in": "DB.ELEM#1", "path": ["NODE", 3]}],
+          "references": [
+            {
+              "in": "DB.ELEM#1",
+              "path": [
+                "NODE",
+                3
+              ]
+            }
+          ],
           "source": {
             "kind": "manual_example_adjusted",
             "uri": "db/NODE",
@@ -1333,11 +3080,30 @@
             "retrieved_at": "2025-11-04"
           },
           "adjustments": [
-            {"path": "X", "from": -1, "to": 0, "why": "同上"},
-            {"path": "Y", "from": -1, "to": 1, "why": "同上"},
-            {"path": "Z", "from": -1, "to": 0, "why": "同上"}
+            {
+              "path": "X",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            },
+            {
+              "path": "Y",
+              "from": -1,
+              "to": 1,
+              "why": "同上"
+            },
+            {
+              "path": "Z",
+              "from": -1,
+              "to": 0,
+              "why": "同上"
+            }
           ],
-          "body": {"X": 0, "Y": 1, "Z": 0}
+          "body": {
+            "X": 0,
+            "Y": 1,
+            "Z": 0
+          }
         },
         {
           "key": "DB.ELEM",
@@ -1353,8 +3119,18 @@
           "adjustments": [
             {
               "path": "NODE",
-              "from": [57, 70, 71, 58],
-              "to": [1, 2, 3, 4],
+              "from": [
+                57,
+                70,
+                71,
+                58
+              ],
+              "to": [
+                1,
+                2,
+                3,
+                4
+              ],
               "why": "只引用**自建**节点；且模型**只含板单元**（P139 实测：有梁单元时压力荷载 400 单元类型不符）"
             }
           ],
@@ -1362,12 +3138,268 @@
             "TYPE": "PLATE",
             "MATL": 1,
             "SECT": 1,
-            "NODE": [1, 2, 3, 4],
+            "NODE": [
+              1,
+              2,
+              3,
+              4
+            ],
             "ANGLE": 0,
             "STYPE": 2
           }
         }
       ]
+    },
+    "DB.SDHY": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDHY",
+        "example": "Hysteretic Isolator(MSS)",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948292269977",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+          "NAME": "HystereticIsolater01",
+          "DESC": "",
+          "INPUT_METHOD": 0,
+          "PRODUCT_NAME": "",
+          "TYPE_NUMBER": ""
+        },
+        "SDHY_HYS_MODEL": "DegradingBiLinear",
+        "MSS": 8,
+        "K0": 1000,
+        "P1": 100,
+        "P2": 0,
+        "ALPHA1": 1,
+        "ALPHA2": 0,
+        "BETA": 0.5,
+        "Phi": 0,
+        "LAMBDA": 8
+      },
+      "prerequisites": []
+    },
+    "DB.SDIS": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDIS",
+        "example": "Isolator(MSS)",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948330042649",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+          "NAME": "Isolator01",
+          "DESC": "",
+          "INPUT_METHOD": 0,
+          "PRODUCT_NAME": "",
+          "TYPE_NUMBER": ""
+        },
+        "SDIS_DEV_TYPE": "LRB",
+        "MSS": 8,
+        "TAU_K": 1,
+        "TAU_Q": 1,
+        "KV": 1,
+        "LRB": {
+          "SDIS_HYS_MODEL": "MB",
+          "KE": 0,
+          "AR": 1e-06,
+          "TR": 0.001,
+          "K0": 1,
+          "K2": 1,
+          "QD": 0.001
+        }
+      },
+      "prerequisites": []
+    },
+    "DB.SDST": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDST",
+        "example": "Steel Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948150053529",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+          "NAME": "SteelDamper01",
+          "DESC": "",
+          "INPUT_METHOD": 0,
+          "PRODUCT_NAME": "",
+          "TYPE_NUMBER": ""
+        },
+        "DIR": "Dx",
+        "SDST_HYS_MODEL": "BL2",
+        "K0": 1000,
+        "P1": 100,
+        "ALPHA1": 0.2,
+        "KB": 2000,
+        "BL2": {
+          "BETA": 0
+        }
+      },
+      "prerequisites": []
+    },
+    "DB.SDVE": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDVE",
+        "example": "Viscoelastic Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948062417049",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+          "NAME": "Viscoelastic01",
+          "DESC": "",
+          "INPUT_METHOD": 0,
+          "PRODUCT_NAME": "",
+          "TYPE_NUMBER": ""
+        },
+        "MATERIAL_TYPE": "GR100",
+        "SHEAR_AREA": 0.2,
+        "THICKNESS": 0.02,
+        "MULTIPL": 1,
+        "DIR": "Dx",
+        "FREQ": 0,
+        "STIFF_FACTOR": 1,
+        "DAMP_FACTOR": 1,
+        "REF_T": 20,
+        "LIMIT_DEF": 0.3,
+        "EFF_STIFF": 0,
+        "EQUI_DAMP": 0,
+        "OPT_MOUNT_STIFF": true,
+        "MOUNT_STIFF": 1200,
+        "OPT_KINETIC_FRIC": false,
+        "KINETIC_FRIC": 0
+      },
+      "prerequisites": []
+    },
+    "DB.SDVI": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDVI",
+        "example": "Viscous Damper/Oil Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35947995586713",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+          "NAME": "VisDamper01",
+          "DESC": "",
+          "INPUT_METHOD": 0,
+          "COMPANY": "",
+          "PRODUCT_NAME": "",
+          "TYPE_NUMBER": ""
+        },
+        "DEVICE_TYPE": "",
+        "DAMPER_TYPE": 0,
+        "DASHPOT_TYPE": 0,
+        "INPUT_TYPE": 0,
+        "INPUT_TYPE_EXFN": 0,
+        "ITEM": [
+          {
+            "OPT_DOF": true,
+            "CE": 13000,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          },
+          {
+            "OPT_DOF": false,
+            "CE": 0,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          },
+          {
+            "OPT_DOF": false,
+            "CE": 0,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          },
+          {
+            "OPT_DOF": false,
+            "CE": 0,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          },
+          {
+            "OPT_DOF": false,
+            "CE": 0,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          },
+          {
+            "OPT_DOF": false,
+            "CE": 0,
+            "P1": 0,
+            "C1": 0,
+            "ALPHA1": 0,
+            "K0": 0,
+            "EXFN_PY": 1,
+            "EXFN_VY": 1,
+            "EXFN_DE": 0.3,
+            "EXFN_DC": 1,
+            "OPT_EXFN_CE": false,
+            "EXFN_CE": 1
+          }
+        ]
+      },
+      "prerequisites": []
     },
     "DB.SECT": {
       "wrapper": "Assign",
@@ -1391,8 +3423,458 @@
           "USE_WARPING_EFFECT": false,
           "SHAPE": "SB",
           "DATATYPE": 2,
-          "SECT_I": {"vSIZE": [1, 1]}
+          "SECT_I": {
+            "vSIZE": [
+              1,
+              1
+            ]
+          }
         }
+      },
+      "prerequisites": []
+    },
+    "DB.SMCT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SMCT",
+        "example": "Settlement Analysis Control Data",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35990184995481",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "CONCURRENT_CALC": true,
+        "CONCURRENT_LINK": false
+      },
+      "prerequisites": []
+    },
+    "DB.SPFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SPFC",
+        "example": "User Type",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35963686253593",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "RS_func",
+        "iTYPE": 1,
+        "iMETHOD": 0,
+        "SCALE": 1,
+        "GRAV": 9.806,
+        "DRATIO": 0.05,
+        "DESC": "",
+        "aFUNC": [
+          {
+            "PERIOD": 0,
+            "VALUE": 0.11
+          },
+          {
+            "PERIOD": 0.06,
+            "VALUE": 0.308
+          },
+          {
+            "PERIOD": 0.12,
+            "VALUE": 0.308
+          },
+          {
+            "PERIOD": 0.18,
+            "VALUE": 0.308
+          },
+          {
+            "PERIOD": 0.24,
+            "VALUE": 0.308
+          },
+          {
+            "PERIOD": 0.3,
+            "VALUE": 0.308
+          },
+          {
+            "PERIOD": 0.36,
+            "VALUE": 0.2567
+          },
+          {
+            "PERIOD": 0.42,
+            "VALUE": 0.22
+          },
+          {
+            "PERIOD": 0.48,
+            "VALUE": 0.1925
+          },
+          {
+            "PERIOD": 0.54,
+            "VALUE": 0.1711
+          },
+          {
+            "PERIOD": 0.6,
+            "VALUE": 0.154
+          },
+          {
+            "PERIOD": 0.66,
+            "VALUE": 0.14
+          },
+          {
+            "PERIOD": 0.72,
+            "VALUE": 0.1283
+          },
+          {
+            "PERIOD": 0.78,
+            "VALUE": 0.1185
+          },
+          {
+            "PERIOD": 0.84,
+            "VALUE": 0.11
+          },
+          {
+            "PERIOD": 0.9,
+            "VALUE": 0.1027
+          },
+          {
+            "PERIOD": 0.96,
+            "VALUE": 0.0963
+          },
+          {
+            "PERIOD": 1.02,
+            "VALUE": 0.0906
+          },
+          {
+            "PERIOD": 1.08,
+            "VALUE": 0.0856
+          },
+          {
+            "PERIOD": 1.14,
+            "VALUE": 0.0811
+          },
+          {
+            "PERIOD": 1.2,
+            "VALUE": 0.077
+          },
+          {
+            "PERIOD": 1.26,
+            "VALUE": 0.0733
+          },
+          {
+            "PERIOD": 1.32,
+            "VALUE": 0.07
+          },
+          {
+            "PERIOD": 1.38,
+            "VALUE": 0.067
+          },
+          {
+            "PERIOD": 1.44,
+            "VALUE": 0.0642
+          },
+          {
+            "PERIOD": 1.5,
+            "VALUE": 0.0616
+          },
+          {
+            "PERIOD": 1.56,
+            "VALUE": 0.0592
+          },
+          {
+            "PERIOD": 1.62,
+            "VALUE": 0.057
+          },
+          {
+            "PERIOD": 1.68,
+            "VALUE": 0.055
+          },
+          {
+            "PERIOD": 1.74,
+            "VALUE": 0.0531
+          },
+          {
+            "PERIOD": 1.8,
+            "VALUE": 0.0513
+          },
+          {
+            "PERIOD": 1.86,
+            "VALUE": 0.0497
+          },
+          {
+            "PERIOD": 1.92,
+            "VALUE": 0.0481
+          },
+          {
+            "PERIOD": 1.98,
+            "VALUE": 0.0467
+          },
+          {
+            "PERIOD": 2.04,
+            "VALUE": 0.0453
+          },
+          {
+            "PERIOD": 2.1,
+            "VALUE": 0.044
+          },
+          {
+            "PERIOD": 2.16,
+            "VALUE": 0.0428
+          },
+          {
+            "PERIOD": 2.22,
+            "VALUE": 0.0416
+          },
+          {
+            "PERIOD": 2.28,
+            "VALUE": 0.0405
+          },
+          {
+            "PERIOD": 2.34,
+            "VALUE": 0.0395
+          },
+          {
+            "PERIOD": 2.4,
+            "VALUE": 0.0385
+          },
+          {
+            "PERIOD": 2.46,
+            "VALUE": 0.0376
+          },
+          {
+            "PERIOD": 2.52,
+            "VALUE": 0.0367
+          },
+          {
+            "PERIOD": 2.58,
+            "VALUE": 0.0358
+          },
+          {
+            "PERIOD": 2.64,
+            "VALUE": 0.035
+          },
+          {
+            "PERIOD": 2.7,
+            "VALUE": 0.0342
+          },
+          {
+            "PERIOD": 2.76,
+            "VALUE": 0.0335
+          },
+          {
+            "PERIOD": 2.82,
+            "VALUE": 0.0328
+          },
+          {
+            "PERIOD": 2.88,
+            "VALUE": 0.0321
+          },
+          {
+            "PERIOD": 2.94,
+            "VALUE": 0.0314
+          },
+          {
+            "PERIOD": 3,
+            "VALUE": 0.0308
+          },
+          {
+            "PERIOD": 3.06,
+            "VALUE": 0.0296
+          },
+          {
+            "PERIOD": 3.12,
+            "VALUE": 0.0285
+          },
+          {
+            "PERIOD": 3.18,
+            "VALUE": 0.0274
+          },
+          {
+            "PERIOD": 3.24,
+            "VALUE": 0.0264
+          },
+          {
+            "PERIOD": 3.3,
+            "VALUE": 0.0255
+          },
+          {
+            "PERIOD": 3.36,
+            "VALUE": 0.0246
+          },
+          {
+            "PERIOD": 3.42,
+            "VALUE": 0.0237
+          },
+          {
+            "PERIOD": 3.48,
+            "VALUE": 0.0229
+          },
+          {
+            "PERIOD": 3.54,
+            "VALUE": 0.0221
+          },
+          {
+            "PERIOD": 3.6,
+            "VALUE": 0.0214
+          },
+          {
+            "PERIOD": 3.66,
+            "VALUE": 0.0207
+          },
+          {
+            "PERIOD": 3.72,
+            "VALUE": 0.02
+          },
+          {
+            "PERIOD": 3.78,
+            "VALUE": 0.0194
+          },
+          {
+            "PERIOD": 3.84,
+            "VALUE": 0.0188
+          },
+          {
+            "PERIOD": 3.9,
+            "VALUE": 0.0182
+          },
+          {
+            "PERIOD": 3.96,
+            "VALUE": 0.0177
+          },
+          {
+            "PERIOD": 4.02,
+            "VALUE": 0.0172
+          },
+          {
+            "PERIOD": 4.08,
+            "VALUE": 0.0167
+          },
+          {
+            "PERIOD": 4.14,
+            "VALUE": 0.0162
+          },
+          {
+            "PERIOD": 4.2,
+            "VALUE": 0.0157
+          },
+          {
+            "PERIOD": 4.26,
+            "VALUE": 0.0153
+          },
+          {
+            "PERIOD": 4.32,
+            "VALUE": 0.0149
+          },
+          {
+            "PERIOD": 4.38,
+            "VALUE": 0.0144
+          },
+          {
+            "PERIOD": 4.44,
+            "VALUE": 0.0141
+          },
+          {
+            "PERIOD": 4.5,
+            "VALUE": 0.0137
+          },
+          {
+            "PERIOD": 4.56,
+            "VALUE": 0.0133
+          },
+          {
+            "PERIOD": 4.62,
+            "VALUE": 0.013
+          },
+          {
+            "PERIOD": 4.68,
+            "VALUE": 0.0127
+          },
+          {
+            "PERIOD": 4.74,
+            "VALUE": 0.0123
+          },
+          {
+            "PERIOD": 4.8,
+            "VALUE": 0.012
+          },
+          {
+            "PERIOD": 4.86,
+            "VALUE": 0.0117
+          },
+          {
+            "PERIOD": 4.92,
+            "VALUE": 0.0115
+          },
+          {
+            "PERIOD": 4.98,
+            "VALUE": 0.0112
+          },
+          {
+            "PERIOD": 5.04,
+            "VALUE": 0.0109
+          },
+          {
+            "PERIOD": 5.1,
+            "VALUE": 0.0107
+          },
+          {
+            "PERIOD": 5.16,
+            "VALUE": 0.0104
+          },
+          {
+            "PERIOD": 5.22,
+            "VALUE": 0.0102
+          },
+          {
+            "PERIOD": 5.28,
+            "VALUE": 0.0099
+          },
+          {
+            "PERIOD": 5.34,
+            "VALUE": 0.0097
+          },
+          {
+            "PERIOD": 5.4,
+            "VALUE": 0.0095
+          },
+          {
+            "PERIOD": 5.46,
+            "VALUE": 0.0093
+          },
+          {
+            "PERIOD": 5.52,
+            "VALUE": 0.0091
+          },
+          {
+            "PERIOD": 5.58,
+            "VALUE": 0.0089
+          },
+          {
+            "PERIOD": 5.64,
+            "VALUE": 0.0087
+          },
+          {
+            "PERIOD": 5.7,
+            "VALUE": 0.0085
+          },
+          {
+            "PERIOD": 5.76,
+            "VALUE": 0.0084
+          },
+          {
+            "PERIOD": 5.82,
+            "VALUE": 0.0082
+          },
+          {
+            "PERIOD": 5.88,
+            "VALUE": 0.008
+          },
+          {
+            "PERIOD": 5.94,
+            "VALUE": 0.0079
+          },
+          {
+            "PERIOD": 6,
+            "VALUE": 0.0077
+          }
+        ]
       },
       "prerequisites": []
     },
@@ -1407,776 +3889,11 @@
         "retrieved_at": "2025-11-04"
       },
       "adjustments": [],
-      "body": {"NAME": "DL", "TYPE": "D", "DESC": "DeadLoads"},
-      "prerequisites": []
-    },
-    "DB.LDGR": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/LDGR",
-        "example": "Load Group",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35804975346841",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "SW"},
-      "prerequisites": []
-    },
-    "DB.PJCF": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/PJCF",
-        "example": "Project Information",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35801869341337",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"PROJECT": "Cable", "REVISION": "940", "USER": "LJW", "EMAIL": "cle1123", "ADDRESS": "MIDASIT", "TEL": "031789", "FAX": "031789", "CLIENT": "MIDASIT", "TITLE": "CableBridge", "ENGINEER": "A", "EDATE": "23.11", "CHECK1": "B", "CDATE1": "24.11", "CHECK2": "C", "CDATE2": "24.12", "CHECK3": "D", "CDATE3": "24.12", "APPROVE": "E", "ADATE": "14.2", "COMMENT": "Good"},
-      "prerequisites": []
-    },
-    "DB.PNLD": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/PNLD",
-        "example": "Points",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35953492119321",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "Point_examples", "DESC": "API_example", "LTYPE": "POINT", "POINTLOAD": [{"X": 0, "Y": 0, "F": -10}, {"X": 1, "Y": -1, "F": 10.5}], "COPY_X": [5, 5, 5], "COPY_Y": [4.5], "SEQ": 1},
-      "prerequisites": []
-    },
-    "DB.SPFC": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SPFC",
-        "example": "User Type",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35963686253593",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "RS_func", "iTYPE": 1, "iMETHOD": 0, "SCALE": 1, "GRAV": 9.806, "DRATIO": 0.05, "DESC": "", "aFUNC": [{"PERIOD": 0, "VALUE": 0.11}, {"PERIOD": 0.06, "VALUE": 0.308}, {"PERIOD": 0.12, "VALUE": 0.308}, {"PERIOD": 0.18, "VALUE": 0.308}, {"PERIOD": 0.24, "VALUE": 0.308}, {"PERIOD": 0.3, "VALUE": 0.308}, {"PERIOD": 0.36, "VALUE": 0.2567}, {"PERIOD": 0.42, "VALUE": 0.22}, {"PERIOD": 0.48, "VALUE": 0.1925}, {"PERIOD": 0.54, "VALUE": 0.1711}, {"PERIOD": 0.6, "VALUE": 0.154}, {"PERIOD": 0.66, "VALUE": 0.14}, {"PERIOD": 0.72, "VALUE": 0.1283}, {"PERIOD": 0.78, "VALUE": 0.1185}, {"PERIOD": 0.84, "VALUE": 0.11}, {"PERIOD": 0.9, "VALUE": 0.1027}, {"PERIOD": 0.96, "VALUE": 0.0963}, {"PERIOD": 1.02, "VALUE": 0.0906}, {"PERIOD": 1.08, "VALUE": 0.0856}, {"PERIOD": 1.14, "VALUE": 0.0811}, {"PERIOD": 1.2, "VALUE": 0.077}, {"PERIOD": 1.26, "VALUE": 0.0733}, {"PERIOD": 1.32, "VALUE": 0.07}, {"PERIOD": 1.38, "VALUE": 0.067}, {"PERIOD": 1.44, "VALUE": 0.0642}, {"PERIOD": 1.5, "VALUE": 0.0616}, {"PERIOD": 1.56, "VALUE": 0.0592}, {"PERIOD": 1.62, "VALUE": 0.057}, {"PERIOD": 1.68, "VALUE": 0.055}, {"PERIOD": 1.74, "VALUE": 0.0531}, {"PERIOD": 1.8, "VALUE": 0.0513}, {"PERIOD": 1.86, "VALUE": 0.0497}, {"PERIOD": 1.92, "VALUE": 0.0481}, {"PERIOD": 1.98, "VALUE": 0.0467}, {"PERIOD": 2.04, "VALUE": 0.0453}, {"PERIOD": 2.1, "VALUE": 0.044}, {"PERIOD": 2.16, "VALUE": 0.0428}, {"PERIOD": 2.22, "VALUE": 0.0416}, {"PERIOD": 2.28, "VALUE": 0.0405}, {"PERIOD": 2.34, "VALUE": 0.0395}, {"PERIOD": 2.4, "VALUE": 0.0385}, {"PERIOD": 2.46, "VALUE": 0.0376}, {"PERIOD": 2.52, "VALUE": 0.0367}, {"PERIOD": 2.58, "VALUE": 0.0358}, {"PERIOD": 2.64, "VALUE": 0.035}, {"PERIOD": 2.7, "VALUE": 0.0342}, {"PERIOD": 2.76, "VALUE": 0.0335}, {"PERIOD": 2.82, "VALUE": 0.0328}, {"PERIOD": 2.88, "VALUE": 0.0321}, {"PERIOD": 2.94, "VALUE": 0.0314}, {"PERIOD": 3, "VALUE": 0.0308}, {"PERIOD": 3.06, "VALUE": 0.0296}, {"PERIOD": 3.12, "VALUE": 0.0285}, {"PERIOD": 3.18, "VALUE": 0.0274}, {"PERIOD": 3.24, "VALUE": 0.0264}, {"PERIOD": 3.3, "VALUE": 0.0255}, {"PERIOD": 3.36, "VALUE": 0.0246}, {"PERIOD": 3.42, "VALUE": 0.0237}, {"PERIOD": 3.48, "VALUE": 0.0229}, {"PERIOD": 3.54, "VALUE": 0.0221}, {"PERIOD": 3.6, "VALUE": 0.0214}, {"PERIOD": 3.66, "VALUE": 0.0207}, {"PERIOD": 3.72, "VALUE": 0.02}, {"PERIOD": 3.78, "VALUE": 0.0194}, {"PERIOD": 3.84, "VALUE": 0.0188}, {"PERIOD": 3.9, "VALUE": 0.0182}, {"PERIOD": 3.96, "VALUE": 0.0177}, {"PERIOD": 4.02, "VALUE": 0.0172}, {"PERIOD": 4.08, "VALUE": 0.0167}, {"PERIOD": 4.14, "VALUE": 0.0162}, {"PERIOD": 4.2, "VALUE": 0.0157}, {"PERIOD": 4.26, "VALUE": 0.0153}, {"PERIOD": 4.32, "VALUE": 0.0149}, {"PERIOD": 4.38, "VALUE": 0.0144}, {"PERIOD": 4.44, "VALUE": 0.0141}, {"PERIOD": 4.5, "VALUE": 0.0137}, {"PERIOD": 4.56, "VALUE": 0.0133}, {"PERIOD": 4.62, "VALUE": 0.013}, {"PERIOD": 4.68, "VALUE": 0.0127}, {"PERIOD": 4.74, "VALUE": 0.0123}, {"PERIOD": 4.8, "VALUE": 0.012}, {"PERIOD": 4.86, "VALUE": 0.0117}, {"PERIOD": 4.92, "VALUE": 0.0115}, {"PERIOD": 4.98, "VALUE": 0.0112}, {"PERIOD": 5.04, "VALUE": 0.0109}, {"PERIOD": 5.1, "VALUE": 0.0107}, {"PERIOD": 5.16, "VALUE": 0.0104}, {"PERIOD": 5.22, "VALUE": 0.0102}, {"PERIOD": 5.28, "VALUE": 0.0099}, {"PERIOD": 5.34, "VALUE": 0.0097}, {"PERIOD": 5.4, "VALUE": 0.0095}, {"PERIOD": 5.46, "VALUE": 0.0093}, {"PERIOD": 5.52, "VALUE": 0.0091}, {"PERIOD": 5.58, "VALUE": 0.0089}, {"PERIOD": 5.64, "VALUE": 0.0087}, {"PERIOD": 5.7, "VALUE": 0.0085}, {"PERIOD": 5.76, "VALUE": 0.0084}, {"PERIOD": 5.82, "VALUE": 0.0082}, {"PERIOD": 5.88, "VALUE": 0.008}, {"PERIOD": 5.94, "VALUE": 0.0079}, {"PERIOD": 6, "VALUE": 0.0077}]},
-      "prerequisites": []
-    },
-    "DB.THFC": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/THFC",
-        "example": "Time Function",
-        "example_id": "4",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35964507702937",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "ElCentroSite_Scale", "FUNCTYPE": 1, "iTYPE": 1, "iMETHOD": 0, "SCALE": 1, "GRAV": 9.806, "aFUNCDATA": [{"TIME": 0.02, "VALUE": 0.0051703039}, {"TIME": 0.04, "VALUE": 0.0042117071}, {"TIME": 0.06, "VALUE": 0.0032429125}], "DESC": "1940,ElCentroSite,270Deg"},
-      "prerequisites": []
-    },
-    "DB.THIK": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/THIK",
-        "example": "In-plane & Out-of-plane has same value",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35942236652697",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"NAME": "1", "TYPE": "VALUE", "bINOUT": false, "T_IN": 0.1, "T_OUT": 0, "O_VALUE": 0},
-      "prerequisites": []
-    },
-    "DB.SMCT": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SMCT",
-        "example": "Settlement Analysis Control Data",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35990184995481",
-        "retrieved_at": "2025-11-04"
-      },
-      "adjustments": [],
-      "body": {"CONCURRENT_CALC": true, "CONCURRENT_LINK": false},
-      "prerequisites": []
-    },
-    "DB.TDGR": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/TDGR",
-        "example": "Tendon Group",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35805198736793",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"NAME": "TGR1"},
-      "prerequisites": []
-    },
-    "DB.TDME": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/TDME",
-        "example": "ACI",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35808102389401",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"NAME": "ACI", "TYPE": "CODE", "CODENAME": "ACI", "STRENGTH": 30000, "A": 1, "B": 2},
-      "prerequisites": []
-    },
-    "DB.TDMT": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/TDMT",
-        "example": "CEB-FIP 2010, 1990, 1978",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35808006330009",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"NAME": "CEB-FPI(2010)", "CODE": "CEB_FIP_2010", "STR": 50000, "HU": 70, "AGE": 3, "MSIZE": 1.2, "CTYPE": "NR", "TYPEOFAFFR": 0},
-      "prerequisites": []
-    },
-    "DB.POGD": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/POGD",
-        "example": "Pushover Analysis Control Data",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35992664632601",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
       "body": {
-        "GEOMNONLINEAR_TYPE": "NONE",
-        "INITLOADMETHOD": "PERFORM_ANAL",
-        "INITLOAD": [],
-        "bCONSIGNOREELEM": true,
-        "NONL_OPT": {
-                "bPERMITFAIL": true,
-                "SUBSTEP": 10,
-                "MAXITER": 10,
-                "bDISPLNORM": true,
-                "bFORCENORM": false,
-                "bENERGYNORM": false,
-                "DISPLNORM": 0.001,
-                "FORCENORM": 0.001,
-                "ENERGYNORM": 0.001,
-                "bSHEARYIELDSTOP": false,
-                "BSHEARYIELDSTOPBEAM": true,
-                "bSHEARYIELDSTOPWALL": false,
-                "bAXIALYIELDSTOP": false,
-                "bAXIALYIELDSTOPBEAM": true,
-                "bAXIALYIELDSTOPWALL": false,
-                "bAXIALYIELDSTOPTRUSS": false,
-                "bSUPPORTDZDIRSTOP": false,
-                "bSUPPORTSTOPUPLIFTING": false,
-                "bSUPPORTSTOPCOLLAPSE": false
-        },
-        "PHOP_OPT": {
-                "bCONSREBARAREA1D": false,
-                "BEAM_CORE_SIZE": "AUTO",
-                "BEAM_CORE_DIV_Y": 15,
-                "BEAM_CORE_DIV_Z": 15,
-                "BEAM_COVER_SIZE": "EQUAL",
-                "BEAM_COVER_DIV_Y": 15,
-                "BEAM_COVER_DIV_Z": 15,
-                "bCONSREBARAREAWALL": false,
-                "bWALLCONSOUT": true,
-                "WALL_CORE_SIZE": "AUTO",
-                "WALL_CORE_DIV_Z": 8,
-                "WALL_CORE_DIV_Y": 8,
-                "WALL_COVER_SIZE": "AUTO",
-                "WALL_COVER_DIV_Z": 8,
-                "WALL_COVER_DIV_Y": 1,
-                "SHEAR_R": 0.4,
-                "bASSIGNBYMEMBER": true,
-                "bTRI_SYM": true,
-                "TRI_TENS_A1": 0.1,
-                "TRI_TENS_A2": 0.05,
-                "TRI_COMP_A1": 0.1,
-                "TRI_COMP_A2": 0.05,
-                "bBI_SYM": true,
-                "BI_TENS_A1": 0.05,
-                "BI_COMP_A1": 0.05,
-                "PSPR_APPLY_TYPE": "ASSUME",
-                "ELNK_APPLY_TYPE": "APPLY",
-                "bUSEAUTOCALCREFERENCE": true,
-                "RCDGNCODE": "KISTEC2019",
-                "LOC_BEAM": "M",
-                "LOC_COLUMN": "I",
-                "SF_WALL": 1.6,
-                "bSF_BRITTLE": false,
-                "SF_BRITTLE": 1.6,
-                "bSF_EARTHQUAKE": false,
-                "SF_EARTHQUAKE": 0.85,
-                "bSF_SMOOTH_BAR": false,
-                "SF_SMOOTH_BAR": 0.575,
-                "CONFIDENCE": 1,
-                "bBUCKLING": true,
-                "bCALCAXIALFORCE": true
-        },
-        "NODECONNECTIVITY": "PINNED",
-        "bSHOWGRAPHAFTER": true,
-        "bSHOWGRAPGHDURING": false
-},
-      "prerequisites": []
-    },
-    "DB.POSP": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/POSP",
-        "example": "Import to Json",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/49510865840537",
-        "retrieved_at": "2026-10-10"
+        "NAME": "DL",
+        "TYPE": "D",
+        "DESC": "DeadLoads"
       },
-      "adjustments": [],
-      "body": {
-        "NAME": "Soil-1",
-        "DESC": "",
-        "OPT_USE_N": false,
-        "GROUND_LEVEL": 6,
-        "BEDROCK_LEVEL": -21,
-        "FOOTING_LEVEL": -17.5,
-        "ITEMS": [
-                {
-                        "HEIGHT": 7,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 11449,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 11449,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 11449,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 15913,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 15913,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 15913,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 160,
-                        "KH": 15913,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 17,
-                        "VS": 187,
-                        "KH": 20511,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 193,
-                        "KH": 21533,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 210,
-                        "KH": 25565,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 215,
-                        "KH": 26986,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 221,
-                        "KH": 28690,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 224,
-                        "KH": 45496,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 228,
-                        "KH": 47246,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 215,
-                        "KH": 41559,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 181,
-                        "KH": 30014,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 171,
-                        "KH": 27391,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 167,
-                        "KH": 26342,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 169,
-                        "KH": 26867,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 18,
-                        "VS": 479,
-                        "KH": 213426,
-                        "DISP": 0.001
-                },
-                {
-                        "HEIGHT": 1,
-                        "ANGLE_OR_N": 30,
-                        "DENSITY": 24,
-                        "VS": 736,
-                        "KH": 476345,
-                        "DISP": 0.001
-                }
-        ]
-},
-      "prerequisites": []
-    },
-    "DB.SDST": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SDST",
-        "example": "Steel Damper",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35948150053529",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"COMMON": {"NAME": "SteelDamper01", "DESC": "", "INPUT_METHOD": 0, "PRODUCT_NAME": "", "TYPE_NUMBER": ""}, "DIR": "Dx", "SDST_HYS_MODEL": "BL2", "K0": 1000, "P1": 100, "ALPHA1": 0.2, "KB": 2000, "BL2": {"BETA": 0}},
-      "prerequisites": []
-    },
-    "DB.SDVE": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SDVE",
-        "example": "Viscoelastic Damper",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35948062417049",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {
-        "COMMON": {
-                "NAME": "Viscoelastic01",
-                "DESC": "",
-                "INPUT_METHOD": 0,
-                "PRODUCT_NAME": "",
-                "TYPE_NUMBER": ""
-        },
-        "MATERIAL_TYPE": "GR100",
-        "SHEAR_AREA": 0.2,
-        "THICKNESS": 0.02,
-        "MULTIPL": 1,
-        "DIR": "Dx",
-        "FREQ": 0,
-        "STIFF_FACTOR": 1,
-        "DAMP_FACTOR": 1,
-        "REF_T": 20,
-        "LIMIT_DEF": 0.3,
-        "EFF_STIFF": 0,
-        "EQUI_DAMP": 0,
-        "OPT_MOUNT_STIFF": true,
-        "MOUNT_STIFF": 1200,
-        "OPT_KINETIC_FRIC": false,
-        "KINETIC_FRIC": 0
-},
-      "prerequisites": []
-    },
-    "DB.SDVI": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SDVI",
-        "example": "Viscous Damper/Oil Damper",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35947995586713",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {
-        "COMMON": {
-                "NAME": "VisDamper01",
-                "DESC": "",
-                "INPUT_METHOD": 0,
-                "COMPANY": "",
-                "PRODUCT_NAME": "",
-                "TYPE_NUMBER": ""
-        },
-        "DEVICE_TYPE": "",
-        "DAMPER_TYPE": 0,
-        "DASHPOT_TYPE": 0,
-        "INPUT_TYPE": 0,
-        "INPUT_TYPE_EXFN": 0,
-        "ITEM": [
-                {
-                        "OPT_DOF": true,
-                        "CE": 13000,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                },
-                {
-                        "OPT_DOF": false,
-                        "CE": 0,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                },
-                {
-                        "OPT_DOF": false,
-                        "CE": 0,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                },
-                {
-                        "OPT_DOF": false,
-                        "CE": 0,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                },
-                {
-                        "OPT_DOF": false,
-                        "CE": 0,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                },
-                {
-                        "OPT_DOF": false,
-                        "CE": 0,
-                        "P1": 0,
-                        "C1": 0,
-                        "ALPHA1": 0,
-                        "K0": 0,
-                        "EXFN_PY": 1,
-                        "EXFN_VY": 1,
-                        "EXFN_DE": 0.3,
-                        "EXFN_DC": 1,
-                        "OPT_EXFN_CE": false,
-                        "EXFN_CE": 1
-                }
-        ]
-},
-      "prerequisites": []
-    },
-    "DB.SDHY": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SDHY",
-        "example": "Hysteretic Isolator(MSS)",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35948292269977",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {
-        "COMMON": {
-                "NAME": "HystereticIsolater01",
-                "DESC": "",
-                "INPUT_METHOD": 0,
-                "PRODUCT_NAME": "",
-                "TYPE_NUMBER": ""
-        },
-        "SDHY_HYS_MODEL": "DegradingBiLinear",
-        "MSS": 8,
-        "K0": 1000,
-        "P1": 100,
-        "P2": 0,
-        "ALPHA1": 1,
-        "ALPHA2": 0,
-        "BETA": 0.5,
-        "Phi": 0,
-        "LAMBDA": 8
-},
-      "prerequisites": []
-    },
-    "DB.SDIS": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/SDIS",
-        "example": "Isolator(MSS)",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35948330042649",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {
-        "COMMON": {
-                "NAME": "Isolator01",
-                "DESC": "",
-                "INPUT_METHOD": 0,
-                "PRODUCT_NAME": "",
-                "TYPE_NUMBER": ""
-        },
-        "SDIS_DEV_TYPE": "LRB",
-        "MSS": 8,
-        "TAU_K": 1,
-        "TAU_Q": 1,
-        "KV": 1,
-        "LRB": {
-                "SDIS_HYS_MODEL": "MB",
-                "KE": 0,
-                "AR": 1e-06,
-                "TR": 0.001,
-                "K0": 1,
-                "K2": 1,
-                "QD": 0.001
-        }
-},
-      "prerequisites": []
-    },
-    "DB.EXLD": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/EXLD",
-        "example": "External Type Load Case for Pretension",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35954841849753",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"LCNAME_ITEM": ["PrS1", "PrS2"]},
-      "prerequisites": [
-        {"key": "DB.STLD", "item_id": "1", "source": {"kind": "manual_example_adjusted", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "NAME", "from": "DL", "to": "PrS1", "why": "目标请求体的 LCNAME_ITEM 第一个工况名是 PrS1"}], "body": {"NAME": "PrS1", "TYPE": "D", "DESC": "DeadLoads"}},
-        {"key": "DB.STLD", "item_id": "2", "source": {"kind": "manual_example_adjusted", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "NAME", "from": "DL", "to": "PrS2", "why": "目标请求体的 LCNAME_ITEM 第二个工况名是 PrS2"}], "body": {"NAME": "PrS2", "TYPE": "D", "DESC": "DeadLoads"}}
-      ]
-    },
-    "DB.LDSQ": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/LDSQ",
-        "example": "Load Sequence for Nonlinear",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35988663234329",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"LCNAME_ITEM": ["DL(BC)4", "DL(AC)"]},
-      "prerequisites": [
-        {"key": "DB.STLD", "item_id": "1", "source": {"kind": "manual_example_adjusted", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "NAME", "from": "DL", "to": "DL(BC)4", "why": "目标请求体的 LCNAME_ITEM 第一个工况名是 DL(BC)4"}], "body": {"NAME": "DL(BC)4", "TYPE": "D", "DESC": "DeadLoads"}},
-        {"key": "DB.STLD", "item_id": "2", "source": {"kind": "manual_example_adjusted", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "NAME", "from": "DL", "to": "DL(AC)", "why": "目标请求体的 LCNAME_ITEM 第二个工况名是 DL(AC)"}], "body": {"NAME": "DL(AC)", "TYPE": "D", "DESC": "DeadLoads"}}
-      ]
-    },
-    "DB.HHCT": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/HHCT",
-        "example": "General",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35989317531417",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"FINAL_STAGE": true, "STAGE_NAME": "", "THETA": 1, "INIT_TEMP": 20, "EVAL": "GAUSS", "OPT_USE_EQUI_AGE": true, "OPT_INCL_SELF_WEIGHT": false, "SELF_WEIGHT_FACTOR": -1, "OPT_IS_CREEP_SHRINKAGE": true, "ITEM": {"TYPE": "BOTH", "CREEP_CALC_METHOD": 0, "M_GENERAL": {"ITER": 20, "TOL": 0.001}}},
-      "prerequisites": []
-    },
-    "DB.MVCTBS": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/MVCTbs",
-        "example": "Moving Load Analysis Control",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35989838706969",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"iIGP": 0, "UNUMT": 3, "PLATE": "NODAL", "bSTRCALC": true, "bCONCURRENT": true, "FRAME": "AXIAL", "bCSTRCALC": true, "bREAC": true, "bRGP": false, "RGP": "", "bDISP": true, "bDGP": false, "DGP": "", "bFM": true, "bFGP": false, "FGP": "", "bL": true, "bLG": false, "LGP": "", "NUMLANE": 0},
-      "prerequisites": []
-    },
-    "DB.MVCTCH": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/MVCTch",
-        "example": "Moving Load Analysis Control",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35989644995609",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"POINT": "INF", "iIGP": 0, "UNUMT": 3, "PLATE": "NODAL", "bSTRCALC": true, "FRAME": "AXIAL", "bCSTRCALC": true, "bREAC": true, "bRG": false, "RGN": "", "bDISP": true, "bDG": false, "DGN": "", "bFM": true, "bFG": false, "FGN": "", "bL": true, "bLG": false, "LGN": "", "bIF": true, "iCODETYPE": 0, "iNFM": 0, "bBC": true, "iBC": 0, "FREQ": {"USER_F": 2.3}},
-      "prerequisites": []
-    },
-    "DB.MVCTID": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/MVCTid",
-        "example": "Moving Load Analysis Control",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35989643553305",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"iIGP": 0, "UNUMT": 3, "PLATE": "NODAL", "bSTRCALC": true, "FRAME": "AXIAL", "bCSTRCALC": true, "bREAC": true, "bRGP": false, "RGP": "", "bDISP": true, "bDGP": false, "DGP": "", "bFM": true, "bFGP": false, "FGP": "", "bL": true, "bLG": false, "LGP": "", "BRIDGE": 0, "TRACKS": 0, "WIDTHTYPE": 0, "WIDTH": 0, "DEPTH": 10, "VHMAX": 10},
-      "prerequisites": []
-    },
-    "DB.MVCTTR": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/MVCTtr",
-        "example": "Moving Load Analysis Control",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35989924517401",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"LOAD_POINT_SEL": 1, "INFL_GEN_POINT": 0, "NUM_UNIT_LOAD": 3, "ANALYSIS_RESULT": 2, "OPT_COMBINED_STR": true, "OPT_REACTIONS": true, "OPT_DISPLACEMENTS": true, "OPT_FORCE": false},
-      "prerequisites": []
-    },
-    "DB.POSL": {
-      "wrapper": "Assign",
-      "source": {
-        "kind": "manual_example",
-        "uri": "db/POSL",
-        "example": "",
-        "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/49511410691609",
-        "retrieved_at": "2026-10-10"
-      },
-      "adjustments": [],
-      "body": {"NAME": "KDS(2019)", "CODE": "KDS(41-17-00:2019)", "METHOD": "RES_DISP", "SZ": "1", "EPA": 0.22, "SC": "S1", "FA": 1.12, "FV": 0.84, "SDS": 0.41066666666666674, "SD1": 0.12319999999999999, "USER_GROUP": "1", "IF": 1.2, "RMF": 3},
       "prerequisites": []
     },
     "DB.STOR": {
@@ -2190,42 +3907,84 @@
         "retrieved_at": "2026-10-10"
       },
       "adjustments": [],
-      "body": {"STORY_NAME": "1F", "STORY_LEVEL": 0, "bFLOOR_DIAPHRAGM": false, "WIND_FLOOR_WIDTH_X": 36, "WIND_FLOOR_WIDTH_Y": 27.6, "WIND_CENTER_X": 18, "WIND_CENTER_Y": 13.8, "WIND_ECCENT_X": 5.4, "WIND_ECCENT_Y": 4.14, "SEIS_ACC_ECCENT_X": 1.8, "SEIS_ACC_ECCENT_Y": 1.38, "SEIS_INHERENT_ECCENT_X": 0, "SEIS_INHERENT_ECCENT_Y": 0, "SEIS_TORSIONAL_AMP_FACTOR_X": 1, "SEIS_TORSIONAL_AMP_FACTOR_Y": 1},
+      "body": {
+        "STORY_NAME": "1F",
+        "STORY_LEVEL": 0,
+        "bFLOOR_DIAPHRAGM": false,
+        "WIND_FLOOR_WIDTH_X": 36,
+        "WIND_FLOOR_WIDTH_Y": 27.6,
+        "WIND_CENTER_X": 18,
+        "WIND_CENTER_Y": 13.8,
+        "WIND_ECCENT_X": 5.4,
+        "WIND_ECCENT_Y": 4.14,
+        "SEIS_ACC_ECCENT_X": 1.8,
+        "SEIS_ACC_ECCENT_Y": 1.38,
+        "SEIS_INHERENT_ECCENT_X": 0,
+        "SEIS_INHERENT_ECCENT_Y": 0,
+        "SEIS_TORSIONAL_AMP_FACTOR_X": 1,
+        "SEIS_TORSIONAL_AMP_FACTOR_Y": 1
+      },
       "prerequisites": []
     },
-    "DB.EFCT": {
+    "DB.TDGR": {
       "wrapper": "Assign",
       "source": {
         "kind": "manual_example",
-        "uri": "db/EFCT",
-        "example": "Small Displacement/Initial Force Control Data",
+        "uri": "db/TDGR",
+        "example": "Tendon Group",
         "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35988927684633",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35805198736793",
         "retrieved_at": "2026-10-10"
       },
       "adjustments": [],
-      "body": {"bADDLC": false, "LCNAME": "DL", "bUSECOMB": true, "COMB_LIST": [{"LCNAME": "DL", "FACTOR": 1.2}, {"LCNAME": "LL", "FACTOR": 1}], "bCHECK_GEOM_STIFF": false},
-      "prerequisites": [
-        {"key": "DB.STLD", "item_id": "1", "source": {"kind": "manual_example", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [], "body": {"NAME": "DL", "TYPE": "D", "DESC": "DeadLoads"}},
-        {"key": "DB.STLD", "item_id": "2", "source": {"kind": "manual_example_adjusted", "uri": "db/STLD", "example": "Static Load Cases", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "NAME", "from": "DL", "to": "LL", "why": "目标请求体的 COMB_LIST 第二个工况名是 LL"}], "body": {"NAME": "LL", "TYPE": "D", "DESC": "DeadLoads"}}
-      ]
+      "body": {
+        "NAME": "TGR1"
+      },
+      "prerequisites": []
     },
-    "DB.NMAS": {
+    "DB.TDME": {
       "wrapper": "Assign",
       "source": {
         "kind": "manual_example",
-        "uri": "db/NMAS",
-        "example": "Nodal Masses",
+        "uri": "db/TDME",
+        "example": "ACI",
         "example_id": "1",
-        "url": "https://support.midasuser.com/hc/en-us/articles/35952994344985",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35808102389401",
         "retrieved_at": "2026-10-10"
       },
       "adjustments": [],
-      "body": {"mX": 1, "mY": 2, "mZ": 3, "rmX": 4, "rmY": 5, "rmZ": 6},
-      "target_id_source": "DB.NODE#1",
-      "prerequisites": [
-        {"key": "DB.NODE", "item_id": "1", "source": {"kind": "manual_example_adjusted", "uri": "db/NODE", "example": "Node", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35806845654169", "retrieved_at": "2025-11-04"}, "adjustments": [{"path": "X", "from": -1, "to": 0, "why": "坐标取 0/1 网格：单元几何必须非退化（P139 实测：所有节点同坐标 → 400 几何形状不正确）"}, {"path": "Y", "from": -1, "to": 0, "why": "同上"}, {"path": "Z", "from": -1, "to": 0, "why": "同上"}], "body": {"X": 0, "Y": 0, "Z": 0}}
-      ]
+      "body": {
+        "NAME": "ACI",
+        "TYPE": "CODE",
+        "CODENAME": "ACI",
+        "STRENGTH": 30000,
+        "A": 1,
+        "B": 2
+      },
+      "prerequisites": []
+    },
+    "DB.TDMT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/TDMT",
+        "example": "CEB-FIP 2010, 1990, 1978",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35808006330009",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "CEB-FPI(2010)",
+        "CODE": "CEB_FIP_2010",
+        "STR": 50000,
+        "HU": 70,
+        "AGE": 3,
+        "MSIZE": 1.2,
+        "CTYPE": "NR",
+        "TYPEOFAFFR": 0
+      },
+      "prerequisites": []
     },
     "DB.TDNT": {
       "wrapper": "Assign",
@@ -2238,10 +3997,118 @@
         "retrieved_at": "2026-10-10"
       },
       "adjustments": [],
-      "body": {"NAME": "In_Pre_Magura", "TYPE": "INTERNAL", "MATL": 1, "AREA": 0.00504, "D_AREA": 0.0152, "RM": 0, "RV": 45, "US": 1860000, "YS": 1570000, "LT": "PRE"},
+      "body": {
+        "NAME": "In_Pre_Magura",
+        "TYPE": "INTERNAL",
+        "MATL": 1,
+        "AREA": 0.00504,
+        "D_AREA": 0.0152,
+        "RM": 0,
+        "RV": 45,
+        "US": 1860000,
+        "YS": 1570000,
+        "LT": "PRE"
+      },
       "prerequisites": [
-        {"key": "DB.MATL", "item_id": "1", "references": [{"in": "owner", "path": ["MATL"]}], "source": {"kind": "manual_example", "uri": "db/MATL", "example": "Standard", "example_id": "1", "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993", "retrieved_at": "2025-11-04"}, "adjustments": [], "body": {"TYPE": "STEEL", "NAME": "DB_Steel", "HE_SPEC": 0, "HE_COND": 0, "PLMT": 0, "P_NAME": "", "bMASS_DENS": false, "DAMP_RAT": 0.02, "PARAM": [{"P_TYPE": 1, "STANDARD": "EN05(S)", "CODE": "", "DB": "S450", "bELAST": false, "ELAST": 210000000}]}}
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "references": [
+            {
+              "in": "owner",
+              "path": [
+                "MATL"
+              ]
+            }
+          ],
+          "source": {
+            "kind": "manual_example",
+            "uri": "db/MATL",
+            "example": "Standard",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35807411331993",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [],
+          "body": {
+            "TYPE": "STEEL",
+            "NAME": "DB_Steel",
+            "HE_SPEC": 0,
+            "HE_COND": 0,
+            "PLMT": 0,
+            "P_NAME": "",
+            "bMASS_DENS": false,
+            "DAMP_RAT": 0.02,
+            "PARAM": [
+              {
+                "P_TYPE": 1,
+                "STANDARD": "EN05(S)",
+                "CODE": "",
+                "DB": "S450",
+                "bELAST": false,
+                "ELAST": 210000000
+              }
+            ]
+          }
+        }
       ]
+    },
+    "DB.THFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/THFC",
+        "example": "Time Function",
+        "example_id": "4",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35964507702937",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "ElCentroSite_Scale",
+        "FUNCTYPE": 1,
+        "iTYPE": 1,
+        "iMETHOD": 0,
+        "SCALE": 1,
+        "GRAV": 9.806,
+        "aFUNCDATA": [
+          {
+            "TIME": 0.02,
+            "VALUE": 0.0051703039
+          },
+          {
+            "TIME": 0.04,
+            "VALUE": 0.0042117071
+          },
+          {
+            "TIME": 0.06,
+            "VALUE": 0.0032429125
+          }
+        ],
+        "DESC": "1940,ElCentroSite,270Deg"
+      },
+      "prerequisites": []
+    },
+    "DB.THIK": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/THIK",
+        "example": "In-plane & Out-of-plane has same value",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35942236652697",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "1",
+        "TYPE": "VALUE",
+        "bINOUT": false,
+        "T_IN": 0.1,
+        "T_OUT": 0,
+        "O_VALUE": 0
+      },
+      "prerequisites": []
     }
   }
 }

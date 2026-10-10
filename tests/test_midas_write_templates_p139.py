@@ -84,6 +84,7 @@ EXPECTED_SCHEMA_FILES = 625
 
 TEMPLATE_KEYS = (
     "DB.BMLD",
+    "DB.BNGR",
     "DB.BODF",
     "DB.CCFC",
     "DB.CNLD",
@@ -100,6 +101,7 @@ TEMPLATE_KEYS = (
     "DB.EXLD",
     "DB.FBLD",
     "DB.FIMP",
+    "DB.GRUP",
     "DB.GSTP",
     "DB.HHCT",
     "DB.HSFC",
@@ -117,6 +119,7 @@ TEMPLATE_KEYS = (
     "DB.MVCTTR",
     "DB.MVHLTR",
     "DB.NMAS",
+    "DB.NPLN",
     "DB.PDEL",
     "DB.PJCF",
     "DB.PNLD",
@@ -141,10 +144,11 @@ TEMPLATE_KEYS = (
     "DB.THFC",
     "DB.THIK",
 )
-"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 = **57** 个模板。"""
+"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 + P149-B2 3 = **60** 个模板。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
+    "DB.BNGR",
     "DB.BODF",
     "DB.CCFC",
     "DB.CNLD",
@@ -161,6 +165,7 @@ PROBED_KEYS = (
     "DB.EXLD",
     "DB.FBLD",
     "DB.FIMP",
+    "DB.GRUP",
     "DB.GSTP",
     "DB.HHCT",
     "DB.HSFC",
@@ -179,6 +184,7 @@ PROBED_KEYS = (
     "DB.MVHLTR",
     "DB.NMAS",
     "DB.NODE",
+    "DB.NPLN",
     "DB.PDEL",
     "DB.PJCF",
     "DB.PNLD",
@@ -203,10 +209,10 @@ PROBED_KEYS = (
     "DB.THFC",
     "DB.THIK",
 )
-"""GEN NX 上的 **58** 个可探候选（P148 起；`DB.NODE` 走机械派生的 body）。"""
+"""GEN NX 上的 **61** 个可探候选（P149-B2 起；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 101
-"""复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
+EXPECTED_BODIES = 104
+"""复算的 body 总数（P149-B2 起 **104** = 60 个目标 + 44 个前置对象）。"""
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。
 
