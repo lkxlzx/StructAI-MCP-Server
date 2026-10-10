@@ -10,7 +10,7 @@
 本文件的**可执行判定**
 --------------------
 1. **候选集上限**：`candidate_keys()` = 「有写方法 + 有读路径 + Transformer **已注册** +
-   非危险形态」∩ 产品可得性 —— GEN NX / CIVIL NX = **11**、Civil Designer = **2**；
+   非危险形态」∩ 产品可得性 —— GEN NX / CIVIL NX = **11**、Civil Designer = **0**（P143 更正）；
    被「Transformer 未注册」挡住的写端点 = **542 / 471 / 32**（P142 前为 543 / 472 / 32）。
 2. **加模板不能新增候选**：模板只改变**已候选**端点的请求体 —— 给未候选端点（`DB.ELNK`）
    注入模板，候选集**不变**，`probe_key()` 如实记 `NO_PAYLOAD_TEMPLATE` 且**零**写请求。
@@ -108,9 +108,9 @@ DB_CODES = (
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
     "CIVIL_NX": DB_CODES,
-    "CIVIL_DESIGNER": ("DB.ELEM", "DB.NODE"),
+    "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（`Civil Designer` 只有 2 个已注册 Transformer 的写端点）。"""
+"""三产品各自的候选集（P143 更正：`CIVIL_DESIGNER` 的 `DB.NODE`/`DB.ELEM` 只有 `GET` ⇒ 空）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
     "GEN_NX": 542,
@@ -172,7 +172,8 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
         definition = registry.endpoint(key)
         if product not in definition.products or not definition.enabled:
             continue
-        if not any(method in definition.methods for method in WRITE_METHODS):
+        methods = registry.methods_for(key=key, product=product)
+        if not any(method in methods for method in WRITE_METHODS):
             continue
         resolved = registry.resolve(key=key, product=product)
         if definition.destructive or resolved.delete_all_via_body:
@@ -180,7 +181,7 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
         if TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None:
             blocked += 1
             continue
-        if "GET" not in definition.methods or not definition.read_root:
+        if "GET" not in methods or not definition.read_root:
             continue
         candidates.append(key)
     return tuple(candidates), blocked

@@ -693,11 +693,15 @@ def test_p138c_the_live_batch_is_skipped_without_the_documented_declaration(
 async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
     tmp_path: Path,
 ) -> None:
-    """真实 L5 批量（小 `limit`）：空项目闸门 → 逐条四态 → 落 L5 行 → 重算 R4 / R14 覆盖。"""
+    """真实 L5 批量：空项目闸门 → 四态 → 落 L5 行 → 重算覆盖（产品见 MIDAS_LIVE_PRODUCT）。"""
     from sqlalchemy import select as sql_select
 
     from app.infrastructure.adapters.midas.models import MidasApiVerificationORM
     from app.infrastructure.database.base import utcnow
+
+    # P143：产品由 MIDAS_LIVE_PRODUCT 选择（缺省 GEN_NX；已实测 CIVIL_NX）。
+    # 候选集按**该产品**的方法解析（registry.methods_for：先 product_overrides，再回落主定义）。
+    product = os.environ.get("MIDAS_LIVE_PRODUCT") or "GEN_NX"
 
     engine = support.engine_for(tmp_path)
     await support.midas_tables(engine)
@@ -711,11 +715,11 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
     probe = MidasLiveWriteProbe(
         client,
         registry,
-        product="GEN_NX",
+        product=product,
         project=dedicated_test_project_from_env(os.environ),
-        # `0` = 跑**全部**可探候选（GEN NX 上 = **10** 个）；可用 `MIDAS_LIVE_WRITE_LIMIT`
-        # 先给小值谨慎试跑（P138c 实测先跑了 `limit=3`：3 个候选全部 400 `software_api_error`、
-        # **零**残留，清理核对通过）。
+        # `0` = 跑**全部**可探候选（GEN NX / CIVIL NX 上各 **11** 个）；可用
+        # `MIDAS_LIVE_WRITE_LIMIT` 先给小值谨慎试跑（P138c 实测先跑了 `limit=3`：
+        # 3 个候选全部 400 `software_api_error`、**零**残留，清理核对通过）。
         limit=int(os.environ.get("MIDAS_LIVE_WRITE_LIMIT") or 0),
     )
     try:
@@ -735,7 +739,7 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
                 MidasApiVerificationORM(
                     endpoint_key=outcome.key,
                     contract_level="L5",
-                    product="GEN_NX",
+                    product=product,
                     version_range="2025-2026",
                     method=outcome.method,
                     path=outcome.path,

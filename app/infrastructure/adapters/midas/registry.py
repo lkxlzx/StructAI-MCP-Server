@@ -281,7 +281,7 @@ class MidasRegistry:
                 "endpoint_not_available_for_product", endpoint=key, product=str(product)
             )
         override = override or {}
-        methods = _methods(override.get("methods")) or definition.methods
+        methods = self.methods_for(key=key, product=str(product))
         if not methods:
             # 数据里 `DB.SWIND` 之类**没有**任何方法（`enabled: false`，`registry/README.md`
             # §4 的 `methods_unknown`）：此时按空方法解析，让调用方走到 `guard_enabled()`
@@ -314,6 +314,24 @@ class MidasRegistry:
                 definition=definition,
             ),
         )
+
+    def methods_for(self, *, key: str, product: str) -> tuple[str, ...]:
+        """该端点在**该产品**上的可用方法（先 `product_overrides.<产品>.methods`，再回落主定义）。
+
+        ⚠️ `docs/07` §7.6 / `registry/README.md` §4：产品差异**先查** `product_overrides`
+        —— 例如 `CIVIL_DESIGNER` 的 `DB.NODE` / `DB.ELEM` 只有 `GET`（数据侧声明），
+        基础定义里的 `POST` / `PUT` / `DELETE` **不**适用于该产品。
+
+        Args:
+            key: Registry key。
+            product: 数据侧产品键（`GEN_NX` / `CIVIL_NX` / `CIVIL_DESIGNER`）。
+
+        Returns:
+            该产品的方法集（可能为空 —— 数据侧没有方法时按空集返回，由调用方决定如何处理）。
+        """
+        definition = self.endpoint(key)
+        override = definition.overrides.get(str(product)) or {}
+        return _methods(override.get("methods")) or definition.methods
 
     # ===== Schema（`docs/04` §13 / §107）=====
 

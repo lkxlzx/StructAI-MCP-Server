@@ -542,3 +542,15 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
 （`model_write_ratio` **`10 / 410` → `11 / 410`**）；跑后哨兵**全空**、**零残留**。
 可执行判定 = `tests/test_midas_write_coverage_p142.py`（8 项）+
 `python registry/tools/check_write_templates.py`（模板 10 / body 34 / 0 错）。
+
+**④ P143 更正与补充（2026-10-08 之后）**：
+
+- **`CIVIL_DESIGNER` 的候选集 = 0（更正 §8.7 ① 的「Civil Designer = 2」）**：数据侧对 CD 的
+  `DB.NODE` / `DB.ELEM` 在 `product_overrides.CIVIL_DESIGNER.methods` 里**只声明 `GET`**
+  （`registry/common/db/NODE.yaml` / `ELEM.yaml`）⇒ 它们在该产品上**没有写方法**，不可能是候选。
+  P142 记的 **2** 是 `candidate_keys()` 只看**基础** `methods` 造成的**伪数**（见 `docs/07` §16.1 **R99**）。
+  修复后三产品候选集 = **GEN NX 11 · CIVIL NX 11 · Civil Designer 0**。
+- **`CIVIL_NX` 真实 L5 已在专用空白项目上跑通 = 11 / 11 `PASSED`**（状态码 **201**，GEN NX 为 `200`；
+  跑前 / 跑后哨兵**全空**）。⚠️ **不**增加分子：覆盖率按 **registry key** 去重，CIVIL NX 与 GEN NX
+  是**同一批 key** ⇒ 仍 **`11 / 609`**（跨产品证据是**另一条**判据，见 `docs/07` §16.1 的 P143 回填）。
+- 可执行判定 = `tests/test_midas_write_coverage_p143.py`（5 项）· `docs/reports/P143_…md`。

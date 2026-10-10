@@ -409,15 +409,19 @@ class MidasLiveWriteProbe:
                 continue
             if not definition.enabled or definition.destructive:
                 continue
+            # ⚠️ **产品级方法覆盖优先**（`docs/07` §7.6 / `registry/README.md` §4；P143 修复）：
+            # `CIVIL_DESIGNER` 的 `DB.NODE` / `DB.ELEM` 在数据侧**只有 `GET`**，只看基础
+            # `methods` 会把它们误判成候选（实测 `resolve(POST)` 会被拒）。
+            methods = self._registry.methods_for(key=key, product=self._product)
             resolved = self._registry.resolve(key=key, product=self._product)
             # ⚠️ `delete_without_body_is_global = True` **不**排除该端点：我们删除时
             # **总是**带路径 key（`docs/07` §6.4），故那一条护栏不会被触发。
             # 真正要排除的是「按主体删全表」的 Designer 形态（见裁决 5）。
             if resolved.delete_all_via_body:
                 continue
-            if not any(method in definition.methods for method in self._methods):
+            if not any(method in methods for method in self._methods):
                 continue
-            if "GET" not in definition.methods or not definition.read_root:
+            if "GET" not in methods or not definition.read_root:
                 continue
             # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c 批量实测暴露）：未注册的端点
             # 进不了三步链，只会白占 `limit` 并记成 `NO_PAYLOAD_TEMPLATE`。
@@ -461,13 +465,23 @@ class MidasLiveWriteProbe:
         # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c）：批量路径**不得**因此抛 `KeyError`，
         # 而应如实归入 `NO_PAYLOAD_TEMPLATE`（**零**写请求）。
         factory = TRANSFORMER_REGISTRY.get(transformer_name)
-        if not transformer_name or not write_method or factory is None:
+        if not transformer_name or factory is None:
             return WriteProbeOutcome(
                 key=key,
                 method=write_method or "",
                 path=read.uri,
                 outcome=WRITE_PROBE_NO_PAYLOAD,
                 detail="no_transformer_for_endpoint",
+            )
+        if not write_method:
+            # ⚠️ P143：该**产品**上没有可用的写方法（`product_overrides.<产品>.methods` 覆盖掉了
+            # 基础定义）—— 如实记原因，**不**发请求（如 `CIVIL_DESIGNER` 的 `DB.NODE` 只有 `GET`）。
+            return WriteProbeOutcome(
+                key=key,
+                method="",
+                path=read.uri,
+                outcome=WRITE_PROBE_NO_PAYLOAD,
+                detail="no_write_method_for_product",
             )
         write = self._registry.resolve(key=key, product=self._product, method=write_method)
         # 裁决 8（P139）：**优先**用数据侧模板；无模板仍走 `derive_body()`（**不**猜字段）。
@@ -785,7 +799,7 @@ class MidasLiveWriteProbe:
 
     def _write_method(self, key: str) -> str:
         """该端点上第一个可用的写入方法（见裁决 5）。"""
-        methods = self._registry.endpoint(key).methods
+        methods = self._registry.methods_for(key=key, product=self._product)
         for method in self._methods:
             if method in methods:
                 return method
