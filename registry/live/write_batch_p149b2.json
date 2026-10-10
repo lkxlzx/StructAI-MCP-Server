@@ -4,7 +4,8 @@
     "纪律：只碰自建编号；`DELETE` 必带路径 key；跑前哨兵（4 个默认哨兵 + `DB.STLD` / `DB.FBLD` / `DB.BMLD` + 本批 DB 端点）**全空** ⇒ 空项目闸门放行。",
     "⚠️ **实例在批次中途崩溃**（NX 报「发生了无法确定的问题需要终止程序」，恢复文件 `C:\\Users\\koxlz\\Documents\\无标题_restore.mgbx`）：自 `DB.NSPR` 起（含其后全部 `DESIGN.*`）的 `request_timed_out` **不是**端点被拒的证据，而是「应用已死、请求无人应答」⇒ 这 67 条**未取得结论**（`UNVERIFIED`），下一轮在**分块**批量里补测。",
     "⚠️ 跑后哨兵读数**无效**（应用已终止，全部返回 `400 {\"error\":{\"message\":\"The project is not opened\"}}`）—— 因此本文件**不**声称「零残留」；残留核对必须在实例恢复后重做（重点怀疑 `DB.NSPR`：`created_id = \"1\"` 且读回超时，兜底删除未能确认）。",
-    "字段：`outcome` = 探针四态（`PASSED` / `FAILED` / `NO_PAYLOAD_TEMPLATE` / `NO_READBACK`）；`created_id` = **计划**分配的编号（`\"\"` = 连编号都没分配，即请求**未**发出）；`deleted` = 是否确认删除成功。"
+    "字段：`outcome` = 探针四态（`PASSED` / `FAILED` / `NO_PAYLOAD_TEMPLATE` / `NO_READBACK`）；`created_id` = **计划**分配的编号（`\"\"` = 连编号都没分配，即请求**未**发出）；`deleted` = 是否确认删除成功。",
+    "⚠️ 三次「跑后/收尾」读数的口径：两轮**跑后**读数因实例已终止而**无效**（不据此声称零残留）；**收尾**这次（实例恢复后）才是有效的零残留证据 —— 见 residue_final。"
   ],
   "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
   "product": "GEN_NX",
@@ -2576,5 +2577,12 @@
       }
     ],
     "untested": []
+  },
+  "residue_final": {
+    "note": "实例第二次恢复后做的**只读**残留核对（收尾）：哨兵（4 默认 + DB.STLD/DB.FBLD/DB.BMLD）+ DB.NSPR + 两轮本批全部 DB.* 端点，共 122 个 —— 全空、0 不可读 ⇒ **零残留**（DB.NSPR 的对象从未创建）。",
+    "checked": 122,
+    "dirty": [],
+    "unreadable": [],
+    "clean": true
   }
 }

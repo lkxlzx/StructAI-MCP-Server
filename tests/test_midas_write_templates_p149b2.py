@@ -279,6 +279,13 @@ def test_p149b2_the_evidence_records_both_rounds_and_the_crashes_honestly() -> N
     assert resume["residue_after_invalid"] is True
     assert resume["untested"] == []
 
+    # 收尾：实例**第二次恢复后**的只读残留核对 —— **零残留**（122 个端点全空、0 不可读）
+    final = evidence["residue_final"]
+    assert final["checked"] == 122
+    assert final["dirty"] == []
+    assert final["unreadable"] == []
+    assert final["clean"] is True
+
     # 两轮 `PASSED` 合起来**恰好**是模板里那 12 个
     passed = {row["key"] for row in first if row["outcome"] == "PASSED"}
     passed |= {row["key"] for row in resume["outcomes"] if row["outcome"] == "PASSED"}
