@@ -206,12 +206,17 @@ def test_p135d_body_derivation_prefers_declared_values_and_never_invents() -> No
 
 
 def test_p135d_candidate_keys_exclude_destructive_and_unreadable_endpoints() -> None:
-    """候选端点**只**取「有写方法 + 有读路径 + 有 Transformer + 非危险形态」（见裁决 1）。"""
+    """候选端点**只**取「有写方法 + 有读路径 +（Transformer **或** 数据侧模板）+ 非危险形态」。
+
+    P135d 时判据只认 Transformer；**R100（P144）起**数据侧模板也算请求体来源，故 `DESIGN.*`
+    里只有模板的 6 个端点也入候选（`docs/07` §16.1 R100；候选集见
+    `tests/test_midas_write_coverage_p144.py`）。
+    """
     probe = _probe(NxTransport(), limit=0)
     keys = probe.candidate_keys()
     key = _first_transformer_key(probe)
     assert key in keys
-    assert all(candidate.startswith("DB.") for candidate in keys)
+    assert all(candidate.startswith(("DB.", "DESIGN.")) for candidate in keys)
     definition = _registry().endpoint(key)
     assert definition.enabled is True and definition.destructive is False
     assert "POST" in definition.methods and "GET" in definition.methods

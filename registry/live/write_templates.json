@@ -3150,6 +3150,78 @@
         }
       ]
     },
+    "DB.PSLT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/PSLT",
+        "example": "Plate/Plane Stress(face)",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35953165879833",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Element_Type1",
+        "DESC": "Plate/PlaneStress(Face)",
+        "ELEM_TYPE": "Plate/PlaneStress(Face)",
+        "PRESSURE_LOAD_ITEMS": [
+          {
+            "LOADCASENAME": "DC",
+            "LOADTYPE": "Uniform",
+            "LOAD_P1": -20
+          },
+          {
+            "LOADCASENAME": "DW",
+            "LOADTYPE": "Linear",
+            "LOAD_P1": -1,
+            "LOAD_P2": -2,
+            "LOAD_P3": -3,
+            "LOAD_P4": 4
+          },
+          {
+            "LOADCASENAME": "SIDL",
+            "LOADTYPE": "Uniform",
+            "LOAD_P1": -15
+          },
+          {
+            "LOADCASENAME": "LL",
+            "LOADTYPE": "Linear",
+            "LOAD_P1": -4,
+            "LOAD_P2": -5,
+            "LOAD_P3": -4,
+            "LOAD_P4": -5
+          },
+          {
+            "LOADCASENAME": "EV",
+            "LOADTYPE": "Uniform",
+            "LOAD_P1": 20
+          },
+          {
+            "LOADCASENAME": "EH",
+            "LOADTYPE": "Linear",
+            "LOAD_P1": 10,
+            "LOAD_P2": 10,
+            "LOAD_P3": 11,
+            "LOAD_P4": 12
+          },
+          {
+            "LOADCASENAME": "BR",
+            "LOADTYPE": "Uniform",
+            "LOAD_P1": 6
+          },
+          {
+            "LOADCASENAME": "CR",
+            "LOADTYPE": "Linear",
+            "LOAD_P1": 7,
+            "LOAD_P2": 8,
+            "LOAD_P3": 9,
+            "LOAD_P4": 10
+          }
+        ]
+      },
+      "prerequisites": []
+    },
     "DB.SDHY": {
       "wrapper": "Assign",
       "source": {
@@ -4107,6 +4179,204 @@
         "T_IN": 0.1,
         "T_OUT": 0,
         "O_VALUE": 0
+      },
+      "prerequisites": []
+    },
+    "DB.VSEC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/VSEC",
+        "example": "Section for Resultant Forces - Define Virtual Section",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35943859944729",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Girder_1_I",
+        "CENT_CALC_TYPE": 0,
+        "CEN_PT_X": 0,
+        "CEN_PT_Y": 18.000000000000004,
+        "CEN_PT_Z": 0.9343263371699391,
+        "NORMAL_X": 1,
+        "NORMAL_Y": 0,
+        "NORMAL_Z": 0,
+        "NODE_LIST": [
+          20,
+          29,
+          26,
+          23
+        ],
+        "ELEM_LIST": [
+          18,
+          16,
+          14
+        ]
+      },
+      "prerequisites": []
+    },
+    "DB.WMAK": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/WMAK",
+        "example": "",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/49513846785817",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "MARKNAME": "W1",
+        "WID_LIST": [
+          1,
+          5,
+          8
+        ]
+      },
+      "prerequisites": []
+    },
+    "DESIGN.RC.DRC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/RC/DRC",
+        "example": "DESIGN/RC/DRC : RC Design Code #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/59120800558361-DESIGN-RC-DRC-RC-Design-Code",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DGNCODE": "KDS 41 20 : 2022"
+      },
+      "prerequisites": []
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCO": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/RC/KDS-41-20-2022/DCO",
+        "example": "DESIGN/RC/KDS-41-20-2022/DCO : Concrete Design Code Option #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/59398215969561-DESIGN-RC-KDS-41-20-2022-DCO-Concrete-Design-Code-Option",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DESIGN_CD": "KDS 41 20 : 2022",
+        "MOM_CALC_MTHD": "Equivalent",
+        "EXP_COND": "etc",
+        "PM_CRV_CALC": "KeepMPConstant",
+        "CONC_STRS_STRN": "Equivalent",
+        "FS_MAIN_BAR": "2/3fy",
+        "SEISMIC_PROV": true,
+        "TORS_DES": true,
+        "TORS_RDCT_FACT": 1,
+        "MOM_REDIST_FACT": 1,
+        "USE_SUBDIV_FORCE": true,
+        "UG_LC": true,
+        "SEISMIC": {
+          "FRAME_TYPE": "Special",
+          "STRONG_COL_WEAK_LAST": true,
+          "BEAM_COL_JNT_DES": true,
+          "JOINT": {
+            "CHK_POS": "Top",
+            "EXCL_MEM_TYPES": [
+              "SUBBEAM",
+              "CANTIL",
+              "UGBEAMCOL"
+            ]
+          },
+          "SHEAR_WALL": {
+            "SPEC_RC_WALL": true,
+            "BDRY_ELEM_MTHD": "Displacement",
+            "DEFL_AMP_FACT": 4,
+            "IMP_FACT": 1.2
+          },
+          "SHEAR_DES": {
+            "R": 0.5,
+            "MTHD": "Ve1",
+            "A1": 1.1,
+            "A2": 1.2
+          }
+        }
+      },
+      "prerequisites": []
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCTL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/RC/KDS-41-20-2022/DCTL",
+        "example": "DESIGN/RC/KDS-41-20-2022/DCTL : Definition of Frame #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57399235907097-DESIGN-RC-KDS-41-20-2022-DCTL-Definition-of-Frame",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "FRAMEX": "Braced Non-sway",
+        "FRAMEY": "Braced Non-sway",
+        "bAUTOKF": true,
+        "DT": "XZ"
+      },
+      "prerequisites": []
+    },
+    "DESIGN.SRC.AIK-SRC2K.DCO": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/SRC/AIK-SRC2K/DCO",
+        "example": "DESIGN/SRC/AIK-SRC2K/DCO : Design Code Option #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57465303138329-DESIGN-SRC-AIK-SRC2K-DCO-Design-Code-Option",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DGNCODE": "AIK-SRC2K",
+        "SEISMIC": true
+      },
+      "prerequisites": []
+    },
+    "DESIGN.STEEL.DSTL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/STEEL/DSTL",
+        "example": "Design Code #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57568269363737-Design-Code",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DGNCODE": "KDS 41 30 : 2022"
+      },
+      "prerequisites": []
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/STEEL/KDS-41-30-2022/DCO",
+        "example": "DESIGN/STEEL/KDS-41-30-2022/DCO : Design Code Option #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57365469935257-DESIGN-STEEL-KDS-41-30-2022-DCO-Design-Code-Option",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DGNCODE": "KDS 41 30 : 2022",
+        "LAT_BRACE": false,
+        "DEFL_CHK": true,
+        "SEISMIC": true,
+        "COMB_RATIO": 1,
+        "SEIS_SYS": "Special Moment Frames",
+        "COL_WEAK": true,
+        "UNDGR_LD": true
       },
       "prerequisites": []
     }

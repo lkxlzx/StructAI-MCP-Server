@@ -91,6 +91,7 @@ DB_CODES = (
     "DB.POSL",
     "DB.POSP",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDHY",
     "DB.SDIS",
     "DB.SDST",
@@ -107,8 +108,16 @@ DB_CODES = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DB.WMAK",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""`GEN_NX` 上的 **61** 个候选（12 个有 Transformer + 49 个只有数据侧模板；P149-B2 +3）。"""
+"""`GEN_NX` 上的 **70** 个候选（12 个有 Transformer + 58 个只有数据侧模板；P149-B2 续跑 +9）。"""
 
 CIVIL_CODES = (
     "DB.BMLD",
@@ -150,6 +159,7 @@ CIVIL_CODES = (
     "DB.PNLD",
     "DB.POGD",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDST",
     "DB.SDVE",
     "DB.SDVI",
@@ -163,8 +173,15 @@ CIVIL_CODES = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""`CIVIL_NX` 上的 **52** 个候选（9 个 GEN NX 独有的端点不含 `CIVIL_NX`；P149-B2 +3）。"""
+"""`CIVIL_NX` 上的 **60** 个候选（10 个 GEN NX 独有的端点不含 `CIVIL_NX`；P149-B2 续跑 +9）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -269,8 +286,8 @@ def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
-    assert gen.covered == civil.covered == len(keys) == 61
-    assert gen.ratio == civil.ratio == f"61 / {WRITE_PATH_TOTAL}"
+    assert gen.covered == civil.covered == len(keys) == 70
+    assert gen.ratio == civil.ratio == f"70 / {WRITE_PATH_TOTAL}"
     assert set(civil.covered_keys) == set(keys)
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0

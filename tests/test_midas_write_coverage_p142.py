@@ -139,6 +139,7 @@ DB_CODES = (
     "DB.POSL",
     "DB.POSP",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDHY",
     "DB.SDIS",
     "DB.SDST",
@@ -155,8 +156,16 @@ DB_CODES = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DB.WMAK",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""GEN NX 上的 **61** 个可探候选（P149-B2 起；P148 的 58 + 本批 3）。"""
+"""GEN NX 上的 **70** 个可探候选（P149-B2 续跑 +9；P148 的 58 + 本批 12）。"""
 
 CIVIL_CODES = (
     "DB.BMLD",
@@ -198,6 +207,7 @@ CIVIL_CODES = (
     "DB.PNLD",
     "DB.POGD",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDST",
     "DB.SDVE",
     "DB.SDVI",
@@ -211,8 +221,15 @@ CIVIL_CODES = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""CIVIL NX 上的 **52** 个候选（P149-B2 起；9 个 GEN NX 独有的端点不含 `CIVIL_NX`）。"""
+"""CIVIL NX 上的 **60** 个候选（P149-B2 续跑 +9；10 个 GEN NX 独有的端点不含 `CIVIL_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -222,16 +239,21 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 """三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE`/`DB.ELEM` 只有 `GET`）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 512,
-    "CIVIL_NX": 448,
+    "GEN_NX": 503,
+    "CIVIL_NX": 440,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
-P149-B2 起 **512 / 448 / 31**（P149-A 为 515 / 451 / 31；P147–P148 为 495 / 433 / 31）：只读
-`OPTIONS` 实测修正方法集后，新进入「有写方法」集合的端点（20 个 `DESIGN.*` / `DB.SWIND` /
-`OPE.SECTPROP` 等）绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked（P149-B2：+3 个真实
-L5 `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`）。"""
+P149-B2 续跑起 **503 / 440 / 31**（P149-B2 首轮 512 / 448 / 31；P149-A 为 515 / 451 / 31）：
+只读 `OPTIONS` 实测修正方法集后，新进入「有写方法」集合的端点（20 个 `DESIGN.*` / `DB.SWIND` /
+`OPE.SECTPROP` 等）绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked（P149-B2 首轮 +3 个真实
+L5 `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`）。
+
+P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`（`DB.PSLT` / `DB.VSEC` / `DB.WMAK` /
+`DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCO` /
+`DESIGN.RC.KDS-41-20-2022.DCTL` / `DESIGN.SRC.AIK-SRC2K.DCO` /
+`DESIGN.STEEL.DSTL` / `DESIGN.STEEL.KDS-41-30-2022.DCO`）⇒ 候选集各 +9、blocked 各 -9。"""
 
 REGISTERED_TRANSFORMERS = 20
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
@@ -491,8 +513,8 @@ def test_p142_the_data_side_declares_the_fbld_template_with_the_stld_chain() -> 
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
-    assert counts["templates"] == 60
-    assert counts["bodies"] == 104
+    assert counts["templates"] == 69
+    assert counts["bodies"] == 113
     assert counts["unverifiable"] == 0
     template = _registry().write_template(FLOOR_LOAD_KEY)
     assert template is not None
@@ -575,13 +597,13 @@ def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 61
-    assert coverage.ratio == f"61 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"61 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 70
+    assert coverage.ratio == f"70 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"70 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 少一条 L5 行即少一个覆盖（**不**硬编码分子）
     fewer = write_path_coverage(registry, [_Row(key) for key in keys if key != FLOOR_LOAD_KEY])
-    assert fewer.ratio == f"60 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"69 / {WRITE_PATH_TOTAL}"
     assert FLOOR_LOAD_KEY not in fewer.covered_keys
     # 非 `L5` 行 / 非 `PASSED` 行**不**计入分子
     assert write_path_coverage(registry, [_Row(FLOOR_LOAD_KEY, contract_level="L4")]).covered == 0

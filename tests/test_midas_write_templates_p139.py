@@ -127,6 +127,7 @@ TEMPLATE_KEYS = (
     "DB.POSL",
     "DB.POSP",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDHY",
     "DB.SDIS",
     "DB.SDST",
@@ -143,8 +144,17 @@ TEMPLATE_KEYS = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DB.WMAK",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 + P149-B2 3 = **60** 个模板。"""
+"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 + P149-B2 3+9 = **69** 个模板。
+（P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）"""
 
 PROBED_KEYS = (
     "DB.BMLD",
@@ -192,6 +202,7 @@ PROBED_KEYS = (
     "DB.POSL",
     "DB.POSP",
     "DB.PRES",
+    "DB.PSLT",
     "DB.SDHY",
     "DB.SDIS",
     "DB.SDST",
@@ -208,11 +219,19 @@ PROBED_KEYS = (
     "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
+    "DB.VSEC",
+    "DB.WMAK",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""GEN NX 上的 **61** 个可探候选（P149-B2 起；`DB.NODE` 走机械派生的 body）。"""
+"""GEN NX 上的 **70** 个可探候选（P149-B2 续跑 +9；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 104
-"""复算的 body 总数（P149-B2 起 **104** = 60 个目标 + 44 个前置对象）。"""
+EXPECTED_BODIES = 113
+"""复算的 body 总数（P149-B2 续跑起 **113** = 69 个目标 + 44 个前置对象）。"""
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。
 
@@ -388,7 +407,7 @@ def test_p139_the_data_side_declares_templates_for_the_probed_endpoints() -> Non
 
 
 def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
-    """门槛：34 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
+    """门槛：113 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -399,7 +418,13 @@ def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
 
 
 def test_p139_every_body_validates_against_the_data_side_request_schema() -> None:
-    """门槛：34 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。"""
+    """门槛：113 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。
+
+    「方言」= 该端点请求 Schema 是否**自带包装根键**（`registry/README.md` §2.1 的两种形态）：
+    `properties` 里没有该端点的写包装时，生效 Schema 描述的就是**条目** ⇒ 直接校验 `body`；
+    有（如 `DESIGN.*` 的 `Assign`）时，按探针实际发送的形态 `{<包装>: {"1": body}}` 校验
+    （判定**变强**：连包装一起校验，**不**放宽）。
+    """
     registry = _registry()
     document = _document()
     checked = 0
@@ -410,8 +435,13 @@ def test_p139_every_body_validates_against_the_data_side_request_schema() -> Non
         for owner, entry in pairs:
             schema = registry.effective_schema(owner)
             assert schema is not None, f"{owner}: 模板必须对应有 Schema 的端点"
+            wrapper = registry.endpoint(owner).wrapper_write
+            properties = schema.get("properties")
+            payload = entry["body"]
+            if wrapper and isinstance(properties, dict) and wrapper in properties:
+                payload = {wrapper: {"1": entry["body"]}}
             validator = validator_for(schema)(schema)
-            errors = sorted(validator.iter_errors(entry["body"]), key=lambda item: list(item.path))
+            errors = sorted(validator.iter_errors(payload), key=lambda item: list(item.path))
             assert not errors, f"{owner}: {[error.message for error in errors]}"
             checked += 1
     assert checked == EXPECTED_BODIES
