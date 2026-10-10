@@ -135,17 +135,21 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-10 之后实测；**P147 更新**）**：GEN NX 的 **46** 个可探候选 → **46 / 46 `PASSED`**
-（P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
-CIVIL NX **39** 个候选（P145 实测 25 / 25、P143 实测 11 / 11，云端 `201`，**不**增加分子 ——
-覆盖率按 **registry key** 去重）；`live.write_path_coverage()` = **`46 / 609`**（分母**不挪**）。
+**覆盖面（2026-10-10 之后实测；**P148 更新**）**：GEN NX 的 **58** 个可探候选 → **58 / 58 `PASSED`**
+（P147 为 46 / 46、P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、
+P138c 为 1 / 10）；CIVIL NX **49** 个候选（P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
+云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
+`live.write_path_coverage()` = **`58 / 609`**（分母**不挪**）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **507** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **495** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`46 / 410`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`58 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
+⚠️ **R105（P148）**：`DB.IMFM` 的手册**两个**条目（`STEEL_NAME` / `CONC_NAME`+`REBAR_NAME`）都被本 build
+**拒绝**（`POST` → `400 software_api_error`，与 R103 / R104 同形）⇒ 模板**不写**、**不**入候选；
+成因**不是**数据缺陷（字段全在请求 Schema 里声明，且落盘前的只读自省 `unknown` = 0）。
 ⚠️ **目标编号可以取前置的编号（P145）**：按**构件号**取值的端点（`DB.LENG` / `DB.MBTP`）用
 `target_id_source = "DB.ELEM#1"` 让目标自身的 `Assign` 键取**自建单元**的编号；而**键是名字**的端点
 （`DB.HPCE`）**无法**用该机制表达 ⇒ **如实留缺**（`docs/07` §16.1 **R102**）。
@@ -641,3 +645,31 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   `Relaxation`）、`DB.MVCT` 另有 **1** 个（`Russia`）—— 若要救回，须按同一纪律做**一次**
   替代示例批量（**不**逐端点试探）。
 - 可执行判定 = `tests/test_midas_write_coverage_p147.py`（9 项）· `docs/reports/P147_…md`。
+
+**⑨ P148 更新（第五批 13 个端点 → 12 条模板跑通；新增 `docs/07` §16.1 R105）**：
+池子 = 155 个「有写方法 ∧ 有读路径（`GET` + `read_root`）∧ 有 `DELETE` ∧ 非危险 ∧ 产品可得 ∧ **无**模板 ∧
+无 Transformer」的端点（同一 `input_uri` 口径下 **132** 个有可用手册示例条目）；本批只取**定义类独立表**。
+
+- **落盘前的只读自省（沿用 P147 的纪律）**：13 个候选**先**逐个做**只读** `GET /info/db/<CODE>`，
+  核对「手册示例字段 ⊆ 本 build 接受字段」（13 个端点 `unknown` **0**），**再**落模板，
+  然后**只跑一次**有界批量（`only=(本批 13 个 key)`）。**未**做任何逐端点原生试探。
+- **12 条跑通**（body 全部**原样**照抄手册示例、零 `adjustments`）：
+  **零前置链（10）** `DB.HHCT` / `DB.MVCTBS` / `DB.MVCTCH` / `DB.MVCTID` / `DB.MVCTTR` /
+  `DB.POSL` / `DB.STOR` / `DB.EXLD` / `DB.LDSQ` / `DB.EFCT`；
+  **用既有前置机制（2）** `DB.NMAS`（`target_id_source = "DB.NODE#1"`，`Assign` 键就是自建节点号）、
+  `DB.TDNT`（`prerequisites[].references` 把自建材质号写回 body 的 `MATL`）。
+  ⚠️ `DB.EXLD` / `DB.LDSQ` / `DB.EFCT` 的请求体**引用荷载工况名** ⇒ 第一次有界批量被拒（`400`），
+  按**既有**机制补 `DB.STLD` 前置（工况名逐条对齐 `LCNAME_ITEM` / `LCNAME` / `COMB_LIST`）后通过 ——
+  这**不是**「在数据侧硬凑」：前置链本来就是为「请求体引用的对象必须先存在」而设的（见 §2.3）。
+  ⇒ 模板 **45 → 57**、复算 body **81 → 101**（`references` **22 → 23** / `self_references` 仍 **4**）；
+  真实 L5 **58 / 58 `PASSED`**（GEN NX 空项目）⇒ 覆盖率 **`46 / 609` → `58 / 609`**
+  （`model_write_ratio` **`46 / 410` → `58 / 410`**）；候选集 GEN NX **46 → 58** · CIVIL NX **39 → 49** ·
+  Civil Designer 仍 **0**（blocked **507 → 495** / **443 → 433** / **31**）；
+  跑前 / 跑后哨兵（**20** 个端点：4 个默认哨兵 + `DB.STLD` / `DB.FBLD` / `DB.BMLD` + 13 个候选）**全空、0 不可读**。
+- **`DB.IMFM` 如实留缺（R105）**：其手册**两个**条目（条目 7 `STEEL_NAME`、条目 8 `CONC_NAME` +
+  `CONFINED_CONC_NAME` + `REBAR_NAME`）**逐个**实测都被本 build **拒绝**
+  （`POST` → **`400 software_api_error`**，与 R103 的 `DB.SKEW` / R104 的 `DB.MVCT` 同形）⇒ 模板**不写**、
+  不入候选（**已撤模板**，不入 `limit`、不产生假 `FAILED`）；成因**不是**数据缺陷
+  （字段全在请求 Schema 里声明，只读自省 `unknown` = 0；端点仍 `enabled` / `verified` / 写方法齐全）。
+  恢复条件 = 上游手册 / 新 build 给出可接受示例。
+- 可执行判定 = `tests/test_midas_write_coverage_p148.py`（9 项）· `docs/reports/P148_写路径覆盖推进第五批_v1.0.md`。

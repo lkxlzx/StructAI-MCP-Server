@@ -26,7 +26,7 @@
 5. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板 `body`，跑完**零残留**。
 6. **口径不变**：分母仍 **609**（`model_write` 子桶 **410**）；分子 = L5 `PASSED` 去重 key
-   （P146 时 **36 / 609** / **36 / 410**；P147 起 **46 / 609** / **46 / 410**）。
+   （P146 时 **36 / 609** / **36 / 410**；P148 起 **58 / 609** / **58 / 410**）。
 """
 
 from __future__ import annotations
@@ -109,27 +109,37 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.DCON",
         "DB.DCTL",
         "DB.DSTL",
+        "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
         "DB.EPMT",
         "DB.ETFC",
+        "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
         "DB.GSTP",
+        "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
         "DB.LDGR",
+        "DB.LDSQ",
         "DB.LENG",
         "DB.MATL",
         "DB.MBTP",
         "DB.MLFC",
         "DB.MVCD",
+        "DB.MVCTBS",
+        "DB.MVCTCH",
+        "DB.MVCTID",
+        "DB.MVCTTR",
         "DB.MVHLTR",
+        "DB.NMAS",
         "DB.NODE",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
         "DB.POGD",
+        "DB.POSL",
         "DB.POSP",
         "DB.PRES",
         "DB.SDHY",
@@ -141,9 +151,11 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.STOR",
         "DB.TDGR",
         "DB.TDME",
         "DB.TDMT",
+        "DB.TDNT",
         "DB.THFC",
         "DB.THIK",
     ),
@@ -155,20 +167,29 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.CONS",
         "DB.CUTL",
         "DB.DCON",
+        "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
         "DB.EPMT",
         "DB.ETFC",
+        "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
         "DB.GSTP",
+        "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
         "DB.LDGR",
+        "DB.LDSQ",
         "DB.MATL",
         "DB.MLFC",
         "DB.MVCD",
+        "DB.MVCTBS",
+        "DB.MVCTCH",
+        "DB.MVCTID",
+        "DB.MVCTTR",
         "DB.MVHLTR",
+        "DB.NMAS",
         "DB.NODE",
         "DB.PDEL",
         "DB.PJCF",
@@ -185,27 +206,28 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.TDGR",
         "DB.TDME",
         "DB.TDMT",
+        "DB.TDNT",
         "DB.THFC",
         "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**46 / 39 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 507, "CIVIL_NX": 443, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P148 起）。"""
 
-EXPECTED_TEMPLATES = 45
-"""模板条数（P146 的 35 + 本批 10）。"""
+EXPECTED_TEMPLATES = 57
+"""模板条数（P148 起 **57** = P146 的 35 + P147 的 10 + P148 的 12）。"""
 
-EXPECTED_BODIES = 81
-"""复算的 body 总数（**81** = 45 个目标 + 36 个前置对象；本批未新增前置）。"""
+EXPECTED_BODIES = 101
+"""复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
 
-EXPECTED_REFERENCES = 22
-"""`prerequisites[].references` 的条数（本批未变）。"""
+EXPECTED_REFERENCES = 23
+"""`prerequisites[].references` 的条数（P148 起 **23** = P147 的 22 + P148 的 1）。"""
 
 EXPECTED_SELF_REFERENCES = 4
-"""模板 `self_references` 的条数（本批未变：7 条新模板都**没有**自引用编号）。"""
+"""模板 `self_references` 的条数（P148 起仍为 **4**：目标编号由 `target_id_source` 承担）。"""
 
 
 def _check_tool() -> Any:
@@ -278,7 +300,7 @@ class _Row:
 
 
 def test_p146_the_candidate_gate_counts_36_and_32_and_0() -> None:
-    """门槛：三产品候选集 **36 / 32 / 0**、blocked **517 / 450 / 31**，逐产品可复算。"""
+    """门槛：三产品候选集 **58 / 49 / 0**、blocked **495 / 433 / 31**（P148 起），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -301,7 +323,7 @@ def test_p146_the_candidate_gate_counts_36_and_32_and_0() -> None:
 
 
 def test_p146_the_templates_are_recomputable_from_the_manual() -> None:
-    """门槛：模板 35 / body 71 / references 22 / self_references 4，且**0** 错（逐条复算）。"""
+    """门槛：模板 57 / body 101 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -422,26 +444,26 @@ async def test_p146_the_seven_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p146_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；36 / 609（`model_write_ratio` 36 / 410）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 46
-    assert coverage.ratio == "46 / 609"
+    assert coverage.covered == len(keys) == 58
+    assert coverage.ratio == "58 / 609"
     assert coverage.model_write == MODEL_WRITE_TOTAL
-    assert coverage.model_write_covered == 46
-    assert coverage.model_write_ratio == "46 / 410"
+    assert coverage.model_write_covered == 58
+    assert coverage.model_write_ratio == "58 / 410"
     assert set(coverage.covered_keys) == set(keys)
 
 
 def test_p146_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
-    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 39 条时原分子仍为 39。"""
+    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 49 条时原分子仍为 49。"""
     registry = _registry()
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 39
+    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 49
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "39 / 609"
+    assert civil.ratio == "49 / 609"
 
 
 def test_p146_the_seven_new_keys_are_delivered_by_the_data_side_only() -> None:

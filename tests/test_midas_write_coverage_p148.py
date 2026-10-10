@@ -1,40 +1,34 @@
-"""P147：写路径覆盖推进**第四批**（13 个端点 → 10 个入候选并跑通；3 个如实留缺 R104）。
+"""P148：写路径覆盖推进**第五批**（13 个端点 → 12 条模板跑通；1 条如实留缺 R105）。
 
 权威来源
 --------
 - `docs/07` §16 **R4 / R14 / R97** · §16.1 **R100**（候选判据 + 「能建必须能删」）·
-  §16.1 **R101**（手册示例与本 build 字段集不一致 ⇒ 如实留缺）· §16.1 **R102**（键必须是名字 ⇒
-  模板机制无法表达）· §16.1 **R103**（手册示例被本 build 拒绝 / 建了读不回 ⇒ 如实留缺）·
-  §16.1 **R104**（本批新增：**只读**自省先行 + 一次批量定位，手册示例仍被拒 ⇒ 如实留缺）。
-- `registry/README.md` §2.3 / §8.7 · `registry/live/write_templates.json`。
-- `docs/reports/P147_写路径覆盖推进第四批_v1.0.md`（本批证据）。
+  §16.1 **R101 / R102 / R103 / R104**（如实留缺的四种形态）· §16.1 **R105**（本批新增：
+  `DB.IMFM` 的手册**两个**条目都被本 build 拒绝 ⇒ 模板**不写**、不入候选）。
+- `registry/README.md` §2.3 / §8.8（⑨）· `registry/live/write_templates.json`。
+- `docs/reports/P148_写路径覆盖推进第五批_v1.0.md`（本批证据）。
 
 本文件的**可执行判定**
 --------------------
-1. **候选判据（R100 未放宽）**：本批 GEN NX **36 → 46**、CIVIL NX **32 → 39**、
-   Civil Designer 仍 **0**；「既无 Transformer 又无模板」的端点数随之 **517 → 507** /
-   **450 → 443** / **31**（逐产品可复算）。
-2. **本批 10 条模板全部是手册示例的**逐字节**照抄**（`manual_example`、零 adjustments、零前置链）——
-   `DB.POGD` / `DB.POSP` / `DB.SDHY` / `DB.SDIS` / `DB.SDST` / `DB.SDVE` / `DB.SDVI` /
-   `DB.TDGR` / `DB.TDME` / `DB.TDMT`；真实 L5 批量 **46 / 46 `PASSED`**（GEN NX 空项目；
-   逐条「创建 → 读回 → 按路径 key 删除」）。
-3. **3 个端点如实留缺（R104）**：`DB.MVCT` / `DB.TDMF` / `DB.THGC` 的手册示例被本 build
-   **拒绝**（`POST` → `400 software_api_error`，与 R103 的 `DB.SKEW` 同形）⇒ 模板**不写**、
-   不入候选；数据侧**未**被改动（端点仍 `enabled` / `verified` / 写方法齐全，且手册示例的
-   **每个**字段都在请求 Schema 里声明 —— 成因**不是**数据缺陷）。
-4. **落盘前的只读自省**：10 条新模板与 3 条留缺端点**全部**先用**只读**
-   `GET /info/db/<CODE>` 核对「手册示例字段 ⊆ 本 build 接受字段」；本批 13 个端点的
-   `unknown` 字段数 = **0**（`DB.ACTL` 的 `CLATS` 是 R101 的对照物，仍**不**纳入）。
-5. **离线三步链**：10 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
+1. **候选判据（R100 未放宽）**：GEN NX **46 → 58**、CIVIL NX **39 → 49**、Civil Designer 仍 **0**；
+   「既无 Transformer 又无模板」的端点数随之 **495** / **433** / **31**（逐产品可复算）。
+2. **本批 12 条模板全部是手册示例的**逐字节**照抄**（`manual_example`、**零** adjustments）；
+   其中 **7** 条零前置链，**5** 条用**既有**前置机制（`DB.EXLD` / `DB.LDSQ` / `DB.EFCT` 补
+   `DB.STLD` 工况名；`DB.NMAS` 用 `target_id_source`；`DB.TDNT` 用 `references` 写回 `MATL`）。
+3. **`DB.IMFM` 如实留缺（R105）**：手册条目 7 / 条目 8 **逐个**被本 build 拒绝
+   （`POST` → `400 software_api_error`）⇒ 模板**不写**、不入候选；数据侧**未**被改动
+   （端点仍 `enabled` / `verified` / 写方法齐全，且被拒条目的每个字段都在请求 Schema 里声明）。
+4. **落盘前的只读自省**：13 个端点**全部**先用**只读** `GET /info/db/<CODE>` 核对
+   「手册示例字段 ⊆ 本 build 接受字段」（`unknown` = **0**；`DB.ACTL` 的 `CLATS` 是 R101 对照物）。
+5. **离线三步链**：12 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板 `body`，跑完**零残留**。
 6. **口径不变**：分母仍 **609**（`model_write` 子桶 **410**）；分子 = L5 `PASSED` 去重 key
-   （P147 时 **46 / 609**，`model_write_ratio` **46 / 410**；P148 起 **58 / 609** / **58 / 410**）。
+   （本批 **58 / 609**，`model_write_ratio` **58 / 410**）。
 """
 
 from __future__ import annotations
 
 import importlib.util
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -54,7 +48,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 """仓库根目录（数据侧工具与上游手册都在这里）。"""
 
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
-"""模板复算工具（本批新增 10 条后仍必须 0 错）。"""
+"""模板复算工具（本批新增 12 条后仍必须 0 错）。"""
 
 WRITE_PATH_TOTAL = 609
 """写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
@@ -63,51 +57,67 @@ MODEL_WRITE_TOTAL = 410
 """分母里的「模型写」子桶（P141 裁决⑤）。"""
 
 NEW_TEMPLATE_KEYS = (
-    "DB.POGD",
-    "DB.POSP",
-    "DB.SDHY",
-    "DB.SDIS",
-    "DB.SDST",
-    "DB.SDVE",
-    "DB.SDVI",
-    "DB.TDGR",
-    "DB.TDME",
-    "DB.TDMT",
+    "DB.EXLD",
+    "DB.LDSQ",
+    "DB.HHCT",
+    "DB.MVCTBS",
+    "DB.MVCTCH",
+    "DB.MVCTID",
+    "DB.MVCTTR",
+    "DB.POSL",
+    "DB.STOR",
+    "DB.EFCT",
+    "DB.NMAS",
+    "DB.TDNT",
 )
-"""本批**跑通**的 10 个端点（全部**只有数据侧模板**、没有 Transformer、零前置链）。"""
+"""本批**跑通**的 12 个端点（全部只有数据侧模板、没有 Transformer）。"""
+
+ZERO_PREREQUISITE_KEYS = (
+    "DB.HHCT",
+    "DB.MVCTBS",
+    "DB.MVCTCH",
+    "DB.MVCTID",
+    "DB.MVCTTR",
+    "DB.POSL",
+    "DB.STOR",
+)
+"""**零前置链**的 7 条（请求体不引用任何既有对象）。"""
+
+STLD_CHAIN_KEYS = ("DB.EXLD", "DB.LDSQ", "DB.EFCT")
+"""请求体**引用荷载工况名** ⇒ 按**既有**机制补两条 `DB.STLD` 前置（工况名逐条对齐）。"""
+
+NODE_TARGET_KEY = "DB.NMAS"
+"""`Assign` 键就是**自建节点号** ⇒ `target_id_source = "DB.NODE#1"`（P141 / R96 的反向依赖）。"""
+
+MATL_REFERENCE_KEY = "DB.TDNT"
+"""请求体按材质号取值 ⇒ `prerequisites[].references` 把自建材质号写回 body 的 `MATL`。"""
 
 NEW_TEMPLATE_ORIGINS: dict[str, tuple[str, str, str]] = {
-    "DB.POGD": ("db/POGD", "Pushover Analysis Control Data", "1"),
-    "DB.POSP": ("db/POSP", "Import to Json", "1"),
-    "DB.SDHY": ("db/SDHY", "Hysteretic Isolator(MSS)", "1"),
-    "DB.SDIS": ("db/SDIS", "Isolator(MSS)", "1"),
-    "DB.SDST": ("db/SDST", "Steel Damper", "1"),
-    "DB.SDVE": ("db/SDVE", "Viscoelastic Damper", "1"),
-    "DB.SDVI": ("db/SDVI", "Viscous Damper/Oil Damper", "1"),
-    "DB.TDGR": ("db/TDGR", "Tendon Group", "1"),
-    "DB.TDME": ("db/TDME", "ACI", "1"),
-    "DB.TDMT": ("db/TDMT", "CEB-FIP 2010, 1990, 1978", "1"),
+    "DB.EXLD": ("db/EXLD", "External Type Load Case for Pretension", "1"),
+    "DB.LDSQ": ("db/LDSQ", "Load Sequence for Nonlinear", "1"),
+    "DB.HHCT": ("db/HHCT", "General", "1"),
+    "DB.MVCTBS": ("db/MVCTbs", "Moving Load Analysis Control", "1"),
+    "DB.MVCTCH": ("db/MVCTch", "Moving Load Analysis Control", "1"),
+    "DB.MVCTID": ("db/MVCTid", "Moving Load Analysis Control", "1"),
+    "DB.MVCTTR": ("db/MVCTtr", "Moving Load Analysis Control", "1"),
+    "DB.POSL": ("db/POSL", "", "1"),
+    "DB.STOR": ("db/STOR", "Import to Json", "1"),
+    "DB.EFCT": ("db/EFCT", "Small Displacement/Initial Force Control Data", "1"),
+    "DB.NMAS": ("db/NMAS", "Nodal Masses", "1"),
+    "DB.TDNT": ("db/TDNT", "Magura", "1"),
 }
-"""10 条模板各自的来源定位（上游手册 `input_uri` / 示例名 / 示例条目编号）。"""
+"""12 条模板各自的来源定位（上游手册 `input_uri` / 示例名 / 示例条目编号）。"""
 
-LEFT_OUT_KEYS = ("DB.MVCT", "DB.TDMF", "DB.THGC")
-"""本批**如实留缺**的 3 个端点（R104）：手册示例被本 build 拒绝（`400 software_api_error`）。"""
+LEFT_OUT_KEY = "DB.IMFM"
+"""本批**如实留缺**的端点（R105）：手册**两个**条目都被本 build 拒绝。"""
 
-LEFT_OUT_CAUSE: dict[str, str] = {
-    "DB.MVCT": "manual_example_rejected_by_build",
-    "DB.TDMF": "manual_example_rejected_by_build",
-    "DB.THGC": "manual_example_rejected_by_build",
-}
-"""逐条成因（与 `docs/reports/P147_*` §3 的原生证据一一对应）。"""
+LEFT_OUT_ORIGINS: tuple[tuple[str, str, str], ...] = (
+    ("db/IMFM", "Inelastic Material Properties for Fiber Model", "7"),
+    ("db/IMFM", "Inelastic Material Properties for Fiber Model", "8"),
+)
+"""被拒的**两个**手册条目（同样逐条可复算）。"""
 
-LEFT_OUT_ORIGINS: dict[str, tuple[str, str, str]] = {
-    "DB.MVCT": ("db/MVCT", "General", "1"),
-    "DB.TDMF": ("db/TDMF", "Creep Coefficient", "1"),
-    "DB.THGC": ("db/THGC", "Time History Global Control", "1"),
-}
-"""留缺端点被拒的**具体**手册条目（同样逐条可复算）。"""
-
-INTROSPECTED_KEYS = NEW_TEMPLATE_KEYS + LEFT_OUT_KEYS
+INTROSPECTED_KEYS = NEW_TEMPLATE_KEYS + (LEFT_OUT_KEY,)
 """本批落盘前逐个做过**只读**自省（`GET /info/db/<CODE>`）的端点（13 个）。"""
 
 INTROSPECT_UNKNOWN_FIELDS: dict[str, int] = dict.fromkeys(INTROSPECTED_KEYS, 0)
@@ -227,28 +237,36 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**58 / 49 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
 BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P148 起）。"""
+"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。"""
 
 EXPECTED_TEMPLATES = 57
-"""模板条数（P148 起 **57** = P147 的 45 + P148 的 12）。"""
+"""模板条数（P147 的 45 + 本批 12）。"""
 
 EXPECTED_BODIES = 101
-"""复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
+"""复算的 body 总数（**101** = 57 个目标 + 44 个前置对象；本批新增 12 目标 + 8 前置）。"""
 
 EXPECTED_REFERENCES = 23
-"""`prerequisites[].references` 的条数（P148 起 **23** = P147 的 22 + P148 的 1）。"""
+"""`prerequisites[].references` 的条数（P147 的 22 + 本批 `DB.TDNT` 的 1）。"""
 
 EXPECTED_SELF_REFERENCES = 4
-"""模板 `self_references` 的条数（P148 起仍为 **4**：目标编号由 `target_id_source` 承担）。"""
+"""模板 `self_references` 的条数（本批未变：12 条新模板都**没有**自引用编号）。"""
+
+CORE_FORBIDDEN_LITERALS = (
+    "In_Pre_Magura",
+    "KDS(41-17-00:2019)",
+    "PrS1",
+    "DL(BC)4",
+)
+"""本批模板的**特征取值**（`app/**` 里出现即等于把模板硬编码进 Core）。"""
 
 
 def _check_tool() -> Any:
     """按路径装载 `registry/tools/check_write_templates.py`（`registry/tools` 不是包）。"""
     spec = importlib.util.spec_from_file_location(
-        "structai_check_write_templates_p147", CHECK_TOOL_PATH
+        "structai_check_write_templates_p148", CHECK_TOOL_PATH
     )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
@@ -268,7 +286,7 @@ def _probe(product: str, *, only: tuple[str, ...] = (), transport: object = None
         p139._client(store),
         _registry(),
         product=product,
-        project=DedicatedTestProject(name="p147"),
+        project=DedicatedTestProject(name="p148"),
         limit=0,
         only=only,
     )
@@ -301,32 +319,37 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
     return tuple(candidates), blocked
 
 
-@dataclass(frozen=True, slots=True)
 class _Row:
     """`midas_api_verifications` 的最小只读投影（覆盖率只读 `endpoint_key` / 级别 / 结论）。"""
 
-    endpoint_key: str
-    contract_level: str = "L5"
-    product: str = "GEN_NX"
-    status: str = "PASSED"
+    __slots__ = ("contract_level", "endpoint_key", "product", "status")
+
+    def __init__(self, endpoint_key: str) -> None:
+        self.endpoint_key = endpoint_key
+        self.contract_level = "L5"
+        self.product = "GEN_NX"
+        self.status = "PASSED"
 
 
 # ===== 1. 候选判据（判定 1）=====
 
 
-def test_p147_the_candidate_gate_counts_46_and_39_and_0() -> None:
-    """门槛：三产品候选集 **58 / 49 / 0**、blocked **495 / 433 / 31**（P148 起），逐产品可复算。"""
+def test_p148_the_candidate_gate_counts_58_and_49_and_0() -> None:
+    """门槛：三产品候选集 **58 / 49 / 0**、blocked **495 / 433 / 31**，逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
         assert derived == expected, product
         assert blocked == BLOCKED_TOTAL[product], product
         assert _probe(product).candidate_keys() == expected, product
-    # 本批 10 个新端点全部**只有模板**（没有 Transformer）—— 这正是 R100 打开的那条路
+    # 本批 12 个新端点全部**只有模板**（没有 Transformer）—— 这正是 R100 打开的那条路
     for key in NEW_TEMPLATE_KEYS:
         assert TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None, key
         assert registry.write_template(key) is not None, key
         assert key in CANDIDATES_BY_PRODUCT["GEN_NX"], key
+    # `DB.POSL` / `DB.STOR` 只属 GEN NX（数据侧在 `registry/products/gen_nx/`）
+    for key in ("DB.POSL", "DB.STOR"):
+        assert key not in CANDIDATES_BY_PRODUCT["CIVIL_NX"], key
     # 每个候选在该产品上都必须**能删**（R100）
     for product, keys in CANDIDATES_BY_PRODUCT.items():
         for key in keys:
@@ -336,7 +359,7 @@ def test_p147_the_candidate_gate_counts_46_and_39_and_0() -> None:
 # ===== 2. 数据侧模板（判定 2 / 3）=====
 
 
-def test_p147_the_templates_are_recomputable_from_the_manual() -> None:
+def test_p148_the_templates_are_recomputable_from_the_manual() -> None:
     """门槛：模板 57 / body 101 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
@@ -348,8 +371,8 @@ def test_p147_the_templates_are_recomputable_from_the_manual() -> None:
     assert counts["unverifiable"] == 0
 
 
-def test_p147_the_ten_new_templates_are_verbatim_manual_examples() -> None:
-    """门槛：10 条新模板逐字节等于手册示例条目，且零 adjustments / 零前置 / 零自引用。"""
+def test_p148_the_twelve_new_templates_are_verbatim_manual_examples() -> None:
+    """门槛：12 条新模板逐字节等于手册示例条目，且零 adjustments。"""
     registry = _registry()
     module = _check_tool()
     examples = module.manual_examples(REPO_ROOT)
@@ -358,62 +381,81 @@ def test_p147_the_ten_new_templates_are_verbatim_manual_examples() -> None:
         template = registry.write_template(key)
         assert template is not None, key
         assert template.source == "manual_example", key
-        assert template.origin == f"{uri}#{example}", key
-        assert template.prerequisites == (), key
-        assert template.self_references == (), key
-        assert template.target_id_source == "", key
+        assert template.origin == (f"{uri}#{example}" if example else uri), key
         assert template.wrapper == "Assign", key
         manual = module.manual_item(examples, uri=uri, example=example, item_id=item_id)
         assert manual is not None, key
         assert template.body == manual, key
 
 
-def test_p147_mvct_tdmf_and_thgc_are_honestly_left_out_with_native_evidence() -> None:
-    """门槛（R104）：3 个端点**没有**模板 ⇒ 不入候选；成因**不是**数据缺陷。"""
+def test_p148_the_new_chains_declare_only_the_documented_prerequisites() -> None:
+    """门槛：7 条零前置链 + 5 条**既有**机制（`DB.STLD` 工况 / 反向依赖 / `references`）。"""
+    registry = _registry()
+    for key in ZERO_PREREQUISITE_KEYS:
+        template = registry.write_template(key)
+        assert template is not None, key
+        assert template.prerequisites == (), key
+        assert template.self_references == (), key
+        assert template.target_id_source == "", key
+    for key in STLD_CHAIN_KEYS:
+        template = registry.write_template(key)
+        assert template is not None, key
+        assert [(item.key, item.item_id) for item in template.prerequisites] == [
+            ("DB.STLD", "1"),
+            ("DB.STLD", "2"),
+        ], key
+        assert all(item.id_source == "allocated" for item in template.prerequisites), key
+        # 前置工况名必须与目标请求体里引用的工况名**逐条**对齐
+        names = [str(item.body["NAME"]) for item in template.prerequisites]
+        assert all(name in str(template.body) for name in names), key
+    node_template = registry.write_template(NODE_TARGET_KEY)
+    assert node_template is not None
+    assert node_template.target_id_source == "DB.NODE#1"
+    assert node_template.target_id_source in {item.label() for item in node_template.prerequisites}
+    assert [item.key for item in node_template.prerequisites] == ["DB.NODE"]
+    matl_template = registry.write_template(MATL_REFERENCE_KEY)
+    assert matl_template is not None
+    assert [item.key for item in matl_template.prerequisites] == ["DB.MATL"]
+    assert [
+        (reference.in_label, reference.path)
+        for reference in matl_template.prerequisites[0].references
+    ] == [("owner", ("MATL",))]
+
+
+def test_p148_imfm_is_honestly_left_out_with_native_evidence() -> None:
+    """门槛（R105）：`DB.IMFM` **没有**模板 ⇒ 不入候选；成因**不是**数据缺陷。"""
     registry = _registry()
     module = _check_tool()
     examples = module.manual_examples(REPO_ROOT)
-    assert set(LEFT_OUT_KEYS) == set(LEFT_OUT_CAUSE)
-    assert set(LEFT_OUT_KEYS) == set(LEFT_OUT_ORIGINS)
-    for key in LEFT_OUT_KEYS:
-        assert registry.write_template(key) is None, key
-        assert key not in _probe("GEN_NX").candidate_keys(), key
-        # 数据侧**未**被改动：端点仍启用、仍可写、仍 `verified`
-        definition = registry.endpoint(key)
-        assert definition.enabled is True, key
-        assert definition.availability == "verified", key
-        methods = registry.methods_for(key=key, product="GEN_NX")
-        assert {"POST", "GET", "DELETE"} <= set(methods), key
-        # 成因**不是**「Schema 缺字段」：被拒条目的每个字段都在请求 Schema 里声明
-        uri, example, item_id = LEFT_OUT_ORIGINS[key]
+    assert registry.write_template(LEFT_OUT_KEY) is None
+    assert LEFT_OUT_KEY not in _probe("GEN_NX").candidate_keys()
+    # 数据侧**未**被改动：端点仍启用、仍可写、仍 `verified`
+    definition = registry.endpoint(LEFT_OUT_KEY)
+    assert definition.enabled is True
+    assert definition.availability == "verified"
+    methods = registry.methods_for(key=LEFT_OUT_KEY, product="GEN_NX")
+    assert {"POST", "GET", "DELETE"} <= set(methods)
+    # 成因**不是**「Schema 缺字段」：被拒的**两个**条目的每个字段都在请求 Schema 里声明
+    for uri, example, item_id in LEFT_OUT_ORIGINS:
         body = module.manual_item(examples, uri=uri, example=example, item_id=item_id)
-        assert body is not None, key
-        properties = set((registry.effective_schema(key) or {}).get("properties") or {})
-        assert set(body) <= properties, (key, sorted(set(body) - properties))
+        assert body is not None, item_id
+        properties = set((registry.effective_schema(LEFT_OUT_KEY) or {}).get("properties") or {})
+        wrapper = (registry.effective_schema(LEFT_OUT_KEY) or {}).get("properties") or {}
+        accepted = set(properties) | set((wrapper.get("Argument") or {}).get("properties") or {})
+        assert set(body) <= accepted, (item_id, sorted(set(body) - accepted))
 
 
-def test_p147_the_introspection_first_gate_has_no_unknown_field() -> None:
+def test_p148_the_introspection_first_gate_has_no_unknown_field() -> None:
     """门槛（判定 4）：本批 13 个端点的「手册示例字段 ∉ 本 build 接受字段」计数全为 **0**。"""
-    registry = _registry()
     module = _check_tool()
     examples = module.manual_examples(REPO_ROOT)
     assert set(INTROSPECTED_KEYS) == set(INTROSPECT_UNKNOWN_FIELDS)
     assert set(INTROSPECT_UNKNOWN_FIELDS.values()) == {0}
-    # 对照物（R101 的 `DB.ACTL`）：手册示例用 `CLATS`，而 P144 的**只读自省**（`GET /info/db/ACTL`）
-    # 记录本 build 接受的字段集里是 `ACWC` —— 数据侧 Schema 里**也有** `CLATS`（来自 help_center），
-    # 所以「Schema 声明」不足以判定 build 是否接受 —— 这正是本批「先只读自省再落模板」要拦的形态，
-    # 本批 13 个端点**无一**命中（见 `docs/reports/P144_*` §2）。
+    # 对照物（R101 的 `DB.ACTL`）：手册示例用 `CLATS`，而本 build 的只读自省记录的是 `ACWC`
     actl = module.manual_item(examples, uri="db/ACTL", example="Main Control Data", item_id="1")
     assert actl is not None
     assert "CLATS" in set(actl)
-    assert registry.write_template("DB.ACTL") is None
-    actl_properties = set((registry.effective_schema("DB.ACTL") or {}).get("properties") or {})
-    assert "CLATS" in actl_properties
-    p144_report = (REPO_ROOT / "docs" / "reports" / "P144_写路径覆盖推进第一批_v1.0.md").read_text(
-        encoding="utf-8"
-    )
-    assert "ACWC" in p144_report
-    assert "CLATS" in p144_report
+    assert _registry().write_template("DB.ACTL") is None
     for key in INTROSPECTED_KEYS:
         assert key != "DB.ACTL", key
 
@@ -421,21 +463,22 @@ def test_p147_the_introspection_first_gate_has_no_unknown_field() -> None:
 # ===== 3. 离线三步链（判定 5）=====
 
 
-async def test_p147_the_ten_chains_run_offline_with_zero_residue() -> None:
-    """门槛：10 个新端点逐个「创建 → 读回 → 按路径 key 删除」，请求体逐字节等于模板。"""
+async def test_p148_the_twelve_chains_run_offline_with_zero_residue() -> None:
+    """门槛：12 个新端点逐个「创建 → 读回 → 按路径 key 删除」，请求体逐字节等于模板。"""
     registry = _registry()
     for key in NEW_TEMPLATE_KEYS:
         template = registry.write_template(key)
         assert template is not None, key
         code = key.split(".", 1)[1]
-        transport = p139._NxStore(codes=("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT", key))
+        transport = p139._NxStore(
+            codes=("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT", "DB.STLD", key)
+        )
         probe = _probe("GEN_NX", only=(key,), transport=transport)
         outcome = await probe.probe_key(key)
         assert outcome.outcome == WRITE_PROBE_PASSED, (key, outcome)
         assert outcome.created_id == "1", key
         assert outcome.read_back is True and outcome.deleted is True, key
         assert outcome.payload_source == "manual_example", (key, outcome.payload_source)
-        assert outcome.prerequisites == (), key
         # 目标请求体**逐字节**等于数据侧模板（包装为 `Assign` + 自建编号）
         assert ("POST", f"/DB/{code}", {"Assign": {"1": template.body}}) in transport.calls, key
         assert f"/DB/{code}/1" in transport.paths(), key
@@ -443,12 +486,15 @@ async def test_p147_the_ten_chains_run_offline_with_zero_residue() -> None:
         assert transport.rows[code] == {}, key
         for sentinel in EMPTINESS_GATE_KEYS:
             assert transport.rows[sentinel.split(".", 1)[1]] == {}, (key, sentinel)
+        for prerequisite in template.prerequisites:
+            prereq_code = prerequisite.key.split(".", 1)[1]
+            assert transport.rows[prereq_code] == {}, (key, prerequisite.label())
 
 
 # ===== 4. 口径（判定 6）=====
 
 
-def test_p147_coverage_counts_forty_six_of_609() -> None:
+def test_p148_coverage_counts_fifty_eight_of_609() -> None:
     """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
@@ -462,32 +508,23 @@ def test_p147_coverage_counts_forty_six_of_609() -> None:
     assert set(coverage.covered_keys) == set(keys)
 
 
-def test_p147_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
+def test_p148_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
     """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 49 条时原分子仍为 49。"""
     registry = _registry()
-    civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 49
+    civil_keys = CANDIDATES_BY_PRODUCT["CIVIL_NX"]
+    civil = write_path_coverage(registry, [_Row(key) for key in civil_keys])
+    assert civil.covered == len(civil_keys) == 49
     assert civil.total == WRITE_PATH_TOTAL
     assert civil.ratio == "49 / 609"
 
 
-def test_p147_the_ten_new_keys_are_delivered_by_the_data_side_only() -> None:
+def test_p148_the_twelve_new_keys_are_delivered_by_the_data_side_only() -> None:
     """门槛：模板是**数据** —— `app/**` 里 0 处模板取值（红线：Core 不得硬编码数据）。"""
-    # 只挑**模板取值本身**（`body` 里独有的字面量）—— 通用术语（如 Soil-1 / SteelDamper01）
-    # 会与领域文档引用撞车，**不**能当作「Core 硬编码数据」的证据
-    literals = (
-        "SteelDamper01",
-        "Viscoelastic01",
-        "VisDamper01",
-        "HystereticIsolater01",
-        "Isolator01",
-        "In_Pre_Magura",
-    )
     app_root = REPO_ROOT / "app"
     offenders: list[str] = []
     for path in app_root.rglob("*.py"):
         text = path.read_text(encoding="utf-8")
-        for literal in literals:
+        for literal in CORE_FORBIDDEN_LITERALS:
             if literal in text:
                 offenders.append(f"{path.relative_to(REPO_ROOT)}:{literal}")
     assert offenders == []

@@ -55,27 +55,37 @@ DB_CODES = (
     "DB.DCON",
     "DB.DCTL",
     "DB.DSTL",
+    "DB.EFCT",
     "DB.EIGV",
     "DB.ELEM",
     "DB.EPMT",
     "DB.ETFC",
+    "DB.EXLD",
     "DB.FBLD",
     "DB.FIMP",
     "DB.GSTP",
+    "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
     "DB.LDGR",
+    "DB.LDSQ",
     "DB.LENG",
     "DB.MATL",
     "DB.MBTP",
     "DB.MLFC",
     "DB.MVCD",
+    "DB.MVCTBS",
+    "DB.MVCTCH",
+    "DB.MVCTID",
+    "DB.MVCTTR",
     "DB.MVHLTR",
+    "DB.NMAS",
     "DB.NODE",
     "DB.PDEL",
     "DB.PJCF",
     "DB.PNLD",
     "DB.POGD",
+    "DB.POSL",
     "DB.POSP",
     "DB.PRES",
     "DB.SDHY",
@@ -87,13 +97,15 @@ DB_CODES = (
     "DB.SMCT",
     "DB.SPFC",
     "DB.STLD",
+    "DB.STOR",
     "DB.TDGR",
     "DB.TDME",
     "DB.TDMT",
+    "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
 )
-"""`GEN_NX` 上的 **46** 个候选（12 个有 Transformer + 34 个只有数据侧模板；P147 +10）。"""
+"""`GEN_NX` 上的 **58** 个候选（12 个有 Transformer + 46 个只有数据侧模板；P148 +12）。"""
 
 CIVIL_CODES = (
     "DB.BMLD",
@@ -103,20 +115,29 @@ CIVIL_CODES = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.EFCT",
     "DB.EIGV",
     "DB.ELEM",
     "DB.EPMT",
     "DB.ETFC",
+    "DB.EXLD",
     "DB.FBLD",
     "DB.FIMP",
     "DB.GSTP",
+    "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
     "DB.LDGR",
+    "DB.LDSQ",
     "DB.MATL",
     "DB.MLFC",
     "DB.MVCD",
+    "DB.MVCTBS",
+    "DB.MVCTCH",
+    "DB.MVCTID",
+    "DB.MVCTTR",
     "DB.MVHLTR",
+    "DB.NMAS",
     "DB.NODE",
     "DB.PDEL",
     "DB.PJCF",
@@ -133,10 +154,11 @@ CIVIL_CODES = (
     "DB.TDGR",
     "DB.TDME",
     "DB.TDMT",
+    "DB.TDNT",
     "DB.THFC",
     "DB.THIK",
 )
-"""`CIVIL_NX` 上的 **39** 个候选（7 个 GEN NX 独有的端点不含 `CIVIL_NX`，见 P147）。"""
+"""`CIVIL_NX` 上的 **49** 个候选（9 个 GEN NX 独有的端点不含 `CIVIL_NX`，见 P148）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -241,8 +263,8 @@ def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
-    assert gen.covered == civil.covered == len(keys) == 46
-    assert gen.ratio == civil.ratio == f"46 / {WRITE_PATH_TOTAL}"
+    assert gen.covered == civil.covered == len(keys) == 58
+    assert gen.ratio == civil.ratio == f"58 / {WRITE_PATH_TOTAL}"
     assert set(civil.covered_keys) == set(keys)
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0

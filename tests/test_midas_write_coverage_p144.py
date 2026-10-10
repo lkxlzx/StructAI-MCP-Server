@@ -69,27 +69,37 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.DCON",
         "DB.DCTL",
         "DB.DSTL",
+        "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
         "DB.EPMT",
         "DB.ETFC",
+        "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
         "DB.GSTP",
+        "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
         "DB.LDGR",
+        "DB.LDSQ",
         "DB.LENG",
         "DB.MATL",
         "DB.MBTP",
         "DB.MLFC",
         "DB.MVCD",
+        "DB.MVCTBS",
+        "DB.MVCTCH",
+        "DB.MVCTID",
+        "DB.MVCTTR",
         "DB.MVHLTR",
+        "DB.NMAS",
         "DB.NODE",
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
         "DB.POGD",
+        "DB.POSL",
         "DB.POSP",
         "DB.PRES",
         "DB.SDHY",
@@ -101,9 +111,11 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.STOR",
         "DB.TDGR",
         "DB.TDME",
         "DB.TDMT",
+        "DB.TDNT",
         "DB.THFC",
         "DB.THIK",
     ),
@@ -115,20 +127,29 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.CONS",
         "DB.CUTL",
         "DB.DCON",
+        "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
         "DB.EPMT",
         "DB.ETFC",
+        "DB.EXLD",
         "DB.FBLD",
         "DB.FIMP",
         "DB.GSTP",
+        "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
         "DB.LDGR",
+        "DB.LDSQ",
         "DB.MATL",
         "DB.MLFC",
         "DB.MVCD",
+        "DB.MVCTBS",
+        "DB.MVCTCH",
+        "DB.MVCTID",
+        "DB.MVCTTR",
         "DB.MVHLTR",
+        "DB.NMAS",
         "DB.NODE",
         "DB.PDEL",
         "DB.PJCF",
@@ -145,15 +166,16 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.TDGR",
         "DB.TDME",
         "DB.TDMT",
+        "DB.TDNT",
         "DB.THFC",
         "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**46 / 39 / 0**；P147 起）。"""
+"""三产品各自的候选集（**58 / 49 / 0**；P148 起）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 507, "CIVIL_NX": 443, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P147 起）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P148 起）。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
 """**如实留缺**的 3 个端点（R101）：手册示例与本 build 字段集不一致 / 按构件号取值。"""
@@ -222,7 +244,7 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
 
 
 def test_p144_the_candidate_gate_is_a_transformer_or_a_data_side_template() -> None:
-    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 18 / 17 / 0 可复算。"""
+    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 58 / 49 / 0 可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -296,19 +318,19 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 
 
 def test_p144_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；36 / 609（`model_write_ratio` 36 / 410）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 46
-    assert coverage.ratio == f"46 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"46 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 58
+    assert coverage.ratio == f"58 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"58 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 分子是**数据驱动**的：少一条 L5 行即少一个覆盖
     fewer = write_path_coverage(registry, [_Row(key) for key in keys[:-1]])
-    assert fewer.ratio == f"45 / {WRITE_PATH_TOTAL}"
-    # CIVIL NX 的候选（25）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
+    assert fewer.ratio == f"57 / {WRITE_PATH_TOTAL}"
+    # CIVIL NX 的候选（49）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == 39
-    assert civil.ratio == f"39 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 49
+    assert civil.ratio == f"49 / {WRITE_PATH_TOTAL}"
