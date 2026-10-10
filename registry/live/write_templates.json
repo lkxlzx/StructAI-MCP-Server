@@ -13,7 +13,10 @@
     "（in = owner 表示目标自身 body，或同一模板里另一个前置的 <key>#<id>）；模板的 self_references",
     "声明目标自身编号在 body 里的位置；target_id_source = <key>#<id> 表示**目标自身**的编号取该前置",
     "分配到的编号（如 DB.CONS 的 Assign 键就是它那个节点号）—— 反向依赖，不与既有编号冲突。",
-    "声明目标自身编号在 body 里的位置。探针据此把编号一律改成 max+1 后再发请求（默认仍要求空项目）。"
+    "声明目标自身编号在 body 里的位置。探针据此把编号一律改成 max+1 后再发请求（默认仍要求空项目）。",
+    "P142：新增 DB.FBLD（楼面荷载类型 / FLOOR_LOAD）—— Core 侧补齐 midas.fbld.v1 与",
+    "LOAD_TRANSFORMERS[FLOOR_LOAD]（operations.py 的 LOAD_STEP_BY_TYPE 早已声明 FLOOR_LOAD → DB.FBLD，缺的是实现）；",
+    "body 原样照抄手册示例（零 adjustments），前置链 = 两条 DB.STLD（DC / DW，即手册示例 ITEM[].LCNAME 引用的工况名）。"
   ],
   "measured_on": {
     "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
@@ -477,6 +480,70 @@
             {"path": "Z", "from": -2, "to": 0, "why": "同上"}
           ],
           "body": {"X": 1, "Y": 0, "Z": 0}
+        }
+      ]
+    },
+    "DB.FBLD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/FBLD",
+        "example": "Define Floor Load Type",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35953604106137",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Floor_example",
+        "DESC": "",
+        "ITEM": [
+          {"LCNAME": "DC", "FLOOR_LOAD": 10, "OPT_SUB_BEAM_WEIGHT": true},
+          {"LCNAME": "DW", "FLOOR_LOAD": 20, "OPT_SUB_BEAM_WEIGHT": true}
+        ]
+      },
+      "prerequisites": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "DC",
+              "why": "目标请求体按 LCNAME = DC 引用荷载工况（手册 FBLD 示例自身的第一个工况名）"
+            }
+          ],
+          "body": {"NAME": "DC", "TYPE": "D", "DESC": "DeadLoads"}
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "source": {
+            "kind": "manual_example_adjusted",
+            "uri": "db/STLD",
+            "example": "Static Load Cases",
+            "example_id": "1",
+            "url": "https://support.midasuser.com/hc/en-us/articles/35952651947801-Static-Load-Cases",
+            "retrieved_at": "2025-11-04"
+          },
+          "adjustments": [
+            {
+              "path": "NAME",
+              "from": "DL",
+              "to": "DW",
+              "why": "目标请求体按 LCNAME = DW 引用荷载工况（手册 FBLD 示例自身的第二个工况名）"
+            }
+          ],
+          "body": {"NAME": "DW", "TYPE": "D", "DESC": "DeadLoads"}
         }
       ]
     },

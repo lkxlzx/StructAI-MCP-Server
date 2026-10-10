@@ -87,12 +87,13 @@ TEMPLATE_KEYS = (
     "DB.CNLD",
     "DB.CONS",
     "DB.ELEM",
+    "DB.FBLD",
     "DB.MATL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""P139 声明的 **9** 个模板（= P138c 实测 `400` 的那 9 个端点）。"""
+"""P139 声明的 **9** 个模板 + **P142** 新增的 `DB.FBLD` = **10**（`DB.NODE` 用机械派生的 body）。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
@@ -100,16 +101,17 @@ PROBED_KEYS = (
     "DB.CNLD",
     "DB.CONS",
     "DB.ELEM",
+    "DB.FBLD",
     "DB.MATL",
     "DB.NODE",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""GEN NX 上的 **10** 个可探候选（`DB.NODE` 用机械派生的 body 即已 `PASSED`）。"""
+"""GEN NX / CIVIL NX 上的 **11** 个候选（P139 的 10 + 本批 1）。"""
 
-EXPECTED_BODIES = 31
-"""复算的 body 总数 = 9 个目标 + 22 个前置对象。"""
+EXPECTED_BODIES = 34
+"""body 总数 = **10** 个目标 + **24** 个前置（P139 为 31）。"""
 
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。"""
@@ -127,6 +129,7 @@ CORE_FORBIDDEN_LITERALS = (
     "EN05(S)",
     "S450",
     "Element_Type1",
+    "Floor_example",
     "UNILOAD",
     "DeadLoads",
     "1111000",
@@ -259,8 +262,8 @@ def _probe(
 # ===== 1. 数据侧：模板来源可复算 =====
 
 
-def test_p139_the_data_side_declares_templates_for_the_nine_failed_endpoints() -> None:
-    """门槛：9 个模板**恰好**覆盖 P138c 实测 `400` 的那 9 个端点；`DB.NODE` **不**带模板。"""
+def test_p139_the_data_side_declares_templates_for_the_probed_endpoints() -> None:
+    """门槛：模板**恰好**覆盖 P139 实测 `400` 的 9 个端点 + 本批新增的 `DB.FBLD`。"""
     assert TEMPLATES_PATH.is_file(), "模板必须落在数据侧（**不**进 Core）"
     document = _document()
     assert tuple(sorted(document["templates"])) == TEMPLATE_KEYS
@@ -282,7 +285,7 @@ def test_p139_the_data_side_declares_templates_for_the_nine_failed_endpoints() -
 
 
 def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
-    """门槛：31 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
+    """门槛：34 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -293,7 +296,7 @@ def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
 
 
 def test_p139_every_body_validates_against_the_data_side_request_schema() -> None:
-    """门槛：31 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。"""
+    """门槛：34 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。"""
     registry = _registry()
     document = _document()
     checked = 0

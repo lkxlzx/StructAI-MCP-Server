@@ -135,9 +135,13 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-08 之后实测）**：GEN NX 的 **10** 个可探候选 → **10 / 10 `PASSED`**
-（P138c 时为 1 / 10）；`live.write_path_coverage()` = **`10 / 609`**（分母**不挪**）。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`10 / 410`** —— 分母里的
+**覆盖面（2026-10-08 之后实测；**P142 更新**）**：GEN NX 的 **11** 个可探候选 → **11 / 11 `PASSED`**
+（P139 为 10 / 10、P138c 为 1 / 10）；`live.write_path_coverage()` = **`11 / 609`**（分母**不挪**）。
+⚠️ **候选集有上限（P142 裁决）**：`candidate_keys()` 要求「Transformer **已注册**」
+（`write_probe.transformer_name_for()` 机械派生 `midas.<code>.v1`）—— 分母里 **542** 个 GEN NX 写端点
+**没有** Transformer ⇒ **不**入候选，**加模板对它们零效果**（分子上限 = 候选集）；
+契约内**不再有**「仅缺 Transformer」的写端点（P142 补齐 `DB.FBLD`，见 §8.7）。
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`11 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 **没有**模板的端点仍走 `derive_body()`，两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`
@@ -312,16 +316,17 @@ Civil Designer 14，合计 **487**）做零副作用 `GET` 探测并落库 `mida
 | `OPE.STORY_PARAM` | （空） | **`STORY_PARAM`** | gen-local |
 | `VIEW.SELECT` | （空） | **`SELECT`** | gen-local |
 
-**写路径的实测覆盖（P138c 收口为一条可执行口径；P139 用模板把它推上去）**：写路径端点 = `methods` 含
-`POST`/`PUT`/`DELETE`/`PATCH` 的端点 = **609**（`live.write_path_keys()`），其中**连 `GET` 都没有**
-的 **368** 个（`live.write_only_keys()`）才是只读探针**完全**覆盖不到的。覆盖率
-`live.write_path_coverage()`（分子 = `midas_api_verifications` 的 L5 `PASSED` **去重** key）：
-**P139 在专用空项目上真实批量实测 = `10 / 609`** —— GEN NX 的 **10** 个可探候选**逐条** `PASSED`
-（请求体由 §2.3 的数据侧模板给出，前置对象由探针自建并**逆序**清理；P138c 时同一口径为 `1 / 609`）。
-旧记录 `11 / 369`（R4）与 `379`（R14）与任何可执行判定都对不上，**作废**（跟踪项见 `docs/07` §16 R4 / R14）。
-⚠️ **P141 裁决⑤**：分母**不挪**（仍 **609**），但**显式**划分成「结果表 / 文本查询」**199**
-与「模型写」**410** 两个子桶，并**同时**报 `ratio`（`10 / 609`）与 `model_write_ratio`
-（`10 / 410`）—— 原口径**不**过滤、**不**隐藏任何未覆盖项（详见 §8.6 ②）。
+**写路径的实测覆盖（P138c 收口为一条可执行口径；P139 / P142 用「模板 + 契约内 Transformer」推上去）**：
+写路径端点 = `methods` 含 `POST`/`PUT`/`DELETE`/`PATCH` 的端点 = **609**（`live.write_path_keys()`），
+其中**连 `GET` 都没有**的 **368** 个（`live.write_only_keys()`）才是只读探针**完全**覆盖不到的。
+覆盖率 `live.write_path_coverage()`（分子 = `midas_api_verifications` 的 L5 `PASSED` **去重** key）：
+**P142 在专用 dev 项目（本地 GEN NX，空项目）上真实批量实测 = `11 / 609`** —— GEN NX 的 **11** 个
+可探候选**逐条** `PASSED`（请求体由 §2.3 的数据侧模板给出，前置对象由探针自建并**逆序**清理；
+P139 为 `10 / 609`、P138c 为 `1 / 609`）。第 11 个 = `DB.FBLD`（P142 补齐 `LOAD_TRANSFORMERS["FLOOR_LOAD"]`
+后进入候选集，见 §8.7）。旧记录 `11 / 369`（R4）与 `379`（R14）与任何可执行判定都对不上，**作废**
+（跟踪项见 `docs/07` §16 R4 / R14）。⚠️ **P141 裁决⑤**：分母**不挪**（仍 **609**），但**显式**划分成
+「结果表 / 文本查询」**199** 与「模型写」**410** 两个子桶，并**同时**报 `ratio`（`11 / 609`）与
+`model_write_ratio`（`11 / 410`）—— 原口径**不**过滤、**不**隐藏任何未覆盖项（详见 §8.6 ②）。
 
 > 附带修正：`DESIGN.SRC.AIK-SRC2K.DCO` 原 `methods: [PUT]` 漏标 GET（实测 200），
 > 已改为 `[GET, PUT]` 并标 `verified`；`DESIGN.SRC.AIK-SRC2K.OCHECK` 实测 404，已标 `unavailable_on: [gen-local]`。
@@ -509,5 +514,31 @@ R5 账上仍记「未正向验证」（`verification_status` 保持 `PARTIAL`）
 清理后逐端点核对**一字未变**，变了即如实 `FAILED`（`detail = existing_id_set_changed`）。
 **真实实测（门控）**：在**预置**了 `MATL#1` / `SECT#1` / `NODE#1-2` 的专用项目上跑
 `DB.ELEM` + `DB.CONS` → **2 / 2 `PASSED`**，前置分别取 `DB.MATL#2` / `DB.SECT#2` /
-`DB.NODE#3` / `DB.NODE#4`，预置编号**一字未变**；空项目上的 **10 / 10** 覆盖**未回退**。
+`DB.NODE#3` / `DB.NODE#4`，预置编号**一字未变**；空项目上的覆盖**未回退**（P141 为 **10 / 10**，
+P142 为 **11 / 11**，见 §8.7）。
 可执行判定 = `tests/test_midas_request_schemas_p141.py`（离线 4 项 + 门控 2 项）。
+
+### 8.7 P142：候选集**上限**裁决 + 契约内缺口 `FLOOR_LOAD` / `DB.FBLD`
+
+**① 分子**不可能**靠「加模板」增长（实测更正 `docs/07` §16.1 **R97**）**：
+`candidate_keys()` = 「有写方法 ∧ 有读路径（`GET` + `read_root`）∧ Transformer **已注册** ∧
+非危险形态 ∧ 产品可得」；`transformer_name_for()` 机械派生 `midas.<code>.v1`。
+GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 = **542**
+（CIVIL NX **471** / Civil Designer **32**）⇒ **加模板对它们零效果**；
+契约内（`operations.py` 的 69 个 Operation）声明的写步骤里，凡三步链**适用**的端点
+**全部**已在候选集内。
+
+**② `FLOOR_LOAD` 缺口已收口（`docs/07` §16.1 **R98**）**：
+`operations.LOAD_STEP_BY_TYPE["FLOOR_LOAD"] = "DB.FBLD"` **早已声明**
+（`docs/07` §6.3 的 `MODEL.LOAD.ASSIGN` 端点表），但 `LOAD_TRANSFORMERS` 缺该键
+⇒ 楼面荷载一律 `load_type_not_mapped`。P142 补 `FloorLoadTransformer`（`midas.fbld.v1`，
+字段名逐条来自 `registry/schema/common/db/FBLD.json`）+ `TRANSFORMER_REGISTRY` 注册；
+数据侧新增 `DB.FBLD` 模板（body **原样**照抄手册示例 `Define Floor Load Type`，零 `adjustments`；
+前置 = 两条 `DB.STLD`：`DC` / `DW`，即示例 `ITEM[].LCNAME` 引用的工况名）。
+
+**③ 效果**：模板 **9 → 10**、复算 body **31 → 34**（`references` 仍 **14** /
+`self_references` 仍 **4**）；真实 L5 **11 / 11 `PASSED`**（含 `DB.FBLD` → `/DB/FBLD` **200**，
+前置 `DB.STLD#1` / `#2`）；覆盖率 **`10 / 609` → `11 / 609`**
+（`model_write_ratio` **`10 / 410` → `11 / 410`**）；跑后哨兵**全空**、**零残留**。
+可执行判定 = `tests/test_midas_write_coverage_p142.py`（8 项）+
+`python registry/tools/check_write_templates.py`（模板 10 / body 34 / 0 错）。

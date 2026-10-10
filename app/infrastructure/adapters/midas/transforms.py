@@ -67,6 +67,7 @@ __all__ = [
     "ElementForceTransformer",
     "ElementTransformer",
     "FieldMap",
+    "FloorLoadTransformer",
     "LoadCaseTransformer",
     "LoadTransformer",
     "MaterialTransformer",
@@ -520,6 +521,30 @@ class BodyForceTransformer(SchemaBoundTransformer):
     )
 
 
+class FloorLoadTransformer(SchemaBoundTransformer):
+    """楼面荷载类型（`docs/07` §6.3 的 `FLOOR_LOAD`）→ `DB.FBLD`。
+
+    锚点：`operations.py` 的 `LOAD_STEP_BY_TYPE["FLOOR_LOAD"] = "DB.FBLD"`
+    （`docs/07` §6.3 的 `MODEL.LOAD.ASSIGN` 端点表）；字段名逐条取自**数据侧请求 Schema**
+    `registry/schema/common/db/FBLD.json` 的 `NAME` / `DESC` / `ITEM[]{LCNAME, FLOOR_LOAD,
+    OPT_SUB_BEAM_WEIGHT}`，canonical 侧沿用同族荷载 Transformer 的命名口径
+    （`load_case` ↔ `LCNAME`，见 `BeamLoadTransformer` / `PressureLoadTransformer`）。
+
+    ⚠️ `ITEM[]` 与 `MaterialTransformer` 的 `PARAM[]` 是**同一**约定：canonical 只覆盖
+    **首行**楼面荷载；多行不在 canonical 侧表达（**不**臆造字段）。
+    """
+
+    name = "midas.fbld.v1"
+    endpoint = "DB.FBLD"
+    fields = (
+        FieldMap("name", "NAME", required=True),
+        FieldMap("desc", "DESC"),
+        FieldMap("load_case", "ITEM[].LCNAME", required=True),
+        FieldMap("floor_load", "ITEM[].FLOOR_LOAD", required=True),
+        FieldMap("sub_beam_weight", "ITEM[].OPT_SUB_BEAM_WEIGHT"),
+    )
+
+
 LOAD_TRANSFORMERS: Final[dict[str, type[SchemaBoundTransformer]]] = {
     "NODE_FORCE": NodalLoadTransformer,
     "NODE_MOMENT": NodalLoadTransformer,
@@ -527,8 +552,15 @@ LOAD_TRANSFORMERS: Final[dict[str, type[SchemaBoundTransformer]]] = {
     "BEAM_MOMENT": BeamLoadTransformer,
     "PRESSURE": PressureLoadTransformer,
     "SELF_WEIGHT": BodyForceTransformer,
+    "FLOOR_LOAD": FloorLoadTransformer,
 }
-"""`docs/04` §32 的荷载类型 → Transformer（`TEMPERATURE` **故意**缺席，见裁决 7）。"""
+"""`docs/04` §32 的荷载类型 → Transformer（`TEMPERATURE` **故意**缺席，见裁决 7）。
+
+⚠️ `FLOOR_LOAD` 于 **P142** 补齐：`operations.py` 的 `LOAD_STEP_BY_TYPE` 早已声明
+`"FLOOR_LOAD": "DB.FBLD"`（`docs/07` §6.3 把 `DB.FBLD` 列入 `MODEL.LOAD.ASSIGN`），
+但本表原先没有对应实现 → 执行楼面荷载时一律 `load_type_not_mapped`。缺的是**实现**，
+不是 canonical 概念（见 `docs/07` §16.1 R98）。
+"""
 
 
 class LoadTransformer:
@@ -770,6 +802,7 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.cons.v1": BoundaryTransformer,
     "midas.design.steel.v1": DesignTransformer,
     "midas.elem.v1": ElementTransformer,
+    "midas.fbld.v1": FloorLoadTransformer,
     "midas.matl.v1": MaterialTransformer,
     "midas.load.v1": LoadTransformer,
     "midas.node.v1": NodeTransformer,
