@@ -4324,6 +4324,26 @@
       },
       "prerequisites": []
     },
+    "DESIGN.RC.KDS-41-20-2022.WMAK": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/RC/KDS-41-20-2022/WMAK",
+        "example": "DESIGN/RC/KDS-41-20-2022/WMAK : Modify Wall Mark Data #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57402556185625-DESIGN-RC-KDS-41-20-2022-WMAK-Modify-Wall-Mark-Data",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "MARKNAME": "W200",
+        "WID_LIST": [
+          1,
+          2
+        ]
+      },
+      "prerequisites": []
+    },
     "DESIGN.SRC.AIK-SRC2K.DCO": {
       "wrapper": "Assign",
       "source": {
@@ -4338,6 +4358,22 @@
       "body": {
         "DGNCODE": "AIK-SRC2K",
         "SEISMIC": true
+      },
+      "prerequisites": []
+    },
+    "DESIGN.SRC.AIK-SRC2K.DSRC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "DESIGN/SRC/AIK-SRC2K/DSRC",
+        "example": "DESIGN/SRC/AIK-SRC2K/DSRC : SRC Design Code #1",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/57465267608345-DESIGN-SRC-AIK-SRC2K-DSRC-SRC-Design-Code",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "DGNCODE": "AIK-SRC2K"
       },
       "prerequisites": []
     },

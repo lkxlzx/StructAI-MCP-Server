@@ -57,15 +57,15 @@ EVIDENCE_PATH = REPO_ROOT / "registry" / "live" / "write_batch_p149b2.json"
 """两轮原始实测证据。"""
 
 TEMPLATES_PATH = REPO_ROOT / "registry" / "live" / "write_templates.json"
-"""模板文件（两轮后 **69** 条）。"""
+"""模板文件（P149-B2 两轮 + P149-C 之后 **71** 条）。"""
 
-EXPECTED_POOL = 193
-"""`analyze()` 当前返回的池子（**仍缺模板**）：**180** 条在留缺账本里 + **13** 条无可用示例。"""
+EXPECTED_POOL = 191
+"""`analyze()` 当前返回的池子（**仍缺模板**）：**178** 条在留缺账本里 + **13** 条无可用示例。"""
 
 EXPECTED_BATCH_POOL = 205
-"""本批落盘**前**的池子：`EXPECTED_POOL` + 12 个已验证模板（`VERIFIED_KEYS`）。"""
+"""P149-B2 落盘**前**的池子：`EXPECTED_POOL` + **14** 个已验证模板（`VERIFIED_KEYS`）。"""
 
-EXPECTED_PICKS = 180
+EXPECTED_PICKS = 178
 """当前池子里**有可用示例**的端点数（= 留缺账本里那些：有示例但实测未通过）。"""
 
 EXPECTED_GAPS: dict[str, int] = {
@@ -75,18 +75,18 @@ EXPECTED_GAPS: dict[str, int] = {
 }
 """无可用示例的**如实**归类（合计 13）。"""
 
-EXPECTED_LEDGER = 180
-"""留缺账本条数（R101–R105 **11** · R109 **2** · R110 **117** · R111 **49** · R113 **1**）。"""
+EXPECTED_LEDGER = 178
+"""留缺账本条数（R101–R105 **11** · R109 **2** · R110 **164** · R113 **1**）。"""
 
-EXPECTED_TEMPLATES = 69
-"""模板条数（P148 的 57 + 本批两轮共 12 条真实 L5 `PASSED`）。"""
+EXPECTED_TEMPLATES = 71
+"""模板条数（P148 的 57 + P149-B2 两轮 12 + P149-C 2 = **71** 条真实 L5 `PASSED`）。"""
 
-VERIFIED_KEYS: tuple[str, ...] = (
-    # 第一轮（3）
+B2_VERIFIED_KEYS: tuple[str, ...] = (
+    # P149-B2 第一轮（3）
     "DB.BNGR",
     "DB.GRUP",
     "DB.NPLN",
-    # 第二轮分块补测（9）
+    # P149-B2 第二轮分块补测（9）
     "DB.PSLT",
     "DB.VSEC",
     "DB.WMAK",
@@ -97,7 +97,17 @@ VERIFIED_KEYS: tuple[str, ...] = (
     "DESIGN.STEEL.DSTL",
     "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""本批在 GEN NX 空项目上真实跑通三步链的 **12** 个端点（两轮合计）。"""
+"""P149-B2（两轮）在 GEN NX 空项目上真实跑通三步链的 **12** 个端点。"""
+
+C_VERIFIED_KEYS: tuple[str, ...] = (
+    # P149-C（availability 收口后解锁，见 tests/test_midas_availability_p149c.py）
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
+)
+"""P149-C 在 GEN NX 空项目上真实跑通三步链的 **2** 个端点。"""
+
+VERIFIED_KEYS: tuple[str, ...] = B2_VERIFIED_KEYS + C_VERIFIED_KEYS
+"""两批合计 **14** 个已验证端点（模板里的那 14 条）。"""
 
 CRASH_KEY = "DB.NSPR"
 """使 NX 实例崩溃的端点（**R113**）：两轮各触发一次「发生了无法确定的问题需要终止程序」。"""
@@ -289,7 +299,7 @@ def test_p149b2_the_evidence_records_both_rounds_and_the_crashes_honestly() -> N
     # 两轮 `PASSED` 合起来**恰好**是模板里那 12 个
     passed = {row["key"] for row in first if row["outcome"] == "PASSED"}
     passed |= {row["key"] for row in resume["outcomes"] if row["outcome"] == "PASSED"}
-    assert passed == set(VERIFIED_KEYS)
+    assert passed == set(B2_VERIFIED_KEYS)
     # `DB.NSPR`：第二轮 `transport_error`（使实例崩溃）⇒ 留缺、**不**在候选集里
     crash = [row for row in resume["outcomes"] if row["key"] == CRASH_KEY]
     assert crash and crash[0]["detail"] == "transport_error", crash

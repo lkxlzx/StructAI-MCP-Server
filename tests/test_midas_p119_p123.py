@@ -248,8 +248,9 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
     # P137a 起两个方向各占一行；P138a 起请求方向 **616**（原 `DB.MBTP` 的坏串已从上游重建）；
     # P140 的 R5 补齐再 +4（手册 json_schema ×2 / 规格表 ×1 / 开发文档 ×1）；
     # P141 再 +5（手册**同 URI** 条目的规格表）→ 请求 **625**；其中 2 个同时获得 response 块
-    # → 响应 **239 + 2 = 241**；合计 **864**（逐条更新，**不**放宽）
-    assert report.totals["midas_api_schemas"] == 625 + 241
+    # → 响应 **288 + 2 = 290**；合计 **915**（逐条更新，**不**放宽）
+    # （P149-C：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口 availability ⇒ +49）
+    assert report.totals["midas_api_schemas"] == 625 + 290
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 

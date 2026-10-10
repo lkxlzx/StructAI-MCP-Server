@@ -1,0 +1,569 @@
+{
+  "note": [
+    "P149-C（R111 解锁）：把 49 个经**只读** L4 收口 `availability` 的端点做**分块**写路径实测（3 块：20 / 20 / 9，块间只读健康检查 `GET /DB/NODE`）—— **没有**崩溃。",
+    "纪律：只碰自建编号；`DELETE` 必带路径 key；跑前 / 跑后只读核对（哨兵 + 本批 `DB.*` 端点）**均全空、0 不可读** ⇒ **零残留**（跑前 == 跑后）。",
+    "结论：**2** `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` / `DESIGN.SRC.AIK-SRC2K.DSRC`）· **47** `FAILED`（**全部** `400 software_api_error` ⇒ **R110**）。",
+    "读映射证据 = `registry/live/live_read_probe.json`（生成器 `registry/tools/sync_availability.py --probe`；判据 = 响应顶层键 == `read_root`，49/49 全部证实）。"
+  ],
+  "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
+  "declared_project": "p149c-gen-blank-dev-project",
+  "chunks": 3,
+  "residue_before": {
+    "dirty": [],
+    "unreadable": []
+  },
+  "residue_after": {
+    "dirty": [],
+    "unreadable": []
+  },
+  "clean": true,
+  "passed": [
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
+    "DESIGN.SRC.AIK-SRC2K.DSRC"
+  ],
+  "outcomes": [
+    {
+      "key": "DB.REBB",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DB.REBC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DB.REBR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DB.REBW",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BEMW",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRE",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BRACE",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DFBA",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.FMAG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.HCBM",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.KFAC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.LENG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.PMDM",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBW",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REXC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 1
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.SCOL",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.ULCT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WMAK",
+      "outcome": "PASSED",
+      "status_code": 200,
+      "created_id": "1",
+      "read_back": true,
+      "deleted": true,
+      "payload_source": "manual_example",
+      "detail": "create_read_delete_confirmed",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.CMFT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.DSRC",
+      "outcome": "PASSED",
+      "status_code": 200,
+      "created_id": "1",
+      "read_back": true,
+      "deleted": true,
+      "payload_source": "manual_example",
+      "detail": "create_read_delete_confirmed",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.EQCT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.FMAG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.KFAC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LENG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LTSR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MBTP",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MCRD",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MLLR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MRBD",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.SUEQ",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CBFT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CMFT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CRCM",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.EQCT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.FMAG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 2
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.HCBM",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.KFAC",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LENG",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LTSR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.MBTP",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.MLLR",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SERV",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SUEQ",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.ULCT",
+      "outcome": "FAILED",
+      "status_code": 400,
+      "created_id": "1",
+      "read_back": false,
+      "deleted": false,
+      "payload_source": "manual_example",
+      "detail": "software_api_error",
+      "chunk": 3
+    }
+  ],
+  "untested": [],
+  "read_probe_counts": {
+    "PARTIAL": 49
+  }
+}

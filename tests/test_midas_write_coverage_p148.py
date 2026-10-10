@@ -13,7 +13,9 @@
 1. **候选判据（R100 未放宽）**：GEN NX 58 → 61 → 70、CIVIL NX 49 → 52 → 60、Civil Designer 仍
    **0**；「既无 Transformer 又无模板」的端点数随之 **495** / **433** / **31**（P148 时；P149-A 只读
    `OPTIONS` 实测修正后为 **512** / **448** / **31**，**P149-B2 续跑**再降至 **503** / **440** /
-   **31**，逐产品可复算）。（P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）
+   **31**，**P149-C** 再降至 **501** / **438** / **31**，逐产品可复算）。
+   （P149-C 候选集为 **72** / **62** / **0**：49 个 `availability: untested` 端点经只读 L4 收口
+   后解锁写路径 ⇒ +2 真实 L5 `PASSED`）
 2. **本批 12 条模板全部是手册示例的**逐字节**照抄**（`manual_example`、**零** adjustments）；
    其中 **7** 条零前置链，**5** 条用**既有**前置机制（`DB.EXLD` / `DB.LDSQ` / `DB.EFCT` 补
    `DB.STLD` 工况名；`DB.NMAS` 用 `target_id_source`；`DB.TDNT` 用 `references` 写回 `MATL`）。
@@ -26,7 +28,7 @@
    等于数据侧模板 `body`，跑完**零残留**。
 6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
    P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（本批 **58 / 609**，
-   `model_write_ratio` **58 / 410**；P149-B2 续跑起 **70 / 633** / **70 / 434**）。
+   `model_write_ratio` **58 / 410**；P149-C 起 **72 / 633** / **72 / 434**）。
 """
 
 from __future__ import annotations
@@ -195,7 +197,9 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
+        "DESIGN.RC.KDS-41-20-2022.WMAK",
         "DESIGN.SRC.AIK-SRC2K.DCO",
+        "DESIGN.SRC.AIK-SRC2K.DSRC",
         "DESIGN.STEEL.DSTL",
         "DESIGN.STEEL.KDS-41-30-2022.DCO",
     ),
@@ -257,24 +261,29 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
+        "DESIGN.RC.KDS-41-20-2022.WMAK",
         "DESIGN.SRC.AIK-SRC2K.DCO",
+        "DESIGN.SRC.AIK-SRC2K.DSRC",
         "DESIGN.STEEL.DSTL",
         "DESIGN.STEEL.KDS-41-30-2022.DCO",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**70 / 60 / 0**；P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+"""三产品各自的候选集（**72 / 62 / 0**；P149-C：49 个 `availability: untested` 端点经只读 L4 收口
+后解锁写路径 ⇒ +2 真实 L5 `PASSED`）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 503, "CIVIL_NX": 440, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 438, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
-P149-B2 续跑起 **503 / 440 / 31**（P149-B2 首轮 512 / 448 / 31；P149-A 为 515 / 451 / 31）。"""
+P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
+P149-A 为 515 / 451 / 31）：P149-C 的 49 个 `availability: untested` 端点经只读 L4 收口后解锁
+写路径 ⇒ +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` / `DESIGN.SRC.AIK-SRC2K.DSRC`）。"""
 
-EXPECTED_TEMPLATES = 69
-"""模板条数（P149-B2 首轮的 60 + 续跑 9 = **69**）。"""
+EXPECTED_TEMPLATES = 71
+"""模板条数（P149-B2 首轮的 60 + 续跑 9 + P149-C 的 2 = **71**）。"""
 
-EXPECTED_BODIES = 113
-"""复算的 body 总数（**113** = 69 个目标 + 44 个前置对象；P149-B2 续跑新增 9 目标）。"""
+EXPECTED_BODIES = 115
+"""复算的 body 总数（**115** = 71 个目标 + 44 个前置对象；P149-C 新增 2 目标）。"""
 
 EXPECTED_REFERENCES = 23
 """`prerequisites[].references` 的条数（P147 的 22 + 本批 `DB.TDNT` 的 1）。"""
@@ -363,8 +372,8 @@ class _Row:
 
 
 def test_p148_the_candidate_gate_counts_58_and_49_and_0() -> None:
-    """门槛：三产品候选集 **70 / 60 / 0**、blocked **503 / 440 / 31**（P149-B2 续跑：分块补测 67
-    条 → 再 +9 真实 L5 `PASSED`），逐产品可复算。"""
+    """门槛：三产品候选集 **72 / 62 / 0**、blocked **501 / 438 / 31**（P149-B2 续跑：分块补测 67
+    条 → 再 +9 真实 L5 `PASSED`；P149-C 再 +2），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -389,7 +398,7 @@ def test_p148_the_candidate_gate_counts_58_and_49_and_0() -> None:
 
 
 def test_p148_the_templates_are_recomputable_from_the_manual() -> None:
-    """门槛：模板 69 / body 113 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
+    """门槛：模板 71 / body 115 / references 23 / self_references 4，且**0** 错（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -524,28 +533,28 @@ async def test_p148_the_twelve_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p148_coverage_counts_fifty_eight_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；70 / 633（`model_write_ratio` 70 / 434）。
-    P149-B2 续跑起（分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；72 / 633（`model_write_ratio` 72 / 434）。
+    P149-B2 续跑起（分块补测 67 条 → 再 +9）；P149-C 再 +2（`WMAK` / `DSRC`）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 70
-    assert coverage.ratio == "70 / 633"
+    assert coverage.covered == len(keys) == 72
+    assert coverage.ratio == "72 / 633"
     assert coverage.model_write == MODEL_WRITE_TOTAL
-    assert coverage.model_write_covered == 70
-    assert coverage.model_write_ratio == "70 / 434"
+    assert coverage.model_write_covered == 72
+    assert coverage.model_write_ratio == "72 / 434"
     assert set(coverage.covered_keys) == set(keys)
 
 
 def test_p148_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
-    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 60 条时原分子仍为 60。"""
+    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 62 条时原分子仍为 62。"""
     registry = _registry()
     civil_keys = CANDIDATES_BY_PRODUCT["CIVIL_NX"]
     civil = write_path_coverage(registry, [_Row(key) for key in civil_keys])
-    assert civil.covered == len(civil_keys) == 60
+    assert civil.covered == len(civil_keys) == 62
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "60 / 633"
+    assert civil.ratio == "62 / 633"
 
 
 def test_p148_the_twelve_new_keys_are_delivered_by_the_data_side_only() -> None:

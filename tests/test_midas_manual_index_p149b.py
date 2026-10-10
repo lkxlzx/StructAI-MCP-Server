@@ -15,7 +15,8 @@
 3. **多来源查表**：`check_write_templates.manual_examples()` 同时覆盖两个来源 ——
    新来源独有的 URI 可取值，既有来源的 URI **仍**可取值（合并、先到先得，不互相覆盖）。
 4. **URI 归一**：`DB/REBB` 与 `/db/REBB` 视作同一路由（`normalize_uri()`）。
-5. **无回归**：既有 69 条模板在**多来源**复算下仍 **0** 错（P149-B2 续跑：+9 条）。
+5. **无回归**：既有 71 条模板在**多来源**复算下仍 **0** 错（P149-C 起：49 个 untested 端点经只读
+   L4 收口后解锁写路径 ⇒ +2 条）。
 """
 
 from __future__ import annotations
@@ -130,12 +131,12 @@ def test_p149b_the_lookup_covers_both_sources() -> None:
 
 
 def test_p149b_the_existing_templates_still_recompute_with_two_sources() -> None:
-    """门槛：既有模板在**多来源**复算下仍 0 错（69 条 / 113 body / 23 references / 4 self）。"""
+    """门槛：既有模板在**多来源**复算下仍 0 错（71 条 / 115 body / 23 references / 4 self）。"""
     tool = _load(CHECK_TOOL_PATH, "structai_check_write_templates_p149b_recompute")
     errors, _notes, counts = tool.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
-    assert counts["templates"] == 69
-    assert counts["bodies"] == 113
+    assert counts["templates"] == 71
+    assert counts["bodies"] == 115
     assert counts["references"] == 23
     assert counts["self_references"] == 4
     assert counts["unverifiable"] == 0

@@ -14,7 +14,8 @@ schema_ref:
   source: repo_midas_api
 parser: db_generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 path_key_supported: true
 table_type: null
 title: "Moment Magnifier (모멘트 증폭계수 B1/Δb, B2/Δs)"

@@ -161,11 +161,13 @@ DB_CODES = (
     "DESIGN.RC.DRC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
     "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
     "DESIGN.STEEL.DSTL",
     "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""GEN NX 上的 **70** 个可探候选（P149-B2 续跑 +9；P148 的 58 + 本批 12）。"""
+"""GEN NX 上的 **72** 个可探候选（P149-B2 续跑 +9；P148 的 58 + 本批 12；P149-C +2）。"""
 
 CIVIL_CODES = (
     "DB.BMLD",
@@ -225,11 +227,13 @@ CIVIL_CODES = (
     "DESIGN.RC.DRC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
     "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
     "DESIGN.STEEL.DSTL",
     "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""CIVIL NX 上的 **60** 个候选（P149-B2 续跑 +9；10 个 GEN NX 独有的端点不含 `CIVIL_NX`）。"""
+"""CIVIL NX 上的 **62** 个候选（P149-B2 续跑 +9；10 个 GEN NX 独有的端点不含 `CIVIL_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -239,13 +243,14 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 """三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE`/`DB.ELEM` 只有 `GET`）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 503,
-    "CIVIL_NX": 440,
+    "GEN_NX": 501,
+    "CIVIL_NX": 438,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
-P149-B2 续跑起 **503 / 440 / 31**（P149-B2 首轮 512 / 448 / 31；P149-A 为 515 / 451 / 31）：
+P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
+P149-A 为 515 / 451 / 31）：
 只读 `OPTIONS` 实测修正方法集后，新进入「有写方法」集合的端点（20 个 `DESIGN.*` / `DB.SWIND` /
 `OPE.SECTPROP` 等）绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked（P149-B2 首轮 +3 个真实
 L5 `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`）。
@@ -253,18 +258,22 @@ L5 `PASSED` 候选 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`）。
 P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`（`DB.PSLT` / `DB.VSEC` / `DB.WMAK` /
 `DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCO` /
 `DESIGN.RC.KDS-41-20-2022.DCTL` / `DESIGN.SRC.AIK-SRC2K.DCO` /
-`DESIGN.STEEL.DSTL` / `DESIGN.STEEL.KDS-41-30-2022.DCO`）⇒ 候选集各 +9、blocked 各 -9。"""
+`DESIGN.STEEL.DSTL` / `DESIGN.STEEL.KDS-41-30-2022.DCO`）⇒ 候选集各 +9、blocked 各 -9。
+
+P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified` 后解锁写路径，分块实测
+（20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
+`DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
 REGISTERED_TRANSFORMERS = 20
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
-BLOCKED_CONTRACT_WRITE_KEYS = ("DESIGN.SRC.AIK-SRC2K.DSRC",)
+BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()
 """`operations.py` 声明的写步骤里，三步链**结构适用**（有写方法 + `GET`/`read_root` + `DELETE`）
-却**既无** Transformer **又无**数据侧模板的端点 —— P149-A 起 **1** 个。
+却**既无** Transformer **又无**数据侧模板的端点 —— **P149-C 起契约内缺口清零**（**空**元组）。
 
 `DESIGN.SRC.AIK-SRC2K.DSRC` 的方法集经只读 `OPTIONS` 实测（`Allow` 头）由 `[PUT]` 修正为
-`[GET, PUT, DELETE]`，于是它从「三步链**不**适用」变成「适用但缺请求体来源」；契约里其余写步骤
-**全部**已在候选集内（判定 8）。"""
+`[GET, PUT, DELETE]`，P149-A 起曾是契约内**唯一**「适用但缺请求体来源」的写端点；P149-C 中它
+拿到数据侧模板并**真实** L5 `PASSED` ⇒ 契约里其余写步骤**全部**已在候选集内（判定 8）。"""
 
 NON_CANDIDATE_WRITE_KEY = "DB.ELNK"
 """有写方法 + 有读路径 + 有 `DELETE`，但 `midas.elnk.v1` **未**注册且**没有**模板 → 不入候选。"""
@@ -391,8 +400,11 @@ def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -
 
     **P149-A 更正**：方法集按只读 `OPTIONS` 实测（`Allow` 头）修正后重算 ——
     `DESIGN.SRC.AIK-SRC2K.DSRC` 由 `[PUT]` 变为 `[GET, PUT, DELETE]`，三步链**结构上适用**了，
-    但它**既无** Transformer **又无**数据侧模板 ⇒ 契约内**唯一**被「缺 Transformer」挡住的写端点，
-    如实单独记入 `BLOCKED_CONTRACT_WRITE_KEYS`（**不**再混进 `inapplicable`，也**不**当作已候选）。
+    但它**既无** Transformer **又无**数据侧模板 ⇒ 曾是契约内**唯一**被挡住的写端点。
+
+    **P149-C 起契约内缺口清零**：49 个 `availability: untested` 端点经只读 L4 收口后解锁写路径，
+    `DESIGN.SRC.AIK-SRC2K.DSRC` 拿到数据侧模板并**真实** L5 `PASSED` ⇒ 该常量归为**空**元组；
+    `BLOCKED_CONTRACT_WRITE_KEYS`（判定 8 的**最后一个**案例闭合，**是事实变更**，**不**是放宽）。
     """
     registry = _registry()
     candidates = set(_probe("GEN_NX").candidate_keys())
@@ -513,8 +525,8 @@ def test_p142_the_data_side_declares_the_fbld_template_with_the_stld_chain() -> 
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
-    assert counts["templates"] == 69
-    assert counts["bodies"] == 113
+    assert counts["templates"] == 71
+    assert counts["bodies"] == 115
     assert counts["unverifiable"] == 0
     template = _registry().write_template(FLOOR_LOAD_KEY)
     assert template is not None
@@ -588,7 +600,7 @@ async def test_p142_the_fbld_chain_creates_reads_back_and_deletes_only_its_own_i
 
 def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     """门槛：分母仍 `write_path_keys()` —— P149-A 起 633（306 / 199 / 434；P148 为
-    609 / 368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**）。"""
+    609 / 368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**），P149-C 起 **72**。"""
     registry = _registry()
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
     assert len(write_only_keys(registry)) == WRITE_ONLY_TOTAL
@@ -597,13 +609,13 @@ def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 70
-    assert coverage.ratio == f"70 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"70 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 72
+    assert coverage.ratio == f"72 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"72 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 少一条 L5 行即少一个覆盖（**不**硬编码分子）
     fewer = write_path_coverage(registry, [_Row(key) for key in keys if key != FLOOR_LOAD_KEY])
-    assert fewer.ratio == f"69 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"71 / {WRITE_PATH_TOTAL}"
     assert FLOOR_LOAD_KEY not in fewer.covered_keys
     # 非 `L5` 行 / 非 `PASSED` 行**不**计入分子
     assert write_path_coverage(registry, [_Row(FLOOR_LOAD_KEY, contract_level="L4")]).covered == 0

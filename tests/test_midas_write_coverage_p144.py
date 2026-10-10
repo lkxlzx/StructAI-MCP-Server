@@ -128,7 +128,9 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
+        "DESIGN.RC.KDS-41-20-2022.WMAK",
         "DESIGN.SRC.AIK-SRC2K.DCO",
+        "DESIGN.SRC.AIK-SRC2K.DSRC",
         "DESIGN.STEEL.DSTL",
         "DESIGN.STEEL.KDS-41-30-2022.DCO",
     ),
@@ -190,20 +192,27 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
+        "DESIGN.RC.KDS-41-20-2022.WMAK",
         "DESIGN.SRC.AIK-SRC2K.DCO",
+        "DESIGN.SRC.AIK-SRC2K.DSRC",
         "DESIGN.STEEL.DSTL",
         "DESIGN.STEEL.KDS-41-30-2022.DCO",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**70 / 60 / 0**；P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+"""三产品各自的候选集（**72 / 62 / 0**；P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`；
+P149-C：+2 真实 L5 `PASSED`）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 503, "CIVIL_NX": 440, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 438, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
-P149-B2 续跑起 **503 / 440 / 31**（P149-B2 首轮 512 / 448 / 31；P149-A 为 515 / 451 / 31）：只读
-`OPTIONS` 实测修正方法集后，新进入「有写方法」集合的端点绝大多数既无 Transformer 又无模板 ⇒
-如实计入 blocked。"""
+P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
+P149-A 为 515 / 451 / 31）：只读 `OPTIONS` 实测修正方法集后，新进入「有写方法」集合的端点
+绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked。
+
+P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified` 后解锁写路径 ⇒ 再 +2 真实
+L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` / `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、
+blocked 各 -2。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
 """**如实留缺**的 3 个端点（R101）：手册示例与本 build 字段集不一致 / 按构件号取值。"""
@@ -276,8 +285,9 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
 
 
 def test_p144_the_candidate_gate_is_a_transformer_or_a_data_side_template() -> None:
-    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 70 / 60 / 0、blocked
-    503 / 440 / 31（P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`），逐产品可复算。"""
+    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 72 / 62 / 0、blocked
+    501 / 438 / 31（P149-B2 续跑：分块补测 67 条 → 再 +9；P149-C 再 +2 真实 L5 `PASSED`），
+    逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -354,20 +364,20 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 
 
 def test_p144_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；70 / 633（`model_write_ratio` 70 / 434）。
-    P149-B2 续跑起（分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；72 / 633（`model_write_ratio` 72 / 434）。
+    P149-B2 续跑起（分块补测 67 条 → 再 +9 真实 L5 `PASSED`）；P149-C 再 +2（`WMAK` / `DSRC`）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 70
-    assert coverage.ratio == f"70 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"70 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 72
+    assert coverage.ratio == f"72 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"72 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 分子是**数据驱动**的：少一条 L5 行即少一个覆盖
     fewer = write_path_coverage(registry, [_Row(key) for key in keys[:-1]])
-    assert fewer.ratio == f"69 / {WRITE_PATH_TOTAL}"
-    # CIVIL NX 的候选（60）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
+    assert fewer.ratio == f"71 / {WRITE_PATH_TOTAL}"
+    # CIVIL NX 的候选（62）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == 60
-    assert civil.ratio == f"60 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 62
+    assert civil.ratio == f"62 / {WRITE_PATH_TOTAL}"

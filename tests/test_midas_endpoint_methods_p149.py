@@ -17,8 +17,8 @@
    （**不**因为一次探测而清零）。
 5. **新基线**：`write_path_keys()` = **633**（原 609）· `write_only_keys()` = **306**（原 368）·
    `result_query_keys()` = **199**（不变）· `model_write_keys()` = **434**（原 410）。
-6. **候选集与阻塞数**：GEN NX **70** / CIVIL NX **60** / CD **0**；blocked **503 / 440 / 31**。
-   （P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`。）
+6. **候选集与阻塞数**：GEN NX **72** / CIVIL NX **62** / CD **0**；blocked **501 / 438 / 31**。
+   （P149-C：49 个 `availability: untested` 端点经只读 L4 收口后解锁写路径 ⇒ +2 L5 `PASSED`。）
 7. **`DB.SWIND`** 由「无方法」进入写路径分母（四方法齐全）。
 """
 
@@ -68,11 +68,12 @@ MODEL_WRITE_TOTAL = 434
 RESULT_QUERY_TOTAL = 199
 """分母里的「结果表 / 文本查询」子桶（不变）。"""
 
-CANDIDATES_BY_PRODUCT: dict[str, int] = {"GEN_NX": 70, "CIVIL_NX": 60, "CIVIL_DESIGNER": 0}
-"""三产品候选集（P149-B2 续跑起 **70 / 60 / 0**：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+CANDIDATES_BY_PRODUCT: dict[str, int] = {"GEN_NX": 72, "CIVIL_NX": 62, "CIVIL_DESIGNER": 0}
+"""三产品候选集（P149-C 起 **72 / 62 / 0**：49 个 untested 端点经只读 L4 收口后解锁写路径
+⇒ +2）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 503, "CIVIL_NX": 440, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 438, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P149-C 起）。"""
 
 SWIND_KEY = "DB.SWIND"
 """P148 时**没有**任何方法（被漏出分母）；P149-A 由实测修正为四方法齐全。"""
@@ -206,8 +207,8 @@ def test_p149a_swind_enters_the_denominator() -> None:
 
 
 def test_p149a_the_candidate_gate_is_unchanged_and_blocked_grows() -> None:
-    """门槛：候选集 **70 / 60 / 0**、blocked **503 / 440 / 31**
-    （P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）。"""
+    """门槛：候选集 **72 / 62 / 0**、blocked **501 / 438 / 31**
+    （P149-C：49 个 untested 端点经只读 L4 收口后解锁写路径 ⇒ +2）。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         candidates, blocked = _candidates(registry, product)

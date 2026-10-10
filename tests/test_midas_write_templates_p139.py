@@ -149,12 +149,14 @@ TEMPLATE_KEYS = (
     "DESIGN.RC.DRC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
     "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
     "DESIGN.STEEL.DSTL",
     "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 + P149-B2 3+9 = **69** 个模板。
-（P149-B2 续跑：分块补测 67 条 → 再 +9 真实 L5 `PASSED`）"""
+"""P139 9 + P142 1 + P144 7 + P145 11 + P146 7 + P147 10 + P148 12 + P149-B2 3+9 + P149-C 2
+= **71** 个模板（P149-C 的 49 个 untested 端点经只读 L4 收口后解锁写路径 ⇒ +2 `PASSED`）。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
@@ -224,14 +226,16 @@ PROBED_KEYS = (
     "DESIGN.RC.DRC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
     "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
     "DESIGN.STEEL.DSTL",
     "DESIGN.STEEL.KDS-41-30-2022.DCO",
 )
-"""GEN NX 上的 **70** 个可探候选（P149-B2 续跑 +9；`DB.NODE` 走机械派生的 body）。"""
+"""GEN NX 上的 **72** 个可探候选（P149-C +2；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 113
-"""复算的 body 总数（P149-B2 续跑起 **113** = 69 个目标 + 44 个前置对象）。"""
+EXPECTED_BODIES = 115
+"""复算的 body 总数（P149-C 起 **115** = 71 个目标 + 44 个前置对象）。"""
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。
 
@@ -407,7 +411,7 @@ def test_p139_the_data_side_declares_templates_for_the_probed_endpoints() -> Non
 
 
 def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
-    """门槛：113 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
+    """门槛：115 条 body 全部等于「上游手册示例 + 声明的 adjustments」（逐条复算）。"""
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
@@ -418,7 +422,7 @@ def test_p139_every_body_is_recomputable_from_the_upstream_manual() -> None:
 
 
 def test_p139_every_body_validates_against_the_data_side_request_schema() -> None:
-    """门槛：113 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。
+    """门槛：115 条 body 逐条通过**数据侧请求 Schema**（按各自声明的方言）。
 
     「方言」= 该端点请求 Schema 是否**自带包装根键**（`registry/README.md` §2.1 的两种形态）：
     `properties` 里没有该端点的写包装时，生效 Schema 描述的就是**条目** ⇒ 直接校验 `body`；

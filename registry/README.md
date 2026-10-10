@@ -136,15 +136,16 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（P149-B2 起）**：GEN NX 的 **70** 个可探候选 → **70 / 70 `PASSED`**（本批两轮 **+12**：
-第一轮 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`；第二轮分块补测 `DB.PSLT` / `DB.VSEC` / `DB.WMAK` /
-`DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCO` / `DESIGN.RC.KDS-41-20-2022.DCTL` /
-`DESIGN.SRC.AIK-SRC2K.DCO` / `DESIGN.STEEL.DSTL` / `DESIGN.STEEL.KDS-41-30-2022.DCO`；
-P148 为 58 / 58、P147 为 46 / 46、P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、
-P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
-CIVIL NX **60** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
+**覆盖面（P149-C 起）**：GEN NX 的 **72** 个可探候选 → **72 / 72 `PASSED`**（P149-C **+2**：
+`DESIGN.RC.KDS-41-20-2022.WMAK` / `DESIGN.SRC.AIK-SRC2K.DSRC` —— 由**只读** L4 收口
+`availability` 后解锁，见 §8.12（⑬）；P149-B2 两轮 **+12**：`DB.BNGR` / `DB.GRUP` / `DB.NPLN` /
+`DB.PSLT` / `DB.VSEC` / `DB.WMAK` / `DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCO` /
+`DESIGN.RC.KDS-41-20-2022.DCTL` / `DESIGN.SRC.AIK-SRC2K.DCO` / `DESIGN.STEEL.DSTL` /
+`DESIGN.STEEL.KDS-41-30-2022.DCO`；P148 为 58 / 58、P147 为 46 / 46、P146 为 36 / 36、
+P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
+CIVIL NX **62** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
 云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
-`live.write_path_coverage()` = **`70 / 633`**。
+`live.write_path_coverage()` = **`72 / 633`**。
 ⚠️ **分母基线（P149-A 重算，`docs/07` §16.1 **R108**）**：`write_path_keys()` = **633**
 （P148 为 **609**）—— 用**只读** `OPTIONS` 的 `Allow` 头实测端点方法集后，发现 registry 曾**系统性少声明**
 **90** 个端点的方法集（+`DELETE` 88 · +`PUT` 80 · +`GET` 62 · +`POST` 6），其中 **24** 个因此才**进入**分母
@@ -154,9 +155,9 @@ CIVIL NX **60** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25
 复算工具 = `registry/tools/sync_endpoint_methods.py`（`--probe` / `--write` / `--check`）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **503** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **501** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`70 / 434`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`72 / 434`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
@@ -770,3 +771,29 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   只读残留核对 **122** 个端点**全空、0 不可读** ⇒ **零残留**（证据文件 `residue_final`）。
 - 可执行判定 = `tests/test_midas_write_templates_p149b2.py`（**8** 项）·
   `docs/reports/P149-B2_写路径模板机械化与批量实测中断_v1.0.md`。
+
+**⑬ P149-C：只读 L4 收口 `availability`（R111 闭环）+ 解锁后的分块写路径实测**：
+
+- **闸门的精确判据**：写路径第 1 步（只读 `LIST`）受 `client.guard_verified()` 约束 ——
+  `verification_status == VERIFIED`，而该状态**只**由 `availability` 机械映射（`docs/07` §7.2 / R78）
+  ⇒ `availability: untested` 的写端点**无法**进入写路径（`registry_mapping_not_verified`）。
+- **`availability` 的语义**（§4）：`verified` = 「**至少一个实例 GET 成功**」⇒ 恢复条件 = **只读**实测
+  再据实收口（P134 的 L4 口径：**响应顶层键 == `read_root`**）。
+- **新工具** `registry/tools/sync_availability.py`（`--probe` **只发 GET** / `--write` **只升不降** /
+  `--check`）：证据 = `registry/live/live_read_probe.json`（**49** 条，**不含凭据**）；
+  收口 = 49 个 YAML 的 `availability: untested → verified` + `verified_on: ["gen-local"]`
+  （一行替换 + 一行插入）⇒ `sync_manifest.py --write` 重派生（字段差异 **98** 处）⇒
+  `sync_response_schemas.py --write` **只追加** `response` 块（49 个文件 / +784 行）。
+- **只读 L4 实测**：**49 / 49** `HTTP 200` 且响应顶层键 == `read_root`（全部 `PARTIAL` = 空项目下
+  块为空，与 P134 的 166 个 `PARTIAL` 同口径）；`availability == verified` **247 → 296**。
+- **解锁后的分块写路径实测**（`registry/live/write_batch_p149c.json`）：**3** 块（20 / 20 / 9，块间只读
+  健康检查 `GET /DB/NODE`）⇒ **2** `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
+  `DESIGN.SRC.AIK-SRC2K.DSRC`）· **47** `FAILED`（**全部** `400 software_api_error` ⇒ **R110**）；
+  跑前 / 跑后只读核对**均全空** ⇒ **零残留**、**未崩溃**（P149-B2 的两次崩溃教训已被分块流程吸收）。
+- **计数**：覆盖率 **`70 / 633` → `72 / 633`**（`model_write` **`72 / 434`**）· 候选 **72 / 62 / 0** ·
+  blocked **501 / 438 / 31** · 模板 **71** / body **115** · 响应 Schema 行 **241 → 290** ·
+  留缺账本 **180 → 178**（R110 **164** · R101–R105 **11** · R109 **2** · R113 **1**）。
+- **R111 闭环**（49 个全部取得结论），恢复路径**已工具化**（可复算）；其余 **317** 个未验证的只读端点
+  可用**同一工具**后续扫（`--probe`）。
+- 可执行判定 = `tests/test_midas_availability_p149c.py`（**7** 项）·
+  `docs/reports/P149-C_只读L4收口availability与写路径解锁_v1.0.md`。

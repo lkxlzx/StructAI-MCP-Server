@@ -14,7 +14,8 @@ schema_ref:
   source: repo_midas_api
 parser: db_generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 path_key_supported: true
 table_type: null
 title: Rebar Exposure Condition (철근 노출 조건)

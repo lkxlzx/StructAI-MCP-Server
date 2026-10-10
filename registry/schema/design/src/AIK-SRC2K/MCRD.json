@@ -145,5 +145,21 @@
         }
       }
     }
+  },
+  "response": {
+    "direction": "response",
+    "source": "l4_measured_envelope",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "required": [
+        "MCRD"
+      ],
+      "properties": {
+        "MCRD": {
+          "type": "object"
+        }
+      }
+    }
   }
 }

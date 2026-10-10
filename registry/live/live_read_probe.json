@@ -1,0 +1,461 @@
+{
+  "note": [
+    "P149-C（R111 的恢复条件）：`availability: verified` 的语义 = 「至少一个实例 GET 成功」（registry/README.md §4），故本证据 = **只读** L4 实测（**只发 GET**，零副作用）。",
+    "判据（与 P134 的 L4 同一口径）：响应顶层键 == `read_root` ⇒ `PASSED`（块非空）/ `PARTIAL`（块为空 —— 空项目下的正常形态）；非 200 或顶层键不符 ⇒ `FAILED`。",
+    "生成器 = `registry/tools/sync_availability.py --probe`；收口 = `--write`（**只升不降**），随后跑 `registry/tools/sync_manifest.py --write` 重派生 manifest；`--check` 断言一致。",
+    "凭据**绝不**写入本文件（MAPI-Key 只经环境变量注入）。"
+  ],
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN_NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-10",
+    "scope": "untested ∧ GET ∧ read_root ∧ enabled"
+  },
+  "counts": {
+    "PARTIAL": 49
+  },
+  "endpoints": {
+    "DB.REBB": {
+      "uri": "/DB/REBB",
+      "read_root": "REBB",
+      "status_code": 200,
+      "top_keys": [
+        "REBB"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DB.REBC": {
+      "uri": "/DB/REBC",
+      "read_root": "REBC",
+      "status_code": 200,
+      "top_keys": [
+        "REBC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DB.REBR": {
+      "uri": "/DB/REBR",
+      "read_root": "REBR",
+      "status_code": 200,
+      "top_keys": [
+        "REBR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DB.REBW": {
+      "uri": "/DB/REBW",
+      "read_root": "REBW",
+      "status_code": 200,
+      "top_keys": [
+        "REBW"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.BEMW": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BEMW",
+      "read_root": "BEMW",
+      "status_code": 200,
+      "top_keys": [
+        "BEMW"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCRE": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRE",
+      "read_root": "DCRE",
+      "status_code": 200,
+      "top_keys": [
+        "DCRE"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
+      "read_root": "DCRMB",
+      "status_code": 200,
+      "top_keys": [
+        "DCRMB"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCRM-BRACE": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BRACE",
+      "read_root": "DCRMR",
+      "status_code": 200,
+      "top_keys": [
+        "DCRMR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN",
+      "read_root": "DCRMC",
+      "status_code": 200,
+      "top_keys": [
+        "DCRMC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCRM-WALL": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-WALL",
+      "read_root": "DCRMW",
+      "status_code": 200,
+      "top_keys": [
+        "DCRMW"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DFBA": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DFBA",
+      "read_root": "DFBA",
+      "status_code": 200,
+      "top_keys": [
+        "DFBA"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.FMAG": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/FMAG",
+      "read_root": "FMAG",
+      "status_code": 200,
+      "top_keys": [
+        "FMAG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.HCBM": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/HCBM",
+      "read_root": "HCBM",
+      "status_code": 200,
+      "top_keys": [
+        "HCBM"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.KFAC": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/KFAC",
+      "read_root": "KFAC",
+      "status_code": 200,
+      "top_keys": [
+        "KFAC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.LENG": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/LENG",
+      "read_root": "LENG",
+      "status_code": 200,
+      "top_keys": [
+        "LENG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.PMDM": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/PMDM",
+      "read_root": "PMDM",
+      "status_code": 200,
+      "top_keys": [
+        "PMDM"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.REBC": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
+      "read_root": "REBC",
+      "status_code": 200,
+      "top_keys": [
+        "REBC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.REBR": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBR",
+      "read_root": "REBR",
+      "status_code": 200,
+      "top_keys": [
+        "REBR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.REBW": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBW",
+      "read_root": "REBW",
+      "status_code": 200,
+      "top_keys": [
+        "REBW"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.REXC": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REXC",
+      "read_root": "REXC",
+      "status_code": 200,
+      "top_keys": [
+        "REXC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.SCOL": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SCOL",
+      "read_root": "SCOL",
+      "status_code": 200,
+      "top_keys": [
+        "SCOL"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.ULCT": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
+      "read_root": "ULCT",
+      "status_code": 200,
+      "top_keys": [
+        "ULCT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.WMAK": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
+      "read_root": "WMAK",
+      "status_code": 200,
+      "top_keys": [
+        "WMAK"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.CMFT": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+      "read_root": "CMFT",
+      "status_code": 200,
+      "top_keys": [
+        "CMFT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.DSRC": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
+      "read_root": "DSRC",
+      "status_code": 200,
+      "top_keys": [
+        "DSRC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.EQCT": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+      "read_root": "EQCT",
+      "status_code": 200,
+      "top_keys": [
+        "EQCT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.FMAG": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+      "read_root": "FMAG",
+      "status_code": 200,
+      "top_keys": [
+        "FMAG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.KFAC": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+      "read_root": "KFAC",
+      "status_code": 200,
+      "top_keys": [
+        "KFAC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.LENG": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+      "read_root": "LENG",
+      "status_code": 200,
+      "top_keys": [
+        "LENG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.LTSR": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+      "read_root": "LTSR",
+      "status_code": 200,
+      "top_keys": [
+        "LTSR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.MBTP": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+      "read_root": "MBTP",
+      "status_code": 200,
+      "top_keys": [
+        "MBTP"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.MCRD": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+      "read_root": "MCRD",
+      "status_code": 200,
+      "top_keys": [
+        "MCRD"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.MLLR": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+      "read_root": "MLLR",
+      "status_code": 200,
+      "top_keys": [
+        "MLLR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.MRBD": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+      "read_root": "MRBD",
+      "status_code": 200,
+      "top_keys": [
+        "MRBD"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.SRC.AIK-SRC2K.SUEQ": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+      "read_root": "SUEQ",
+      "status_code": 200,
+      "top_keys": [
+        "SUEQ"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.CBFT": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CBFT",
+      "read_root": "CBFT",
+      "status_code": 200,
+      "top_keys": [
+        "CBFT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.CMFT": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CMFT",
+      "read_root": "CMFT",
+      "status_code": 200,
+      "top_keys": [
+        "CMFT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.CRCM": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CRCM",
+      "read_root": "CRCM",
+      "status_code": 200,
+      "top_keys": [
+        "CRCM"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.EQCT": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/EQCT",
+      "read_root": "EQCT",
+      "status_code": 200,
+      "top_keys": [
+        "EQCT"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.FMAG": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/FMAG",
+      "read_root": "FMAG",
+      "status_code": 200,
+      "top_keys": [
+        "FMAG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.HCBM": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/HCBM",
+      "read_root": "HCBM",
+      "status_code": 200,
+      "top_keys": [
+        "HCBM"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.KFAC": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/KFAC",
+      "read_root": "KFAC",
+      "status_code": 200,
+      "top_keys": [
+        "KFAC"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.LENG": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LENG",
+      "read_root": "LENG",
+      "status_code": 200,
+      "top_keys": [
+        "LENG"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.LTSR": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LTSR",
+      "read_root": "LTSR",
+      "status_code": 200,
+      "top_keys": [
+        "LTSR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.MBTP": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/MBTP",
+      "read_root": "MBTP",
+      "status_code": 200,
+      "top_keys": [
+        "MBTP"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.MLLR": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/MLLR",
+      "read_root": "MLLR",
+      "status_code": 200,
+      "top_keys": [
+        "MLLR"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.SERV": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SERV",
+      "read_root": "SERV",
+      "status_code": 200,
+      "top_keys": [
+        "SERV"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.SUEQ": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SUEQ",
+      "read_root": "SUEQ",
+      "status_code": 200,
+      "top_keys": [
+        "SUEQ"
+      ],
+      "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.ULCT": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/ULCT",
+      "read_root": "ULCT",
+      "status_code": 200,
+      "top_keys": [
+        "ULCT"
+      ],
+      "verdict": "PARTIAL"
+    }
+  }
+}
