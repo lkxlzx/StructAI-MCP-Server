@@ -208,6 +208,20 @@
         }
       ]
     },
+    "DB.CCFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/CCFC",
+        "example": "Convection Coefficient Functions",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35988168533785",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "ConvectionCoeff", "TYPE": "CONST", "COEF": 15},
+      "prerequisites": []
+    },
     "DB.BODF": {
       "wrapper": "Assign",
       "source": {
@@ -314,6 +328,20 @@
         }
       ]
     },
+    "DB.CUTL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/CUTL",
+        "example": "Cutting Line",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35991257189017",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "Cut-Line#1", "DIR": "NORMAL", "PT1X": 8.95, "PT1Y": 11.0725, "PT1Z": 1.205, "PT2X": 8.95, "PT2Y": -1.0725, "PT2Z": 1.205, "R": 255, "G": 0, "B": 0, "TYPE": 0},
+      "prerequisites": []
+    },
     "DB.CONS": {
       "wrapper": "Assign",
       "source": {
@@ -355,6 +383,55 @@
           "body": {"X": 0, "Y": 0, "Z": 0}
         }
       ]
+    },
+    "DB.DCON": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/DCON",
+        "example": "RC Design Code",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35993633394969",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"DGNCODE": "KCI-USD12"},
+      "prerequisites": []
+    },
+    "DB.DSTL": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example_adjusted",
+        "uri": "db/DSTL",
+        "example": "Design Steel Code",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/52149417728665",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [
+        {
+          "path": "DGNCODE",
+          "from": "Eurocode3-2:05",
+          "to": "Eurocode3:05",
+          "why": "本 build 不接受手册示例的 Eurocode3-2:05（实测 POST /DB/DSTL → 400「钢结构设计控制 数据内有错误」）；Eurocode3:05 实测被接受（200）"
+        }
+      ],
+      "body": {"DGNCODE": "Eurocode3:05"},
+      "prerequisites": []
+    },
+    "DB.EIGV": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/EIGV",
+        "example": "Ritz Vectors",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35989224565273",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"TYPE": "RITZ", "bINCNL": false, "iGNUM": 1, "vRITZ": [{"KIND": "GROUND", "GROUND": "ACCX", "iNOG": 30}, {"KIND": "GROUND", "GROUND": "ACCY", "iNOG": 30}, {"KIND": "GROUND", "GROUND": "ACCZ", "iNOG": 30}]},
+      "prerequisites": []
     },
     "DB.ELEM": {
       "wrapper": "Assign",
@@ -483,6 +560,20 @@
         }
       ]
     },
+    "DB.ETFC": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/ETFC",
+        "example": "Ambient Temperature Functions",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35988049086489",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "AmbientTemperature", "TYPE": "CONST", "TEMP": 30},
+      "prerequisites": []
+    },
     "DB.FBLD": {
       "wrapper": "Assign",
       "source": {
@@ -546,6 +637,20 @@
           "body": {"NAME": "DW", "TYPE": "D", "DESC": "DeadLoads"}
         }
       ]
+    },
+    "DB.GSTP": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/GSTP",
+        "example": "Define General Spring Type",
+        "example_id": "3",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35946004118169",
+        "retrieved_at": "2025-11-04"
+      },
+      "adjustments": [],
+      "body": {"NAME": "GS_Damping", "SPRING": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "MASS": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "DAMPING": [1, 7, 12, 16, 19, 21, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 17, 18, 20], "OPT_STIFFNESS": true, "OPT_MASS": true, "OPT_DAMPING": true},
+      "prerequisites": []
     },
     "DB.MATL": {
       "wrapper": "Assign",

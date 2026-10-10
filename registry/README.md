@@ -135,13 +135,13 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-08 之后实测；**P142 更新**）**：GEN NX 的 **11** 个可探候选 → **11 / 11 `PASSED`**
-（P139 为 10 / 10、P138c 为 1 / 10）；`live.write_path_coverage()` = **`11 / 609`**（分母**不挪**）。
-⚠️ **候选集有上限（P142 裁决）**：`candidate_keys()` 要求「Transformer **已注册**」
-（`write_probe.transformer_name_for()` 机械派生 `midas.<code>.v1`）—— 分母里 **542** 个 GEN NX 写端点
-**没有** Transformer ⇒ **不**入候选，**加模板对它们零效果**（分子上限 = 候选集）；
-契约内**不再有**「仅缺 Transformer」的写端点（P142 补齐 `DB.FBLD`，见 §8.7）。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`11 / 410`** —— 分母里的
+**覆盖面（2026-10-08 之后实测；**P144 更新**）**：GEN NX 的 **18** 个可探候选 → **18 / 18 `PASSED`**
+（P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；`live.write_path_coverage()` = **`18 / 609`**（分母**不挪**）。
+⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
+（**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
+分母里 **535** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+**有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`18 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 **没有**模板的端点仍走 `derive_body()`，两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`
@@ -554,3 +554,13 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   跑前 / 跑后哨兵**全空**）。⚠️ **不**增加分子：覆盖率按 **registry key** 去重，CIVIL NX 与 GEN NX
   是**同一批 key** ⇒ 仍 **`11 / 609`**（跨产品证据是**另一条**判据，见 `docs/07` §16.1 的 P143 回填）。
 - 可执行判定 = `tests/test_midas_write_coverage_p143.py`（5 项）· `docs/reports/P143_…md`。
+
+**⑤ P144 更新（R100 / R101）**：候选判据放宽为「**Transformer 已注册 ∨ 有数据侧模板**」+ 新增
+「**能建必须能删**」（没有 `DELETE` 的端点不入候选）；包装键无 Transformer 时取数据侧 `wrapper.write`。
+本批新增 **7** 条模板（`DB.CCFC` / `DB.CUTL` / `DB.DCON` / `DB.DSTL`（1 处声明式调整）/
+`DB.EIGV` / `DB.ETFC` / `DB.GSTP`）⇒ 模板 **10 → 17**、复算 body **34 → 41**；
+真实 L5 **18 / 18 `PASSED`**（GEN NX 空项目）⇒ 覆盖率 **`11 / 609` → `18 / 609`**
+（`model_write_ratio` **`11 / 410` → `18 / 410`**）。**3 个端点如实留缺（R101）**：
+`DB.ACTL` / `DB.CLWP`（手册示例与本 build 自省字段集不一致 ⇒ `400 Wrong Field`）·
+`DB.EDMP`（按构件号取值 ⇒ 非零前置）—— 均**不**入候选。可执行判定 =
+`tests/test_midas_write_coverage_p144.py`（6 项）· `docs/reports/P144_…md`。

@@ -84,34 +84,48 @@ EXPECTED_SCHEMA_FILES = 625
 TEMPLATE_KEYS = (
     "DB.BMLD",
     "DB.BODF",
+    "DB.CCFC",
     "DB.CNLD",
     "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.DSTL",
+    "DB.EIGV",
     "DB.ELEM",
+    "DB.ETFC",
     "DB.FBLD",
+    "DB.GSTP",
     "DB.MATL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""P139 声明的 **9** 个模板 + **P142** 新增的 `DB.FBLD` = **10**（`DB.NODE` 用机械派生的 body）。"""
+"""P139 的 9 个 + P142 的 `DB.FBLD` + P144 的 7 个 = **17** 个模板（`DB.NODE` 走机械派生 body）。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
     "DB.BODF",
+    "DB.CCFC",
     "DB.CNLD",
     "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.DSTL",
+    "DB.EIGV",
     "DB.ELEM",
+    "DB.ETFC",
     "DB.FBLD",
+    "DB.GSTP",
     "DB.MATL",
     "DB.NODE",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""GEN NX / CIVIL NX 上的 **11** 个候选（P139 的 10 + 本批 1）。"""
+"""GEN NX 上的 **18** 个可探候选（P144 起；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 34
-"""body 总数 = **10** 个目标 + **24** 个前置（P139 为 31）。"""
+EXPECTED_BODIES = 41
+"""复算的 body 总数（P144 起 **41** = 17 个目标 + 24 个前置对象）。"""
 
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。"""

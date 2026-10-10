@@ -48,24 +48,34 @@ WRITE_PATH_TOTAL = 609
 DB_CODES = (
     "DB.BMLD",
     "DB.BODF",
+    "DB.CCFC",
     "DB.CNLD",
     "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.DSTL",
+    "DB.EIGV",
     "DB.ELEM",
+    "DB.ETFC",
     "DB.FBLD",
+    "DB.GSTP",
     "DB.MATL",
     "DB.NODE",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""`GEN_NX` / `CIVIL_NX` 上的 **11** 个候选（两个产品**共用**同一批 key）。"""
+"""`GEN_NX` 上的 **18** 个候选（P144 起：11 个有 Transformer + 7 个只有数据侧模板）。"""
+
+CIVIL_CODES = tuple(key for key in DB_CODES if key != "DB.DSTL")
+"""`CIVIL_NX` 上的 **17** 个候选（`DB.DSTL` 的产品集只有 `GEN_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
-    "CIVIL_NX": DB_CODES,
+    "CIVIL_NX": CIVIL_CODES,
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（`CIVIL_DESIGNER` = **0**：其 `DB.NODE` / `DB.ELEM` 数据侧只有 `GET`）。"""
+"""三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE` / `DB.ELEM` 数据侧只有 `GET`）。"""
 
 DESIGNER_READ_ONLY_KEYS = ("DB.NODE", "DB.ELEM")
 """`CIVIL_DESIGNER` 的 `product_overrides` 把方法集覆盖成 `GET` 的两个端点（P143 修复的对象）。"""
@@ -163,8 +173,8 @@ def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
-    assert gen.covered == civil.covered == len(keys) == 11
-    assert gen.ratio == civil.ratio == f"11 / {WRITE_PATH_TOTAL}"
+    assert gen.covered == civil.covered == len(keys) == 18
+    assert gen.ratio == civil.ratio == f"18 / {WRITE_PATH_TOTAL}"
     assert set(civil.covered_keys) == set(keys)
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0

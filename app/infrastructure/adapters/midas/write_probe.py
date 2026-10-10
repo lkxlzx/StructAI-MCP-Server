@@ -387,6 +387,34 @@ class MidasLiveWriteProbe:
             return self._templates.get(str(key))
         return self._registry.write_template(str(key))
 
+    def _can_build_request(self, key: str) -> bool:
+        """能否为该端点构造**真实**请求体（裁决 12 / `docs/07` §16.1 **R100**）。
+
+        Returns:
+            `True` = 已注册的 Transformer（canonical↔native 映射可用）**或** 数据侧
+            声明了请求体模板（`registry/live/write_templates.json`）。
+            两者都没有 ⇒ 该端点进不了三步链（**不**猜字段、**不**发请求）。
+        """
+        if TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is not None:
+            return True
+        return self.template_for(key) is not None
+
+    def _wrapper_for(self, key: str) -> str:
+        """该端点在**当前产品**上的请求体包装键（裁决 12）。
+
+        Returns:
+            Transformer 已注册 → 用它的 `wrapper_key()`（Schema 绑定）；
+            否则用**数据侧**解析结果（`ResolvedEndpoint.wrapper_write`，如 `Assign` / `none`）
+            —— 包装键本来就来自 `registry/`，故无 Transformer 也**不**臆造。
+        """
+        factory = TRANSFORMER_REGISTRY.get(transformer_name_for(key))
+        if factory is not None:
+            return str(factory(self._registry).wrapper_key())
+        resolved = self._registry.resolve(
+            key=key, product=self._product, method=self._write_method(key)
+        )
+        return resolved.wrapper_write
+
     def candidate_keys(self) -> tuple[str, ...]:
         """可进入三步链的端点 key（见裁决 1 / 5）。
 
@@ -423,9 +451,13 @@ class MidasLiveWriteProbe:
                 continue
             if "GET" not in methods or not definition.read_root:
                 continue
-            # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c 批量实测暴露）：未注册的端点
-            # 进不了三步链，只会白占 `limit` 并记成 `NO_PAYLOAD_TEMPLATE`。
-            if TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None:
+            # 裁决 12（P144 / R100）：候选 = 能构造**真实**请求体（Transformer 已注册
+            # **或** 有数据侧模板）—— P138c 的「未注册即排除」由此**取代**。
+            if not self._can_build_request(key):
+                continue
+            # 🔴 「能建必须能删」（R100）：没有 `DELETE` 的端点**不**入候选 ——
+            # 否则三步链会「建了删不掉」，在真实项目里留下残留。
+            if "DELETE" not in methods:
                 continue
             selected.append(key)
             if self._limit and len(selected) >= self._limit:
@@ -465,7 +497,10 @@ class MidasLiveWriteProbe:
         # ⚠️ 「名字可派生」≠「Transformer 已注册」（P138c）：批量路径**不得**因此抛 `KeyError`，
         # 而应如实归入 `NO_PAYLOAD_TEMPLATE`（**零**写请求）。
         factory = TRANSFORMER_REGISTRY.get(transformer_name)
-        if not transformer_name or factory is None:
+        template = self.template_for(key)
+        # 裁决 12（P144 / `docs/07` §16.1 **R100**）：请求体来源 = Transformer 的
+        # canonical↔native 映射 **或** 数据侧声明的请求体模板；**两者都没有**才如实拒绝。
+        if factory is None and template is None:
             return WriteProbeOutcome(
                 key=key,
                 method=write_method or "",
@@ -485,7 +520,6 @@ class MidasLiveWriteProbe:
             )
         write = self._registry.resolve(key=key, product=self._product, method=write_method)
         # 裁决 8（P139）：**优先**用数据侧模板；无模板仍走 `derive_body()`（**不**猜字段）。
-        template = self.template_for(key)
         if template is None:
             body = derive_body(self._registry.effective_schema(key))
             payload_source = PAYLOAD_SOURCE_SCHEMA_DERIVED
@@ -500,7 +534,7 @@ class MidasLiveWriteProbe:
                 outcome=WRITE_PROBE_NO_PAYLOAD,
                 detail="no_request_body_template",
             )
-        transformer = factory(self._registry)
+        wrapper = self._wrapper_for(key)
         created_id = ""
         cleaned = False
         target_sent = False
@@ -536,7 +570,7 @@ class MidasLiveWriteProbe:
                 write,
                 operation=f"LIVE.WRITE.{key}",
                 body=body,
-                wrapper=transformer.wrapper_key(),
+                wrapper=wrapper,
                 item_id=created_id,
                 allow_unverified=True,
             )
@@ -602,26 +636,22 @@ class MidasLiveWriteProbe:
             item: 已定编号的前置对象（`item_id` = **实分配**编号，`body` = 已写回引用的请求体）。
 
         Raises:
-            MidasCapabilityError: `STRUCTAI-3000` —— 前置端点的 Transformer 未注册
+            MidasCapabilityError: `STRUCTAI-3000` —— 前置端点解析失败 / 没有可用写方法
                 （数据缺陷**不**静默跳过）。
         """
         prerequisite = item.prerequisite
-        factory = TRANSFORMER_REGISTRY.get(transformer_name_for(prerequisite.key))
-        if factory is None:
-            raise MidasCapabilityError(
-                "prerequisite_transformer_not_registered", endpoint=prerequisite.key
-            )
+        # 裁决 12（P144 / R100）：前置的包装键同样「Transformer 优先、否则取数据侧」
+        # （`_wrapper_for`）—— **不**再要求前置必须有已注册的 Transformer。
         write = self._registry.resolve(
             key=prerequisite.key,
             product=self._product,
             method=self._write_method(prerequisite.key),
         )
-        transformer = factory(self._registry)
         request = self._client.build_request(
             write,
             operation=f"LIVE.WRITE.PREREQ.{prerequisite.key}",
             body=item.body,
-            wrapper=transformer.wrapper_key(),
+            wrapper=self._wrapper_for(prerequisite.key),
             item_id=item.item_id,
             allow_unverified=True,
         )

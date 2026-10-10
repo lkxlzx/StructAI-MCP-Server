@@ -788,21 +788,31 @@ async def test_p138c_live_batch_records_l5_rows_and_the_recounted_coverage(
 
 
 def test_p138c_candidates_are_the_probeable_set_only() -> None:
-    """候选集**只**含「Transformer **已注册**」的端点（否则 `limit` 白占、覆盖永远为 0）。
+    """候选集**只**含「能构造**真实**请求体」的端点（Transformer **已注册** 或 **有数据侧模板**）。
 
     P138c 的**真实批量实测**暴露：`candidate_keys()` 原先只校验「Transformer 名可派生」，
     于是 `DB.ACTL` / `DB.ACTL-M1` / `DB.BCCT` 这些**未注册** Transformer 的端点占满了前 3 个
     名额 → 三条全记 `NO_PAYLOAD_TEMPLATE`、**零**写请求、覆盖率仍 `0 / 609`。
+
+    ⚠️ **P144（`docs/07` §16.1 R100）取代该判据**：请求体来源 = Transformer 的 canonical↔native
+    映射 **或** 数据侧声明的模板（模板是**数据**，不进 Core）；并新增「**能建必须能删**」
+    （该产品没有 `DELETE` 的端点不入候选，否则三步链会留下残留）。
     """
     from app.infrastructure.adapters.midas.transforms import TRANSFORMER_REGISTRY
     from app.infrastructure.adapters.midas.write_probe import transformer_name_for
 
+    registry = _registry()
     probe = _probe(_NxStub(), only=(), limit=0, product="CIVIL_NX")
     keys = probe.candidate_keys()
     assert keys, "候选集不得为空（否则批量覆盖无意义）"
     for key in keys:
-        assert TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is not None, key
-    # `-M1`（`HYPER_S` 专属）没有已注册的 Transformer → 不入候选
+        has_source = (
+            TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is not None
+            or registry.write_template(key) is not None
+        )
+        assert has_source, key
+        assert "DELETE" in registry.methods_for(key=key, product="CIVIL_NX"), key
+    # `-M1`（`HYPER_S` 专属）既没有已注册的 Transformer 也没有数据侧模板 → 不入候选
     assert all("-M1" not in key for key in keys)
     # 已实现三步链的端点**必须**在候选集里（否则真实批量永远跑不出 PASSED）
     assert "DB.NODE" in keys

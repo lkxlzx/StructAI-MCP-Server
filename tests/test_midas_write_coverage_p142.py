@@ -59,7 +59,6 @@ from app.infrastructure.adapters.midas.transforms import (
 )
 from app.infrastructure.adapters.midas.write_probe import (
     WRITE_METHODS,
-    WRITE_PROBE_NO_PAYLOAD,
     WRITE_PROBE_PASSED,
     MidasLiveWriteProbe,
     transformer_name_for,
@@ -93,37 +92,47 @@ FLOOR_LOAD_TYPE = "FLOOR_LOAD"
 DB_CODES = (
     "DB.BMLD",
     "DB.BODF",
+    "DB.CCFC",
     "DB.CNLD",
     "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.DSTL",
+    "DB.EIGV",
     "DB.ELEM",
+    "DB.ETFC",
     "DB.FBLD",
+    "DB.GSTP",
     "DB.MATL",
     "DB.NODE",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""GEN NX / CIVIL NX 上的 **11** 个可探候选（P139 的 10 个 + 本批的 `DB.FBLD`）。"""
+"""GEN NX 上的 **18** 个可探候选（P139 的 10 + P142 的 `DB.FBLD` + P144 的 7）。"""
+
+CIVIL_CODES = tuple(key for key in DB_CODES if key != "DB.DSTL")
+"""CIVIL NX 上的 **17** 个候选（`DB.DSTL` 的产品集只有 `GEN_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
-    "CIVIL_NX": DB_CODES,
+    "CIVIL_NX": CIVIL_CODES,
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（P143 更正：`CIVIL_DESIGNER` 的 `DB.NODE`/`DB.ELEM` 只有 `GET` ⇒ 空）。"""
+"""三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE`/`DB.ELEM` 只有 `GET`）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 542,
-    "CIVIL_NX": 471,
+    "GEN_NX": 535,
+    "CIVIL_NX": 465,
     "CIVIL_DESIGNER": 32,
 }
-"""「有写方法 + 非危险形态，但 Transformer **未**注册」的端点数（本批把 `DB.FBLD` 移出）。"""
+"""「有写方法 + 非危险形态，但**既无** Transformer **又无**数据侧模板」的端点数（P144 起）。"""
 
 REGISTERED_TRANSFORMERS = 20
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
 NON_CANDIDATE_WRITE_KEY = "DB.ELNK"
-"""有写方法 + 有读路径，但 `midas.elnk.v1` **未**注册 → **不**入候选（见判定 2）。"""
+"""有写方法 + 有读路径 + 有 `DELETE`，但 `midas.elnk.v1` **未**注册且**没有**模板 → 不入候选。"""
 
 
 # ===== 辅助 =====
@@ -165,7 +174,7 @@ def _check_tool() -> Any:
 
 
 def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[str, ...], int]:
-    """独立复算候选集与「被未注册 Transformer 挡住」的端点数（**不**调用 `candidate_keys`）。"""
+    """独立复算候选集与「既无 Transformer 又无模板」的端点数（**不**调用 `candidate_keys`）。"""
     candidates: list[str] = []
     blocked = 0
     for key in registry.keys():
@@ -178,10 +187,16 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
         resolved = registry.resolve(key=key, product=product)
         if definition.destructive or resolved.delete_all_via_body:
             continue
-        if TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None:
+        has_source = (
+            TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is not None
+            or registry.write_template(key) is not None
+        )
+        if not has_source:
             blocked += 1
             continue
         if "GET" not in methods or not definition.read_root:
+            continue
+        if "DELETE" not in methods:
             continue
         candidates.append(key)
     return tuple(candidates), blocked
@@ -225,7 +240,7 @@ class _Row:
 
 
 def test_p142_the_candidate_set_is_the_registered_transformer_intersection() -> None:
-    """门槛：候选集 = 独立复算结果；被未注册 Transformer 挡住的端点数逐产品可复算。"""
+    """门槛：候选集 = 独立复算结果；被「既无 Transformer 又无模板」挡住的端点数逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -236,7 +251,8 @@ def test_p142_the_candidate_set_is_the_registered_transformer_intersection() -> 
 
 
 def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -> None:
-    """门槛：`operations.py` 声明的写步骤里，凡三步链适用的端点**全部**已在候选集内。"""
+    """门槛：契约声明的写步骤里，凡三步链适用的端点**全部**已在候选集内；
+    候选集**可以**超出契约（R100：数据侧模板即可入候选 —— 本批新增 7 个）。"""
     registry = _registry()
     candidates = set(_probe("GEN_NX").candidate_keys())
     eligible: set[str] = set()
@@ -249,21 +265,32 @@ def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -
             inapplicable.add(key)
             continue
         eligible.add(key)
-    assert eligible == candidates, (sorted(eligible - candidates), sorted(candidates - eligible))
-    # 三步链**结构上不适用**的是 DOC / VIEW / DESIGN / POST 的写步骤（没有可读回的原生编号）
+    assert eligible <= candidates, sorted(eligible - candidates)
+    # 契约**外**的候选必须都有数据侧模板（R100 新增的类别，逐个可查）
+    extra = candidates - eligible
+    assert extra, "R100 之后应存在「契约外但可探」的端点"
+    assert all(registry.write_template(key) is not None for key in extra), sorted(extra)
+    # 三步链**结构上不适用**的写步骤（DOC / VIEW / DESIGN / POST）不得因模板而进入候选
     assert inapplicable
+    assert not (inapplicable & candidates), sorted(inapplicable & candidates)
     assert all(key.startswith(("DOC.", "VIEW.", "DESIGN.", "POST.")) for key in inapplicable), (
         sorted(inapplicable)
     )
 
 
-async def test_p142_a_template_alone_cannot_add_a_candidate() -> None:
-    """门槛：给**未候选**端点注入模板 → 候选集不变、`NO_PAYLOAD_TEMPLATE`、**零**写请求。"""
-    key = NON_CANDIDATE_WRITE_KEY
+async def test_p142_a_template_adds_a_candidate_only_with_a_complete_chain() -> None:
+    """R100（P144）：数据侧模板**可以**把端点变成候选 —— 前提是
+    「有写方法 + `GET`/`read_root` + `DELETE`」。
+
+    ⚠️ P138c 的「未注册 Transformer 即排除」**已被 R100 取代**（`docs/07` §16.1）。
+    """
+    key = NON_CANDIDATE_WRITE_KEY  # `DB.ELNK`：有 POST/GET/DELETE，但没有 Transformer
     registry = _registry()
     definition = registry.endpoint(key)
     assert TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None, key
     assert "GET" in definition.methods and definition.read_root, key
+    assert "DELETE" in definition.methods, key
+    # 没有模板时**不**入候选（否则只会白占 `limit` 并记 `NO_PAYLOAD_TEMPLATE`）
     assert key not in _probe("GEN_NX").candidate_keys()
     template = WritePayloadTemplate(
         key=key,
@@ -272,11 +299,14 @@ async def test_p142_a_template_alone_cannot_add_a_candidate() -> None:
         origin="unit-test",
     )
     transport = p139._NxStore(codes=("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT", key))
-    probe = _probe("GEN_NX", only=(key,), templates={key: template}, transport=transport)
+    probe = _probe("GEN_NX", templates={key: template}, transport=transport)
+    assert key in probe.candidate_keys(), "R100：有模板即可入候选"
     outcome = await probe.probe_key(key)
-    assert outcome.outcome == WRITE_PROBE_NO_PAYLOAD, outcome
-    assert outcome.detail == "no_transformer_for_endpoint", outcome
-    assert transport.write_calls() == []
+    assert outcome.outcome == WRITE_PROBE_PASSED, outcome
+    assert outcome.payload_source == "explicit_injection", outcome
+    # 包装键来自**数据侧**（该端点没有 Transformer）：`Assign` + 实分配编号
+    posted = [body for method, _path, body in transport.calls if method == "POST"]
+    assert posted == [{"Assign": {"1": {"ITEMS": [{"ID": 1}]}}}]
 
 
 # ===== 2. 契约内缺口 `FLOOR_LOAD`（判定 3 / 4）=====
@@ -333,8 +363,8 @@ def test_p142_the_data_side_declares_the_fbld_template_with_the_stld_chain() -> 
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
-    assert counts["templates"] == 10
-    assert counts["bodies"] == 34
+    assert counts["templates"] == 17
+    assert counts["bodies"] == 41
     assert counts["unverifiable"] == 0
     template = _registry().write_template(FLOOR_LOAD_KEY)
     assert template is not None
@@ -416,13 +446,13 @@ def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 11
-    assert coverage.ratio == f"11 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"11 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 18
+    assert coverage.ratio == f"18 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"18 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 少一条 L5 行即少一个覆盖（**不**硬编码分子）
     fewer = write_path_coverage(registry, [_Row(key) for key in keys if key != FLOOR_LOAD_KEY])
-    assert fewer.ratio == f"10 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"17 / {WRITE_PATH_TOTAL}"
     assert FLOOR_LOAD_KEY not in fewer.covered_keys
     # 非 `L5` 行 / 非 `PASSED` 行**不**计入分子
     assert write_path_coverage(registry, [_Row(FLOOR_LOAD_KEY, contract_level="L4")]).covered == 0
