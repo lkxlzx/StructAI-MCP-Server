@@ -136,12 +136,15 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（P149-B2 起）**：GEN NX 的 **61** 个可探候选 → **61 / 61 `PASSED`**（本批 **+3**：
-`DB.BNGR` / `DB.GRUP` / `DB.NPLN`；P148 为 58 / 58、P147 为 46 / 46、P146 为 36 / 36、
-P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
-CIVIL NX **52** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
+**覆盖面（P149-B2 起）**：GEN NX 的 **70** 个可探候选 → **70 / 70 `PASSED`**（本批两轮 **+12**：
+第一轮 `DB.BNGR` / `DB.GRUP` / `DB.NPLN`；第二轮分块补测 `DB.PSLT` / `DB.VSEC` / `DB.WMAK` /
+`DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCO` / `DESIGN.RC.KDS-41-20-2022.DCTL` /
+`DESIGN.SRC.AIK-SRC2K.DCO` / `DESIGN.STEEL.DSTL` / `DESIGN.STEEL.KDS-41-30-2022.DCO`；
+P148 为 58 / 58、P147 为 46 / 46、P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、
+P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
+CIVIL NX **60** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
 云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
-`live.write_path_coverage()` = **`61 / 633`**。
+`live.write_path_coverage()` = **`70 / 633`**。
 ⚠️ **分母基线（P149-A 重算，`docs/07` §16.1 **R108**）**：`write_path_keys()` = **633**
 （P148 为 **609**）—— 用**只读** `OPTIONS` 的 `Allow` 头实测端点方法集后，发现 registry 曾**系统性少声明**
 **90** 个端点的方法集（+`DELETE` 88 · +`PUT` 80 · +`GET` 62 · +`POST` 6），其中 **24** 个因此才**进入**分母
@@ -151,9 +154,9 @@ CIVIL NX **52** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25
 复算工具 = `registry/tools/sync_endpoint_methods.py`（`--probe` / `--write` / `--check`）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **512** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **503** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`61 / 434`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`70 / 434`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
@@ -175,11 +178,11 @@ CIVIL NX **52** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25
 有 `GET` + `read_root` + `DELETE` ∧ **无 Transformer** ∧ **无模板** ∧ 不在留缺账本里；
 示例按「**旧来源 → 新来源**」取**第一个**可用条目（包装键恰好 1 个 + 内层是对象 + 条目**非空**）。
 **留缺账本** = `registry/live/write_template_left_out.json`：账本里的 key **必须**没有模板
-（工具每次**主动剔除**），原因逐条可复算（R101–R105 / R109–R112 / `UNVERIFIED_*`）；
-本批实测证据 = `registry/live/write_batch_p149b2.json`（**179** 条原始四态）。
-⚠️ **本批实测被实例崩溃中断**：`gen-local` 的 NX 在 `DB.NSPR` 之后**终止**（跑后哨兵读数**无效**，
-**不**声称零残留）；**67** 条 `request_timed_out` **未取得结论**（`UNVERIFIED_instance_crashed_pending_retest`），
-下一轮**分块**（每块 ≤ 20 个）补测。详见 §8.11 与 `docs/reports/P149-B2_写路径模板机械化与批量实测中断_v1.0.md`。
+（工具每次**主动剔除**），原因逐条可复算（R101–R105 / R109–R113）；
+本批实测证据 = `registry/live/write_batch_p149b2.json`（第一轮 **179** 条 + 第二轮 **67** 条补测）。
+⚠️ **本批两次触发实例崩溃**（`DB.NSPR` ⇒ **R113**，**永不再试**）：两轮**跑后**哨兵读数均**无效**
+（**不**声称零残留）；第二轮**跑前**只读残留核对（**122** 个端点）**全空** ⇒ 第一轮无残留。
+详见 §8.11 与 `docs/reports/P149-B2_写路径模板机械化与批量实测中断_v1.0.md`。
 
 **模板**不能**改任何判定**：`verification_status` 仍只由 `availability` 机械映射
 （`docs/07` §16 R78）；模板文件里**不得**出现 `availability` / `verification_status` / `products` / `verified_on`。
@@ -734,17 +737,17 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
 - 可执行判定 = `tests/test_midas_manual_index_p149b.py`（**4** 项）。
 - **未完成**（下一子批）：**已由 §8.11（⑫，P149-B2）处置** —— 池子口径更正为 **205**
   （旧来源示例 **119** · 仅新来源 **70** = **189** 有可用示例；**13** 无可用示例），
-  其中 **3** 条真实 `PASSED`、**189** 条留缺（含 **67** 条**未取得结论**）。原文保留以便追溯。
+  其中 **12** 条真实 `PASSED`、**180** 条留缺（**0** 条未取得结论）。原文保留以便追溯。
 
-**⑫ P149-B2：模板由工具拥有 + 批量实测被实例崩溃中断**：
+**⑫ P149-B2：模板由工具拥有 + 两轮实测（两次实例崩溃）**：
 
 - **新工具** `registry/tools/sync_write_templates.py`（`--write` / `--check`，只依赖标准库 + `app/`）：
   按 §2.3 的池子判据**机械**生成模板（示例按「旧 → 新」取第一个可用条目，`manual_example`、
   零 `adjustments`、零前置链），并**主动剔除**留缺账本里的 key。
-- **留缺账本** `registry/live/write_template_left_out.json`（**189** 条）：把「实测被拒 / 读不回 /
-  数据侧 Schema 不匹配 / 读映射未验证 / 未取得结论」的端点**机器可读**地记下来 ——
-  R101–R105（**11** 条，原证据见 `docs/reports/P144…P148`）· R109（**2** 条）· R110（**60** 条）·
-  R111（**49** 条）· `UNVERIFIED_*`（**67** 条）。
+- **留缺账本** `registry/live/write_template_left_out.json`（**180** 条）：把「实测被拒 / 读不回 /
+  数据侧 Schema 不匹配 / 读映射未验证 / **使实例崩溃**」的端点**机器可读**地记下来 ——
+  R101–R105（**11** 条，原证据见 `docs/reports/P144…P148`）· R109（**2** 条）· R110（**117** 条）·
+  R111（**49** 条）· R113（**1** 条）。
 - **池子口径两处更正**（工具更严，逐条可复算）：① 已有 Transformer 的端点（`DB.NODE`）**不**属欠账；
   ② 3 个 `DESIGN.*.LCTB` **无写方法**（只有 `GET` + `DELETE`）⇒ 633 的分桶新增「无写方法 **3**」，
   「可判形态但缺模板」由 **208** 更正为 **205**（且本批已处置完毕）。
@@ -753,12 +756,15 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   当定位串算的（`DB.ULCT` 那条的 `input_uri` 实为 `db/LTSR`）⇒ 更正为 **13**。
 - **复算工具修一处真缺陷**：`check_write_templates.py::request_schema()` 新增 `_item_schema()`，
   支持 `Assign.patternProperties['^[0-9]+$']` 形状（剥到**条目** Schema）⇒ 假错 **71 → 0**，
-  判定**变强**（R112 记录了**仍未**支持的「按端点代码键控」形状及其实测影响面）。
-- **实测（GEN NX 空项目，一次有界批量 179 条）**：**3** `PASSED`（`DB.BNGR` / `DB.GRUP` / `DB.NPLN`）
-  · **49** `400 software_api_error` · **10** 读不回 · **1** `solver_unsupported` · **49**
-  `registry_mapping_not_verified`（`availability: untested`）· **67** `request_timed_out`
-  （**实例崩溃后无人应答** ⇒ **未取得结论**）。
-- ⚠️ **实例崩溃**：NX 报「发生了无法确定的问题需要终止程序」⇒ **跑后哨兵读数无效**（**不**声称零残留，
-  重点怀疑 `DB.NSPR`）；下一轮须**先恢复实例** → 只读残留核对 → **分块**（≤ 20 个/块）补测 67 条。
+  判定**变强**（R112 记录了**仍未**支持的「按端点代码键控」形状及其实测影响面 **53/60**）。
+- **实测两轮（GEN NX 空项目）**：第一轮一次有界批量 **179** 条（**3** `PASSED` · **49**
+  `400 software_api_error` · **10** 读不回 · **1** `solver_unsupported` · **49**
+  `registry_mapping_not_verified` · **67** `request_timed_out`）；第二轮把 67 条**分块**（20/20/20/7，
+  块间只读健康检查）补测 ⇒ **9** `PASSED` · **53** `400` · **4** 读不回 · **1** `DB.NSPR`
+  `transport_error`。两轮合计 **12** `PASSED` ⇒ 覆盖率 **`58 / 633` → `70 / 633`**、
+  候选 **70 / 60 / 0**、blocked **503 / 440 / 31**、模板 **69**、body **113**。
+- ⚠️ **R113：`DB.NSPR` 使 NX 实例崩溃**（两轮各触发一次「发生了无法确定的问题需要终止程序」）
+  ⇒ 模板**撤**、**永不再试**；两轮**跑后**哨兵读数均**无效**（**不**声称零残留），
+  第二轮**跑前**只读残留核对（**122** 个端点）**全空** ⇒ 第一轮无残留。
 - 可执行判定 = `tests/test_midas_write_templates_p149b2.py`（**8** 项）·
   `docs/reports/P149-B2_写路径模板机械化与批量实测中断_v1.0.md`。
