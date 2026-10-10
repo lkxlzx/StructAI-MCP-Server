@@ -326,7 +326,7 @@
       "key": "DB.BNGR",
       "namespace": "DB",
       "uri": "/DB/BNGR",
-      "methods": "POST, GET, PUT",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -3354,7 +3354,7 @@
       "key": "DB.GRUP",
       "namespace": "DB",
       "uri": "/DB/GRUP",
-      "methods": "POST, GET, PUT",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -4484,7 +4484,7 @@
       "key": "DB.IFGS",
       "namespace": "DB",
       "uri": "/DB/IFGS",
-      "methods": "POST, GET, PUT",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -4740,7 +4740,7 @@
       "key": "DB.KFAC",
       "namespace": "DB",
       "uri": "/DB/KFAC",
-      "methods": "GET, PUT",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_DESIGNER"
       ],
@@ -8835,7 +8835,7 @@
       "key": "DB.REBB",
       "namespace": "DB",
       "uri": "/DB/REBB",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -8879,7 +8879,7 @@
       "key": "DB.REBC",
       "namespace": "DB",
       "uri": "/DB/REBC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -8923,7 +8923,7 @@
       "key": "DB.REBR",
       "namespace": "DB",
       "uri": "/DB/REBR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -8967,7 +8967,7 @@
       "key": "DB.REBW",
       "namespace": "DB",
       "uri": "/DB/REBW",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -10787,7 +10787,7 @@
       "key": "DB.SWIND",
       "namespace": "DB",
       "uri": "/DB/SWIND",
-      "methods": "",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "GEN_NX"
       ],
@@ -12681,7 +12681,7 @@
       "key": "DESIGN.RC.DRC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/DRC",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -12992,7 +12992,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.BEMW",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/BEMW",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13608,7 +13608,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.CMFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/CMFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13652,7 +13652,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCO",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCO",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13699,7 +13699,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCRE",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRE",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13743,7 +13743,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCREM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCREM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13787,7 +13787,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13831,7 +13831,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BRACE",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BRACE",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13875,7 +13875,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13919,7 +13919,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-WALL",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -13963,7 +13963,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DCTL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCTL",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14010,7 +14010,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.DFBA",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/DFBA",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14054,7 +14054,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.EQCT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/EQCT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14098,7 +14098,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.FMAG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/FMAG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14142,7 +14142,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.HCBM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/HCBM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14318,7 +14318,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.KFAC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/KFAC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14362,7 +14362,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.LCTB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/LCTB",
-      "methods": "GET",
+      "methods": "GET, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14409,7 +14409,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.LENG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/LENG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14453,7 +14453,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.LLRF",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/LLRF",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14500,7 +14500,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.LMRR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/LMRR",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14547,7 +14547,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MATD",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MATD",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "GEN_NX"
       ],
@@ -14594,7 +14594,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MBTP",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MBTP",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14638,7 +14638,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MCMB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MCMB",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14682,7 +14682,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MEMB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MEMB",
-      "methods": "GET",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14729,7 +14729,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MLLR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MLLR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14773,7 +14773,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.MRFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/MRFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14817,7 +14817,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.PMDM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/PMDM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14861,7 +14861,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.REBB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBB",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14905,7 +14905,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.REBC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14949,7 +14949,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.REBR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -14993,7 +14993,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.REBW",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBW",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15037,7 +15037,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.REXC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/REXC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15081,7 +15081,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.SCOL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/SCOL",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15125,7 +15125,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.SDGN",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/SDGN",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15169,7 +15169,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.SRDF",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/SRDF",
-      "methods": "GET",
+      "methods": "GET, PUT",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15216,7 +15216,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.SUEQ",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/SUEQ",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15392,7 +15392,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.TRFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/TRFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15436,7 +15436,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.ULCT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -15744,7 +15744,7 @@
       "key": "DESIGN.RC.KDS-41-20-2022.WMAK",
       "namespace": "DESIGN",
       "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16052,7 +16052,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.CMFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16096,7 +16096,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.DCO",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
-      "methods": "GET, PUT",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16142,7 +16142,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.DCTL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/DCTL",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16189,7 +16189,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.DSRC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
-      "methods": "PUT",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16233,7 +16233,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.EQCT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16277,7 +16277,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.FMAG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16321,7 +16321,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.KFAC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16365,7 +16365,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.LCTB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/LCTB",
-      "methods": "GET",
+      "methods": "GET, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16412,7 +16412,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.LENG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16456,7 +16456,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.LLRF",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16503,7 +16503,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.LTSR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16547,7 +16547,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MATD",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "GEN_NX"
       ],
@@ -16594,7 +16594,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MBTP",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16638,7 +16638,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MCRD",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16682,7 +16682,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MEMB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MEMB",
-      "methods": "GET",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16729,7 +16729,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MLLR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16773,7 +16773,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.MRBD",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16863,7 +16863,7 @@
       "key": "DESIGN.SRC.AIK-SRC2K.SUEQ",
       "namespace": "DESIGN",
       "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -16995,7 +16995,7 @@
       "key": "DESIGN.STEEL.DSTL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/DSTL",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17042,7 +17042,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.CBFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/CBFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17086,7 +17086,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.CMFT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/CMFT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17262,7 +17262,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.CRCM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/CRCM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17306,7 +17306,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.DCO",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17353,7 +17353,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.DCTL",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCTL",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17444,7 +17444,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.EQCT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/EQCT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17488,7 +17488,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.FMAG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/FMAG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17532,7 +17532,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.HCBM",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/HCBM",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17576,7 +17576,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.KFAC",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/KFAC",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17620,7 +17620,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.LCTB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/LCTB",
-      "methods": "GET",
+      "methods": "GET, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17667,7 +17667,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.LENG",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/LENG",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17711,7 +17711,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.LLRF",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/LLRF",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17758,7 +17758,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.LTSR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/LTSR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17802,7 +17802,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.MBTP",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/MBTP",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17846,7 +17846,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.MEMB",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/MEMB",
-      "methods": "GET",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17893,7 +17893,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.MLLR",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/MLLR",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17937,7 +17937,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.SERV",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SERV",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -17981,7 +17981,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.SLRS",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SLRS",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -18025,7 +18025,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.SMODI",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SMODI",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -18072,7 +18072,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.SRDF",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SRDF",
-      "methods": "GET",
+      "methods": "GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -18119,7 +18119,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.SUEQ",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SUEQ",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -18207,7 +18207,7 @@
       "key": "DESIGN.STEEL.KDS-41-30-2022.ULCT",
       "namespace": "DESIGN",
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/ULCT",
-      "methods": "POST",
+      "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_NX",
         "GEN_NX"
@@ -20433,7 +20433,7 @@
       "key": "OPE.SECTPROP",
       "namespace": "OPE",
       "uri": "/OPE/SECTPROP",
-      "methods": "GET",
+      "methods": "POST, GET",
       "products": [
         "CIVIL_NX",
         "GEN_NX"

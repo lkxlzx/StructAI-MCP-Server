@@ -1,7 +1,7 @@
 key: DB.REBR
 namespace: DB
 uri: /DB/REBR
-methods: [POST]
+methods: [POST, GET, PUT, DELETE]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign

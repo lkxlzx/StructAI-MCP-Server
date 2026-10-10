@@ -1,7 +1,7 @@
 key: OPE.SECTPROP
 namespace: OPE
 uri: /OPE/SECTPROP
-methods: [GET]
+methods: [POST, GET]
 tool_map:
   query: midas_db_query
 wrapper:

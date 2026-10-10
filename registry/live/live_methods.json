@@ -1,0 +1,5758 @@
+{
+ "version": 1,
+ "note": [
+  "P149：端点方法集的**实测证据**（live `OPTIONS` 的 `Allow` 头 = 该路由真实支持的方法集）。",
+  "只读：探测只发 `OPTIONS`，无 `Allow` 时补一次 `HEAD`；**不**发任何写动词、不带 body。",
+  "用法：python registry/tools/sync_endpoint_methods.py --probe（重测）· --write（写回 methods）· --check（断言一致）。",
+  "`live_methods` 为空 = 该路由在本实例上不存在（`HEAD` 亦 404）⇒ **不**改 `methods`，只如实记录。"
+ ],
+ "measured_on": {
+  "instance": "gen-local (GEN NX)",
+  "base_url": "http://localhost:3030/gen",
+  "method": "HTTP OPTIONS（零副作用）；无 Allow 时补 HEAD"
+ },
+ "endpoints": {
+  "DB.ACTL": {
+   "uri": "/DB/ACTL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ACTL-M1": {
+   "uri": "/DB/ACTL-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.BCCT": {
+   "uri": "/DB/BCCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.BCGA-M1": {
+   "uri": "/DB/BCGA-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.BCGD-M1": {
+   "uri": "/DB/BCGD-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.BMLD": {
+   "uri": "/DB/BMLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.BNGR": {
+   "uri": "/DB/BNGR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.BODF": {
+   "uri": "/DB/BODF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.BTCP": {
+   "uri": "/DB/BTCP",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.BTMP": {
+   "uri": "/DB/BTMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.BUCK": {
+   "uri": "/DB/BUCK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CAMB": {
+   "uri": "/DB/CAMB",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.CAPSIZE": {
+   "uri": "/DB/CAPSIZE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.CCFC": {
+   "uri": "/DB/CCFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CGLP": {
+   "uri": "/DB/CGLP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CJFG": {
+   "uri": "/DB/CJFG",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.CLDR": {
+   "uri": "/DB/CLDR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CLWP": {
+   "uri": "/DB/CLWP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CMCS": {
+   "uri": "/DB/CMCS",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.CNLD": {
+   "uri": "/DB/CNLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CONS": {
+   "uri": "/DB/CONS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CO_F": {
+   "uri": "/DB/CO_F",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CO_M": {
+   "uri": "/DB/CO_M",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CO_S": {
+   "uri": "/DB/CO_S",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CO_T": {
+   "uri": "/DB/CO_T",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CPSETTINGS": {
+   "uri": "/DB/CPSETTINGS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CRGR": {
+   "uri": "/DB/CRGR",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.CRPC": {
+   "uri": "/DB/CRPC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CSCS": {
+   "uri": "/DB/CSCS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CUTL": {
+   "uri": "/DB/CUTL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.CWRC": {
+   "uri": "/DB/CWRC",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.DCOD": {
+   "uri": "/DB/DCOD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.DCON": {
+   "uri": "/DB/DCON",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.DCTL": {
+   "uri": "/DB/DCTL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.DOEL": {
+   "uri": "/DB/DOEL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.DRLS": {
+   "uri": "/DB/DRLS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.DSTL": {
+   "uri": "/DB/DSTL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.DYFG": {
+   "uri": "/DB/DYFG",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.DYLA": {
+   "uri": "/DB/DYLA",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.DYNF": {
+   "uri": "/DB/DYNF",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.EDMP": {
+   "uri": "/DB/EDMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EFCT": {
+   "uri": "/DB/EFCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EIGV": {
+   "uri": "/DB/EIGV",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EIGV-M1": {
+   "uri": "/DB/EIGV-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.ELEM": {
+   "uri": "/DB/ELEM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ELNK": {
+   "uri": "/DB/ELNK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EPMT": {
+   "uri": "/DB/EPMT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EPMT-M1": {
+   "uri": "/DB/EPMT-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.EPSE": {
+   "uri": "/DB/EPSE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EPST": {
+   "uri": "/DB/EPST",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ESSF": {
+   "uri": "/DB/ESSF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ETFC": {
+   "uri": "/DB/ETFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ETMP": {
+   "uri": "/DB/ETMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.EWSF": {
+   "uri": "/DB/EWSF",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.EXLD": {
+   "uri": "/DB/EXLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FBLA": {
+   "uri": "/DB/FBLA",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FBLD": {
+   "uri": "/DB/FBLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FIBR": {
+   "uri": "/DB/FIBR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FIMP": {
+   "uri": "/DB/FIMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FMLD": {
+   "uri": "/DB/FMLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.FRLS": {
+   "uri": "/DB/FRLS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GALD": {
+   "uri": "/DB/GALD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GCMB": {
+   "uri": "/DB/GCMB",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.GRDP": {
+   "uri": "/DB/GRDP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GRUP": {
+   "uri": "/DB/GRUP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GSBG": {
+   "uri": "/DB/GSBG",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.GSPR": {
+   "uri": "/DB/GSPR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GSTP": {
+   "uri": "/DB/GSTP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.GTMP": {
+   "uri": "/DB/GTMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HAHS": {
+   "uri": "/DB/HAHS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HECB": {
+   "uri": "/DB/HECB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HHCT": {
+   "uri": "/DB/HHCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HHCT-M1": {
+   "uri": "/DB/HHCT-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.HHND": {
+   "uri": "/DB/HHND",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HPCE": {
+   "uri": "/DB/HPCE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HSFC": {
+   "uri": "/DB/HSFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HSPT": {
+   "uri": "/DB/HSPT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.HSTG": {
+   "uri": "/DB/HSTG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IEHC": {
+   "uri": "/DB/IEHC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IEHG": {
+   "uri": "/DB/IEHG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IEHG-BEAM-M1": {
+   "uri": "/DB/IEHG-BEAM-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.IEHG-GL-M1": {
+   "uri": "/DB/IEHG-GL-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.IEHG-PSS-M1": {
+   "uri": "/DB/IEHG-PSS-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.IEHG-TRUSS-M1": {
+   "uri": "/DB/IEHG-TRUSS-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.IELC": {
+   "uri": "/DB/IELC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IEPI": {
+   "uri": "/DB/IEPI",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IFGS": {
+   "uri": "/DB/IFGS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IMFM": {
+   "uri": "/DB/IMFM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.IMFM-M1": {
+   "uri": "/DB/IMFM-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.IMPF": {
+   "uri": "/DB/IMPF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.INMF": {
+   "uri": "/DB/INMF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.KFAC": {
+   "uri": "/DB/KFAC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM": {
+   "uri": "/DB/LCOM",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.LCOM-CONC": {
+   "uri": "/DB/LCOM-CONC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM-GEN": {
+   "uri": "/DB/LCOM-GEN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM-SEISMIC": {
+   "uri": "/DB/LCOM-SEISMIC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM-SRC": {
+   "uri": "/DB/LCOM-SRC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM-STEEL": {
+   "uri": "/DB/LCOM-STEEL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LCOM-STLCOMP": {
+   "uri": "/DB/LCOM-STLCOMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LDGR": {
+   "uri": "/DB/LDGR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LDSQ": {
+   "uri": "/DB/LDSQ",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LENG": {
+   "uri": "/DB/LENG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LLAN": {
+   "uri": "/DB/LLAN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LLANCH": {
+   "uri": "/DB/LLANCH",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LLANID": {
+   "uri": "/DB/LLANID",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LLANOP": {
+   "uri": "/DB/LLANOP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LLANTR": {
+   "uri": "/DB/LLANTR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LTOM": {
+   "uri": "/DB/LTOM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.LTSR": {
+   "uri": "/DB/LTSR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MADO": {
+   "uri": "/DB/MADO",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MATD": {
+   "uri": "/DB/MATD",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MATL": {
+   "uri": "/DB/MATL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MATL-M1": {
+   "uri": "/DB/MATL-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.MBTP": {
+   "uri": "/DB/MBTP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MCON": {
+   "uri": "/DB/MCON",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MEMB": {
+   "uri": "/DB/MEMB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MLFC": {
+   "uri": "/DB/MLFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MLSP": {
+   "uri": "/DB/MLSP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MLSR": {
+   "uri": "/DB/MLSR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MODULE": {
+   "uri": "/DB/MODULE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.MVCD": {
+   "uri": "/DB/MVCD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVCT": {
+   "uri": "/DB/MVCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVCTBS": {
+   "uri": "/DB/MVCTBS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVCTCH": {
+   "uri": "/DB/MVCTCH",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVCTID": {
+   "uri": "/DB/MVCTID",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVCTTR": {
+   "uri": "/DB/MVCTTR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVHC": {
+   "uri": "/DB/MVHC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVHL": {
+   "uri": "/DB/MVHL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVHLTR": {
+   "uri": "/DB/MVHLTR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLD": {
+   "uri": "/DB/MVLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDBS": {
+   "uri": "/DB/MVLDBS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDCH": {
+   "uri": "/DB/MVLDCH",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDEU": {
+   "uri": "/DB/MVLDEU",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDID": {
+   "uri": "/DB/MVLDID",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDPL": {
+   "uri": "/DB/MVLDPL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.MVLDTR": {
+   "uri": "/DB/MVLDTR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NBOF": {
+   "uri": "/DB/NBOF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NLCT": {
+   "uri": "/DB/NLCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NLCT-M1": {
+   "uri": "/DB/NLCT-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.NLLP": {
+   "uri": "/DB/NLLP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NLNK": {
+   "uri": "/DB/NLNK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NLNK-M1": {
+   "uri": "/DB/NLNK-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.NMAS": {
+   "uri": "/DB/NMAS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NODE": {
+   "uri": "/DB/NODE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NPLN": {
+   "uri": "/DB/NPLN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NSPR": {
+   "uri": "/DB/NSPR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NTMP": {
+   "uri": "/DB/NTMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.NUCS": {
+   "uri": "/DB/NUCS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.OFFS": {
+   "uri": "/DB/OFFS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PDEL": {
+   "uri": "/DB/PDEL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PHGE": {
+   "uri": "/DB/PHGE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PJCF": {
+   "uri": "/DB/PJCF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PLCB": {
+   "uri": "/DB/PLCB",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.PNLA": {
+   "uri": "/DB/PNLA",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PNLD": {
+   "uri": "/DB/PNLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.POGD": {
+   "uri": "/DB/POGD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.POGD-M1": {
+   "uri": "/DB/POGD-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.POLC": {
+   "uri": "/DB/POLC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.POLC-M1": {
+   "uri": "/DB/POLC-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.POSL": {
+   "uri": "/DB/POSL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.POSP": {
+   "uri": "/DB/POSP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PRES": {
+   "uri": "/DB/PRES",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PRLS": {
+   "uri": "/DB/PRLS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PRST": {
+   "uri": "/DB/PRST",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PSLT": {
+   "uri": "/DB/PSLT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PSSF": {
+   "uri": "/DB/PSSF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PTNS": {
+   "uri": "/DB/PTNS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.PZEF": {
+   "uri": "/DB/PZEF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.RCHK": {
+   "uri": "/DB/RCHK",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.REBB": {
+   "uri": "/DB/REBB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.REBC": {
+   "uri": "/DB/REBC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.REBR": {
+   "uri": "/DB/REBR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.REBW": {
+   "uri": "/DB/REBW",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.RIGD": {
+   "uri": "/DB/RIGD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.RPSC": {
+   "uri": "/DB/RPSC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SBDO": {
+   "uri": "/DB/SBDO",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDHY": {
+   "uri": "/DB/SDHY",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDIS": {
+   "uri": "/DB/SDIS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDSP": {
+   "uri": "/DB/SDSP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDST": {
+   "uri": "/DB/SDST",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDVE": {
+   "uri": "/DB/SDVE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SDVI": {
+   "uri": "/DB/SDVI",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SECF": {
+   "uri": "/DB/SECF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SECT": {
+   "uri": "/DB/SECT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SINF": {
+   "uri": "/DB/SINF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SKEW": {
+   "uri": "/DB/SKEW",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SLAN": {
+   "uri": "/DB/SLAN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SLANCH": {
+   "uri": "/DB/SLANCH",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SLANOP": {
+   "uri": "/DB/SLANOP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SMCT": {
+   "uri": "/DB/SMCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SMLC": {
+   "uri": "/DB/SMLC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SMPT": {
+   "uri": "/DB/SMPT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SPAN": {
+   "uri": "/DB/SPAN",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.SPFC": {
+   "uri": "/DB/SPFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SPLC": {
+   "uri": "/DB/SPLC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SSEIS": {
+   "uri": "/DB/SSEIS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.SSPS": {
+   "uri": "/DB/SSPS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STAG": {
+   "uri": "/DB/STAG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STBK": {
+   "uri": "/DB/STBK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STCT": {
+   "uri": "/DB/STCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STCT-M1": {
+   "uri": "/DB/STCT-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.STLD": {
+   "uri": "/DB/STLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STMP": {
+   "uri": "/DB/STMP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STOR": {
+   "uri": "/DB/STOR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STRPSSM": {
+   "uri": "/DB/STRPSSM",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.STYP": {
+   "uri": "/DB/STYP",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.STYP-M1": {
+   "uri": "/DB/STYP-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.SWIND": {
+   "uri": "/DB/SWIND",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDCS": {
+   "uri": "/DB/TDCS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDGR": {
+   "uri": "/DB/TDGR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDME": {
+   "uri": "/DB/TDME",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDMF": {
+   "uri": "/DB/TDMF",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDMT": {
+   "uri": "/DB/TDMT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDNA": {
+   "uri": "/DB/TDNA",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDNT": {
+   "uri": "/DB/TDNT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TDPL": {
+   "uri": "/DB/TDPL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THFC": {
+   "uri": "/DB/THFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THGA": {
+   "uri": "/DB/THGA",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THGC": {
+   "uri": "/DB/THGC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THGC-M1": {
+   "uri": "/DB/THGC-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.THIK": {
+   "uri": "/DB/THIK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THIS": {
+   "uri": "/DB/THIS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THIS-M1": {
+   "uri": "/DB/THIS-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.THMS": {
+   "uri": "/DB/THMS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THNL": {
+   "uri": "/DB/THNL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THOO-M1": {
+   "uri": "/DB/THOO-M1",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.THRE": {
+   "uri": "/DB/THRE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THRG": {
+   "uri": "/DB/THRG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THRI": {
+   "uri": "/DB/THRI",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THRS": {
+   "uri": "/DB/THRS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.THSL": {
+   "uri": "/DB/THSL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TMAT": {
+   "uri": "/DB/TMAT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TMLD": {
+   "uri": "/DB/TMLD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.TRPT": {
+   "uri": "/DB/TRPT",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.TSGR": {
+   "uri": "/DB/TSGR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.UFTR": {
+   "uri": "/DB/UFTR",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.ULCT": {
+   "uri": "/DB/ULCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.ULFC": {
+   "uri": "/DB/ULFC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.UNIT": {
+   "uri": "/DB/UNIT",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.UTBL": {
+   "uri": "/DB/UTBL",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DB.VBEM": {
+   "uri": "/DB/VBEM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.VSEC": {
+   "uri": "/DB/VSEC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.WMAK": {
+   "uri": "/DB/WMAK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DB.WVLD": {
+   "uri": "/DB/WVLD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DESIGN.RC.DRC": {
+   "uri": "/DESIGN/RC/DRC",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BC-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BC-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BC-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BD-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BD-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BD-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BD-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BD-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BD-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BEMW": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BEMW",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRC-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRC-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRC-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRD-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRD-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRD-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRD-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.BRD-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/BRD-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CC-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CC-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CC-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CD-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CD-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CD-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CD-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CD-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CD-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CDESIGN": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CDESIGN",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.CMFT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/CMFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCO": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCO",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCRE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCRE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCREM": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCREM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCRM-BRACE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BRACE",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCRM-WALL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-WALL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DCTL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DCTL",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.DFBA": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/DFBA",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.EQCT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/EQCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.FMAG": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/FMAG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.HCBM": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/HCBM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.HCD-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.HCD-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.HCD-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.KFAC": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/KFAC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.LCTB": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/LCTB",
+   "live_methods": [
+    "GET",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.LENG": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/LENG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.LLRF": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/LLRF",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.LMRR": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/LMRR",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MATD": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MATD",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MBTP": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MBTP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MCMB": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MCMB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MEMB": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MEMB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MLLR": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MLLR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.MRFT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/MRFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.PMDM": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/PMDM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.REBB": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/REBB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.REBC": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.REBR": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/REBR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.REBW": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/REBW",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.REXC": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/REXC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.SCOL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/SCOL",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.SDGN": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/SDGN",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.SRDF": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/SRDF",
+   "live_methods": [
+    "GET",
+    "PUT"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.SUEQ": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/SUEQ",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.TABLE.BEAM": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.TABLE.BRACE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.TRFT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/TRFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.ULCT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WC-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WC-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WC-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WD-ANAL": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WD-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WD-REPORT": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WD-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WD-TABLE": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WD-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.RC.KDS-41-20-2022.WMAK": {
+   "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.BC-ANAL": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.BC-REPORT": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.BC-TABLE": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/BC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.CC-ANAL": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.CC-REPORT": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.CC-TABLE": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CC-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.CMFT": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.DCO": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.DCTL": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DCTL",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.DSRC": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.EQCT": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.FMAG": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.KFAC": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.LCTB": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LCTB",
+   "live_methods": [
+    "GET",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.LENG": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.LLRF": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.LTSR": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MATD": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MBTP": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MCRD": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MEMB": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MEMB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MLLR": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.MRBD": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.OCHECK": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/OCHECK",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DESIGN.SRC.AIK-SRC2K.SUEQ": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.TABLE": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.SRC.AIK-SRC2K.TABLE.SRC": {
+   "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.DSTL": {
+   "uri": "/DESIGN/STEEL/DSTL",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CBFT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CBFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CMFT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CMFT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CODE-REPORT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-REPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.CRCM": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CRCM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.DCTL": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.DREULT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DREULT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.EQCT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/EQCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.FMAG": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/FMAG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.HCBM": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/HCBM",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.KFAC": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/KFAC",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.LCTB": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/LCTB",
+   "live_methods": [
+    "GET",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.LENG": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/LENG",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.LLRF": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/LLRF",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.LTSR": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/LTSR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.MBTP": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/MBTP",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.MEMB": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.MLLR": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/MLLR",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.SERV": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/SERV",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.SLRS": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/SLRS",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.SMODI": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/SMODI",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.SRDF": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/SRDF",
+   "live_methods": [
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.SUEQ": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/SUEQ",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.TABLE": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DESIGN.STEEL.KDS-41-30-2022.ULCT": {
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/ULCT",
+   "live_methods": [
+    "POST",
+    "GET",
+    "PUT",
+    "DELETE"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.ACTIVE": {
+   "uri": "/DOC/ACTIVE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.ANAL": {
+   "uri": "/DOC/ANAL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.CLOSE": {
+   "uri": "/DOC/CLOSE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.CLOSEALL": {
+   "uri": "/DOC/CLOSEALL",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.EXIT": {
+   "uri": "/DOC/EXIT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.EXPORT": {
+   "uri": "/DOC/EXPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.EXPORTFILE": {
+   "uri": "/DOC/EXPORTFILE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.EXPORTMXT": {
+   "uri": "/DOC/EXPORTMXT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.IMPORT": {
+   "uri": "/DOC/IMPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.IMPORTCML": {
+   "uri": "/DOC/IMPORTCML",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.IMPORTFILE": {
+   "uri": "/DOC/IMPORTFILE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.IMPORTMRB": {
+   "uri": "/DOC/IMPORTMRB",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.IMPORTMXT": {
+   "uri": "/DOC/IMPORTMXT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.NEW": {
+   "uri": "/DOC/NEW",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.OPEN": {
+   "uri": "/DOC/OPEN",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.OUTFLOW": {
+   "uri": "/DOC/OUTFLOW",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.SAVE": {
+   "uri": "/DOC/SAVE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.SAVEAS": {
+   "uri": "/DOC/SAVEAS",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.STAGAS": {
+   "uri": "/DOC/STAGAS",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "DOC.UNIT": {
+   "uri": "/DOC/UNIT",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "DOC.UPDATEFILE": {
+   "uri": "/DOC/UPDATEFILE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.AUTOMESH": {
+   "uri": "/OPE/AUTOMESH",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.BMLD": {
+   "uri": "/OPE/BMLD",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.CPCREATE": {
+   "uri": "/OPE/CPCREATE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.CPEXPORT": {
+   "uri": "/OPE/CPEXPORT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.CPUPDATEMODEL": {
+   "uri": "/OPE/CPUPDATEMODEL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.CPUPDATERESULT": {
+   "uri": "/OPE/CPUPDATERESULT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.DIVIDEELEM": {
+   "uri": "/OPE/DIVIDEELEM",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.EDMP": {
+   "uri": "/OPE/EDMP",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.GSBG": {
+   "uri": "/OPE/GSBG",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.GUSTFACTOR": {
+   "uri": "/OPE/GUSTFACTOR",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.IBFD": {
+   "uri": "/OPE/IBFD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IBSD": {
+   "uri": "/OPE/IBSD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IDSD": {
+   "uri": "/OPE/IDSD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IELD": {
+   "uri": "/OPE/IELD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IGLD": {
+   "uri": "/OPE/IGLD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IPLD": {
+   "uri": "/OPE/IPLD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.IRED": {
+   "uri": "/OPE/IRED",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.ISSD": {
+   "uri": "/OPE/ISSD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.ITRD": {
+   "uri": "/OPE/ITRD",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.LCOM-CONC": {
+   "uri": "/OPE/LCOM-CONC",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.LCOM-GEN": {
+   "uri": "/OPE/LCOM-GEN",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.LCOM-SRC": {
+   "uri": "/OPE/LCOM-SRC",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.LCOM-STEEL": {
+   "uri": "/OPE/LCOM-STEEL",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.LINEBMLD": {
+   "uri": "/OPE/LINEBMLD",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.MEMB": {
+   "uri": "/OPE/MEMB",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.PROJECTSTATUS": {
+   "uri": "/OPE/PROJECTSTATUS",
+   "live_methods": [
+    "GET"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.SECTPROP": {
+   "uri": "/OPE/SECTPROP",
+   "live_methods": [
+    "POST",
+    "GET"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.SSPS": {
+   "uri": "/OPE/SSPS",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.STOR": {
+   "uri": "/OPE/STOR",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.STORPROP": {
+   "uri": "/OPE/STORPROP",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPE.STORYPROP": {
+   "uri": "/OPE/STORYPROP",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.STORY_IRR_PARAM": {
+   "uri": "/OPE/STORY_IRR_PARAM",
+   "live_methods": [
+    "POST",
+    "GET"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.STORY_PARAM": {
+   "uri": "/OPE/STORY_PARAM",
+   "live_methods": [
+    "POST",
+    "GET"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPE.USLC": {
+   "uri": "/OPE/USLC",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "OPRT.CAPSIZE": {
+   "uri": "/OPRT/CAPSIZE",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPRT.DESIGN": {
+   "uri": "/OPRT/DESIGN",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPRT.DETAILREPORT": {
+   "uri": "/OPRT/DETAILREPORT",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPRT.EFFSECTION": {
+   "uri": "/OPRT/EFFSECTION",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPRT.LCOM": {
+   "uri": "/OPRT/LCOM",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "OPRT.TOTALREPORT": {
+   "uri": "/OPRT/TOTALREPORT",
+   "live_methods": [],
+   "options_status": 200,
+   "head_status": 404
+  },
+  "POST.PM": {
+   "uri": "/POST/PM",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.STEELCODECHECK": {
+   "uri": "/POST/STEELCODECHECK",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.AXISYMMETRICFG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.AXISYMMETRICFL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.AXISYMMETRICSG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.AXISYMMETRICSL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMFORCESTP": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMFORCEVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESS7DOF": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESS7DOFPSC": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESSDETAIL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESSPSC": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BEAMSTRESSVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BRACEDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.BUCKLINGMODE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CABLECONFIG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CABLEEFFIENCY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CABLEFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CAPACITY_IRREGULARITY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.COLDFORMEDSTEELMEMBERDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.COLUMNDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.COMPSECTBEAMFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.COMPSECTBEAMSTRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CONCURRENT_JOINT_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.CRITERIA_FOR_REGULARITY_IN_PLAN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.DISPLACEMENTG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.DISPLACEMENTL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.EFFECTIVE_LENGTH_BEAM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.EFFECTIVE_LENGTH_PLATE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.EFFECTIVE_LENGTH_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.EIGENVALUEMODE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.ELASTICLINK": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.ELASTICLINKVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.ELEMENTWEIGHT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.ELEM_PROP_EACH_STAGE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.EQUILIBRIUM_ELEM_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.FIBR_ELASTREMAIN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.FIBR_EVENTSTEP": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.FIBR_MAXCONTRACT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.FIBR_MEANCOMPCONTRACT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.FIBR_YILEDSTRENGTH": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.GENERAL_LINK_DEFORM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.GENERAL_LINK_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.GENERAL_LINK_FORCEVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_DISPLACEMENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_PIPE_NODE_TEMP": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_STRESS_G": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_STRESS_L": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_TEMPERATURE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.HEAT_HYDR_TENS_STRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_BEAM_SUM_DX": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_BEAM_SUM_DY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_BEAM_SUM_DZ": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_BEAM_SUM_RY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_BEAM_SUM_RZ": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DEFORM_DIST": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DEFORM_LUMPED": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DEFORM_SPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DEFORM_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DEFORM_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D1_DIST": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D1_LUMPED": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D1_SPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D1_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D1_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D2_DIST": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D2_LUMPED": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D2_SPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D2_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_DUCT_D2_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_ELEM_ROT_BEAM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_ELEM_ROT_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_EVENT_TIME_DIST": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_EVENT_TIME_LUMPED": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_EVENT_TIME_SPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_EVENT_TIME_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_EVENT_TIME_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_FORCE_DIST": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_FORCE_LUMPED": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_FORCE_SPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_FORCE_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_FORCE_WALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_DX": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_DY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_DZ": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_RX": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_RY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_GL_LINK_SUM_RZ": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.IEHG_TRUSS_SUM_DX": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.INITIAL_ELEM_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LACK_OF_FIT_FORCE_BEAM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LACK_OF_FIT_FORCE_PLATE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LACK_OF_FIT_FORCE_TRUSS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LOAD_SUMMARY_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LOAD_SUMMARY_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.LOAD_SUMMARY_Z": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.MASS_SUMMARY_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.MASS_SUMMARY_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.MASS_SUMMARY_Z": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.MATERIAL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.NODALBODYFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.OVERTURNING_MOMENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PARTICIPATIONVECTORMODE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRAINFG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRAINFL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRAINSG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRAINSL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRESSFG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRESSFL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRESSSG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLANESTRESSSL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEUG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEUGVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEUL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEULVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATEFORCEWA": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRAINPG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRAINPL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRAINTG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRAINTL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRESSG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.PLATESTRESSL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.REACTIONG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.REACTIONL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.REACTIONLSURFACESPRING": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.RESULTANT_FORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.RESULTANT_FORCESVBM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.RS_NODAL_ACCEL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.RS_NODAL_INERTIA": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SECTIONALL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SECT_PROP_LAST_STAGE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SELF_CONST_BEAM_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SELF_CONST_BEAM_STRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLIDFG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLIDFL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLIDSG": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLIDSL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLID_GLOB_PLAST_STRAIN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLID_GLOB_TOTAL_STRAIN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLID_LOCA_PLAST_STRAIN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SOLID_LOCA_TOTAL_STRAIN": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SRCBEAMDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SRCCOLUMNDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STEELMEMBERDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STIFFNESS_IRREGULARITY_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STIFFNESS_IRREGULARITY_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_AXIAL_FORCE_SUM": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DISPLACEMENT_COMB": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DISPLACEMENT_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DISPLACEMENT_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DRIFT_COMB": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DRIFT_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_DRIFT_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_ECNTRICITY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_MODE_SHAPE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_SHEAR_FORCE_RATIO": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_SHEAR_FOR_RS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_STABILITY_COEFFICIENT_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.STORY_STABILITY_COEFFICIENT_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.SUPPORTS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TABLE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISABSOLUTEACCEL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISBEAMFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISDISPLACEMENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISGLINKDEFORMATION": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISGLINKFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISRELATIVEACCEL": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISTRUSSFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.THISVELOCITY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_APPROX_LOSS_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_APPROX_LOSS_STRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_ARRANGEMENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_COORDINATES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_ELONGATION": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_LOSS_FORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_LOSS_STRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_STRS_LIMIT_CHECK": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_WEIGHT_GROUP": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_WEIGHT_PROFILE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TNDN_WEIGHT_PROPERTY": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TORSIONAL_IRREGULARITY_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TORSIONAL_IRREGULARITY_Y": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TRUSSFORCE": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.TRUSSSTRESS": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.ULTIMATE_STORY_SHEAR_FORCE_CHECK": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.WALLDESIGNFORCES": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.WALL_FORCE_MOMENT": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.WEIGHT_IRREGULARITY_X": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TABLE.string": {
+   "uri": "/POST/TABLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "POST.TEXT": {
+   "uri": "/POST/TEXT",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.ACTIVE": {
+   "uri": "/VIEW/ACTIVE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.ANGLE": {
+   "uri": "/VIEW/ANGLE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.CAPTURE": {
+   "uri": "/VIEW/CAPTURE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.DISPLAY": {
+   "uri": "/VIEW/DISPLAY",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.PRECAPTURE": {
+   "uri": "/VIEW/PRECAPTURE",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.RESULTGRAPHIC": {
+   "uri": "/VIEW/RESULTGRAPHIC",
+   "live_methods": [
+    "POST"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  },
+  "VIEW.SELECT": {
+   "uri": "/VIEW/SELECT",
+   "live_methods": [
+    "GET"
+   ],
+   "options_status": 200,
+   "head_status": 0
+  }
+ }
+}

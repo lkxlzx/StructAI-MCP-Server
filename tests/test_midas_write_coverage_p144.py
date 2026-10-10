@@ -19,8 +19,9 @@
    `wrapper.write`（`Assign` / `none`）—— **不**臆造、**不**硬编码。
 4. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板的 `body`（包装为 `{"Assign": {"<实分配编号>": body}}`），跑完**零残留**。
-5. **口径不变**：分母仍 **609**；分子 = L5 `PASSED` 去重 key（本批 **18 / 609**，
-   `model_write_ratio` **18 / 410**；CIVIL NX **17** 个候选 —— `DB.DSTL` 的产品集只有 `GEN_NX`）。
+5. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，P148 为 609）；分子 = L5 `PASSED`
+   去重 key（本批 **18 / 609**，`model_write_ratio` **18 / 410**；CIVIL NX **17** 个候选 ——
+   `DB.DSTL` 的产品集只有 `GEN_NX`）。
 6. **如实留缺（R101）**：`DB.ACTL` / `DB.CLWP` / `DB.EDMP` 三个端点**没有**模板 ——
    前两个是「手册示例与本 build 自省字段集不一致」（模板机制只能改值、不能改名），
    后一个是「按**构件号**取值」（空项目没有构件）⇒ 均**不**入候选。
@@ -41,11 +42,11 @@ from app.infrastructure.adapters.midas.write_probe import (
     transformer_name_for,
 )
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
-MODEL_WRITE_TOTAL = 410
-"""分母里的「模型写」子桶（P141 裁决⑤）。"""
+MODEL_WRITE_TOTAL = 434
+"""分母里的「模型写」子桶（P141 裁决⑤；P148 为 410）。"""
 
 TEMPLATE_ONLY_KEYS = (
     "DB.CCFC",
@@ -174,14 +175,21 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 }
 """三产品各自的候选集（**58 / 49 / 0**；P148 起）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P148 起）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
+
+P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）：只读 `OPTIONS` 实测修正方法集后，新进入
+「有写方法」集合的端点绝大多数既无 Transformer 又无模板 ⇒ 如实计入 blocked。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
 """**如实留缺**的 3 个端点（R101）：手册示例与本 build 字段集不一致 / 按构件号取值。"""
 
-NO_DELETE_SAMPLE = ("DB.BNGR", "DB.GRUP", "DB.UNIT", "DB.STYP")
-"""有写方法但**没有** `DELETE` 的端点样例（R100：不入候选 —— 能建必须能删）。"""
+NO_DELETE_SAMPLE = ("DB.CLDR", "DB.CPSETTINGS", "DB.UNIT", "DB.STYP")
+"""有写方法但**没有** `DELETE` 的端点样例（R100：不入候选 —— 能建必须能删）。
+
+P149-A 更正：`DB.BNGR` / `DB.GRUP` 的路由经只读 `OPTIONS` 实测确认**支持** `DELETE` ⇒ 二者
+**不**再适合当「无 `DELETE`」样例，改用同样 `POST/GET/PUT` 但**确实没有** `DELETE` 的
+`DB.CLDR` / `DB.CPSETTINGS`。"""
 
 
 @dataclass(frozen=True, slots=True)
@@ -244,7 +252,8 @@ def _derived_candidates(registry: MidasRegistry, product: str) -> tuple[tuple[st
 
 
 def test_p144_the_candidate_gate_is_a_transformer_or_a_data_side_template() -> None:
-    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 58 / 49 / 0 可复算。"""
+    """门槛：候选 = 「Transformer 已注册 **或** 有数据侧模板」；三产品 58 / 49 / 0、blocked
+    515 / 451 / 31（P149-A：方法集按只读 `OPTIONS` 实测修正后重算），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -259,7 +268,10 @@ def test_p144_the_candidate_gate_is_a_transformer_or_a_data_side_template() -> N
 
 
 def test_p144_a_candidate_must_be_deletable() -> None:
-    """门槛：每个候选在**该产品**上都有 `DELETE`；没有 `DELETE` 的端点不入候选（R100）。"""
+    """门槛：每个候选在**该产品**上都有 `DELETE`；没有 `DELETE` 的端点不入候选（R100）。
+
+    P149-A：方法集按只读 `OPTIONS` 实测修正后，「无 `DELETE`」样例由 `DB.BNGR` / `DB.GRUP`
+    换成 `DB.CLDR` / `DB.CPSETTINGS`（前者已实测支持 `DELETE`）。"""
     registry = _registry()
     for product, keys in CANDIDATES_BY_PRODUCT.items():
         for key in keys:
@@ -318,7 +330,7 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 
 
 def test_p144_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])

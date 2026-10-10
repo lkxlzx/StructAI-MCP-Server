@@ -2,7 +2,8 @@
 
 权威来源
 --------
-- `docs/07` §16 **R4 / R14**（写路径实测覆盖：分母恒为 **609**，分子只统计真实 L5 `PASSED`）。
+- `docs/07` §16 **R4 / R14**（写路径实测覆盖：分母恒为 **633** —— P149-A 起，只读 `OPTIONS` 实测
+  修正方法集后由 609 上修；分子只统计真实 L5 `PASSED`）。
 - `docs/07` §16 **R5 / R87**（20 个无 Schema 端点；7 项 AND 的判定点）。
 - `docs/reports/P138_数据侧缺陷收口与L5空项目闸门_v1.0.md` §4.3 / §8（P138c 实测：10 个候选里
   `DB.NODE` `PASSED`、其余 **9** 个 `400 software_api_error`）。
@@ -206,8 +207,11 @@ PROBED_KEYS = (
 
 EXPECTED_BODIES = 101
 """复算的 body 总数（P148 起 **101** = 57 个目标 + 44 个前置对象）。"""
-R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT")
-"""`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。"""
+R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "VIEW.SELECT")
+"""`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。
+
+**P149-A 更正**：`OPE.SECTPROP` 的 `POST` 由只读 `OPTIONS` 实测（`Allow` 头 = 路由真实方法集）
+确认 ⇒ 它**有**请求体 ⇒ 裁决 B 的适用范围收窄为真正无请求体的**两个**端点。"""
 
 R5_POST_TABLE = (
     "POST.TABLE.CONCURRENT_JOINT_FORCE",
@@ -622,9 +626,13 @@ def test_p139_r5_decision_b_no_response_only_schema_file() -> None:
     ④ `verification_status` 仍只由 `availability` 机械映射（`docs/07` §16 R78：与 7 项 AND **不是**
     同一件事 —— 前者是数据侧可得性，后者是完整确认度）。
 
+    **P149-A 更正**：`OPE.SECTPROP` 的 `POST` 由只读 `OPTIONS` 实测（`Allow` 头 = 路由真实方法集）
+    确认 ⇒ 它**有**请求体 ⇒ **不**再适用裁决 B（本表由 3 个收窄为 **2** 个）；它现在**同时**缺
+    请求与响应 Schema（见 `tests/test_midas_registry_p138.py`）。
+
     恢复条件（**不**在本批实现）：若将来数据侧允许「无请求体端点的 response-only Schema 文件」，
     则须同步 P08 / P09 的「文件数 ↔ manifest 1:1」断言与 `registry/README.md` §2.1 / §3，
-    届时这 3 个端点的第 4 项才会由假转真。
+    届时这 **2** 个端点的第 4 项才会由假转真。
     """
     registry = _registry()
     assert len(list(SCHEMA_ROOT.rglob("*.json"))) == EXPECTED_SCHEMA_FILES
@@ -651,7 +659,7 @@ def test_p139_r5_decision_b_no_response_only_schema_file() -> None:
         assert definition.verification_status == verification_status_for(
             availability=definition.availability, enabled=definition.enabled
         ), key
-    # `DB.LCOM` **不**在这 3 个里：它连实测解包链都没有 → 连 response 块都无从生成
+    # `DB.LCOM` **不**在这 2 个里：它连实测解包链都没有 → 连 response 块都无从生成
     assert has_request_body(registry, "DB.LCOM") is False
     assert not registry.endpoint("DB.LCOM").read_root
     assert registry.response_schema_document("DB.LCOM") is None

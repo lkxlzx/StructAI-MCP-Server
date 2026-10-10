@@ -1,7 +1,7 @@
 key: "DESIGN.RC.KDS-41-20-2022.REBR"
 namespace: DESIGN
 uri: "/DESIGN/RC/KDS-41-20-2022/REBR"
-methods: [POST]
+methods: [POST, GET, PUT, DELETE]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign

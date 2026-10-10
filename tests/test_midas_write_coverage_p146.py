@@ -25,8 +25,9 @@
    **不可判** ⇒ **不**改工具、**不**放宽判定、**不**写模板（留待工具支持该形状后再纳入）。
 5. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板 `body`，跑完**零残留**。
-6. **口径不变**：分母仍 **609**（`model_write` 子桶 **410**）；分子 = L5 `PASSED` 去重 key
-   （P146 时 **36 / 609** / **36 / 410**；P148 起 **58 / 609** / **58 / 410**）。
+6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
+   P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（P146 时 **36 / 609** / **36 / 410**；
+   P148 起 **58 / 609** / **58 / 410**）。
 """
 
 from __future__ import annotations
@@ -54,11 +55,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 7 条后仍必须 0 错）。"""
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
-MODEL_WRITE_TOTAL = 410
-"""分母里的「模型写」子桶（P141 裁决⑤）。"""
+MODEL_WRITE_TOTAL = 434
+"""分母里的「模型写」子桶（P141 裁决⑤；P148 为 410）。"""
 
 NEW_TEMPLATE_KEYS = (
     "DB.LDGR",
@@ -214,8 +215,10 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 }
 """三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P148 起）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
+
+P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）。"""
 
 EXPECTED_TEMPLATES = 57
 """模板条数（P148 起 **57** = P146 的 35 + P147 的 10 + P148 的 12）。"""
@@ -300,7 +303,8 @@ class _Row:
 
 
 def test_p146_the_candidate_gate_counts_36_and_32_and_0() -> None:
-    """门槛：三产品候选集 **58 / 49 / 0**、blocked **495 / 433 / 31**（P148 起），逐产品可复算。"""
+    """门槛：三产品候选集 **58 / 49 / 0**、blocked **515 / 451 / 31**（P149-A：方法集按只读
+    `OPTIONS` 实测修正后重算；P148 为 495 / 433 / 31），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -444,16 +448,16 @@ async def test_p146_the_seven_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p146_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
     assert coverage.covered == len(keys) == 58
-    assert coverage.ratio == "58 / 609"
+    assert coverage.ratio == "58 / 633"
     assert coverage.model_write == MODEL_WRITE_TOTAL
     assert coverage.model_write_covered == 58
-    assert coverage.model_write_ratio == "58 / 410"
+    assert coverage.model_write_ratio == "58 / 434"
     assert set(coverage.covered_keys) == set(keys)
 
 
@@ -463,7 +467,7 @@ def test_p146_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
     assert civil.covered == len(CANDIDATES_BY_PRODUCT["CIVIL_NX"]) == 49
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "49 / 609"
+    assert civil.ratio == "49 / 633"
 
 
 def test_p146_the_seven_new_keys_are_delivered_by_the_data_side_only() -> None:

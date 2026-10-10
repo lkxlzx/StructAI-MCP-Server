@@ -129,11 +129,14 @@ R5_ENDPOINTS = (
 )
 """`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P141 起 **11** 个）。"""
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点（`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）= R4 / R14 的**分母**。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点（`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）= R4 / R14 的**分母**。
 
-WRITE_ONLY_TOTAL = 368
-"""其中**连 `GET` 都没有**的端点 —— 只读 L4 探针**完全**覆盖不到的那部分。"""
+P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+端点（20 个 `DESIGN.*` + `DB.SWIND` + `OPE.SECTPROP` 等）进入分母。"""
+
+WRITE_ONLY_TOTAL = 306
+"""其中**连 `GET` 都没有**的端点 —— 只读 L4 探针**完全**覆盖不到的那部分（P148 为 368）。"""
 
 
 # ===== 辅助 =====
@@ -408,7 +411,10 @@ def test_p138b_the_eleven_missing_schemas_are_classified_by_measurement() -> Non
 
     P138b 时是 20 个 / 5 类；**P140** 把其中 **4** 个补齐、**P141** 再补齐 **5** 个
     （见 `registry/tools/sync_request_schemas.py`）→ `uri_differs_in_manual` ·
-    `post_table_key_without_manual_table_type` · `manual_has_no_json_schema` **全部清零**。
+    `post_table_key_without_manual_table_type` 清零；**P149-A 更正**：`OPE.SECTPROP` 的
+    `POST` 由只读 `OPTIONS` 实测（`Allow` 头）确认 ⇒ 它有请求体、手册条目**就是同一 URI**却
+    **没有** `json_schema` ⇒ 落入 `manual_has_no_json_schema`（裁决 B 的适用范围收窄为真正
+    无请求体的两个端点）。
     """
     manual_uris: dict[str, list[str]] = {}
     code_uris: dict[str, list[str]] = {}
@@ -429,8 +435,8 @@ def test_p138b_the_eleven_missing_schemas_are_classified_by_measurement() -> Non
     for key in R5_ENDPOINTS:
         classes[_r5_class(key, manual_uris, code_uris)].append(key)
     assert {name: len(keys) for name, keys in classes.items()} == {
-        "no_request_body": 4,
-        "manual_has_no_json_schema": 0,
+        "no_request_body": 3,
+        "manual_has_no_json_schema": 1,
         "uri_differs_in_manual": 0,
         "post_table_key_without_manual_table_type": 0,
         "absent_from_nx_manual": 7,
@@ -446,11 +452,10 @@ def test_p138b_the_eleven_missing_schemas_are_classified_by_measurement() -> Non
     assert classes["post_table_key_without_manual_table_type"] == []
     assert classes["uri_differs_in_manual"] == []
     assert classes["post_table_key_without_manual_table_type"] == []
-    assert classes["manual_has_no_json_schema"] == []
+    assert classes["manual_has_no_json_schema"] == ["OPE.SECTPROP"]
     assert classes["no_request_body"] == [
         "DB.LCOM",
         "OPE.PROJECTSTATUS",
-        "OPE.SECTPROP",
         "VIEW.SELECT",
     ]
     assert classes["absent_from_nx_manual"] == [
@@ -475,7 +480,7 @@ def test_p138b_no_schema_was_invented_for_the_r5_endpoints() -> None:
 def test_p138b_request_schema_is_not_applicable_without_a_request_body() -> None:
     """P138b 裁决：无请求体 ⇒ `request_schema_confirmed` **不适用**（可执行判定）。"""
     registry = _registry()
-    for key in ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT", "DB.LCOM"):
+    for key in ("OPE.PROJECTSTATUS", "VIEW.SELECT", "DB.LCOM"):
         assert has_request_body(registry, key) is False, key
         assert not_applicable_items(registry, key) == ("request_schema_confirmed",), key
         evidence = registry_evidence(
@@ -488,10 +493,11 @@ def test_p138b_request_schema_is_not_applicable_without_a_request_body() -> None
         )
         assert evidence["request_schema_confirmed"] is True, key
         assert evidence["response_schema_confirmed"] is False, key
-    # 带请求体的端点（手册**没有**给 Schema）仍**如实**判假 —— 裁决只覆盖无请求体端点
-    # 带请求体、但**仍**没有请求 Schema 的端点仍**如实**判假 —— 裁决只覆盖无请求体端点
-    # （P141 补齐 5 个后，这 5 个的该项转为**真**，见下一段）
-    for key in ("OPE.STORYPROP", "OPE.CPCREATE", "OPE.CPEXPORT"):
+    # 带请求体、但**仍**没有请求 Schema 的端点仍**如实**判假 —— 裁决只覆盖无请求体端点。
+    # P149-A 更正：`OPE.SECTPROP` 的 `POST` 由只读 `OPTIONS` 实测确认 ⇒ 它**有**请求体
+    # （从上一段移到这里），而手册条目**没有** `json_schema` ⇒ 该项对它**如实判假**。
+    # （P141 补齐 5 个后，那 5 个的该项转为**真**，见下一段）
+    for key in ("OPE.SECTPROP", "OPE.STORYPROP", "OPE.CPCREATE", "OPE.CPEXPORT"):
         assert has_request_body(registry, key) is True, key
         assert not_applicable_items(registry, key) == (), key
         evidence = registry_evidence(
@@ -528,8 +534,16 @@ def test_p138b_the_na_adjudication_never_promotes_a_verification_status() -> Non
     for key in R5_ENDPOINTS:
         definition = registry.endpoint(key)
         assert definition.verification_status == mapping[definition.availability], key
-    # 无请求体的 3 个「已实测」端点仍是 `PARTIAL`（真实缺口 = 无 Schema 文件 → 无 `response` 块）
-    for key in ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT"):
+    # 无请求体的 **2** 个「已实测」端点仍是 `PARTIAL`
+    # （真实缺口 = 无 Schema 文件 → 无 response 块）。
+    # **P149-A 更正**：`OPE.SECTPROP` 的 `POST` 由只读 `OPTIONS` 实测确认 ⇒ 它有请求体 ⇒
+    # 它**同时**缺请求与响应 Schema（缺口比原先**多**一项，如实记录，**不**放宽）。
+    expected_missing = {
+        "OPE.PROJECTSTATUS": ("response_schema_confirmed",),
+        "OPE.SECTPROP": ("request_schema_confirmed", "response_schema_confirmed"),
+        "VIEW.SELECT": ("response_schema_confirmed",),
+    }
+    for key, missing in expected_missing.items():
         verdict = seven_and_verdict(
             registry_evidence(
                 registry,
@@ -541,7 +555,7 @@ def test_p138b_the_na_adjudication_never_promotes_a_verification_status() -> Non
             )
         )
         assert verdict.status == STATUS_PARTIAL, key
-        assert verdict.missing == ("response_schema_confirmed",), key
+        assert verdict.missing == missing, key
 
 
 # ===== P138c：L5 空项目闸门 + 批量覆盖 + R4 / R14 重算 =====
@@ -631,7 +645,8 @@ async def test_p138c_a_batch_run_records_one_four_state_outcome_per_candidate() 
 
 
 def test_p138c_r4_and_r14_share_one_executable_criterion() -> None:
-    """R4 / R14 用**同一条**可执行口径重算：分母 609（其中只写 368），分子 = L5 `PASSED` 去重。"""
+    """R4 / R14 用**同一条**可执行口径重算：分母 633（其中只写 306；P149-A 前为 609 / 368），
+    分子 = L5 `PASSED` 去重。"""
     registry = _registry()
     write_keys = write_path_keys(registry)
     assert len(write_keys) == WRITE_PATH_TOTAL

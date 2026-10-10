@@ -71,14 +71,17 @@ def _effective(schema_document: dict[str, Any]) -> dict[str, Any]:
     return schema
 
 
-KNOWN_METHOD_CONFLICTS: tuple[str, ...] = ("MODEL.GROUP.DELETE:DB.GRUP:DELETE",)
-"""`docs/07` §6.4 把 `MODEL.GROUP.DELETE` 映射到 `DELETE /DB/GRUP/{id}`，
-而 `registry/` 里 `DB.GRUP` 的实测方法集是 `POST, GET, PUT`（**没有** `DELETE`）。
+KNOWN_METHOD_CONFLICTS: tuple[str, ...] = ()
+"""`operations.py` 声明的写步骤里，方法集与 `registry/` **冲突**的项 —— 现为**空**。
 
-按 `docs/07` 的硬性约束「涉及 MIDAS API 一律以 `registry/` 为准」，本批**保留**
-§6.4 的映射原文，并让该步在**解析期**明确失败（`STRUCTAI-3000`
-`method_not_available_for_product`）——**不**臆造端点、**不**静默回落。
-该冲突已记入 `docs/07` §16。
+P124 时这里记的是 `MODEL.GROUP.DELETE:DB.GRUP:DELETE`（`docs/07` §6.4 把
+`MODEL.GROUP.DELETE` 映射到 `DELETE /DB/GRUP/{id}`，而 `registry/` 里 `DB.GRUP` 的方法集
+当时是 `POST, GET, PUT`）。**P149-A 更正**：只读 `OPTIONS` 实测（`Allow` 头 = 路由真实
+方法集）确认 `DB.GRUP` 的该路由**确实**支持 `DELETE` ⇒ 冲突**消失**，清单归空。
+
+按 `docs/07` 的硬性约束「涉及 MIDAS API 一律以 `registry/` 为准」，**任何**残余冲突都必须
+在**解析期**明确失败（`STRUCTAI-3000` `method_not_available_for_product`）——**不**臆造端点、
+**不**静默回落（下面用仍无 `DELETE` 的 `DB.UNIT` 继续验证这条口径）。
 """
 
 
@@ -107,11 +110,13 @@ def test_p124_l1_static_registry_layer() -> None:
                 assert step.transformer in TRANSFORMER_REGISTRY
     assert len(OPERATION_PLANS) == 69
     assert conflicts == list(KNOWN_METHOD_CONFLICTS)
-    # 该冲突必须在**解析期**明确失败（不是静默用一个别的方法顶替）
+    # 方法集里**没有**的方法必须在**解析期**明确失败（不是静默用一个别的方法顶替）。
+    # P149-A 更正：`DB.GRUP` 现已实测支持 `DELETE`（冲突消失），故用仍**无** `DELETE`
+    # 的 `DB.UNIT` 验证同一条口径。
     from app.infrastructure.adapters.midas.errors import MidasCapabilityError
 
     with pytest.raises(MidasCapabilityError) as failure:
-        registry.resolve(key="DB.GRUP", product="CIVIL_NX", method="DELETE")
+        registry.resolve(key="DB.UNIT", product="CIVIL_NX", method="DELETE")
     assert failure.value.details["reason"] == "method_not_available_for_product"
     # 每个带 Schema 的端点的 `schema_uri` 都是可计算的（`docs/07` §7.2）
     from app.infrastructure.adapters.midas.import_registry import schema_uri_for

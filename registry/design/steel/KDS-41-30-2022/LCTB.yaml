@@ -1,7 +1,7 @@
 key: "DESIGN.STEEL.KDS-41-30-2022.LCTB"
 namespace: DESIGN
 uri: "/DESIGN/STEEL/KDS-41-30-2022/LCTB"
-methods: [GET]
+methods: [GET, DELETE]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign

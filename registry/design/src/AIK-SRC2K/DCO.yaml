@@ -1,7 +1,7 @@
 key: "DESIGN.SRC.AIK-SRC2K.DCO"
 namespace: DESIGN
 uri: "/DESIGN/SRC/AIK-SRC2K/DCO"
-methods: [GET, PUT]
+methods: [GET, PUT, DELETE]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign

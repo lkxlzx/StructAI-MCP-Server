@@ -16,10 +16,10 @@
    （**不**多、**不**少；`TABLE_TYPE` 之类表头行**不**进 Schema）。
 3. **不臆造**：`registry/schema/**` = **625**（P140 的 620 + 5）；仍无 Schema 的端点 = **11**
    （20 − 4 − 5），逐条可查；`manual_has_no_json_schema` 类**清零**。
-4. **分母裁决（⑤）**：`write_path_keys()` 仍是 R4 / R14 的**分母 609**（**不挪**），
-   但**显式**划分成「结果表 / 文本查询」**199** 与「模型写」**410** 两个子桶，并**同时**报
-   `WriteCoverage.ratio`（609 口径）与 `model_write_ratio`（410 口径）—— 原口径**不**过滤、
-   **不**隐藏任何未覆盖项。
+4. **分母裁决（⑤）**：`write_path_keys()` 仍是 R4 / R14 的**分母**（**不挪**口径；P149-A 起
+   **633**，P148 为 609），但**显式**划分成「结果表 / 文本查询」**199** 与「模型写」**434**
+   两个子桶，并**同时**报 `WriteCoverage.ratio`（633 口径）与 `model_write_ratio`（434 口径）
+   —— 原口径**不**过滤、**不**隐藏任何未覆盖项。
 5. **R96（非空项目上的前置链）**：模板声明的编号**不**照抄 —— 前置编号取该端点既有编号的
    `max + 1`（`id_source = "target"` 的前置取**目标**编号），并按 `references` /
    `self_references` 写回；**默认**仍要求专用项目为空，`allow_non_empty=True` 时改由
@@ -92,14 +92,17 @@ EXPECTED_SCHEMA_FILES = 625
 EXPECTED_WITHOUT_SCHEMA = 11
 """本批之后仍无 Schema 的端点数（P138b 的 20 − P140 的 4 − P141 的 5）。"""
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（裁决⑤：**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（裁决⑤：**不挪**口径）。
+
+P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+端点进入分母；**口径本身不变**，仍是 `write_path_keys()`。"""
 
 RESULT_QUERY_TOTAL = 199
 """分母里的「结果表 / 文本查询」子桶（`POST.` 命名空间；见 `live.RESULT_QUERY_NAMESPACE`）。"""
 
-MODEL_WRITE_TOTAL = 410
-"""分母里的「模型写」子桶（`609 − 199`）。"""
+MODEL_WRITE_TOTAL = 434
+"""分母里的「模型写」子桶（`633 − 199`；P148 为 410 = `609 − 199`）。"""
 
 SPEC_TABLE_LOCATORS: dict[str, str] = {
     "OPE.MEMB": "uri:ope/MEMB",
@@ -399,12 +402,14 @@ def test_p141_the_five_endpoints_keep_the_mechanical_verification_status() -> No
 
 # ===== 3. 分母裁决（⑤，离线）=====
 def test_p141_the_denominator_is_unchanged_and_partitioned() -> None:
-    """门槛（裁决⑤）：分母**不挪**（609），但显式划分成 199 + 410 两个子桶。"""
+    """门槛（裁决⑤）：分母**口径不挪**（P149-A 起 633），但显式划分成 199 + 434 两个子桶。"""
     registry = _registry()
     write_keys = write_path_keys(registry)
     query = result_query_keys(registry)
     model = model_write_keys(registry)
-    assert len(write_keys) == WRITE_PATH_TOTAL, "分母仍是 write_path_keys()，本批**不**改口径"
+    assert len(write_keys) == WRITE_PATH_TOTAL, (
+        "分母仍是 write_path_keys()，口径**未**改（P149-A 只上修方法集）"
+    )
     assert len(query) == RESULT_QUERY_TOTAL
     assert len(model) == MODEL_WRITE_TOTAL
     assert len(query) + len(model) == len(write_keys)

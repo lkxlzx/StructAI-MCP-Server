@@ -18,8 +18,8 @@
    `NO_PAYLOAD_TEMPLATE` + `detail = no_write_method_for_product`，且**零**写请求
    （与「Transformer 未注册」的 `no_transformer_for_endpoint` 区分开）。
 4. **口径不变**：覆盖率的分子是 **registry key**（去重）∩ 写路径端点，**不**按「端点 × 产品」——
-   故 `CIVIL_NX` 的 11 条 `PASSED` 行**不**改变 `11 / 609`；它们证明的是「同一批端点在第二个
-   产品上也通」（跨产品证据），而不是新的覆盖数。
+   故 `CIVIL_NX` 的 11 条 `PASSED` 行**不**改变 `11 / 633`（P149-A 起；P143 当时为 `11 / 609`）；
+   它们证明的是「同一批端点在第二个产品上也通」（跨产品证据），而不是新的覆盖数。
 """
 
 from __future__ import annotations
@@ -42,8 +42,8 @@ from app.infrastructure.adapters.midas.write_probe import (
     MidasLiveWriteProbe,
 )
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
 DB_CODES = (
     "DB.BMLD",

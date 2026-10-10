@@ -135,17 +135,25 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-10 之后实测；**P148 更新**）**：GEN NX 的 **58** 个可探候选 → **58 / 58 `PASSED`**
+**覆盖面（2026-10-10 之后实测；**P149-A 更新基线**）**：GEN NX 的 **58** 个可探候选 → **58 / 58 `PASSED`**
 （P147 为 46 / 46、P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、
 P138c 为 1 / 10）；CIVIL NX **49** 个候选（P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
 云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
-`live.write_path_coverage()` = **`58 / 609`**（分母**不挪**）。
+`live.write_path_coverage()` = **`58 / 633`**。
+⚠️ **分母基线（P149-A 重算，`docs/07` §16.1 **R108**）**：`write_path_keys()` = **633**
+（P148 为 **609**）—— 用**只读** `OPTIONS` 的 `Allow` 头实测端点方法集后，发现 registry 曾**系统性少声明**
+**90** 个端点的方法集（+`DELETE` 88 · +`PUT` 80 · +`GET` 62 · +`POST` 6），其中 **24** 个因此才**进入**分母
+（20 个 `DESIGN.*` 由「只有 `GET`」变为「`GET,PUT,DELETE`」、`DB.SWIND` 由「无方法」变为四方法齐全、
+`OPE.SECTPROP` 由 `GET` 变为 `POST,GET`）；子桶随之 **`write_only` 368 → 306** ·
+**`result_query` 199（不变）** · **`model_write` 410 → 434**。证据 = `registry/live/live_methods.json`；
+复算工具 = `registry/tools/sync_endpoint_methods.py`（`--probe` / `--write` / `--check`）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **495** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **515** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`58 / 410`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`58 / 434`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
+（没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 ⚠️ **R105（P148）**：`DB.IMFM` 的手册**两个**条目（`STEEL_NAME` / `CONC_NAME`+`REBAR_NAME`）都被本 build
 **拒绝**（`POST` → `400 software_api_error`，与 R103 / R104 同形）⇒ 模板**不写**、**不**入候选；
@@ -673,3 +681,24 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   （字段全在请求 Schema 里声明，只读自省 `unknown` = 0；端点仍 `enabled` / `verified` / 写方法齐全）。
   恢复条件 = 上游手册 / 新 build 给出可接受示例。
 - 可执行判定 = `tests/test_midas_write_coverage_p148.py`（9 项）· `docs/reports/P148_写路径覆盖推进第五批_v1.0.md`。
+
+**⑩ P149-A 更新（端点方法集**实测修正**与分母重算；新增 `docs/07` §16.1 **R108**）**：
+
+- **真值来源**：`HTTP OPTIONS` 的 `Allow` 头（**只读、零副作用**；无 `Allow` 时补一次 `HEAD`）。
+  证据 = `registry/live/live_methods.json`（**636** 端点；其中 **72** 个 `live_methods` 为空 =
+  该路由在本 build 上不存在）；复算工具 = `registry/tools/sync_endpoint_methods.py`
+  （`--probe` 重测 / `--write` 写回 / `--check` 断言一致；**只增不减**、只改 `methods:` 一行）。
+- **发现**：`registry == live` **513** · **少声明 90**（+`DELETE` 88 · +`PUT` 80 · +`GET` 62 · +`POST` 6；
+  `DB` 9 · `DESIGN` 80 · `OPE` 1）· **多声明 0**。上游手册
+  `E:\MCP\MIDAS-API-Online-Manual\manual\midas Gen API 使用手册.md` 的 `Active Methods` 与 live
+  在 **541** 个可比端点里 **532** 个一致（差异 9 条，逐条见报告 §1）。
+- **连带效果**：分母 **`609 → 633`**（**24** 个端点原来被整个漏出分母）· `write_only 368 → 306` ·
+  `model_write 410 → 434` · `result_query 199`（不变）；候选集**不变**（58 / 49 / 0，新解锁端点仍缺模板）；
+  blocked **495 → 515** / **443 → 451** / 31；`http_method_confirmed 635 → 636`；
+  `request_schema_confirmed 629 → 628`（**收紧**：`OPE.SECTPROP` 实测有 `POST` ⇒ 需要请求体，而它没有 Schema）。
+- **R5 裁决 B 的适用范围收窄**：`OPE.SECTPROP` 移出「无请求体」桶 ⇒ `R5_NO_REQUEST_BODY` 只剩
+  `OPE.PROJECTSTATUS` / `VIEW.SELECT`（桶计数 `no_request_body 4 → 3`、`manual_has_no_json_schema 0 → 1`）。
+- **72 个「本 build 路由不存在」**：**不**改 `methods`、**不**改 `products` / `availability`，只如实记录
+  （它们是**有据可查**的定义，只是本 build 不可得；**不**算「欠账」）。
+- 可执行判定 = `tests/test_midas_endpoint_methods_p149.py`（**7** 项）·
+  `docs/reports/P149-A_端点方法集实测修正与分母重算_v1.0.md`。

@@ -1,7 +1,7 @@
 key: DB.SWIND
 namespace: DB
 uri: /DB/SWIND
-methods: []
+methods: [POST, GET, PUT, DELETE]
 tool_map:
   query: midas_db_query
 wrapper:

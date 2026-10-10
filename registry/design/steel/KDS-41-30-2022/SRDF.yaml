@@ -1,7 +1,7 @@
 key: "DESIGN.STEEL.KDS-41-30-2022.SRDF"
 namespace: DESIGN
 uri: "/DESIGN/STEEL/KDS-41-30-2022/SRDF"
-methods: [GET]
+methods: [GET, PUT, DELETE]
 tool_map:
   query: midas_db_query
   assign: midas_db_assign

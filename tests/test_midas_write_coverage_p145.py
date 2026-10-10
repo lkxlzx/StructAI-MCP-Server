@@ -33,8 +33,9 @@
    模板**不写**、不入候选（判定**不**放宽）。⚠️ 与 R101 的三条并列，共 **4** 个留缺端点。
 4. **离线三步链**：`DB.LENG` / `DB.MBTP` / `DB.MVHLTR` 逐个跑通「建前置 → 创建 → 读回 →
    按路径 key 删除」，发送的请求体**逐字节**等于数据侧模板 `body`，跑完**零残留**。
-5. **口径不变**：分母仍 **609**（`model_write` 子桶 **410**）；分子 = L5 `PASSED` 去重 key
-   （P145 时 **29 / 609**、`model_write_ratio` **29 / 410**；P148 起 **58 / 609** / **58 / 410**）。
+5. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
+   P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（P145 时 **29 / 609**、
+   `model_write_ratio` **29 / 410**；P148 起 **58 / 609** / **58 / 410**）。
 6. **跨产品**：CIVIL NX **25 / 25 `PASSED`**（云端 `201`）—— 分子按 **registry key** 去重，
    故**不**增加分子（跨产品是另一条证据）。
 """
@@ -63,11 +64,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 12 条后仍必须 0 错）。"""
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
-MODEL_WRITE_TOTAL = 410
-"""分母里的「模型写」子桶（P141 裁决⑤）。"""
+MODEL_WRITE_TOTAL = 434
+"""分母里的「模型写」子桶（P141 裁决⑤；P148 为 410）。"""
 
 NEW_TEMPLATE_KEYS = (
     "DB.DCTL",
@@ -221,8 +222,10 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 }
 """三产品各自的候选集（**58 / 49 / 0**；P148 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 433, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P148 起）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 515, "CIVIL_NX": 451, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
+
+P149-A 起 **515 / 451 / 31**（P148 为 495 / 433 / 31）。"""
 
 EXPECTED_TEMPLATES = 57
 """模板条数（P148 起 **57** = P147 的 45 + P148 的 12）。"""
@@ -307,7 +310,8 @@ class _Row:
 
 
 def test_p145_the_candidate_gate_counts_29_and_25_and_0() -> None:
-    """门槛：三产品候选集 **58 / 49 / 0**、blocked **495 / 433 / 31**（P148 起），逐产品可复算。"""
+    """门槛：三产品候选集 **58 / 49 / 0**、blocked **515 / 451 / 31**（P149-A：方法集按只读
+    `OPTIONS` 实测修正后重算；P148 为 495 / 433 / 31），逐产品可复算。"""
     registry = _registry()
     for product, expected in CANDIDATES_BY_PRODUCT.items():
         derived, blocked = _derived_candidates(registry, product)
@@ -454,7 +458,7 @@ async def test_p145_the_three_chains_run_offline_with_zero_residue() -> None:
 
 
 def test_p145_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；58 / 609（`model_write_ratio` 58 / 410）。"""
+    """门槛：分子 = L5 `PASSED` 去重 key；58 / 633（`model_write_ratio` 58 / 434；P149-A 起）。"""
     registry = _registry()
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])

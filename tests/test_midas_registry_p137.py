@@ -88,11 +88,15 @@ RESPONSE_SCHEMA_ROWS = 241
 P141 起 **241**：P141 补齐的 `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` 请求 Schema 落盘后
 **立刻**满足 `sync_response_schemas.py` 的全部条件，同批追加了 `response` 块。"""
 
-REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 4
+REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 3
 """无请求体（`methods` 不含 `POST`/`PUT`/`PATCH`）的端点 —— P138b 裁决后该项视为满足。
 
-`DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT`：没有请求体就没有请求 Schema
-可确认，故 `request_schema_confirmed` 对它们**不适用**（`live.not_applicable_items()`）。"""
+`DB.LCOM` / `OPE.PROJECTSTATUS` / `VIEW.SELECT`：没有请求体就没有请求 Schema
+可确认，故 `request_schema_confirmed` 对它们**不适用**（`live.not_applicable_items()`）。
+
+**P149-A 更正**：`OPE.SECTPROP` 的 `POST` 由只读 `OPTIONS` 实测（`Allow` 头）确认 ⇒ 它
+**有**请求体 ⇒ 该项对它**适用**，而它**没有** Schema 文件 ⇒ 从「不适用即满足」转为**未满足**
+（4 → 3；这是**收紧**，见 `docs/07` §16 R5 与 `tests/test_midas_registry_p138.py`）。"""
 
 TOTAL_SCHEMA_ROWS = REQUEST_SCHEMA_ROWS + RESPONSE_SCHEMA_ROWS
 """两个方向合计 **864** 行（请求 **625** + 响应 **241**；P141 起）。"""
@@ -350,7 +354,9 @@ async def test_p137b_seven_and_is_reported_truthfully_without_promoting_any_stat
     assert summary["live_outcomes"] == 0, "CI 层无 L4 / L5 结论 → 第 7 项如实为假"
     assert summary["satisfied"] == {
         "official_endpoint_confirmed": 636,
-        "http_method_confirmed": 635,  # `DB.SWIND` 没有任何方法（R9）
+        # P149-A：只读 `OPTIONS` 实测确认 `DB.SWIND` 的路由支持 `POST/GET/PUT/DELETE`
+        # （此前 R9 记「没有任何方法」）⇒ 635 → 636
+        "http_method_confirmed": 636,
         "request_schema_confirmed": REQUEST_SCHEMA_ROWS + REQUEST_SCHEMA_NOT_APPLICABLE_ROWS,
         "response_schema_confirmed": RESPONSE_SCHEMA_ROWS,
         "product_scope_confirmed": 636,

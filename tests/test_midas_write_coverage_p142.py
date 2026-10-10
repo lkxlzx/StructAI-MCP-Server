@@ -22,8 +22,9 @@
 5. **数据侧模板 + 前置链**：`DB.FBLD` 的 body **原样**等于手册示例（零 `adjustments`），
    前置链 = 两条 `DB.STLD`（`DC` / `DW`，即手册示例 `ITEM[].LCNAME` 引用的工况名）。
 6. **离线三步链**：前置**先建**、目标后建、读回、**逆序**清理；只碰自建编号；跑完**零残留**。
-7. **口径不变**：分母仍 **609**（`write_only` **368** · `result_query` **199** ·
-   `model_write` **410**）；分子 = L5 `PASSED` 去重 key，本批真实实测 = **11 / 609**
+7. **口径不变**：分母仍 `write_path_keys()` —— P149-A 起 **633**（`write_only` **306** ·
+   `result_query` **199** · `model_write` **434**；P148 为 609 / 368 / 199 / 410，方法集按只读
+   `OPTIONS` 实测修正后重算）；分子 = L5 `PASSED` 去重 key，P142 本批真实实测 = **11 / 609**
    （`model_write_ratio` = **11 / 410**）。
 8. **契约内不再有「仅缺 Transformer」的写端点**：`operations.py` 声明的写步骤里，
    凡是三步链适用的端点**全部**已在候选集内（故加模板**不可能**再增加分子）。
@@ -71,17 +72,20 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 `DB.FBLD` 后仍必须 0 错）。"""
 
-WRITE_PATH_TOTAL = 609
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**）。"""
+WRITE_PATH_TOTAL = 633
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径）。
 
-WRITE_ONLY_TOTAL = 368
-"""分母里**连 `GET` 都没有**的端点数（只读探针**完全**覆盖不到）。"""
+P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+端点进入分母。"""
+
+WRITE_ONLY_TOTAL = 306
+"""分母里**连 `GET` 都没有**的端点数（只读探针**完全**覆盖不到；P148 为 368）。"""
 
 RESULT_QUERY_TOTAL = 199
 """分母里的「结果表 / 文本查询」子桶（`POST.` 命名空间）。"""
 
-MODEL_WRITE_TOTAL = 410
-"""分母里的「模型写」子桶（P141 裁决⑤：**同时**报两个比率）。"""
+MODEL_WRITE_TOTAL = 434
+"""分母里的「模型写」子桶（P141 裁决⑤：**同时**报两个比率；P148 为 410）。"""
 
 FLOOR_LOAD_KEY = "DB.FBLD"
 """本批收口的端点（`docs/07` §6.3 的 `MODEL.LOAD.ASSIGN` 端点表里的楼面荷载类型）。"""
@@ -212,14 +216,26 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 """三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE`/`DB.ELEM` 只有 `GET`）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 495,
-    "CIVIL_NX": 433,
+    "GEN_NX": 515,
+    "CIVIL_NX": 451,
     "CIVIL_DESIGNER": 31,
 }
-"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P147 起）。"""
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
+
+P149-A 起 **515 / 451 / 31**（P147–P148 为 495 / 433 / 31）：只读 `OPTIONS` 实测修正方法集后，
+新进入「有写方法」集合的端点（20 个 `DESIGN.*` / `DB.SWIND` / `OPE.SECTPROP` 等）绝大多数既无
+Transformer 又无模板 ⇒ 如实计入 blocked。"""
 
 REGISTERED_TRANSFORMERS = 20
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
+
+BLOCKED_CONTRACT_WRITE_KEYS = ("DESIGN.SRC.AIK-SRC2K.DSRC",)
+"""`operations.py` 声明的写步骤里，三步链**结构适用**（有写方法 + `GET`/`read_root` + `DELETE`）
+却**既无** Transformer **又无**数据侧模板的端点 —— P149-A 起 **1** 个。
+
+`DESIGN.SRC.AIK-SRC2K.DSRC` 的方法集经只读 `OPTIONS` 实测（`Allow` 头）由 `[PUT]` 修正为
+`[GET, PUT, DELETE]`，于是它从「三步链**不**适用」变成「适用但缺请求体来源」；契约里其余写步骤
+**全部**已在候选集内（判定 8）。"""
 
 NON_CANDIDATE_WRITE_KEY = "DB.ELNK"
 """有写方法 + 有读路径 + 有 `DELETE`，但 `midas.elnk.v1` **未**注册且**没有**模板 → 不入候选。"""
@@ -341,12 +357,19 @@ def test_p142_the_candidate_set_is_the_registered_transformer_intersection() -> 
 
 
 def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -> None:
-    """门槛：契约声明的写步骤里，凡三步链适用的端点**全部**已在候选集内；
-    候选集**可以**超出契约（R100：数据侧模板即可入候选 —— 本批新增 7 个）。"""
+    """门槛：契约声明的写步骤里，凡三步链**结构适用且已有请求体来源**的端点**全部**已在候选集内；
+    候选集**可以**超出契约（R100：数据侧模板即可入候选 —— P144 起新增 7 个）。
+
+    **P149-A 更正**：方法集按只读 `OPTIONS` 实测（`Allow` 头）修正后重算 ——
+    `DESIGN.SRC.AIK-SRC2K.DSRC` 由 `[PUT]` 变为 `[GET, PUT, DELETE]`，三步链**结构上适用**了，
+    但它**既无** Transformer **又无**数据侧模板 ⇒ 契约内**唯一**被「缺 Transformer」挡住的写端点，
+    如实单独记入 `BLOCKED_CONTRACT_WRITE_KEYS`（**不**再混进 `inapplicable`，也**不**当作已候选）。
+    """
     registry = _registry()
     candidates = set(_probe("GEN_NX").candidate_keys())
     eligible: set[str] = set()
     inapplicable: set[str] = set()
+    blocked: set[str] = set()
     for key in sorted(_declared_write_keys()):
         definition = registry.endpoint(key)
         if "GEN_NX" not in definition.products or not definition.enabled:
@@ -354,8 +377,16 @@ def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -
         if "GET" not in definition.methods or not definition.read_root:
             inapplicable.add(key)
             continue
+        if (
+            TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None
+            and registry.write_template(key) is None
+        ):
+            blocked.add(key)
+            continue
         eligible.add(key)
     assert eligible <= candidates, sorted(eligible - candidates)
+    assert blocked == set(BLOCKED_CONTRACT_WRITE_KEYS), sorted(blocked)
+    assert not (blocked & candidates), sorted(blocked & candidates)
     # 契约**外**的候选必须都有数据侧模板（R100 新增的类别，逐个可查）
     extra = candidates - eligible
     assert extra, "R100 之后应存在「契约外但可探」的端点"
@@ -527,7 +558,8 @@ async def test_p142_the_fbld_chain_creates_reads_back_and_deletes_only_its_own_i
 
 
 def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
-    """门槛：分母仍 609（368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**）。"""
+    """门槛：分母仍 `write_path_keys()` —— P149-A 起 633（306 / 199 / 434；P148 为
+    609 / 368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**）。"""
     registry = _registry()
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
     assert len(write_only_keys(registry)) == WRITE_ONLY_TOTAL
