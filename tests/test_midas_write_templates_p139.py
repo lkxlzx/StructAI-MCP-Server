@@ -89,18 +89,29 @@ TEMPLATE_KEYS = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.DCTL",
     "DB.DSTL",
     "DB.EIGV",
     "DB.ELEM",
+    "DB.EPMT",
     "DB.ETFC",
     "DB.FBLD",
+    "DB.FIMP",
     "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.LENG",
     "DB.MATL",
+    "DB.MBTP",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
+    "DB.PDEL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""P139 的 9 个 + P142 的 `DB.FBLD` + P144 的 7 个 = **17** 个模板（`DB.NODE` 走机械派生 body）。"""
+"""P139 的 9 + P142 的 1 + P144 的 7 + P145 的 11 = **28** 个模板。"""
 
 PROBED_KEYS = (
     "DB.BMLD",
@@ -110,22 +121,33 @@ PROBED_KEYS = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.DCTL",
     "DB.DSTL",
     "DB.EIGV",
     "DB.ELEM",
+    "DB.EPMT",
     "DB.ETFC",
     "DB.FBLD",
+    "DB.FIMP",
     "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.LENG",
     "DB.MATL",
+    "DB.MBTP",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
     "DB.NODE",
+    "DB.PDEL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""GEN NX 上的 **18** 个可探候选（P144 起；`DB.NODE` 走机械派生的 body）。"""
+"""GEN NX 上的 **29** 个可探候选（P145 起；`DB.NODE` 走机械派生的 body）。"""
 
-EXPECTED_BODIES = 41
-"""复算的 body 总数（P144 起 **41** = 17 个目标 + 24 个前置对象）。"""
+EXPECTED_BODIES = 64
+"""复算的 body 总数（P145 起 **64** = 28 个目标 + 36 个前置对象）。"""
 
 R5_NO_REQUEST_BODY = ("OPE.PROJECTSTATUS", "OPE.SECTPROP", "VIEW.SELECT")
 """`methods` 不含 `POST` / `PUT` / `PATCH` 的端点（R5 裁决 B 的对象）。"""

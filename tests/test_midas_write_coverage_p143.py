@@ -53,22 +53,59 @@ DB_CODES = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.DCTL",
     "DB.DSTL",
     "DB.EIGV",
     "DB.ELEM",
+    "DB.EPMT",
     "DB.ETFC",
     "DB.FBLD",
+    "DB.FIMP",
     "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.LENG",
     "DB.MATL",
+    "DB.MBTP",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
     "DB.NODE",
+    "DB.PDEL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""`GEN_NX` 上的 **18** 个候选（P144 起：11 个有 Transformer + 7 个只有数据侧模板）。"""
+"""`GEN_NX` 上的 **29** 个候选（P144 起：12 个有 Transformer + 17 个只有数据侧模板；P145 +11）。"""
 
-CIVIL_CODES = tuple(key for key in DB_CODES if key != "DB.DSTL")
-"""`CIVIL_NX` 上的 **17** 个候选（`DB.DSTL` 的产品集只有 `GEN_NX`）。"""
+CIVIL_CODES = (
+    "DB.BMLD",
+    "DB.BODF",
+    "DB.CCFC",
+    "DB.CNLD",
+    "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.EIGV",
+    "DB.ELEM",
+    "DB.EPMT",
+    "DB.ETFC",
+    "DB.FBLD",
+    "DB.FIMP",
+    "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.MATL",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
+    "DB.NODE",
+    "DB.PDEL",
+    "DB.PRES",
+    "DB.SECT",
+    "DB.STLD",
+)
+"""`CIVIL_NX` 上的 **25** 个候选（`DB.DCTL`/`DB.DSTL`/`DB.LENG`/`DB.MBTP` 不含 `CIVIL_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -173,8 +210,8 @@ def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
-    assert gen.covered == civil.covered == len(keys) == 18
-    assert gen.ratio == civil.ratio == f"18 / {WRITE_PATH_TOTAL}"
+    assert gen.covered == civil.covered == len(keys) == 29
+    assert gen.ratio == civil.ratio == f"29 / {WRITE_PATH_TOTAL}"
     assert set(civil.covered_keys) == set(keys)
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0

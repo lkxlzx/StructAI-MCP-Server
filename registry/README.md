@@ -135,15 +135,19 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-08 之后实测；**P144 更新**）**：GEN NX 的 **18** 个可探候选 → **18 / 18 `PASSED`**
-（P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；`live.write_path_coverage()` = **`18 / 609`**（分母**不挪**）。
+**覆盖面（2026-10-08 之后实测；**P145 更新**）**：GEN NX 的 **29** 个可探候选 → **29 / 29 `PASSED`**
+（P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；CIVIL NX **25 / 25 `PASSED`**
+（云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；`live.write_path_coverage()` = **`29 / 609`**（分母**不挪**）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **535** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **524** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`18 / 410`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`29 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
+⚠️ **目标编号可以取前置的编号（P145）**：按**构件号**取值的端点（`DB.LENG` / `DB.MBTP`）用
+`target_id_source = "DB.ELEM#1"` 让目标自身的 `Assign` 键取**自建单元**的编号；而**键是名字**的端点
+（`DB.HPCE`）**无法**用该机制表达 ⇒ **如实留缺**（`docs/07` §16.1 **R102**）。
 **没有**模板的端点仍走 `derive_body()`，两者都取不到 → 如实记 `NO_PAYLOAD_TEMPLATE`
 （**不**猜字段、**不**发请求）。
 
@@ -564,3 +568,27 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
 `DB.ACTL` / `DB.CLWP`（手册示例与本 build 自省字段集不一致 ⇒ `400 Wrong Field`）·
 `DB.EDMP`（按构件号取值 ⇒ 非零前置）—— 均**不**入候选。可执行判定 =
 `tests/test_midas_write_coverage_p144.py`（6 项）· `docs/reports/P144_…md`。
+
+**⑥ P145 更新（第二批 12 个端点；新增 `docs/07` §16.1 R102）**：**11** 条模板跑通、**1** 条如实留缺。
+
+- **11 个跑通**（全部**只有数据侧模板**、没有 Transformer）：`DB.DCTL` / `DB.EPMT` / `DB.FIMP` /
+  `DB.HSFC` / `DB.IEHC` / `DB.LENG` / `DB.MBTP` / `DB.MLFC` / `DB.MVCD` / `DB.MVHLTR` / `DB.PDEL`
+  ⇒ 模板 **17 → 28**、复算 body **41 → 64**（`references` **14 → 22** / `self_references` 仍 **4**）；
+  真实 L5 **29 / 29 `PASSED`**（GEN NX 空项目）⇒ 覆盖率 **`18 / 609` → `29 / 609`**
+  （`model_write_ratio` **`18 / 410` → `29 / 410`**）；候选集 GEN NX **18 → 29** · CIVIL NX **17 → 25** ·
+  Civil Designer 仍 **0**（blocked **535 → 524** / **465 → 457** / **32 → 31**）；跑前 / 跑后哨兵**全空**。
+- **按构件号取值的端点用 `target_id_source` 救回**：`DB.LENG` / `DB.MBTP` 的 `Assign` 键是**构件号**
+  （空项目没有构件 ⇒ 手册形态 `400 Not Found Key`）⇒ 前置链 = `DB.MATL#1` + `DB.SECT#1` +
+  `DB.NODE#1/#2` + `DB.ELEM#1`，并令**目标自身**的 `Assign` 键取该单元的编号
+  （`target_id_source = "DB.ELEM#1"`，即 §2.3 的 R96 反向依赖）；目标 `body` **原样**照抄手册示例。
+- **手册示例缺必填字段 ⇒ 换条目（仍是 `manual_example`）**：`DB.MVHLTR` 的**条目 1** 缺
+  `ML` / `MW` / `LEFT_LANES`（规格表 `Required`）⇒ `400 Wrong Field`；**条目 2** 自带这三个字段 ⇒
+  只把 `source.example_id` 由 `"1"` 改 `"2"`，**无** adjustments。
+- **`DB.HPCE` 如实留缺（R102）**：`Assign` **数字键** → `400 Wrong Key`（键 `1` / `2`、带 / 不带
+  `START_TIME` / `END_TIME`、空 `ITEMS` 六种形态均同）；`Assign` **名字键** → `200` 但**静默不落库**
+  （`ITEMS` 指向**已建**节点也一样）；顶层 `HPCE` / `Argument` → `400 Wrong Field`
+  ⇒ 其 `Assign` 键**不是**编号，而 `target_id_source` / `self_references` **只**写回**整数**编号、
+  `adjustments` **只**能改值 ⇒ 数据侧**无法**表达；模板**不写**、不入候选，且**不**动数据侧
+  （端点仍 `enabled` / `verified` / 写方法齐全）。`DB.HPCE` 是否该加**写侧产品覆盖**留待**显式裁决**。
+- **跨产品**：CIVIL NX **25 / 25 `PASSED`**（云端 `201`）—— 分子按 **registry key** 去重 ⇒ **不**增加分子。
+- 可执行判定 = `tests/test_midas_write_coverage_p145.py`（7 项）· `docs/reports/P145_…md`。

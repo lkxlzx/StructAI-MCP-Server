@@ -113,8 +113,8 @@ SPEC_TABLE_LOCATORS: dict[str, str] = {
 SPEC_TABLE_SOURCE = "help_center_spec_table"
 """这 5 个文件落盘的 `source` 取值（规格表派生）。"""
 
-EXPECTED_REFERENCE_PATHS = 14
-"""`registry/live/write_templates.json` 里声明的 `references` 条数（P141 起）。"""
+EXPECTED_REFERENCE_PATHS = 22
+"""`registry/live/write_templates.json` 里声明的 `references` 条数（P145 起 22）。"""
 
 EXPECTED_SELF_REFERENCE_PATHS = 4
 """同文件里声明的 `self_references` 条数（P141 起）。"""
@@ -605,7 +605,7 @@ async def test_p141_r96_the_target_id_can_come_from_its_prerequisite() -> None:
 
 
 def test_p141_the_data_declares_the_reverse_dependency_for_support_endpoints() -> None:
-    """门槛：`DB.CONS` / `DB.CNLD` 的 `target_id_source` 与校验工具**逐条**落地。"""
+    """门槛：`DB.CONS` / `DB.CNLD`（P145 起再加 `DB.LENG` / `DB.MBTP`）的反向依赖逐条落地。"""
     from app.infrastructure.adapters.midas.write_templates import load_write_templates
 
     templates = load_write_templates(REPO_ROOT / "registry")
@@ -616,9 +616,15 @@ def test_p141_the_data_declares_the_reverse_dependency_for_support_endpoints() -
         labels = {item.label() for item in template.prerequisites}
         assert template.target_id_source in labels, key
         assert all(item.id_source == "allocated" for item in template.prerequisites), key
+    expected_targets = {
+        "DB.CONS": "DB.NODE#1",
+        "DB.CNLD": "DB.NODE#1",
+        # P145：按**构件号**取值的端点让目标自身的 `Assign` 键取**自建单元**的编号
+        "DB.LENG": "DB.ELEM#1",
+        "DB.MBTP": "DB.ELEM#1",
+    }
     for key in templates.keys():
-        if key not in {"DB.CONS", "DB.CNLD"}:
-            assert templates.get(key).target_id_source == "", key
+        assert templates.get(key).target_id_source == expected_targets.get(key, ""), key
 
 
 # ===== 5. 真实实测（门控）=====

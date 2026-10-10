@@ -97,22 +97,59 @@ DB_CODES = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.DCTL",
     "DB.DSTL",
     "DB.EIGV",
     "DB.ELEM",
+    "DB.EPMT",
     "DB.ETFC",
     "DB.FBLD",
+    "DB.FIMP",
     "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.LENG",
     "DB.MATL",
+    "DB.MBTP",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
     "DB.NODE",
+    "DB.PDEL",
     "DB.PRES",
     "DB.SECT",
     "DB.STLD",
 )
-"""GEN NX 上的 **18** 个可探候选（P139 的 10 + P142 的 `DB.FBLD` + P144 的 7）。"""
+"""GEN NX 上的 **29** 个可探候选（P139 的 10 + P142 的 `DB.FBLD` + P144 的 7 + P145 的 11）。"""
 
-CIVIL_CODES = tuple(key for key in DB_CODES if key != "DB.DSTL")
-"""CIVIL NX 上的 **17** 个候选（`DB.DSTL` 的产品集只有 `GEN_NX`）。"""
+CIVIL_CODES = (
+    "DB.BMLD",
+    "DB.BODF",
+    "DB.CCFC",
+    "DB.CNLD",
+    "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.EIGV",
+    "DB.ELEM",
+    "DB.EPMT",
+    "DB.ETFC",
+    "DB.FBLD",
+    "DB.FIMP",
+    "DB.GSTP",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.MATL",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVHLTR",
+    "DB.NODE",
+    "DB.PDEL",
+    "DB.PRES",
+    "DB.SECT",
+    "DB.STLD",
+)
+"""CIVIL NX 上的 **25** 个候选（`DB.DCTL`/`DB.DSTL`/`DB.LENG`/`DB.MBTP` 不含 `CIVIL_NX`）。"""
 
 CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     "GEN_NX": DB_CODES,
@@ -122,11 +159,11 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 """三产品各自的候选集（`CIVIL_DESIGNER` = 空：其 `DB.NODE`/`DB.ELEM` 只有 `GET`）。"""
 
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 535,
-    "CIVIL_NX": 465,
-    "CIVIL_DESIGNER": 32,
+    "GEN_NX": 524,
+    "CIVIL_NX": 457,
+    "CIVIL_DESIGNER": 31,
 }
-"""「有写方法 + 非危险形态，但**既无** Transformer **又无**数据侧模板」的端点数（P144 起）。"""
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P145 起下降）。"""
 
 REGISTERED_TRANSFORMERS = 20
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
@@ -363,8 +400,8 @@ def test_p142_the_data_side_declares_the_fbld_template_with_the_stld_chain() -> 
     module = _check_tool()
     errors, _notes, counts = module.check(REPO_ROOT)
     assert errors == [], "\n".join(errors)
-    assert counts["templates"] == 17
-    assert counts["bodies"] == 41
+    assert counts["templates"] == 28
+    assert counts["bodies"] == 64
     assert counts["unverifiable"] == 0
     template = _registry().write_template(FLOOR_LOAD_KEY)
     assert template is not None
@@ -446,13 +483,13 @@ def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 18
-    assert coverage.ratio == f"18 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"18 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 29
+    assert coverage.ratio == f"29 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"29 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 少一条 L5 行即少一个覆盖（**不**硬编码分子）
     fewer = write_path_coverage(registry, [_Row(key) for key in keys if key != FLOOR_LOAD_KEY])
-    assert fewer.ratio == f"17 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"28 / {WRITE_PATH_TOTAL}"
     assert FLOOR_LOAD_KEY not in fewer.covered_keys
     # 非 `L5` 行 / 非 `PASSED` 行**不**计入分子
     assert write_path_coverage(registry, [_Row(FLOOR_LOAD_KEY, contract_level="L4")]).covered == 0
