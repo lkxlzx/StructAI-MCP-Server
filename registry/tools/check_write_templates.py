@@ -11,10 +11,12 @@ P139 为这 9 个端点补了**真实请求体模板**。模板**不得**是「�
 否则等于把伪造搬进数据侧。本工具把每一条模板**逐条复算**：
 
 1. **来源可复算**（`source.kind` = `manual_example` / `manual_example_adjusted`）：
-   模板 `body` 必须**等于**「上游手册 `MIDAS_API_Online_Manual_数据_v1.0.json` 里
-   `endpoints[].examples[].json` 的某个包装编号下的条目」再**施加本文件声明的
-   `adjustments`**（逐条 `from` → `to`）。任何取值漂移都会被逐条报出。
-   `manual_example` 种类**必须**没有 adjustments（原样照抄）。
+   模板 `body` 必须**等于**「上游手册（**两个来源**之一：既有 `MIDAS_API_Online_Manual_数据_v1.0.json`
+   与 P149-B 的 `MIDAS_API_Online_Manual_Gen_NX_v1.0.json`）里 `endpoints[].examples[].json` 的
+   某个包装编号下的条目」再**施加本文件声明的 `adjustments`**（逐条 `from` → `to`）。
+   任何取值漂移都会被逐条报出。`manual_example` 种类**必须**没有 adjustments（原样照抄）。
+   ⚠️ URI 按 `normalize_uri()`（去前导斜杠 + 小写）查表，两个来源**合并**、先到先得 ——
+   故 `source.uri` 只需与**某一**来源里的写法一致。
 2. **字段不臆造**（结构校验）：`body` 里的每个字段名都必须在数据侧请求 Schema 里
    存在（根级 / `ITEMS[]` 条目级 / 逐层嵌套）。Schema 未声明子字段时**不判**（如实
    报「不可判」，而不是假定合法）。
@@ -47,7 +49,12 @@ import pathlib
 import sys
 from typing import Any
 
-MANUAL_FILENAME = "MIDAS_API_Online_Manual_数据_v1.0.json"
+MANUAL_FILENAMES = (
+    # 既有来源（Help Center 抓取，P139 起）
+    "MIDAS_API_Online_Manual_数据_v1.0.json",
+    # P149-B 第二个来源：上游 NX 手册的机械抽取（`registry/tools/sync_manual_index.py` 生成）
+    "MIDAS_API_Online_Manual_Gen_NX_v1.0.json",
+)
 TEMPLATES_RELATIVE = "live/write_templates.json"
 MANIFEST_FILENAME = "manifest.json"
 
@@ -55,26 +62,39 @@ MANUAL_KINDS = {"manual_example", "manual_example_adjusted"}
 SOURCE_KINDS = MANUAL_KINDS | {"explicit_injection"}
 
 
-# ===== 上游手册（唯一来源）=====
+def normalize_uri(uri: Any) -> str:
+    """URI 归一：去前导斜杠 + 小写（上游手册同一路由有 `DB/X` / `/db/X` 两种写法）。"""
+    return str(uri).strip().lstrip("/").lower()
+
+
+# ===== 上游手册（**两个来源**：既有 JSON + P149-B 的 NX 手册抽取）=====
 
 
 def manual_examples(repo: pathlib.Path) -> dict[str, dict[str, dict[str, Any]]]:
-    """`input_uri` → {示例名 → 该示例的 `{包装键: {编号: 条目}}`}（原样解析，不改写）。"""
-    payload = json.loads((repo / MANUAL_FILENAME).read_text(encoding="utf-8"))
+    """`归一化 input_uri` → {示例名 → 该示例的 `{包装键: {编号: 条目}}`}（原样解析，不改写）。
+
+    两个来源**合并**（`setdefault`，先到先得）：同一 URI 在多个条目里出现时**不**互相覆盖
+    （上游手册里同一路由会在不同章节重复出现）。URI 按 `normalize_uri()` 归一，故
+    `DB/REBB` / `/db/REBB` 视作同一路由。
+    """
     table: dict[str, dict[str, dict[str, Any]]] = {}
-    for entry in payload["endpoints"]:
-        uri = str(entry.get("input_uri") or "")
-        if not uri:
+    for filename in MANUAL_FILENAMES:
+        path = repo / filename
+        if not path.is_file():
             continue
-        examples: dict[str, dict[str, Any]] = {}
-        for example in entry.get("examples") or []:
-            try:
-                parsed = json.loads(example["json"])
-            except (KeyError, TypeError, json.JSONDecodeError):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        for entry in payload["endpoints"]:
+            uri = normalize_uri(entry.get("input_uri") or "")
+            if not uri:
                 continue
-            if isinstance(parsed, dict):
-                examples[str(example.get("name") or "")] = parsed
-        table[uri] = examples
+            bucket = table.setdefault(uri, {})
+            for example in entry.get("examples") or []:
+                try:
+                    parsed = json.loads(example["json"])
+                except (KeyError, TypeError, json.JSONDecodeError):
+                    continue
+                if isinstance(parsed, dict):
+                    bucket.setdefault(str(example.get("name") or ""), parsed)
     return table
 
 
@@ -82,7 +102,7 @@ def manual_item(
     examples: dict[str, dict[str, Any]], *, uri: str, example: str, item_id: str
 ) -> Any:
     """取「某示例 → 某包装编号 → 条目」（取不到 → `None`，由调用方如实报错）。"""
-    wrapper = examples.get(str(uri), {}).get(str(example))
+    wrapper = examples.get(normalize_uri(uri), {}).get(str(example))
     if not isinstance(wrapper, dict) or len(wrapper) != 1:
         return None
     inner = next(iter(wrapper.values()))

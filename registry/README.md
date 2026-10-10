@@ -702,3 +702,21 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   （它们是**有据可查**的定义，只是本 build 不可得；**不**算「欠账」）。
 - 可执行判定 = `tests/test_midas_endpoint_methods_p149.py`（**7** 项）·
   `docs/reports/P149-A_端点方法集实测修正与分母重算_v1.0.md`。
+
+**⑪ P149-B（第一子批）：模板来源扩为**两份**（新增上游 NX 手册抽取）**：
+
+- **新增第二来源** `MIDAS_API_Online_Manual_Gen_NX_v1.0.json`（仓库根，2.98 MB）：上游 NX 手册
+  `E:\MCP\MIDAS-API-Online-Manual\manual\midas Gen API 使用手册.md`（12 MB）的**机械抽取** ——
+  **841** 条目 · **607** 有示例 · **1488** 个示例 · **629** 有 `Active Methods`；含来源指纹
+  （`source.sha256` / `source.bytes`）。生成器 = `registry/tools/sync_manual_index.py`
+  （`--write` / `--check`，只依赖标准库）。
+- **形状与既有来源一致**（`endpoints[].input_uri` + `examples[].json` 原样文本），故
+  `check_write_templates.py` 用**同一套** `manual_item()` 口径复算**两个来源**：
+  URI 按 `normalize_uri()`（去前导斜杠 + 小写）查表、两来源**合并**（先到先得；
+  同一路由在上游手册里多章节重复出现时**不**互相覆盖）。既有 57 条模板在新口径下仍 **0** 错。
+- **`json_schema` 不抽取**：数据侧已有 **208/208** 个请求 Schema，模板复算只需示例
+  （字段不臆造的判定仍走数据侧 Schema）。
+- 与既有来源重叠 **264** 个 `input_uri`，新来源独有 **176** 个。
+- 可执行判定 = `tests/test_midas_manual_index_p149b.py`（**4** 项）。
+- **未完成**（下一子批）：为 **208** 个「可判形态但缺模板」的端点逐批补模板
+  （旧来源示例 **123** · 新来源示例 **73** · 完全无示例 **12**；两来源在本集合里**互不重叠**）。
