@@ -135,15 +135,15 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 `target_id_source` 必须指向本模板里的一个前置且**不**构成循环依赖。
 `tests/test_midas_write_templates_p139.py` 另用 `jsonschema`（按各 Schema 声明的方言）逐条校验 body。
 
-**覆盖面（2026-10-08 之后实测；**P146 更新**）**：GEN NX 的 **36** 个可探候选 → **36 / 36 `PASSED`**
-（P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
-CIVIL NX **32 / 32 `PASSED`**（P145 为 25 / 25，云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
-`live.write_path_coverage()` = **`36 / 609`**（分母**不挪**）。
+**覆盖面（2026-10-10 之后实测；**P147 更新**）**：GEN NX 的 **46** 个可探候选 → **46 / 46 `PASSED`**
+（P146 为 36 / 36、P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
+CIVIL NX **39** 个候选（P145 实测 25 / 25、P143 实测 11 / 11，云端 `201`，**不**增加分子 ——
+覆盖率按 **registry key** 去重）；`live.write_path_coverage()` = **`46 / 609`**（分母**不挪**）。
 ⚠️ **候选判据（P144 / `docs/07` §16.1 **R100**）**：`candidate_keys()` = 「有写方法 ∧ 有读路径 ∧
 （**Transformer 已注册 ∨ 有数据侧模板**）∧ **有 `DELETE`** ∧ 非危险形态 ∧ 产品可得」——
-分母里 **517** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
+分母里 **507** 个 GEN NX 写端点**既无** Transformer **又无**模板 ⇒ **不**入候选；
 **有模板即可入候选**（模板是**数据**、不进 Core），包装键无 Transformer 时取数据侧 `wrapper.write`。
-⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`36 / 410`** —— 分母里的
+⚠️ 同一覆盖率**另报**一个**子桶**口径：`model_write_ratio` = **`46 / 410`** —— 分母里的
 **199** 个「结果表 / 文本查询」端点（`POST.` 命名空间）在 L5 三步链下**结构上不适用**
 （没有「自建 ID」可读回 / 可删），故单列；**原口径照旧报出、不过滤、不隐藏**（§8.6）。
 ⚠️ **目标编号可以取前置的编号（P145）**：按**构件号**取值的端点（`DB.LENG` / `DB.MBTP`）用
@@ -619,3 +619,25 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   **`patternProperties`**（`^[0-9]+$`）下，而 `check_write_templates.py` 的 `request_schema()`
   **只**读 `properties` ⇒ 该形状下「字段不臆造」**不可判**（**不**改工具、**不**放宽判定）。
 - 可执行判定 = `tests/test_midas_write_coverage_p146.py`（9 项）· `docs/reports/P146_…md`。
+
+**⑧ P147 更新（第四批 13 个端点；新增 `docs/07` §16.1 R104）**：**10** 条模板跑通、**3** 条如实留缺。
+
+- **落盘前的只读自省（本批新增的纪律）**：对 13 个候选**先**做**只读** `GET /info/db/<CODE>`，
+  核对「手册示例字段 ⊆ 本 build 接受字段」（本批 13 个端点 `unknown` **0**）；`DB.ACTL` 的
+  `CLATS`（R101 的对照物）正说明**数据侧 Schema 里有**该字段、而 build 不接受 ⇒「Schema 声明」
+  **不足以**判定是否被接受（见 `tests/test_midas_write_coverage_p147.py` 的对照用例）。
+- **10 个跑通**（全部**只有数据侧模板**、**零前置链**）：`DB.POGD` / `DB.POSP` / `DB.SDHY` /
+  `DB.SDIS` / `DB.SDST` / `DB.SDVE` / `DB.SDVI` / `DB.TDGR` / `DB.TDME` / `DB.TDMT`
+  ⇒ 模板 **35 → 45**、复算 body **71 → 81**（`references` 仍 **22** / `self_references` 仍 **4**）；
+  真实 L5 **46 / 46 `PASSED`**（GEN NX 空项目）⇒ 覆盖率 **`36 / 609` → `46 / 609`**
+  （`model_write_ratio` **`36 / 410` → `46 / 410`**）；候选集 GEN NX **36 → 46** · CIVIL NX **32 → 39** ·
+  Civil Designer 仍 **0**（blocked **517 → 507** / **450 → 443** / **31**）；
+  跑前 / 跑后哨兵（**49** 个端点）**全空、0 不可读**。
+- **`DB.MVCT` / `DB.TDMF` / `DB.THGC` 如实留缺（R104）**：手册示例被本 build **拒绝**
+  （`POST` → **`400 software_api_error`**，与 R103 的 `DB.SKEW` 同形）⇒ 模板**不写**、不入候选；
+  三个端点的**字段**全在请求 Schema 里声明 ⇒ 成因**不是**数据缺陷（端点仍 `enabled` /
+  `verified` / 写方法齐全，数据侧**未**动）。**未**做逐端点原生试探（P146 §7 的教训已落实）。
+- **未试的救回路径（如实记录）**：`DB.TDMF` 另有 **2** 个手册示例条目（`Shrinkage Strain` /
+  `Relaxation`）、`DB.MVCT` 另有 **1** 个（`Russia`）—— 若要救回，须按同一纪律做**一次**
+  替代示例批量（**不**逐端点试探）。
+- 可执行判定 = `tests/test_midas_write_coverage_p147.py`（9 项）· `docs/reports/P147_…md`。

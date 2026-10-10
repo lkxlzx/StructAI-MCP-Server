@@ -16,7 +16,8 @@
     "声明目标自身编号在 body 里的位置。探针据此把编号一律改成 max+1 后再发请求（默认仍要求空项目）。",
     "P142：新增 DB.FBLD（楼面荷载类型 / FLOOR_LOAD）—— Core 侧补齐 midas.fbld.v1 与",
     "LOAD_TRANSFORMERS[FLOOR_LOAD]（operations.py 的 LOAD_STEP_BY_TYPE 早已声明 FLOOR_LOAD → DB.FBLD，缺的是实现）；",
-    "body 原样照抄手册示例（零 adjustments），前置链 = 两条 DB.STLD（DC / DW，即手册示例 ITEM[].LCNAME 引用的工况名）。"
+    "body 原样照抄手册示例（零 adjustments），前置链 = 两条 DB.STLD（DC / DW，即手册示例 ITEM[].LCNAME 引用的工况名）。",
+    "P147：新增 10 条**定义类独立表**模板（Tendon Group / 时变材料 / 地震装置 / 推覆控制 / 土层参数）—— body 原样照抄手册示例（零 adjustments、零前置链）；每条都在落盘前用**只读**自省 GET /info/db/<CODE> 核对过「手册示例字段 ⊆ 本 build 接受字段」（unknown = 0）。另 3 个端点（DB.TDMF / DB.THGC / DB.MVCT）的手册示例被本 build **拒绝**（`POST` → `400 software_api_error`，与 R103 的 DB.SKEW 同形）⇒ 模板**不写**、不入候选，如实留缺（见 docs/07 §16.1 R104）。"
   ],
   "measured_on": {
     "instance": "gen-local (GEN NX, http://localhost:3030/gen)",
@@ -1503,6 +1504,559 @@
       },
       "adjustments": [],
       "body": {"CONCURRENT_CALC": true, "CONCURRENT_LINK": false},
+      "prerequisites": []
+    },
+    "DB.TDGR": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/TDGR",
+        "example": "Tendon Group",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35805198736793",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {"NAME": "TGR1"},
+      "prerequisites": []
+    },
+    "DB.TDME": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/TDME",
+        "example": "ACI",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35808102389401",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {"NAME": "ACI", "TYPE": "CODE", "CODENAME": "ACI", "STRENGTH": 30000, "A": 1, "B": 2},
+      "prerequisites": []
+    },
+    "DB.TDMT": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/TDMT",
+        "example": "CEB-FIP 2010, 1990, 1978",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35808006330009",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {"NAME": "CEB-FPI(2010)", "CODE": "CEB_FIP_2010", "STR": 50000, "HU": 70, "AGE": 3, "MSIZE": 1.2, "CTYPE": "NR", "TYPEOFAFFR": 0},
+      "prerequisites": []
+    },
+    "DB.POGD": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/POGD",
+        "example": "Pushover Analysis Control Data",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35992664632601",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "GEOMNONLINEAR_TYPE": "NONE",
+        "INITLOADMETHOD": "PERFORM_ANAL",
+        "INITLOAD": [],
+        "bCONSIGNOREELEM": true,
+        "NONL_OPT": {
+                "bPERMITFAIL": true,
+                "SUBSTEP": 10,
+                "MAXITER": 10,
+                "bDISPLNORM": true,
+                "bFORCENORM": false,
+                "bENERGYNORM": false,
+                "DISPLNORM": 0.001,
+                "FORCENORM": 0.001,
+                "ENERGYNORM": 0.001,
+                "bSHEARYIELDSTOP": false,
+                "BSHEARYIELDSTOPBEAM": true,
+                "bSHEARYIELDSTOPWALL": false,
+                "bAXIALYIELDSTOP": false,
+                "bAXIALYIELDSTOPBEAM": true,
+                "bAXIALYIELDSTOPWALL": false,
+                "bAXIALYIELDSTOPTRUSS": false,
+                "bSUPPORTDZDIRSTOP": false,
+                "bSUPPORTSTOPUPLIFTING": false,
+                "bSUPPORTSTOPCOLLAPSE": false
+        },
+        "PHOP_OPT": {
+                "bCONSREBARAREA1D": false,
+                "BEAM_CORE_SIZE": "AUTO",
+                "BEAM_CORE_DIV_Y": 15,
+                "BEAM_CORE_DIV_Z": 15,
+                "BEAM_COVER_SIZE": "EQUAL",
+                "BEAM_COVER_DIV_Y": 15,
+                "BEAM_COVER_DIV_Z": 15,
+                "bCONSREBARAREAWALL": false,
+                "bWALLCONSOUT": true,
+                "WALL_CORE_SIZE": "AUTO",
+                "WALL_CORE_DIV_Z": 8,
+                "WALL_CORE_DIV_Y": 8,
+                "WALL_COVER_SIZE": "AUTO",
+                "WALL_COVER_DIV_Z": 8,
+                "WALL_COVER_DIV_Y": 1,
+                "SHEAR_R": 0.4,
+                "bASSIGNBYMEMBER": true,
+                "bTRI_SYM": true,
+                "TRI_TENS_A1": 0.1,
+                "TRI_TENS_A2": 0.05,
+                "TRI_COMP_A1": 0.1,
+                "TRI_COMP_A2": 0.05,
+                "bBI_SYM": true,
+                "BI_TENS_A1": 0.05,
+                "BI_COMP_A1": 0.05,
+                "PSPR_APPLY_TYPE": "ASSUME",
+                "ELNK_APPLY_TYPE": "APPLY",
+                "bUSEAUTOCALCREFERENCE": true,
+                "RCDGNCODE": "KISTEC2019",
+                "LOC_BEAM": "M",
+                "LOC_COLUMN": "I",
+                "SF_WALL": 1.6,
+                "bSF_BRITTLE": false,
+                "SF_BRITTLE": 1.6,
+                "bSF_EARTHQUAKE": false,
+                "SF_EARTHQUAKE": 0.85,
+                "bSF_SMOOTH_BAR": false,
+                "SF_SMOOTH_BAR": 0.575,
+                "CONFIDENCE": 1,
+                "bBUCKLING": true,
+                "bCALCAXIALFORCE": true
+        },
+        "NODECONNECTIVITY": "PINNED",
+        "bSHOWGRAPHAFTER": true,
+        "bSHOWGRAPGHDURING": false
+},
+      "prerequisites": []
+    },
+    "DB.POSP": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/POSP",
+        "example": "Import to Json",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/49510865840537",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "NAME": "Soil-1",
+        "DESC": "",
+        "OPT_USE_N": false,
+        "GROUND_LEVEL": 6,
+        "BEDROCK_LEVEL": -21,
+        "FOOTING_LEVEL": -17.5,
+        "ITEMS": [
+                {
+                        "HEIGHT": 7,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 11449,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 11449,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 11449,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 15913,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 15913,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 15913,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 160,
+                        "KH": 15913,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 17,
+                        "VS": 187,
+                        "KH": 20511,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 193,
+                        "KH": 21533,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 210,
+                        "KH": 25565,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 215,
+                        "KH": 26986,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 221,
+                        "KH": 28690,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 224,
+                        "KH": 45496,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 228,
+                        "KH": 47246,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 215,
+                        "KH": 41559,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 181,
+                        "KH": 30014,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 171,
+                        "KH": 27391,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 167,
+                        "KH": 26342,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 169,
+                        "KH": 26867,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 18,
+                        "VS": 479,
+                        "KH": 213426,
+                        "DISP": 0.001
+                },
+                {
+                        "HEIGHT": 1,
+                        "ANGLE_OR_N": 30,
+                        "DENSITY": 24,
+                        "VS": 736,
+                        "KH": 476345,
+                        "DISP": 0.001
+                }
+        ]
+},
+      "prerequisites": []
+    },
+    "DB.SDST": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDST",
+        "example": "Steel Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948150053529",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {"COMMON": {"NAME": "SteelDamper01", "DESC": "", "INPUT_METHOD": 0, "PRODUCT_NAME": "", "TYPE_NUMBER": ""}, "DIR": "Dx", "SDST_HYS_MODEL": "BL2", "K0": 1000, "P1": 100, "ALPHA1": 0.2, "KB": 2000, "BL2": {"BETA": 0}},
+      "prerequisites": []
+    },
+    "DB.SDVE": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDVE",
+        "example": "Viscoelastic Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948062417049",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+                "NAME": "Viscoelastic01",
+                "DESC": "",
+                "INPUT_METHOD": 0,
+                "PRODUCT_NAME": "",
+                "TYPE_NUMBER": ""
+        },
+        "MATERIAL_TYPE": "GR100",
+        "SHEAR_AREA": 0.2,
+        "THICKNESS": 0.02,
+        "MULTIPL": 1,
+        "DIR": "Dx",
+        "FREQ": 0,
+        "STIFF_FACTOR": 1,
+        "DAMP_FACTOR": 1,
+        "REF_T": 20,
+        "LIMIT_DEF": 0.3,
+        "EFF_STIFF": 0,
+        "EQUI_DAMP": 0,
+        "OPT_MOUNT_STIFF": true,
+        "MOUNT_STIFF": 1200,
+        "OPT_KINETIC_FRIC": false,
+        "KINETIC_FRIC": 0
+},
+      "prerequisites": []
+    },
+    "DB.SDVI": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDVI",
+        "example": "Viscous Damper/Oil Damper",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35947995586713",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+                "NAME": "VisDamper01",
+                "DESC": "",
+                "INPUT_METHOD": 0,
+                "COMPANY": "",
+                "PRODUCT_NAME": "",
+                "TYPE_NUMBER": ""
+        },
+        "DEVICE_TYPE": "",
+        "DAMPER_TYPE": 0,
+        "DASHPOT_TYPE": 0,
+        "INPUT_TYPE": 0,
+        "INPUT_TYPE_EXFN": 0,
+        "ITEM": [
+                {
+                        "OPT_DOF": true,
+                        "CE": 13000,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                },
+                {
+                        "OPT_DOF": false,
+                        "CE": 0,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                },
+                {
+                        "OPT_DOF": false,
+                        "CE": 0,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                },
+                {
+                        "OPT_DOF": false,
+                        "CE": 0,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                },
+                {
+                        "OPT_DOF": false,
+                        "CE": 0,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                },
+                {
+                        "OPT_DOF": false,
+                        "CE": 0,
+                        "P1": 0,
+                        "C1": 0,
+                        "ALPHA1": 0,
+                        "K0": 0,
+                        "EXFN_PY": 1,
+                        "EXFN_VY": 1,
+                        "EXFN_DE": 0.3,
+                        "EXFN_DC": 1,
+                        "OPT_EXFN_CE": false,
+                        "EXFN_CE": 1
+                }
+        ]
+},
+      "prerequisites": []
+    },
+    "DB.SDHY": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDHY",
+        "example": "Hysteretic Isolator(MSS)",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948292269977",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+                "NAME": "HystereticIsolater01",
+                "DESC": "",
+                "INPUT_METHOD": 0,
+                "PRODUCT_NAME": "",
+                "TYPE_NUMBER": ""
+        },
+        "SDHY_HYS_MODEL": "DegradingBiLinear",
+        "MSS": 8,
+        "K0": 1000,
+        "P1": 100,
+        "P2": 0,
+        "ALPHA1": 1,
+        "ALPHA2": 0,
+        "BETA": 0.5,
+        "Phi": 0,
+        "LAMBDA": 8
+},
+      "prerequisites": []
+    },
+    "DB.SDIS": {
+      "wrapper": "Assign",
+      "source": {
+        "kind": "manual_example",
+        "uri": "db/SDIS",
+        "example": "Isolator(MSS)",
+        "example_id": "1",
+        "url": "https://support.midasuser.com/hc/en-us/articles/35948330042649",
+        "retrieved_at": "2026-10-10"
+      },
+      "adjustments": [],
+      "body": {
+        "COMMON": {
+                "NAME": "Isolator01",
+                "DESC": "",
+                "INPUT_METHOD": 0,
+                "PRODUCT_NAME": "",
+                "TYPE_NUMBER": ""
+        },
+        "SDIS_DEV_TYPE": "LRB",
+        "MSS": 8,
+        "TAU_K": 1,
+        "TAU_Q": 1,
+        "KV": 1,
+        "LRB": {
+                "SDIS_HYS_MODEL": "MB",
+                "KE": 0,
+                "AR": 1e-06,
+                "TR": 0.001,
+                "K0": 1,
+                "K2": 1,
+                "QD": 0.001
+        }
+},
       "prerequisites": []
     }
   }

@@ -136,11 +136,21 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
+        "DB.POGD",
+        "DB.POSP",
         "DB.PRES",
+        "DB.SDHY",
+        "DB.SDIS",
+        "DB.SDST",
+        "DB.SDVE",
+        "DB.SDVI",
         "DB.SECT",
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.TDGR",
+        "DB.TDME",
+        "DB.TDMT",
         "DB.THFC",
         "DB.THIK",
     ),
@@ -170,26 +180,33 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
+        "DB.POGD",
         "DB.PRES",
+        "DB.SDST",
+        "DB.SDVE",
+        "DB.SDVI",
         "DB.SECT",
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.TDGR",
+        "DB.TDME",
+        "DB.TDMT",
         "DB.THFC",
         "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**36 / 32 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**46 / 39 / 0**；`CIVIL_DESIGNER` = 空，见 R99）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 517, "CIVIL_NX": 450, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 507, "CIVIL_NX": 443, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。"""
 
-EXPECTED_TEMPLATES = 35
-"""模板条数（P146 起 **35** = P145 的 28 + 本批 7）。"""
+EXPECTED_TEMPLATES = 45
+"""模板条数（P147 起 **45** = P146 的 35 + 本批 10）。"""
 
-EXPECTED_BODIES = 71
-"""复算的 body 总数（P146 起 **71** = 35 个目标 + 36 个前置对象）。"""
+EXPECTED_BODIES = 81
+"""复算的 body 总数（P147 起 **81** = 45 个目标 + 36 个前置对象）。"""
 
 EXPECTED_REFERENCES = 22
 """`prerequisites[].references` 的条数（本批 +8：两个端点各 4 条）。"""
@@ -420,16 +437,16 @@ def test_p145_coverage_counts_thirty_six_of_609() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 36
-    assert coverage.ratio == f"36 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"36 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 46
+    assert coverage.ratio == f"46 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"46 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # CIVIL NX 的候选（25）与 GEN NX 共用同一批 key 去重 ⇒ 分子**不**因跨产品而翻倍
     civil = write_path_coverage(
         registry, [_Row(key, product="CIVIL_NX") for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]]
     )
-    assert civil.covered == 32
-    assert civil.ratio == f"32 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 39
+    assert civil.ratio == f"39 / {WRITE_PATH_TOTAL}"
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0
     assert write_path_coverage(registry, [_Row("DB.NODE", status="FAILED")]).covered == 0

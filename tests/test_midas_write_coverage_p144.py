@@ -89,11 +89,21 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
+        "DB.POGD",
+        "DB.POSP",
         "DB.PRES",
+        "DB.SDHY",
+        "DB.SDIS",
+        "DB.SDST",
+        "DB.SDVE",
+        "DB.SDVI",
         "DB.SECT",
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.TDGR",
+        "DB.TDME",
+        "DB.TDMT",
         "DB.THFC",
         "DB.THIK",
     ),
@@ -123,20 +133,27 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PDEL",
         "DB.PJCF",
         "DB.PNLD",
+        "DB.POGD",
         "DB.PRES",
+        "DB.SDST",
+        "DB.SDVE",
+        "DB.SDVI",
         "DB.SECT",
         "DB.SMCT",
         "DB.SPFC",
         "DB.STLD",
+        "DB.TDGR",
+        "DB.TDME",
+        "DB.TDMT",
         "DB.THFC",
         "DB.THIK",
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**36 / 32 / 0**；P146 起）。"""
+"""三产品各自的候选集（**46 / 39 / 0**；P147 起）。"""
 
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 517, "CIVIL_NX": 450, "CIVIL_DESIGNER": 31}
-"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P146 起）。"""
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 507, "CIVIL_NX": 443, "CIVIL_DESIGNER": 31}
+"""「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数（P147 起）。"""
 
 REJECTED_KEYS = ("DB.ACTL", "DB.CLWP", "DB.EDMP")
 """**如实留缺**的 3 个端点（R101）：手册示例与本 build 字段集不一致 / 按构件号取值。"""
@@ -284,14 +301,14 @@ def test_p144_coverage_counts_thirty_six_of_609() -> None:
     keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
-    assert coverage.covered == len(keys) == 36
-    assert coverage.ratio == f"36 / {WRITE_PATH_TOTAL}"
-    assert coverage.model_write_ratio == f"36 / {MODEL_WRITE_TOTAL}"
+    assert coverage.covered == len(keys) == 46
+    assert coverage.ratio == f"46 / {WRITE_PATH_TOTAL}"
+    assert coverage.model_write_ratio == f"46 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
     # 分子是**数据驱动**的：少一条 L5 行即少一个覆盖
     fewer = write_path_coverage(registry, [_Row(key) for key in keys[:-1]])
-    assert fewer.ratio == f"35 / {WRITE_PATH_TOTAL}"
+    assert fewer.ratio == f"45 / {WRITE_PATH_TOTAL}"
     # CIVIL NX 的候选（25）与 GEN NX 共用同一批 key 去重 → 分母/分子口径不变
     civil = write_path_coverage(registry, [_Row(key) for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]])
-    assert civil.covered == 32
-    assert civil.ratio == f"32 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 39
+    assert civil.ratio == f"39 / {WRITE_PATH_TOTAL}"
