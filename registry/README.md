@@ -261,6 +261,12 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
   复算工具 = `registry/tools/probe_put_edits.py`（`--probe` 有界侦察（**分块 ≤ 10** + 块间只读健康检查）/
   `--probe-aliases` **R120 实测 + 收尾清理** / `--check` / `--summary`；`--allow-residue` **只**放行
   **已披露**的残留 key，其余跑前非空一律**中止**）。
+* **接口层（P152 起，见 §8.12 ⑱）**：以上判据**全部**绕开 `app/`（模板 / 前置链 / 编号分配都在
+  探针里实现）。**接口层**判据走**既有 9 个 MCP Tool 契约** ——
+  `MCP Tool → OperationPlan（operations.py）→ Adapter（intent 分派）→ MidasHttpClient → 实例`，
+  证据 = `registry/live/interface_path_probe.json`（**13** 条 = **4** `PASSED` + **9** `FAILED`，
+  三条路径各有 `PASSED`，**零残留**）；复算工具 = `registry/tools/probe_interface_paths.py`。
+  ⚠️ 该桶**独立**，**不**并入本节的 71 行子桶，也**不**并入任何覆盖率分子。
 
 
 ## 3. 统计
@@ -1052,3 +1058,49 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
 - 可执行判定 = `tests/test_midas_put_edits_p151.py`（**9** 项；含 L5 等价性与 R120 三态）·
   `tests/test_midas_put_edits_p150.py`（**9** 项，计数同步、**未**放宽）·
   `docs/reports/P151_写路径编辑判据前置链续跑与别名路由清理工具化_v1.0.md`。
+
+**⑱ P152：接口层（`app/` 适配层）「添加 / 删除 / 编辑」端到端调试 + 映射缺口逐条登记（接 ⑯/⑰）**：
+
+- **接口层判据（主）**：以上 ⑬–⑰ 的判据**全部**绕开 `app/`；本批起走**既有 9 个 MCP Tool 契约** ——
+  `MCP Tool → OperationPlan（operations.py）→ Adapter（intent 分派）→ MidasHttpClient（护栏 + 包装键）
+  → MIDAS 实例`。判据 = **只读侦察**（`OPTIONS` 核对 `Allow` + `GET` 核对 `read_root`）→
+  跑前只读哨兵（**全部**被触碰的端点）必须为空 → **添加**（创建 `2xx` → 读回在）/
+  **编辑**（创建 → `PUT` 改动过的值 → 读回**确认生效**）/ **删除**（创建 → `DELETE {uri}/{id}`
+  **带路径 key** → 再读**确认不在**）→ **清理**（自建编号含前置**一律**删并以再读确认为准）。
+- **实测**（GEN NX 专用空项目，**3** 块 5 / 2 / 6 + 块间只读健康检查 `GET /DB/NODE` 均 `200`）：
+  **13** 条路径 = **4** `PASSED` + **9** `FAILED`；**添加 / 编辑 / 删除各取得端到端证据** ——
+  `MODEL.NODE.CREATE`（`POST /DB/NODE` `200`）· `MODEL.NODE.UPDATE`
+  （`PUT /DB/NODE`，`x` `1.0 → 2.0` **读回生效**）· `MODEL.NODE.DELETE`
+  （`DELETE /DB/NODE/1` → 再读**不在**）· `MODEL.GROUP.DELETE`（`DELETE /DB/GRUP/1`，**原生**前置）。
+  跑前 / 跑后哨兵（**6** 个端点）**全空** ⇒ **零残留**、**未**中止、**未**崩溃。
+  ⚠️ **R119 在接口层同样成立**：删除返回体**回显被删记录**
+  （`{"delete_node": {"NODE": {"1": {...}}}}`）⇒ 判据**必须**以「再读确认不在」为准。
+  ⚠️ 写步骤的结果键是 **`intent`**（写 = `write_node` / 读 = `read`）⇒ `MODEL.*.QUERY` 的规范化
+  结果是 `data["read"]`（**不是** Mock 的 `data["items"]`）。
+- **R126（新，如实留缺）**：**接口层的 canonical → native 变换覆盖不到原生必填字段** ——
+  `DB.ELEM` / `DB.MATL` / `DB.CONS` 的创建被原生 `400 Wrong Field`、`DB.SECT` 被
+  `400 Unknown Error` 拒绝（逐条 `native_error` 前 200 字进证据）；而**同一端点**在**数据侧**
+  用**手册示例**是**已实测可用**的（⑯/⑰ 的模板 + `put_edit_probe.json`）⇒ 缺口在**契约**
+  （canonical 字段集，`docs/04` §20–§31），**不在**端点、**不在**护栏、**不在**数据侧模板。
+  **不**硬凑、**不**放宽（补原生默认值会违反「不臆造字段」）；恢复条件 = **显式裁决** canonical
+  字段集。连带面：`DB.ELEM` 的 `material_id` / `section_id` 在**空项目**上无编号可引用，而
+  材质 / 截面**建不出来**（同一成因）。
+- **映射缺口（次，逐条登记、离线可复算）**：`registry/live/interface_mapping_gap.json` ——
+  数据侧写路径分母 **633** ⊇ 接口层可达（GEN NX ∧ 已启用 ∧ 非破坏性）**576** ⊇
+  形态齐备（有 `GET` + `read_root`）**301**；69 个 Operation 共映射 **61** 个端点 ⇒
+  **缺口 517** = **271** `not_in_operation_contract`（形态齐备但**契约外**）+
+  **246** `no_readback_route`（没有 `GET` 或没有 `read_root`）。互补性可执行断言：
+  `缺口 ∩ 已映射 = ∅`。⚠️ `DESIGN.SRC.AIK-SRC2K.DSRC` 与 `POST.TABLE.DISPLACEMENTG`
+  **在契约内**（分别由 `DESIGN.SRC` / `RESULT.NODE.DISPLACEMENT` 映射）—— 据实澄清、**不**算缺口。
+- **`app/**` 一行未改**（授权范围 = 空集；`pyproject.toml` 未改 ⇒ 无新依赖）：
+  候选改动（扩 `transforms.py` 字段表 / 补原生默认值 / 新增 `MODEL.GROUP.CREATE`）分别属
+  **改契约**、**放宽既有裁决**、**改 9 Tool Contract** ⇒ 均超出本批授权，理由逐条见报告 §3。
+- **计数**：本批**没有**任何既有钉住计数变化 —— 端点 **636** · Schema 文件 **625** ·
+  模板 **71** / body **115** · `availability: verified` **493** · 响应 Schema 行 **317** ·
+  **`live.write_path_coverage()` 仍 `72 / 633`**（`model_write_ratio` **`72 / 434`**）·
+  候选 **72 / 62 / 0** · blocked **501 / 438 / 31** · 留缺账本 **178** · R118 子桶 **42 / 23 / 6**。
+  **新增的计数 = 接口层子桶**（路径 **13** 条 = 4 + 9；映射缺口 **517** = 271 + 246），
+  与数据侧口径**分开**、**不**并入任何覆盖率分子。
+- 可执行判定 = `tests/test_midas_interface_paths_p152.py`（**14** 项 + **1** 项环境门控）·
+  `registry/tools/probe_interface_paths.py`（`--recon` / `--probe` / `--check` / `--summary`）·
+  `docs/reports/P152_接口层添加删除编辑端到端调试与映射缺口登记_v1.0.md`。
