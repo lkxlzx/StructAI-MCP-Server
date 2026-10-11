@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-P152：**接口层**（`app/` 适配层）的「添加 / 删除 / 编辑」三条路径的**端到端**判据。
+P152 / P153：**接口层**（`app/` 适配层）的**写路径**（添加 / 删除 / 编辑）与
+**读路径**（`MODEL.*.QUERY` / `INFO` / 取结果族）的**端到端**判据。
 
 为什么需要这个工具
 ------------------
 P139–P151 把**数据侧**的写路径判据做到了「创建 → 读回 → 编辑 → 读回确认 → 删除 →
 读回消失」（R118 / R4 / R14），但那些判据**全部**绕开了 `app/`：模板、前置链、编号分配
 都在探针里自己实现，`app/` 一行未改。用户口径（`docs/08` §4）：接口层与数据侧**解耦**，
-故本批起开始**接口层**调试 —— 走**既有 9 个 MCP Tool 契约**：
+故 P152 起开始**接口层**调试 —— 走**既有 9 个 MCP Tool 契约**：
 
     MCP Tool（9 个之一）→ OperationPlan（`operations.py` 的 §6 编排）
         → Adapter（`MidasAdapter.execute` 的 intent 分派）
@@ -20,19 +21,26 @@ P139–P151 把**数据侧**的写路径判据做到了「创建 → 读回 → 
 | --- | --- |
 | `PASSED` | **添加**：`POST` 经接口层 → 读回在；**编辑**：创建 → `PUT` 改动过的值 → 读回确认**改动生效**；**删除**：创建 → `DELETE` 带路径 key → 读回**确认消失**；且该行的**清理**成立（自建编号再读不在） |
 | `FAILED` | 任一步不成立（闸门拒绝 / 原生 `4xx` / 读不回 / 改动未生效 / 删不掉）—— 逐条记状态码 / 错误码 / 原生短原因 |
-| `LEFT_OUT` | 该端点在本 build 上**没有**对应的接口层 Operation（如无 `MODEL.GROUP.CREATE`）⇒ 如实留缺，**不**硬凑。⚠️ 本批的计划内**没有**这种行（每条路径都有对应 Operation；`DB.GRUP` 的删除路径用**原生**前置并在证据里显式标 `via = raw_precondition`）—— 该取值留给后续批次 |
+| `LEFT_OUT` | 该端点在本 build 上**没有**对应的接口层 Operation（如无 `MODEL.GROUP.CREATE`）⇒ 如实留缺，**不**硬凑。⚠️ P152 的计划内**没有**这种行（每条路径都有对应 Operation；`DB.GRUP` 的删除路径用**原生**前置并在证据里显式标 `via = raw_precondition`）—— 该取值留给后续批次 |
 | `SKIPPED` | 传输失败 / 实例不可达（`The project is not opened`）—— **不**计入结论 |
+
+**读路径（P153，`--probe-read`）**：与写路径**同一链路**，但**零写请求** —— 只发 `GET`
+与取报表 `POST /POST/TABLE`；判定沿用 **L4 口径**（`docs/04` §71）：`2xx` ∧ 解包链命中
+（`read_root` 在响应顶层）⇒ 数据块非空 `PASSED` / **空块 `PARTIAL`**；`4xx` / 解包链
+不命中 ⇒ `FAILED`。规范化结果的键是 **`intent`**（读 = `data["read"]`、取报表 =
+`data["result"]`）—— **不是** Mock Adapter 的 `data["items"]`。
 
 **只读侦察先行**（每条路径之前）：对目标端点发 `OPTIONS`（只读）核对 `Allow` 是否含该
 Operation 声明的方法，并发 `GET` 核对解包链（`read_root`）—— 映射**必须**由实测确认，
 **不**按名字臆造。
 
-**证据里记什么**：逐条 `{path, tool, operation, endpoint, method, uri, status, own_id,
-preconditions, recon, write, readback, edit, cleanup, requests, detail}`；其中 `requests`
-是**接口层实际发出**的请求（method + path + 请求体 —— 请求体是**本探针自建的规范化数据**，
-非凭据、非响应体原文）。
+**证据里记什么**：写路径逐条 `{path, tool, operation, endpoint, method, uri, status,
+own_id, preconditions, recon, write, readback, edit, cleanup, requests, detail}`；
+读路径逐条 `{tool, operation, endpoint, endpoints, method, uri, status, http, intent,
+recon, steps, readback, requests, detail}`。其中 `requests` 是**接口层实际发出**的请求
+（method + path + 请求体 —— 请求体是**本探针自建的规范化数据**，非凭据、非响应体原文）。
 
-映射缺口（本批任务 2）
+映射缺口（P152 任务 2）
 ----------------------
 「**接口层可达但适配层未映射**」= `registry/manifest.json` 里在 GEN NX 上**可写**
 （`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）∧ 已启用 ∧ 非破坏性，但**任何**
@@ -45,13 +53,13 @@ preconditions, recon, write, readback, edit, cleanup, requests, detail}`；其�
 
 ⚠️ **判定点唯一**：Operation → 端点的编排**只**由
 `app/infrastructure/adapters/midas/operations.py` 解释（本工具直接读 `OPERATION_PLANS`），
-`--check` 据此**离线**复算证据的每一行。
+`--check` 据此**离线**复算证据的每一行（写路径 + 读路径**都**复算）。
 
 纪律
 ----
 * **只碰自建编号**：编号 = 该端点既有编号的 `max + 1`（专用空项目 ⇒ `1`）；
   **删除必带路径 key**（`DELETE {uri}/{id}`）。
-* **跑前 / 跑后只读哨兵**：对**全部**被触碰的端点做只读 `GET`；**跑前非空 ⇒ 一个写请求
+* **跑前 / 跑后只读哨兵**：对**全部**被触碰的端点做只读 `GET`；**跑前非空 ⇒ 一个请求
   都不发**（`aborted`）；跑后非空 ⇒ 如实记 `residue`（**不**声称零残留）；
   `residue ⊄ allowed_residue` ⇒ 退出码 1。
 * **分块 + 健康检查**（P149-B2 两次实例崩溃的教训）：每块 ≤ `--chunk-size`（默认 **5**）条，
@@ -59,25 +67,31 @@ preconditions, recon, write, readback, edit, cleanup, requests, detail}`；其�
 * **删除以「再读一次、该编号确实不在」为准**（R119：本 build 的 `DELETE` 会返回 `200`
   并回显被删记录却**不真正删除**）。
 * **绝不逐端点连发原生试探**（R115 / P146 §7 的教训）：本工具**只**经接口层发请求，
-  且每次 `--probe` 都是**有界**批量。
-* 证据里**绝不**出现凭据；**成功**响应**不**留任何原文 —— 只有**失败**请求留原生
-  `error.message` 的前 200 字（`native_error`，诊断必需；与数据侧 `probe_put_edits` 同一口径）。
+  且每次 `--probe` / `--probe-read` 都是**有界**批量。
+* 证据里**绝不**出现凭据；**成功**响应**不**留任何原文（读路径只留结构形态 `kind` / `size`）；
+  只有**失败**请求留原生 `error.message` 的前 200 字（`native_error`，诊断必需；
+  与数据侧 `probe_put_edits` 同一口径）。
 * 专用项目（`docs/04` §72）：本工具在**临时库**里自建一个项目 + 模型 + GEN NX 实例绑定，
-  跑完即弃；**不**碰仓库的 `data/`，也**不**写任何仓库内文件（除两份证据）。
+  跑完即弃；**不**碰仓库的 `data/`，也**不**写任何仓库内文件（除证据文件）。
 
-用法（仓库根目录执行；`--probe` 需要 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY`）
-------------------------------------------------------------------------
+用法（仓库根目录执行；`--probe` / `--probe-read` 需要 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY`）
+----------------------------------------------------------------------------------------
     # ① 离线：映射缺口清单（**零请求**）
     python registry/tools/probe_interface_paths.py --recon
 
-    # ② 接口层端到端（有界：默认一块 ≤ 5 条 + 块间只读健康检查 + 跑前 / 跑后只读哨兵）
+    # ② 接口层写路径端到端（有界：默认一块 ≤ 5 条 + 块间只读健康检查 + 跑前 / 跑后只读哨兵）
     python registry/tools/probe_interface_paths.py --probe
     python registry/tools/probe_interface_paths.py --probe --only DB.NODE --limit 3
     python registry/tools/probe_interface_paths.py --probe --path add --path edit
 
-    # ③ 离线复算（CI 用）
+    # ③ 接口层读路径端到端（**零写请求**）
+    python registry/tools/probe_interface_paths.py --probe-read
+    python registry/tools/probe_interface_paths.py --probe-read --only MODEL.NODE.QUERY
+
+    # ④ 离线复算（CI 用）
     python registry/tools/probe_interface_paths.py --check
     python registry/tools/probe_interface_paths.py --summary
+    python registry/tools/probe_interface_paths.py --read-summary
 """
 
 from __future__ import annotations
@@ -263,6 +277,52 @@ TOOL_BY_OPERATION_PATH: dict[str, str] = {
     PATH_DELETE: "engineering_model_delete",
 }
 """三条路径的 Tool（`docs/07` §5.1；**声明**，`--check` 会与 `operations.py` 复算比对）。"""
+
+
+# ===== P153：接口层**读路径**（零写请求）=====
+
+READ_EVIDENCE_RELATIVE = "live/interface_read_probe.json"
+"""接口层读路径证据（**零写请求**；**不含**凭据、**不含**响应原文，只留结构形态）。"""
+
+READ_CRITERION_VERSION = 1
+
+PARTIAL = "PARTIAL"
+"""L4 口径的第三态：`200` ∧ 解包链命中，但**数据块为空**（`docs/04` §71）。"""
+
+READ_EXERCISES: tuple[dict[str, Any], ...] = (
+    # ---- `engineering_model_query`（8 个 `MODEL.*.QUERY`；`docs/07` §6.2）----
+    {"tool": "engineering_model_query", "operation": "MODEL.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.NODE.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.ELEMENT.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.MATERIAL.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.SECTION.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.BOUNDARY.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.LOAD.QUERY"},
+    {"tool": "engineering_model_query", "operation": "MODEL.GROUP.QUERY"},
+    # ---- `engineering_doc` 的 `INFO`（`docs/07` §6.1：无 `/doc/INFO`，用项目状态代替）----
+    {"tool": "engineering_doc", "operation": "INFO"},
+    # ---- `engineering_result` 取结果族（6；`docs/07` §6.7）----
+    {"tool": "engineering_result", "operation": "RESULT.NODE.DISPLACEMENT"},
+    {"tool": "engineering_result", "operation": "RESULT.NODE.REACTION"},
+    {"tool": "engineering_result", "operation": "RESULT.ELEMENT.FORCE"},
+    {"tool": "engineering_result", "operation": "RESULT.ELEMENT.STRESS"},
+    {"tool": "engineering_result", "operation": "RESULT.MODE.SHAPE"},
+    {"tool": "engineering_result", "operation": "RESULT.ANALYSIS.SUMMARY"},
+)
+"""读类 Operation（**声明**；端点一律由 `operations.py` 的编排**推导**，不在这里写死）。
+
+⚠️ 端点集**不**声明：`--check` 用 `steps_of(plan)` 复算 ⇒ 判定点仍**唯一**在
+`app/infrastructure/adapters/midas/operations.py`。
+"""
+
+READ_METHODS = frozenset({"GET", "POST"})
+"""读路径**允许**发出的方法（`GET` + 取报表的 `POST`；`docs/08` §4 纪律 3）。"""
+
+WRITE_REQUEST_METHODS = frozenset({"PUT", "DELETE", "PATCH"})
+"""读路径**绝不**发出的方法（`--probe-read` 跑完逐条断言 = 0）。"""
+
+TABLE_URI = "/POST/TABLE"
+"""`POST` 只允许打到这里（`POST.TABLE*` 的取报表；**不**落文件、**不**改模型）。"""
 
 
 def _load_app(repo: pathlib.Path) -> None:
@@ -548,10 +608,16 @@ class _RecordingTransport:
 
     ⚠️ 只记录 `method` / `path` / 状态码 / **请求体**（请求体是本探针自建的规范化数据，
     非凭据、非响应原文）；**绝不**记录请求头（`MAPI-Key` 在里面）。
+
+    `capture_shape = True`（**只**读路径开启）时，**成功**响应额外记一份**结构形态**
+    `shape`（每个顶层键的 `kind` / `size`）—— 这是应用 L4 判据「`200` ∧ 解包链命中；
+    空块 ⇒ `PARTIAL`」**必需**的最小元数据（`{}` 与 `{"1": {...}}` 必须能区分），
+    **不含**任何取值 / 原文。
     """
 
-    def __init__(self, inner: Any) -> None:
+    def __init__(self, inner: Any, *, capture_shape: bool = False) -> None:
         self._inner = inner
+        self.capture_shape = capture_shape
         self.calls: list[dict[str, Any]] = []
 
     async def handle_async_request(self, request: Any) -> Any:
@@ -573,6 +639,12 @@ class _RecordingTransport:
                 record["native_error"] = response.text[:200]
             except Exception:  # noqa: BLE001 - 读不回就如实留空
                 record["native_error"] = ""
+        elif self.capture_shape:
+            try:
+                await response.aread()
+                record["shape"] = _shape_of(response.json())
+            except Exception:  # noqa: BLE001 - 形态取不到就如实留空
+                record["shape"] = {}
         self.calls.append(record)
         return response
 
@@ -580,12 +652,34 @@ class _RecordingTransport:
         await self._inner.aclose()
 
 
+def _shape_of(payload: Any) -> dict[str, Any]:
+    """响应的**结构形态**（每个顶层键的 `kind` / `size`）——**不含**任何取值。
+
+    L4 判据要区分「解包链命中但块为空」（`PARTIAL`）与「块非空」（`PASSED`），
+    故必须知道 `{<read_root>: {}}` 与 `{<read_root>: {"1": {...}}}` 的差别；
+    这里只记 `kind` 与 `size`，**不**记键名以外的任何内容（编号键**不**进证据）。
+    """
+    if not isinstance(payload, Mapping):
+        return {}
+    shape: dict[str, Any] = {}
+    for key, value in payload.items():
+        if isinstance(value, Mapping):
+            shape[str(key)] = {"kind": "mapping", "size": len(value)}
+        elif isinstance(value, Sequence) and not isinstance(value, str):
+            shape[str(key)] = {"kind": "list", "size": len(value)}
+        else:
+            shape[str(key)] = {"kind": "scalar", "size": None}
+    return shape
+
+
 class _Stack:
     """一次接口层探针的**进程内装配**（临时库 + GEN NX 实例绑定 + MCP Server）。"""
 
-    def __init__(self, repo: pathlib.Path, workdir: pathlib.Path) -> None:
+    def __init__(self, repo: pathlib.Path, workdir: pathlib.Path, *, read_mode: bool = False) -> None:
         self.repo = repo
         self.workdir = workdir
+        self.read_mode = read_mode
+        """`True` ⇒ **读路径**探针（零写请求；成功响应记结构形态 `shape`）。"""
         self.transport: _RecordingTransport | None = None
         self.log: list[dict[str, Any]] = []
         """自上次 `clear()` 以来**接口层实际发出**的全部请求（供逐行证据）。"""
@@ -672,7 +766,9 @@ class _Stack:
         self.registry = MidasRegistry.load(self.repo / "registry")
 
         # ---- 专用实例：MIDAS / GEN NX（**只**在本临时库里登记）----
-        self.transport = _RecordingTransport(httpx.AsyncHTTPTransport())
+        self.transport = _RecordingTransport(
+            httpx.AsyncHTTPTransport(), capture_shape=self.read_mode
+        )
         install(
             runtime.adapters,
             factory=lambda: MidasAdapter(
@@ -847,7 +943,11 @@ class _Stack:
     # ---- 只读侦察 / 哨兵 ----
 
     def read_ids(self, endpoint: str) -> tuple[str, ...]:
-        """只读 `GET` 该端点 → 既有编号（升序；**零副作用**）。"""
+        """只读 `GET` 该端点 → 既有**编号**（升序；**零副作用**）。
+
+        ⚠️ 只有**编号键**算编号：单例 / 状态表的读回块是 `{"DATA": ..., "HEAD": ...}`
+        （`OPE.PROJECTSTATUS`），把它当「既有编号」会让哨兵**假非空**（P153 实测）。
+        """
         definition = self.registry.endpoint(endpoint)
         response = self.client.get("/" + str(definition.uri).lstrip("/"))
         if response.status_code != 200:
@@ -865,7 +965,7 @@ class _Stack:
             return tuple(
                 sorted(str(item.get("ID")) for item in nested if isinstance(item, Mapping))
             )
-        return tuple(sorted(str(key) for key in block))
+        return tuple(sorted(str(key) for key in block if str(key).isdigit()))
 
     def next_id(self, endpoint: str) -> str:
         """自建编号 = 该端点既有编号的 `max + 1`（空 ⇒ `1`；见纪律）。"""
@@ -1302,6 +1402,381 @@ def _sorted_rows(rows: Mapping[tuple[str, str], dict[str, Any]]) -> list[dict[st
     ]
 
 
+# ===== P153：读路径（零写请求）=====
+
+
+def load_read_evidence(repo: pathlib.Path) -> dict[str, Any]:
+    """接口层**读路径**证据（缺失 / 版本不符 → 明确退出）。"""
+    document = _read_json(repo / "registry" / READ_EVIDENCE_RELATIVE)
+    if not document:
+        raise SystemExit(f"❌ 缺证据文件 registry/{READ_EVIDENCE_RELATIVE}（先跑 --probe-read）")
+    if int(document.get("criterion_version") or 0) != READ_CRITERION_VERSION:
+        raise SystemExit(
+            f"❌ 读路径证据的 criterion_version = {document.get('criterion_version')!r}，"
+            f"本工具为 {READ_CRITERION_VERSION}（判据已变 ⇒ 先重跑 --probe-read）"
+        )
+    return document
+
+
+def read_plan(repo: pathlib.Path, operation: str) -> Any:
+    """该 Operation 的 `OperationPlan`（**唯一**判定点 = `operations.py`）。"""
+    _load_app(repo)
+    from app.infrastructure.adapters.midas.operations import plan_for  # noqa: PLC0415
+
+    return plan_for(operation)
+
+
+def read_endpoints(repo: pathlib.Path, operation: str) -> tuple[str, ...]:
+    """读类 Operation 引用的**全部**端点（由编排推导，**不**在声明里写死）。"""
+    return tuple(str(step.key) for step in steps_of(read_plan(repo, operation)))
+
+
+def read_sentinel_keys(repo: pathlib.Path) -> list[str]:
+    """读路径哨兵端点集 = 全部读类 Operation 引用到的端点（去重、升序）。"""
+    keys: set[str] = set()
+    for exercise in READ_EXERCISES:
+        keys.update(read_endpoints(repo, str(exercise["operation"])))
+    return sorted(keys)
+
+
+def _step_block(shape: Mapping[str, Any], read_root: str) -> str:
+    """解包链命中情况：`nonempty` / `empty` / `absent` / `n/a`（结果类端点无 `read_root`）。"""
+    if not read_root:
+        return "n/a"
+    info = shape.get(read_root)
+    if not isinstance(info, Mapping):
+        return "absent"
+    return "empty" if int(info.get("size") or 0) == 0 else "nonempty"
+
+
+async def _read_exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any]:
+    """跑一条**读**路径（`GET` / 取报表 `POST`）并返回**逐条**证据行。
+
+    ⚠️ **零写请求**：只发 `GET` 与 `POST /POST/TABLE`；`PUT` / `DELETE` / `PATCH`
+    在本路径**结构上不可能**出现（`--check` 与测试逐条断言 = 0）。
+    """
+    tool = str(exercise["tool"])
+    operation = str(exercise["operation"])
+    steps = steps_of(read_plan(stack.repo, operation))
+    endpoints = [str(step.key) for step in steps]
+    first = steps[0]
+    row: dict[str, Any] = {
+        "tool": tool,
+        "operation": operation,
+        "endpoint": endpoints[0],
+        "endpoints": endpoints,
+        "method": str(first.method),
+        "uri": "",
+        "status": FAILED,
+        "http": 0,
+        "intent": str(first.intent),
+        "recon": {},
+        "steps": [],
+        "readback": {},
+        "error": {},
+        "requests": [],
+        "detail": "",
+    }
+    stack.log.clear()
+    try:
+        definition = stack.registry.endpoint(endpoints[0])
+        row["uri"] = "/" + str(definition.uri).lstrip("/")
+        row["recon"] = stack.recon(endpoints[0], str(first.method))
+        outcome = await stack.run_operation(
+            tool, operation, dict(exercise.get("parameters") or {})
+        )
+        requests = list(stack.log)
+        row["http"] = _last_status(requests)
+        row["requests"] = requests
+        row["error"] = _error_of(outcome["response"])
+        step_rows: list[dict[str, Any]] = []
+        for index, step in enumerate(steps):
+            record = requests[index] if index < len(requests) else {}
+            try:
+                resolved = stack.registry.resolve(
+                    key=str(step.key), product=PRODUCT_KEY, method=str(step.method)
+                )
+                read_root = str(resolved.read_root or "")
+            except Exception:  # noqa: BLE001 - 解析失败（如产品不可得）如实留空
+                read_root = ""
+            shape = record.get("shape") if isinstance(record.get("shape"), Mapping) else {}
+            step_rows.append(
+                {
+                    "endpoint": str(step.key),
+                    "method": str(step.method),
+                    "intent": str(step.intent),
+                    "status": int(record.get("status") or 0),
+                    "read_root": read_root,
+                    "block": _step_block(shape, read_root),
+                    "native_size": int((shape.get(read_root) or {}).get("size") or 0)
+                    if read_root and isinstance(shape.get(read_root), Mapping)
+                    else 0,
+                }
+            )
+        row["steps"] = step_rows
+        row["readback"] = _readback_of(str(first.intent), outcome["data"])
+        row["detail"], row["status"] = _read_verdict(row)
+        return row
+    except Exception as error:  # noqa: BLE001 - 逐条隔离（单条失败不打死整批）
+        row["status"] = SKIPPED if INSTANCE_DOWN_MARKER in str(error) else FAILED
+        row["detail"] = f"{type(error).__name__}:{error}"[:200]
+        return row
+    finally:
+        row["requests"] = list(stack.log)
+
+
+def _readback_of(intent: str, data: Any) -> dict[str, Any]:
+    """规范化结果的**摘要**（读 = 有取值的条目数 + 首条键集；结果 = 行数）。
+
+    ⚠️ **不**留任何取值 —— 只有计数与键名（键名来自 canonical 模型，非响应原文）。
+    ⚠️ 「有取值」= 条目里**至少一个**字段不是 `None`：空块经 Transformer 会退化成
+    `{"x": None, "y": None, ...}`（**非空** dict），只数「非空 dict」会把空块算成 1 条
+    （P153 实测）⇒ 计数口径必须按**取值**判。
+    """
+    summary: dict[str, Any] = {"intent": intent, "count": 0, "keys": []}
+    if not isinstance(data, Mapping):
+        return summary
+    payload = data.get(intent)
+    if intent == "result":
+        rows = payload.get("rows") if isinstance(payload, Mapping) else None
+        summary["count"] = len(rows) if isinstance(rows, Sequence) else 0
+        return summary
+    if not isinstance(payload, Sequence) or isinstance(payload, str):
+        return summary
+    items = [item for item in payload if isinstance(item, Mapping)]
+    valued = [item for item in items if any(value is not None for value in item.values())]
+    summary["count"] = len(valued)
+    if items:
+        summary["keys"] = sorted(str(key) for key in items[0])
+    return summary
+
+
+def _read_verdict(row: Mapping[str, Any]) -> tuple[str, str]:
+    """L4 口径的读路径判定：`2xx` ∧ 解包链命中；空块 ⇒ `PARTIAL`。
+
+    Returns:
+        `(detail, status)`。
+    """
+    requests = list(row.get("requests") or [])
+    step_rows = list(row.get("steps") or [])
+    error = row.get("error") or {}
+    code = str(error.get("code") or "")
+    if not requests:
+        return (f"no_interface_request:{code}" if code else "no_interface_request"), FAILED
+    statuses = [int(item.get("status") or 0) for item in requests]
+    if any(not 200 <= value < 300 for value in statuses):
+        return f"http_{statuses[-1]}:{code}" if code else f"http_{statuses[-1]}", FAILED
+    count = int((row.get("readback") or {}).get("count") or 0)
+    if str(row.get("intent")) == "result":
+        return ("", PASSED) if count > 0 else ("empty_table", PARTIAL)
+    blocks = [str(item.get("block")) for item in step_rows]
+    if any(block == "absent" for block in blocks):
+        return "read_root_missing", FAILED
+    if all(block == "nonempty" for block in blocks):
+        return ("", PASSED) if count > 0 else ("readback_empty_after_transform", PARTIAL)
+    return "empty_block", PARTIAL
+
+
+def _read_existing_rows(repo: pathlib.Path) -> dict[str, dict[str, Any]]:
+    """既有**读路径**证据的逐行结果（判据版本不符 ⇒ 空 ⇒ 全部重测）。"""
+    document = _read_json(repo / "registry" / READ_EVIDENCE_RELATIVE)
+    if int(document.get("criterion_version") or 0) != READ_CRITERION_VERSION:
+        return {}
+    rows = document.get("paths")
+    if not isinstance(rows, list):
+        return {}
+    return {
+        str(row.get("operation")): dict(row)
+        for row in rows
+        if isinstance(row, Mapping) and row.get("operation")
+    }
+
+
+def probe_read(
+    repo: pathlib.Path,
+    *,
+    only: tuple[str, ...] = (),
+    limit: int = CHUNK_SIZE,
+    chunk_size: int = CHUNK_SIZE,
+    allow_residue: tuple[str, ...] = (),
+) -> int:
+    """接口层**读路径**（有界：分块 + 块间只读健康检查 + 跑前 / 跑后只读哨兵 + 累积）。"""
+    base_url = os.environ.get("MIDAS_BASE_URL", "").rstrip("/")
+    key_value = os.environ.get("MIDAS_MAPI_KEY", "")
+    if not base_url or not key_value:
+        print("❌ --probe-read 需要 MIDAS_BASE_URL / MIDAS_MAPI_KEY（见 scripts/load-midas-env.ps1）")
+        return 1
+
+    existing = _read_existing_rows(repo)
+    pending = [
+        exercise
+        for exercise in READ_EXERCISES
+        if (not only or str(exercise["operation"]) in only)
+        and str(exercise["operation"]) not in existing
+    ][:limit]
+    sentinel_keys = read_sentinel_keys(repo)
+    print(
+        f"接口层读路径：读类 Operation {len(READ_EXERCISES)} 条 · 端点 {len(sentinel_keys)} 个 · "
+        f"哨兵 {len(sentinel_keys)} 个端点 · 既有证据 {len(existing)} 行 ⇒ "
+        f"本次待跑 {len(pending)} 条（实例 {INSTANCE_ALIAS} / {INSTANCE_PRODUCT}）"
+    )
+
+    with tempfile.TemporaryDirectory(prefix="p153-interface-read-") as raw:
+        fresh_rows, aborted, before, after, dedicated = asyncio.run(
+            _probe_read_async(
+                repo, pathlib.Path(raw), pending, sentinel_keys, chunk_size, allow_residue
+            )
+        )
+
+    merged = dict(existing)
+    for row in fresh_rows:
+        merged[str(row["operation"])] = row
+    order = {str(item["operation"]): index for index, item in enumerate(READ_EXERCISES)}
+    rows = [merged[key] for key in sorted(merged, key=lambda name: order.get(name, 99))]
+    counts: dict[str, int] = {}
+    by_tool: dict[str, dict[str, int]] = {}
+    for row in rows:
+        counts[str(row["status"])] = counts.get(str(row["status"]), 0) + 1
+        bucket = by_tool.setdefault(str(row["tool"]), {})
+        bucket[str(row["status"])] = bucket.get(str(row["status"]), 0) + 1
+    residue = {key: value["ids"] for key, value in after.items() if value.get("ids")}
+    methods: dict[str, int] = {}
+    for row in rows:
+        for item in row.get("requests") or []:
+            name = str(item.get("method"))
+            methods[name] = methods.get(name, 0) + 1
+    document = {
+        "note": [
+            "判据（**P153 接口层读路径**）：与写路径**同一链路** —— "
+            "MCP Tool → OperationPlan（`operations.py`）→ Adapter（intent 分派）→ "
+            "MidasHttpClient（护栏 + 包装键）→ MIDAS 实例。",
+            "**零写请求**：只发 `GET` 与取报表 `POST /POST/TABLE`；"
+            "`PUT` / `DELETE` / `PATCH` 在本路径**结构上不可能**出现（逐条断言 = 0）。",
+            "判定沿用 **L4 口径**（`docs/04` §71）：`2xx` ∧ 解包链命中（`read_root` 在响应顶层）"
+            "⇒ 数据块非空 `PASSED` / 空块 `PARTIAL`；`4xx` / 解包链不命中 ⇒ `FAILED`。",
+            "规范化结果的键是 **`intent`**（读 = `data[\"read\"]`、取报表 = `data[\"result\"]`）"
+            "—— **不是** Mock Adapter 的 `data[\"items\"]`。",
+            "⚠️ 多端点读 Operation（如 `MODEL.LOAD.QUERY` 的 4 个端点）的规范化结果键**相同**，"
+            "接口层按 `intent` 落键 ⇒ `data[\"read\"]` **只保留最后一步**（本证据的逐端点读数"
+            "取自 `steps[]`，不依赖该聚合键）。",
+            "证据里**只有**结构形态（每个顶层键的 `kind` / `size`）——**不含**任何取值 / 响应原文；"
+            "失败请求**只**留原生 `error.message` 的前 200 字（`native_error`）。",
+            "生成器 = `registry/tools/probe_interface_paths.py --probe-read`"
+            f"（分块 ≤ `--chunk-size` + 块间只读健康检查 `{HEALTH_PATH}` + 跑前 / 跑后只读哨兵；"
+            "累积：既有行逐字节保留）。",
+            "⚠️ 本判据**不**并入任何覆盖率口径（`live.write_path_coverage()` **不变**），"
+            "也**不**并入 P152 的写路径子桶（**13** 条 = 4 + 9）。",
+        ],
+        "criterion_version": READ_CRITERION_VERSION,
+        "instance": {
+            "alias": INSTANCE_ALIAS,
+            "product": INSTANCE_PRODUCT,
+            "base_url": base_url,
+            "probed_at": PROBED_AT,
+        },
+        "dedicated_project": dedicated,
+        "read_only": True,
+        "methods": methods,
+        "write_requests": sum(
+            count for name, count in methods.items() if name in WRITE_REQUEST_METHODS
+        ),
+        "sentinel_endpoints": sentinel_keys,
+        "sentinel_before": before,
+        "sentinel_after": after,
+        "residue": residue,
+        "allowed_residue": sorted(allow_residue),
+        "aborted": aborted,
+        "counts": counts,
+        "by_tool": by_tool,
+        "paths": rows,
+    }
+    path = repo / "registry" / READ_EVIDENCE_RELATIVE
+    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    undisclosed = {name for name in residue if name not in allow_residue}
+    print(
+        "verdict =",
+        counts,
+        " by_tool =",
+        by_tool,
+        " 中止 =",
+        bool(aborted),
+        " 残留 =",
+        sorted(residue),
+        " 未披露残留 =",
+        sorted(undisclosed),
+    )
+    print(f"已写入 registry/{READ_EVIDENCE_RELATIVE}（{len(rows)} 行）")
+    return 1 if (aborted or undisclosed) else 0
+
+
+async def _probe_read_async(
+    repo: pathlib.Path,
+    workdir: pathlib.Path,
+    pending: Sequence[Mapping[str, Any]],
+    sentinel_keys: Sequence[str],
+    chunk_size: int,
+    allow_residue: tuple[str, ...],
+) -> tuple[list[dict[str, Any]], str, dict[str, Any], dict[str, Any], dict[str, Any]]:
+    """读路径的异步主体（装配 → 哨兵 → 分块 → 哨兵；**零写请求**）。"""
+    rows: list[dict[str, Any]] = []
+    aborted = ""
+    async with _Stack(repo, workdir, read_mode=True) as stack:
+        dedicated = {
+            "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
+            "project_id": stack.ids.get("project_id", ""),
+            "model_id": stack.ids.get("model_id", ""),
+            "software_instance_id": stack.instance_id,
+            "product": INSTANCE_PRODUCT,
+        }
+        before = stack.sentinel(sentinel_keys)
+        blocked = {
+            key: value["ids"]
+            for key, value in before.items()
+            if value.get("ids") and key not in allow_residue
+        }
+        if blocked:
+            aborted = f"跑前哨兵**非空** ⇒ 一个请求都不发（{sorted(blocked)[:5]}）"
+            print(f"⚠️ {aborted}")
+            return rows, aborted, before, before, dedicated
+        for start in range(0, len(pending), chunk_size):
+            chunk = list(pending[start : start + chunk_size])
+            for exercise in chunk:
+                row = await _read_exercise(stack, exercise)
+                rows.append(row)
+                print(
+                    f"  [{row['tool']}] {row['operation']} → {','.join(row['endpoints'])} "
+                    f"= {row['status']} {row.get('detail') or ''}"
+                )
+            health = stack.client.get(HEALTH_PATH).status_code
+            print(f"  块 {start // chunk_size + 1} 完成（{len(chunk)} 条）；健康检查 → {health}")
+            if health != 200:
+                aborted = f"健康检查 {HEALTH_PATH} → {health}（**立即中止**，P149-B2 的教训）"
+                print(f"  ⚠️ {aborted}")
+                break
+        after = stack.sentinel(sentinel_keys)
+        # ---- 零写请求（结构性断言：只允许 GET 与取报表 POST）----
+        offenders = [
+            item
+            for row in rows
+            for item in row.get("requests") or []
+            if str(item.get("method")) in WRITE_REQUEST_METHODS
+        ]
+        off_table = [
+            item
+            for row in rows
+            for item in row.get("requests") or []
+            if str(item.get("method")) == "POST"
+            and not str(item.get("path")).endswith(TABLE_URI)
+        ]
+        if offenders or off_table:
+            aborted = (
+                "读路径出现了写请求 / 表外 POST ⇒ 中止并如实报告"
+                f"（写方法 {len(offenders)} 条 / 表外 POST {len(off_table)} 条）"
+            )
+            print(f"  ⚠️ {aborted}")
+        return rows, aborted, before, after, dedicated
+
+
 def probe(
     repo: pathlib.Path,
     *,
@@ -1477,6 +1952,109 @@ def _plan_step(repo: pathlib.Path, operation: str, endpoint: str) -> Mapping[str
     return None
 
 
+def check_read(repo: pathlib.Path) -> list[str]:
+    """离线断言：**读路径**证据与 `operations.py` / manifest / 判据自洽（零写请求）。"""
+    problems: list[str] = []
+    document = load_read_evidence(repo)
+    rows = document.get("paths") or []
+    index = manifest_index(repo)
+    if not isinstance(rows, list) or not rows:
+        problems.append(f"{READ_EVIDENCE_RELATIVE}: paths 为空")
+        return problems
+    by_operation = {str(row.get("operation")): row for row in rows}
+    expected = [str(item["operation"]) for item in READ_EXERCISES]
+    if sorted(by_operation) != sorted(expected):
+        problems.append(
+            f"{READ_EVIDENCE_RELATIVE}: 行集 ≠ 读类 Operation 声明集"
+            f"（缺 {sorted(set(expected) - set(by_operation))} / 多 "
+            f"{sorted(set(by_operation) - set(expected))}）"
+        )
+    for row in rows:
+        tool = str(row.get("tool"))
+        operation = str(row.get("operation"))
+        declared = next(
+            (item for item in READ_EXERCISES if str(item["operation"]) == operation), None
+        )
+        if declared is None:
+            problems.append(f"{operation}: 不在读类 Operation 声明里")
+            continue
+        if tool != str(declared["tool"]):
+            problems.append(f"{operation}: tool = {tool!r} ≠ 声明 {declared['tool']!r}")
+        try:
+            plan = read_plan(repo, operation)
+        except Exception as error:  # noqa: BLE001 - 未登记 ⇒ 如实记
+            problems.append(f"{operation}: operations.py 里不可解析（{error}）")
+            continue
+        if str(plan.tool) != tool:
+            problems.append(f"{operation}: tool ≠ operations.py 的 {str(plan.tool)!r}")
+        endpoints = [str(step.key) for step in steps_of(plan)]
+        if list(row.get("endpoints") or []) != endpoints:
+            problems.append(f"{operation}: endpoints = {row.get('endpoints')!r} ≠ 编排 {endpoints}")
+        if str(row.get("method")) != str(steps_of(plan)[0].method):
+            problems.append(f"{operation}: method ≠ 编排首步")
+        if str(row.get("intent")) != str(steps_of(plan)[0].intent):
+            problems.append(f"{operation}: intent ≠ 编排首步")
+        entry = index.get(endpoints[0])
+        if entry is None:
+            problems.append(f"{operation}: manifest 里没有端点 {endpoints[0]}")
+        elif str(row.get("uri")) != "/" + str(entry.get("uri") or "").lstrip("/"):
+            problems.append(f"{operation}: uri = {row.get('uri')!r} ≠ manifest")
+        status = str(row.get("status"))
+        if status not in {PASSED, PARTIAL, FAILED, SKIPPED}:
+            problems.append(f"{operation}: 未知 status {status!r}")
+        if status in {PASSED, PARTIAL}:
+            http = int(row.get("http") or 0)
+            if not 200 <= http < 300:
+                problems.append(f"{operation}: {status} 但接口层最后一个请求状态码 = {http}")
+            if not (row.get("readback") or {}).get("intent"):
+                problems.append(f"{operation}: {status} 但读回摘要为空")
+            if status == PASSED and int((row.get("readback") or {}).get("count") or 0) < 1:
+                problems.append(f"{operation}: PASSED 但读回条目数为 0")
+        if status == FAILED:
+            if not str(row.get("detail") or ""):
+                problems.append(f"{operation}: FAILED 但没有成因")
+            if not row.get("error"):
+                problems.append(f"{operation}: FAILED 但没有错误摘要（**不**留空）")
+            elif not (row["error"].get("native_reason") or row["error"].get("code")):
+                problems.append(f"{operation}: FAILED 但没有原生原因 / 错误码")
+        for item in row.get("requests") or []:
+            method = str(item.get("method"))
+            if method not in READ_METHODS:
+                problems.append(f"{operation}: 读路径出现了 {method} 请求")
+            if method == "POST" and not str(item.get("path")).endswith(TABLE_URI):
+                problems.append(f"{operation}: 读路径的 POST 不在 {TABLE_URI}（{item.get('path')}）")
+        if "MAPI-Key" in json.dumps(row.get("requests") or [], ensure_ascii=False):
+            problems.append(f"{operation}: 请求记录里出现凭据字样")
+
+    # ---- 每个读类 Tool 都取得**结论**（任务 1 的硬要求）----
+    concluded: dict[str, int] = {}
+    for row in rows:
+        tool = str(row.get("tool"))
+        concluded[tool] = concluded.get(tool, 0) + 1
+    for tool in sorted({str(item["tool"]) for item in READ_EXERCISES}):
+        if concluded.get(tool, 0) < 1:
+            problems.append(f"{tool}: 没有取得任何读路径结论（任务 1 的硬要求）")
+
+    # ---- 零写请求 / 哨兵自洽 / 残留披露 ----
+    declared_write = document.get("write_requests")
+    if declared_write is None or int(declared_write) != 0:
+        problems.append(f"{READ_EVIDENCE_RELATIVE}: write_requests = {declared_write!r} ≠ 0")
+    for name, count in (document.get("methods") or {}).items():
+        if str(name) not in READ_METHODS:
+            problems.append(f"{READ_EVIDENCE_RELATIVE}: 出现过 {name}（{count} 次）")
+    if document.get("sentinel_before") != document.get("sentinel_after"):
+        problems.append(f"{READ_EVIDENCE_RELATIVE}: 跑前 / 跑后哨兵不一致（读路径应零副作用）")
+    if document.get("aborted"):
+        problems.append(f"{READ_EVIDENCE_RELATIVE}: aborted 非空（{document['aborted']}）")
+    if sorted(document.get("sentinel_endpoints") or []) != read_sentinel_keys(repo):
+        problems.append(f"{READ_EVIDENCE_RELATIVE}: 哨兵端点集 ≠ 全部被触碰的端点")
+    allowed = set(document.get("allowed_residue") or ())
+    for key in document.get("residue") or {}:
+        if key not in allowed:
+            problems.append(f"{READ_EVIDENCE_RELATIVE}: 残留 {key} **未**披露")
+    return problems
+
+
 def check(repo: pathlib.Path) -> int:
     """离线断言：证据与 `operations.py` / `manifest.json` / 判据自洽。"""
     problems: list[str] = []
@@ -1590,16 +2168,22 @@ def check(repo: pathlib.Path) -> int:
     ):
         problems.append(f"{EVIDENCE_RELATIVE}: 哨兵端点集 ≠ 全部被触碰的端点")
 
+    # ---- ⑥ 读路径证据（P153；零写请求）----
+    problems.extend(check_read(repo))
+
     if problems:
         print("❌ 接口层证据与数据侧不一致：")
         for item in problems:
             print(f"  - {item}")
         return 1
+    read_document = load_read_evidence(repo)
+    read_rows = read_document.get("paths") or []
     print(
         "✅ 接口层证据自洽：映射缺口与 `operations.py` 复算一致（缺口 "
         f"{len(gap_document.get('gap_three_step') or [])} + "
         f"{len(gap_document.get('gap_no_readback') or [])}）；"
-        f"{len(rows)} 条路径逐行与编排一致；三条路径各有 PASSED（{per_path}）；残留如实披露"
+        f"{len(rows)} 条写路径逐行与编排一致；三条路径各有 PASSED（{per_path}）；残留如实披露；"
+        f"读路径 {len(read_rows)} 条零写请求（{read_document.get('counts')}）"
     )
     return 0
 
@@ -1629,18 +2213,38 @@ def summary(repo: pathlib.Path) -> int:
     return 0
 
 
+def read_summary(repo: pathlib.Path) -> int:
+    """打印**读路径**证据摘要（只读）。"""
+    document = load_read_evidence(repo)
+    rows = document.get("paths") or []
+    print(f"接口层读路径证据：{len(rows)} 条 · 判据版本 {document.get('criterion_version')}")
+    print(f"  实例：{document.get('instance')}")
+    print(f"  零写请求：{document.get('write_requests')} · 方法计数：{document.get('methods')}")
+    print(f"  计数：{document.get('counts')} · 按 Tool：{document.get('by_tool')}")
+    print(f"  中止：{document.get('aborted')!r} · 残留：{document.get('residue')}")
+    for row in rows:
+        print(
+            f"  [{row.get('tool')}] {row.get('operation')} → {','.join(row.get('endpoints') or [])}"
+            f" = {row.get('status')} http={row.get('http')} 读回={row.get('readback')}"
+            f" {row.get('detail') or ''}"
+        )
+    return 0
+
+
 # ===== CLI =====
 
 
 def main(argv: list[str] | None = None) -> int:
     """命令行入口。"""
-    parser = argparse.ArgumentParser(description="P152 接口层（app/ 适配层）添加/删除/编辑判据")
+    parser = argparse.ArgumentParser(description="P152/P153 接口层（app/ 适配层）写 / 读路径判据")
     parser.add_argument("--repo", default=REPO_DEFAULT, help="仓库根目录（默认当前目录）")
     parser.add_argument("--recon", action="store_true", help="离线：写映射缺口清单（零请求）")
-    parser.add_argument("--probe", action="store_true", help="经 MCP Tool 契约端到端实测")
+    parser.add_argument("--probe", action="store_true", help="经 MCP Tool 契约端到端实测（写路径）")
+    parser.add_argument("--probe-read", action="store_true", help="经 MCP Tool 契约实测读路径（零写）")
     parser.add_argument("--check", action="store_true", help="离线：断言证据与数据侧一致")
-    parser.add_argument("--summary", action="store_true", help="打印证据摘要")
-    parser.add_argument("--only", action="append", default=[], help="只跑这些端点（可重复）")
+    parser.add_argument("--summary", action="store_true", help="打印写路径证据摘要")
+    parser.add_argument("--read-summary", action="store_true", help="打印读路径证据摘要")
+    parser.add_argument("--only", action="append", default=[], help="只跑这些端点 / Operation（可重复）")
     parser.add_argument("--path", action="append", default=[], help="只跑这些路径（add/edit/delete）")
     parser.add_argument("--limit", type=int, default=CHUNK_SIZE, help="本次最多跑多少条")
     parser.add_argument("--chunk-size", type=int, default=CHUNK_SIZE, help="每块条数（≤ 20）")
@@ -1660,10 +2264,20 @@ def main(argv: list[str] | None = None) -> int:
             chunk_size=max(1, min(20, int(args.chunk_size))),
             allow_residue=tuple(args.allow_residue),
         )
+    if args.probe_read:
+        return probe_read(
+            repo,
+            only=tuple(args.only),
+            limit=max(1, int(args.limit)),
+            chunk_size=max(1, min(20, int(args.chunk_size))),
+            allow_residue=tuple(args.allow_residue),
+        )
     if args.check:
         return check(repo)
     if args.summary:
         return summary(repo)
+    if args.read_summary:
+        return read_summary(repo)
     parser.print_help()
     return 0
 

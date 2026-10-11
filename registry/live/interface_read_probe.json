@@ -1,0 +1,1204 @@
+{
+  "note": [
+    "判据（**P153 接口层读路径**）：与写路径**同一链路** —— MCP Tool → OperationPlan（`operations.py`）→ Adapter（intent 分派）→ MidasHttpClient（护栏 + 包装键）→ MIDAS 实例。",
+    "**零写请求**：只发 `GET` 与取报表 `POST /POST/TABLE`；`PUT` / `DELETE` / `PATCH` 在本路径**结构上不可能**出现（逐条断言 = 0）。",
+    "判定沿用 **L4 口径**（`docs/04` §71）：`2xx` ∧ 解包链命中（`read_root` 在响应顶层）⇒ 数据块非空 `PASSED` / 空块 `PARTIAL`；`4xx` / 解包链不命中 ⇒ `FAILED`。",
+    "规范化结果的键是 **`intent`**（读 = `data[\"read\"]`、取报表 = `data[\"result\"]`）—— **不是** Mock Adapter 的 `data[\"items\"]`。",
+    "⚠️ 多端点读 Operation（如 `MODEL.LOAD.QUERY` 的 4 个端点）的规范化结果键**相同**，接口层按 `intent` 落键 ⇒ `data[\"read\"]` **只保留最后一步**（本证据的逐端点读数取自 `steps[]`，不依赖该聚合键）。",
+    "证据里**只有**结构形态（每个顶层键的 `kind` / `size`）——**不含**任何取值 / 响应原文；失败请求**只**留原生 `error.message` 的前 200 字（`native_error`）。",
+    "生成器 = `registry/tools/probe_interface_paths.py --probe-read`（分块 ≤ `--chunk-size` + 块间只读健康检查 `/DB/NODE` + 跑前 / 跑后只读哨兵；累积：既有行逐字节保留）。",
+    "⚠️ 本判据**不**并入任何覆盖率口径（`live.write_path_coverage()` **不变**），也**不**并入 P152 的写路径子桶（**13** 条 = 4 + 9）。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11"
+  },
+  "dedicated_project": {
+    "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
+    "project_id": "a674121c-7848-4060-afa9-a889b4d4c11b",
+    "model_id": "9a8b4383-bc3d-444e-bd4e-ecddb3980cd0",
+    "software_instance_id": "1090958f-ce72-4f00-8589-5a18c4d33804",
+    "product": "GEN NX"
+  },
+  "read_only": true,
+  "methods": {
+    "GET": 12,
+    "POST": 5
+  },
+  "write_requests": 0,
+  "sentinel_endpoints": [
+    "DB.BMLD",
+    "DB.BODF",
+    "DB.CONS",
+    "DB.ELEM",
+    "DB.GRUP",
+    "DB.MATL",
+    "DB.NODE",
+    "DB.PRES",
+    "DB.SECT",
+    "DB.STLD",
+    "OPE.PROJECTSTATUS",
+    "POST.TABLE",
+    "POST.TABLE.BEAMFORCE",
+    "POST.TABLE.BEAMSTRESS",
+    "POST.TABLE.DISPLACEMENTG",
+    "POST.TABLE.EIGENVALUEMODE",
+    "POST.TABLE.REACTIONG"
+  ],
+  "sentinel_before": {
+    "DB.BMLD": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.BODF": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.PRES": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.STLD": {
+      "status": 200,
+      "ids": []
+    },
+    "OPE.PROJECTSTATUS": {
+      "status": 200,
+      "ids": []
+    },
+    "POST.TABLE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.BEAMFORCE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.BEAMSTRESS": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.DISPLACEMENTG": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.EIGENVALUEMODE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.REACTIONG": {
+      "status": 405,
+      "ids": []
+    }
+  },
+  "sentinel_after": {
+    "DB.BMLD": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.BODF": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.PRES": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.STLD": {
+      "status": 200,
+      "ids": []
+    },
+    "OPE.PROJECTSTATUS": {
+      "status": 200,
+      "ids": []
+    },
+    "POST.TABLE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.BEAMFORCE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.BEAMSTRESS": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.DISPLACEMENTG": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.EIGENVALUEMODE": {
+      "status": 405,
+      "ids": []
+    },
+    "POST.TABLE.REACTIONG": {
+      "status": 405,
+      "ids": []
+    }
+  },
+  "residue": {},
+  "allowed_residue": [],
+  "aborted": "",
+  "counts": {
+    "PASSED": 2,
+    "PARTIAL": 7,
+    "FAILED": 6
+  },
+  "by_tool": {
+    "engineering_model_query": {
+      "PASSED": 1,
+      "PARTIAL": 7
+    },
+    "engineering_doc": {
+      "PASSED": 1
+    },
+    "engineering_result": {
+      "FAILED": 6
+    }
+  },
+  "paths": [
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.QUERY",
+      "endpoint": "OPE.PROJECTSTATUS",
+      "endpoints": [
+        "OPE.PROJECTSTATUS"
+      ],
+      "method": "GET",
+      "uri": "/OPE/PROJECTSTATUS",
+      "status": "PASSED",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/OPE/PROJECTSTATUS",
+        "allow": [
+          "GET",
+          "HEAD"
+        ],
+        "get_status": 200,
+        "read_root": "PROJECTSTATUS",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "OPE.PROJECTSTATUS",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "PROJECTSTATUS",
+          "block": "nonempty",
+          "native_size": 2
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 1,
+        "keys": [
+          "DATA",
+          "DATA_LOAD"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/OPE/PROJECTSTATUS",
+          "status": 200,
+          "shape": {
+            "PROJECTSTATUS": {
+              "kind": "mapping",
+              "size": 2
+            }
+          }
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.NODE.QUERY",
+      "endpoint": "DB.NODE",
+      "endpoints": [
+        "DB.NODE"
+      ],
+      "method": "GET",
+      "uri": "/DB/NODE",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/NODE",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "NODE",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.NODE",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "NODE",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200,
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.ELEMENT.QUERY",
+      "endpoint": "DB.ELEM",
+      "endpoints": [
+        "DB.ELEM"
+      ],
+      "method": "GET",
+      "uri": "/DB/ELEM",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/ELEM",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "ELEM",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.ELEM",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "ELEM",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "angle",
+          "material_id",
+          "node_ids",
+          "section_id",
+          "type"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200,
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.MATERIAL.QUERY",
+      "endpoint": "DB.MATL",
+      "endpoints": [
+        "DB.MATL"
+      ],
+      "method": "GET",
+      "uri": "/DB/MATL",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/MATL",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "MATL",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.MATL",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "MATL",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "density",
+          "elastic_modulus",
+          "mass_density",
+          "name",
+          "poisson_ratio",
+          "thermal_coefficient",
+          "type"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/MATL",
+          "status": 200,
+          "shape": {
+            "MATL": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.SECTION.QUERY",
+      "endpoint": "DB.SECT",
+      "endpoints": [
+        "DB.SECT"
+      ],
+      "method": "GET",
+      "uri": "/DB/SECT",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/SECT",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "SECT",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.SECT",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "SECT",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "name",
+          "offset_point",
+          "section_type",
+          "shape"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/SECT",
+          "status": 200,
+          "shape": {
+            "SECT": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.BOUNDARY.QUERY",
+      "endpoint": "DB.CONS",
+      "endpoints": [
+        "DB.CONS"
+      ],
+      "method": "GET",
+      "uri": "/DB/CONS",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/CONS",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "CONS",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.CONS",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "CONS",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "group_name",
+          "node_id",
+          "rx",
+          "ry",
+          "rz",
+          "ux",
+          "uy",
+          "uz"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.LOAD.QUERY",
+      "endpoint": "DB.STLD",
+      "endpoints": [
+        "DB.STLD",
+        "DB.BMLD",
+        "DB.BODF",
+        "DB.PRES"
+      ],
+      "method": "GET",
+      "uri": "/DB/STLD",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/STLD",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "STLD",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.STLD",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "STLD",
+          "block": "empty",
+          "native_size": 0
+        },
+        {
+          "endpoint": "DB.BMLD",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "BMLD",
+          "block": "empty",
+          "native_size": 0
+        },
+        {
+          "endpoint": "DB.BODF",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "BODF",
+          "block": "empty",
+          "native_size": 0
+        },
+        {
+          "endpoint": "DB.PRES",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "PRES",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": [
+          "command",
+          "direction",
+          "element_type",
+          "face_edge_type",
+          "forces",
+          "id",
+          "load_case",
+          "vectors"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/STLD",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/BMLD",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/BODF",
+          "status": 200,
+          "shape": {
+            "BODF": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/PRES",
+          "status": 200,
+          "shape": {
+            "PRES": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_model_query",
+      "operation": "MODEL.GROUP.QUERY",
+      "endpoint": "DB.GRUP",
+      "endpoints": [
+        "DB.GRUP"
+      ],
+      "method": "GET",
+      "uri": "/DB/GRUP",
+      "status": "PARTIAL",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/DB/GRUP",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "GRUP",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "DB.GRUP",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "GRUP",
+          "block": "empty",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 0,
+        "keys": []
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/GRUP",
+          "status": 200,
+          "shape": {
+            "GRUP": {
+              "kind": "mapping",
+              "size": 0
+            }
+          }
+        }
+      ],
+      "detail": "empty_block"
+    },
+    {
+      "tool": "engineering_doc",
+      "operation": "INFO",
+      "endpoint": "OPE.PROJECTSTATUS",
+      "endpoints": [
+        "OPE.PROJECTSTATUS"
+      ],
+      "method": "GET",
+      "uri": "/OPE/PROJECTSTATUS",
+      "status": "PASSED",
+      "http": 200,
+      "intent": "read",
+      "recon": {
+        "uri": "/OPE/PROJECTSTATUS",
+        "allow": [
+          "GET",
+          "HEAD"
+        ],
+        "get_status": 200,
+        "read_root": "PROJECTSTATUS",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "OPE.PROJECTSTATUS",
+          "method": "GET",
+          "intent": "read",
+          "status": 200,
+          "read_root": "PROJECTSTATUS",
+          "block": "nonempty",
+          "native_size": 2
+        }
+      ],
+      "readback": {
+        "intent": "read",
+        "count": 1,
+        "keys": [
+          "DATA",
+          "DATA_LOAD"
+        ]
+      },
+      "error": {},
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/OPE/PROJECTSTATUS",
+          "status": 200,
+          "shape": {
+            "PROJECTSTATUS": {
+              "kind": "mapping",
+              "size": 2
+            }
+          }
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.NODE.DISPLACEMENT",
+      "endpoint": "POST.TABLE.DISPLACEMENTG",
+      "endpoints": [
+        "POST.TABLE.DISPLACEMENTG"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 400,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE.DISPLACEMENTG",
+          "method": "POST",
+          "intent": "result",
+          "status": 400,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-2200",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-2200",
+        "native_reason": "software_api_error",
+        "native_stage": "midas_adapter",
+        "native_status": 400,
+        "native_endpoint": "POST.TABLE.DISPLACEMENTG"
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "DISPLACEMENTG"
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"[empty] Cannot generate table data as there is no analysis result.\"}}"
+        }
+      ],
+      "detail": "http_400:STRUCTAI-2200"
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.NODE.REACTION",
+      "endpoint": "POST.TABLE.REACTIONG",
+      "endpoints": [
+        "POST.TABLE.REACTIONG"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 400,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE.REACTIONG",
+          "method": "POST",
+          "intent": "result",
+          "status": 400,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-2200",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-2200",
+        "native_reason": "software_api_error",
+        "native_stage": "midas_adapter",
+        "native_status": 400,
+        "native_endpoint": "POST.TABLE.REACTIONG"
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "REACTIONG"
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"[empty] Cannot generate table data as there is no analysis result.\"}}"
+        }
+      ],
+      "detail": "http_400:STRUCTAI-2200"
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.ELEMENT.FORCE",
+      "endpoint": "POST.TABLE.BEAMFORCE",
+      "endpoints": [
+        "POST.TABLE.BEAMFORCE"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 400,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE.BEAMFORCE",
+          "method": "POST",
+          "intent": "result",
+          "status": 400,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-2200",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-2200",
+        "native_reason": "software_api_error",
+        "native_stage": "midas_adapter",
+        "native_status": 400,
+        "native_endpoint": "POST.TABLE.BEAMFORCE"
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "BEAMFORCE"
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"[empty] Cannot generate table data as there is no analysis result.\"}}"
+        }
+      ],
+      "detail": "http_400:STRUCTAI-2200"
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.ELEMENT.STRESS",
+      "endpoint": "POST.TABLE.BEAMSTRESS",
+      "endpoints": [
+        "POST.TABLE.BEAMSTRESS"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 400,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE.BEAMSTRESS",
+          "method": "POST",
+          "intent": "result",
+          "status": 400,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-2200",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-2200",
+        "native_reason": "software_api_error",
+        "native_stage": "midas_adapter",
+        "native_status": 400,
+        "native_endpoint": "POST.TABLE.BEAMSTRESS"
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "BEAMSTRESS"
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"[empty] Cannot generate table data as there is no analysis result.\"}}"
+        }
+      ],
+      "detail": "http_400:STRUCTAI-2200"
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.MODE.SHAPE",
+      "endpoint": "POST.TABLE.EIGENVALUEMODE",
+      "endpoints": [
+        "POST.TABLE.EIGENVALUEMODE"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 400,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE.EIGENVALUEMODE",
+          "method": "POST",
+          "intent": "result",
+          "status": 400,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-2200",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-2200",
+        "native_reason": "software_api_error",
+        "native_stage": "midas_adapter",
+        "native_status": 400,
+        "native_endpoint": "POST.TABLE.EIGENVALUEMODE"
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "EIGENVALUEMODE"
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"[empty] Cannot generate table data as there is no analysis result.\"}}"
+        }
+      ],
+      "detail": "http_400:STRUCTAI-2200"
+    },
+    {
+      "tool": "engineering_result",
+      "operation": "RESULT.ANALYSIS.SUMMARY",
+      "endpoint": "POST.TABLE",
+      "endpoints": [
+        "POST.TABLE"
+      ],
+      "method": "POST",
+      "uri": "/POST/TABLE",
+      "status": "FAILED",
+      "http": 0,
+      "intent": "result",
+      "recon": {
+        "uri": "/POST/TABLE",
+        "allow": [
+          "POST"
+        ],
+        "get_status": 405,
+        "read_root": "",
+        "read_root_present": false,
+        "method_allowed": true
+      },
+      "steps": [
+        {
+          "endpoint": "POST.TABLE",
+          "method": "POST",
+          "intent": "result",
+          "status": 0,
+          "read_root": "",
+          "block": "n/a",
+          "native_size": 0
+        }
+      ],
+      "readback": {
+        "intent": "result",
+        "count": 0,
+        "keys": []
+      },
+      "error": {
+        "code": "STRUCTAI-3000",
+        "reason": "task_not_completed",
+        "stage": "execution",
+        "task_code": "STRUCTAI-3000",
+        "native_reason": "endpoint_not_available_for_product",
+        "native_stage": "midas_adapter",
+        "native_endpoint": "POST.TABLE"
+      },
+      "requests": [],
+      "detail": "no_interface_request:STRUCTAI-3000"
+    }
+  ]
+}
