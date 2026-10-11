@@ -12,7 +12,8 @@ schema_ref:
   source: civil_nx_manual
 parser: post_table
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: SECT_PROP_LAST_STAGE
 title: Beam Section Properties at Last Stage
 risk:

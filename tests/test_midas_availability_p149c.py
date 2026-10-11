@@ -13,7 +13,8 @@
 2. **读映射逐条证实**：证据里 **49** 个端点全部 `200` 且**响应顶层键 == `read_root`**
    （`PASSED` / `PARTIAL`；空项目下 `PARTIAL` 是正常形态）。
 3. **收口只升不降**：这 49 个 YAML 已是 `availability: verified` + `verified_on` 含 `gen-local`；
-   全库 `availability == verified` 共 **296**（P149-B2 时 **247**，+49）。
+   全库 `availability == verified` 共 **296**（P149-B2 时 **247**，+49）；
+   ⚠️ **P149-D** 再据**取报表判据**实测收口 **185** 个 `POST.*` ⇒ 全库 **481**（本测试按 481 断言）。
 4. **解锁后写路径实测（分块）**：**3** 块（20 / 20 / 9）；**2** `PASSED` · **47** `FAILED`
    （**全部** `400 software_api_error`）；跑前 / 跑后只读核对**均全空** ⇒ **零残留**。
 5. **如实留缺**：47 条进留缺账本（`R110_native_400_software_api_error`）；
@@ -60,8 +61,9 @@ INSTANCE_ALIAS = "gen-local"
 EXPECTED_PROBED = 49
 """本次只读 L4 实测的端点数。"""
 
-EXPECTED_VERIFIED_TOTAL = 296
-"""全库 `availability == verified` 的端点数（P149-B2 的 247 + 本批 49）。"""
+EXPECTED_VERIFIED_TOTAL = 481
+"""全库 `availability == verified` 的端点数（P149-B2 的 247 + P149-C 的 49 +
+**P149-D** 取报表判据实测收口的 **185**）。"""
 
 EXPECTED_PASSED: tuple[str, ...] = (
     "DESIGN.RC.KDS-41-20-2022.WMAK",
@@ -132,7 +134,8 @@ def test_p149c_every_probed_endpoint_confirms_its_read_root() -> None:
 
 
 def test_p149c_the_upgrade_is_verified_and_recorded_on_the_instance() -> None:
-    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = 296。"""
+    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = 481
+    （P149-C 的 296 + **P149-D** 取报表判据收口的 185）。"""
     tool = _load(TOOL_PATH, "structai_sync_availability_p149c")
     files = tool.endpoint_files(REPO_ROOT)
     for key in _read_evidence():

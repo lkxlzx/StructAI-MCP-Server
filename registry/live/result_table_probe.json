@@ -1,0 +1,5090 @@
+{
+  "note": [
+    "P149-D / R106：`POST.*`「结果表 / 文本查询」端点的**取报表判据**实测证据。",
+    "判据：最小模型（只碰自建编号）+ `POST /DOC/ANAL` ⇒ 逐端点发**该端点自己那张表**的手册示例（**唯一**改动 = 剥掉 `Argument.EXPORT_PATH`）⇒ `HTTP 200` ∧ **实测信封形状**（恰好 1 个顶层键、其值是对象、含 `HEAD` 与 `DATA` 两个数组）⇒ `PASSED`（实测键逐条记在 `envelope_key`）；`200` ∧ 空块（`{}` 或只有空的 `message`）⇒ `PARTIAL`；其余 ⇒ `FAILED`。",
+    "零残留：跑前 / 跑后模型哨兵逐条相同（取报表**不**写模型数据），清理后哨兵全空。",
+    "生成器 = `registry/tools/probe_result_tables.py --probe`；落盘 = `--write`（`availability` **只升不降** + 追加 `response` 块），随后跑 `sync_manifest.py --write`。",
+    "凭据**绝不**写入本文件；请求体 / 响应体原文**不**落盘（只记 `sha256` / 顶层键 / 字节数）。"
+  ],
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN_NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11",
+    "scope": "namespace == POST ∧ GEN_NX ∧ enabled ∧ 有写方法 ∧ 无 GET ∧ 无 read_root"
+  },
+  "criterion": {
+    "prerequisite": {
+      "minimal_model": [
+        "DB.STLD#1",
+        "DB.MATL#1",
+        "DB.SECT#1",
+        "DB.NODE#1",
+        "DB.NODE#2",
+        "DB.ELEM#1",
+        "DB.CONS#1",
+        "DB.BMLD#1"
+      ],
+      "analysis": "POST /DOC/ANAL（Argument 空体）",
+      "sentinels": [
+        "NODE",
+        "ELEM",
+        "MATL",
+        "SECT",
+        "STLD",
+        "CONS",
+        "BMLD"
+      ]
+    },
+    "body_source": "上游手册该 uri 下、该端点**自己那张表**的示例；唯一改动 = 剥掉 Argument.EXPORT_PATH",
+    "envelope_shape": {
+      "top_level_keys": 1,
+      "value_has_lists": [
+        "HEAD",
+        "DATA"
+      ]
+    },
+    "verdicts": {
+      "PASSED": "HTTP 200 ∧ 恰好 1 个顶层键 ∧ 其值是对象 ∧ 含 `HEAD` 与 `DATA` 两个数组（实测键逐条记录）",
+      "PARTIAL": "HTTP 200 ∧ 空块（{} 或 {'message': ''} —— 该表在最小模型上无数据）",
+      "FAILED": "非 200 或顶层键不符",
+      "SKIPPED": "传输失败 / 超时 / 实例不可达（`instance_down`，续跑时重测）"
+    },
+    "zero_residue": "跑前 / 跑后哨兵逐条相同；清理后全空"
+  },
+  "counts": {
+    "FAILED": 8,
+    "PARTIAL": 172,
+    "PASSED": 15
+  },
+  "aborted": "",
+  "residue": {
+    "before": {
+      "NODE": [],
+      "ELEM": [],
+      "MATL": [],
+      "SECT": [],
+      "STLD": [],
+      "CONS": [],
+      "BMLD": []
+    },
+    "after_model": {
+      "NODE": [
+        "1",
+        "2"
+      ],
+      "ELEM": [
+        "1"
+      ],
+      "MATL": [
+        "1"
+      ],
+      "SECT": [
+        "1"
+      ],
+      "STLD": [
+        "1"
+      ],
+      "CONS": [
+        "1"
+      ],
+      "BMLD": [
+        "1"
+      ]
+    },
+    "cleanup_failures": [],
+    "after_cleanup": {
+      "NODE": [],
+      "ELEM": [],
+      "MATL": [],
+      "SECT": [],
+      "STLD": [],
+      "CONS": [],
+      "BMLD": []
+    },
+    "expected_model": {
+      "NODE": [
+        "1",
+        "2"
+      ],
+      "ELEM": [
+        "1"
+      ],
+      "MATL": [
+        "1"
+      ],
+      "SECT": [
+        "1"
+      ],
+      "STLD": [
+        "1"
+      ],
+      "CONS": [
+        "1"
+      ],
+      "BMLD": [
+        "1"
+      ]
+    },
+    "model_untouched": true,
+    "clean": true
+  },
+  "gaps": {
+    "POST.STEELCODECHECK": "no_manual_entry",
+    "POST.TABLE.FIBR_MAXCONTRACT": "crashes_instance"
+  },
+  "never_retry": {
+    "POST.TABLE.FIBR_MAXCONTRACT": "R115"
+  },
+  "endpoints": {
+    "POST.PM": {
+      "uri": "/post/pm",
+      "wrapper": "Argument",
+      "example_id": "P-M Interaction Diagram",
+      "body_sha256": "dfc7d441716abc1ecc5a56e211f913f5c74cc19ce23b96d58fe181c688568911",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX - Please Check RC Design Code.",
+      "instance_down": false
+    },
+    "POST.TABLE.AXISYMMETRICFG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Axisymmetric Force (Global) - Analysis Result Table #1",
+      "body_sha256": "b186cee255e8e8d98698d5c16033006efe9104adb7605164e6815d2b403b3a6b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.AXISYMMETRICFL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Axisymmetric Force (Local) - Analysis Result Table #1",
+      "body_sha256": "f235184578a2065e79ad411b6e7e9f8152cb027f0a599e287fdaaa4b4c7ec626",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.AXISYMMETRICSG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Axisymmetric Stress (Global) - Analysis Result Table #1",
+      "body_sha256": "9dd78ff3492a8483e692531dbd3f733e59bfa65acc71fdb308646026a80d5a84",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.AXISYMMETRICSL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Axisymmetric Stress (Local) - Analysis Result Table #1",
+      "body_sha256": "1d57431496bcd7f8ffeea5796ec4c05640ec0f0b5d84e0699d894fc499921d78",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concrete Design - Beam Design Forces #1",
+      "body_sha256": "3997cd8a5f3f05bc1845add6d73531b1f63c58fd17a0af958e89445966a095a9",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Force - Analysis Result Table #1",
+      "body_sha256": "7b4c45e5ac1c7e64888eef31ade56dc0188d02255e8db7567f4b2715b45d674b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMFORCESTP": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Force (Static Prestress) - Analysis Result Table #1",
+      "body_sha256": "26b24e427c6f017794e8ff635170c4c9210bcdc582903f08376ca121fbd8fe6f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMFORCEVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Force - Analysis Result Table #3",
+      "body_sha256": "5c624ea9239d261302b1c227b87f44c2539c57a4510df4c3cd63a6cb976783aa",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress - Analysis Result Table #1",
+      "body_sha256": "239f36aa6873cb61fe2b384d448a0549a26478668c7b29f937ab90cb7dc8c307",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESS7DOF": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress - Analysis Result Table #4",
+      "body_sha256": "b3615dbd116a5c688f5056d22244c12ee18f0b298e199adf7982dd07b734132b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESS7DOFPSC": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress (PSC) - Analysis Result Table #3",
+      "body_sha256": "1a28bd51da33384281b55542bb675eb5dbe493c9b7e60dd61861fdbfee563c7b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESSDETAIL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress (Equivalent) - Analysis Result Table #1",
+      "body_sha256": "923a047a790066e45a3268b06680f4c530925c1f1fbcf86ea41bd8aca545c6dd",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESSPSC": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress (PSC) - Analysis Result Table #1",
+      "body_sha256": "aa0cd3661f993c6bedb8b2b5694ceeda7bc47b6c2689fa0e621f420ac6fd78f8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BEAMSTRESSVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Stress - Analysis Result Table #3",
+      "body_sha256": "83760a1897b0db1ffee5b1496c1ddc57fe122a9b52f6054ac34820161d2d77b6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BRACEDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concrete Design - Brace Design Forces #1",
+      "body_sha256": "c7f74a99980550942e54a03d26cb7373dc87947fbd6f9fe283462a77cdbba301",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.BUCKLINGMODE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Buckling Mode Shape - Analysis Result Table #1",
+      "body_sha256": "f7791086345013b37507d257eb9ce0842da2c520c874739d13ef872aa8367340",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.CABLECONFIG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Cable Configuration - Analysis Result Table #1",
+      "body_sha256": "aa821a01e506b68b62e18afb890803c20ef0e8d935df651aa8c163c0286cd5db",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.CABLEEFFIENCY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Cable Efficiency - Analysis Result Table #1",
+      "body_sha256": "19a6a08debd270b0c0cc2a33378166e982187739fde729ef9937eab684e96473",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.CABLEFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Cable Force - Analysis Result Table #1",
+      "body_sha256": "652b8c0dca3bdcf76915b860f6a13208e1de22e15df870a3677cb1d883c61565",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.CAPACITY_IRREGULARITY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Capacity Irregularity Check(Weak Story) - Story Result Table #1",
+      "body_sha256": "27cca1889f357546e79d14ce8d25a6610cc197c1ee3aa6efd75ae3f1c70d2f44",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.COLDFORMEDSTEELMEMBERDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Cold Formed Design - Cold Formed Steel Member Design Forces #1",
+      "body_sha256": "29699d3c08df9029c63919a5a80f4b88f3af35e33801323bea84da165f04ddd2",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.COLUMNDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concrete Design - Column Design Forces #1",
+      "body_sha256": "6ca23255066669250d3546ddca0d2abc5ccec0aa07f1188c512254b2ff863dbf",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.COMPSECTBEAMFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Composite Section for C.S. (Force and Stress) - Analysis Result Table #1",
+      "body_sha256": "de89608d46837f258a04b29dab090addfa2211e9e3f582881dd8eec56fd7c417",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.COMPSECTBEAMSTRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Composite Section for C.S. (Force and Stress) - Analysis Result Table #3",
+      "body_sha256": "a142deb43d9fc82f288d9f839a8e33a58b97256db4c8a9dedfa597d4191bf052",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.CONCURRENT_JOINT_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concurrent Joint Force Table #1",
+      "body_sha256": "a6a83e4ab2163c8f7c1de5a813d84643ce0a14a266969573471723b6cf5a457a",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.CRITERIA_FOR_REGULARITY_IN_PLAN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Criteria for Regularity in Plan - Story Result Table #1",
+      "body_sha256": "75e91ff8b2c719de53ce89d81ee0875e971458589939e420e18fcb2df2b5f212",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "D:\\00.2023년\\00.9월\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.DISPLACEMENTG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacements - Analysis Result Table #1",
+      "body_sha256": "8acee9fca087b7d1c9de53c54de13fc42b96de4fb75d5a4755a74b99bb1436d7",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.DISPLACEMENTL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacements - Analysis Result Table #3",
+      "body_sha256": "a1b4d5cead687694324ef656ace93598320ee29c04e5719bf5e20de98d14c056",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.EFFECTIVE_LENGTH_BEAM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Effective Span Length - Analysis Result Table #2",
+      "body_sha256": "6a1416dae06933899cd350a63ebab30a9410c40b72bea3c154b16e82aaa3307a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.EFFECTIVE_LENGTH_PLATE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Effective Span Length - Analysis Result Table #3",
+      "body_sha256": "4a21d1aa6e58facbda62b35228051a5cb775c2c6457a6e5332911a834f74232e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.EFFECTIVE_LENGTH_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Effective Span Length - Analysis Result Table #1",
+      "body_sha256": "0f4007b533cbc75a7e4d5c746de107cb3dd9256dfadc923afb579ae88bc8de2f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.EIGENVALUEMODE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Vibration Mode Shape - Analysis Result Table #1",
+      "body_sha256": "465e0c51753f0b62589f474ca8d0536e982a312fbef2acd840dc5655b4ba005a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.ELASTICLINK": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Elastic Link - Analysis Result Table #1",
+      "body_sha256": "975841070bfe1174acbf5853f0a1dc186e7a6140933642ece7f33cdd57f12c7d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.ELASTICLINKVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Elastic Link - Analysis Result Table #5",
+      "body_sha256": "7729d21c2a429eead124f42de3d0f31949dba34cd20dc3f005287e2e7aab5d2c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.ELEMENTWEIGHT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Element Weight Table #1",
+      "body_sha256": "6385ceeb78e846710c6efc6c749a74914be56446037484241d11d7b9d0342790",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Elementweight_all_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 243,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.ELEM_PROP_EACH_STAGE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Element Properties at Each Stage - Analysis Result Table #1",
+      "body_sha256": "0d897f3b5fe6be6214f04a2472a3ae8a9578171d8ae2621b0e99ad3c454fffb6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "ElementPropertiesatEachStage"
+      ],
+      "payload_bytes": 213,
+      "envelope_key": "ElementPropertiesatEachStage",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.EQUILIBRIUM_ELEM_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Equilibrium Element Nodal Force - Analysis Result Table #1",
+      "body_sha256": "416f7aa5d0d819ae3a1155753052313f35cb840413c55e50bc7eab259e895205",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.FIBR_ELASTREMAIN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Fiber Section Elastic Modulus Retention Rate - TH Result Table #1",
+      "body_sha256": "8a970fd346bf4cb142843705d52835e0aa49c0855743b1dbbd8cce76ad4dda33",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.FIBR_EVENTSTEP": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Fiber Section Event Step - TH Result Table #1",
+      "body_sha256": "f7d1e7376202baf92e2060a14e97618104ece1bc5fa86c40a16f5b77cc3e1da6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.FIBR_MEANCOMPCONTRACT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Fiber Section Average Compression Strain - TH Result Table #1",
+      "body_sha256": "5a5059a81dc6302eb99477cad85ae24358a12067e8959db048edd8844ac92005",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.FIBR_YILEDSTRENGTH": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Fiber Section Estimate Yield Strength - TH Result Table #1",
+      "body_sha256": "4cdd1a21ea6182b13e8c17bb745085c7594be5895a227f2b73cb422bd1af8204",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.GENERAL_LINK_DEFORM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "General Link - Analysis Result Table #5",
+      "body_sha256": "00a64ca31f07462838448c5835a9b065501e4d55b6010344afa2e7864f810db0",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.GENERAL_LINK_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "General Link - Analysis Result Table #1",
+      "body_sha256": "10434e812216d348824c78fa3c486eccf86f4efc412d259cc31c2f27b78bb2f5",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.GENERAL_LINK_FORCEVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "General Link - Analysis Result Table #7",
+      "body_sha256": "384be56d0b0b247a82b4db6c9803f5a66b557d6cb14f30b2310d446009f65a2c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_DISPLACEMENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacement - HY Result Table #1",
+      "body_sha256": "efdf27f3cc2f2ba0c38e635ab675d9e1e7764b8332dd19e1cae95ee9c6c47c1f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_PIPE_NODE_TEMP": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Pipe Cooling Nodal Temperature - HY Result Table #1",
+      "body_sha256": "9ab2ed9dd1971e7eb1d6bfd497c76fbecc7af053afea29f28fb64f5c602b89e9",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_STRESS_G": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Stress - HY Result Table #2",
+      "body_sha256": "20db3a84ccd36bbe484917781b8fdea77a546d8d5954cf3fe46342ced4e7d2af",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_STRESS_L": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Stress - HY Result Table #1",
+      "body_sha256": "c4f7990710a49c849f0b6f6c672d4a65fd5c77ee02bc5c75eafc1b95e1bb38f6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_TEMPERATURE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Temperature - HY Result Table #1",
+      "body_sha256": "7f72d607b14ff65941c98ae50a574bd9693567f30dc485e12f913b12fb370475",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.HEAT_HYDR_TENS_STRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tensile Stress - HY Result Table #1",
+      "body_sha256": "0b31749fc6653d925c77d644d409446c2abcae36c6aaa09e7d7ba99f1f000b79",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_BEAM_SUM_DX": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Beam Summary - TH Result Table #1",
+      "body_sha256": "d2e5cba9e82bab6f8494ddae6e8fed3d4ada88990f118ed26ae0c7ce59662881",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_BEAM_SUM_DY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Beam Summary - TH Result Table #2",
+      "body_sha256": "9b4a23eb582e7e4e9548243bde056bebbbb59dcb4a9bd0abb61d5b99ed17962b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_BEAM_SUM_DZ": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Beam Summary - TH Result Table #3",
+      "body_sha256": "2799b3c1815a48eb42eb8aff04f974f6219929cbe67f74eb0acdb2d165805c01",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_BEAM_SUM_RY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Beam Summary - TH Result Table #4",
+      "body_sha256": "ea229f7e49b0d3385d1772cb2eccf37f5aad425d46415258eb07e142b96edfb8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_BEAM_SUM_RZ": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Beam Summary - TH Result Table #5",
+      "body_sha256": "db7be1d8723fbd13b9593f5252cddd1ebc404251a33b1c0c3fff5d27393e4aec",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DEFORM_DIST": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Deformation - TH Result Table #2",
+      "body_sha256": "ba30a98ed0bf78bd90d8982237c62dbab5dd52d743291267907b56fdfb5187e6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DEFORM_LUMPED": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Deformation - TH Result Table #1",
+      "body_sha256": "963a1f90d36434f171206796a5513107d848eccc39ebe2d0e09ab110b5816529",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DEFORM_SPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Deformation - TH Result Table #5",
+      "body_sha256": "4909e84fd25263dc20af3907120eea614798bbc7e11be59954ae004cd7f529ad",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DEFORM_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Deformation - TH Result Table #4",
+      "body_sha256": "33b7ab0f0fb4179ecd5b0cfcedc38d5e77adde3b177601f4b8bcfa94f03916d9",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DEFORM_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Deformation - TH Result Table #3",
+      "body_sha256": "65487559c55dcc9fb843ab5a10b779c12c879f102e495ab69fd652ad3fe7292f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D1_DIST": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D1) - TH Result Table #2",
+      "body_sha256": "2764a93447a1f1e6af0f968617dc1ce5e6cac881e98fd93196f79a2aa9ca0dd6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D1_LUMPED": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D1) - TH Result Table #1",
+      "body_sha256": "e62fe082035a7521ba4337c9f841333173a0b9cd797d16184c79b91a6959adde",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D1_SPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D1) - TH Result Table #5",
+      "body_sha256": "600f3022c328f236b0cf2ea70bfac4afc3402f5cbddb803e446986b2eb870c5e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D1_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D1) - TH Result Table #4",
+      "body_sha256": "54f823d116435b000b78ec87099e5251d9114e6d1004e9ccca5da2e9cd1fc5ad",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D1_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D1) - TH Result Table #3",
+      "body_sha256": "c116f693903651367063c4f4ddf0028e25d5b5f8f6defb6c6abef56fb454b4f4",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D2_DIST": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table #2",
+      "body_sha256": "5d89768a192068f968713ee69c77ec997ee7a12a236015368bd82e6c9b26c7cb",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D2_LUMPED": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table #1",
+      "body_sha256": "f3b6970ad4044c7a0b06b7ae07b6666fe3afe0138d89014599fcf1f38587cee3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D2_SPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table #5",
+      "body_sha256": "b3ab43047f04de4bb3e1917f9863f77eb556f639fbee8131b68ada6343c047b2",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D2_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table #4",
+      "body_sha256": "56bde6ac79f9a3596813caf50c0d3f1aa2eecc66d4eb262fa5dc2c4b6d6afcaa",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_DUCT_D2_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Ductility Factor(D/D2) - TH Result Table #3",
+      "body_sha256": "57c3011cd66389ad1a478d57826ff11608354df6ebe2c6fc3579b304a1cbaeb9",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_ELEM_ROT_BEAM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Element Rotation - TH Result Table #1",
+      "body_sha256": "f6dbde956c36b60e01d51996daa287096054e4f23fae1c6703e1e3ee68d94076",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_ELEM_ROT_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Element Rotation - TH Result Table #2",
+      "body_sha256": "64b9b430309d2fc35dcea8398797e4a295dfd10361fb92cfb6ef23658097c027",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_EVENT_TIME_DIST": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Event Time - TH Result Table #2",
+      "body_sha256": "00e303a792ebd4d3effd18e4ce2dbd62767ea37f217e409bc51f12004391367a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_EVENT_TIME_LUMPED": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Event Time - TH Result Table #1",
+      "body_sha256": "abd0aa0148025477903c46699a0de42bc194a6ebc765368fd2a99dd862b84c1a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_EVENT_TIME_SPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Event Time - TH Result Table #5",
+      "body_sha256": "90f52488e8d055a81a7eb6f84177ee4e76da0e61b627953be9cd716319fa15f7",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_EVENT_TIME_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Event Time - TH Result Table #4",
+      "body_sha256": "2ad3024ac64bce14e6f080bbf97d11ea07874fe55dc7c63092c9c250bd3377d8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_EVENT_TIME_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Event Time - TH Result Table #3",
+      "body_sha256": "2befd3dc56fbe8153cdaecb72b3f958b78c41c5c7db6119ff7067ab218c545d1",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_FORCE_DIST": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Force - TH Result Table #2",
+      "body_sha256": "29b4965199eae01225b12e3c3156964393626a78c0ab9be549374be21ea1b7b3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_FORCE_LUMPED": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Force - TH Result Table #1",
+      "body_sha256": "90e30e3f1dd4be8b627c4f75789e8abf7d632f2bec04dcf325b3c4ac87f6ffca",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_FORCE_SPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Force - TH Result Table #5",
+      "body_sha256": "6b8a01e1b187d070b4672dfddcb73cbdef41dd7abb7b1f60f9ddf4801d9f9af7",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_FORCE_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Force - TH Result Table #4",
+      "body_sha256": "9e4ea2aead62ea7f1b6f354cde7103532e24743d840fac8fc00a553bf324c9a3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_FORCE_WALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Force - TH Result Table #3",
+      "body_sha256": "85076b538d621d189b981ac2fb242fc185ee5bbb124658faed169e58a1b455d7",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_DX": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #1",
+      "body_sha256": "57a2fece1b73e41a15657df8d6fb9400932e105f6fdc262330120c29dabd3724",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_DY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #2",
+      "body_sha256": "5bbaf788d41e4e589c6583b3e7ce6ab4a1d17de90f910e867a036137b1b4b8b0",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_DZ": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #3",
+      "body_sha256": "3bf239b012a13eeede8bded747ac2f032a71606fd75e1320e6e1c0cdbf2f0545",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_RX": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #4",
+      "body_sha256": "a69fb1645e42adea22db21e698012e4d6e3ed03601710ef78a099b19857ff47d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_RY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #5",
+      "body_sha256": "8425821e9df1b2c009f92760a4f1e3f6890bf15ded4255379621e0f7e08aa5d0",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_GL_LINK_SUM_RZ": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge General Link Summary - TH Result Table #6",
+      "body_sha256": "5457f6b6ac54de8339311bdd6c7d48b591f8ed4c6d437fc654d6ae84dc473ef0",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.IEHG_TRUSS_SUM_DX": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Inelastic Hinge Truss Summary - TH Result Table #1",
+      "body_sha256": "5be907571be6b31ffb0e93017ee120b4e9f25904b50678b2ff134129bef90eaa",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.INITIAL_ELEM_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Initial Element Force - Analysis Result Table #1",
+      "body_sha256": "d07d4e9552a61f61586fd1bf7eb24cc15c19e66adde77dc2cbca4ce0808ab3c9",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LACK_OF_FIT_FORCE_BEAM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Lack of Fit Force (Beam) - Analysis Result Table #1",
+      "body_sha256": "1cc05b96959d03ac7505368e00df3deb1457f6619815047dd85adeea469acba1",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LACK_OF_FIT_FORCE_PLATE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Lack of Fit Force (Plate) - Analysis Result Table #1",
+      "body_sha256": "3691f7585f7b4f95046b6c736ee00463bdc95852bb31645e117355d571b9b818",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LACK_OF_FIT_FORCE_TRUSS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Lack of Fit Force (Truss) - Analysis Result Table #1",
+      "body_sha256": "4ac2d35d81f9cc36f49d1608387a80f7842bf22394d2749f67a0bd78fac6766b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LOAD_SUMMARY_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Load Summary Table #1",
+      "body_sha256": "7a0f317d11ea23eeb40a961b3dad4c780ff55e2f254a72bbd931bc2df7b33309",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Load_Summary_X_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 208,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LOAD_SUMMARY_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Load Summary Table #2",
+      "body_sha256": "b0663b986855c149d46984a9e98e9f3a493a0627d25642abc943b625e5c8843f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Load_Summary_Y_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 208,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.LOAD_SUMMARY_Z": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Load Summary Table #3",
+      "body_sha256": "552a8157f0110676ff5151f16c2c8ea89c80ab83b8eb2cc663d5d8ba395945a8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Load_Summary_Z_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 210,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.MASS_SUMMARY_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Mass Summary Table #1",
+      "body_sha256": "c152cccc1cffc066fbe2f54f66ee177b56674241e93e216e29e78c7acb590877",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Mass_Summary_X_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 173,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.MASS_SUMMARY_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Mass Summary Table #2",
+      "body_sha256": "b53e0139b3f41d82e4543abb1b0bc519dbcf4687e0fc65e39536cbb341e5e076",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Mass_Summary_Y_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 173,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.MASS_SUMMARY_Z": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Mass Summary Table #3",
+      "body_sha256": "3a8fdc83915aab86c838ab0b3c690e903e0a8406ce98a353ab2b39002f837366",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Mass_Summary_Z_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 173,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.MATERIAL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Material Table #1",
+      "body_sha256": "e51333a83b24cb9e0a4af5fed0b2f7ba259816f99333e39796314e5bcaf8eb6d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Material_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 698,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.NODALBODYFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Nodal Body Force Table #1",
+      "body_sha256": "949c43beb0911e4d663c651dceea141dc078a5452284207798ede33ffa18cdde",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\NodalBodyForce_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.OVERTURNING_MOMENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Overturning Moment - Story Result Table #1",
+      "body_sha256": "953cf0da463e302a446d90c122d2bf3ede112699d2300cb991bf17bfd0e3aa4a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PARTICIPATIONVECTORMODE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Vibration Mode Shape - Analysis Result Table #2",
+      "body_sha256": "e4c60ce91b54b48119d675186373b8d4757fa74d69ceb26baaa76806174fd904",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRAINFG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Strain Force (Global) - Analysis Result Table #1",
+      "body_sha256": "653f3afbe4c580087d6f6f9aeeee61f0e57fa39194a2bfe355d8812f84ed3ea0",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRAINFL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Strain Force (Local) - Analysis Result Table #1",
+      "body_sha256": "e5a2d7d9355478e64cfadb4c4f8a84b104b31b4b2c025c4d9736b7563650ec25",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRAINSG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Strain Stress (Global) - Analysis Result Table #1",
+      "body_sha256": "f7260023d0d15cc7ca42fa394b163217e9aec80a7734a94002fbab33a5255f1d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRAINSL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Strain Stress (Local) - Analysis Result Table #1",
+      "body_sha256": "38c4a6b65d32b43ca38844571ae8ca5143120c2e2b3513c69156551b008337e6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRESSFG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Force (Global) - Analysis Result Table #1",
+      "body_sha256": "39187825998cac58571ca30b85a907feb9d0def3a7336b3e7e241d5bb3271ae3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRESSFL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Force (Local) - Analysis Result Table #1",
+      "body_sha256": "32842060734432776129ef350ab7582285390451240335a29e1bd3859258acd8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRESSSG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Stress (Global) - Analysis Result Table #1",
+      "body_sha256": "2613b393efc0adfb673753ce40a2be70e23ac86ef0f48d8e1f615ced36e8851e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLANESTRESSSL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plane Stress (Local) - Analysis Result Table #1",
+      "body_sha256": "d1561cd1f06f7749899a671dd63862b83311bcba71c2332153799235e58d1188",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Global) - Analysis Result Table #1",
+      "body_sha256": "649ff98275ebe761ba741018f40d190743aa469d65859c4bcde270026c4a03f3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Local) - Analysis Result Table #1",
+      "body_sha256": "e407d1d4df95035097fb6992e3106b463cc8e07d1072dbd8e4fd1fb68956c80d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEUG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Unit Length) - Analysis Result Table #4",
+      "body_sha256": "f08ee7b057909936f05a0170bd1671867587973d72d947c064f7d79f700702cd",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEUGVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Unit Length) - Analysis Result Table #6",
+      "body_sha256": "8cb7cf25d897e9d27576526992d84d91e1377c0e09799b212b501862372f1c31",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "Unknown Error",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEUL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Unit Length) - Analysis Result Table #1",
+      "body_sha256": "c6139456d49e9aa813cf5e79bfc2f1dc00e82dfb384a5e49670ae74bc9b37245",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEULVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Unit Length) - Analysis Result Table #3",
+      "body_sha256": "b09fd51777f1bead981ed47e5731f3b5600cd2b5e398b9c66773fc47f503ec50",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATEFORCEWA": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Force (Unit Length) - Analysis Result Table #7",
+      "body_sha256": "6f64166f516c9fe69f9acc2d75c31a28a5fbeae43a94078338997db4e31ff48f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRAINPG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Strain (Global) - Analysis Result Table #3",
+      "body_sha256": "2795eb601be059c5f1304f9158690d9f63f87340fbdf761a9b5141d4be6fda47",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRAINPL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Strain (Local) - Analysis Result Table #3",
+      "body_sha256": "971924f6964af91c12ad4fc653515d15ba0e25d7f8dacdf32ae167b9e6efce80",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRAINTG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Strain (Global) - Analysis Result Table #1",
+      "body_sha256": "8af7f53773b7ff58a8cddc4224e95b59458d77c0f983bb7e684ed045c95be2b3",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRAINTL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Strain (Local) - Analysis Result Table #1",
+      "body_sha256": "ce9538f86d214d373fe56e9410076653f22f68d709bd3aa21ca5e13b61239545",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRESSG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Stress (Global) - Analysis Result Table #1",
+      "body_sha256": "c76e0abac9b40b44db472875e417dd40b1fabbd7979b9426eefd7f1bedfcbb8f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.PLATESTRESSL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Plate Stress (Local) - Analysis Result Table #1",
+      "body_sha256": "0b34c93a6773c3337b78325b000414318829424614235f63c95c30c40c78edb2",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.REACTIONG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Reaction - Analysis Result Table #1",
+      "body_sha256": "82a73c884474163d09083075b54b149c3176541ecb1184c00b594b7770459259",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.REACTIONL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Reaction - Analysis Result Table #3",
+      "body_sha256": "0bca9dea543d965cecb97434687484cf4fe42998291ed9dbff4eda71d6ff181a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.REACTIONLSURFACESPRING": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Reaction - Analysis Result Table #5",
+      "body_sha256": "def70cad2cf50017df50a06cc99d83ee093460962320f3c184dedac9ce59e767",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.RESULTANT_FORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Resultant Forces - Analysis Result Table #1",
+      "body_sha256": "d1e2778d2933dbf52459dff3f6002416f681ca580d2385343ae7e31139a0d697",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.RESULTANT_FORCESVBM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Resultant Forces - Analysis Result Table #3",
+      "body_sha256": "dd3133174d96422a4b864753b2e0d36ec20957110d1df910b66aea38018340a6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.RS_NODAL_ACCEL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Nodal Results of RS - Analysis Result Table #2",
+      "body_sha256": "551e38755cb13bb74a448cc7ffcc489fb8e4aa5d71c971899e6aca9d247cca9c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.RS_NODAL_INERTIA": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Nodal Results of RS - Analysis Result Table #1",
+      "body_sha256": "3bc4cb1db1a86a42f42dcf68d31db1a5ef2487fd10b7663bab791222552ab68a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SECTIONALL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Section Table #1",
+      "body_sha256": "2429bbef664487fe0a69460593f383e42ea0703fe78a0e6261d069f10905eab6",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Section_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 350,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SECT_PROP_LAST_STAGE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Section Properties at Last Stage - Analysis Result Table #1",
+      "body_sha256": "7b0faf90e82f097bba8bdb7f15f82d2b35b7838c626864b44cde597bfdd1fd95",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SELF_CONST_BEAM_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Composite Section for C.S. (Self-Constraint Force and Stress) - Analysis Result Table #1",
+      "body_sha256": "7853be36014c86574b2cab275cf582c33eb6f26e0f3aedc2d63cf7891f65a451",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SELF_CONST_BEAM_STRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Composite Section for C.S. (Self-Constraint Force and Stress) - Analysis Result Table #3",
+      "body_sha256": "0f7d2d2da46590010e37012652239bf553a7b031dc088e817853441071983c73",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLIDFG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Force (Global) - Analysis Result Table #1",
+      "body_sha256": "0bf5a58b2ec604e127f2cf6b9ae8686428eca2380341d7b4e43a2bcd236ed3d5",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLIDFL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Force (Local) - Analysis Result Table #1",
+      "body_sha256": "9e8253d4c6e8406f9e375c53c25b4a381625764ac92d8530d0894c96e01263b8",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLIDSG": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Stress (Global) - Analysis Result Table #1",
+      "body_sha256": "b4292737c3bad2df1c09a9650de6fe83e495b1dc7c32966f430d2bbe8b44fb62",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLIDSL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Stress (Local) - Analysis Result Table #1",
+      "body_sha256": "1ef1631836e6ef501ffea3c4512a10a26f32a4f3bfd3e47b634f38e6c4a89689",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLID_GLOB_PLAST_STRAIN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Strain (Global) - Analysis Result Table #3",
+      "body_sha256": "082bdde6ffcf4e38d2240fa64d1947f3cbe33fe1d7981db0b8df85da2dd32d7c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLID_GLOB_TOTAL_STRAIN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Strain (Global) - Analysis Result Table #1",
+      "body_sha256": "18db61fa03406ab53e97a3ea0334dc9da3588444a85dc03c18bf3519a29cac3b",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLID_LOCA_PLAST_STRAIN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Strain (Local) - Analysis Result Table #3",
+      "body_sha256": "3f73b8bc8bfa8085cfb6b23b91878050e129d7cb0211ec9dc950cd2ec5c529cc",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SOLID_LOCA_TOTAL_STRAIN": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Solid Strain (Local) - Analysis Result Table #1",
+      "body_sha256": "561e0bac66ff2d5acfaf9673ff4d6cea29c299eb485bbe6d9c5925ecfb2823a9",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SRCBEAMDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "SRC Design - SRC Beam Design Forces #1",
+      "body_sha256": "cf5154665b5d517f7efa746bde098003de3487edc14573017472706e88545f70",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.SRCCOLUMNDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "SRC Design - SRC Column Design Forces #1",
+      "body_sha256": "bb8752df93bb80799ea96f7ba06d2ae2fe3fc0833229c6c96e58d491b5f3e6af",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STEELMEMBERDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Steel Design - Steel Member Design Forces #1",
+      "body_sha256": "e907fa0fa1f92aa086242e2a02ad9ce9edaccc19f20a3ac7925070dc36694d9d",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STIFFNESS_IRREGULARITY_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Stiffness Irregularity Check (Soft Story) - Story Result Table #1",
+      "body_sha256": "b1b144ba1b95d4bce8407357f43294af9eea5c58f9d6f163cf12c73ff149afbd",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STIFFNESS_IRREGULARITY_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Stiffness Irregularity Check (Soft Story) - Story Result Table #2",
+      "body_sha256": "c6ccce642861990f33010283d8ca0fe9f2615db25ee03d31c4885c35f37e6529",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_AXIAL_FORCE_SUM": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Axial Force Sum - Story Result Table #1",
+      "body_sha256": "d2be279300bad1f67cf15523a90550317114cf85273171ce91677c4093390785",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DISPLACEMENT_COMB": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Displacement(X,Y,Combined) - Story Result Table #3",
+      "body_sha256": "c8486f26f5634eb23d6c71efc89384903f92447333001641d52c95d7b9a133e7",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DISPLACEMENT_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Displacement(X,Y,Combined) - Story Result Table #1",
+      "body_sha256": "b8f5df14cc6b2ec7ab558ba8a8d525e38673db36d918c5ec3a636d6ea7120408",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DISPLACEMENT_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Displacement(X,Y,Combined) - Story Result Table #2",
+      "body_sha256": "cd21beb175ae7d54c80109e8169ba3cf81a6880aaea7a4effe0784cad42c908e",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DRIFT_COMB": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "post/TABLE : Story Drift(X,Y,Combine) - Story Result Table #3",
+      "body_sha256": "812a59dd880249b19b5fcebb9125843d23f03f0fe5df45caad772d44d4af4ae2",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\RESULT\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DRIFT_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "post/TABLE : Story Drift(X,Y,Combine) - Story Result Table #1",
+      "body_sha256": "66ac87a314c43373da8c6827d4b05c63b4b0852c3bf95a6d1ba4fd8533b7d2da",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_DRIFT_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "post/TABLE : Story Drift(X,Y,Combine) - Story Result Table #2",
+      "body_sha256": "26eea3ec9c60402337654a649c86559c90b79f06028305720161f1874b8a9aa5",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_ECNTRICITY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Eccentricity - Story Result Table #1",
+      "body_sha256": "b33204c9fac6949af3e944a7d3c7597bc6cc311326ffa6485446160d2feb2bd2",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_MODE_SHAPE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Mode Shape - Story Result Table #1",
+      "body_sha256": "3cdac69a98f3757e4eb33d9f07727576328d8fd3d51f2c8819f8b02cdcb0702e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Shear Force Coefficient(R.S.Analysis) - Story Result Table #1",
+      "body_sha256": "1e8ec5a08114a90f9bbbb80507797c5f7d1b6958ac38800d121232306c835a54",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_SHEAR_FORCE_RATIO": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Shear Force Ratio - Story Result Table #1",
+      "body_sha256": "10e01ea79df1a137abdf2347efda4e10862325c01206e41f44efd42d9ec5cd9f",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_SHEAR_FOR_RS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Shear Force(R.S.Analysis) - Story Result Table #1",
+      "body_sha256": "68da79d1610c2f2abef94008b36b0f17071976f4bb2a69afe0ad1b422afa643d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_STABILITY_COEFFICIENT_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Stability Coefficient - Story Result Table #1",
+      "body_sha256": "6a414c06aa7fed950ebaf2d95e08995744c60b1339b7581cd7eb1e01bdaddebe",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.STORY_STABILITY_COEFFICIENT_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Story Stability Coefficient - Story Result Table #2",
+      "body_sha256": "2f67260b8a63c17bbf628d9281be1958788dc9ccd6ab600a4afa920696043e90",
+      "adjustments": [],
+      "status_code": 400,
+      "top_keys": [],
+      "payload_bytes": 0,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "FAILED",
+      "detail": "MIDAS GEN NX there was an error creating utbl. (ex PostMode ...)",
+      "instance_down": false
+    },
+    "POST.TABLE.SUPPORTS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Restraint Supports Table #1",
+      "body_sha256": "5c5542ab50ac2ce5348be7e510f48244817cad17a01a41aaafffeee0c4b74b15",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Supports_Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "Example"
+      ],
+      "payload_bytes": 161,
+      "envelope_key": "Example",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISABSOLUTEACCEL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacement/Velocity/Acceleration - TH Result Table #3",
+      "body_sha256": "3006d710f80b844c59748353ebbc431c3db4bc36c4acc93e11affab7c1e65728",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISBEAMFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Beam Force - TH Result Table #1",
+      "body_sha256": "2cd9ecbe4192237842b2bdca29c693538c43ef63443822750715d83be735329a",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISDISPLACEMENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacement/Velocity/Acceleration - TH Result Table #1",
+      "body_sha256": "349dbf54054a1e547c930467d22e852fc09ffbc3ee16a5c2fd7744d40f49140c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISGLINKDEFORMATION": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "General Link - TH Result Table #2",
+      "body_sha256": "f53054a600bcac605b192f7320c67292b0efc15fbdb5e5ca693f06aca3484b36",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISGLINKFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "General Link - TH Result Table #1",
+      "body_sha256": "80ca84266e5b15c0eabf782616bc53a85bf3cd10abdd16ef551b08a89a8a6d52",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISRELATIVEACCEL": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacement/Velocity/Acceleration - TH Result Table #4",
+      "body_sha256": "b83e99b7d1473ae39e4384201277464864cc93a834234dbd4576036d31e9517e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISTRUSSFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Truss Force - TH Result Table #1",
+      "body_sha256": "414617e9121f202b6e818e6716533f007ff5c620a72be92dd7302d40b6268827",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.THISVELOCITY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Displacement/Velocity/Acceleration - TH Result Table #2",
+      "body_sha256": "a0c8a99df63edadf2768109952da840d98a07bb7f3df7675bae8f12880bdbf42",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_APPROX_LOSS_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Approximate Loss - Analysis Result Table #2",
+      "body_sha256": "ff492fc7121b8f70762d5e290a6cf7f724db938a8161f01953b1ada5498656c4",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_APPROX_LOSS_STRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Approximate Loss - Analysis Result Table #1",
+      "body_sha256": "8c188ef2e4080b6529505ce532cfd7fb8afc3b40c4dede45ad38808f634af70e",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_ARRANGEMENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Arrangement - Analysis Result Table #1",
+      "body_sha256": "e40b8824f3705ef2401f321b81380c8abe1007030fd8baa606212b9b7d2b06a4",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_COORDINATES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Coordinates - Analysis Result Table #1",
+      "body_sha256": "c2efb12338cd6e3479371adde6b993321a627e8ddba948b83c8716c38a986b94",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_ELONGATION": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Elongation - Analysis Result Table #1",
+      "body_sha256": "62dd03fa6e743f77180ce28bb4dc7c52a2bd39f2d058ceee7e7062954b66e669",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_LOSS_FORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Loss - Analysis Result Table #2",
+      "body_sha256": "68939d602dbf8e443abc1ca03ca62a2fb6777a7434cae286e1f6bf01d15a47d2",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_LOSS_STRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Loss - Analysis Result Table #1",
+      "body_sha256": "dc5ea52dfb654b716d2d705ce0a19a05934ebbd6b169c8380ae138bfc299fa5c",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_STRS_LIMIT_CHECK": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Stress Limit Check - Analysis Result Table #1",
+      "body_sha256": "631d90ce3bc7849cfdd1af0fc97782f6c883a6add2de09a1dd8b7108bd374639",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_WEIGHT_GROUP": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Weight - Analysis Result Table #3",
+      "body_sha256": "963e8bd19c3a753d842cc06927c55e9cd86da02d12a346e5971475332695ca08",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "TendonGroup"
+      ],
+      "payload_bytes": 155,
+      "envelope_key": "TendonGroup",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_WEIGHT_PROFILE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Weight - Analysis Result Table #1",
+      "body_sha256": "a053f1299d013fcfb787bdebf52b14e4210d686c060f57cd53aac4943ec6a248",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "TendonProfile"
+      ],
+      "payload_bytes": 237,
+      "envelope_key": "TendonProfile",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TNDN_WEIGHT_PROPERTY": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Tendon Weight - Analysis Result Table #2",
+      "body_sha256": "4255f5134264c283c7302aaeb18b26e4820630458912228529f04d7a7e366656",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "TendonProperty"
+      ],
+      "payload_bytes": 192,
+      "envelope_key": "TendonProperty",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Torsional Amplification Factor - Story Result Table #1",
+      "body_sha256": "5c3bbada01a3d2f9341b2c151197c2876d78c6d0cc56430943542c2ebe2970dd",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Torsional Amplification Factor - Story Result Table #2",
+      "body_sha256": "2bc18cacd2f648a95c79c920c86e0809ef507bbe235c4052e215becf4b450e5e",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TORSIONAL_IRREGULARITY_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Torsional Irregularity Check - Story Result Table #1",
+      "body_sha256": "ce28a34b21ac85d1a94be395f557782b554c6ee8cc44b94a105d0e4329ed2018",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TORSIONAL_IRREGULARITY_Y": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Torsional Irregularity Check - Story Result Table #2",
+      "body_sha256": "57650a9505c753e8f1de116c5edfdb32dd1ff858782c18f105032939a025ac8a",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TRUSSFORCE": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Truss Force - Analysis Result Table #1",
+      "body_sha256": "ed820943d4e59ab8ee4f2fac8a4054870fc0ffeac95c1dccb92919e544d88131",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.TRUSSSTRESS": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Truss Stress - Analysis Result Table #1",
+      "body_sha256": "86075e1d96271b820ef0c381328981b9740440c12c2836a2414cc646a4dad226",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\Output.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.ULTIMATE_STORY_SHEAR_FORCE_CHECK": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Ultimate Story Shear For Check - Story Result Table #1",
+      "body_sha256": "10fce19e396308d71e83619bb90e23d2cdf451d56d1b78dc4fad64ad1c0f900a",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "empty"
+      ],
+      "payload_bytes": 565,
+      "envelope_key": "empty",
+      "criterion_version": 2,
+      "verdict": "PASSED",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.WALLDESIGNFORCES": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concrete Design - Wall Design Forces #1",
+      "body_sha256": "aa4d260851f8e9741a4dcb89ad3e6f4c07c2248d12897017cc0d24130e3cc075",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.WALL_FORCE_MOMENT": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Wall Force - Analysis Result Table #1",
+      "body_sha256": "2d35d681cc7da38f2223cf38c45bb0eebc7407837f8815da288d0f1f15021da1",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.WEIGHT_IRREGULARITY_X": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Weight Irregularity Check - Story Result Table #1",
+      "body_sha256": "757aabca9289cc4c8207cabc676104ccc33d1f9f6473f739f3183b9ef2aac09d",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\test.json",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TABLE.string": {
+      "uri": "/post/table",
+      "wrapper": "Argument",
+      "example_id": "Concrete Design - Beam Design Forces #1",
+      "body_sha256": "3997cd8a5f3f05bc1845add6d73531b1f63c58fd17a0af958e89445966a095a9",
+      "adjustments": [],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    },
+    "POST.TEXT": {
+      "uri": "/post/text",
+      "wrapper": "Argument",
+      "example_id": "Time History Text - Node Results #1",
+      "body_sha256": "29f932f11251f596b2fad996f32b86eaaebdf27430f747c04f8e97bb7ded92bd",
+      "adjustments": [
+        {
+          "path": [
+            "Argument",
+            "EXPORT_PATH"
+          ],
+          "from": "C:\\MIDAS\\Result\\TH_Displacement_Out.JSON",
+          "to": null,
+          "why": "R106：不带 EXPORT_PATH（带它会让实例落文件，违反零副作用纪律）"
+        }
+      ],
+      "status_code": 200,
+      "top_keys": [
+        "message"
+      ],
+      "payload_bytes": 14,
+      "envelope_key": "",
+      "criterion_version": 2,
+      "verdict": "PARTIAL",
+      "detail": "",
+      "instance_down": false
+    }
+  }
+}

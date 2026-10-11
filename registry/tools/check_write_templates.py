@@ -19,7 +19,8 @@ P139 为这 9 个端点补了**真实请求体模板**。模板**不得**是「�
    故 `source.uri` 只需与**某一**来源里的写法一致。
 2. **字段不臆造**（结构校验）：`body` 里的每个字段名都必须在数据侧请求 Schema 里
    存在（根级 / `ITEMS[]` 条目级 / 逐层嵌套）。Schema 未声明子字段时**不判**（如实
-   报「不可判」，而不是假定合法）。
+   报「不可判」，而不是假定合法）。⚠️ P149-D / R112：`request_schema()` 必须剥到**条目**
+   Schema（四种请求形状**全部**覆盖），否则该检查退化为**空判**（恒真 = 没查）。
 3. **前置链可执行**：`prerequisites[].key` 必须是已登记、已启用、含 `POST` 且有
    Schema 文件的端点；`item_id` 必须是正整数（探针**只**碰自建的编号）。
 
@@ -173,8 +174,29 @@ def _item_schema(node: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
-def request_schema(repo: pathlib.Path, relative: str) -> dict[str, Any] | None:
-    """端点 Schema 文件的**请求方向**生效 Schema（剥离包装根键 → **条目** Schema；无文件 → `None`）。"""
+def request_schema(repo: pathlib.Path, relative: str, key: str = "") -> dict[str, Any] | None:
+    """端点 Schema 文件的**请求方向**生效 Schema（剥离包装根键 → **条目** Schema；无文件 → `None`）。
+
+    `key` 是端点注册键（可选；四种形状的判定**不**依赖它 —— 形状本身无歧义，加上只为调用方标注）。
+
+    请求方向实测有**四种形状**（`registry/schema/**` 里 71 个模板端点**全部**落在其中），
+    不剥离包装根键就会退化成「拿**根** Schema 判条目字段」⇒ `unknown_fields()` 直接返回 `[]`
+    （**空判**：检查恒真，等于没查）。本函数按下列**优先级**逐层剥离，使字段白名单检查**非空**：
+
+    1. 根 `properties` 里含 `Argument` / `Assign` → 该包装节点的**条目** Schema
+       （`_item_schema()`：`properties` 直连条目 / `patternProperties['^[0-9]+$']` 下才是条目）；
+    2. 根**自身**含 `Argument` / `Assign`（`/info/db/<CODE>` 内省的**根级包装**，
+       如 `common/db/LENG.json`）→ 同上；
+    3. 去掉 `$schema` 后**恰好一个**根键（**按端点代码键控**，如 `common/db/SECT.json` 的
+       `{"SECT": {...}}`；也含根键名与端点代码**不同**的 `products/gen_nx/db/MBTP.json`
+       —— 单根键 `TABLE`；以及条目字段**直接**平铺在单根键下的 `common/db/VSEC.json`）：
+       按「`node.properties` 含包装键 → `node.properties` 是对象 → `node` 自身含包装键 →
+       `node` 的取值**全是**对象（⇒ 平铺条目字段，补一层 `properties`）」的顺序剥离；
+    4. 其余照旧（根 `properties` 是对象 → 根自身；否则根自身）。
+
+    ⚠️ 判定**变强**（R112，**不**是放宽）：旧版对形状 2 / 3 返回**根** Schema（无 `properties`
+    或不含条目字段）⇒ 白名单检查**空判**；新版剥到条目 Schema 后逐条复算，**不**新增任何白名单。
+    """
     if not relative:
         return None
     path = repo / "registry" / relative
@@ -184,6 +206,7 @@ def request_schema(repo: pathlib.Path, relative: str) -> dict[str, Any] | None:
     schema = document.get("schema")
     if not isinstance(schema, dict):
         return None
+    # 1. 根 `properties` 里的包装键
     properties = schema.get("properties")
     if isinstance(properties, dict):
         for wrapper in ("Argument", "Assign"):
@@ -192,6 +215,36 @@ def request_schema(repo: pathlib.Path, relative: str) -> dict[str, Any] | None:
                 item = _item_schema(node)
                 if item is not None:
                     return item
+    # 2. 根**自身**就是包装键（`/info/db/<CODE>` 内省的根级包装）
+    for wrapper in ("Argument", "Assign"):
+        node = schema.get(wrapper)
+        if isinstance(node, dict):
+            item = _item_schema(node)
+            if item is not None:
+                return item
+    # 3. 单根键（按端点代码键控 / 平铺条目字段）
+    keys = [name for name in schema if name != "$schema"]
+    if len(keys) == 1:
+        node = schema[keys[0]]
+        if isinstance(node, dict):
+            node_properties = node.get("properties")
+            if isinstance(node_properties, dict):
+                for wrapper in ("Argument", "Assign"):
+                    child = node_properties.get(wrapper)
+                    if isinstance(child, dict):
+                        item = _item_schema(child)
+                        if item is not None:
+                            return item
+                return node
+            for wrapper in ("Argument", "Assign"):
+                child = node.get(wrapper)
+                if isinstance(child, dict):
+                    item = _item_schema(child)
+                    if item is not None:
+                        return item
+            if node and all(isinstance(value, dict) for value in node.values()):
+                return {"properties": node}
+    # 4. 照旧
     return schema
 
 
@@ -270,7 +323,7 @@ def _check_endpoint(
     endpoint = endpoints.get(key)
     if endpoint is None:
         errors.append(f"{key}: 不在 manifest.json 里（模板必须对应已登记端点）")
-    schema = request_schema(repo, str((endpoint or {}).get("schema") or ""))
+    schema = request_schema(repo, str((endpoint or {}).get("schema") or ""), key)
     counts["bodies"] += 1
     errors.extend(_check_body(key, template, schema, examples, counts, notes, indent="  "))
     prerequisites = template.get("prerequisites") or []
@@ -304,7 +357,7 @@ def _check_endpoint(
             _check_body(
                 where,
                 prerequisite,
-                request_schema(repo, str(prereq_entry.get("schema") or "")),
+                request_schema(repo, str(prereq_entry.get("schema") or ""), prereq_key),
                 examples,
                 counts,
                 notes,

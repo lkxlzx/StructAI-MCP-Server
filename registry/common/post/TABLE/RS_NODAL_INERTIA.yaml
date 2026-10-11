@@ -12,7 +12,8 @@ schema_ref:
   source: help_center
 parser: post_table
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: RS_NODAL_INERTIA
 title: "Nodal Results of RS - Analysis Result Table"
 risk:

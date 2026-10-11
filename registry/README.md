@@ -146,6 +146,11 @@ P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138
 CIVIL NX **62** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
 云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
 `live.write_path_coverage()` = **`72 / 633`**。
+⚠️ **R106（P149-D）另立判据，不改本口径**：`POST.*` 的 **197** 个端点**没有** `GET` / `read_root`
+⇒ 三步链**结构上不适用**；它们的结论由**取报表判据**给出（`registry/README.md` §8.13 / §8.12 ⑭）：
+`PASSED` **15**（`availability: verified` + `response` 块）· `PARTIAL` **172** · `FAILED` **8** ·
+留缺 **2**。⚠️ 这 **15** 个**不**计入 `write_path_coverage()` 的分子（**三步链的分子**仍只认
+`contract_level = L5` ∧ `status = PASSED` 的 `midas_api_verifications` 行）；**两个口径同时报出**。
 ⚠️ **分母基线（P149-A 重算，`docs/07` §16.1 **R108**）**：`write_path_keys()` = **633**
 （P148 为 **609**）—— 用**只读** `OPTIONS` 的 `Allow` 头实测端点方法集后，发现 registry 曾**系统性少声明**
 **90** 个端点的方法集（+`DELETE` 88 · +`PUT` 80 · +`GET` 62 · +`POST` 6），其中 **24** 个因此才**进入**分母
@@ -797,3 +802,79 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
   可用**同一工具**后续扫（`--probe`）。
 - 可执行判定 = `tests/test_midas_availability_p149c.py`（**7** 项）·
   `docs/reports/P149-C_只读L4收口availability与写路径解锁_v1.0.md`。
+
+**⑭ P149-D：**R106** 取报表判据（`POST.*` **197**）+ **R107** 取设置表判据（无 `DELETE` **14**）+ **R112** 修完**：
+
+- **R106（`registry/README.md` §8.13）**：`POST.*` 的 **197** 个端点**只**有 `POST`、**没有**
+  `GET` / `read_root` ⇒ L5 三步链（创建 → 读回 → 按路径 key 删除）**结构上不适用**。
+  **判据** = 最小模型（**只**用自建编号，**8** 个对象）+ `POST /DOC/ANAL`（空体）⇒ 逐端点发
+  **该端点自己那张表**的手册示例（**唯一**改动 = 剥掉 `Argument.EXPORT_PATH`）⇒ `HTTP 200` ∧
+  **实测信封形状**（恰好 **1** 个顶层键 ∧ 其值是对象 ∧ 含 `HEAD` / `DATA` 两个数组）⇒ `PASSED`；
+  `200` ∧ 空块（`{}` / `{"message": ""}`）⇒ `PARTIAL`；其余 ⇒ `FAILED`。
+  **实测**（有界 **20** 块 × 10 条，块间只读健康检查）：`PASSED` **15** · `PARTIAL` **172** ·
+  `FAILED` **8**（**全部** `400` 原生拒绝：`error creating utbl. (ex PostMode …)` ×6 ·
+  `Please Check RC Design Code.` ×1 · `Unknown Error` ×1）· 留缺 **2** ⇒ **195** 条取得结论。
+  **零残留**（跑前 == 跑后哨兵逐条相同；清理后全空）。
+  ⚠️ **信封键逐端点不同**（`Example` **10** 个；另有 `ElementPropertiesatEachStage` /
+  `TendonGroup` / `TendonProfile` / `TendonProperty` / **字面** `empty`）—— 判据**只**断言**形状**，
+  实测键逐条记进证据（`envelope_key`）后落成 `response` 块。
+  ⚠️ **R115（新）**：`POST.TABLE.FIBR_MAXCONTRACT` **使 NX 实例崩溃**（批量第 41 条 `ReadError`
+  ⇒ 实例重启、项目关闭；**单独复现**确认 ⇒ **永不再试**）；成因需 **MIDAS 侧**排查。
+- **R107（`registry/README.md` §8.14）**：GEN NX 上**无 `DELETE`** 的端点 **14** 个
+  （`GET`+`PUT` **11** · `GET`+`POST` **3**）。**判据** = 「`GET` 读回**非空**原值 →
+  `PUT` 改动过的值（手册示例）→ 读回确认**改动生效** → `PUT` **还原**原值 → 读回确认**逐字节**
+  等于原值」。⚠️ **前置闸门**：`GET` 返回 `{}` ⇒ **绝不**发 `PUT`（**没有** `DELETE` ⇒ 会留下
+  **不可删**的记录）。**实测**：`PASSED` **2**（`DB.STYP` / `DB.UNIT`，**逐字节**还原）·
+  `FAILED` **7**（空原值闸门拒绝写）· 留缺 **5**。**结论单独成桶**（`no_delete_singleton`），
+  **不**并入 L5 三步链的覆盖率分子；**原口径照旧报出、不过滤、不隐藏**。
+  ⚠️ **残留如实披露**：侦察阶段对 `DB.PZEF` 发过一次 `PUT`（其 `GET` 原值是 `{}`、**无** `DELETE`）
+  ⇒ **无法清除**（`PUT {"Assign": {}}` 返回 `200` 但读回仍在）⇒ 记入 `docs/reports/P149-D_*.md`。
+- **R112 修完（`check_write_templates.request_schema()`）**：请求方向实测有**四种形状**
+  （根 `properties` 包装 · **根级包装** · **按端点代码键控** · 单根键下**平铺**条目字段）。
+  旧版**只**认第一种 ⇒ **63 / 71** 个模板的字段白名单检查是**空判**（恒真 = 没查）；
+  修后 **71 / 71 全部非空判**（逐条复算 **0** 空判 · **0** 未知字段）—— 判定**变强**，**不**放宽。
+  **裁决 R112-A = 补 Schema**：`DB.SECT.SECT_BEFORE.{DATATYPE, SECT_I}` 被暴露（手册示例 + 本 build
+  自省 `GET /info/db/SECT` **双重**来源声明）⇒ 按**已登记的自省来源**补齐这两个字段（**不**引入
+  自省里其余 55 个字段）；`tests/test_midas_write_templates_p149b2.py` 的「钉住旧现状」用例
+  **反向**改成断言**更强**的行为。
+- **计数（P149-C → P149-D）**：`availability == verified` **296 → 481**（`untested` **317 → 132**）·
+  响应方向 Schema 行 **290 → 305**（`sync_response_schemas.py` 接入 R106 实测信封：新增
+  `measured_envelope_keys()`，`is_measured()` / `envelope_chains()` 接受 R106 实测键 ——
+  **同一**判定点，**不**另写规则）· `midas_api_schemas` 合计 **915 → 930** 行 ·
+  **`live.write_path_coverage()` 仍是 `72 / 633`**（R106 / R107 的结论**不**改三步链口径）。
+- 可执行判定 = `tests/test_midas_result_tables_p149d.py`（**10** 项）·
+  `tests/test_midas_singleton_tables_p149d.py`（**7** 项）·
+  `docs/reports/P149-D_写路径覆盖收尾_R106取报表判据与R107取设置表判据_v1.0.md`。
+
+### 8.13 R106：`POST.*` 结果表 / 文本查询的**取报表判据**（P149-D）
+
+`POST.*` 的 **197** 个端点（GEN NX：`POST.TABLE.*` **194** + `POST.PM` / `POST.TEXT` /
+`POST.STEELCODECHECK`）**只**有 `POST`、**没有** `GET` / `read_root` ⇒ L5 三步链
+（创建 → 读回 → 按路径 key 删除）**结构上不适用**（没有「自建 ID」可读回 / 可删）。
+
+| 项 | 判据 |
+| --- | --- |
+| 前置链 | 最小模型（`MINIMAL_MODEL`，**只**用自建编号，**8** 个对象）+ `POST /DOC/ANAL`（`Argument` 空体）。**实测**：空项目下 `POST /POST/TABLE` → `400 "[empty] Cannot generate table data as there is no analysis result."` ⇒ **必须**有分析结果 |
+| 请求体 | 上游手册（两个来源合并）里该端点**自己那张表**的示例；**唯一**改动 = **剥掉 `Argument.EXPORT_PATH`**（带它会让实例**落文件**）。定位：`table_type` 非空 ⇒ 按 `TABLE_TYPE` / `TEXT_TYPE` 精确匹配；否则按端点 `title` 与示例名（剥尾部 ` #<n>`）前缀匹配；仍多解 ⇒ 字典序第一个（记 `example_id`） |
+| 判定 | `HTTP 200` ∧ **实测信封形状**（**恰好 1 个**顶层键 ∧ 其值是对象 ∧ 含 `HEAD` / `DATA` 两个数组）⇒ `PASSED`（实测键记 `envelope_key`）；`200` ∧ 空块（`{}` / `{"message": ""}`）⇒ `PARTIAL`；其余 ⇒ `FAILED`；传输失败 ⇒ `SKIPPED` |
+| 零残留 | 跑前 / 跑后 **7** 个模型哨兵**逐条相同**；跑完**逆序**清理自建模型，清理后哨兵**全空** |
+
+**证据** = `registry/live/result_table_probe.json` · **复算工具** =
+`registry/tools/probe_result_tables.py`（`--probe` / `--write` / `--check`；
+**续跑**：已取得结论的行逐字节保留，`instance_down` 的行重测；判据修订由 `CRITERION_VERSION` 触发重测）·
+**可执行判定** = `tests/test_midas_result_tables_p149d.py`。
+
+### 8.14 R107：无 `DELETE` 的单例 / 设置表的**取设置表判据**（P149-D）
+
+GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`POST` **3**）⇒ 三步链第 3 步
+走不通。
+
+| 项 | 判据 |
+| --- | --- |
+| 前置闸门 | `GET <uri>` 必须返回**非空**原值（`{<read_root>: {"1": {…}}}`）。**空 ⇒ 如实留缺**（`empty_singleton_put_creates_undeletable_record`，**绝不**发 `PUT`）：`PUT` 会**创建**记录而该端点**没有** `DELETE` ⇒ **无法还原** |
+| 判定 | 读回原值 → `PUT` **改动过**的值（手册示例）→ 读回确认**改动生效** → `PUT` **还原**原值（逐字段照抄跑前读回）→ 读回确认**逐字节**等于原值 ⇒ `PASSED` |
+| 子桶 | 结论**单独成桶**（`no_delete_singleton`），**不**并入 L5 三步链的覆盖率分子；**原口径照旧报出** |
+
+**证据** = `registry/live/singleton_table_probe.json` · **复算工具** =
+`registry/tools/probe_singleton_tables.py` · **可执行判定** =
+`tests/test_midas_singleton_tables_p149d.py`。

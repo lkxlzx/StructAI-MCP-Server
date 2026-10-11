@@ -12,7 +12,8 @@ schema_ref:
   source: civil_nx_manual
 parser: post_table
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: BEAMSTRESS7DOF
 title: 应力（7th自由度）Beam Stress(7th DOF)
 risk:

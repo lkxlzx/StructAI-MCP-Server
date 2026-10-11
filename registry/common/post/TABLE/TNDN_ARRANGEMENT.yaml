@@ -12,7 +12,8 @@ schema_ref:
   source: civil_nx_manual
 parser: post_table
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: TNDN_ARRANGEMENT
 title: Tendon Arrangement(Tendon Group)
 risk:

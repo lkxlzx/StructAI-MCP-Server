@@ -8,7 +8,7 @@
 - `registry/live/write_batch_p149b2.json`（两轮**原始**实测证据：第一轮 **179** 条 +
   第二轮 **67** 条补测）。
 - `registry/tools/check_write_templates.py`（P149-B2 修：`request_schema()` 支持
-  `patternProperties`）。
+  `patternProperties`；P149-D / **R112** 修：支持**根级包装**与**按端点代码键控**的根）。
 
 本文件的**可执行判定**
 --------------------
@@ -23,8 +23,8 @@
    四类原因（R101–R105 / R109 / R110 / R111 / R113）齐全。
 5. **12 个新候选**（两轮真实 `PASSED`）：模板**逐字节**等于上游手册示例条目
    （`manual_example`、零 `adjustments`、零前置链）。
-6. **`patternProperties` 形状已可判**（P149-B2 修）；**「按端点代码键控」的根仍**不可判
-   （**R112**，本测试**钉住**）。
+6. **两种 Schema 形状都已可判**（`patternProperties` 见 P149-B2 修；**「按端点代码键控」的根**
+   见 P149-D / **R112** 修）—— 字段白名单检查**不再空判**（判定变强，**不**放宽）。
 7. **两次崩溃如实**：第一轮 179 条（3 `PASSED`；**67** 条 `request_timed_out` = 实例已死）；
    第二轮分块补测 67 条（**9** `PASSED` + **58** `FAILED`），`DB.NSPR` = **`transport_error`**
    ⇒ **R113**
@@ -48,7 +48,7 @@ SYNC_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "sync_write_templates.py"
 """模板生成器（`--check` 断言已落盘 == 机械结果）。"""
 
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
-"""模板复算工具（P149-B2 起支持 `patternProperties` 形状）。"""
+"""模板复算工具（P149-B2 起支持 `patternProperties`；P149-D / R112 起支持**代码键控**根）。"""
 
 LEDGER_PATH = REPO_ROOT / "registry" / "live" / "write_template_left_out.json"
 """留缺账本（账本里的 key 必须没有模板）。"""
@@ -129,7 +129,7 @@ PATTERN_PROPERTIES_SCHEMA = "schema/common/db/REBB.json"
 """`Assign.patternProperties['^[0-9]+$']` 形状（P149-B2 修后**可判**）。"""
 
 CODE_KEYED_SCHEMA = "schema/common/db/NODE.json"
-"""`{"NODE": {...}}` 形状（**按端点代码键控**；R112：仍不可判）。"""
+"""`{"NODE": {...}}` 形状（**按端点代码键控**；P149-D / R112 修后**可判**）。"""
 
 
 def _load(path: Path, name: str) -> Any:
@@ -256,17 +256,21 @@ def test_p149b2_the_pattern_properties_shape_is_judged() -> None:
 
 
 def test_p149b2_the_code_keyed_shape_is_still_unjudgeable() -> None:
-    """门槛（R112）：`{"NODE": {...}}` 形状下 `request_schema()` **取不到**条目字段。
+    """门槛（P149-D / R112 修）：`{"NODE": {...}}` 形状剥到**条目** Schema ⇒ 白名单检查**非空**。
 
-    ⚠️ 这是**既有限制**：该形状下字段白名单检查是**空判**（`unknown_fields()` 直接返回 `[]`）。
-    本测试把现状**钉死**；若将来扩展 `request_schema()` 支持该形状，本测试**必须**同步改成
-    「可判」并逐条复算 —— 不得静默改变判定强度。
+    ⚠️ 函数名沿用「R112 钉住旧现状」时的名字（**保留以便追溯**），断言已**反向**：旧版该形状下
+    `request_schema()` 取不到条目字段 ⇒ `unknown_fields()` 恒返回 `[]`（**空判**）。P149-D 修后
+    必须剥到条目 Schema，臆造字段**必须**被报出 —— 判定**变强**，**不**得再退回空判。
     """
     tool = _check_tool()
     schema = tool.request_schema(REPO_ROOT, CODE_KEYED_SCHEMA)
     assert schema is not None
-    assert not (schema.get("properties") or {})
-    assert tool.unknown_fields({"TOTALLY_MADE_UP_FIELD": 1}, schema) == []
+    properties = schema.get("properties") or {}
+    assert properties, "条目 Schema 的 properties 不得为空（否则白名单检查是空判）"
+    assert "X" in properties
+    assert tool.unknown_fields({"TOTALLY_MADE_UP_FIELD": 1}, schema) == ["TOTALLY_MADE_UP_FIELD"]
+    # 已声明的条目字段**不**得误报（修的是空判，**不是**放宽判定）
+    assert tool.unknown_fields({"X": 1, "Y": 2, "Z": 3}, schema) == []
 
 
 # ===== 5. 两次崩溃如实（判定 7）=====

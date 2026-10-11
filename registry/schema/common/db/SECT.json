@@ -66,6 +66,63 @@
             "SHAPE": {
               "description": "Shape",
               "type": "string"
+            },
+            "DATATYPE": {
+              "description": "DataType",
+              "type": "integer"
+            },
+            "SECT_I": {
+              "description": "Sect I",
+              "type": "object",
+              "properties": {
+                "SHAPE": {
+                  "description": "Shape",
+                  "type": "string"
+                },
+                "DB_NAME": {
+                  "description": "DB Name",
+                  "type": "string"
+                },
+                "SECT_NAME": {
+                  "description": "Section Name",
+                  "type": "string"
+                },
+                "SECT_NAME2": {
+                  "description": "Section Name2",
+                  "type": "string"
+                },
+                "vSIZE": {
+                  "description": "Size",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "PERIIN": {
+                  "description": "PeriIn",
+                  "type": "number"
+                },
+                "PERIOUT": {
+                  "description": "PeriOut",
+                  "type": "number"
+                },
+                "BUILT_FLAG": {
+                  "description": "Built Up Flag",
+                  "type": "integer"
+                },
+                "BEFORE_PART_NUM": {
+                  "description": "Before Part Number",
+                  "type": "integer"
+                },
+                "USE_SYM_CALC": {
+                  "description": "Symmetric Auto Calculator",
+                  "type": "boolean"
+                },
+                "CF_STIFF_ULS": {
+                  "description": "CF Stiff ULS",
+                  "type": "object"
+                }
+              }
             }
           }
         }

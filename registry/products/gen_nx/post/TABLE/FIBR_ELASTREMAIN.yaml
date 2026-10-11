@@ -13,7 +13,8 @@ schema_ref:
 parser: post_table
 products: [GEN_NX]
 solver: GRID_MODEL
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: FIBR_ELASTREMAIN
 title: "Fiber Section Elastic Modulus Retention Rate - TH Result Table"
 risk:

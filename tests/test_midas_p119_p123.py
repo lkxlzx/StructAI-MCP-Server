@@ -250,7 +250,9 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
     # P141 再 +5（手册**同 URI** 条目的规格表）→ 请求 **625**；其中 2 个同时获得 response 块
     # → 响应 **288 + 2 = 290**；合计 **915**（逐条更新，**不**放宽）
     # （P149-C：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口 availability ⇒ +49）
-    assert report.totals["midas_api_schemas"] == 625 + 290
+    # （P149-D：**R106** 取报表判据实测的 15 个 `POST.TABLE.*` 追加 response 块 ⇒ +15
+    # → 响应 **305**、合计 **930**）
+    assert report.totals["midas_api_schemas"] == 625 + 305
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 

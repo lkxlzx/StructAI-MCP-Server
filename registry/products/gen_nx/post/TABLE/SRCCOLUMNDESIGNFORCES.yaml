@@ -12,7 +12,8 @@ schema_ref:
   source: help_center
 parser: post_table
 products: [GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: SRCCOLUMNDESIGNFORCES
 title: "SRC Design - SRC Column Design Forces"
 risk:

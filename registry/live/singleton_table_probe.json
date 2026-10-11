@@ -1,0 +1,147 @@
+{
+  "note": [
+    "P149-D / R107：**无 `DELETE` 的单例 / 设置表**的取设置表判据实测证据（**子桶**口径）。",
+    "判据：`GET` 读回**非空**原值（**空 ⇒ 如实留缺**：`PUT` 会创建**不可删**的记录）⇒ `PUT` 手册示例（**改动过**的值）⇒ 读回确认**改动生效** ⇒ `PUT` **还原**原值（逐字段照抄跑前读回）⇒ 读回确认**逐字节**等于原值。",
+    "⚠️ 三步链（创建 → 读回 → 按路径 key 删除）对本桶**结构上不适用**（无 `DELETE`）⇒ 结论**单独成桶**，**不**并入 L5 覆盖率分子；原口径照旧报出、不过滤、不隐藏。",
+    "生成器 = `registry/tools/probe_singleton_tables.py --probe`；落盘 = `--write`（`availability` **只升不降**），随后跑 `sync_manifest.py --write`。",
+    "凭据**绝不**写入本文件；读回 / 写回的原文**不**落盘（只记 `sha256`）。"
+  ],
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN_NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11",
+    "scope": "GEN_NX ∧ enabled ∧ 有 GET ∧ 无 DELETE ∧ 非 destructive ∧ 有 read_root"
+  },
+  "sub_bucket": "no_delete_singleton",
+  "counts": {
+    "FAILED": 7,
+    "PASSED": 2
+  },
+  "restored": 2,
+  "aborted": "",
+  "residue": {
+    "final_reads": {
+      "DB.STYP": "f44eaceb97e335757c16898f80ba6dc1ad76432c109d1f2f2098b8b2dd89df61",
+      "DB.UNIT": "28ad80202114b3310de8a4527a2e05e88fd17f7687834ca649ebb4d0c6e86064"
+    }
+  },
+  "gaps": {
+    "DB.CPSETTINGS": "no_manual_entry",
+    "DB.PZEF": "empty_singleton_put_creates_undeletable_record",
+    "OPE.SECTPROP": "no_put_method",
+    "OPE.STORY_IRR_PARAM": "no_put_method",
+    "OPE.STORY_PARAM": "no_put_method"
+  },
+  "endpoints": {
+    "DB.CLDR": {
+      "uri": "/DB/CLDR",
+      "read_root": "CLDR",
+      "example_id": "Define Constraints Label Direction",
+      "changed_sha256": "95b7ab1493ce35ca04f8c29ed15f96289dddbb3abe9ade3bc5ed2f7790dc63c7",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.CO_F": {
+      "uri": "/DB/CO_F",
+      "read_root": "CO_F",
+      "example_id": "Floor Load Color",
+      "changed_sha256": "fa1ce9c4d84347e67fef209b2a40a6d3f37b43764d6ca51bc6fe9af0017b5512",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.CO_M": {
+      "uri": "/DB/CO_M",
+      "read_root": "CO_M",
+      "example_id": "Material Color",
+      "changed_sha256": "6de9d466c9948c08b5531f2ea3a424833e427181e47f2b9dee056ee4a37b6e4c",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.CO_S": {
+      "uri": "/DB/CO_S",
+      "read_root": "CO_S",
+      "example_id": "Section Color",
+      "changed_sha256": "b4dee32d95c47b95c2c8a52497dce35a46facb6374966c077e99a4f2192eb805",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.CO_T": {
+      "uri": "/DB/CO_T",
+      "read_root": "CO_T",
+      "example_id": "Thickness Color",
+      "changed_sha256": "de65de3b9cc8d1ae5e8ff879a1a59843e940a543f09e524ad634eb107fa36dfd",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.MATD": {
+      "uri": "/DB/MATD",
+      "read_root": "MATD",
+      "example_id": "Modify Concrete Materials",
+      "changed_sha256": "71c5a8046a44561d109c1372587d696494e92aec151d1a8365250ea7c3e696b0",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    },
+    "DB.STYP": {
+      "uri": "/DB/STYP",
+      "read_root": "STYP",
+      "example_id": "Consistent Mass + Convert Self-weight into Masses (Convert to X, Y)",
+      "changed_sha256": "0e3f06dd9f6783647406243c628bed2381d6dafc8becc30e14d818bbf0f03cc0",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "f44eaceb97e335757c16898f80ba6dc1ad76432c109d1f2f2098b8b2dd89df61",
+      "put_sent": true,
+      "changed_status": 200,
+      "change_effective": true,
+      "restore_status": 200,
+      "restored_sha256": "f44eaceb97e335757c16898f80ba6dc1ad76432c109d1f2f2098b8b2dd89df61",
+      "restore_byte_identical": true,
+      "verdict": "PASSED",
+      "detail": ""
+    },
+    "DB.UNIT": {
+      "uri": "/DB/UNIT",
+      "read_root": "UNIT",
+      "example_id": "Unit System #1",
+      "changed_sha256": "0a24755b44600db8d7511b9f9c055ca381fbe8ddaaff0980921938abd9b8a378",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "28ad80202114b3310de8a4527a2e05e88fd17f7687834ca649ebb4d0c6e86064",
+      "put_sent": true,
+      "changed_status": 200,
+      "change_effective": true,
+      "restore_status": 200,
+      "restored_sha256": "28ad80202114b3310de8a4527a2e05e88fd17f7687834ca649ebb4d0c6e86064",
+      "restore_byte_identical": true,
+      "verdict": "PASSED",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.SRDF": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SRDF",
+      "read_root": "SRDFRC",
+      "example_id": "DESIGN/RC/KDS-41-20-2022/SRDF : Strength Reduction Factors #1",
+      "changed_sha256": "41949a70f0d2e46f84207b2bcbe6c62b5e55fcdb5e8c9b008c10623da42a3f00",
+      "sub_bucket": "no_delete_singleton",
+      "original_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "verdict": "FAILED",
+      "detail": "empty_singleton_put_creates_undeletable_record",
+      "put_sent": false
+    }
+  }
+}

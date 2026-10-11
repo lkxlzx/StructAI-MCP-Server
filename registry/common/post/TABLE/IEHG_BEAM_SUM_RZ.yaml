@@ -12,7 +12,8 @@ schema_ref:
   source: help_center
 parser: post_table
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: IEHG_BEAM_SUM_RZ
 title: "Inelastic Hinge Beam Summary - TH Result Table"
 risk:

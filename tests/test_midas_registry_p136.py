@@ -44,13 +44,16 @@ from app.infrastructure.adapters.midas.registry import MidasRegistry
 TOOL_PATH = Path("registry/tools/sync_response_schemas.py")
 """数据侧生成链的唯一入口（`registry/tools/`，只依赖标准库）。"""
 
-RESPONSE_BLOCK_ENDPOINTS = 290
-"""已实测端点（`availability=verified` + `GET` + 有 Schema 文件）= 补了 `response` 块的端点数。
+RESPONSE_BLOCK_ENDPOINTS = 305
+"""已实测端点（`availability=verified` ∧（`GET` ∨ **R106** 取报表实测信封）∧ 有 Schema 文件）
+= 补了 `response` 块的端点数。
 
 P141 时 **241**：P141 补齐的 `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` 请求 Schema 落盘后
 **立刻**满足本规则（`registry/tools/sync_response_schemas.py`），同批追加了 `response` 块。
 **P149-C 起 290**：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口（响应顶层键 ==
-`read_root`）`availability: untested → verified` + `verified_on: ["gen-local"]` ⇒ +49。"""
+`read_root`）`availability: untested → verified` + `verified_on: ["gen-local"]` ⇒ +49。
+**P149-D 起 305**：**R106** 取报表判据实测的 **15** 个 `POST.TABLE.*`（信封键逐端点实测）
+⇒ +15。"""
 
 R85_GEN_NX_PRODUCT_GAPS: tuple[str, ...] = (
     "DB.CAMB",
@@ -143,17 +146,21 @@ def _evidence(key: str, **overrides: Any) -> dict[str, bool]:
 
 
 def test_p136_response_schema_coverage_is_exactly_the_measured_rule() -> None:
-    """P136b：`response` 块的覆盖 == 「已实测」规则（`verified` + `GET` + 有 Schema 文件）。"""
+    """P136b：`response` 块的覆盖 == 「已实测」规则（`verified` ∧（`GET` ∨ **R106** 取报表实测信封）
+    ∧ 有 Schema 文件）。
+
+    ⚠️ **P149-D / R106**：`POST.*` 取报表端点**没有** `GET`，其信封来自取报表判据实测
+    （`registry/live/result_table_probe.json`）—— 判定点仍是**同一个** `is_measured()`，
+    **不**另写规则、**不**放宽（仍要求「实测成功过」且「有 Schema 文件」）。
+    """
     registry = _registry()
     covered = _covered_keys()
+    measured_keys = _tool().measured_envelope_keys(_registry().root.parent)
     for entry in _manifest()["endpoints"]:
         document = registry.schema_document(entry["key"])
         has_block = bool(document is not None and document.get("response"))
-        measured = (
-            str(entry["availability"]) == "verified"
-            and "GET" in [part.strip().upper() for part in str(entry["methods"]).split(",")]
-            and bool(entry.get("schema"))
-        )
+        measured_key = measured_keys.get(entry["key"], "")
+        measured = _tool().is_measured(entry, measured_key) and bool(entry.get("schema"))
         assert has_block is measured, entry["key"]
     assert len(covered) == RESPONSE_BLOCK_ENDPOINTS
     # 未实测 / 无 Schema 的端点**没有** response 块（**不**臆造）
@@ -166,13 +173,16 @@ def test_p136_the_generator_is_idempotent_and_only_appends_the_response_block() 
     tool = _tool()
     registry = _registry()
     checked = 0
+    measured_keys = tool.measured_envelope_keys(_registry().root.parent)
     for entry in _manifest()["endpoints"]:
         document = registry.schema_document(entry["key"])
         if document is None or not document.get("response"):
             continue
         assert set(document) <= _SCHEMA_FILE_KEYS, entry["key"]
         block = document["response"]
-        assert block == tool.response_block(tool.envelope_chains(entry)), entry["key"]
+        assert block == tool.response_block(
+            tool.envelope_chains(entry, measured_keys.get(entry["key"], ""))
+        ), entry["key"]
         assert block["direction"] == "response", entry["key"]
         assert block["source"] == tool.RESPONSE_SOURCE, entry["key"]
         checked += 1

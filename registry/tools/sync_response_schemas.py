@@ -20,6 +20,9 @@
     3. 该端点有可读的 Schema 文件                —— 响应块补进**同一个**文件（不新增文件）；
     4. 声明了解包链（`wrapper.read_root` 或 `wrapper.read_root_path`，
        含 `product_overrides.<产品>.wrapper.read_root_path`）—— 链为空即无实测依据，跳过。
+       ⚠️ **P149-D / R106**：`POST.*` 取报表端点**没有** `GET`，其信封键来自**取报表判据实测**
+       （`registry/live/result_table_probe.json`，见 `measured_envelope_keys()`）——
+       该证据非空时第 2 / 4 条按它成立（**同一** `response_block()` 构造点，**不**另写判定）。
 
 写入的 `response` 块**只**描述实测到的**信封**，不含任何未经实测的载荷字段：
 
@@ -44,6 +47,34 @@ import json
 import pathlib
 import sys
 from typing import Any
+RESULT_TABLE_EVIDENCE_RELATIVE = "live/result_table_probe.json"
+"""**R106**（P149-D）取报表判据的实测证据（`registry/tools/probe_result_tables.py --probe` 的产物）。"""
+
+
+def measured_envelope_keys(repo: pathlib.Path) -> dict[str, str]:
+    """`key → 实测信封键`（**R106**：取报表端点的**有数据**响应顶层键；缺证据 ⇒ 空）。
+
+    这些端点**没有** `GET`（只有 `POST` 取表），其响应信封**无法**从 `wrapper.read_root` /
+    `read_root_path` 推出，只能来自**取报表判据实测**（`registry/README.md` §8.13）——
+    本函数把那份证据接进同一条生成链，使 `envelope_chains()` / `is_measured()` 对它们**同样**成立
+    （**不**另写一套判定）。
+    """
+    path = repo / "registry" / RESULT_TABLE_EVIDENCE_RELATIVE
+    if not path.is_file():
+        return {}
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    rows = document.get("endpoints")
+    if not isinstance(rows, dict):
+        return {}
+    return {
+        str(key): str(row.get("envelope_key") or "")
+        for key, row in rows.items()
+        if str(row.get("verdict") or "") == "PASSED" and str(row.get("envelope_key") or "")
+    }
+
 
 RESPONSE_SOURCE = "l4_measured_envelope"
 """`response.source` 的固定取值：信封来自 L4 只读实测（P134 / P136）。"""
@@ -52,11 +83,17 @@ DIALECT = "https://json-schema.org/draft/2020-12/schema"
 """`registry/README.md` §2.1（`docs/07` §16 R18）：本仓库自有的 Schema 一律 2020-12。"""
 
 
-def envelope_chains(entry: dict[str, Any]) -> tuple[tuple[str, ...], ...]:
+def envelope_chains(
+    entry: dict[str, Any], measured_key: str = ""
+) -> tuple[tuple[str, ...], ...]:
     """该端点在**各产品**上的实测解包链（去重、排序；空链丢弃）。
 
     `registry/README.md` §4：优先级 = `product_overrides.<产品>.wrapper.read_root_path`
     → 端点 `wrapper.read_root_path` → `wrapper.read_root`。
+
+    `measured_key`（**R106** / P149-D）：取报表端点**没有** `GET` 解包链，其信封键来自
+    `registry/live/result_table_probe.json` 的**实测**（`measured_envelope_keys()`）——
+    非空时作为一条链并入（**同一** `response_block()` 构造点，**不**另写判定）。
     """
     wrapper = entry.get("wrapper") or {}
     read_root = str(wrapper.get("read_root") or "").strip()
@@ -64,6 +101,8 @@ def envelope_chains(entry: dict[str, Any]) -> tuple[tuple[str, ...], ...]:
     chains: set[tuple[str, ...]] = set()
     if read_root:
         chains.add((read_root,))
+    if measured_key:
+        chains.add((measured_key,))
     if declared:
         chains.add(tuple(part for part in declared if part))
     for override in (entry.get("product_overrides") or {}).values():
@@ -106,10 +145,16 @@ def response_block(chains: tuple[tuple[str, ...], ...]) -> dict[str, Any]:
     return {"direction": "response", "source": RESPONSE_SOURCE, "schema": schema}
 
 
-def is_measured(entry: dict[str, Any]) -> bool:
-    """该端点是否满足「已实测」的四条判定（见模块文档）。"""
+def is_measured(entry: dict[str, Any], measured_key: str = "") -> bool:
+    """该端点是否满足「已实测」的四条判定（见模块文档）。
+
+    `measured_key`（**R106** / P149-D）：取报表端点**只**有 `POST`（没有 `GET`），
+    其信封来自取报表判据实测 ⇒ 非空时同样算「已实测」（**不**放宽：仍是「实测成功过」）。
+    """
     if str(entry.get("availability") or "") != "verified":
         return False
+    if measured_key:
+        return True
     methods = [part.strip().upper() for part in str(entry.get("methods") or "").split(",")]
     return "GET" in methods
 
@@ -129,11 +174,13 @@ def main() -> int:
     skipped_no_chain: list[str] = []
     considered = 0
 
+    measured_keys = measured_envelope_keys(repo)
     for entry in manifest["endpoints"]:
-        if not is_measured(entry):
+        measured_key = measured_keys.get(str(entry["key"]), "")
+        if not is_measured(entry, measured_key):
             continue
         considered += 1
-        chains = envelope_chains(entry)
+        chains = envelope_chains(entry, measured_key)
         if not chains:
             skipped_no_chain.append(entry["key"])
             continue
@@ -155,7 +202,7 @@ def main() -> int:
             )
         changed.append((entry["key"], chains))
 
-    print(f"已实测端点（availability=verified + GET）= {considered}")
+    print(f"已实测端点（availability=verified ∧（GET ∨ R106 取报表实测信封））= {considered}")
     print(f"补 response Schema 的端点 = {len(changed)}")
     print(f"跳过（无 Schema 文件）= {len(skipped_no_schema)} {skipped_no_schema[:10]}")
     print(f"跳过（未声明解包链）= {len(skipped_no_chain)} {skipped_no_chain[:10]}")
