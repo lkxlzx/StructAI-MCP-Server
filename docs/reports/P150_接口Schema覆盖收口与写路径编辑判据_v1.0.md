@@ -147,7 +147,8 @@
 
 ```text
 pytest -q
-  1113 passed, 7 skipped in 227.07s        （基线 1093 / 7 / 0 ⇒ 本批 +20，既有 1093 全部保留）
+  1113 passed, 7 skipped（两次运行一致：227.07s / 234.31s；基线 1093 / 7 / 0 ⇒ 本批 +20，
+  既有 1093 全部保留）
 
 ruff check app tests            → All checks passed!
 ruff format --check app tests   → 233 files already formatted
