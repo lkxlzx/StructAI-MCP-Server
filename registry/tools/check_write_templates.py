@@ -179,6 +179,26 @@ def request_schema(repo: pathlib.Path, relative: str, key: str = "") -> dict[str
 
     `key` 是端点注册键（可选；四种形状的判定**不**依赖它 —— 形状本身无歧义，加上只为调用方标注）。
 
+    ⚠️ 本函数 = **读盘** + `item_schema_of()`。P150 / R117 把「条目形状判定」抽成**纯函数**：
+    数据侧工具 `sync_introspect_fields.py` 必须在**内存里的文档**上定位**同一个**条目节点
+    （否则它改的是另一次读盘的副本、写回时改动会被丢掉）—— 抽出后「条目形状判定点」仍**唯一**，
+    两个调用方**不可能**各自演化。
+    """
+    if not relative:
+        return None
+    path = repo / "registry" / relative
+    if not path.is_file():
+        return None
+    document = json.loads(path.read_text(encoding="utf-8"))
+    schema = document.get("schema")
+    if not isinstance(schema, dict):
+        return None
+    return item_schema_of(schema)
+
+
+def item_schema_of(schema: dict[str, Any]) -> dict[str, Any] | None:
+    """生效 Schema → **条目** Schema（**纯函数**：只读 `schema`、返回它**内部**的节点）。
+
     请求方向实测有**四种形状**（`registry/schema/**` 里 71 个模板端点**全部**落在其中），
     不剥离包装根键就会退化成「拿**根** Schema 判条目字段」⇒ `unknown_fields()` 直接返回 `[]`
     （**空判**：检查恒真，等于没查）。本函数按下列**优先级**逐层剥离，使字段白名单检查**非空**：
@@ -197,15 +217,6 @@ def request_schema(repo: pathlib.Path, relative: str, key: str = "") -> dict[str
     ⚠️ 判定**变强**（R112，**不**是放宽）：旧版对形状 2 / 3 返回**根** Schema（无 `properties`
     或不含条目字段）⇒ 白名单检查**空判**；新版剥到条目 Schema 后逐条复算，**不**新增任何白名单。
     """
-    if not relative:
-        return None
-    path = repo / "registry" / relative
-    if not path.is_file():
-        return None
-    document = json.loads(path.read_text(encoding="utf-8"))
-    schema = document.get("schema")
-    if not isinstance(schema, dict):
-        return None
     # 1. 根 `properties` 里的包装键
     properties = schema.get("properties")
     if isinstance(properties, dict):

@@ -132,6 +132,36 @@ def test_p149d_the_evidence_records_the_two_state_counts_and_the_gaps() -> None:
     assert _verdict_keys("FAILED") == tuple(sorted(EXPECTED_FAILED))
 
 
+def test_p150r119_every_gap_carries_a_recovery_condition() -> None:
+    """门槛（**R119** / P150）：留缺**逐条**给出**恢复条件**（`recovery`）；**不**在空项目上硬试。
+
+    ⚠️ 本用例**只**加强（新增断言），**不**改 P149-D 的任何既有判定：空原值单例表的恢复条件 =
+    **非空**专用项目（`PUT` 才是「改」而不是「建」；空项目上 `PUT` 会留下**不可删**的记录 ⇒ R116）。
+    """
+    tool = _tool()
+    document = _evidence()
+    assert document["recovery"] == {
+        "empty_singleton_put_creates_undeletable_record": "non_empty_dedicated_project",
+        "no_manual_entry": "upstream_manual_entry",
+        "no_put_method": "midas_side_adds_a_put_method",
+    }
+    # 逐条：每个留缺的 reason 都必须有恢复条件；空原值单例表的**7**个一律指向**非空**专用项目
+    for reason in set(document["gaps"].values()):
+        assert document["recovery"][reason] == tool.RECOVERY[reason], reason
+        assert document["recovery"][reason], reason
+    empty_singleton = [
+        key
+        for key, row in document["endpoints"].items()
+        if row.get("detail") == "empty_singleton_put_creates_undeletable_record"
+    ]
+    assert len(empty_singleton) == 7
+    for key in empty_singleton:
+        assert document["endpoints"][key]["put_sent"] is False, key
+        assert document["endpoints"][key]["verdict"] == "FAILED", key
+    # 说明行**如实**写进证据（**不**声称已闭环）
+    assert any("R119" in str(line) and "非空" in str(line) for line in document["note"])
+
+
 def test_p149d_every_passed_endpoint_was_restored_byte_identically() -> None:
     """门槛（判定 3）：`PASSED` 全部**逐字节**还原 ⇒ **零残留**。"""
     document = _evidence()

@@ -193,6 +193,55 @@ CIVIL NX **62** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25
 
 **模板**不能**改任何判定**：`verification_status` 仍只由 `availability` 机械映射
 （`docs/07` §16 R78）；模板文件里**不得**出现 `availability` / `verification_status` / `products` / `verified_on`。
+### 2.4 请求方向 Schema 的**覆盖不全**收口（R117 / P150）
+
+`registry/schema/**` 的**请求方向** Schema 是**手册子集**的转录；端点定义里**已登记**一个**只读**的
+机械来源 `schema_ref.introspect`（`GET /info/db/<CODE>`，§4）。P150 对**全部 244** 个有该来源的端点
+做了一次**只读**扫描（**13** 块 × 20 + 块间只读健康检查 `GET /DB/NODE`；**只发 `GET`**），
+逐端点做**递归**字段集差集：
+
+| 结果 | 条数 |
+| --- | --- |
+| 可比（`200` ∧ 有条目节点 ∧ 有数据侧 Schema） | **199** |
+| 本 build **无**该自省路由（`404`） | **45**（**23** `unverified`（R85）· **15** `unavailable_on` 含 `gen-local` · **7** CIVIL_DESIGNER 独有） |
+| 自省独有字段（缺口）的端点 | **24** |
+| **反向缺口**（数据侧有、自省没有）的端点 | **12**（**一律未动**，只如实记录） |
+
+**裁决 R117 = 补 Schema（21 个端点 / 212 个字段）**，判据逐条可复算：端点 `products` 含探针实例的
+产品 ∧ 待补节点**整棵子树**是合法 JSON Schema 片段 ∧ 父节点未声明 `additionalProperties: false`；
+**只**补自省**实际声明**的字段、**只新增名字**（不删 / 不改名 / 不覆盖既有声明）。
+**如实留缺 3 个**：`DB.KFAC`（`product_not_probed`）· `DB.SSEIS` / `DB.SWIND`
+（`strict_schema_conflict` + `invalid_introspect_node`）。
+⚠️ 判定口径**未变**：白名单**内容**按本 build 的声明据实扩大，同时 **3** 个原本「裸 `object` ⇒
+**不判**」的父节点变成**可判**（判定在该处**变强**）；`check_write_templates` 仍
+**71 / 71 非空判 · 0 未知字段 · 0 不可判 body**。
+证据 = `registry/live/introspect_field_diff.json`（含自省**原文** ⇒ `--write` / `--check` 可**离线**复算）；
+复算工具 = `registry/tools/sync_introspect_fields.py`（`--probe` **只发 `GET`** / `--write` / `--check`）。
+
+### 2.5 写路径「编辑（PUT）」判据（R118 / P150）
+
+L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（编辑）没有判据**。P150 补上：
+
+    只读哨兵（全空）→ 创建（该端点的**写入方法**；**只**碰自建编号）→ 读回 →
+    **PUT 一个改动过的值**（逐条记 `{path, from, to, why}`）→ 读回确认**改动生效** →
+    按路径 key 删除 → 读回确认消失 → **无副作用观察**（删除后再发一次同一 PUT，看是否**重新出现**）
+
+* 改动值**机械**选定：按 body 声明顺序深度优先，取**第一个** `boolean`（翻面）或**第一个**无
+  `enum` / `const` 的 `number` / `integer`（`+1`）⇒ `--check` 可**离线**复算。
+* 目标集 **71**（有数据侧模板 ∧ GEN NX 有 `PUT` / `DELETE` / `GET` / `read_root` ∧ 已启用 ∧ 非破坏性）；
+  本批实测**零前置链的 56** 个 ⇒ **37** `PASSED` · **14** `LEFT_OUT` · **5** `FAILED`；
+  带前置链的 **15** 个如实留缺（`prerequisite_chain_out_of_scope`）。
+* **两个侦察答案**：PUT 的 body 形状 = **与创建同一形状**（`assign_keyed_item`）；
+  **PUT 不要求记录已存在**（upsert，**37 / 37** 实测）⇒ 与 **R116** 互相印证。
+* ⚠️ **残留如实披露（不声称零残留）**：本 build 的 `DELETE` 会**返回 `200` 并回显被删记录却不真正
+  删除** ⇒ 判据以「**再读确认不在**」为准；`DESIGN.*` 别名路由（`DESIGN.RC.DRC` /
+  `DESIGN.RC.KDS-41-20-2022.DCTL` / `DESIGN.STEEL.DSTL`）的 `DELETE` **不生效**（已按**同表 `DB.*` 路由**
+  清理），`/DESIGN/SRC/AIK-SRC2K/DSRC` **无** `DB.*` 别名、**无法清除**（`residue` + `allowed_residue` 披露）。
+* **分桶**：与 R107 的取设置表判据**分开**，**不**并入 L5 三步链的覆盖率分子
+  （`write_path_coverage()` **不变**）。证据 = `registry/live/put_edit_probe.json`；
+  复算工具 = `registry/tools/probe_put_edits.py`（`--probe` 有界侦察 / `--check`；
+  `--allow-residue` **只**放行**已披露**的残留 key，其余跑前非空一律**中止**）。
+
 
 ## 3. 统计
 
@@ -882,6 +931,15 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
 `registry/tools/probe_singleton_tables.py` · **可执行判定** =
 `tests/test_midas_singleton_tables_p149d.py`。
 
+**恢复条件（R119 / P150，**只**更新条件、**不**硬试）**：证据里的 `gaps` **逐条**配上 `recovery`
+（由 `probe_singleton_tables.py --refresh-recovery` **离线**补齐：**不发任何请求、不改任何结论**）。
+
+| 原因 | 条数 | 恢复条件 |
+| --- | --- | --- |
+| `empty_singleton_put_creates_undeletable_record` | **7** | **非空**专用项目（该表已有 `1` 号记录 ⇒ `PUT` 才是「改」而不是「建」）；**没有**就**如实**保持留缺（**R116**：空项目上 `PUT` 会留下**不可删**的记录） |
+| `no_put_method` | **3** | **MIDAS 侧**提供 `PUT`（或另立判据） |
+| `no_manual_entry` | **1** | 上游手册补条目 |
+
 **⑮ P149-E：只读 L4 补测收口 + 「317」记法据实更正**：
 
 - **记法更正（不美化）**：旧记「其余 **317** 个未验证的**只读**端点」**偏松** —— 据实复算
@@ -905,3 +963,40 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
   **305 → 317** · `midas_api_schemas` **930 → 942** 行 · **`live.write_path_coverage()` 仍 `72 / 633`**。
 - 可执行判定 = `tests/test_midas_availability_p149e.py`（**7** 项）·
   `docs/reports/P149-E_只读L4补测收口与317记法更正_v1.0.md`。
+
+**⑯ P150：请求方向 Schema 的「覆盖不全」收口（R117）+ 写路径「编辑（PUT）」判据（R118）**：
+
+- **R117（主）**：端点定义里**已登记**的**只读**来源 `schema_ref.introspect`（`GET /info/db/<CODE>`）
+  对**全部 244** 个端点做**只读**扫描（**13** 块 × 20 + 块间只读健康检查 `GET /DB/NODE`，
+  全部 `200`；**只发 `GET`**）⇒ **199** 可比 · **45** 本 build `404`
+  （**23** `unverified`（R85）· **15** `unavailable_on` 含 `gen-local` · **7** CIVIL_DESIGNER 独有）。
+  逐端点**递归**字段集差集：**24** 个端点自省独有字段、**12** 个端点**反向缺口**（**一律未动**）。
+  **裁决 R117 = 补 Schema**（**21** 个端点 / **212** 个字段；**只**补自省实际声明的字段、**只新增名字**），
+  **留缺 3 个**（`DB.KFAC` `product_not_probed` · `DB.SSEIS` / `DB.SWIND` `strict_schema_conflict` +
+  `invalid_introspect_node`）。⚠️ 判定口径**未变**；**3** 个「裸 `object` ⇒ 不判」的父节点变成**可判**
+  （判定在该处**变强**），`check_write_templates` 仍 **71 / 71 非空判 · 0 未知字段**。
+  证据 = `registry/live/introspect_field_diff.json` · 工具 = `registry/tools/sync_introspect_fields.py`
+  （`--probe` **只发 GET** / `--write` / `--check`）· 判定 = `tests/test_midas_introspect_fields_p150.py`（**10** 项）。
+- **R118（次）**：写路径「**编辑（PUT）**」判据 = 只读哨兵 → 创建（该端点的**写入方法**；**只**碰自建编号）
+  → 读回 → **PUT 改动过的值**（逐条记 `{path, from, to, why}`）→ 读回确认**改动生效** → 删除 →
+  读回确认消失 → **无副作用观察**（删除后再发一次同一 PUT，看是否**重新出现**）。
+  目标 **71**，本批实测**零前置链的 56** 个 ⇒ **37** `PASSED` · **14** `LEFT_OUT` · **5** `FAILED`；
+  **15** 个带前置链如实留缺。**两个侦察答案**：PUT 的 body 形状 = **与创建同一形状**
+  （`assign_keyed_item`）；**PUT 不要求记录已存在**（upsert，**37 / 37** 实测 ⇒ 与 **R116** 互相印证）。
+  ⚠️ **残留如实披露**：本 build 的 `DELETE` 会**返回 `200` 并回显被删记录却不真正删除** ⇒ 判据以
+  「**再读确认不在**」为准；`DESIGN.*` 别名路由（`DESIGN.RC.DRC` / `DESIGN.RC.KDS-41-20-2022.DCTL` /
+  `DESIGN.STEEL.DSTL`）的 `DELETE` **不生效**（已按**同表 `DB.*` 路由**清理），
+  `/DESIGN/SRC/AIK-SRC2K/DSRC` **无** `DB.*` 别名、**无法清除**（`residue` + `allowed_residue` 披露）。
+  **分桶**：与 **R107** 分开、**不**并入 L5 覆盖率分子（`write_path_coverage()` **不变**）。
+  证据 = `registry/live/put_edit_probe.json` · 工具 = `registry/tools/probe_put_edits.py` ·
+  判定 = `tests/test_midas_put_edits_p150.py`（**9** 项）。
+- **R119**：`registry/live/singleton_table_probe.json` 的留缺**逐条**配上 `recovery`（**离线**补齐：
+  `probe_singleton_tables.py --refresh-recovery`，**不发任何请求、不改任何结论**）——
+  空原值单例表（**7** 个）的恢复条件 = **非空**专用项目（**R116**）；**没有**就如实保持留缺。
+- **计数**：端点 **636** · Schema 文件 **625** · 模板 **71** / body **115** ·
+  `availability: verified` **493** · 响应 Schema 行 **317** · **`live.write_path_coverage()` 仍 `72 / 633`**
+  （`model_write_ratio` **`72 / 434`**）—— 本批**没有**任何既有钉住计数变化。
+- 可执行判定 = `tests/test_midas_introspect_fields_p150.py`（**10** 项）·
+  `tests/test_midas_put_edits_p150.py`（**9** 项）·
+  `tests/test_midas_singleton_tables_p149d.py::test_p150r119_every_gap_carries_a_recovery_condition`（**1** 项）·
+  `docs/reports/P150_接口Schema覆盖收口与写路径编辑判据_v1.0.md`。

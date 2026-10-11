@@ -4,7 +4,8 @@
     "判据：`GET` 读回**非空**原值（**空 ⇒ 如实留缺**：`PUT` 会创建**不可删**的记录）⇒ `PUT` 手册示例（**改动过**的值）⇒ 读回确认**改动生效** ⇒ `PUT` **还原**原值（逐字段照抄跑前读回）⇒ 读回确认**逐字节**等于原值。",
     "⚠️ 三步链（创建 → 读回 → 按路径 key 删除）对本桶**结构上不适用**（无 `DELETE`）⇒ 结论**单独成桶**，**不**并入 L5 覆盖率分子；原口径照旧报出、不过滤、不隐藏。",
     "生成器 = `registry/tools/probe_singleton_tables.py --probe`；落盘 = `--write`（`availability` **只升不降**），随后跑 `sync_manifest.py --write`。",
-    "凭据**绝不**写入本文件；读回 / 写回的原文**不**落盘（只记 `sha256`）。"
+    "凭据**绝不**写入本文件；读回 / 写回的原文**不**落盘（只记 `sha256`）。",
+    "**R119**：留缺**逐条**给出恢复条件（`recovery`）—— 空原值单例表的恢复条件 = **非空**专用项目（`PUT` 才是「改」而不是「建」；空项目上 `PUT` 会留下**不可删**的记录，见 **R116**）；**没有**非空项目就**如实**保持留缺，**不**硬试。"
   ],
   "instance": {
     "alias": "gen-local",
@@ -143,5 +144,10 @@
       "detail": "empty_singleton_put_creates_undeletable_record",
       "put_sent": false
     }
+  },
+  "recovery": {
+    "empty_singleton_put_creates_undeletable_record": "non_empty_dedicated_project",
+    "no_manual_entry": "upstream_manual_entry",
+    "no_put_method": "midas_side_adds_a_put_method"
   }
 }

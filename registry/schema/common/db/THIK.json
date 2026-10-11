@@ -34,6 +34,162 @@
         "O_VALUE": {
           "description": "Value",
           "type": "number"
+        },
+        "STYPE": {
+          "description": " SubType",
+          "type": "string"
+        },
+        "RIB_POS": {
+          "description": " Rib Position",
+          "type": "string"
+        },
+        "SECTION": {
+          "description": " Sect",
+          "type": "object",
+          "properties": {
+            "THIKNESS": {
+              "description": " thickness data of plate element",
+              "type": "number"
+            },
+            "DBNAME": {
+              "description": " Name of DB",
+              "type": "string"
+            },
+            "XZ": {
+              "description": " XZ SECT",
+              "type": "object",
+              "properties": {
+                "bRIB": {
+                  "description": " Use Rib Attached",
+                  "type": "boolean"
+                },
+                "SHAPE": {
+                  "description": " Shape",
+                  "type": "string"
+                },
+                "NAME": {
+                  "description": " Sect Name",
+                  "type": "string"
+                },
+                "DIST": {
+                  "description": " Distance",
+                  "type": "number"
+                },
+                "SIZE": {
+                  "description": " Size",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "YZ": {
+              "description": " YZ SECT",
+              "type": "object",
+              "properties": {
+                "bRIB": {
+                  "description": " Use Rib Attached",
+                  "type": "boolean"
+                },
+                "SHAPE": {
+                  "description": " Shape",
+                  "type": "string"
+                },
+                "NAME": {
+                  "description": " Sect Name",
+                  "type": "string"
+                },
+                "DIST": {
+                  "description": " Distance",
+                  "type": "number"
+                },
+                "SIZE": {
+                  "description": " Size",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VALUE": {
+          "description": " Value",
+          "type": "object",
+          "properties": {
+            "WEIGHT": {
+              "description": " Weight",
+              "type": "number"
+            },
+            "XZ": {
+              "description": " XZ Value",
+              "type": "object",
+              "properties": {
+                "SHAPE": {
+                  "description": " Shape",
+                  "type": "string"
+                },
+                "T_IN": {
+                  "description": " Thick_In",
+                  "type": "number"
+                },
+                "T_OUT": {
+                  "description": " Thick_Out",
+                  "type": "number"
+                },
+                "HU": {
+                  "description": " Hu",
+                  "type": "number"
+                },
+                "HL": {
+                  "description": " Hl",
+                  "type": "number"
+                }
+              }
+            },
+            "YZ": {
+              "description": " YZ Value",
+              "type": "object",
+              "properties": {
+                "SHAPE": {
+                  "description": " Shape",
+                  "type": "string"
+                },
+                "T_IN": {
+                  "description": " Thick_In",
+                  "type": "number"
+                },
+                "T_OUT": {
+                  "description": " Thick_Out",
+                  "type": "number"
+                },
+                "HU": {
+                  "description": " Hu",
+                  "type": "number"
+                },
+                "HL": {
+                  "description": " Hl",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "WALL": {
+          "description": " Wall",
+          "type": "object",
+          "properties": {
+            "CONC": {
+              "description": " Wall Thick Concrete",
+              "type": "number"
+            },
+            "STEEL": {
+              "description": " Wall Thick Steel",
+              "type": "number"
+            }
+          }
         }
       }
     }

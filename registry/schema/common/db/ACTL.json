@@ -42,6 +42,10 @@
         "CLATS": {
           "description": "ChangeLcAxOfTapSectBoolean",
           "type": "boolean"
+        },
+        "ACWC": {
+          "description": " Auto Constraint for Wall Elements Connectivity",
+          "type": "boolean"
         }
       }
     }

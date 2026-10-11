@@ -1,0 +1,2906 @@
+{
+  "note": [
+    "判据（**裁决 R118**）：只读哨兵（全空）→ POST 自建编号 → 读回 → **PUT 改动过的值**（逐条记 `{path, from, to, why}`）→ 读回确认**改动生效** → DELETE 按路径 key → 读回消失⇒ `PASSED`；任一步不成立 ⇒ `FAILED`；无可机械改动的标量 ⇒ `LEFT_OUT`。",
+    "「PUT 是否要求记录已存在」= **无副作用观察**：记录删除后对同一编号再发一次同一 PUT，看它是否**重新出现** ⇒ `put_absent_recreated` / `requires_existing_record`；观察若留下记录**立刻**删净（跑前哨兵保证项目为空 ⇒ 该编号只可能是自建的）。",
+    "改动值的选择是**机械**的（`boolean` 翻面 / 无 `enum` 的 `number`·`integer` `+1`，按 body 声明顺序取**第一个**）⇒ `--check` 可离线复算。",
+    "生成器 = `registry/tools/probe_put_edits.py --probe`（**分块** ≤ `--chunk-size` + 块间只读健康检查 `/DB/NODE` + 跑前 / 跑后只读哨兵；**累积**：既有行逐字节保留）。",
+    "⚠️ 本桶与 **R107** 的取设置表判据（无 `DELETE` 的单例表）**分开**，也**不**并入 L5 三步链的覆盖率分子（`live.write_path_coverage()` **不变**）。",
+    "证据里**没有**凭据、也**没有**响应体原文（只存判定所需的编号 / 状态码 / 字段改动）。",
+    "⚠️ `allowed_residue`（`--allow-residue`）只用于**已披露且实测删不掉**的残留（`DELETE` 返回 `200` 却不删；见报告 §残留）：跑前哨兵**只**放行这些 key，其余非空一律**中止**（零写请求）；`residue ⊄ allowed_residue` ⇒ 退出码 1。"
+  ],
+  "criterion_version": 3,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN_NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11",
+    "scope": "有数据侧模板 ∧ GEN NX 有 PUT ∧ 有 DELETE / GET / read_root ∧ 已启用 ∧ 零前置链"
+  },
+  "targets": 71,
+  "probeable": 56,
+  "left_out_prerequisite_chain": [
+    "DB.BMLD",
+    "DB.BODF",
+    "DB.CNLD",
+    "DB.CONS",
+    "DB.EFCT",
+    "DB.ELEM",
+    "DB.EXLD",
+    "DB.FBLD",
+    "DB.LDSQ",
+    "DB.LENG",
+    "DB.MBTP",
+    "DB.NMAS",
+    "DB.PDEL",
+    "DB.PRES",
+    "DB.TDNT"
+  ],
+  "counts": {
+    "PASSED": 37,
+    "LEFT_OUT": 14,
+    "FAILED": 5
+  },
+  "aborted": "",
+  "sentinel_before": {
+    "DB.BMLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.BNGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.BODF": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CCFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CNLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CONS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CUTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DCON": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DCTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DSTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EFCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EIGV": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.ELEM": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EPMT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.ETFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EXLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.FBLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.FIMP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.GRUP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.GSTP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.HHCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.HSFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.IEHC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LDGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LDSQ": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LENG": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MATL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MBTP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MLFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTBS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTCH": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTID": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTTR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVHLTR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.NMAS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.NPLN": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PDEL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PJCF": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PNLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POGD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POSL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POSP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PRES": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PSLT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDHY": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDIS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDST": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDVE": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDVI": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SECT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SMCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SPFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.STLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.STOR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDME": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDMT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDNT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.THFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.THIK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.VSEC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.WMAK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.DRC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.WMAK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.SRC.AIK-SRC2K.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.SRC.AIK-SRC2K.DSRC": {
+      "status_code": 200,
+      "ids": [
+        "1"
+      ],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.STEEL.DSTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    }
+  },
+  "sentinel_after": {
+    "DB.BMLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.BNGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.BODF": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CCFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CNLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CONS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.CUTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DCON": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DCTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.DSTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EFCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EIGV": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.ELEM": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EPMT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.ETFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.EXLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.FBLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.FIMP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.GRUP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.GSTP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.HHCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.HSFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.IEHC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LDGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LDSQ": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.LENG": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MATL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MBTP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MLFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTBS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTCH": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTID": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVCTTR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.MVHLTR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.NMAS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.NPLN": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PDEL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PJCF": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PNLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POGD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POSL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.POSP": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PRES": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.PSLT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDHY": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDIS": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDST": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDVE": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SDVI": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SECT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SMCT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.SPFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.STLD": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.STOR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDGR": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDME": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDMT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.TDNT": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.THFC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.THIK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.VSEC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.WMAK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.DRC": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.WMAK": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.SRC.AIK-SRC2K.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.SRC.AIK-SRC2K.DSRC": {
+      "status_code": 200,
+      "ids": [
+        "1"
+      ],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.STEEL.DSTL": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    }
+  },
+  "residue": {
+    "DESIGN.SRC.AIK-SRC2K.DSRC": [
+      "1"
+    ]
+  },
+  "allowed_residue": [
+    "DESIGN.SRC.AIK-SRC2K.DSRC"
+  ],
+  "endpoints": {
+    "DB.BNGR": {
+      "uri": "/DB/BNGR",
+      "read_root": "BNGR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "AUTOTYPE",
+        "from": 0,
+        "to": 1,
+        "schema_type": "integer",
+        "why": "integer +1（Schema 声明 type=integer ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.CCFC": {
+      "uri": "/DB/CCFC",
+      "read_root": "CCFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "COEF",
+        "from": 15,
+        "to": 16,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.CUTL": {
+      "uri": "/DB/CUTL",
+      "read_root": "CUTL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "PT1X",
+        "from": 8.95,
+        "to": 9.95,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.DCON": {
+      "uri": "/DB/DCON",
+      "read_root": "DCON",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.DCTL": {
+      "uri": "/DB/DCTL",
+      "read_root": "DCTL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bAUTOKF",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.DSTL": {
+      "uri": "/DB/DSTL",
+      "read_root": "DSTL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.EIGV": {
+      "uri": "/DB/EIGV",
+      "read_root": "EIGV",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bINCNL",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.EPMT": {
+      "uri": "/DB/EPMT",
+      "read_root": "EPMT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "TRESCA.INIT_YIELD_STRESS",
+        "from": 30000,
+        "to": 30001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.ETFC": {
+      "uri": "/DB/ETFC",
+      "read_root": "ETFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "TEMP",
+        "from": 30,
+        "to": 31,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.FIMP": {
+      "uri": "/DB/FIMP",
+      "read_root": "FIMP",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "CONC.KENPAR.FC",
+        "from": 30000,
+        "to": 30001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.GRUP": {
+      "uri": "/DB/GRUP",
+      "read_root": "GRUP",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "P_TYPE",
+        "from": 0,
+        "to": 1,
+        "schema_type": "integer",
+        "why": "integer +1（Schema 声明 type=integer ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.GSTP": {
+      "uri": "/DB/GSTP",
+      "read_root": "GSTP",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "OPT_STIFFNESS",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.HHCT": {
+      "uri": "/DB/HHCT",
+      "read_root": "HHCT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "FINAL_STAGE",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.HSFC": {
+      "uri": "/DB/HSFC",
+      "read_root": "HSFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "IS_ADIABATIC_TEMP",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.IEHC": {
+      "uri": "/DB/IEHC",
+      "read_root": "IEHC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "WallConsOut",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 400,
+          "detail": "[错误] 非弹性特性控制数据 数据内有错误。(项目:4 ≤ y-方向划分的数量 (Wall) ≤ 100)"
+        },
+        {
+          "shape": "bare_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        },
+        {
+          "shape": "argument_wrapped_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        }
+      ],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "put_rejected:400:Wrong Field",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
+    "DB.LDGR": {
+      "uri": "/DB/LDGR",
+      "read_root": "LDGR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.MATL": {
+      "uri": "/DB/MATL",
+      "read_root": "MATL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bMASS_DENS",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.MLFC": {
+      "uri": "/DB/MLFC",
+      "read_root": "MLFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SYMM",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 400,
+          "detail": "[错误] 变形-内力函数 数据内有错误。(项目:对称的第一个数值应为0。)"
+        },
+        {
+          "shape": "bare_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        },
+        {
+          "shape": "argument_wrapped_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        }
+      ],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "put_rejected:400:Wrong Field",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
+    "DB.MVCD": {
+      "uri": "/DB/MVCD",
+      "read_root": "MVCD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.MVCTBS": {
+      "uri": "/DB/MVCTBS",
+      "read_root": "MVCTBS",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bSTRCALC",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.MVCTCH": {
+      "uri": "/DB/MVCTCH",
+      "read_root": "MVCTCH",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bSTRCALC",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.MVCTID": {
+      "uri": "/DB/MVCTID",
+      "read_root": "MVCTID",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bSTRCALC",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.MVCTTR": {
+      "uri": "/DB/MVCTTR",
+      "read_root": "MVCTTR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "OPT_COMBINED_STR",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.MVHLTR": {
+      "uri": "/DB/MVHLTR",
+      "read_root": "MVHLTR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "OPT_MEDIAN_STRIP",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.NPLN": {
+      "uri": "/DB/NPLN",
+      "read_root": "NPLN",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "TOL",
+        "from": 1,
+        "to": 2,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.PJCF": {
+      "uri": "/DB/PJCF",
+      "read_root": "PJCF",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.PNLD": {
+      "uri": "/DB/PNLD",
+      "read_root": "PNLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SEQ",
+        "from": 1,
+        "to": 2,
+        "schema_type": "integer",
+        "why": "integer +1（Schema 声明 type=integer ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.POGD": {
+      "uri": "/DB/POGD",
+      "read_root": "POGD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bCONSIGNOREELEM",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.POSL": {
+      "uri": "/DB/POSL",
+      "read_root": "POSL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "EPA",
+        "from": 0.22,
+        "to": 1.22,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.POSP": {
+      "uri": "/DB/POSP",
+      "read_root": "POSP",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "OPT_USE_N",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.PSLT": {
+      "uri": "/DB/PSLT",
+      "read_root": "PSLT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.SDHY": {
+      "uri": "/DB/SDHY",
+      "read_root": "SDHY",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "K0",
+        "from": 1000,
+        "to": 1001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SDIS": {
+      "uri": "/DB/SDIS",
+      "read_root": "SDIS",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "TAU_K",
+        "from": 1,
+        "to": 2,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SDST": {
+      "uri": "/DB/SDST",
+      "read_root": "SDST",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "K0",
+        "from": 1000,
+        "to": 1001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SDVE": {
+      "uri": "/DB/SDVE",
+      "read_root": "SDVE",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "OPT_MOUNT_STIFF",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SDVI": {
+      "uri": "/DB/SDVI",
+      "read_root": "SDVI",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "COMMON.INPUT_METHOD",
+        "from": 0,
+        "to": 1,
+        "schema_type": "integer",
+        "why": "integer +1（Schema 声明 type=integer ∧ 无 enum/const）"
+      },
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 400,
+          "detail": "Unknown Error"
+        },
+        {
+          "shape": "bare_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        },
+        {
+          "shape": "argument_wrapped_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        }
+      ],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "put_rejected:400:Wrong Field",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
+    "DB.SECT": {
+      "uri": "/DB/SECT",
+      "read_root": "SECT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SECT_BEFORE.USE_SHEAR_DEFORM",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SMCT": {
+      "uri": "/DB/SMCT",
+      "read_root": "SMCT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "CONCURRENT_CALC",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.SPFC": {
+      "uri": "/DB/SPFC",
+      "read_root": "SPFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SCALE",
+        "from": 1,
+        "to": 2,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.STLD": {
+      "uri": "/DB/STLD",
+      "read_root": "STLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.STOR": {
+      "uri": "/DB/STOR",
+      "read_root": "STOR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bFLOOR_DIAPHRAGM",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.TDGR": {
+      "uri": "/DB/TDGR",
+      "read_root": "TDGR",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.TDME": {
+      "uri": "/DB/TDME",
+      "read_root": "TDME",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "STRENGTH",
+        "from": 30000,
+        "to": 30001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.TDMT": {
+      "uri": "/DB/TDMT",
+      "read_root": "TDMT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "STR",
+        "from": 50000,
+        "to": 50001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.THFC": {
+      "uri": "/DB/THFC",
+      "read_root": "THFC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SCALE",
+        "from": 1,
+        "to": 2,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.THIK": {
+      "uri": "/DB/THIK",
+      "read_root": "THIK",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bINOUT",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 400,
+          "detail": "[错误] 厚度(号:1) 数据有错误。"
+        },
+        {
+          "shape": "bare_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        },
+        {
+          "shape": "argument_wrapped_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        }
+      ],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "put_rejected:400:Wrong Field",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
+    "DB.VSEC": {
+      "uri": "/DB/VSEC",
+      "read_root": "VSEC",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.WMAK": {
+      "uri": "/DB/WMAK",
+      "read_root": "WMAK",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DESIGN.RC.DRC": {
+      "uri": "/DESIGN/RC/DRC",
+      "read_root": "DCON",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": false,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar+delete_unconfirmed",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCO": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCO",
+      "read_root": "DCORC",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SEISMIC_PROV",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCTL": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCTL",
+      "read_root": "DCTL",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "bAUTOKF",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": false,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "delete_failed",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
+    "DESIGN.RC.KDS-41-20-2022.WMAK": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
+      "read_root": "WMAK",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DESIGN.SRC.AIK-SRC2K.DCO": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/DCO",
+      "read_root": "SRCDCO",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "SEISMIC",
+        "from": true,
+        "to": false,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DESIGN.SRC.AIK-SRC2K.DSRC": {
+      "uri": "/DESIGN/SRC/AIK-SRC2K/DSRC",
+      "read_root": "DSRC",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "2",
+      "read_back": false,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 400,
+      "verdict": "LEFT_OUT"
+    },
+    "DESIGN.STEEL.DSTL": {
+      "uri": "/DESIGN/STEEL/DSTL",
+      "read_root": "DSTL",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": false,
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar+delete_unconfirmed",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
+      "read_root": "DCO",
+      "wrapper": "Assign",
+      "write_method": "PUT",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 0,
+      "created_id": "1",
+      "read_back": true,
+      "edit": {
+        "path": "LAT_BRACE",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    }
+  }
+}

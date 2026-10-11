@@ -66,6 +66,27 @@
         "SEIS_TORSIONAL_AMP_FACTOR_Y": {
           "description": "SeismicTorsionalAmplificationFactorY-Dir",
           "type": "number"
+        },
+        "STORY_AREA_ITEMS": {
+          "description": " Story Area Items",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "X": {
+                "description": " X Factor",
+                "type": "number"
+              },
+              "Y": {
+                "description": " Y Factor",
+                "type": "number"
+              },
+              "Z": {
+                "description": " Z Factor",
+                "type": "number"
+              }
+            }
+          }
         }
       }
     }

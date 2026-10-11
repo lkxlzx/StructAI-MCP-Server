@@ -17,7 +17,15 @@
         },
         "SUBTYPE": {
           "description": "Sub Load Case Type",
-          "type": "string"
+          "type": "string",
+          "properties": {
+            "VLL": {
+              "type": "string"
+            },
+            "CLL": {
+              "type": "string"
+            }
+          }
         },
         "LOAD": {
           "description": "Define Dead Load",
@@ -80,6 +88,192 @@
               "LLOAD": {
                 "description": "Load Value",
                 "type": "number"
+              }
+            }
+          },
+          "properties": {
+            "DL": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "LTYPE": {
+                    "description": " Dead Load Type",
+                    "type": "string"
+                  },
+                  "CLINE": {
+                    "description": " Center Line",
+                    "type": "string"
+                  },
+                  "SMLTYPE": {
+                    "description": " Main Line Type - Start",
+                    "type": "string"
+                  },
+                  "EMLTYPE": {
+                    "description": " Main Line Type - End",
+                    "type": "string"
+                  },
+                  "SMLINE": {
+                    "description": " Main Line - Start",
+                    "type": "string"
+                  },
+                  "EMLINE": {
+                    "description": " Main Line - End",
+                    "type": "string"
+                  },
+                  "SCROSS": {
+                    "description": " Cross Beam - Start",
+                    "type": "string"
+                  },
+                  "ECROSS": {
+                    "description": " Cross Line - End",
+                    "type": "string"
+                  },
+                  "SLOAD": {
+                    "description": " Load Value - Start",
+                    "type": "number"
+                  },
+                  "ELOAD": {
+                    "description": " Load Value - End",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "VLL": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "LTYPE": {
+                    "description": " Dead Load Type",
+                    "type": "string"
+                  },
+                  "CLINE": {
+                    "description": " Center Line",
+                    "type": "string"
+                  },
+                  "SMLTYPE": {
+                    "description": " Main Line Type - Start",
+                    "type": "string"
+                  },
+                  "EMLTYPE": {
+                    "description": " Main Line Type - End",
+                    "type": "string"
+                  },
+                  "SMLINE": {
+                    "description": " Main Line - Start",
+                    "type": "string"
+                  },
+                  "EMLINE": {
+                    "description": " Main Line - End",
+                    "type": "string"
+                  },
+                  "SCROSS": {
+                    "description": " Cross Beam - Start",
+                    "type": "string"
+                  },
+                  "ECROSS": {
+                    "description": " Cross Line - End",
+                    "type": "string"
+                  },
+                  "SMEDIAN": {
+                    "description": " Median - Start",
+                    "type": "string"
+                  },
+                  "EMEDIAN": {
+                    "description": " Median - End",
+                    "type": "string"
+                  },
+                  "MLRANGE": {
+                    "description": " Main Load Width",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "CLL": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "LTYPE": {
+                    "description": " Dead Load Type",
+                    "type": "string"
+                  },
+                  "CLINE": {
+                    "description": " Center Line",
+                    "type": "string"
+                  },
+                  "SMLTYPE": {
+                    "description": " Main Line Type - Start",
+                    "type": "string"
+                  },
+                  "EMLTYPE": {
+                    "description": " Main Line Type - End",
+                    "type": "string"
+                  },
+                  "SMLINE": {
+                    "description": " Main Line - Start",
+                    "type": "string"
+                  },
+                  "EMLINE": {
+                    "description": " Main Line - End",
+                    "type": "string"
+                  },
+                  "SCROSS": {
+                    "description": " Cross Beam - Start",
+                    "type": "string"
+                  },
+                  "ECROSS": {
+                    "description": " Cross Line - End",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "OLL": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "LTYPE": {
+                    "description": " Dead Load Type",
+                    "type": "string"
+                  },
+                  "CLINE": {
+                    "description": " Center Line",
+                    "type": "string"
+                  },
+                  "SMLTYPE": {
+                    "description": " Main Line Type - Start",
+                    "type": "string"
+                  },
+                  "EMLTYPE": {
+                    "description": " Main Line Type - End",
+                    "type": "string"
+                  },
+                  "SMLINE": {
+                    "description": " Main Line - Start",
+                    "type": "string"
+                  },
+                  "EMLINE": {
+                    "description": " Main Line - End",
+                    "type": "string"
+                  },
+                  "SCROSS": {
+                    "description": " Cross Beam - Start",
+                    "type": "string"
+                  },
+                  "ECROSS": {
+                    "description": " Cross Line - End",
+                    "type": "string"
+                  },
+                  "LLOAD": {
+                    "description": " Load Value",
+                    "type": "number"
+                  }
+                }
               }
             }
           }

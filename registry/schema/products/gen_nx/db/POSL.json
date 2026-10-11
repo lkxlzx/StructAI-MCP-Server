@@ -62,6 +62,14 @@
         "CALC_OPT": {
           "description": "CalculateData",
           "type": "boolean"
+        },
+        "EPGAeff": {
+          "description": " EPGAeff",
+          "type": "number"
+        },
+        "Kae": {
+          "description": " Kae",
+          "type": "number"
         }
       }
     }

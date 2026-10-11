@@ -129,6 +129,10 @@
               }
             }
           }
+        },
+        "NO": {
+          "description": " Construction Stage NO.",
+          "type": "integer"
         }
       }
     }

@@ -106,6 +106,14 @@
             "METHOD": {
               "description": "Method",
               "type": "string"
+            },
+            "SPEC": {
+              "description": " Spectrum Type",
+              "type": "string"
+            },
+            "GROUND": {
+              "description": " Site Class",
+              "type": "string"
             }
           }
         },
@@ -227,6 +235,14 @@
             },
             "RISK_CATEGORY": {
               "description": "RiskCategory",
+              "type": "integer"
+            },
+            "LARGEBRIDGE": {
+              "description": " Large Bridge",
+              "type": "boolean"
+            },
+            "RET_PERIOD": {
+              "description": " Return Period",
               "type": "integer"
             }
           }
@@ -530,6 +546,34 @@
             "KPSI": {
               "description": "KPsiFactor",
               "type": "number"
+            },
+            "SS": {
+              "description": " Ss",
+              "type": "number"
+            },
+            "S1": {
+              "description": " S1",
+              "type": "number"
+            },
+            "FA": {
+              "description": " Fa",
+              "type": "number"
+            },
+            "FV": {
+              "description": " Fv",
+              "type": "number"
+            },
+            "BETA": {
+              "description": " Beta",
+              "type": "number"
+            },
+            "DAMPING": {
+              "description": " Damping",
+              "type": "number"
+            },
+            "MAX_PERIOD": {
+              "description": " Max Period",
+              "type": "number"
             }
           }
         },
@@ -549,6 +593,28 @@
               }
             }
           }
+        },
+        "VA2": {
+          "description": " Factor or Value Data By Code",
+          "type": "object",
+          "properties": {
+            "K0": {
+              "description": " K1 Factor",
+              "type": "number"
+            },
+            "ACCE": {
+              "description": " Ground Acceleration in Foundation Level",
+              "type": "number"
+            },
+            "bNLDS": {
+              "description": " Consider Nonlinear Deformation of soils",
+              "type": "boolean"
+            }
+          }
+        },
+        "CALC_OPT": {
+          "description": " Auto calculation",
+          "type": "boolean"
         }
       }
     }

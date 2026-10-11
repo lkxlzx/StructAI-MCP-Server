@@ -271,6 +271,42 @@
               }
             }
           }
+        },
+        "MFACT": {
+          "description": " Modification Factor for Aggregate Type",
+          "type": "number"
+        },
+        "bGRAPHDATA": {
+          "description": " Data for graph",
+          "type": "boolean"
+        },
+        "ELAST_RATIO": {
+          "description": " Elastic modulus ratio of Steel Pipe and Concrete",
+          "type": "number"
+        },
+        "AREA_RATIO": {
+          "description": " Area ratio of Steel Pipe and Concrete",
+          "type": "number"
+        },
+        "EQUIVALENT_ELASTIC": {
+          "description": " Equivalent Elastic Modulus",
+          "type": "number"
+        },
+        "bINWATER": {
+          "description": " Boolean In Water",
+          "type": "boolean"
+        },
+        "ATYPE": {
+          "description": " Type of aggregate",
+          "type": "string"
+        },
+        "TCEMENT": {
+          "description": " Concrete Class",
+          "type": "string"
+        },
+        "DEFLRNG": {
+          "description": " Deflection Range",
+          "type": "string"
         }
       }
     }

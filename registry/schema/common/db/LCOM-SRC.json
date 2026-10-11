@@ -51,6 +51,22 @@
               }
             }
           }
+        },
+        "bES": {
+          "description": " E (Concrete design only)",
+          "type": "boolean"
+        },
+        "iSERV_TYPE": {
+          "description": " EC Serv Type",
+          "type": "integer"
+        },
+        "nLCOMTYPE": {
+          "description": " EC Lcom Type",
+          "type": "integer"
+        },
+        "nSEISTYPE": {
+          "description": " EC Seis Type",
+          "type": "integer"
         }
       }
     }

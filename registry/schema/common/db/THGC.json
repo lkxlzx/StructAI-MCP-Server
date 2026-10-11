@@ -123,6 +123,10 @@
               }
             }
           }
+        },
+        "bCONV_WALL_STIFF": {
+          "description": " Convert the stiffness scale factors of plate-based walls with inelastic hinges to CRB walls",
+          "type": "boolean"
         }
       }
     }

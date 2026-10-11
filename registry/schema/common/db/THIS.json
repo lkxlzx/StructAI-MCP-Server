@@ -86,6 +86,13 @@
             "iMDTYPE": {
               "description": "DampingMethod",
               "type": "integer"
+            },
+            "aGILC": {
+              "description": " Grid Load Case Name List",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         },

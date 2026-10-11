@@ -86,6 +86,26 @@
         "COMMENT": {
           "description": "Comments",
           "type": "string"
+        },
+        "FILE_NAME": {
+          "description": " Model File Name",
+          "type": "string"
+        },
+        "DIR": {
+          "description": " Model File Directory",
+          "type": "string"
+        },
+        "FILE_SIZE": {
+          "description": " Model File Size",
+          "type": "string"
+        },
+        "CREATED": {
+          "description": " Model File Created Time",
+          "type": "string"
+        },
+        "MODIFIED": {
+          "description": " Model File Modified Time",
+          "type": "string"
         }
       }
     }

@@ -73,6 +73,115 @@
             "CENT_F": {
               "description": "AddCentrifugalForce",
               "type": "boolean"
+            },
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "UNIFORM_LOAD_NUM": {
+              "description": " Uniform Load Number",
+              "type": "integer"
+            },
+            "UNIFORM_LOAD_DIST": {
+              "description": " Uniform Load Distance",
+              "type": "number"
+            },
+            "UNIFORM_LOAD_W": {
+              "description": " Uniform Load W",
+              "type": "number"
+            },
+            "UNIFORM_LOAD_LENGTH_L": {
+              "description": " Uniform Load Length L",
+              "type": "number"
+            },
+            "COMBINED_TRUCK_SPACE": {
+              "description": " Combined Truck Space",
+              "type": "number"
+            },
+            "COMBINED_UNIFORM_LOAD": {
+              "description": " Combined Uniform Load",
+              "type": "number"
+            },
+            "LEGAL_R": {
+              "description": " Legal R",
+              "type": "number"
+            },
+            "LEGAL_PERMIT_TYPE": {
+              "description": " Legal Permit Type",
+              "type": "integer"
+            },
+            "NOSE_TAIL_DIST": {
+              "description": " Nose to Tail Distance",
+              "type": "number"
             }
           }
         },
@@ -87,6 +196,1674 @@
               },
               "POINT_DIST": {
                 "description": "PointDistance",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "VEH_FR": {
+          "description": " Franch Moving Load Code",
+          "type": "object",
+          "properties": {
+            "USE_DYNAMIC_FACTOR": {
+              "description": " Use Dynamic Amplification Factor",
+              "type": "boolean"
+            },
+            "SIDE_WALK": {
+              "description": " Side Walk",
+              "type": "number"
+            }
+          }
+        },
+        "VEH_CN": {
+          "description": " China Moving Load Code",
+          "type": "object",
+          "properties": {
+            "IMPACT_COEF": {
+              "description": " Impact Coef",
+              "type": "number"
+            },
+            "CROWD_WIDTH": {
+              "description": " Crowd Width",
+              "type": "number"
+            },
+            "VEHICLE_LOAD_USER_NUM": {
+              "description": " User Load Integer",
+              "type": "integer"
+            },
+            "P_": {
+              "description": " P",
+              "type": "number"
+            },
+            "QM": {
+              "description": " QM",
+              "type": "number"
+            },
+            "QQ": {
+              "description": " Qk",
+              "type": "number"
+            },
+            "W_TRAILER": {
+              "description": " W TRAILER",
+              "type": "number"
+            },
+            "D_TRAILER": {
+              "description": " D TRAILER",
+              "type": "number"
+            },
+            "PA": {
+              "description": " Pk (A)",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1 (L<=)",
+              "type": "number"
+            },
+            "PB": {
+              "description": " Pk (B)",
+              "type": "number"
+            },
+            "D2": {
+              "description": " D2 (L>=)",
+              "type": "number"
+            },
+            "TRAIN_TYPE": {
+              "description": " Train Type",
+              "type": "integer"
+            },
+            "TRUCK_TYPE": {
+              "description": " Truck Type",
+              "type": "integer"
+            },
+            "P_SUBWAY": {
+              "description": " P Subway",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "D_SUBWAY": {
+              "description": " D Subway",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "CARRIAGE_DIST": {
+              "description": " Carriage Distance",
+              "type": "number"
+            },
+            "P_OPPOSITE": {
+              "description": " P Opposite",
+              "type": "number"
+            },
+            "NUM_CARRIAGE": {
+              "description": " Num Carriage",
+              "type": "number"
+            },
+            "FD": {
+              "description": " FD",
+              "type": "number"
+            },
+            "BD": {
+              "description": " BD",
+              "type": "number"
+            },
+            "W1": {
+              "description": " W1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " W2",
+              "type": "number"
+            },
+            "W_PRES_1": {
+              "description": " W Pres1",
+              "type": "number"
+            },
+            "W_PRES_2": {
+              "description": " W Pres2",
+              "type": "number"
+            },
+            "DB": {
+              "description": " DB",
+              "type": "number"
+            },
+            "W_CROWD": {
+              "description": " W Crowd",
+              "type": "number"
+            },
+            "DD": {
+              "description": " DD",
+              "type": "number"
+            }
+          }
+        },
+        "VEH_IN": {
+          "description": " India Moving Load Code",
+          "type": "object",
+          "properties": {
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "FOOTWAY": {
+              "description": " Footway",
+              "type": "number"
+            },
+            "FOOTWAY_WIDTH": {
+              "description": " Footway Width",
+              "type": "number"
+            },
+            "SEL_VEHICLE": {
+              "description": " Select Vehicle",
+              "type": "string"
+            },
+            "D_TRAILER": {
+              "description": " D Trailer",
+              "type": "number"
+            },
+            "PB": {
+              "description": " Pb",
+              "type": "number"
+            },
+            "P_": {
+              "description": " P",
+              "type": "number"
+            },
+            "DB": {
+              "description": " Db",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1",
+              "type": "number"
+            },
+            "D2": {
+              "description": " D2",
+              "type": "number"
+            },
+            "D3": {
+              "description": " D3",
+              "type": "number"
+            },
+            "NOSE_TAIL_DIST": {
+              "description": " Minimum Nose to Tail Distance (Wheeled)",
+              "type": "number"
+            },
+            "NOSE_TAIL_DIST2": {
+              "description": " Minimum Nose to Tail Distance (Tracked)",
+              "type": "number"
+            },
+            "SUB_TYPE": {
+              "description": " Sub Type",
+              "type": "number"
+            },
+            "POINT_LOAD_POS": {
+              "description": " Gondola Wagon Pos.",
+              "type": "number"
+            },
+            "DIST_LOAD_POS": {
+              "description": " Train Load Pos.",
+              "type": "number"
+            },
+            "UNIFORM_LOAD": {
+              "description": " dW",
+              "type": "number"
+            },
+            "TRACTIVE": {
+              "description": " Tractive",
+              "type": "number"
+            },
+            "BRAKE_LOCO": {
+              "description": " Bracking for Loco",
+              "type": "number"
+            },
+            "SPAN_LENGTH": {
+              "description": " Brake Loco",
+              "type": "number"
+            },
+            "BRAKE_LOCO_RATIO": {
+              "description": " Brake Loco Ratio",
+              "type": "number"
+            },
+            "BRAKE_TRAIN_RATIO": {
+              "description": " Brake Train Ratio",
+              "type": "number"
+            },
+            "POINT_SET": {
+              "description": " Point Set",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "POINT_LOAD": {
+                    "description": " Point Load",
+                    "type": "number"
+                  },
+                  "POINT_DIST": {
+                    "description": " Point Distance",
+                    "type": "number"
+                  },
+                  "POINT_DIST2": {
+                    "description": " Point Distance 2",
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "POINT_SET3": {
+              "description": " Point Set 3",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "POINT_LOAD": {
+                    "description": " Point Load",
+                    "type": "number"
+                  },
+                  "POINT_DIST": {
+                    "description": " Point Distance",
+                    "type": "number"
+                  },
+                  "POINT_DIST2": {
+                    "description": " Point Distance 2",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VEH_CA": {
+          "description": " Canada Moving Load Code",
+          "type": "object",
+          "properties": {
+            "DYN_LOAD_ALLOWANCE": {
+              "description": " Dyn Load Allowance",
+              "type": "number"
+            },
+            "UNIFORM_LOAD": {
+              "description": " Uniform Load",
+              "type": "number"
+            },
+            "CENT_F": {
+              "description": " Add Centrifugal Force",
+              "type": "boolean"
+            },
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "DYNA": {
+              "description": " Dynamic Load Allowance",
+              "type": "object",
+              "properties": {
+                "DYNA_FACTOR": {
+                  "description": " Dyna Factor",
+                  "type": "number"
+                },
+                "DYNA_FACT_1_AXLE": {
+                  "description": " Dyna Fact 1 Axle",
+                  "type": "number"
+                },
+                "DYNA_FACT_2_AXLE": {
+                  "description": " Dyna Fact 2 Axle",
+                  "type": "number"
+                },
+                "DYNA_FACT_3_AXLE": {
+                  "description": " Dyna Fact 3 Axle",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "VEH_BS": {
+          "description": " BS Moving Load Code",
+          "type": "object",
+          "properties": {
+            "UNIT_NUM": {
+              "description": " Unit Number",
+              "type": "number"
+            },
+            "SEL_VEHICLE": {
+              "description": " Select Vehicle",
+              "type": "string"
+            },
+            "USE_DYNAMIC_FACTOR": {
+              "description": " Use Dynamic Amplification Factor",
+              "type": "boolean"
+            },
+            "AMP_USER_INPUT": {
+              "description": " Dynamic Amplification Factor User Input",
+              "type": "boolean"
+            },
+            "AMP": {
+              "description": " Amplification",
+              "type": "number"
+            },
+            "OVERLOAD_USER_INPUT": {
+              "description": " Use Overload User Input",
+              "type": "boolean"
+            },
+            "OVERLOAD_VALUE": {
+              "description": " Overload Value",
+              "type": "integer"
+            },
+            "CRITICAL_AXLE": {
+              "description": " Critical Axle",
+              "type": "number"
+            },
+            "OTHER_AXLE": {
+              "description": " Other AXLE",
+              "type": "number"
+            },
+            "VEHICLE_SPEED": {
+              "description": " Vehicle Speed",
+              "type": "number"
+            },
+            "LANE_FACTOR": {
+              "description": " Lane Factor Integer",
+              "type": "integer"
+            },
+            "LANE_FACTOR_ARRAY": {
+              "description": " Lane Factor Array(double)",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "ADD_DATA_BD2101": {
+              "description": " Add Data BD2101",
+              "type": "boolean"
+            },
+            "ADD_DATA_AL": {
+              "description": " Add Data aL",
+              "type": "number"
+            },
+            "ADD_DATA_CATEGORY": {
+              "description": " Add Data Category",
+              "type": "number"
+            },
+            "ADD_DATA_LOAD_LEVEL": {
+              "description": " Add Data Load Level",
+              "type": "number"
+            },
+            "LM1_CASE": {
+              "description": " LM1 Case",
+              "type": "integer"
+            },
+            "LM1_SURFACE": {
+              "description": " LM1 Surface",
+              "type": "integer"
+            },
+            "LM1_CATEGORY": {
+              "description": " LM1 Category",
+              "type": "integer"
+            },
+            "DIST_FRONT_TO_REAR_VEHICLE": {
+              "description": " Distance Front to Rear Vehicles",
+              "type": "integer"
+            },
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "W1": {
+              "description": " W1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " W2",
+              "type": "number"
+            },
+            "W3": {
+              "description": " W3",
+              "type": "number"
+            },
+            "EXP": {
+              "description": " EXP",
+              "type": "number"
+            },
+            "EXP2": {
+              "description": " EXP2",
+              "type": "number"
+            },
+            "LOADED_LENGTH": {
+              "description": " Loaded Length",
+              "type": "number"
+            },
+            "LOADED_LENGTH2": {
+              "description": " Loaded Length 2",
+              "type": "number"
+            },
+            "PA": {
+              "description": " PA",
+              "type": "number"
+            },
+            "PB": {
+              "description": " PB",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1",
+              "type": "number"
+            },
+            "D2": {
+              "description": " D2",
+              "type": "number"
+            },
+            "DELTA": {
+              "description": " Delta",
+              "type": "number"
+            },
+            "DD": {
+              "description": " DD",
+              "type": "number"
+            }
+          }
+        },
+        "VEH_EUROCODE": {
+          "description": " EUROCODE Moving Load Code",
+          "type": "object",
+          "properties": {
+            "SUB_TYPE": {
+              "description": " SUB_TYPE",
+              "type": "integer"
+            },
+            "SEL_VEHICLE": {
+              "description": " Select Vehicle",
+              "type": "string"
+            },
+            "AMP": {
+              "description": " Amplification",
+              "type": "number"
+            },
+            "AMP2": {
+              "description": " Amplification2",
+              "type": "number"
+            },
+            "AMP_VALUES": {
+              "description": " Amplification Value Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "TANDEM_ADJUST_VALUES": {
+              "description": " Tandem System Adjustment Factor Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "TANDEM_LOADS": {
+              "description": " Tandem System Axle Loads Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "UDL_ADJUST_VALUES": {
+              "description": " UDL System Adjustment Factor Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "UDL_LOADS": {
+              "description": " UDL System Uniformly Dist. Loads Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "USE_DYNAMIC_FACTOR2_0": {
+              "description": " Use Dynamic Amplication Factor 2_0",
+              "type": "boolean"
+            },
+            "USE_DYNAMIC_FACTOR2_1": {
+              "description": " Use Dynamic Amplication Factor 2_1",
+              "type": "boolean"
+            },
+            "USE_POINT_LOAD3_0": {
+              "description": " Use Point Load 3_0",
+              "type": "boolean"
+            },
+            "USE_POINT_LOAD3_1": {
+              "description": " Use Point Load 3_1",
+              "type": "boolean"
+            },
+            "VAR_SPACING": {
+              "description": " Use Variable Axle Spacing",
+              "type": "boolean"
+            },
+            "MAX_SPACING": {
+              "description": " Max. Spacing",
+              "type": "number"
+            },
+            "MIN_SPACING": {
+              "description": " Min. Spacing",
+              "type": "number"
+            },
+            "WHEEL_SPACING": {
+              "description": " Wheel Spacing for Static Load",
+              "type": "number"
+            },
+            "LOADCASES": {
+              "description": " LoadCase",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "USE_POINT_LOAD": {
+                    "description": " Use Point Load",
+                    "type": "boolean"
+                  },
+                  "NUM_LOAD": {
+                    "description": " Point Load Number",
+                    "type": "integer"
+                  },
+                  "DYNAMIC_FACTOR": {
+                    "description": " Dynamic Amplication Factor",
+                    "type": "boolean"
+                  },
+                  "USER_INPUT": {
+                    "description": " User Input",
+                    "type": "boolean"
+                  },
+                  "AMP": {
+                    "description": " Amplification",
+                    "type": "number"
+                  },
+                  "POINT_SET": {
+                    "description": " Load Case Set",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "POINT_LOAD": {
+                          "description": " Point Load",
+                          "type": "number"
+                        },
+                        "POINT_DIST": {
+                          "description": " Point Distance",
+                          "type": "number"
+                        },
+                        "POINT_DIST2": {
+                          "description": " Point Distance 2",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "VEHICLES": {
+              "description": " Vehicle",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "USE_POINT_LOAD": {
+                    "description": " Use Point Load",
+                    "type": "boolean"
+                  },
+                  "NUM_LOAD": {
+                    "description": " Point Load Number",
+                    "type": "integer"
+                  },
+                  "POINT_SET": {
+                    "description": " Vehicle Set",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "POINT_LOAD": {
+                          "description": " Point Load",
+                          "type": "number"
+                        },
+                        "POINT_DIST": {
+                          "description": " Point Distance",
+                          "type": "number"
+                        },
+                        "POINT_DIST2": {
+                          "description": " Point Distance 2",
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "LM3_LOADCASE1": {
+              "description": " LM3 Load Case1 Boolean",
+              "type": "boolean"
+            },
+            "LM3_LOADCASE2": {
+              "description": " LM3 Load Case2 Boolean",
+              "type": "boolean"
+            },
+            "ADJUSTMENT": {
+              "description": " Adjustment Factor",
+              "type": "number"
+            },
+            "ADJUSTMENT2": {
+              "description": " Adjustment2 Factor",
+              "type": "number"
+            },
+            "AXLE_NUM": {
+              "description": " Axle No.",
+              "type": "integer"
+            },
+            "FOOTWAY": {
+              "description": " Footway",
+              "type": "number"
+            },
+            "INTERVAL": {
+              "description": " Two Vehicle Interval",
+              "type": "number"
+            },
+            "DYNAMIC_FACTOR": {
+              "description": " Dynamic Amplification Factor",
+              "type": "boolean"
+            },
+            "USER_INPUT": {
+              "description": " User Input",
+              "type": "boolean"
+            },
+            "DSPACE": {
+              "description": " Space",
+              "type": "number"
+            },
+            "W1": {
+              "description": " W1",
+              "type": "number"
+            },
+            "DD1": {
+              "description": " DD1",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " W2",
+              "type": "number"
+            },
+            "DD2": {
+              "description": " DD2",
+              "type": "number"
+            },
+            "D2": {
+              "description": " D2",
+              "type": "number"
+            },
+            "PRESSURE_LOAD": {
+              "description": " Pressure Load",
+              "type": "number"
+            },
+            "V_LOAD_FACTOR": {
+              "description": " Eccentricity of Lateral Displacement of Vertival Loads Factor",
+              "type": "number"
+            },
+            "LONGI_DIST": {
+              "description": " Consider Longitudinal Distrtibution of Point Loads",
+              "type": "boolean"
+            },
+            "DIST_RAIL_SUPPORT": {
+              "description": " Distance between Rail Support  Points",
+              "type": "number"
+            },
+            "ECCEN_VERT_LOAD": {
+              "description": " Eccentricity of Lateral Displacement of Vertical Loads",
+              "type": "boolean"
+            },
+            "ECCEN_VERT_LOAD_VALUE": {
+              "description": " Eccentricity of Lateral Displacement of Vertical Loads Value",
+              "type": "number"
+            },
+            "HSLMA_NUM": {
+              "description": " HSLMA Number",
+              "type": "integer"
+            },
+            "HSLMA_LENGTH": {
+              "description": " HSLMA Length",
+              "type": "number"
+            },
+            "HSLMA_SPACING": {
+              "description": " HSLMA Spacing",
+              "type": "number"
+            },
+            "HSLMA_FORCE": {
+              "description": " HSLMA Force",
+              "type": "number"
+            },
+            "HSLMB_NUM": {
+              "description": " HSLMB Number",
+              "type": "integer"
+            },
+            "HSLMB_FORCE": {
+              "description": " HSLMB Force",
+              "type": "number"
+            },
+            "HSLMB_DIST": {
+              "description": " HSLMB Distance",
+              "type": "number"
+            },
+            "PHI_DYN_EFF1": {
+              "description": " PhiDynEff 1",
+              "type": "number"
+            },
+            "PHI_DYN_EFF2": {
+              "description": " PhiDynEff 2",
+              "type": "number"
+            },
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VEH_RU": {
+          "description": " Russia Moving Load Code",
+          "type": "object",
+          "properties": {
+            "SUB_TYPE": {
+              "description": " SUB_TYPE",
+              "type": "integer"
+            },
+            "RUSSIA_K": {
+              "description": " Russia K",
+              "type": "integer"
+            },
+            "DYNA_FACTOR": {
+              "description": " Dynamic Factor Index",
+              "type": "integer"
+            },
+            "DYNA_FACTOR_VALUE": {
+              "description": " Dynamic Factor (User Input)",
+              "type": "number"
+            },
+            "DYNA_FACTOR_UDL_VALUE": {
+              "description": " Dynamic Factor (User Input_UDL)",
+              "type": "number"
+            },
+            "FATIGUE": {
+              "description": " Fatigue",
+              "type": "boolean"
+            },
+            "LOAD_FACTOR": {
+              "description": " Load Factor Index",
+              "type": "integer"
+            },
+            "LOAD_FACTOR_VALUE": {
+              "description": " Load Factor (User Input)",
+              "type": "number"
+            },
+            "LOAD_FACTOR_UDL_VALUE": {
+              "description": " Load Factor (User Input_UDL)",
+              "type": "number"
+            },
+            "EPSILON_FACTOR": {
+              "description": " Epsilon Factor Index",
+              "type": "integer"
+            },
+            "LANE_FACTORS_1": {
+              "description": " Lane Factors1 Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "LANE_FACTORS_1_UDL": {
+              "description": " Lane Factors1 UDL Array",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "SAME_LOADED_L": {
+              "description": " Apply same Loaded Length between Bogie and UDL",
+              "type": "boolean"
+            },
+            "TWO_VEHICLE": {
+              "description": " Consider the Effect of Two Vehicles as well as One Vehicle",
+              "type": "boolean"
+            },
+            "TWO_VEHICLE_FACTOR": {
+              "description": " Two Vehicle Reduction Factor",
+              "type": "number"
+            },
+            "_2ND_GROUP_REDUCT": {
+              "description": " Reduction for Limit State 2nd Group",
+              "type": "boolean"
+            },
+            "_2ND_GROUP_REDUCT_FACTOR": {
+              "description": " 2nd Group Reduction Ractor",
+              "type": "number"
+            },
+            "RATIO_EMPTY_CAR": {
+              "description": " Ratio of Empty Car to Loaded Car",
+              "type": "number"
+            },
+            "MIN_D5_VARIABLE": {
+              "description": " Min. D5 (Variable)",
+              "type": "number"
+            },
+            "RUSSIA_W": {
+              "description": " RUSSIA_W",
+              "type": "number"
+            },
+            "RUSSIA_W2": {
+              "description": " RUSSIA_W2",
+              "type": "number"
+            },
+            "RUSSIA_D": {
+              "description": " RUSSIA_D",
+              "type": "number"
+            },
+            "RUSSIA_P": {
+              "description": " RUSSIA_P",
+              "type": "number"
+            },
+            "BRIDGE_TYPE": {
+              "description": " Bridge Type",
+              "type": "string"
+            }
+          }
+        },
+        "VEH_KSCE_LSD15": {
+          "description": " KSCE-LSD15 Moving Load Code",
+          "type": "object",
+          "properties": {
+            "LOAD_TYPE": {
+              "description": " Load Type",
+              "type": "integer"
+            },
+            "LOADED_LENGTH": {
+              "description": " Loaded Length",
+              "type": "number"
+            },
+            "W1": {
+              "description": " dW1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " dW2",
+              "type": "number"
+            },
+            "W3": {
+              "description": " dW3",
+              "type": "number"
+            },
+            "D1": {
+              "description": " dD1",
+              "type": "number"
+            },
+            "D2": {
+              "description": " dD2",
+              "type": "number"
+            },
+            "EXP": {
+              "description": " EXP",
+              "type": "number"
+            },
+            "DYN_LOAD_ALLOWANCE": {
+              "description": " Dynamic Load Allowance",
+              "type": "number"
+            },
+            "LENGTH_LANE": {
+              "description": " Length of Lane Load",
+              "type": "integer"
+            },
+            "LENGTH_LANE_USER": {
+              "description": " 1st Model : User Define",
+              "type": "number"
+            },
+            "CONVERT_DIST_LOAD": {
+              "description": " Convert Point Load to Distributed Load",
+              "type": "boolean"
+            },
+            "UNIFORM_LOAD_NUM": {
+              "description": " No. of Uniform Load",
+              "type": "integer"
+            },
+            "UNIFORM_LOAD_DIST": {
+              "description": " Uniform Load Distance",
+              "type": "number"
+            },
+            "UNIFORM_LOAD_W": {
+              "description": " Uniform Load w",
+              "type": "number"
+            },
+            "UNIFORM_LOAD_LOAD_LENGTH_L": {
+              "description": " Uniform Load Length L",
+              "type": "number"
+            },
+            "POINT_ITEMS": {
+              "description": " Point Load & Distance",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "POINT_LOAD": {
+                    "description": " Point Load",
+                    "type": "number"
+                  },
+                  "POINT_DIST": {
+                    "description": " Point Distance",
+                    "type": "number"
+                  },
+                  "POINT_DIST2": {
+                    "description": " Point Distance 2",
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VEH_AU": {
+          "description": " Australia Moving Load Code",
+          "type": "object",
+          "properties": {
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "DYN_LOAD_ALLOWANCE": {
+              "description": " Dynamic Load Allowance",
+              "type": "number"
+            },
+            "DYN_LOAD_ALLOWANCE2": {
+              "description": " Dynamic Load Allowance (All Other Effects)",
+              "type": "number"
+            },
+            "FATIGUE": {
+              "description": " Fatigue",
+              "type": "boolean"
+            },
+            "W1": {
+              "description": " W1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " W2",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1",
+              "type": "number"
+            },
+            "INCRE_LENGTH": {
+              "description": " Increment of Dist(Dinc.)",
+              "type": "number"
+            },
+            "VAR_SPACING": {
+              "description": " Variable Spacing",
+              "type": "boolean"
+            },
+            "UNIFORM_LOAD": {
+              "description": " Uniform Load",
+              "type": "number"
+            },
+            "GROUP_NUM": {
+              "description": " Fatigue",
+              "type": "integer"
+            }
+          }
+        },
+        "VEH_PL": {
+          "description": " Poland Moving Load Code",
+          "type": "object",
+          "properties": {
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SUB_TYPE": {
+              "description": " Sub Type",
+              "type": "integer"
+            },
+            "SEL_VEHICLE": {
+              "description": " Select Vehicle",
+              "type": "string"
+            },
+            "PRESSURE_LOAD": {
+              "description": " Pressure Load",
+              "type": "number"
+            },
+            "TOTAL_LOAD": {
+              "description": " Total Load",
+              "type": "number"
+            },
+            "TRACKED_LENGTH": {
+              "description": " Tracked Length",
+              "type": "number"
+            },
+            "WHEEL_SPACING": {
+              "description": " Wheel Spacing",
+              "type": "number"
+            },
+            "DSPACE": {
+              "description": " Space",
+              "type": "number"
+            },
+            "DYNAMIC_AMP_FACTOR": {
+              "description": " Dynamic Amplification Factor",
+              "type": "boolean"
+            },
+            "USER_INPUT": {
+              "description": " User Input",
+              "type": "boolean"
+            },
+            "AMP": {
+              "description": " Amplification",
+              "type": "number"
+            },
+            "NOSE_TAIL_DIST": {
+              "description": " Nose to Tail Distance",
+              "type": "number"
+            },
+            "NUM_VEHICLE": {
+              "description": " Number of Vehicle",
+              "type": "number"
+            }
+          }
+        },
+        "VEH_ZA": {
+          "description": " South Africa Moving Load Code",
+          "type": "object",
+          "properties": {
+            "PERMIT_LOAD": {
+              "description": " Permit Load Vehicle",
+              "type": "object",
+              "properties": {
+                "IMPACT_FACTOR": {
+                  "description": " Permit Load Impact Factor",
+                  "type": "number"
+                },
+                "AXLE_TYPES": {
+                  "description": " Axle Type Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "EVENLY_DIST_LOAD": {
+                        "description": " Evenly Distance Load",
+                        "type": "boolean"
+                      },
+                      "SYMMETRIC_VEHICLE": {
+                        "description": " Symmetric Vehicle",
+                        "type": "boolean"
+                      },
+                      "POINT_ITEMS": {
+                        "description": " Point Loads",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "POINT_LOAD": {
+                              "description": " Point Load",
+                              "type": "number"
+                            },
+                            "POINT_DIST": {
+                              "description": " Point Distance",
+                              "type": "number"
+                            },
+                            "POINT_DIST2": {
+                              "description": " Point Distance 2",
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "PERMIT_LOADS": {
+                  "description": " Permit Load Array",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "AXLE_TYPE": {
+                        "description": " Axle Type",
+                        "type": "string"
+                      },
+                      "SPACING": {
+                        "description": " Spacing",
+                        "type": "number"
+                      },
+                      "EQUAL_J_NVSIDX": {
+                        "description": " j == nVsIdx",
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "INCRE_LENGTH": {
+              "description": " Unit length for loaded length increment",
+              "type": "boolean"
+            },
+            "INCRE_LENGTH_VALUE": {
+              "description": " Loaded length increment Value",
+              "type": "number"
+            },
+            "UNIT_NUM": {
+              "description": " Loaded length increment Value",
+              "type": "number"
+            },
+            "OPPOSITE": {
+              "description": " Consider load area giving opposite contribution",
+              "type": "boolean"
+            },
+            "W1": {
+              "description": " W1",
+              "type": "number"
+            },
+            "W2": {
+              "description": " W2",
+              "type": "number"
+            },
+            "W3": {
+              "description": " W3",
+              "type": "number"
+            },
+            "LOADED_LENGTH": {
+              "description": " Loaded Length",
+              "type": "number"
+            },
+            "PA": {
+              "description": " Pa",
+              "type": "number"
+            },
+            "PB": {
+              "description": " Pb",
+              "type": "number"
+            },
+            "D1": {
+              "description": " D1",
+              "type": "number"
+            },
+            "D2": {
+              "description": " D2",
+              "type": "number"
+            },
+            "DELTA": {
+              "description": " Delta",
+              "type": "number"
+            },
+            "PRESSURE_LOAD": {
+              "description": " Pressure Load",
+              "type": "number"
+            },
+            "NUM_LOAD_ARRAY": {
+              "description": " Different discrete lengths",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "POINT_DIST_ARRAY": {
+              "description": " Point Distances",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "POINT_DIST": {
+                    "description": " Point Distance",
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "LOAD_ITEMS2": {
+          "description": " D_MVHL_NUMLOAD2",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "POINT_LOAD": {
+                "description": " Point Load",
+                "type": "number"
+              },
+              "POINT_DIST": {
+                "description": " Point Distance",
+                "type": "number"
+              },
+              "POINT_DIST2": {
+                "description": " Point Distance 2",
                 "type": "number"
               }
             }

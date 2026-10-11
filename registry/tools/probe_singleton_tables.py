@@ -72,6 +72,21 @@ GAP_NO_PUT = "no_put_method"
 GAP_EMPTY_SINGLETON = "empty_singleton_put_creates_undeletable_record"
 GAP_NO_MANUAL_ENTRY = "no_manual_entry"
 
+RECOVERY: dict[str, str] = {
+    GAP_EMPTY_SINGLETON: "non_empty_dedicated_project",
+    GAP_NO_PUT: "midas_side_adds_a_put_method",
+    GAP_NO_MANUAL_ENTRY: "upstream_manual_entry",
+}
+"""**留缺的恢复条件**（R119 / P150：**只**更新条件，**不**在空项目上硬试）。
+
+* `empty_singleton_put_creates_undeletable_record`（**7** 个）：`GET` 原值是 `{}` ⇒ `PUT` 会
+  **创建**记录而该端点**没有** `DELETE` ⇒ **无法还原**（R116）。恢复条件 = **非空**专用项目
+  （该表已有 `1` 号记录，`PUT` 才是「改」而不是「建」）；**没有**非空项目就**如实**保持留缺。
+* `no_put_method`（**3** 个）：该端点**没有** `PUT` ⇒ 判据不适用。恢复条件 = **MIDAS 侧**
+  提供 `PUT`（或另立判据）。
+* `no_manual_entry`（**1** 个）：上游手册**没有**该端点的条目 ⇒ 无「改动过的值」可用。
+  恢复条件 = 上游手册补条目。
+"""
 READ_ROOT_ITEM = "1"
 """单例 / 设置表的读回编号（实测：`{<read_root>: {"1": {…}}}`）。"""
 
@@ -305,6 +320,9 @@ def probe(repo: Path, only: tuple[str, ...], limit: int, fresh: bool) -> int:
             "生成器 = `registry/tools/probe_singleton_tables.py --probe`；落盘 = `--write`"
             "（`availability` **只升不降**），随后跑 `sync_manifest.py --write`。",
             "凭据**绝不**写入本文件；读回 / 写回的原文**不**落盘（只记 `sha256`）。",
+            "**R119**：留缺**逐条**给出恢复条件（`recovery`）—— 空原值单例表的恢复条件 = "
+            "**非空**专用项目（`PUT` 才是「改」而不是「建」；空项目上 `PUT` 会留下**不可删**的记录，"
+            "见 **R116**）；**没有**非空项目就**如实**保持留缺，**不**硬试。",
         ],
         "instance": {
             "alias": INSTANCE_ALIAS,
@@ -319,6 +337,7 @@ def probe(repo: Path, only: tuple[str, ...], limit: int, fresh: bool) -> int:
         "aborted": aborted,
         "residue": residue,
         "gaps": dict(sorted(gaps.items())),
+        "recovery": {reason: RECOVERY.get(reason, "") for reason in sorted(gaps.values())},
         "endpoints": dict(sorted(endpoints.items())),
     }
     path = repo / "registry" / EVIDENCE_RELATIVE
@@ -498,6 +517,34 @@ def check(repo: Path) -> int:
     return 0
 
 
+def refresh_recovery(repo: Path) -> int:
+    """**离线**补齐 `recovery`（R119 / P150）：**只**加**派生**字段与说明行，**不**发任何请求。
+
+    ⚠️ 本模式**不**改任何结论：`counts` / `restored` / `residue` / `gaps` / `endpoints`
+    **逐字节保留**；`recovery` 完全由**已记录的** `gaps` 派生（`RECOVERY` 常量）。
+    空原值单例表的恢复条件 = **非空**专用项目 —— **没有**就**如实**保持留缺（**不**硬试，R116）。
+    """
+    path = repo / "registry" / EVIDENCE_RELATIVE
+    if not path.is_file():
+        print(f"❌ 缺证据文件 registry/{EVIDENCE_RELATIVE}（先跑 --probe）")
+        return 1
+    document = json.loads(path.read_text(encoding="utf-8"))
+    gaps = document.get("gaps") or {}
+    document["recovery"] = {
+        str(reason): RECOVERY.get(str(reason), "") for reason in sorted(set(gaps.values()))
+    }
+    line = (
+        "**R119**：留缺**逐条**给出恢复条件（`recovery`）—— 空原值单例表的恢复条件 = "
+        "**非空**专用项目（`PUT` 才是「改」而不是「建」；空项目上 `PUT` 会留下**不可删**的记录，"
+        "见 **R116**）；**没有**非空项目就**如实**保持留缺，**不**硬试。"
+    )
+    note = document.setdefault("note", [])
+    if line not in note:
+        note.append(line)
+    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"已离线补齐 recovery = {document['recovery']}")
+    return 0
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", default=REPO_DEFAULT)
@@ -507,6 +554,11 @@ def main() -> int:
     parser.add_argument("--only", default="")
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--fresh", action="store_true")
+    parser.add_argument(
+        "--refresh-recovery",
+        action="store_true",
+        help="**离线**补齐 `recovery`（R119；不发任何请求、不改任何结论）",
+    )
     args = parser.parse_args()
     repo = Path(args.repo).resolve()
     only = tuple(part.strip() for part in args.only.split(",") if part.strip())
@@ -518,7 +570,9 @@ def main() -> int:
         status = max(status, write_back(repo))
     if args.check:
         status = max(status, check(repo))
-    if not (args.probe or args.write or args.check):
+    if args.refresh_recovery:
+        status = max(status, refresh_recovery(repo))
+    if not (args.probe or args.write or args.check or args.refresh_recovery):
         print(__doc__)
     return status
 

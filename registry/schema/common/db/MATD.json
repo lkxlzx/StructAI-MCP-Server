@@ -54,6 +54,624 @@
                 "dTRANSFERFCI": {
                   "description": "Transferfcivalue",
                   "type": "number"
+                },
+                "MATLNAME": {
+                  "description": " Material Name",
+                  "type": "string"
+                },
+                "ALWS1": {
+                  "description": " Design AlwS1",
+                  "type": "number"
+                },
+                "ALWS2": {
+                  "description": " Design AlwS2",
+                  "type": "number"
+                },
+                "ALWS3": {
+                  "description": " Design AlwS3",
+                  "type": "number"
+                },
+                "ALWS4": {
+                  "description": " Design AlwS4",
+                  "type": "number"
+                },
+                "ALWS5": {
+                  "description": " Design AlwS5",
+                  "type": "number"
+                },
+                "ALWS6": {
+                  "description": " Design AlwS6",
+                  "type": "number"
+                },
+                "ALWS7": {
+                  "description": " Design AlwS7",
+                  "type": "number"
+                },
+                "ALWS8": {
+                  "description": " Design AlwS8",
+                  "type": "number"
+                },
+                "ALWS9": {
+                  "description": " Design AlwS9",
+                  "type": "number"
+                },
+                "ALWS10": {
+                  "description": " Design AlwS10",
+                  "type": "number"
+                },
+                "MIN_T1": {
+                  "description": " Design Min_t1",
+                  "type": "number"
+                },
+                "MIN_T2": {
+                  "description": " Design Min_t2",
+                  "type": "number"
+                },
+                "MIN_T3": {
+                  "description": " Design Min_t3",
+                  "type": "number"
+                },
+                "S_FU": {
+                  "description": " Design S_Fu",
+                  "type": "number"
+                },
+                "S_FY1": {
+                  "description": " Design S_Fy1",
+                  "type": "number"
+                },
+                "S_FY2": {
+                  "description": " Design S_Fy2",
+                  "type": "number"
+                },
+                "S_FY3": {
+                  "description": " Design S_Fy3",
+                  "type": "number"
+                },
+                "S_FY4": {
+                  "description": " Design S_Fy4",
+                  "type": "number"
+                },
+                "S_FY5": {
+                  "description": " Design S_Fy5",
+                  "type": "number"
+                },
+                "S_FY6": {
+                  "description": " Design S_Fy6",
+                  "type": "number"
+                },
+                "S_AFT": {
+                  "description": " Design S_Aft",
+                  "type": "number"
+                },
+                "S_AFT2": {
+                  "description": " Design S_Aft2",
+                  "type": "number"
+                },
+                "S_AFT3": {
+                  "description": " Design S_Aft3",
+                  "type": "number"
+                },
+                "S_FY": {
+                  "description": " Design S_Fy",
+                  "type": "number"
+                },
+                "S_AFV": {
+                  "description": " Design S_Afv",
+                  "type": "number"
+                },
+                "S_AFV2": {
+                  "description": " Design S_Afv2",
+                  "type": "number"
+                },
+                "S_AFV3": {
+                  "description": " Design S_Afv3",
+                  "type": "number"
+                },
+                "DGAMMA_M": {
+                  "description": " Design dGamma_m",
+                  "type": "number"
+                }
+              }
+            },
+            "SUBCODENAME": {
+              "description": " SubCodeName",
+              "type": "string"
+            },
+            "bHYBRID_FACTOR": {
+              "description": " Hybird Factor",
+              "type": "boolean"
+            },
+            "ANAL": {
+              "description": " Analysis Data",
+              "type": "object",
+              "properties": {
+                "ELAST": {
+                  "description": " Analysis Elast",
+                  "type": "number"
+                },
+                "POISSON": {
+                  "description": " Analysis Poisson",
+                  "type": "number"
+                }
+              }
+            },
+            "TOP_F_ANAL": {
+              "description": " Analysis Data Top Flange",
+              "type": "object",
+              "properties": {
+                "ELAST": {
+                  "description": " Analysis Elast",
+                  "type": "number"
+                },
+                "POISSON": {
+                  "description": " Analysis Poisson",
+                  "type": "number"
+                }
+              }
+            },
+            "BOT_F_ANAL": {
+              "description": " Analysis Data Top Flange",
+              "type": "object",
+              "properties": {
+                "ELAST": {
+                  "description": " Analysis Elast",
+                  "type": "number"
+                },
+                "POISSON": {
+                  "description": " Analysis Poisson",
+                  "type": "number"
+                }
+              }
+            },
+            "WEB_ANAL": {
+              "description": " Analysis Data Top Flange",
+              "type": "object",
+              "properties": {
+                "ELAST": {
+                  "description": " Analysis Elast",
+                  "type": "number"
+                },
+                "POISSON": {
+                  "description": " Analysis Poisson",
+                  "type": "number"
+                }
+              }
+            },
+            "TOP_F_DESIGN": {
+              "description": " Design Data Top Flange",
+              "type": "object",
+              "properties": {
+                "MATLNAME": {
+                  "description": " Material Name",
+                  "type": "string"
+                },
+                "ALWS1": {
+                  "description": " Design AlwS1",
+                  "type": "number"
+                },
+                "ALWS2": {
+                  "description": " Design AlwS2",
+                  "type": "number"
+                },
+                "ALWS3": {
+                  "description": " Design AlwS3",
+                  "type": "number"
+                },
+                "ALWS4": {
+                  "description": " Design AlwS4",
+                  "type": "number"
+                },
+                "ALWS5": {
+                  "description": " Design AlwS5",
+                  "type": "number"
+                },
+                "ALWS6": {
+                  "description": " Design AlwS6",
+                  "type": "number"
+                },
+                "ALWS7": {
+                  "description": " Design AlwS7",
+                  "type": "number"
+                },
+                "ALWS8": {
+                  "description": " Design AlwS8",
+                  "type": "number"
+                },
+                "ALWS9": {
+                  "description": " Design AlwS9",
+                  "type": "number"
+                },
+                "ALWS10": {
+                  "description": " Design AlwS10",
+                  "type": "number"
+                },
+                "MIN_T1": {
+                  "description": " Design Min_t1",
+                  "type": "number"
+                },
+                "MIN_T2": {
+                  "description": " Design Min_t2",
+                  "type": "number"
+                },
+                "MIN_T3": {
+                  "description": " Design Min_t3",
+                  "type": "number"
+                },
+                "S_FU": {
+                  "description": " Design S_Fu",
+                  "type": "number"
+                },
+                "S_FY1": {
+                  "description": " Design S_Fy1",
+                  "type": "number"
+                },
+                "S_FY2": {
+                  "description": " Design S_Fy2",
+                  "type": "number"
+                },
+                "S_FY3": {
+                  "description": " Design S_Fy3",
+                  "type": "number"
+                },
+                "S_FY4": {
+                  "description": " Design S_Fy4",
+                  "type": "number"
+                },
+                "S_FY5": {
+                  "description": " Design S_Fy5",
+                  "type": "number"
+                },
+                "S_FY6": {
+                  "description": " Design S_Fy6",
+                  "type": "number"
+                },
+                "S_AFT": {
+                  "description": " Design S_Aft",
+                  "type": "number"
+                },
+                "S_AFT2": {
+                  "description": " Design S_Aft2",
+                  "type": "number"
+                },
+                "S_AFT3": {
+                  "description": " Design S_Aft3",
+                  "type": "number"
+                },
+                "S_FY": {
+                  "description": " Design S_Fy",
+                  "type": "number"
+                },
+                "S_AFV": {
+                  "description": " Design S_Afv",
+                  "type": "number"
+                },
+                "S_AFV2": {
+                  "description": " Design S_Afv2",
+                  "type": "number"
+                },
+                "S_AFV3": {
+                  "description": " Design S_Afv3",
+                  "type": "number"
+                },
+                "DGAMMA_M": {
+                  "description": " Design dGamma_m",
+                  "type": "number"
+                },
+                "C_FC": {
+                  "description": " Design C_fc",
+                  "type": "number"
+                },
+                "bLAMBDA": {
+                  "description": " Lambda check",
+                  "type": "boolean"
+                },
+                "dLAMBDA": {
+                  "description": " Lambda value",
+                  "type": "number"
+                },
+                "C_FCI": {
+                  "description": " fci",
+                  "type": "number"
+                },
+                "bTRANSFER": {
+                  "description": " Transfer check",
+                  "type": "boolean"
+                },
+                "dTRANSFERFCI": {
+                  "description": " Transfer fci value",
+                  "type": "number"
+                }
+              }
+            },
+            "BOT_F_DESIGN": {
+              "description": " Design Data Top Flange",
+              "type": "object",
+              "properties": {
+                "MATLNAME": {
+                  "description": " Material Name",
+                  "type": "string"
+                },
+                "ALWS1": {
+                  "description": " Design AlwS1",
+                  "type": "number"
+                },
+                "ALWS2": {
+                  "description": " Design AlwS2",
+                  "type": "number"
+                },
+                "ALWS3": {
+                  "description": " Design AlwS3",
+                  "type": "number"
+                },
+                "ALWS4": {
+                  "description": " Design AlwS4",
+                  "type": "number"
+                },
+                "ALWS5": {
+                  "description": " Design AlwS5",
+                  "type": "number"
+                },
+                "ALWS6": {
+                  "description": " Design AlwS6",
+                  "type": "number"
+                },
+                "ALWS7": {
+                  "description": " Design AlwS7",
+                  "type": "number"
+                },
+                "ALWS8": {
+                  "description": " Design AlwS8",
+                  "type": "number"
+                },
+                "ALWS9": {
+                  "description": " Design AlwS9",
+                  "type": "number"
+                },
+                "ALWS10": {
+                  "description": " Design AlwS10",
+                  "type": "number"
+                },
+                "MIN_T1": {
+                  "description": " Design Min_t1",
+                  "type": "number"
+                },
+                "MIN_T2": {
+                  "description": " Design Min_t2",
+                  "type": "number"
+                },
+                "MIN_T3": {
+                  "description": " Design Min_t3",
+                  "type": "number"
+                },
+                "S_FU": {
+                  "description": " Design S_Fu",
+                  "type": "number"
+                },
+                "S_FY1": {
+                  "description": " Design S_Fy1",
+                  "type": "number"
+                },
+                "S_FY2": {
+                  "description": " Design S_Fy2",
+                  "type": "number"
+                },
+                "S_FY3": {
+                  "description": " Design S_Fy3",
+                  "type": "number"
+                },
+                "S_FY4": {
+                  "description": " Design S_Fy4",
+                  "type": "number"
+                },
+                "S_FY5": {
+                  "description": " Design S_Fy5",
+                  "type": "number"
+                },
+                "S_FY6": {
+                  "description": " Design S_Fy6",
+                  "type": "number"
+                },
+                "S_AFT": {
+                  "description": " Design S_Aft",
+                  "type": "number"
+                },
+                "S_AFT2": {
+                  "description": " Design S_Aft2",
+                  "type": "number"
+                },
+                "S_AFT3": {
+                  "description": " Design S_Aft3",
+                  "type": "number"
+                },
+                "S_FY": {
+                  "description": " Design S_Fy",
+                  "type": "number"
+                },
+                "S_AFV": {
+                  "description": " Design S_Afv",
+                  "type": "number"
+                },
+                "S_AFV2": {
+                  "description": " Design S_Afv2",
+                  "type": "number"
+                },
+                "S_AFV3": {
+                  "description": " Design S_Afv3",
+                  "type": "number"
+                },
+                "DGAMMA_M": {
+                  "description": " Design dGamma_m",
+                  "type": "number"
+                },
+                "C_FC": {
+                  "description": " Design C_fc",
+                  "type": "number"
+                },
+                "bLAMBDA": {
+                  "description": " Lambda check",
+                  "type": "boolean"
+                },
+                "dLAMBDA": {
+                  "description": " Lambda value",
+                  "type": "number"
+                },
+                "C_FCI": {
+                  "description": " fci",
+                  "type": "number"
+                },
+                "bTRANSFER": {
+                  "description": " Transfer check",
+                  "type": "boolean"
+                },
+                "dTRANSFERFCI": {
+                  "description": " Transfer fci value",
+                  "type": "number"
+                }
+              }
+            },
+            "WEB_DESIGN": {
+              "description": " Design Data Top Flange",
+              "type": "object",
+              "properties": {
+                "MATLNAME": {
+                  "description": " Material Name",
+                  "type": "string"
+                },
+                "ALWS1": {
+                  "description": " Design AlwS1",
+                  "type": "number"
+                },
+                "ALWS2": {
+                  "description": " Design AlwS2",
+                  "type": "number"
+                },
+                "ALWS3": {
+                  "description": " Design AlwS3",
+                  "type": "number"
+                },
+                "ALWS4": {
+                  "description": " Design AlwS4",
+                  "type": "number"
+                },
+                "ALWS5": {
+                  "description": " Design AlwS5",
+                  "type": "number"
+                },
+                "ALWS6": {
+                  "description": " Design AlwS6",
+                  "type": "number"
+                },
+                "ALWS7": {
+                  "description": " Design AlwS7",
+                  "type": "number"
+                },
+                "ALWS8": {
+                  "description": " Design AlwS8",
+                  "type": "number"
+                },
+                "ALWS9": {
+                  "description": " Design AlwS9",
+                  "type": "number"
+                },
+                "ALWS10": {
+                  "description": " Design AlwS10",
+                  "type": "number"
+                },
+                "MIN_T1": {
+                  "description": " Design Min_t1",
+                  "type": "number"
+                },
+                "MIN_T2": {
+                  "description": " Design Min_t2",
+                  "type": "number"
+                },
+                "MIN_T3": {
+                  "description": " Design Min_t3",
+                  "type": "number"
+                },
+                "S_FU": {
+                  "description": " Design S_Fu",
+                  "type": "number"
+                },
+                "S_FY1": {
+                  "description": " Design S_Fy1",
+                  "type": "number"
+                },
+                "S_FY2": {
+                  "description": " Design S_Fy2",
+                  "type": "number"
+                },
+                "S_FY3": {
+                  "description": " Design S_Fy3",
+                  "type": "number"
+                },
+                "S_FY4": {
+                  "description": " Design S_Fy4",
+                  "type": "number"
+                },
+                "S_FY5": {
+                  "description": " Design S_Fy5",
+                  "type": "number"
+                },
+                "S_FY6": {
+                  "description": " Design S_Fy6",
+                  "type": "number"
+                },
+                "S_AFT": {
+                  "description": " Design S_Aft",
+                  "type": "number"
+                },
+                "S_AFT2": {
+                  "description": " Design S_Aft2",
+                  "type": "number"
+                },
+                "S_AFT3": {
+                  "description": " Design S_Aft3",
+                  "type": "number"
+                },
+                "S_FY": {
+                  "description": " Design S_Fy",
+                  "type": "number"
+                },
+                "S_AFV": {
+                  "description": " Design S_Afv",
+                  "type": "number"
+                },
+                "S_AFV2": {
+                  "description": " Design S_Afv2",
+                  "type": "number"
+                },
+                "S_AFV3": {
+                  "description": " Design S_Afv3",
+                  "type": "number"
+                },
+                "DGAMMA_M": {
+                  "description": " Design dGamma_m",
+                  "type": "number"
+                },
+                "C_FC": {
+                  "description": " Design C_fc",
+                  "type": "number"
+                },
+                "bLAMBDA": {
+                  "description": " Lambda check",
+                  "type": "boolean"
+                },
+                "dLAMBDA": {
+                  "description": " Lambda value",
+                  "type": "number"
+                },
+                "C_FCI": {
+                  "description": " fci",
+                  "type": "number"
+                },
+                "bTRANSFER": {
+                  "description": " Transfer check",
+                  "type": "boolean"
+                },
+                "dTRANSFERFCI": {
+                  "description": " Transfer fci value",
+                  "type": "number"
                 }
               }
             }
@@ -89,6 +707,190 @@
         },
         "dLONGTERM": {
           "description": "LongTerm",
+          "type": "number"
+        },
+        "DATA2": {
+          "description": " Data2",
+          "type": "object",
+          "properties": {
+            "CODENAME": {
+              "description": " CodeName",
+              "type": "string"
+            },
+            "SUBCODENAME": {
+              "description": " SubCodeName",
+              "type": "string"
+            },
+            "CODEMATLNAME": {
+              "description": " CodeMatlName",
+              "type": "string"
+            },
+            "DESIGN": {
+              "description": " Design Data",
+              "type": "object",
+              "properties": {
+                "MATLNAME": {
+                  "description": " Material Name",
+                  "type": "string"
+                },
+                "ALWS1": {
+                  "description": " Design AlwS1",
+                  "type": "number"
+                },
+                "ALWS2": {
+                  "description": " Design AlwS2",
+                  "type": "number"
+                },
+                "ALWS3": {
+                  "description": " Design AlwS3",
+                  "type": "number"
+                },
+                "ALWS4": {
+                  "description": " Design AlwS4",
+                  "type": "number"
+                },
+                "ALWS5": {
+                  "description": " Design AlwS5",
+                  "type": "number"
+                },
+                "ALWS6": {
+                  "description": " Design AlwS6",
+                  "type": "number"
+                },
+                "ALWS7": {
+                  "description": " Design AlwS7",
+                  "type": "number"
+                },
+                "ALWS8": {
+                  "description": " Design AlwS8",
+                  "type": "number"
+                },
+                "ALWS9": {
+                  "description": " Design AlwS9",
+                  "type": "number"
+                },
+                "ALWS10": {
+                  "description": " Design AlwS10",
+                  "type": "number"
+                },
+                "MIN_T1": {
+                  "description": " Design Min_t1",
+                  "type": "number"
+                },
+                "MIN_T2": {
+                  "description": " Design Min_t2",
+                  "type": "number"
+                },
+                "MIN_T3": {
+                  "description": " Design Min_t3",
+                  "type": "number"
+                },
+                "S_FU": {
+                  "description": " Design S_Fu",
+                  "type": "number"
+                },
+                "S_FY1": {
+                  "description": " Design S_Fy1",
+                  "type": "number"
+                },
+                "S_FY2": {
+                  "description": " Design S_Fy2",
+                  "type": "number"
+                },
+                "S_FY3": {
+                  "description": " Design S_Fy3",
+                  "type": "number"
+                },
+                "S_FY4": {
+                  "description": " Design S_Fy4",
+                  "type": "number"
+                },
+                "S_FY5": {
+                  "description": " Design S_Fy5",
+                  "type": "number"
+                },
+                "S_FY6": {
+                  "description": " Design S_Fy6",
+                  "type": "number"
+                },
+                "S_AFT": {
+                  "description": " Design S_Aft",
+                  "type": "number"
+                },
+                "S_AFT2": {
+                  "description": " Design S_Aft2",
+                  "type": "number"
+                },
+                "S_AFT3": {
+                  "description": " Design S_Aft3",
+                  "type": "number"
+                },
+                "S_FY": {
+                  "description": " Design S_Fy",
+                  "type": "number"
+                },
+                "S_AFV": {
+                  "description": " Design S_Afv",
+                  "type": "number"
+                },
+                "S_AFV2": {
+                  "description": " Design S_Afv2",
+                  "type": "number"
+                },
+                "S_AFV3": {
+                  "description": " Design S_Afv3",
+                  "type": "number"
+                },
+                "DGAMMA_M": {
+                  "description": " Design dGamma_m",
+                  "type": "number"
+                },
+                "C_FC": {
+                  "description": " Design C_fc",
+                  "type": "number"
+                },
+                "bLAMBDA": {
+                  "description": " Lambda check",
+                  "type": "boolean"
+                },
+                "dLAMBDA": {
+                  "description": " Lambda value",
+                  "type": "number"
+                },
+                "C_FCI": {
+                  "description": " fci",
+                  "type": "number"
+                },
+                "bTRANSFER": {
+                  "description": " Transfer check",
+                  "type": "boolean"
+                },
+                "dTRANSFERFCI": {
+                  "description": " Transfer fci value",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "REBAR_CODENAME2": {
+          "description": " Rebar Code Name2",
+          "type": "string"
+        },
+        "MAINREBAR_REBARNAME2": {
+          "description": " Main Rebar Name2",
+          "type": "string"
+        },
+        "SUBREBAR_REBARNAME2": {
+          "description": " Sub Rebar Name2",
+          "type": "string"
+        },
+        "MAINREBAR_B_FY2": {
+          "description": " Main Rebar b_fy2",
+          "type": "number"
+        },
+        "SUBREBAR_B_FY2": {
+          "description": " Sub Rebar b_fy2",
           "type": "number"
         }
       }

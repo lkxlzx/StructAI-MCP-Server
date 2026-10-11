@@ -49,6 +49,14 @@
           "items": {
             "type": "integer"
           }
+        },
+        "START_STAGE": {
+          "description": " Start Stage",
+          "type": "string"
+        },
+        "END_STAGE": {
+          "description": " End Stage",
+          "type": "string"
         }
       }
     }
