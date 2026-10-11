@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "ff41742e-27fa-4621-bc6b-7829494bdd59",
-    "model_id": "8a494f8a-e7ca-4f47-a545-1d6d52feb56a",
-    "software_instance_id": "fb642faa-b0d2-400f-bf6e-5f6a4f4c8f32",
+    "project_id": "fff3ae31-bf84-49be-931f-ce6823711b82",
+    "model_id": "01457e37-22c7-4184-8b87-abbe0328ba35",
+    "software_instance_id": "0f46e399-1b4b-448c-a3c3-fcfb2757d651",
     "product": "GEN NX"
   },
   "sentinel_endpoints": [
@@ -87,21 +87,20 @@
   "allowed_residue": [],
   "aborted": "",
   "counts": {
-    "FAILED": 9,
-    "PASSED": 4
+    "FAILED": 2,
+    "PASSED": 11
   },
   "by_path": {
     "add": {
-      "FAILED": 4,
-      "PASSED": 1
+      "FAILED": 1,
+      "PASSED": 4
     },
     "edit": {
-      "FAILED": 1,
-      "PASSED": 1
+      "PASSED": 2
     },
     "delete": {
-      "FAILED": 4,
-      "PASSED": 2
+      "FAILED": 1,
+      "PASSED": 5
     }
   },
   "paths": [
@@ -164,8 +163,8 @@
             "Assign": {
               "1": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -0.0
               }
             }
           },
@@ -178,6 +177,7 @@
             "Assign": {
               "ITEMS": [
                 {
+                  "GROUP_NAME": "",
                   "ID": 1,
                   "CONSTRAINT": "111000"
                 }
@@ -208,7 +208,7 @@
       "endpoint": "DB.ELEM",
       "method": "POST",
       "uri": "/DB/ELEM",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [
         {
@@ -218,6 +218,14 @@
         {
           "endpoint": "DB.NODE",
           "id": "2"
+        },
+        {
+          "endpoint": "DB.MATL",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.SECT",
+          "id": "1"
         }
       ],
       "recon": {
@@ -235,26 +243,79 @@
         "method_allowed": true
       },
       "write": {
-        "create_http": 400,
-        "create_data": null,
+        "create_http": 200,
+        "create_data": {
+          "write_element": [
+            {
+              "ELEM": {
+                "1": {
+                  "MATL": 1,
+                  "NODE": [
+                    1,
+                    2
+                  ],
+                  "SECT": 1,
+                  "TYPE": "BEAM"
+                }
+              }
+            }
+          ]
+        },
         "create_result": {},
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.ELEM"
-        }
+        "error": {}
       },
       "readback": {
-        "present": false,
-        "observed": {}
+        "present": true,
+        "observed": {
+          "angle": 0.0,
+          "id": "1",
+          "material_id": 1,
+          "node_ids": [
+            1,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "section_id": 1,
+          "type": "BEAM"
+        }
       },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_element": {
+            "ELEM": {
+              "1": {
+                "ANGLE": 0.0,
+                "MATL": 1,
+                "NODE": [
+                  1,
+                  2,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "SECT": 1,
+                "STYPE": 0,
+                "TYPE": "BEAM"
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -263,8 +324,8 @@
             "Assign": {
               "1": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -0.0
               }
             }
           },
@@ -277,8 +338,67 @@
             "Assign": {
               "2": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -6.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "S450",
+                    "DEN": 7850.0,
+                    "ELAST": 210000000000.0,
+                    "P_TYPE": 1,
+                    "POISN": 0.3,
+                    "STANDARD": "EN05(S)"
+                  }
+                ],
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "P154M1",
+                "P_NAME": "",
+                "PLMT": 0,
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
+                "SECTTYPE": "DBUSER"
               }
             }
           },
@@ -290,20 +410,41 @@
           "body": {
             "Assign": {
               "1": {
+                "MATL": 1,
                 "NODE": [
                   1,
                   2
                 ],
+                "SECT": 1,
                 "TYPE": "BEAM"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "status": 200
         },
         {
           "method": "GET",
           "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/ELEM/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
           "status": 200
         },
         {
@@ -317,7 +458,7 @@
           "status": 200
         }
       ],
-      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+      "detail": ""
     },
     {
       "path": "add",
@@ -327,7 +468,7 @@
       "endpoint": "DB.MATL",
       "method": "POST",
       "uri": "/DB/MATL",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [],
       "recon": {
@@ -345,26 +486,99 @@
         "method_allowed": true
       },
       "write": {
-        "create_http": 400,
-        "create_data": null,
+        "create_http": 200,
+        "create_data": {
+          "write_material": [
+            {
+              "MATL": {
+                "1": {
+                  "DAMP_RAT": 0.02,
+                  "HE_COND": 0.0,
+                  "HE_SPEC": 0.0,
+                  "NAME": "P154M1",
+                  "PARAM": [
+                    {
+                      "CODE": "",
+                      "DB": "S450",
+                      "DEN": 7850.0,
+                      "ELAST": 210000000000.0,
+                      "POISN": 0.3,
+                      "P_TYPE": 1,
+                      "STANDARD": "EN05(S)",
+                      "bELAST": false
+                    }
+                  ],
+                  "PLMT": 0,
+                  "P_NAME": "",
+                  "TYPE": "STEEL",
+                  "bMASS_DENS": false
+                }
+              }
+            }
+          ]
+        },
         "create_result": {},
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.MATL"
-        }
+        "error": {}
       },
       "readback": {
-        "present": false,
-        "observed": {}
+        "present": true,
+        "observed": {
+          "belast": false,
+          "bmass_dens": false,
+          "code": "",
+          "damp_rat": 0.02,
+          "db": "S450",
+          "density": null,
+          "elastic_modulus": 210000000.0,
+          "he_cond": 0.0,
+          "he_spec": 0.0,
+          "id": "1",
+          "mass_density": null,
+          "name": "P154M1",
+          "p_name": "",
+          "p_type": 1,
+          "plmt": 0,
+          "poisson_ratio": null,
+          "standard": "EN05(S)",
+          "thermal_coefficient": null,
+          "type": "STEEL"
+        }
       },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_material": {
+            "MATL": {
+              "1": {
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0.0,
+                "HE_SPEC": 0.0,
+                "NAME": "P154M1",
+                "PARAM": [
+                  {
+                    "CODE": "",
+                    "DB": "S450",
+                    "ELAST": 210000000.0,
+                    "P_TYPE": 1,
+                    "STANDARD": "EN05(S)",
+                    "bELAST": false
+                  }
+                ],
+                "PLMT": 0,
+                "P_NAME": "",
+                "TYPE": "STEEL",
+                "bMASS_DENS": false
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -374,18 +588,38 @@
               "1": {
                 "PARAM": [
                   {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "S450",
                     "DEN": 7850.0,
                     "ELAST": 210000000000.0,
-                    "POISN": 0.3
+                    "P_TYPE": 1,
+                    "POISN": 0.3,
+                    "STANDARD": "EN05(S)"
                   }
                 ],
-                "NAME": "P152M1",
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "P154M1",
+                "P_NAME": "",
+                "PLMT": 0,
                 "TYPE": "STEEL"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/MATL",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
+          "status": 200
         },
         {
           "method": "GET",
@@ -393,7 +627,7 @@
           "status": 200
         }
       ],
-      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.MATL'}"
+      "detail": ""
     },
     {
       "path": "add",
@@ -508,7 +742,7 @@
       "endpoint": "DB.SECT",
       "method": "POST",
       "uri": "/DB/SECT",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [],
       "recon": {
@@ -526,26 +760,110 @@
         "method_allowed": true
       },
       "write": {
-        "create_http": 400,
-        "create_data": null,
+        "create_http": 200,
+        "create_data": {
+          "write_section": [
+            {
+              "SECT": {
+                "1": {
+                  "SECTTYPE": "DBUSER",
+                  "SECT_BEFORE": {
+                    "DATATYPE": 2,
+                    "HORZ_OFFSET_OPT": 0,
+                    "OFFSET_PT": "LT",
+                    "SECT_I": {
+                      "vSIZE": [
+                        1.0,
+                        1.0
+                      ]
+                    },
+                    "SHAPE": "SB",
+                    "USE_SHEAR_DEFORM": false,
+                    "USE_WARPING_EFFECT": false,
+                    "VERT_OFFSET_OPT": 0
+                  },
+                  "SECT_NAME": "P154S1"
+                }
+              }
+            }
+          ]
+        },
         "create_result": {},
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.SECT"
-        }
+        "error": {}
       },
       "readback": {
-        "present": false,
-        "observed": {}
+        "present": true,
+        "observed": {
+          "datatype": 2,
+          "horz_offset_opt": 0,
+          "id": "1",
+          "name": "P154S1",
+          "offset_point": "LT",
+          "section_type": "DBUSER",
+          "shape": "SB",
+          "use_shear_deform": false,
+          "use_warping_effect": false,
+          "vert_offset_opt": 0,
+          "vsize": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
       },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_section": {
+            "SECT": {
+              "1": {
+                "SECTTYPE": "DBUSER",
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_CENTER": 0,
+                  "OFFSET_PT": "LT",
+                  "SECT_I": {
+                    "vSIZE": [
+                      1.0,
+                      1.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0
+                    ]
+                  },
+                  "SHAPE": "SB",
+                  "USERDEF_OFFSET_YI": 0.0,
+                  "USERDEF_OFFSET_ZI": 0.0,
+                  "USER_OFFSET_REF": 0,
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0
+                },
+                "SECT_NAME": "P154S1"
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -553,13 +871,37 @@
           "body": {
             "Assign": {
               "1": {
-                "SECT_NAME": "P152S1",
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
                 "SECTTYPE": "DBUSER"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/SECT",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200
         },
         {
           "method": "GET",
@@ -567,7 +909,7 @@
           "status": 200
         }
       ],
-      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.SECT'}"
+      "detail": ""
     },
     {
       "path": "edit",
@@ -577,7 +919,7 @@
       "endpoint": "DB.ELEM",
       "method": "PUT",
       "uri": "/DB/ELEM",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [
         {
@@ -587,6 +929,14 @@
         {
           "endpoint": "DB.NODE",
           "id": "2"
+        },
+        {
+          "endpoint": "DB.MATL",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.SECT",
+          "id": "1"
         }
       ],
       "recon": {
@@ -604,26 +954,120 @@
         "method_allowed": true
       },
       "write": {
-        "create_http": 400,
-        "create_data": null,
+        "create_http": 200,
+        "create_data": {
+          "write_element": [
+            {
+              "ELEM": {
+                "1": {
+                  "MATL": 1,
+                  "NODE": [
+                    1,
+                    2
+                  ],
+                  "SECT": 1,
+                  "TYPE": "BEAM"
+                }
+              }
+            }
+          ]
+        },
         "create_result": {},
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.ELEM"
-        }
+        "error": {}
       },
       "readback": {
-        "present": false,
-        "observed": {}
+        "present": true,
+        "observed": {
+          "angle": 0.0,
+          "id": "1",
+          "material_id": 1,
+          "node_ids": [
+            1,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "section_id": 1,
+          "type": "BEAM"
+        }
       },
-      "edit": {},
-      "cleanup": {},
+      "edit": {
+        "http": 200,
+        "data": {
+          "write_element": [
+            {
+              "ELEM": {
+                "1": {
+                  "ANGLE": 1.0,
+                  "MATL": 1,
+                  "NODE": [
+                    1,
+                    2
+                  ],
+                  "SECT": 1,
+                  "TYPE": "BEAM"
+                }
+              }
+            }
+          ]
+        },
+        "error": {},
+        "field": "angle",
+        "expected": 1.0,
+        "effective": true,
+        "observed": {
+          "angle": 1.0,
+          "id": "1",
+          "material_id": 1,
+          "node_ids": [
+            1,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "section_id": 1,
+          "type": "BEAM"
+        }
+      },
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_element": {
+            "ELEM": {
+              "1": {
+                "ANGLE": 1.0,
+                "MATL": 1,
+                "NODE": [
+                  1,
+                  2,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "SECT": 1,
+                "STYPE": 0,
+                "TYPE": "BEAM"
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -632,8 +1076,8 @@
             "Assign": {
               "1": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -0.0
               }
             }
           },
@@ -646,8 +1090,67 @@
             "Assign": {
               "2": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -6.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "S450",
+                    "DEN": 7850.0,
+                    "ELAST": 210000000000.0,
+                    "P_TYPE": 1,
+                    "POISN": 0.3,
+                    "STANDARD": "EN05(S)"
+                  }
+                ],
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "P154M1",
+                "P_NAME": "",
+                "PLMT": 0,
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
+                "SECTTYPE": "DBUSER"
               }
             }
           },
@@ -659,20 +1162,65 @@
           "body": {
             "Assign": {
               "1": {
+                "MATL": 1,
                 "NODE": [
                   1,
                   2
                 ],
+                "SECT": 1,
                 "TYPE": "BEAM"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "status": 200
         },
         {
           "method": "GET",
           "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DB/ELEM",
+          "body": {
+            "Assign": {
+              "1": {
+                "ANGLE": 1.0,
+                "MATL": 1,
+                "NODE": [
+                  1,
+                  2
+                ],
+                "SECT": 1,
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/ELEM/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
           "status": 200
         },
         {
@@ -686,7 +1234,7 @@
           "status": 200
         }
       ],
-      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+      "detail": ""
     },
     {
       "path": "edit",
@@ -892,8 +1440,8 @@
             "Assign": {
               "1": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -0.0
               }
             }
           },
@@ -906,6 +1454,7 @@
             "Assign": {
               "ITEMS": [
                 {
+                  "GROUP_NAME": "",
                   "ID": 1,
                   "CONSTRAINT": "111000"
                 }
@@ -931,7 +1480,7 @@
       "endpoint": "DB.ELEM",
       "method": "DELETE",
       "uri": "/DB/ELEM",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [
         {
@@ -941,6 +1490,14 @@
         {
           "endpoint": "DB.NODE",
           "id": "2"
+        },
+        {
+          "endpoint": "DB.MATL",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.SECT",
+          "id": "1"
         }
       ],
       "recon": {
@@ -959,21 +1516,45 @@
       },
       "write": {
         "precondition": "interface",
-        "create_http": 400,
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.ELEM"
-        }
+        "create_http": 200,
+        "error": {}
       },
-      "readback": {},
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_element": {
+            "ELEM": {
+              "1": {
+                "ANGLE": 0.0,
+                "MATL": 1,
+                "NODE": [
+                  1,
+                  2,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "SECT": 1,
+                "STYPE": 0,
+                "TYPE": "BEAM"
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -982,8 +1563,8 @@
             "Assign": {
               "1": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -0.0
               }
             }
           },
@@ -996,8 +1577,67 @@
             "Assign": {
               "2": {
                 "X": 0.0,
-                "Y": 2.0,
-                "Z": 3.0
+                "Y": 0.0,
+                "Z": -6.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "S450",
+                    "DEN": 7850.0,
+                    "ELAST": 210000000000.0,
+                    "P_TYPE": 1,
+                    "POISN": 0.3,
+                    "STANDARD": "EN05(S)"
+                  }
+                ],
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "P154M1",
+                "P_NAME": "",
+                "PLMT": 0,
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
+                "SECTTYPE": "DBUSER"
               }
             }
           },
@@ -1009,16 +1649,37 @@
           "body": {
             "Assign": {
               "1": {
+                "MATL": 1,
                 "NODE": [
                   1,
                   2
                 ],
+                "SECT": 1,
                 "TYPE": "BEAM"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/ELEM/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
+          "status": 200
         },
         {
           "method": "DELETE",
@@ -1031,7 +1692,7 @@
           "status": 200
         }
       ],
-      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+      "detail": ""
     },
     {
       "path": "delete",
@@ -1120,7 +1781,7 @@
       "endpoint": "DB.MATL",
       "method": "DELETE",
       "uri": "/DB/MATL",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [],
       "recon": {
@@ -1139,21 +1800,48 @@
       },
       "write": {
         "precondition": "interface",
-        "create_http": 400,
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.MATL"
-        }
+        "create_http": 200,
+        "error": {}
       },
-      "readback": {},
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_material": {
+            "MATL": {
+              "1": {
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0.0,
+                "HE_SPEC": 0.0,
+                "NAME": "P154M1",
+                "PARAM": [
+                  {
+                    "CODE": "",
+                    "DB": "S450",
+                    "ELAST": 210000000.0,
+                    "P_TYPE": 1,
+                    "STANDARD": "EN05(S)",
+                    "bELAST": false
+                  }
+                ],
+                "PLMT": 0,
+                "P_NAME": "",
+                "TYPE": "STEEL",
+                "bMASS_DENS": false
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -1163,21 +1851,41 @@
               "1": {
                 "PARAM": [
                   {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "S450",
                     "DEN": 7850.0,
                     "ELAST": 210000000000.0,
-                    "POISN": 0.3
+                    "P_TYPE": 1,
+                    "POISN": 0.3,
+                    "STANDARD": "EN05(S)"
                   }
                 ],
-                "NAME": "P152M1",
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "P154M1",
+                "P_NAME": "",
+                "PLMT": 0,
                 "TYPE": "STEEL"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/MATL",
+          "status": 200
         }
       ],
-      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.MATL'}"
+      "detail": ""
     },
     {
       "path": "delete",
@@ -1269,7 +1977,7 @@
       "endpoint": "DB.SECT",
       "method": "DELETE",
       "uri": "/DB/SECT",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [],
       "recon": {
@@ -1288,21 +1996,59 @@
       },
       "write": {
         "precondition": "interface",
-        "create_http": 400,
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.SECT"
-        }
+        "create_http": 200,
+        "error": {}
       },
-      "readback": {},
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_section": {
+            "SECT": {
+              "1": {
+                "SECTTYPE": "DBUSER",
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_CENTER": 0,
+                  "OFFSET_PT": "LT",
+                  "SECT_I": {
+                    "vSIZE": [
+                      1.0,
+                      1.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0
+                    ]
+                  },
+                  "SHAPE": "SB",
+                  "USERDEF_OFFSET_YI": 0.0,
+                  "USERDEF_OFFSET_ZI": 0.0,
+                  "USER_OFFSET_REF": 0,
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0
+                },
+                "SECT_NAME": "P154S1"
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -1310,16 +2056,40 @@
           "body": {
             "Assign": {
               "1": {
-                "SECT_NAME": "P152S1",
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
                 "SECTTYPE": "DBUSER"
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/SECT",
+          "status": 200
         }
       ],
-      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.SECT'}"
+      "detail": ""
     }
   ]
 }

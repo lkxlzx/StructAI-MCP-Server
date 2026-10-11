@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "a674121c-7848-4060-afa9-a889b4d4c11b",
-    "model_id": "9a8b4383-bc3d-444e-bd4e-ecddb3980cd0",
-    "software_instance_id": "1090958f-ce72-4f00-8589-5a18c4d33804",
+    "project_id": "2929cfe8-2444-4614-a112-5ef7d1f1dda2",
+    "model_id": "331b0e31-240a-403d-b26d-7f58793fcf32",
+    "software_instance_id": "f2533c84-944e-4b53-a66e-353c0edb05b9",
     "product": "GEN NX"
   },
   "read_only": true,
@@ -434,11 +434,22 @@
         "intent": "read",
         "count": 0,
         "keys": [
+          "belast",
+          "bmass_dens",
+          "code",
+          "damp_rat",
+          "db",
           "density",
           "elastic_modulus",
+          "he_cond",
+          "he_spec",
           "mass_density",
           "name",
+          "p_name",
+          "p_type",
+          "plmt",
           "poisson_ratio",
+          "standard",
           "thermal_coefficient",
           "type"
         ]
@@ -500,10 +511,16 @@
         "intent": "read",
         "count": 0,
         "keys": [
+          "datatype",
+          "horz_offset_opt",
           "name",
           "offset_point",
           "section_type",
-          "shape"
+          "shape",
+          "use_shear_deform",
+          "use_warping_effect",
+          "vert_offset_opt",
+          "vsize"
         ]
       },
       "error": {},

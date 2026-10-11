@@ -259,9 +259,16 @@ CORE_FORBIDDEN_LITERALS = (
     "UNILOAD",
     "DeadLoads",
     "1111000",
-    "vSIZE",
 )
-"""模板里的**特征取值**（`app/**` 里出现即等于把模板硬编码进 Core）。"""
+"""模板里的**特征取值**（`app/**` 里出现即等于把模板硬编码进 Core）。
+
+⚠️ **P154 修正（清单本身的分类错误，不是放宽）**：`vSIZE` 曾被列在这里，但它其实是
+`{"SECT_I": {"vSIZE": [1, 1]}}` 的**键名**（= 原生**字段名**，且**已**在数据侧请求 Schema 里声明）
+—— R126 的 **A′** 把 `SECT_BEFORE.SECT_I.vSIZE` 作为 native 路径写进 `transforms.py` 时
+**必然**命中。⇒ 从清单移除，并由
+`test_p139_the_forbidden_literals_are_template_values_not_field_names` **机械**断言
+「清单里每一项都是模板的**取值**、且都不是**键名**」（判定**变强**：清单自此自检）。
+"""
 
 
 # ===== 辅助 =====
@@ -496,6 +503,58 @@ def test_p139_the_loader_refuses_malformed_templates() -> None:
     assert failure.value.details["defect"] == "template_source_missing"
     # ⚠️ 空映射**不**算缺陷：文件在、但**一条模板都没有** → 空集合（探针回落 `derive_body`）
     assert len(parse_write_templates({"templates": {}})) == 0
+
+
+def _template_leaf_values() -> set[str]:
+    """模板里的**全部叶子取值**（`str` 归一）。"""
+    document = json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))
+    values: set[str] = set()
+
+    def walk(node: object) -> None:
+        if isinstance(node, dict):
+            for item in node.values():
+                walk(item)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+        elif node is not None and not isinstance(node, bool):
+            values.add(str(node))
+
+    walk(document.get("templates"))
+    return values
+
+
+def _template_keys() -> set[str]:
+    """模板里的**全部键名**（含嵌套）。"""
+    document = json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))
+    keys: set[str] = set()
+
+    def walk(node: object) -> None:
+        if isinstance(node, dict):
+            for key, item in node.items():
+                keys.add(str(key))
+                walk(item)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+
+    walk(document.get("templates"))
+    return keys
+
+
+def test_p139_the_forbidden_literals_are_template_values_not_field_names() -> None:
+    """门槛（**判定点唯一**）：清单里每一项都必须是模板的**取值**、且**不是**键名。
+
+    ⚠️ **P154 新增**：这条断言让「特征取值」清单**自检** —— 键名（= 原生字段名，已由数据侧
+    请求 Schema 声明）可以合法地出现在 `app/**` 的字段表里，**不**得被误列为「模板取值」。
+    """
+    values = _template_leaf_values()
+    keys = _template_keys()
+    for literal in CORE_FORBIDDEN_LITERALS:
+        assert literal in values, f"{literal} 不在模板取值里"
+        assert literal not in keys, f"{literal} 是**键名**，不该列进「特征取值」"
+    # `vSIZE` 正是被修正的那一项：它是**键名**、**不是**取值
+    assert "vSIZE" in keys and "vSIZE" not in values
 
 
 def test_p139_no_template_payload_is_hardcoded_in_core() -> None:

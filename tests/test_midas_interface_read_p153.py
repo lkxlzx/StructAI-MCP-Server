@@ -122,7 +122,9 @@ WRITE_METHODS = {"PUT", "DELETE", "PATCH"}
 TABLE_URI = "/POST/TABLE"
 
 EXPECTED_WRITE_ROWS = 13
-EXPECTED_WRITE_COUNTS = {"PASSED": 4, "FAILED": 9}
+EXPECTED_WRITE_COUNTS = {"PASSED": 11, "FAILED": 2}
+"""⚠️ **P154 同步（有实测依据）**：P153 时是 `4 / 9`；P154 落地 **R126 裁决 A′** 后重测
+⇒ **`11 / 2`**（只剩 `DB.CONS`，成因 = **R128** 的形状）。断言**未**放宽，只同步数字。"""
 EXPECTED_GAP_TOTAL = 517
 EXPECTED_GAP_NOT_IN_CONTRACT = 271
 EXPECTED_GAP_NO_READBACK = 246
@@ -145,21 +147,36 @@ EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
     "with_transformer": 10,
     "without_transformer": 61,
-    "field_set_gap": 4,
-    "value_gap": 2,
+    "field_set_gap": 2,
+    "value_gap": 3,
     "no_canonical_model": 61,
-    "covered": 4,
+    "covered": 5,
 }
-"""R126 裁决输入证据包的钉住计数。"""
+"""R126 裁决输入证据包的钉住计数。
 
-R126_MEASURED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.MATL", "DB.SECT")
-"""P152 实测被原生拒绝的 4 个端点（**逐条**必须在证据包里）。"""
+⚠️ **P154 同步（有实测依据）**：P153 时是「字段集缺口 **4** / 取值缺口 **2** / 已覆盖 **4**」；
+P154 落地**裁决 A′**（扩 `DB.MATL` **11** + `DB.SECT` **6** = **17** 个 canonical 字段）后重算 ⇒
+「字段集缺口 **2**（`DB.BMLD` / `DB.PRES`）/ 取值缺口 **3** / 已覆盖 **5**」。
+断言**未**放宽，只同步数字与注释。"""
 
-FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.MATL", "DB.PRES", "DB.SECT")
-"""「二选一」方案**适用**的端点（有 Transformer ∧ 字段表表达不了手册示例的字段）。"""
+P152_MEASURED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.MATL", "DB.SECT")
+"""**P152 当时**实测被原生拒绝的 4 个端点（历史事实；逐条必须在证据包的 `endpoints` 里）。"""
 
-VALUE_GAP_ENDPOINTS = ("DB.CONS", "DB.ELEM")
-"""字段**已在** canonical 里、实测 body 里没有值 / 形态不同的端点。"""
+CURRENT_MEASURED_ENDPOINTS = ("DB.CONS",)
+"""⚠️ **P154 同步**：A′ 落地后，**当前**证据里只剩 `DB.CONS` 仍被原生拒绝
+（成因 = **R128** 的请求体**形状**，不是字段集）—— `measured_endpoints` 由证据**复算**得出。"""
+
+FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.PRES")
+"""「二选一」方案**适用**的端点（有 Transformer ∧ 字段表表达不了手册示例的字段）。
+
+⚠️ **P154 同步**：`DB.MATL` / `DB.SECT` 已由 **A′** 落地 ⇒ 只剩这 **2** 个
+（且它们**未**实测原生拒绝，只是字段差集）。"""
+
+VALUE_GAP_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.MATL")
+"""字段**已在** canonical 里、实测 body 里没有值 / 形态不同的端点。
+
+⚠️ **P154 同步**：`DB.MATL` 因 A′ 后仍有两个未填的可选字段（`MASS` / `THERMAL`）而入列；
+`DB.SECT` 已**全部填齐** ⇒ 移出（`covered`）。"""
 
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
@@ -414,19 +431,25 @@ def test_p153_the_canonical_field_gap_pack_is_recomputable() -> None:
 
 
 def test_p153_the_field_gap_pack_pins_the_p152_measured_endpoints() -> None:
-    """门槛：P152 实测被拒的 **4** 个端点逐条在列，且各带接口层实测 body。"""
+    """门槛：P152 实测被拒的 **4** 个端点逐条在列，且各带接口层实测 body。
+
+    ⚠️ **P154 同步**：`gap_class` 允许 `covered` —— `DB.SECT` 的字段集缺口已由 **A′** 关闭，
+    且接口层实测 body 已把 6 个 `SECT_BEFORE.*` 填齐（**判定变强**，不是放宽）。
+    """
     document = json.loads(FIELD_GAP.read_text(encoding="utf-8"))
-    assert tuple(document["measured_endpoints"]) == R126_MEASURED_ENDPOINTS
+    assert tuple(document["measured_endpoints"]) == CURRENT_MEASURED_ENDPOINTS
     index = {str(row["endpoint"]): row for row in document["endpoints"]}
-    for endpoint in R126_MEASURED_ENDPOINTS:
+    for endpoint in P152_MEASURED_ENDPOINTS:
         row = index[endpoint]
         assert row["has_transformer"] is True, endpoint
         assert row["interface_body"] is not None, endpoint
-        assert row["gap_class"] in {"field_set_gap", "value_gap"}, endpoint
-    # 原生拒绝逐条留证（`Wrong Field` ×3 / `Unknown Error` ×1）
+        assert row["gap_class"] in {"field_set_gap", "value_gap", "covered"}, endpoint
+    # 原生拒绝逐条留证（⚠️ **P154 同步**：证据包由**当前**证据复算 ⇒ A′ 后只剩 `DB.CONS`
+    # 的 `Wrong Field`；P152 当时的 `Unknown Error`（`DB.SECT`）是**历史事实**，
+    # 保留在 `docs/reports/P153_*.md` §2.4 与 `docs/07` §16.1 的 R126 行，**不**在本复算清单里）
     texts = {str(item["native_error"]) for item in document["measured_rejections"]}
+    assert texts, document["measured_rejections"]
     assert any("Wrong Field" in text for text in texts), texts
-    assert any("Unknown Error" in text for text in texts), texts
     assert {int(item["native_status"]) for item in document["measured_rejections"]} == {400}
 
 
@@ -444,16 +467,20 @@ def test_p153_the_two_options_are_scoped_to_the_field_set_gap() -> None:
         for field in fields:
             assert field["native"], (endpoint, field)
             assert "manual_example_value" in field, (endpoint, field)
-    # 取值缺口**不**并入二选一
-    assert set(document["value_gaps"]) == set(VALUE_GAP_ENDPOINTS) | {"DB.MATL", "DB.SECT"}
+    # 取值缺口**不**并入二选一（⚠️ P154：`DB.SECT` 已填齐 ⇒ 移出；`DB.MATL` 入列）
+    assert set(document["value_gaps"]) == set(VALUE_GAP_ENDPOINTS)
     # 无 canonical 模型的端点清单 = 61（与 summary 一致）
     assert (
         len(document["no_canonical_model_inventory"]) == EXPECTED_FIELD_GAP["without_transformer"]
     )
-    # `DB.ELEM` 的缺口是**取值**（字段可表达）—— 与 P152 §1.4 的判定一致
+    # `DB.ELEM` 的缺口是**取值**（字段可表达）—— A′ 后 `MATL` / `SECT` 已由接口层实测填上
     index = {str(row["endpoint"]): row for row in document["endpoints"]}
     assert index["DB.ELEM"]["missing_in_canonical"] == []
-    assert set(index["DB.ELEM"]["unfilled_expressible"]) == {"MATL", "SECT", "ANGLE"}
+    assert set(index["DB.ELEM"]["unfilled_expressible"]) == {"ANGLE"}
+    # `DB.MATL` / `DB.SECT` 的字段集缺口已由 **A′** 关闭（17 个字段逐条可表达）
+    assert index["DB.MATL"]["missing_in_canonical"] == []
+    assert index["DB.SECT"]["missing_in_canonical"] == []
+    assert index["DB.SECT"]["gap_class"] == "covered"
     # `DB.CONS` 的 `CONSTRAINT` 由 Transformer **合成**（不在字段表里）⇒ **不**算字段集缺口
     assert index["DB.CONS"]["missing_in_canonical"] == []
     assert "CONSTRAINT" in index["DB.CONS"]["synthesized_keys"]

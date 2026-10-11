@@ -1,0 +1,266 @@
+{
+  "note": [
+    "P154 / **R128 的裁决输入**：`DB.CONS` 的**请求体形状** A/B —— **同一端点、同一字段集、同一位数**（`1111000`），**只改包装形状**。",
+    "背景：P153 把 `DB.CONS` 归入 R126 的「取值缺口」；P154 补上 `GROUP_NAME` 后仍 `400`，**位数 A/B 也已排除位数**（6 位 / 7 位**都**被拒）⇒ 成因是**形状**：接口层发 `{\"Assign\": {\"ITEMS\": […]}}`，而数据侧实测可用的是 `{\"Assign\": {\"<编号>\": <条目>}}`。",
+    "判定：`PASSED` = `2xx` **且**再读时该编号**在**（只记**键名**，不记取值）；`FAILED` = 非 `2xx`，或 `2xx` 但**没落库**（⚠️ `Assign` 的外层键**不是**存在的节点编号时，原生会**静默 `200` 而不建**）。",
+    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵 · **恰好 4** 个形状变体 + **1** 个前置节点（请求数 ≤ 30，有界，**不**逐端点连发试探）。",
+    "证据里**绝不**出现凭据；**成功**响应只留**键名**，**失败**响应只留 `error.message` 前 200 字。",
+    "生成器 = `registry/tools/probe_boundary_shape.py --probe`。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11"
+  },
+  "constraint": "1111000",
+  "variants": [
+    {
+      "name": "assign_items",
+      "note": "**接口层当前**产出的形状（外层键是字面量 `ITEMS`）—— P152 / P154 均 `400`",
+      "outer_key": "1",
+      "http": 400,
+      "created": false,
+      "readback_keys": [],
+      "cleanup": {},
+      "status": "FAILED",
+      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+      "name": "assign_node_keyed_items",
+      "note": "**数据侧实测可用**的形状：外层键 = **节点编号** + 内层再套 `ITEMS`（含 `ID`）",
+      "outer_key": "1",
+      "http": 200,
+      "created": true,
+      "readback_keys": [
+        "CONSTRAINT",
+        "GROUP_NAME",
+        "ID"
+      ],
+      "cleanup": {
+        "uri": "/DB/CONS/1",
+        "status": 200,
+        "gone": true
+      },
+      "status": "PASSED",
+      "native_error": ""
+    },
+    {
+      "name": "assign_node_keyed_items_no_id",
+      "note": "同上但内层 `ITEMS` 条目**省略** `ID`（隔离「条目内 `ID` 是否必需」）",
+      "outer_key": "1",
+      "http": 200,
+      "created": true,
+      "readback_keys": [
+        "CONSTRAINT",
+        "GROUP_NAME",
+        "ID"
+      ],
+      "cleanup": {
+        "uri": "/DB/CONS/1",
+        "status": 200,
+        "gone": true
+      },
+      "status": "PASSED",
+      "native_error": ""
+    },
+    {
+      "name": "assign_node_keyed_item",
+      "note": "外层键 = **节点编号** + 条目**平铺**（**不**套 `ITEMS`）",
+      "outer_key": "1",
+      "http": 400,
+      "created": false,
+      "readback_keys": [],
+      "cleanup": {},
+      "status": "FAILED",
+      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+      "name": "assign_nonexistent_node_key",
+      "note": "外层键 = **不存在的**节点编号 ⇒ 预期**静默 `200` 而不落库**（假成功陷阱，R128）",
+      "outer_key": "1",
+      "http": 200,
+      "created": false,
+      "readback_keys": [],
+      "cleanup": {
+        "uri": "/DB/CONS/1",
+        "status": 200,
+        "gone": true
+      },
+      "status": "FAILED",
+      "native_error": ""
+    }
+  ],
+  "counts": {
+    "FAILED": 3,
+    "PASSED": 2
+  },
+  "verdict": "assign_node_keyed_items,assign_node_keyed_items_no_id",
+  "aborted": "",
+  "health_status": 200,
+  "sentinel_before": {
+    "/DB/NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "/DB/CONS": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "sentinel_after": {
+    "/DB/NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "/DB/CONS": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "cleanup": [
+    {
+      "uri": "/DB/NODE/1",
+      "status": 200,
+      "gone": true
+    },
+    {
+      "uri": "/DB/CONS/1",
+      "status": 200,
+      "gone": true
+    },
+    {
+      "uri": "/DB/CONS/1",
+      "status": 200,
+      "gone": true
+    },
+    {
+      "uri": "/DB/CONS/1",
+      "status": 200,
+      "gone": true
+    }
+  ],
+  "residue": {},
+  "allowed_residue": [],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/DB/NODE",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 400,
+      "body": {
+        "Assign": {
+          "ITEMS": [
+            {
+              "ID": 1,
+              "GROUP_NAME": "",
+              "CONSTRAINT": "1111000"
+            }
+          ]
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "1111000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/CONS/1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "GROUP_NAME": "",
+                "CONSTRAINT": "1111000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/CONS/1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 400,
+      "body": {
+        "Assign": {
+          "1": {
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1111000"
+          }
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "999999": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "1111000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/CONS/1",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/NODE/1",
+      "status": 200
+    }
+  ]
+}

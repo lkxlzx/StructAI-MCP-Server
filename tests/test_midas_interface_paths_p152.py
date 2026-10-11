@@ -60,17 +60,27 @@ MANIFEST_PATH = REPO_ROOT / "registry" / "manifest.json"
 
 CRITERION_VERSION = 1
 EXPECTED_ROWS = 13
-EXPECTED_COUNTS = {"PASSED": 4, "FAILED": 9}
+EXPECTED_COUNTS = {"PASSED": 11, "FAILED": 2}
+"""⚠️ **P154 同步（有实测依据）**：P152 当时是 `4 / 9`；P154 落地 **R126 裁决 A′**（扩
+`DB.MATL` 11 + `DB.SECT` 6 = **17** 个 canonical 字段）+ 修探针的节点几何（两节点坐标必须不同）
++ 补 `DB.CONS` 的 `group_name` 后重测 ⇒ **`11 / 2`**。断言**未**放宽，只同步数字。"""
 EXPECTED_BY_PATH = {
-    "add": {"PASSED": 1, "FAILED": 4},
-    "edit": {"PASSED": 1, "FAILED": 1},
-    "delete": {"PASSED": 2, "FAILED": 4},
+    "add": {"PASSED": 4, "FAILED": 1},
+    "edit": {"PASSED": 2},
+    "delete": {"PASSED": 5, "FAILED": 1},
 }
 EXPECTED_PASSED = (
+    ("add", "DB.ELEM"),
+    ("add", "DB.MATL"),
     ("add", "DB.NODE"),
-    ("edit", "DB.NODE"),
+    ("add", "DB.SECT"),
+    ("delete", "DB.ELEM"),
     ("delete", "DB.GRUP"),
+    ("delete", "DB.MATL"),
     ("delete", "DB.NODE"),
+    ("delete", "DB.SECT"),
+    ("edit", "DB.ELEM"),
+    ("edit", "DB.NODE"),
 )
 """本批**全部** `PASSED` 行（添加 / 编辑 / 删除三条路径各有证据）。"""
 
@@ -100,7 +110,11 @@ EXPECTED_MODEL_WRITE_TOTAL = 434
 """`model_write` 分母（本批**不得**改动）。"""
 
 FAILED_NATIVE_MARKERS = ("Wrong Field", "Unknown Error")
-"""本批实测到的原生拒绝文案（逐条进证据的 `native_error`）。"""
+"""原生拒绝文案（逐条进证据的 `native_error`）。
+
+⚠️ **P154 同步**：R126 的 A′ 落地后，原先的 `Wrong Field` ×3 / `Unknown Error` ×1 里
+**只剩 `DB.CONS` 的 `Wrong Field`**（`DB.ELEM` / `DB.MATL` / `DB.SECT` 已 `PASSED`）；
+`DB.SECT` 当时的 `Unknown Error` 已随字段集补齐而消失。成因另立 **R128**（请求体**形状**）。"""
 
 
 def _load(path: Path, name: str) -> Any:
@@ -305,7 +319,11 @@ def test_p152_every_failed_row_carries_its_native_cause() -> None:
 
 
 def test_p152_the_native_rejections_are_the_recorded_ones() -> None:
-    """门槛：原生拒绝文案 = `Wrong Field`（ELEM / MATL / CONS）· `Unknown Error`（SECT）。"""
+    """门槛：原生拒绝文案 = `Wrong Field`（`DB.CONS`）。
+
+    ⚠️ **P154 同步**：R126 的 A′ 落地后只剩 `DB.CONS` 一条（成因 = **R128** 的请求体**形状**，
+    **不是**字段集）—— 断言**未**放宽（仍要求「有原生文案且命中标记」），只同步端点集。
+    """
     texts: dict[str, set[str]] = {}
     for row in _rows():
         if row["status"] != "FAILED":
@@ -313,7 +331,7 @@ def test_p152_the_native_rejections_are_the_recorded_ones() -> None:
         for item in row["requests"]:
             if int(item["status"]) >= 400 and item.get("native_error"):
                 texts.setdefault(str(row["endpoint"]), set()).add(str(item["native_error"]))
-    assert set(texts) == {"DB.CONS", "DB.ELEM", "DB.MATL", "DB.SECT"}, texts
+    assert set(texts) == {"DB.CONS"}, texts
     for endpoint, values in texts.items():
         assert any(marker in text for text in values for marker in FAILED_NATIVE_MARKERS), (
             endpoint,

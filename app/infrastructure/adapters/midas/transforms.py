@@ -363,6 +363,12 @@ class MaterialTransformer(SchemaBoundTransformer):
 
     §28 的工程校验由 `validate_material()` 表达；`PARAM` 的首个元素承载材料参数
     （Schema 里 `PARAM` 是对象数组，字段名 `ELAST` / `POISN` / `DEN` / `MASS` / `THERMAL`）。
+
+    ⚠️ **R126 / P154 裁决 A′（2026-10-11）**：手册示例用了、原字段表**表达不了**的 **11** 个
+    原生字段已按裁决纳入 canonical（`registry/live/canonical_field_gap.json` 的
+    `options.A_extend_canonical_field_set`，canonical 名 = 该清单的 `canonical_hint`）。
+    这些字段**全部**已在数据侧请求 Schema 里声明（`item_fields()` 可查），故本改动**只**动
+    本字段表，**不**动 `registry/**`；取值仍**只**由调用方给出（**不**臆造默认值，见 §21 / §26）。
     """
 
     name = "midas.matl.v1"
@@ -375,6 +381,18 @@ class MaterialTransformer(SchemaBoundTransformer):
         FieldMap("density", "PARAM[].DEN"),
         FieldMap("mass_density", "PARAM[].MASS"),
         FieldMap("thermal_coefficient", "PARAM[].THERMAL"),
+        # ---- R126 / P154 A′：11 个原生字段（取值由调用方给出，**不**给默认值）----
+        FieldMap("he_spec", "HE_SPEC"),
+        FieldMap("he_cond", "HE_COND"),
+        FieldMap("plmt", "PLMT"),
+        FieldMap("p_name", "P_NAME"),
+        FieldMap("bmass_dens", "bMASS_DENS"),
+        FieldMap("damp_rat", "DAMP_RAT"),
+        FieldMap("p_type", "PARAM[].P_TYPE"),
+        FieldMap("standard", "PARAM[].STANDARD"),
+        FieldMap("code", "PARAM[].CODE"),
+        FieldMap("db", "PARAM[].DB"),
+        FieldMap("belast", "PARAM[].bELAST"),
     )
 
     def to_native(self, canonical: Mapping[str, Any]) -> dict[str, Any]:
@@ -388,6 +406,11 @@ class SectionTransformer(SchemaBoundTransformer):
 
     §30：截面**属性**计算（`/ope/SECTPROP`）**不**等于设计验算（`DESIGN.STEEL`）；
     本类只做截面定义的双向转换。
+
+    ⚠️ **R126 / P154 裁决 A′（2026-10-11）**：同 `MaterialTransformer` —— 手册示例用了、
+    原字段表**表达不了**的 **6** 个 `SECT_BEFORE.*` 原生字段已纳入 canonical（canonical 名 =
+    `canonical_field_gap.json` 的 `canonical_hint`）；**只**动本字段表，**不**动 `registry/**`，
+    **不**给默认值。
     """
 
     name = "midas.sect.v1"
@@ -397,6 +420,13 @@ class SectionTransformer(SchemaBoundTransformer):
         FieldMap("section_type", "SECTTYPE", required=True),
         FieldMap("shape", "SECT_BEFORE.SHAPE"),
         FieldMap("offset_point", "SECT_BEFORE.OFFSET_PT"),
+        # ---- R126 / P154 A′：6 个原生字段（取值由调用方给出，**不**给默认值）----
+        FieldMap("datatype", "SECT_BEFORE.DATATYPE"),
+        FieldMap("horz_offset_opt", "SECT_BEFORE.HORZ_OFFSET_OPT"),
+        FieldMap("vert_offset_opt", "SECT_BEFORE.VERT_OFFSET_OPT"),
+        FieldMap("use_shear_deform", "SECT_BEFORE.USE_SHEAR_DEFORM"),
+        FieldMap("use_warping_effect", "SECT_BEFORE.USE_WARPING_EFFECT"),
+        FieldMap("vsize", "SECT_BEFORE.SECT_I.vSIZE"),
     )
 
 

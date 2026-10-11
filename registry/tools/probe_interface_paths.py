@@ -185,7 +185,7 @@ EXERCISES: tuple[dict[str, Any], ...] = (
         "endpoint": "DB.ELEM",
         "operation": "MODEL.ELEMENT.CREATE",
         "query": "MODEL.ELEMENT.QUERY",
-        "preconditions": ("node", "node"),
+        "preconditions": ("node", "node", "material", "section"),
     },
     {
         "path": PATH_ADD,
@@ -222,7 +222,7 @@ EXERCISES: tuple[dict[str, Any], ...] = (
         "endpoint": "DB.ELEM",
         "operation": "MODEL.ELEMENT.UPDATE",
         "query": "MODEL.ELEMENT.QUERY",
-        "preconditions": ("node", "node"),
+        "preconditions": ("node", "node", "material", "section"),
     },
     # ---- 删除（`engineering_model_delete` ⇒ `DELETE {uri}/{id}`）----
     {
@@ -237,7 +237,7 @@ EXERCISES: tuple[dict[str, Any], ...] = (
         "endpoint": "DB.ELEM",
         "operation": "MODEL.ELEMENT.DELETE",
         "query": "MODEL.ELEMENT.QUERY",
-        "preconditions": ("node", "node"),
+        "preconditions": ("node", "node", "material", "section"),
     },
     {
         "path": PATH_DELETE,
@@ -486,53 +486,110 @@ def recon(repo: pathlib.Path) -> int:
 # ===== 规范化参数（**由接口层契约给出**；不臆造字段）=====
 
 
-def _node_parameters(own_id: str, *, x: float) -> dict[str, Any]:
+def _node_parameters(own_id: str, *, x: float, y: float = 2.0, z: float = 3.0) -> dict[str, Any]:
     """`MODEL.NODE.CREATE` / `UPDATE` 的规范化参数（`NodeTransformer` 的 canonical 键）。"""
-    return {"nodes": [{"id": own_id, "x": x, "y": 2.0, "z": 3.0}]}
+    return {"nodes": [{"id": own_id, "x": x, "y": y, "z": z}]}
 
 
 def _element_parameters(
-    own_id: str, *, nodes: Sequence[str], angle: float | None = None
+    own_id: str,
+    *,
+    nodes: Sequence[str],
+    materials: Sequence[str] = (),
+    sections: Sequence[str] = (),
+    angle: float | None = None,
 ) -> dict[str, Any]:
-    """`MODEL.ELEMENT.CREATE` / `UPDATE` 的规范化参数（`ElementTransformer` 的 canonical 键）。"""
+    """`MODEL.ELEMENT.CREATE` / `UPDATE` 的规范化参数（`ElementTransformer` 的 canonical 键）。
+
+    ⚠️ `material_id` / `section_id` **必须**引用**本批自建**的材质 / 截面编号
+    （P152 的 `FAILED` 就是空项目上没有可引用的编号 ⇒ 见 R126 的连带面）。
+    """
     item: dict[str, Any] = {
         "id": own_id,
         "type": "BEAM",
         "node_ids": [int(nodes[0]), int(nodes[1])],
     }
+    if materials:
+        item["material_id"] = int(materials[0])
+    if sections:
+        item["section_id"] = int(sections[0])
     if angle is not None:
         item["angle"] = angle
     return {"elements": [item]}
 
 
 def _material_parameters(own_id: str) -> dict[str, Any]:
-    """`MODEL.MATERIAL.ASSIGN` 的规范化参数（`MaterialTransformer` 的 canonical 键）。"""
+    """`MODEL.MATERIAL.ASSIGN` 的规范化参数（`MaterialTransformer` 的 canonical 键）。
+
+    ⚠️ **P154 裁决 A′**：除原有的 5 个字段外，另给出 R126 新纳入的 **11** 个原生字段的取值 ——
+    取值逐条取自**数据侧手册示例**（`registry/live/write_templates.json` 的 `DB.MATL.body`，
+    已被 `check_write_templates` 复算），**不**在 `app/**` 里给默认值（`transforms.py` §21 / §26）。
+    """
     return {
         "materials": [
             {
                 "id": own_id,
-                "name": f"P152M{own_id}",
+                "name": f"P154M{own_id}",
                 "type": "STEEL",
                 "elastic_modulus": 2.1e11,
                 "poisson_ratio": 0.3,
                 "density": 7850.0,
+                # ---- R126 / P154 A′（11 个字段；取值来源 = 手册示例）----
+                "he_spec": 0,
+                "he_cond": 0,
+                "plmt": 0,
+                "p_name": "",
+                "bmass_dens": False,
+                "damp_rat": 0.02,
+                "p_type": 1,
+                "standard": "EN05(S)",
+                "code": "",
+                "db": "S450",
+                "belast": False,
             }
         ]
     }
 
 
 def _section_parameters(own_id: str) -> dict[str, Any]:
-    """`MODEL.SECTION.ASSIGN` 的规范化参数（`SectionTransformer` 的 canonical 键）。"""
-    return {"sections": [{"id": own_id, "name": f"P152S{own_id}", "section_type": "DBUSER"}]}
+    """`MODEL.SECTION.ASSIGN` 的规范化参数（`SectionTransformer` 的 canonical 键）。
+
+    ⚠️ **P154 裁决 A′**：另给出 R126 新纳入的 **6** 个 `SECT_BEFORE.*` 字段（取值来源同
+    `_material_parameters` 的说明）。
+    """
+    return {
+        "sections": [
+            {
+                "id": own_id,
+                "name": f"P154S{own_id}",
+                "section_type": "DBUSER",
+                # ---- R126 / P154 A′（6 个字段；取值来源 = 手册示例）----
+                "shape": "SB",
+                "offset_point": "LT",
+                "datatype": 2,
+                "horz_offset_opt": 0,
+                "vert_offset_opt": 0,
+                "use_shear_deform": False,
+                "use_warping_effect": False,
+                "vsize": [1, 1],
+            }
+        ]
+    }
 
 
 def _boundary_parameters(own_id: str, *, nodes: Sequence[str]) -> dict[str, Any]:
-    """`MODEL.BOUNDARY.ASSIGN` 的规范化参数（canonical 键 + 六自由度；`docs/04` §31）。"""
+    """`MODEL.BOUNDARY.ASSIGN` 的规范化参数（canonical 键 + 六自由度；`docs/04` §31）。
+
+    ⚠️ **P154 / N1**：`group_name` 在 canonical 字段表里**一直存在**
+    （`BoundaryTransformer` 的 `FieldMap("group_name", "GROUP_NAME")`），P152 的探针**没传**它 ⇒
+    手册示例用的是**空串**（「不分组」，P139 实测：非空组名会 `400 Unknown Error`）。这里补上。
+    """
     return {
         "boundaries": [
             {
                 "id": own_id,
                 "node_id": int(nodes[0]),
+                "group_name": "",
                 "ux": True,
                 "uy": True,
                 "uz": True,
@@ -544,18 +601,46 @@ def _boundary_parameters(own_id: str, *, nodes: Sequence[str]) -> dict[str, Any]
     }
 
 
+PRECONDITION_KINDS: dict[str, tuple[str, str]] = {
+    "node": ("DB.NODE", "MODEL.NODE.CREATE"),
+    "material": ("DB.MATL", "MODEL.MATERIAL.ASSIGN"),
+    "section": ("DB.SECT", "MODEL.SECTION.ASSIGN"),
+}
+"""前置对象的种类 → `(端点 key, 创建类 Operation)`（`docs/07` §6.3）。"""
+
+
+def _precondition_parameters(kind: str, own_id: str, *, index: int = 0) -> dict[str, Any]:
+    """前置对象的规范化参数（按种类分派；未知种类 → 空，由调用方如实记缺口）。
+
+    ⚠️ **P154 实测**：`DB.ELEM` 的两个节点**必须坐标不同** —— 同一坐标 ⇒ 零长度单元 ⇒
+    原生 `400`「不能添加/编辑单元。单元 1 的几何形状不正确。」（**不是**契约缺口）。
+    这里让第 `index` 个节点沿 `-Z` 逐级下移（`0` / `-6` …），即 `docs/07` §13.5 的竖向构件。
+    """
+    if kind == "node":
+        return _node_parameters(own_id, x=0.0, y=0.0, z=-6.0 * index)
+    if kind == "material":
+        return _material_parameters(own_id)
+    if kind == "section":
+        return _section_parameters(own_id)
+    return {}
+
+
 def _parameters_for(
     endpoint: str,
     own_id: str,
     *,
     nodes: Sequence[str],
+    materials: Sequence[str] = (),
+    sections: Sequence[str] = (),
     edited: bool,
 ) -> dict[str, Any]:
     """该端点的规范化参数（`edited=True` ⇒ 编辑步骤的**改动过的值**）。"""
     if endpoint == "DB.NODE":
         return _node_parameters(own_id, x=2.0 if edited else 1.0)
     if endpoint == "DB.ELEM":
-        return _element_parameters(own_id, nodes=nodes, angle=1.0 if edited else None)
+        return _element_parameters(
+            own_id, nodes=nodes, materials=materials, sections=sections, angle=1.0 if edited else None
+        )
     if endpoint == "DB.MATL":
         return _material_parameters(own_id)
     if endpoint == "DB.SECT":
@@ -1131,20 +1216,29 @@ async def _exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any
 
         # ---- ② 前置对象（**只**碰自建编号；按声明顺序创建）----
         nodes: list[str] = []
+        materials: list[str] = []
+        sections: list[str] = []
+        buckets: dict[str, list[str]] = {
+            "node": nodes,
+            "material": materials,
+            "section": sections,
+        }
         for kind in exercise.get("preconditions") or ():
-            if kind != "node":
+            spec = PRECONDITION_KINDS.get(str(kind))
+            if spec is None:
                 continue
-            node_id = stack.next_id("DB.NODE")
+            endpoint_key, operation_name = spec
+            own = stack.next_id(endpoint_key)
             outcome = await stack.run_operation(
                 "engineering_model_assign",
-                "MODEL.NODE.CREATE",
-                _node_parameters(node_id, x=0.0),
+                operation_name,
+                _precondition_parameters(str(kind), own, index=len(created_preconditions)),
             )
             if outcome["error"] or outcome["response"].get("success") is not True:
                 row["detail"] = f"precondition_failed:{outcome['error']}"
                 return row
-            nodes.append(node_id)
-            created_preconditions.append({"endpoint": "DB.NODE", "id": node_id})
+            buckets[str(kind)].append(own)
+            created_preconditions.append({"endpoint": endpoint_key, "id": own})
         row["preconditions"] = list(created_preconditions)
 
         # ---- ③ 自建编号 ----
@@ -1156,7 +1250,7 @@ async def _exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any
         row["own_id"] = own_id
 
         if path == PATH_DELETE:
-            prepared = await _prepare_for_delete(stack, endpoint, own_id, nodes)
+            prepared = await _prepare_for_delete(stack, endpoint, own_id, nodes, materials, sections)
             row["write"] = prepared["write"]
             may_exist = bool(prepared["may_exist"])
             if prepared["detail"]:
@@ -1183,7 +1277,14 @@ async def _exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any
             created = await stack.run_operation(
                 "engineering_model_assign",
                 CREATE_OPERATION_BY_ENDPOINT[endpoint],
-                _parameters_for(endpoint, own_id, nodes=nodes, edited=False),
+                _parameters_for(
+                    endpoint,
+                    own_id,
+                    nodes=nodes,
+                    materials=materials,
+                    sections=sections,
+                    edited=False,
+                ),
             )
             create_http = _last_status(created["requests"])
             row["write"] = {
@@ -1204,7 +1305,14 @@ async def _exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any
                     edited = await stack.run_operation(
                         tool,
                         operation,
-                        _parameters_for(endpoint, own_id, nodes=nodes, edited=True),
+                        _parameters_for(
+                            endpoint,
+                            own_id,
+                            nodes=nodes,
+                            materials=materials,
+                            sections=sections,
+                            edited=True,
+                        ),
                     )
                     field, expected = _expected_value(endpoint)
                     row["edit"] = {
@@ -1231,7 +1339,7 @@ async def _exercise(stack: _Stack, exercise: Mapping[str, Any]) -> dict[str, Any
         # ---- ④ 清理（**一律**尝试；只碰自建编号；以「再读确认不在」为准）----
         if own_id and (may_exist or (row.get("cleanup") or {}).get("gone") is False):
             await _finalize(stack, endpoint, query, own_id, row)
-        await _cleanup_nodes(stack, created_preconditions)
+        await _cleanup_preconditions(stack, created_preconditions)
         row["requests"] = list(stack.log)
 
 
@@ -1286,6 +1394,8 @@ async def _prepare_for_delete(
     endpoint: str,
     own_id: str,
     nodes: Sequence[str],
+    materials: Sequence[str] = (),
+    sections: Sequence[str] = (),
 ) -> dict[str, Any]:
     """删除路径的**前置创建**（经接口层；`DB.GRUP` 无创建 Operation ⇒ 声明为原生前置）。
 
@@ -1315,7 +1425,9 @@ async def _prepare_for_delete(
     created = await stack.run_operation(
         "engineering_model_assign",
         CREATE_OPERATION_BY_ENDPOINT[endpoint],
-        _parameters_for(endpoint, own_id, nodes=nodes, edited=False),
+        _parameters_for(
+            endpoint, own_id, nodes=nodes, materials=materials, sections=sections, edited=False
+        ),
     )
     status = _last_status(created["requests"])
     return {
@@ -1329,15 +1441,21 @@ async def _prepare_for_delete(
     }
 
 
-async def _cleanup_nodes(stack: _Stack, created: Sequence[Mapping[str, str]]) -> None:
-    """逆序回收前置节点（**再读确认不在**；失败只记不抛）。"""
+async def _cleanup_preconditions(stack: _Stack, created: Sequence[Mapping[str, str]]) -> None:
+    """**逆序**回收前置对象（节点 / 材质 / 截面；**再读确认不在**；失败只记不抛）。
+
+    ⚠️ 顺序不可换：`DB.ELEM` 引用材质 / 截面 ⇒ 目标先删、前置**逆序**再删
+    （声明顺序 `node, node, material, section` ⇒ 回收顺序 `section, material, node, node`）。
+    """
     for item in reversed(list(created)):
-        if str(item.get("endpoint")) != "DB.NODE":
+        endpoint = str(item.get("endpoint"))
+        operation = DELETE_OPERATION_BY_ENDPOINT.get(endpoint)
+        if operation is None:
             continue
         try:
             await stack.run_operation(
                 "engineering_model_delete",
-                "MODEL.NODE.DELETE",
+                operation,
                 {"item_ids": [str(item.get("id"))]},
                 confirm=True,
             )

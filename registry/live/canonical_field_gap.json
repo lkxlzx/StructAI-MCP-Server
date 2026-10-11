@@ -12,21 +12,20 @@
     "template_endpoints": 71,
     "with_transformer": 10,
     "without_transformer": 61,
-    "field_set_gap": 4,
-    "value_gap": 2,
+    "field_set_gap": 2,
+    "value_gap": 3,
     "no_canonical_model": 61,
-    "covered": 4
+    "covered": 5
   },
   "buckets": {
     "field_set_gap": [
       "DB.BMLD",
-      "DB.MATL",
-      "DB.PRES",
-      "DB.SECT"
+      "DB.PRES"
     ],
     "value_gap": [
       "DB.CONS",
-      "DB.ELEM"
+      "DB.ELEM",
+      "DB.MATL"
     ],
     "no_canonical_model": [
       "DB.BNGR",
@@ -95,6 +94,7 @@
       "DB.BODF",
       "DB.CNLD",
       "DB.FBLD",
+      "DB.SECT",
       "DB.STLD"
     ]
   },
@@ -108,78 +108,21 @@
       "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
     },
     {
-      "endpoint": "DB.ELEM",
-      "operation": "MODEL.ELEMENT.CREATE",
-      "path": "add",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
-      "endpoint": "DB.MATL",
-      "operation": "MODEL.MATERIAL.ASSIGN",
-      "path": "add",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
-      "endpoint": "DB.SECT",
-      "operation": "MODEL.SECTION.ASSIGN",
-      "path": "add",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
-    },
-    {
-      "endpoint": "DB.ELEM",
-      "operation": "MODEL.ELEMENT.UPDATE",
-      "path": "edit",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
       "endpoint": "DB.CONS",
       "operation": "MODEL.BOUNDARY.DELETE",
       "path": "delete",
       "native_status": 400,
       "native_reason": "software_api_error",
       "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
-      "endpoint": "DB.ELEM",
-      "operation": "MODEL.ELEMENT.DELETE",
-      "path": "delete",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
-      "endpoint": "DB.MATL",
-      "operation": "MODEL.MATERIAL.DELETE",
-      "path": "delete",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
-    },
-    {
-      "endpoint": "DB.SECT",
-      "operation": "MODEL.SECTION.DELETE",
-      "path": "delete",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
     }
   ],
   "measured_endpoints": [
-    "DB.CONS",
-    "DB.ELEM",
-    "DB.MATL",
-    "DB.SECT"
+    "DB.CONS"
   ],
   "newly_discovered": [
     "DB.BMLD",
+    "DB.ELEM",
+    "DB.MATL",
     "DB.PRES"
   ],
   "newly_discovered_note": "同一算法在**有 Transformer 的模板端点**上扫出的、P152 **未**实测过原生拒绝的端点（⇒ 只是字段差集，**不**声称会被拒；要断言必须再跑一次接口层 `--probe`）。",
@@ -188,9 +131,7 @@
       "note": "扩 canonical 字段集（`docs/04` §20–§31）—— 需同步 Operation 输入 Schema与 9 Tool Contract；**超出**本批授权（P153 只做输入）。",
       "endpoints": [
         "DB.BMLD",
-        "DB.MATL",
-        "DB.PRES",
-        "DB.SECT"
+        "DB.PRES"
       ],
       "per_endpoint": {
         "DB.BMLD": [
@@ -215,99 +156,10 @@
             "required": false
           }
         ],
-        "DB.MATL": [
-          {
-            "native": "CODE",
-            "canonical_hint": "code",
-            "required": false
-          },
-          {
-            "native": "DAMP_RAT",
-            "canonical_hint": "damp_rat",
-            "required": false
-          },
-          {
-            "native": "DB",
-            "canonical_hint": "db",
-            "required": false
-          },
-          {
-            "native": "HE_COND",
-            "canonical_hint": "he_cond",
-            "required": false
-          },
-          {
-            "native": "HE_SPEC",
-            "canonical_hint": "he_spec",
-            "required": false
-          },
-          {
-            "native": "PLMT",
-            "canonical_hint": "plmt",
-            "required": false
-          },
-          {
-            "native": "P_NAME",
-            "canonical_hint": "p_name",
-            "required": false
-          },
-          {
-            "native": "P_TYPE",
-            "canonical_hint": "p_type",
-            "required": false
-          },
-          {
-            "native": "STANDARD",
-            "canonical_hint": "standard",
-            "required": false
-          },
-          {
-            "native": "bELAST",
-            "canonical_hint": "belast",
-            "required": false
-          },
-          {
-            "native": "bMASS_DENS",
-            "canonical_hint": "bmass_dens",
-            "required": false
-          }
-        ],
         "DB.PRES": [
           {
             "native": "GROUP_NAME",
             "canonical_hint": "group_name",
-            "required": false
-          }
-        ],
-        "DB.SECT": [
-          {
-            "native": "DATATYPE",
-            "canonical_hint": "datatype",
-            "required": false
-          },
-          {
-            "native": "HORZ_OFFSET_OPT",
-            "canonical_hint": "horz_offset_opt",
-            "required": false
-          },
-          {
-            "native": "USE_SHEAR_DEFORM",
-            "canonical_hint": "use_shear_deform",
-            "required": false
-          },
-          {
-            "native": "USE_WARPING_EFFECT",
-            "canonical_hint": "use_warping_effect",
-            "required": false
-          },
-          {
-            "native": "VERT_OFFSET_OPT",
-            "canonical_hint": "vert_offset_opt",
-            "required": false
-          },
-          {
-            "native": "vSIZE",
-            "canonical_hint": "vsize",
             "required": false
           }
         ]
@@ -322,9 +174,7 @@
       "note": "**显式**允许「按手册示例补原生必填字段」的例外 —— 直接违反既有裁决「**不**臆造字段 / **不**虚构 `0`」（`transforms.py` §21 / §26 / §31），属**放宽**判定 ⇒ 必须由产品**显式**裁决。",
       "endpoints": [
         "DB.BMLD",
-        "DB.MATL",
-        "DB.PRES",
-        "DB.SECT"
+        "DB.PRES"
       ],
       "per_endpoint": {
         "DB.BMLD": [
@@ -349,100 +199,11 @@
             "canonical_hint": "use_projection"
           }
         ],
-        "DB.MATL": [
-          {
-            "native": "CODE",
-            "manual_example_value": "",
-            "canonical_hint": "code"
-          },
-          {
-            "native": "DAMP_RAT",
-            "manual_example_value": 0.02,
-            "canonical_hint": "damp_rat"
-          },
-          {
-            "native": "DB",
-            "manual_example_value": "S450",
-            "canonical_hint": "db"
-          },
-          {
-            "native": "HE_COND",
-            "manual_example_value": 0,
-            "canonical_hint": "he_cond"
-          },
-          {
-            "native": "HE_SPEC",
-            "manual_example_value": 0,
-            "canonical_hint": "he_spec"
-          },
-          {
-            "native": "PLMT",
-            "manual_example_value": 0,
-            "canonical_hint": "plmt"
-          },
-          {
-            "native": "P_NAME",
-            "manual_example_value": "",
-            "canonical_hint": "p_name"
-          },
-          {
-            "native": "P_TYPE",
-            "manual_example_value": 1,
-            "canonical_hint": "p_type"
-          },
-          {
-            "native": "STANDARD",
-            "manual_example_value": "EN05(S)",
-            "canonical_hint": "standard"
-          },
-          {
-            "native": "bELAST",
-            "manual_example_value": false,
-            "canonical_hint": "belast"
-          },
-          {
-            "native": "bMASS_DENS",
-            "manual_example_value": false,
-            "canonical_hint": "bmass_dens"
-          }
-        ],
         "DB.PRES": [
           {
             "native": "GROUP_NAME",
             "manual_example_value": "",
             "canonical_hint": "group_name"
-          }
-        ],
-        "DB.SECT": [
-          {
-            "native": "DATATYPE",
-            "manual_example_value": 2,
-            "canonical_hint": "datatype"
-          },
-          {
-            "native": "HORZ_OFFSET_OPT",
-            "manual_example_value": 0,
-            "canonical_hint": "horz_offset_opt"
-          },
-          {
-            "native": "USE_SHEAR_DEFORM",
-            "manual_example_value": false,
-            "canonical_hint": "use_shear_deform"
-          },
-          {
-            "native": "USE_WARPING_EFFECT",
-            "manual_example_value": false,
-            "canonical_hint": "use_warping_effect"
-          },
-          {
-            "native": "VERT_OFFSET_OPT",
-            "manual_example_value": 0,
-            "canonical_hint": "vert_offset_opt"
-          },
-          {
-            "native": "vSIZE",
-            "manual_example_value": 1,
-            "canonical_hint": "vsize"
           }
         ]
       },
@@ -454,9 +215,7 @@
   },
   "value_gaps": {
     "DB.CONS": {
-      "unfilled_expressible": [
-        "GROUP_NAME"
-      ],
+      "unfilled_expressible": [],
       "value_shape": [
         {
           "field": "CONSTRAINT",
@@ -470,9 +229,7 @@
     },
     "DB.ELEM": {
       "unfilled_expressible": [
-        "ANGLE",
-        "MATL",
-        "SECT"
+        "ANGLE"
       ],
       "value_shape": [],
       "note": "字段**已在** canonical 里（或由 Transformer 合成），接口层实测 body 里没有值 / 形态不同 ⇒ 成因是**前置对象 / 取值**，**不是**字段集缺口；**不**并入「二选一」方案。"
@@ -481,14 +238,6 @@
       "unfilled_expressible": [
         "MASS",
         "THERMAL"
-      ],
-      "value_shape": [],
-      "note": "字段**已在** canonical 里（或由 Transformer 合成），接口层实测 body 里没有值 / 形态不同 ⇒ 成因是**前置对象 / 取值**，**不是**字段集缺口；**不**并入「二选一」方案。"
-    },
-    "DB.SECT": {
-      "unfilled_expressible": [
-        "OFFSET_PT",
-        "SHAPE"
       ],
       "value_shape": [],
       "note": "字段**已在** canonical 里（或由 Transformer 合成），接口层实测 body 里没有值 / 形态不同 ⇒ 成因是**前置对象 / 取值**，**不是**字段集缺口；**不**并入「二选一」方案。"
@@ -1756,16 +1505,16 @@
       ],
       "interface_keys": [
         "CONSTRAINT",
+        "GROUP_NAME",
         "ID"
       ],
       "interface_body": {
+        "GROUP_NAME": "",
         "ID": 1,
         "CONSTRAINT": "111000"
       },
       "missing_in_canonical": [],
-      "unfilled_expressible": [
-        "GROUP_NAME"
-      ],
+      "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [
         {
@@ -2084,21 +1833,23 @@
         "TYPE"
       ],
       "interface_keys": [
+        "MATL",
         "NODE",
+        "SECT",
         "TYPE"
       ],
       "interface_body": {
+        "MATL": 1,
         "NODE": [
           1,
           2
         ],
+        "SECT": 1,
         "TYPE": "BEAM"
       },
       "missing_in_canonical": [],
       "unfilled_expressible": [
-        "ANGLE",
-        "MATL",
-        "SECT"
+        "ANGLE"
       ],
       "extra_in_canonical": [],
       "value_shape": [],
@@ -2809,68 +2560,111 @@
         "bMASS_DENS"
       ],
       "expressible_keys": [
+        "CODE",
+        "DAMP_RAT",
+        "DB",
         "DEN",
         "ELAST",
+        "HE_COND",
+        "HE_SPEC",
         "MASS",
         "NAME",
+        "PLMT",
         "POISN",
+        "P_NAME",
+        "P_TYPE",
+        "STANDARD",
         "THERMAL",
-        "TYPE"
+        "TYPE",
+        "bELAST",
+        "bMASS_DENS"
       ],
       "declared_keys": [
+        "CODE",
+        "DAMP_RAT",
+        "DB",
         "DEN",
         "ELAST",
+        "HE_COND",
+        "HE_SPEC",
         "MASS",
         "NAME",
+        "PLMT",
         "POISN",
+        "P_NAME",
+        "P_TYPE",
+        "STANDARD",
         "THERMAL",
-        "TYPE"
+        "TYPE",
+        "bELAST",
+        "bMASS_DENS"
       ],
       "synthesized_keys": [],
       "expressible_paths": [
+        "DAMP_RAT",
+        "HE_COND",
+        "HE_SPEC",
         "NAME",
+        "PARAM[].CODE",
+        "PARAM[].DB",
         "PARAM[].DEN",
         "PARAM[].ELAST",
         "PARAM[].MASS",
         "PARAM[].POISN",
+        "PARAM[].P_TYPE",
+        "PARAM[].STANDARD",
         "PARAM[].THERMAL",
-        "TYPE"
+        "PARAM[].bELAST",
+        "PLMT",
+        "P_NAME",
+        "TYPE",
+        "bMASS_DENS"
       ],
       "required_paths": [
         "NAME",
         "TYPE"
       ],
       "interface_keys": [
+        "CODE",
+        "DAMP_RAT",
+        "DB",
         "DEN",
         "ELAST",
+        "HE_COND",
+        "HE_SPEC",
         "NAME",
+        "PLMT",
         "POISN",
-        "TYPE"
+        "P_NAME",
+        "P_TYPE",
+        "STANDARD",
+        "TYPE",
+        "bELAST",
+        "bMASS_DENS"
       ],
       "interface_body": {
         "PARAM": [
           {
+            "bELAST": false,
+            "CODE": "",
+            "DB": "S450",
             "DEN": 7850.0,
             "ELAST": 210000000000.0,
-            "POISN": 0.3
+            "P_TYPE": 1,
+            "POISN": 0.3,
+            "STANDARD": "EN05(S)"
           }
         ],
-        "NAME": "P152M1",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.02,
+        "HE_COND": 0,
+        "HE_SPEC": 0,
+        "NAME": "P154M1",
+        "P_NAME": "",
+        "PLMT": 0,
         "TYPE": "STEEL"
       },
-      "missing_in_canonical": [
-        "CODE",
-        "DAMP_RAT",
-        "DB",
-        "HE_COND",
-        "HE_SPEC",
-        "PLMT",
-        "P_NAME",
-        "P_TYPE",
-        "STANDARD",
-        "bELAST",
-        "bMASS_DENS"
-      ],
+      "missing_in_canonical": [],
       "unfilled_expressible": [
         "MASS",
         "THERMAL"
@@ -2882,7 +2676,7 @@
         "THERMAL"
       ],
       "value_shape": [],
-      "gap_class": "field_set_gap"
+      "gap_class": "value_gap"
     },
     {
       "endpoint": "DB.MBTP",
@@ -4754,22 +4548,40 @@
         "SECT_NAME"
       ],
       "expressible_keys": [
+        "DATATYPE",
+        "HORZ_OFFSET_OPT",
         "OFFSET_PT",
         "SECTTYPE",
         "SECT_NAME",
-        "SHAPE"
+        "SHAPE",
+        "USE_SHEAR_DEFORM",
+        "USE_WARPING_EFFECT",
+        "VERT_OFFSET_OPT",
+        "vSIZE"
       ],
       "declared_keys": [
+        "DATATYPE",
+        "HORZ_OFFSET_OPT",
         "OFFSET_PT",
         "SECTTYPE",
         "SECT_NAME",
-        "SHAPE"
+        "SHAPE",
+        "USE_SHEAR_DEFORM",
+        "USE_WARPING_EFFECT",
+        "VERT_OFFSET_OPT",
+        "vSIZE"
       ],
       "synthesized_keys": [],
       "expressible_paths": [
         "SECTTYPE",
+        "SECT_BEFORE.DATATYPE",
+        "SECT_BEFORE.HORZ_OFFSET_OPT",
         "SECT_BEFORE.OFFSET_PT",
+        "SECT_BEFORE.SECT_I.vSIZE",
         "SECT_BEFORE.SHAPE",
+        "SECT_BEFORE.USE_SHEAR_DEFORM",
+        "SECT_BEFORE.USE_WARPING_EFFECT",
+        "SECT_BEFORE.VERT_OFFSET_OPT",
         "SECT_NAME"
       ],
       "required_paths": [
@@ -4777,28 +4589,41 @@
         "SECT_NAME"
       ],
       "interface_keys": [
-        "SECTTYPE",
-        "SECT_NAME"
-      ],
-      "interface_body": {
-        "SECT_NAME": "P152S1",
-        "SECTTYPE": "DBUSER"
-      },
-      "missing_in_canonical": [
         "DATATYPE",
         "HORZ_OFFSET_OPT",
+        "OFFSET_PT",
+        "SECTTYPE",
+        "SECT_NAME",
+        "SHAPE",
         "USE_SHEAR_DEFORM",
         "USE_WARPING_EFFECT",
         "VERT_OFFSET_OPT",
         "vSIZE"
       ],
-      "unfilled_expressible": [
-        "OFFSET_PT",
-        "SHAPE"
-      ],
+      "interface_body": {
+        "SECT_BEFORE": {
+          "DATATYPE": 2,
+          "HORZ_OFFSET_OPT": 0,
+          "OFFSET_PT": "LT",
+          "SHAPE": "SB",
+          "USE_SHEAR_DEFORM": false,
+          "USE_WARPING_EFFECT": false,
+          "VERT_OFFSET_OPT": 0,
+          "SECT_I": {
+            "vSIZE": [
+              1,
+              1
+            ]
+          }
+        },
+        "SECT_NAME": "P154S1",
+        "SECTTYPE": "DBUSER"
+      },
+      "missing_in_canonical": [],
+      "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [],
-      "gap_class": "field_set_gap"
+      "gap_class": "covered"
     },
     {
       "endpoint": "DB.SMCT",
