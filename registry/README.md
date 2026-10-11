@@ -218,7 +218,13 @@ CIVIL NX **62** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25
 证据 = `registry/live/introspect_field_diff.json`（含自省**原文** ⇒ `--write` / `--check` 可**离线**复算）；
 复算工具 = `registry/tools/sync_introspect_fields.py`（`--probe` **只发 `GET`** / `--write` / `--check`）。
 
-### 2.5 写路径「编辑（PUT）」判据（R118 / P150）
+⚠️ **R122 / R125（P151 只读实测）**：`DB.KFAC` 需 **CIVIL_DESIGNER** 自省来源，而 `designer-cloud`
+**当前不可用** —— `GET /` · `/DB/NODE` · `/info/db/KFAC` · `/info/db/NODE` · `/KFAC` **全部**
+`404 {"error":{"message":"client does not exist"}}`（**会话 / 客户端级**失败，**不是**端点级 `404`）
+⇒ `--probe` **未**在该实例上跑（证据的 `instance` 是 `gen-local`，混跑会**污染**证据）；
+`DB.KFAC` 的留缺条件**不变**（`DB.SSEIS` / `DB.SWIND` 仍需 **MIDAS 侧**澄清布局）。
+
+### 2.5 写路径「编辑（PUT）」判据（R118 / P150；**P151 续跑前置链** + **R120 别名清理**）
 
 L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（编辑）没有判据**。P150 补上：
 
@@ -229,18 +235,32 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
 * 改动值**机械**选定：按 body 声明顺序深度优先，取**第一个** `boolean`（翻面）或**第一个**无
   `enum` / `const` 的 `number` / `integer`（`+1`）⇒ `--check` 可**离线**复算。
 * 目标集 **71**（有数据侧模板 ∧ GEN NX 有 `PUT` / `DELETE` / `GET` / `read_root` ∧ 已启用 ∧ 非破坏性）；
-  本批实测**零前置链的 56** 个 ⇒ **37** `PASSED` · **14** `LEFT_OUT` · **5** `FAILED`；
-  带前置链的 **15** 个如实留缺（`prerequisite_chain_out_of_scope`）。
+  **P150** 实测**零前置链的 56** 个（**37** `PASSED` · **14** `LEFT_OUT` · **5** `FAILED`）；
+  **P151 续跑**带前置链的 **15** 个（**5** `PASSED` · **9** `LEFT_OUT` · **1** `FAILED` = **R124**）
+  ⇒ 子桶合计 **71** 行 = **42** `PASSED` + **23** `LEFT_OUT` + **6** `FAILED`，**留缺为空**。
+* **前置链（P151）沿用 L5 的机制**：声明（`prerequisites` / `references` / `self_references` /
+  `target_id_source` / `id_source`）由 `app/.../write_templates.py` **唯一**解析；编号**一律重新分配**
+  （该端点既有编号的 `max + 1`；`id_source = "target"` 的前置取**目标**编号；目标可用
+  `target_id_source` **反向**取某个前置的编号），**按声明顺序创建**、目标清理后**逆序**删除，
+  **只**碰自建编号；`plan_chain()` 与 L5 的 `_plan()` 的**等价性**由测试逐条断言（空 + 非空快照）。
 * **两个侦察答案**：PUT 的 body 形状 = **与创建同一形状**（`assign_keyed_item`）；
-  **PUT 不要求记录已存在**（upsert，**37 / 37** 实测）⇒ 与 **R116** 互相印证。
+  **PUT 不要求记录已存在**（upsert，**42 / 42** 实测）⇒ 与 **R116** 互相印证。
 * ⚠️ **残留如实披露（不声称零残留）**：本 build 的 `DELETE` 会**返回 `200` 并回显被删记录却不真正
-  删除** ⇒ 判据以「**再读确认不在**」为准；`DESIGN.*` 别名路由（`DESIGN.RC.DRC` /
-  `DESIGN.RC.KDS-41-20-2022.DCTL` / `DESIGN.STEEL.DSTL`）的 `DELETE` **不生效**（已按**同表 `DB.*` 路由**
-  清理），`/DESIGN/SRC/AIK-SRC2K/DSRC` **无** `DB.*` 别名、**无法清除**（`residue` + `allowed_residue` 披露）。
+  删除** ⇒ 判据以「**再读确认不在**」为准；哨兵 = **全部目标 ∪ 全部前置端点**（**72** 个，P151 起）；
+  `/DESIGN/SRC/AIK-SRC2K/DSRC` **无** `DB.*` 别名、**无法清除**（`residue` + `allowed_residue` 披露）。
+* **R120：别名路由的清理路径（P151 工具化）**：`DESIGN.*` 别名路由的 `DELETE` **不生效** ⇒ 清理走
+  **同表 `DB.*` 路由**；映射**必须来自实测**（`--probe-aliases`：自建编号经别名路由创建 ⇒ 出现在同表
+  `DB.*` 路由的读回块里 ⇒ `DB.*` 路由 `DELETE` 后**两个**路由再读均不在）。实测 **3** 对
+  （`/DESIGN/RC/DRC` ↔ `/DB/DCON` · `/DESIGN/RC/KDS-41-20-2022/DCTL` ↔ `/DB/DCTL` ·
+  `/DESIGN/STEEL/DSTL` ↔ `/DB/DSTL`）全部 `same_table_observed = true` ·
+  `alias_delete_effective = false` · `db_delete_effective = true` · `delete_confirmed = true`。
+  逐行 `delete_state` **区分**「删除已确认」（`delete_confirmed`）/「别名清理已确认」
+  （`delete_confirmed_via_alias`）/「删除未确认」（`delete_unconfirmed` ⇒ **必须在 `residue` 里披露**）。
 * **分桶**：与 R107 的取设置表判据**分开**，**不**并入 L5 三步链的覆盖率分子
   （`write_path_coverage()` **不变**）。证据 = `registry/live/put_edit_probe.json`；
-  复算工具 = `registry/tools/probe_put_edits.py`（`--probe` 有界侦察 / `--check`；
-  `--allow-residue` **只**放行**已披露**的残留 key，其余跑前非空一律**中止**）。
+  复算工具 = `registry/tools/probe_put_edits.py`（`--probe` 有界侦察（**分块 ≤ 10** + 块间只读健康检查）/
+  `--probe-aliases` **R120 实测 + 收尾清理** / `--check` / `--summary`；`--allow-residue` **只**放行
+  **已披露**的残留 key，其余跑前非空一律**中止**）。
 
 
 ## 3. 统计
@@ -1000,3 +1020,35 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
   `tests/test_midas_put_edits_p150.py`（**9** 项）·
   `tests/test_midas_singleton_tables_p149d.py::test_p150r119_every_gap_carries_a_recovery_condition`（**1** 项）·
   `docs/reports/P150_接口Schema覆盖收口与写路径编辑判据_v1.0.md`。
+
+**⑰ P151：写路径「编辑（PUT）」判据续跑（15 个带前置链端点）+ R120 别名路由清理工具化（接 ⑯）**：
+
+- **R118 续跑（主）**：⑯ 只实测**零前置链的 56** 个，带前置链的 **15** 个如实留缺；本批**同一判据、
+  同一证据文件**续跑那 15 个 ⇒ **5** `PASSED`（`DB.ELEM` / `DB.LENG` / `DB.NMAS` / `DB.PDEL` /
+  `DB.TDNT`）· **9** `LEFT_OUT`（`no_editable_scalar`）· **1** `FAILED`（`DB.EFCT`，**R124**：
+  三种形状全 `400`）⇒ 子桶合计 **71** 行 = **42** `PASSED` + **23** `LEFT_OUT` + **6** `FAILED`，
+  `left_out_prerequisite_chain` **空**（带链端点**全部**取得结论）。
+- **前置链沿用 L5 的机制**（**不**重写判定点）：声明由 `app/.../write_templates.py` **唯一**解析；
+  编号**一律重新分配**（该端点既有编号的 `max + 1`；`id_source = "target"` 的前置取**目标**编号；
+  目标可用 `target_id_source` **反向**取前置编号）；**按声明顺序创建**、目标清理后**逆序**删除；
+  **只**碰自建编号；删除一律以「**再读确认不在**」为准。工具 `plan_chain()` 与 L5 的 `_plan()` 的
+  **等价性**由测试逐条断言（空项目 + **非空**快照，目标编号 + 每个前置编号 + 每个请求体**逐字节**）。
+- **哨兵口径升级**：跑前 / 跑后只读哨兵 = **全部目标 ∪ 全部前置端点** = **72** 个（新增 `DB.NODE` ——
+  它**只**作为前置出现、**不在**目标集里）；跑前用 `--allow-residue` 显式放行**已披露**的残留，
+  跑后非空**仍然只有**它 ⇒ **零新增残留**、**未**中止、**未**崩溃（**3** 块 1 / 10 / 4 + 块间健康检查）。
+- **R120 工具化（次）**：`DESIGN.*` 别名路由的清理路径 = **同表 `DB.*` 路由**，映射**必须来自实测**
+  （`--probe-aliases`：自建编号经别名路由创建 ⇒ 出现在同表 `DB.*` 路由的读回块里 ⇒ `DB.*` 路由
+  `DELETE` 后**两个**路由再读均不在）。实测 **3** 对全部 `same_table_observed = true` ·
+  `alias_delete_effective = false` · `db_delete_effective = true` · `delete_confirmed = true`；
+  证据的 `alias_cleanup` 块 + 逐行 `delete_state` **区分**「删除已确认」/「别名清理已确认」/
+  「删除未确认」（**未**确认的**必须**在 `residue` 里如实披露）⇒ 收尾步骤**可离线复算**。
+- **R122**：`designer-cloud` **当前不可用**（**全部**路径含根路径 `404 client does not exist` ⇒
+  **会话 / 客户端级**失败）⇒ `DB.KFAC` 的 CIVIL_DESIGNER 自省来源仍缺，**如实保持留缺**（**R125**）；
+  `--probe` **未**在该实例上跑（**不**污染 `gen-local` 的证据）。
+- **计数**：**唯一**变化的钉住计数 = R118 子桶（56 → **71** 行；`37 / 14 / 5` → **`42 / 23 / 6`**）；
+  其余**全部不变** —— 端点 **636** · Schema 文件 **625** · 模板 **71** / body **115** ·
+  `availability: verified` **493** · 响应 Schema 行 **317** · **`live.write_path_coverage()` 仍 `72 / 633`**
+  （`model_write_ratio` **`72 / 434`**）· 候选 **72 / 62 / 0** · blocked **501 / 438 / 31** · 留缺账本 **178**。
+- 可执行判定 = `tests/test_midas_put_edits_p151.py`（**9** 项；含 L5 等价性与 R120 三态）·
+  `tests/test_midas_put_edits_p150.py`（**9** 项，计数同步、**未**放宽）·
+  `docs/reports/P151_写路径编辑判据前置链续跑与别名路由清理工具化_v1.0.md`。

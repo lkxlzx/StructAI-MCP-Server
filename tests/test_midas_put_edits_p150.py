@@ -6,20 +6,23 @@ L5 三步链只覆盖「**创建** → 读回 → 按路径 key **删除**」（
 **PUT（编辑）没有判据**。本文件把 R118 的判据与证据钉成**可执行**的：
 
 1. **目标集逐条可复算**：**71** 个「有数据侧模板 ∧ GEN NX 有 `PUT` ∧ 有 `DELETE` / `GET` /
-   `read_root` ∧ 已启用」的端点；其中**零前置链 56** 个本批可探、**15** 个带前置链如实留缺
-   （`prerequisite_chain_out_of_scope`；前置链与 L5 同一机制，本批不重复实现）。
-2. **证据诚实**：**56** 行；`verdict` = **37** `PASSED` + **14** `LEFT_OUT` + **5** `FAILED`；
-   `aborted` 为空；`criterion_version` = **3**；实例 = `gen-local` / `GEN_NX` / `2026-10-11`。
-3. **侦察问题①（PUT 的 body 形状）**：**37 / 37** `PASSED` 都用 `assign_keyed_item`
+   `read_root` ∧ 已启用」的端点；**56** 个零前置链 + **15** 个带前置链 —— P150 把后者记为
+   「留缺」，**P151 已续跑**（同一判据、同一证据文件）⇒ 本文件只保留「数据侧有 15 个带链端点」
+   这一**事实**，留缺账目与前置链判定见 `tests/test_midas_put_edits_p151.py`。
+2. **证据诚实**：**71** 行；`verdict` = **42** `PASSED` + **23** `LEFT_OUT` + **6** `FAILED`；
+   `aborted` 为空；`criterion_version` = **3**（判据**未**变）；实例 = `gen-local` / `GEN_NX` /
+   `2026-10-11`。
+3. **侦察问题①（PUT 的 body 形状）**：**42 / 42** `PASSED` 都用 `assign_keyed_item`
    （`{"Assign": {"<自建编号>": <条目>}}`，**与 POST 同一形状**）⇒ 记录 `put_shape`。
-4. **侦察问题②（是否要求记录已存在）**：**37 / 37** `PASSED` 的 `requires_existing_record`
+4. **侦察问题②（是否要求记录已存在）**：**42 / 42** `PASSED` 的 `requires_existing_record`
    都是 **`False`** —— 记录删除后对**同一编号**再发一次同一 `PUT`，记录**重新出现**
    ⇒ **`PUT` 是 upsert（不要求记录已存在）**。⚠️ 这与 **R116**（无 `DELETE` 的端点上 `PUT`
    会留下**不可删**的记录）**互相印证**。
 5. **改动逐条机械可复算**：`edit` = `{path, from, to, why}`，由 `editable_change()`
-   （`boolean` 翻面 / 无 `enum` 的 `number`·`integer` `+1`，按 body 声明顺序取第一个）**唯一**决定。
-6. **`FAILED` 逐条**：**4** 个 `put_rejected:400`（`DB.IEHC` / `DB.MLFC` / `DB.SDVI` / `DB.THIK`
-   —— 三种形状**全部**被拒，**不**放宽）+ **1** 个 `delete_failed`
+   （`boolean` 翻面 / 无 `enum` 的 `number`·`integer` `+1`，按 body 声明顺序取第一个）**唯一**决定；
+   带前置链的行按**改写后的 body**（`plan_chain()`，见 P151）复算。
+6. **`FAILED` 逐条**：**5** 个 `put_rejected:400`（`DB.IEHC` / `DB.MLFC` / `DB.SDVI` / `DB.THIK` /
+   `DB.EFCT` —— 三种形状**全部**被拒，**不**放宽）+ **1** 个 `delete_failed`
    （`DESIGN.RC.KDS-41-20-2022.DCTL`）。
 7. **残留如实披露（**不**声称零残留）**：`DELETE` 在本 build 上会**返回 `200` 并回显被删记录**
    却**不真正删除** ⇒ 判据以「再读确认不在」为准；`DESIGN.*` 别名路由（`DESIGN.RC.DRC` /
@@ -60,9 +63,15 @@ PROBED_AT = "2026-10-11"
 CRITERION_VERSION = 3
 
 EXPECTED_TARGETS = 71
-EXPECTED_PROBEABLE = 56
+EXPECTED_PROBEABLE = 71
+"""可探端点 = 全部目标（**零前置链 56 + 带前置链 15**，P151 起后者也已实测）。"""
+EXPECTED_ZERO_PREREQUISITE = 56
+"""零前置链的目标数（数据侧事实；P150 的那一批）。"""
 EXPECTED_PREREQUISITE_CHAIN = 15
-EXPECTED_COUNTS = {"PASSED": 37, "LEFT_OUT": 14, "FAILED": 5}
+"""带前置链的目标数（**数据侧事实**；P151 已全部取得结论 ⇒ 留缺账目为空）。"""
+EXPECTED_LEFT_OUT_CHAIN = 0
+"""**仍未**取得结论的带前置链端点（P151 起为 **0**）。"""
+EXPECTED_COUNTS = {"PASSED": 42, "LEFT_OUT": 23, "FAILED": 6}
 
 EXPECTED_PASSED = (
     "DB.BNGR",
@@ -70,6 +79,7 @@ EXPECTED_PASSED = (
     "DB.CUTL",
     "DB.DCTL",
     "DB.EIGV",
+    "DB.ELEM",
     "DB.EPMT",
     "DB.ETFC",
     "DB.FIMP",
@@ -77,13 +87,16 @@ EXPECTED_PASSED = (
     "DB.GSTP",
     "DB.HHCT",
     "DB.HSFC",
+    "DB.LENG",
     "DB.MATL",
     "DB.MVCTBS",
     "DB.MVCTCH",
     "DB.MVCTID",
     "DB.MVCTTR",
     "DB.MVHLTR",
+    "DB.NMAS",
     "DB.NPLN",
+    "DB.PDEL",
     "DB.PNLD",
     "DB.POGD",
     "DB.POSL",
@@ -98,6 +111,7 @@ EXPECTED_PASSED = (
     "DB.STOR",
     "DB.TDME",
     "DB.TDMT",
+    "DB.TDNT",
     "DB.THFC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.SRC.AIK-SRC2K.DCO",
@@ -105,11 +119,20 @@ EXPECTED_PASSED = (
 )
 
 EXPECTED_LEFT_OUT = (
+    "DB.BMLD",
+    "DB.BODF",
+    "DB.CNLD",
+    "DB.CONS",
     "DB.DCON",
     "DB.DSTL",
+    "DB.EXLD",
+    "DB.FBLD",
     "DB.LDGR",
+    "DB.LDSQ",
+    "DB.MBTP",
     "DB.MVCD",
     "DB.PJCF",
+    "DB.PRES",
     "DB.PSLT",
     "DB.STLD",
     "DB.TDGR",
@@ -124,6 +147,9 @@ EXPECTED_LEFT_OUT = (
 EXPECTED_FAILED_PUT_REJECTED = ("DB.IEHC", "DB.MLFC", "DB.SDVI", "DB.THIK")
 """三种形状**全部**被 `400` 拒绝（**不**放宽）。"""
 
+EXPECTED_FAILED_PUT_REJECTED_CHAINED = ("DB.EFCT",)
+"""**R124**（P151 续跑新增）：带前置链的端点上 `PUT` 三种形状**全部**被 `400` 拒绝。"""
+
 EXPECTED_FAILED_DELETE = ("DESIGN.RC.KDS-41-20-2022.DCTL",)
 """`PUT` 成功、读回确认，但**删不掉**（`DELETE` 返回 `200` 而记录仍在）。"""
 
@@ -132,7 +158,7 @@ EXPECTED_DELETE_UNCONFIRMED = (
     "DESIGN.RC.KDS-41-20-2022.DCTL",
     "DESIGN.STEEL.DSTL",
 )
-"""`DELETE` **未**确认生效的三个 `DESIGN.*` 别名端点（同表 `DB.*` 路由可清理）。"""
+"""`DELETE` **未**确认生效的三个 `DESIGN.*` 别名端点（**R120**：同表 `DB.*` 路由清理**实测**）。"""
 
 EXPECTED_RESIDUE = {"DESIGN.SRC.AIK-SRC2K.DSRC": ["1"]}
 """**如实披露**的残留：无 `DB.*` 别名、实测**删不掉**（成因需 MIDAS 侧）。"""
@@ -180,23 +206,30 @@ def _unchanged_since_head(path: Path) -> bool:
 
 
 def test_p150r118_the_target_set_is_recomputed_by_measurement() -> None:
-    """门槛（判定 1）：目标 **71** · 零前置链 **56** · 带前置链留缺 **15**。"""
+    """门槛（判定 1）：目标 **71** · 零前置链 **56** · 带前置链 **15**（P151 已全部取得结论）。"""
     tool = _tool()
     rows = tool.targets(REPO_ROOT)
     assert len(rows) == EXPECTED_TARGETS
     probeable = tool.zero_prerequisite_targets(REPO_ROOT)
-    assert len(probeable) == EXPECTED_PROBEABLE
-    assert len(tool.left_out_prerequisite_chains(REPO_ROOT)) == EXPECTED_PREREQUISITE_CHAIN
+    assert len(probeable) == EXPECTED_ZERO_PREREQUISITE
+    assert len(tool.prerequisite_chain_targets(REPO_ROOT)) == EXPECTED_PREREQUISITE_CHAIN
+    assert len(tool.left_out_prerequisite_chains(REPO_ROOT)) == EXPECTED_LEFT_OUT_CHAIN
     document = _evidence()
     assert document["targets"] == EXPECTED_TARGETS
     assert document["probeable"] == EXPECTED_PROBEABLE
-    assert len(document["left_out_prerequisite_chain"]) == EXPECTED_PREREQUISITE_CHAIN
+    assert document["zero_prerequisite"] == EXPECTED_ZERO_PREREQUISITE
+    assert len(document["prerequisite_chain_targets"]) == EXPECTED_PREREQUISITE_CHAIN
+    assert document["left_out_prerequisite_chain"] == []
     assert set(document["left_out_prerequisite_chain"]) == set(
         tool.left_out_prerequisite_chains(REPO_ROOT)
     )
-    # 本批**只**处理零前置链的端点（证据里逐行断言）
+    # 逐行：`prerequisites` 与数据侧模板声明**逐条复算一致**（**未**放宽 —— P150 的 56 行仍为 0）
     for key, row in document["endpoints"].items():
-        assert int(row["prerequisites"]) == 0, key
+        declared = len(tool.prerequisite_keys(REPO_ROOT, key))
+        assert int(row["prerequisites"]) == declared, key
+        assert (int(row["prerequisites"]) == 0) == (
+            key not in document["prerequisite_chain_targets"]
+        )
     # 写入方法 = `POST` 优先、否则 `PUT`（与 L5 同一判定）
     for row in rows:
         methods = tool._methods(_manifest()[str(row["key"])]["methods"])
@@ -207,7 +240,7 @@ def test_p150r118_the_target_set_is_recomputed_by_measurement() -> None:
 
 
 def test_p150r118_the_evidence_is_honest_and_the_counts_are_pinned() -> None:
-    """门槛（判定 2）：**56** 行；**37** `PASSED` + **14** `LEFT_OUT` + **5** `FAILED`；未中止。"""
+    """门槛（判定 2）：**71** 行；**42** `PASSED` + **23** `LEFT_OUT` + **6** `FAILED`；未中止。"""
     document = _evidence()
     assert document["criterion_version"] == CRITERION_VERSION
     assert document["instance"]["alias"] == INSTANCE_ALIAS
@@ -225,14 +258,22 @@ def test_p150r118_the_evidence_is_honest_and_the_counts_are_pinned() -> None:
     )
     assert tuple(
         sorted(k for k, r in document["endpoints"].items() if r["verdict"] == "FAILED")
-    ) == tuple(sorted((*EXPECTED_FAILED_PUT_REJECTED, *EXPECTED_FAILED_DELETE)))
+    ) == tuple(
+        sorted(
+            (
+                *EXPECTED_FAILED_PUT_REJECTED,
+                *EXPECTED_FAILED_PUT_REJECTED_CHAINED,
+                *EXPECTED_FAILED_DELETE,
+            )
+        )
+    )
 
 
 # ===== 3. 侦察问题①②（判定 3 / 4）=====
 
 
 def test_p150r118_the_put_body_shape_is_the_same_as_the_create_shape() -> None:
-    """门槛（判定 3）：**37 / 37** `PASSED` 都用 `assign_keyed_item`（与 POST 同一形状）。"""
+    """门槛（判定 3）：**42 / 42** `PASSED` 都用 `assign_keyed_item`（与 POST 同一形状）。"""
     document = _evidence()
     shapes = {
         row["put_shape"] for row in document["endpoints"].values() if row["verdict"] == "PASSED"
@@ -246,7 +287,7 @@ def test_p150r118_the_put_body_shape_is_the_same_as_the_create_shape() -> None:
 
 
 def test_p150r118_put_does_not_require_the_record_to_exist() -> None:
-    """门槛（判定 4）：**37 / 37** `PASSED` 的 `requires_existing_record` = **`False`**
+    """门槛（判定 4）：**42 / 42** `PASSED` 的 `requires_existing_record` = **`False`**
     （删除后对同一编号再发同一 `PUT`，记录**重新出现**）⇒ `PUT` 是 upsert。
     """
     document = _evidence()
@@ -273,6 +314,11 @@ def test_p150r118_the_edits_are_mechanically_recomputable() -> None:
         relative = str(_manifest()[key]["schema"])
         item_schema = check_tool.request_schema(REPO_ROOT, relative, key)
         body = tool._template_body(REPO_ROOT, key)
+        if int(row["prerequisites"]):
+            # 带前置链的行：按**改写后的 body**（`plan_chain()`）复算（P151 续跑）
+            body, _planned, _target = tool.plan_chain(
+                tool.template_of(REPO_ROOT, key), body, row["own_id"], row["scope_before"]
+            )
         expected = tool.editable_change(body, item_schema)
         assert expected is not None, key
         assert {name: row["edit"][name] for name in ("path", "from", "to")} == {
@@ -284,10 +330,10 @@ def test_p150r118_the_edits_are_mechanically_recomputable() -> None:
             assert row["read_back"] is True, key
 
 
-def test_p150r118_the_five_failures_are_recorded_per_endpoint() -> None:
-    """门槛（判定 6）：**4** 个 `put_rejected:400`（三种形状全试过）+ **1** 个 `delete_failed`。"""
+def test_p150r118_the_failures_are_recorded_per_endpoint() -> None:
+    """门槛（判定 6）：**5** 个 `put_rejected:400`（三种形状全试过）+ **1** 个 `delete_failed`。"""
     document = _evidence()
-    for key in EXPECTED_FAILED_PUT_REJECTED:
+    for key in (*EXPECTED_FAILED_PUT_REJECTED, *EXPECTED_FAILED_PUT_REJECTED_CHAINED):
         row = document["endpoints"][key]
         assert row["detail"].startswith("put_rejected:400"), key
         assert row["put_shape"] == "", key
@@ -295,6 +341,8 @@ def test_p150r118_the_five_failures_are_recorded_per_endpoint() -> None:
         assert {attempt["shape"] for attempt in row["put_attempts"]} == set(tool_shapes())
         assert row["read_back"] is True, key
         assert row["deleted"] is True, key
+        # 带前置链的行还要**逐条**确认前置对象已回收（P151）
+        assert all(item["deleted"] for item in row.get("prerequisite_chain") or []), key
     for key in EXPECTED_FAILED_DELETE:
         row = document["endpoints"][key]
         assert row["detail"] == "delete_failed", key
@@ -370,13 +418,17 @@ def test_p150r118_the_tool_chunks_health_checks_and_leaks_nothing() -> None:
         "instance",
         "targets",
         "probeable",
+        "zero_prerequisite",
+        "prerequisite_chain_targets",
         "left_out_prerequisite_chain",
         "counts",
         "aborted",
+        "sentinel_endpoints",
         "sentinel_before",
         "sentinel_after",
         "residue",
         "allowed_residue",
+        "alias_cleanup",
         "endpoints",
     }
     allowed = {
@@ -387,10 +439,15 @@ def test_p150r118_the_tool_chunks_health_checks_and_leaks_nothing() -> None:
         "products",
         "prerequisites",
         "created_id",
+        "own_id",
+        "target_id",
+        "scope_before",
+        "prerequisite_chain",
         "read_back",
         "edit",
         "edit_confirmed",
         "deleted",
+        "delete_state",
         "put_shape",
         "put_status_code",
         "put_attempts",

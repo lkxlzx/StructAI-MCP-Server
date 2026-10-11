@@ -6,7 +6,11 @@
     "生成器 = `registry/tools/probe_put_edits.py --probe`（**分块** ≤ `--chunk-size` + 块间只读健康检查 `/DB/NODE` + 跑前 / 跑后只读哨兵；**累积**：既有行逐字节保留）。",
     "⚠️ 本桶与 **R107** 的取设置表判据（无 `DELETE` 的单例表）**分开**，也**不**并入 L5 三步链的覆盖率分子（`live.write_path_coverage()` **不变**）。",
     "证据里**没有**凭据、也**没有**响应体原文（只存判定所需的编号 / 状态码 / 字段改动）。",
-    "⚠️ `allowed_residue`（`--allow-residue`）只用于**已披露且实测删不掉**的残留（`DELETE` 返回 `200` 却不删；见报告 §残留）：跑前哨兵**只**放行这些 key，其余非空一律**中止**（零写请求）；`residue ⊄ allowed_residue` ⇒ 退出码 1。"
+    "⚠️ `allowed_residue`（`--allow-residue`）只用于**已披露且实测删不掉**的残留（`DELETE` 返回 `200` 却不删；见报告 §残留）：跑前哨兵**只**放行这些 key，其余非空一律**中止**（零写请求）；`residue ⊄ allowed_residue` ⇒ 退出码 1。",
+    "**P151 续跑**：带前置链的端点由 `probe_key_chained()` 走**同一判据** —— 目标创建**之前**按模板**按声明顺序**创建前置对象（编号一律**重新分配**：该端点既有编号的 `max + 1`；`id_source = \"target\"` 的前置取**目标**编号），目标清理后**逆序**删除；分配依据 = `scope_before`（只读快照）+ `created_id` ⇒ `--check` 可**离线**复算。",
+    "前置链的声明（`prerequisites` / `references` / `self_references` / `target_id_source` / `id_source`）由 `app/infrastructure/adapters/midas/write_templates.py` **唯一**解析，编号分配与 L5 的 `_plan` **逐条等价**（见 `tests/test_midas_put_edits_p151.py`）。",
+    "⚠️ 哨兵覆盖 = 全部目标 ∪ 全部**前置**端点（只读；前置链同样可能留下残留 ⇒ 一并核对）。",
+    "`alias_cleanup`（**R120**）：`DESIGN.*` 别名路由的 `DELETE` **不生效**（返回 `200` 而记录仍在）⇒ 清理走**同表 `DB.*` 路由**；映射由 `--probe-aliases` **当批实测**（`same_table_observed`），证据里**区分**「删除已确认」（本端点路由再读不在）/「别名清理已确认」/「删除未确认」。"
   ],
   "criterion_version": 3,
   "instance": {
@@ -14,11 +18,12 @@
     "product": "GEN_NX",
     "base_url": "http://localhost:3030/gen",
     "probed_at": "2026-10-11",
-    "scope": "有数据侧模板 ∧ GEN NX 有 PUT ∧ 有 DELETE / GET / read_root ∧ 已启用 ∧ 零前置链"
+    "scope": "有数据侧模板 ∧ GEN NX 有 PUT ∧ 有 DELETE / GET / read_root ∧ 已启用（零前置链 + 带前置链）"
   },
   "targets": 71,
-  "probeable": 56,
-  "left_out_prerequisite_chain": [
+  "probeable": 71,
+  "zero_prerequisite": 56,
+  "prerequisite_chain_targets": [
     "DB.BMLD",
     "DB.BODF",
     "DB.CNLD",
@@ -35,12 +40,87 @@
     "DB.PRES",
     "DB.TDNT"
   ],
+  "left_out_prerequisite_chain": [],
   "counts": {
-    "PASSED": 37,
-    "LEFT_OUT": 14,
-    "FAILED": 5
+    "LEFT_OUT": 23,
+    "PASSED": 42,
+    "FAILED": 6
   },
   "aborted": "",
+  "sentinel_endpoints": [
+    "DB.BMLD",
+    "DB.BNGR",
+    "DB.BODF",
+    "DB.CCFC",
+    "DB.CNLD",
+    "DB.CONS",
+    "DB.CUTL",
+    "DB.DCON",
+    "DB.DCTL",
+    "DB.DSTL",
+    "DB.EFCT",
+    "DB.EIGV",
+    "DB.ELEM",
+    "DB.EPMT",
+    "DB.ETFC",
+    "DB.EXLD",
+    "DB.FBLD",
+    "DB.FIMP",
+    "DB.GRUP",
+    "DB.GSTP",
+    "DB.HHCT",
+    "DB.HSFC",
+    "DB.IEHC",
+    "DB.LDGR",
+    "DB.LDSQ",
+    "DB.LENG",
+    "DB.MATL",
+    "DB.MBTP",
+    "DB.MLFC",
+    "DB.MVCD",
+    "DB.MVCTBS",
+    "DB.MVCTCH",
+    "DB.MVCTID",
+    "DB.MVCTTR",
+    "DB.MVHLTR",
+    "DB.NMAS",
+    "DB.NODE",
+    "DB.NPLN",
+    "DB.PDEL",
+    "DB.PJCF",
+    "DB.PNLD",
+    "DB.POGD",
+    "DB.POSL",
+    "DB.POSP",
+    "DB.PRES",
+    "DB.PSLT",
+    "DB.SDHY",
+    "DB.SDIS",
+    "DB.SDST",
+    "DB.SDVE",
+    "DB.SDVI",
+    "DB.SECT",
+    "DB.SMCT",
+    "DB.SPFC",
+    "DB.STLD",
+    "DB.STOR",
+    "DB.TDGR",
+    "DB.TDME",
+    "DB.TDMT",
+    "DB.TDNT",
+    "DB.THFC",
+    "DB.THIK",
+    "DB.VSEC",
+    "DB.WMAK",
+    "DESIGN.RC.DRC",
+    "DESIGN.RC.KDS-41-20-2022.DCO",
+    "DESIGN.RC.KDS-41-20-2022.DCTL",
+    "DESIGN.RC.KDS-41-20-2022.WMAK",
+    "DESIGN.SRC.AIK-SRC2K.DCO",
+    "DESIGN.SRC.AIK-SRC2K.DSRC",
+    "DESIGN.STEEL.DSTL",
+    "DESIGN.STEEL.KDS-41-30-2022.DCO"
+  ],
   "sentinel_before": {
     "DB.BMLD": {
       "status_code": 200,
@@ -465,6 +545,12 @@
       "detail": ""
     },
     "DESIGN.STEEL.KDS-41-30-2022.DCO": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
+    },
+    "DB.NODE": {
       "status_code": 200,
       "ids": [],
       "readable": true,
@@ -899,6 +985,12 @@
       "ids": [],
       "readable": true,
       "detail": ""
+    },
+    "DB.NODE": {
+      "status_code": 200,
+      "ids": [],
+      "readable": true,
+      "detail": ""
     }
   },
   "residue": {
@@ -909,7 +1001,147 @@
   "allowed_residue": [
     "DESIGN.SRC.AIK-SRC2K.DSRC"
   ],
+  "alias_cleanup": {
+    "DESIGN.RC.DRC": {
+      "alias_uri": "/DESIGN/RC/DRC",
+      "db_key": "DB.DCON",
+      "db_uri": "/DB/DCON",
+      "measured": true,
+      "created_id": "1",
+      "create_status": 200,
+      "same_table_observed": true,
+      "alias_delete_status": 200,
+      "alias_delete_effective": false,
+      "db_delete_status": 200,
+      "db_delete_effective": true,
+      "delete_confirmed": true,
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCTL": {
+      "alias_uri": "/DESIGN/RC/KDS-41-20-2022/DCTL",
+      "db_key": "DB.DCTL",
+      "db_uri": "/DB/DCTL",
+      "measured": true,
+      "created_id": "1",
+      "create_status": 200,
+      "same_table_observed": true,
+      "alias_delete_status": 200,
+      "alias_delete_effective": false,
+      "db_delete_status": 200,
+      "db_delete_effective": true,
+      "delete_confirmed": true,
+      "detail": ""
+    },
+    "DESIGN.STEEL.DSTL": {
+      "alias_uri": "/DESIGN/STEEL/DSTL",
+      "db_key": "DB.DSTL",
+      "db_uri": "/DB/DSTL",
+      "measured": true,
+      "created_id": "1",
+      "create_status": 200,
+      "same_table_observed": true,
+      "alias_delete_status": 200,
+      "alias_delete_effective": false,
+      "db_delete_status": 200,
+      "db_delete_effective": true,
+      "delete_confirmed": true,
+      "detail": ""
+    }
+  },
   "endpoints": {
+    "DB.BMLD": {
+      "uri": "/DB/BMLD",
+      "read_root": "BMLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 6,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.BMLD": [],
+        "DB.STLD": [],
+        "DB.MATL": [],
+        "DB.SECT": [],
+        "DB.NODE": [],
+        "DB.ELEM": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
     "DB.BNGR": {
       "uri": "/DB/BNGR",
       "read_root": "BNGR",
@@ -948,6 +1180,50 @@
       "status_code": 200,
       "verdict": "PASSED"
     },
+    "DB.BODF": {
+      "uri": "/DB/BODF",
+      "read_root": "BODF",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 1,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.BODF": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
     "DB.CCFC": {
       "uri": "/DB/CCFC",
       "read_root": "CCFC",
@@ -985,6 +1261,104 @@
       "payload_source": "data_side_template",
       "status_code": 200,
       "verdict": "PASSED"
+    },
+    "DB.CNLD": {
+      "uri": "/DB/CNLD",
+      "read_root": "CNLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.CNLD": [],
+        "DB.STLD": [],
+        "DB.NODE": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.CONS": {
+      "uri": "/DB/CONS",
+      "read_root": "CONS",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 1,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.CONS": [],
+        "DB.NODE": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
     },
     "DB.CUTL": {
       "uri": "/DB/CUTL",
@@ -1112,6 +1486,81 @@
       "status_code": 200,
       "verdict": "LEFT_OUT"
     },
+    "DB.EFCT": {
+      "uri": "/DB/EFCT",
+      "read_root": "EFCT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.EFCT": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "bADDLC",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 400,
+          "detail": "[错误] 平衡力控制输入数据有错误。"
+        },
+        {
+          "shape": "bare_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        },
+        {
+          "shape": "argument_wrapped_item",
+          "status_code": 400,
+          "detail": "Wrong Field"
+        }
+      ],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "put_rejected:400:Wrong Field",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "FAILED"
+    },
     "DB.EIGV": {
       "uri": "/DB/EIGV",
       "read_root": "EIGV",
@@ -1133,6 +1582,92 @@
       },
       "edit_confirmed": true,
       "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.ELEM": {
+      "uri": "/DB/ELEM",
+      "read_root": "ELEM",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_DESIGNER",
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 4,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.ELEM": [],
+        "DB.MATL": [],
+        "DB.SECT": [],
+        "DB.NODE": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "ANGLE",
+        "from": 0,
+        "to": 1,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
       "put_shape": "assign_keyed_item",
       "put_status_code": 200,
       "put_attempts": [
@@ -1225,6 +1760,112 @@
       "payload_source": "data_side_template",
       "status_code": 200,
       "verdict": "PASSED"
+    },
+    "DB.EXLD": {
+      "uri": "/DB/EXLD",
+      "read_root": "EXLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.EXLD": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.FBLD": {
+      "uri": "/DB/FBLD",
+      "read_root": "FBLD",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.FBLD": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
     },
     "DB.FIMP": {
       "uri": "/DB/FIMP",
@@ -1490,6 +2131,154 @@
       "status_code": 200,
       "verdict": "LEFT_OUT"
     },
+    "DB.LDSQ": {
+      "uri": "/DB/LDSQ",
+      "read_root": "LDSQ",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.LDSQ": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
+    },
+    "DB.LENG": {
+      "uri": "/DB/LENG",
+      "read_root": "LENG",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_DESIGNER",
+        "GEN_NX"
+      ],
+      "prerequisites": 5,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.LENG": [],
+        "DB.MATL": [],
+        "DB.SECT": [],
+        "DB.NODE": [],
+        "DB.ELEM": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "bNOTUSE",
+        "from": false,
+        "to": true,
+        "schema_type": "boolean",
+        "why": "boolean 翻面（Schema 声明 type=boolean ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
     "DB.MATL": {
       "uri": "/DB/MATL",
       "read_root": "MATL",
@@ -1527,6 +2316,88 @@
       "payload_source": "data_side_template",
       "status_code": 200,
       "verdict": "PASSED"
+    },
+    "DB.MBTP": {
+      "uri": "/DB/MBTP",
+      "read_root": "MBTP",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "GEN_NX"
+      ],
+      "prerequisites": 5,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.MBTP": [],
+        "DB.MATL": [],
+        "DB.SECT": [],
+        "DB.NODE": [],
+        "DB.ELEM": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
     },
     "DB.MLFC": {
       "uri": "/DB/MLFC",
@@ -1792,6 +2663,62 @@
       "status_code": 200,
       "verdict": "PASSED"
     },
+    "DB.NMAS": {
+      "uri": "/DB/NMAS",
+      "read_root": "NMAS",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 1,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.NMAS": [],
+        "DB.NODE": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "mX",
+        "from": 1,
+        "to": 2,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
     "DB.NPLN": {
       "uri": "/DB/NPLN",
       "read_root": "NPLN",
@@ -1813,6 +2740,71 @@
       },
       "edit_confirmed": true,
       "deleted": true,
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
+    "DB.PDEL": {
+      "uri": "/DB/PDEL",
+      "read_root": "PDEL",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 2,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.PDEL": [],
+        "DB.STLD": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.STLD",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "TOL",
+        "from": 1e-05,
+        "to": 1.00001,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
       "put_shape": "assign_keyed_item",
       "put_status_code": 200,
       "put_attempts": [
@@ -2005,6 +2997,117 @@
       "payload_source": "data_side_template",
       "status_code": 200,
       "verdict": "PASSED"
+    },
+    "DB.PRES": {
+      "uri": "/DB/PRES",
+      "read_root": "PRES",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 8,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.PRES": [],
+        "DB.STLD": [],
+        "DB.MATL": [],
+        "DB.SECT": [],
+        "DB.NODE": [],
+        "DB.ELEM": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.STLD",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.SECT",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "2",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "3",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.NODE",
+          "item_id": "4",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        },
+        {
+          "key": "DB.ELEM",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": null,
+      "edit_confirmed": false,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "",
+      "put_status_code": "",
+      "put_attempts": [],
+      "put_absent_status": "",
+      "put_absent_recreated": null,
+      "requires_existing_record": null,
+      "detail": "no_editable_scalar",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "LEFT_OUT"
     },
     "DB.PSLT": {
       "uri": "/DB/PSLT",
@@ -2509,6 +3612,62 @@
       "status_code": 200,
       "verdict": "PASSED"
     },
+    "DB.TDNT": {
+      "uri": "/DB/TDNT",
+      "read_root": "TDNT",
+      "wrapper": "Assign",
+      "write_method": "POST",
+      "products": [
+        "CIVIL_NX",
+        "GEN_NX"
+      ],
+      "prerequisites": 1,
+      "created_id": "1",
+      "own_id": "1",
+      "target_id": "1",
+      "scope_before": {
+        "DB.TDNT": [],
+        "DB.MATL": []
+      },
+      "prerequisite_chain": [
+        {
+          "key": "DB.MATL",
+          "item_id": "1",
+          "create_method": "POST",
+          "create_status": 200,
+          "created": true,
+          "delete_status": 200,
+          "deleted": true
+        }
+      ],
+      "read_back": true,
+      "edit": {
+        "path": "AREA",
+        "from": 0.00504,
+        "to": 1.00504,
+        "schema_type": "number",
+        "why": "number +1（Schema 声明 type=number ∧ 无 enum/const）"
+      },
+      "edit_confirmed": true,
+      "deleted": true,
+      "delete_state": "delete_confirmed",
+      "put_shape": "assign_keyed_item",
+      "put_status_code": 200,
+      "put_attempts": [
+        {
+          "shape": "assign_keyed_item",
+          "status_code": 200,
+          "detail": ""
+        }
+      ],
+      "put_absent_status": 200,
+      "put_absent_recreated": true,
+      "requires_existing_record": false,
+      "detail": "",
+      "payload_source": "data_side_template",
+      "status_code": 200,
+      "verdict": "PASSED"
+    },
     "DB.THFC": {
       "uri": "/DB/THFC",
       "read_root": "THFC",
@@ -2670,7 +3829,8 @@
       "detail": "no_editable_scalar+delete_unconfirmed",
       "payload_source": "data_side_template",
       "status_code": 200,
-      "verdict": "LEFT_OUT"
+      "verdict": "LEFT_OUT",
+      "delete_state": "delete_confirmed_via_alias"
     },
     "DESIGN.RC.KDS-41-20-2022.DCO": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCO",
@@ -2746,7 +3906,8 @@
       "detail": "delete_failed",
       "payload_source": "data_side_template",
       "status_code": 200,
-      "verdict": "FAILED"
+      "verdict": "FAILED",
+      "delete_state": "delete_confirmed_via_alias"
     },
     "DESIGN.RC.KDS-41-20-2022.WMAK": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
@@ -2836,7 +3997,8 @@
       "detail": "no_editable_scalar",
       "payload_source": "data_side_template",
       "status_code": 400,
-      "verdict": "LEFT_OUT"
+      "verdict": "LEFT_OUT",
+      "delete_state": "delete_unconfirmed"
     },
     "DESIGN.STEEL.DSTL": {
       "uri": "/DESIGN/STEEL/DSTL",
@@ -2862,7 +4024,8 @@
       "detail": "no_editable_scalar+delete_unconfirmed",
       "payload_source": "data_side_template",
       "status_code": 200,
-      "verdict": "LEFT_OUT"
+      "verdict": "LEFT_OUT",
+      "delete_state": "delete_confirmed_via_alias"
     },
     "DESIGN.STEEL.KDS-41-30-2022.DCO": {
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
