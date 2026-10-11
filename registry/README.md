@@ -271,6 +271,9 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
   `POST /POST/TABLE`）—— **15** 条读类 Operation = **2** `PASSED` + **7** `PARTIAL` +
   **6** `FAILED`；证据 = `registry/live/interface_read_probe.json`（同工具 `--probe-read`）。
   ⚠️ **PUT 判据与读路径判据是两个桶**（读得回 ≠ 写得进）；两者都**不**并入覆盖率分子。
+* **接口层写路径（P154，见 §8.12 ⑳）**：**R126 裁决 A′** 落地后 **13** 条 = **11** `PASSED` +
+  **2** `FAILED`（`4 / 9` → `11 / 2`）；剩下的 `DB.CONS` 是**请求体形状**问题（**R128**，
+  外层键 = 节点编号），**不是**字段集。**R129**：`POST.TABLE` 在 GEN NX 上路由**存在**（只读核实）。
 
 
 ## 3. 统计
@@ -1174,3 +1177,48 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
   （**271** = **0** + **51** + **220**），与数据侧口径**分开**、**不**并入任何覆盖率分子。
 - 可执行判定 = `tests/test_midas_interface_read_p153.py`（**19** 项 + **1** 项环境门控）·
   `docs/reports/P153_接口层读路径端到端与R126裁决输入证据包_v1.0.md`。
+
+**⑳ P154：R126 裁决 **A′** 落地（接口层写路径 `4/13` → **`11/13`**）+ **R128**（`DB.CONS` 请求体形状）
++ **R129**（`POST.TABLE` 路由存在）（接 ⑲）**：
+
+- **R126 裁决 A′ 落地（主）**：按 `docs/reports/P0_裁决清单_v1.0.md` 的 **D1 = A′**，**只**把
+  `DB.MATL` **11** + `DB.SECT` **6** = **17** 个原生字段纳入 canonical（canonical 名 = P153 证据包的
+  `canonical_hint`）；`DB.BMLD`(4) / `DB.PRES`(1) **延后**。
+  ⚠️ **`app/**` 的授权范围 = 仅 `app/infrastructure/adapters/midas/transforms.py` 的 2 张字段表**：
+  17 个 native 叶子**全部**已在数据侧请求 Schema 里声明（`fields_for_path()` 逐条可查）⇒
+  **不**需要改 `registry/**`；字段表**只**声明映射、**没有**任何默认值（**不**违反「不臆造字段」）；
+  未新增 / 未改任何 Operation（**未**改 9 Tool Contract）。
+  **实测**（GEN NX 专用空项目，**3** 块 5 / 5 / 3 + 块间只读健康检查均 `200`）：
+  `registry/live/interface_path_probe.json` **13** 条 = **11** `PASSED` + **2** `FAILED`（P152 时 `4 / 9`）——
+  `DB.MATL` / `DB.SECT` / `DB.ELEM` 的**添加 / 编辑 / 删除**全部 `PASSED`；**零残留**、`aborted` 空。
+  顺带修掉**两处探针缺陷**（**不是**契约问题）：① 前置节点**几何**（两节点同坐标 ⇒ 原生
+  `400`「单元 1 的几何形状不正确」）；② `DB.CONS` 缺 `group_name`（canonical 字段表里**一直有**）。
+  证据 = `registry/live/canonical_field_gap.json`（重算：字段集缺口 **4 → 2** · 取值缺口 **2 → 3** ·
+  已覆盖 **4 → 5**）· 判定 = `tests/test_midas_interface_contract_p154.py`（**16** 项 + **1** 项门控）。
+- **R128（新，如实留缺）**：`DB.CONS` 的 `Assign` **外层键必须是「该支承所在的节点编号」**，且条目要
+  套在**内层 `ITEMS`** 里 ⇒ 正确形状 = `{"Assign": {"<节点编号>": {"ITEMS": [<条目>]}}}`；
+  接口层当前产出 `{"Assign": {"ITEMS": […]}}`（**缺外层编号键**）⇒ 原生 `400 Wrong Field`。
+  ⚠️ **位数不是成因**（D2 已收口）：A/B 三变体（`"111000"` / `"1111000"` / 6 位且省略 `GROUP_NAME`）
+  **全部 `400`** ⇒ **不必**扩 `RW`。
+  ⚠️ **假成功陷阱**：外层键**不是**存在的节点编号时原生 **`200` 却什么都不建**（只看状态码会把
+  「没建」当成「建好了」，与 **R119** 的「`DELETE` 假成功」同形）。
+  **修复点**在 `MidasHttpClient` 的请求构造（`is_items_style()` 一族）——**属 `app/**` 改动，待新授权**；
+  且**必须**同时复核其它 `ITEMS` 形态端点（`DB.CNLD` / `DB.PRES` …）。
+  证据 = `registry/live/boundary_shape_probe.json`（形状 A/B **5** 变体 = **2** `PASSED` + **3** `FAILED`）·
+  工具 = `registry/tools/probe_boundary_shape.py`（`--probe` / `--check` / `--summary`）。
+- **R129（新，只读核实）**：`POST /POST/TABLE` 在 GEN NX 上**路由存在** ——
+  `OPTIONS` → `200 Allow: POST`；`POST /POST/TABLE` → **业务级 `400`**（`[empty] Cannot generate
+  table data as there is no analysis result.`），而对照 `POST /POST/NOSUCHTABLE` → **`404`**
+  ⇒ `RESULT.ANALYSIS.SUMMARY` 的 `STRUCTAI-3000` 来自**数据侧 `products` 声明**（不含 `GEN_NX`），
+  **不是**原生不可用。**恢复条件** = 按实测更正 `products`（数据侧改动，需实测依据 + 显式裁决）。
+- **计数**：**本批变化的** = 接口层写路径子桶（`4 / 9` → **`11 / 2`**）· R126 证据包
+  （字段集缺口 `4 → 2` · 取值缺口 `2 → 3` · 已覆盖 `4 → 5`）。
+  **不变的**：端点 **636** · Schema 文件 **625** · 模板 **71** / body **115** ·
+  `availability: verified` **493** · 响应 Schema 行 **317** · 留缺账本 **178** ·
+  **`live.write_path_coverage()` 仍 `72 / 633`**（`model_write_ratio` **`72 / 434`**）·
+  R118 子桶 **42 / 23 / 6** · 缺口 **517** = **271** + **246** · 缺口分类 **271** = **0** + **51** + **220** ·
+  接口层读路径子桶 **15** = **2** + **7** + **6**（按新字段表刷新读数，计数不变）。
+- 另：`tests/test_midas_write_templates_p139.py` 的「特征取值」清单**分类错误**已修正
+  （`vSIZE` 是**键名**不是取值）+ **新增自检**（清单每项必须是模板取值、且不是键名）⇒ 判定**变强**。
+- 可执行判定 = `tests/test_midas_interface_contract_p154.py`（**16** 项 + **1** 项环境门控）·
+  `docs/reports/P154_R126裁决A落地与DB_CONS形状_v1.0.md`。
