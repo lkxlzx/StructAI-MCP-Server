@@ -61,9 +61,9 @@ INSTANCE_ALIAS = "gen-local"
 EXPECTED_PROBED = 49
 """本次只读 L4 实测的端点数。"""
 
-EXPECTED_VERIFIED_TOTAL = 481
+EXPECTED_VERIFIED_TOTAL = 493
 """全库 `availability == verified` 的端点数（P149-B2 的 247 + P149-C 的 49 +
-**P149-D** 取报表判据实测收口的 **185**）。"""
+**P149-D** 取报表判据实测收口的 **185** + **P149-E** 只读补测收口的 **12**）。"""
 
 EXPECTED_PASSED: tuple[str, ...] = (
     "DESIGN.RC.KDS-41-20-2022.WMAK",
@@ -75,7 +75,17 @@ FAILURE_REASON = "R110_native_400_software_api_error"
 """47 条失败的留缺原因（`400 software_api_error`）。"""
 
 RESPONSE_BLOCK_KEYS = EXPECTED_PROBED
-"""需要 `response` 块的端点数（= 本次收口的 49 个）。"""
+"""P149-C 那 **49** 个端点所需的 `response` 块数（**子集**断言；
+全库计数见 P136 / P137 / P149-E）。"""
+
+EXPECTED_PROBED_TOTAL = 84
+"""证据文件的**总行数**（P149-C 的 **49** + **P149-E** 补测的 **35** ⇒ 同一份证据**累积**）。"""
+
+EXPECTED_PARTIAL_TOTAL = 61
+"""证据里 `PARTIAL`（`200` ∧ 块为空）的行数（P149-C **49** + P149-E **12**）。"""
+
+EXPECTED_FAILED_TOTAL = 23
+"""证据里 `FAILED` 的行数（P149-E 复测的 `-M1` 家族 **23** 个 —— `404`，R85 仍成立）。"""
 
 
 def _load(path: Path, name: str) -> Any:
@@ -89,6 +99,12 @@ def _load(path: Path, name: str) -> Any:
 
 def _read_evidence() -> dict[str, dict[str, Any]]:
     return json.loads(READ_EVIDENCE_PATH.read_text(encoding="utf-8"))["endpoints"]
+
+
+def _p149c_keys() -> set[str]:
+    """P149-C 那 **49** 个端点（= 同批写路径证据 `outcomes` 的 key，**唯一**权威）。"""
+    document = json.loads(WRITE_EVIDENCE_PATH.read_text(encoding="utf-8"))
+    return {str(row["key"]) for row in document["outcomes"]}
 
 
 # ===== 1. 复算一致（判定 1）=====
@@ -115,8 +131,18 @@ def test_p149c_every_probed_endpoint_confirms_its_read_root() -> None:
     """门槛：49 个端点全部 200 且响应顶层键 == `read_root`（只读，零副作用）。"""
     document = json.loads(READ_EVIDENCE_PATH.read_text(encoding="utf-8"))
     endpoints = document["endpoints"]
-    assert len(endpoints) == EXPECTED_PROBED
-    assert document["counts"] == {"PARTIAL": EXPECTED_PROBED}
+    p149c = _p149c_keys()
+    assert len(p149c) == EXPECTED_PROBED
+    assert p149c <= set(endpoints)
+    # P149-E 补测后同一份证据**累积**：84 行 = 61 `PARTIAL` + 23 `FAILED`（`-M1` 家族 404）
+    assert len(endpoints) == EXPECTED_PROBED_TOTAL
+    assert document["counts"] == {
+        "PARTIAL": EXPECTED_PARTIAL_TOTAL,
+        "FAILED": EXPECTED_FAILED_TOTAL,
+    }
+    assert document["aborted"] == ""
+    for key in p149c:
+        assert endpoints[key]["verdict"] == "PARTIAL", key
     manifest = {
         str(item["key"]): item
         for item in json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))["endpoints"]
@@ -124,21 +150,26 @@ def test_p149c_every_probed_endpoint_confirms_its_read_root() -> None:
     for key, row in endpoints.items():
         read_root = str((manifest[key].get("wrapper") or {}).get("read_root") or "")
         assert row["read_root"] == read_root, key
-        assert row["status_code"] == 200, key
-        assert read_root in row["top_keys"], key
-        assert row["verdict"] in {"PASSED", "PARTIAL"}, key
         assert row["uri"] == manifest[key]["uri"], key
+        if row["verdict"] in {"PASSED", "PARTIAL"}:
+            assert row["status_code"] == 200, key
+            assert read_root in row["top_keys"], key
+        else:
+            # P149-E 复测的 `-M1` 家族：**如实** `FAILED`（`404`，R85 仍成立），不臆造
+            assert row["verdict"] == "FAILED", key
+            assert row["status_code"] != 200, key
+            assert row["top_keys"] == [], key
 
 
 # ===== 3. 收口只升不降（判定 3）=====
 
 
 def test_p149c_the_upgrade_is_verified_and_recorded_on_the_instance() -> None:
-    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = 481
-    （P149-C 的 296 + **P149-D** 取报表判据收口的 185）。"""
+    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = 493
+    （P149-C 的 296 + **P149-D** 取报表判据收口的 185 + **P149-E** 只读补测的 12）。"""
     tool = _load(TOOL_PATH, "structai_sync_availability_p149c")
     files = tool.endpoint_files(REPO_ROOT)
-    for key in _read_evidence():
+    for key in _p149c_keys():
         availability, verified_on = tool.read_availability(files[key])
         assert availability == "verified", key
         assert INSTANCE_ALIAS in verified_on, (key, verified_on)
@@ -212,7 +243,7 @@ def test_p149c_the_response_block_cascade_is_complete() -> None:
         for item in json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))["endpoints"]
     }
     with_block = 0
-    for key in _read_evidence():
+    for key in _p149c_keys():
         schema = manifest[key].get("schema") or ""
         assert schema, key
         document = json.loads((REPO_ROOT / "registry" / schema).read_text(encoding="utf-8"))

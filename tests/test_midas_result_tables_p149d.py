@@ -71,11 +71,11 @@ EXPECTED_GAPS = {
 EXPECTED_NEVER_RETRY = {"POST.TABLE.FIBR_MAXCONTRACT": "R115"}
 """**永不再试**的端点（使 NX 实例**崩溃**，两次实测确认）。"""
 
-EXPECTED_VERIFIED_TOTAL = 481
-"""全库 `availability == verified`（P149-C 的 296 + 本批收口的 185）。"""
+EXPECTED_VERIFIED_TOTAL = 493
+"""全库 `availability == verified`（P149-C 的 296 + P149-D 收口的 185 + P149-E 补测的 12）。"""
 
-EXPECTED_RESPONSE_BLOCKS = 305
-"""全库 `response` 块数（P149-C 的 290 + 本批 15 个 `PASSED`）。"""
+EXPECTED_RESPONSE_BLOCKS = 317
+"""全库 `response` 块数（P149-C 的 290 + P149-D 的 15 个 `PASSED` + P149-E 的 12）。"""
 
 ENVELOPE_KEYS: dict[str, str] = {
     "POST.TABLE.ELEMENTWEIGHT": "Example",

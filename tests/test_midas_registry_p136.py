@@ -44,7 +44,7 @@ from app.infrastructure.adapters.midas.registry import MidasRegistry
 TOOL_PATH = Path("registry/tools/sync_response_schemas.py")
 """数据侧生成链的唯一入口（`registry/tools/`，只依赖标准库）。"""
 
-RESPONSE_BLOCK_ENDPOINTS = 305
+RESPONSE_BLOCK_ENDPOINTS = 317
 """已实测端点（`availability=verified` ∧（`GET` ∨ **R106** 取报表实测信封）∧ 有 Schema 文件）
 = 补了 `response` 块的端点数。
 
@@ -52,8 +52,8 @@ P141 时 **241**：P141 补齐的 `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` 请�
 **立刻**满足本规则（`registry/tools/sync_response_schemas.py`），同批追加了 `response` 块。
 **P149-C 起 290**：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口（响应顶层键 ==
 `read_root`）`availability: untested → verified` + `verified_on: ["gen-local"]` ⇒ +49。
-**P149-D 起 305**：**R106** 取报表判据实测的 **15** 个 `POST.TABLE.*`（信封键逐端点实测）
-⇒ +15。"""
+**P149-D 起 305**：**R106** 取报表判据实测的 **15** 个 `POST.TABLE.*`（信封键逐端点实测）⇒ +15。
+**P149-E 起 317**：只读 L4 补测收口 **12** 个 `DESIGN.*`（P149-C 的同一判据）⇒ +12。"""
 
 R85_GEN_NX_PRODUCT_GAPS: tuple[str, ...] = (
     "DB.CAMB",

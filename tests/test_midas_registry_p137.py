@@ -13,11 +13,12 @@
 落地裁决（本文件的硬事实，不美化）
 --------------------------------
 1. **两个方向都落库**：`midas_api_schemas` 按 `schema_uri` 各占一行 —— 请求方向 **625** 行
-   （P138a 收口 R19 的 616 + P140 的 R5 补齐 4 个 + P141 的 5 个）、响应方向 **305** 行
+   （P138a 收口 R19 的 616 + P140 的 R5 补齐 4 个 + P141 的 5 个）、响应方向 **317** 行
    （`availability = verified` ∧（`GET` ∨ **R106** 取报表实测信封）+ 有 Schema 文件，
    `registry/tools/sync_response_schemas.py` 的判定；P149-C 起 241 → 290：49 个 `DESIGN.*` /
    `DB.REBB` 等经只读 L4 实测收口；P149-D 起 290 → 305：15 个 `POST.TABLE.*` 经**取报表判据**
-   实测收口），合计 **930** 行；响应方向的 URI = `midas://<product>/<code>/response/v1`。
+   实测收口；P149-E 起 305 → 317：再 **12** 个 `DESIGN.*` 经只读 L4 补测收口），合计 **942** 行；
+   响应方向的 URI = `midas://<product>/<code>/response/v1`。
 2. **回填**：`midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
    指向**响应方向**的 Schema 行 id（与 `request_schema*` 同口径）；未声明 `response` 块的端点
    仍为 `None`（**不**臆造）。
@@ -84,7 +85,7 @@ IMPORT_REGISTRY_PATH = Path("app/infrastructure/adapters/midas/import_registry.p
 REQUEST_SCHEMA_ROWS = 625
 """请求方向 Schema 行数（P141 起 **625**：P138a 收口 R19 后 616 + P140 的 4 个 + P141 的 5 个）。"""
 
-RESPONSE_SCHEMA_ROWS = 305
+RESPONSE_SCHEMA_ROWS = 317
 """响应方向 Schema 行数 = 已实测端点（`availability = verified` ∧（`GET` ∨ **R106** 取报表实测信封）
 ∧ 有 Schema 文件）。
 
@@ -93,7 +94,9 @@ P141 时 **241**：P141 补齐的 `OPE.STORY_IRR_PARAM` / `OPE.STORY_PARAM` 请�
 **P149-C 起 290**：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口（响应顶层键 ==
 `read_root`）`availability: untested → verified` + `verified_on: ["gen-local"]` ⇒ +49。
 **P149-D 起 305**：**R106** 取报表判据实测的 **15** 个 `POST.TABLE.*`（信封键逐端点实测，
-`registry/live/result_table_probe.json`）⇒ +15。"""
+`registry/live/result_table_probe.json`）⇒ +15。
+**P149-E 起 317**：只读 L4 补测收口 **12** 个 `DESIGN.*`
+（`registry/live/live_read_probe.json`）⇒ +12。"""
 
 REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 3
 """无请求体（`methods` 不含 `POST`/`PUT`/`PATCH`）的端点 —— P138b 裁决后该项视为满足。
@@ -106,7 +109,7 @@ REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 3
 （4 → 3；这是**收紧**，见 `docs/07` §16 R5 与 `tests/test_midas_registry_p138.py`）。"""
 
 TOTAL_SCHEMA_ROWS = REQUEST_SCHEMA_ROWS + RESPONSE_SCHEMA_ROWS
-"""两个方向合计 **930** 行（请求 **625** + 响应 **305**；P149-D 起，此前 915 = 625 + 290）。"""
+"""两个方向合计 **942** 行（请求 **625** + 响应 **317**；P149-E 起，此前 930 = 625 + 305）。"""
 
 SOURCE_ROWS = 11
 """`midas_api_sources` 行数（8 个 provenance 标题 ∪ 7 个 Schema `source`，含
@@ -198,7 +201,7 @@ def _imported_modules(path: Path) -> set[str]:
 
 
 async def test_p137a_schemas_are_imported_in_both_directions(tmp_path: Path) -> None:
-    """P137a：请求 **625** + 响应 **305** = **930** 行（P149-D 起；此前 915 = 625 + 290）。"""
+    """P137a：请求 **625** + 响应 **317** = **942** 行（P149-E 起；此前 930 = 625 + 305）。"""
     engine, report, factory = await _import(tmp_path)
     assert report.totals["midas_api_schemas"] == TOTAL_SCHEMA_ROWS
     request_rows = await _schema_rows(factory, direction=REQUEST_DIRECTION)
@@ -442,7 +445,7 @@ async def test_p137b_ci_records_never_promote_a_verification_status(tmp_path: Pa
 
 
 def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
-    """P137b：L4 结论**显式**传入时同一判定点如实升 `VERIFIED`（P149-D：**305/305**，无例外）。"""
+    """P137b：L4 结论**显式**传入时同一判定点如实升 `VERIFIED`（P149-E：**317/317**，无例外）。"""
     registry = support.registry()
     covered = _covered_keys(registry)
     report = seven_and_report(

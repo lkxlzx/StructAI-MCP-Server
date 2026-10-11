@@ -1,21 +1,151 @@
 {
   "note": [
-    "P149-C（R111 的恢复条件）：`availability: verified` 的语义 = 「至少一个实例 GET 成功」（registry/README.md §4），故本证据 = **只读** L4 实测（**只发 GET**，零副作用）。",
-    "判据（与 P134 的 L4 同一口径）：响应顶层键 == `read_root` ⇒ `PASSED`（块非空）/ `PARTIAL`（块为空 —— 空项目下的正常形态）；非 200 或顶层键不符 ⇒ `FAILED`。",
-    "生成器 = `registry/tools/sync_availability.py --probe`；收口 = `--write`（**只升不降**），随后跑 `registry/tools/sync_manifest.py --write` 重派生 manifest；`--check` 断言一致。",
+    "`availability: verified` 的语义 = 「至少一个实例 GET 成功」（registry/README.md §4），故本证据 = **只读** L4 实测（**只发 GET**，零副作用）。",
+    "判据（与 P134 的 L4 同一口径）：响应顶层键 == `read_root` ⇒ `PASSED`（块非空）/ `PARTIAL`（块为空 —— 空项目下的正常形态）；非 200 或顶层键不符 ⇒ `FAILED`；传输失败 / 实例不可达 ⇒ `SKIPPED`（**不**计入收口，续跑时重测）。",
+    "生成器 = `registry/tools/sync_availability.py --probe`（**分块** ≤ 20 + 块间只读健康检查 `GET /DB/NODE`；**累积**：既有行逐字节保留）；收口 = `--write`（**只升不降**），随后跑 `registry/tools/sync_manifest.py --write` 重派生 manifest；`--check` 断言一致。",
     "凭据**绝不**写入本文件（MAPI-Key 只经环境变量注入）。"
   ],
   "instance": {
     "alias": "gen-local",
     "product": "GEN_NX",
     "base_url": "http://localhost:3030/gen",
-    "probed_at": "2026-10-10",
-    "scope": "untested ∧ GET ∧ read_root ∧ enabled"
+    "probed_at": "2026-10-11",
+    "scope": "availability != verified ∧ GET ∧ read_root ∧ enabled"
   },
   "counts": {
-    "PARTIAL": 49
+    "PARTIAL": 61,
+    "FAILED": 23
   },
+  "aborted": "",
   "endpoints": {
+    "DB.ACTL-M1": {
+      "uri": "/DB/ACTL-M1",
+      "read_root": "ACTL-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.BCGA-M1": {
+      "uri": "/DB/BCGA-M1",
+      "read_root": "BCGA-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.BCGD-M1": {
+      "uri": "/DB/BCGD-M1",
+      "read_root": "BCGD-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.EIGV-M1": {
+      "uri": "/DB/EIGV-M1",
+      "read_root": "EIGV-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.EPMT-M1": {
+      "uri": "/DB/EPMT-M1",
+      "read_root": "EPMT-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.HHCT-M1": {
+      "uri": "/DB/HHCT-M1",
+      "read_root": "HHCT-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.IEHG-BEAM-M1": {
+      "uri": "/DB/IEHG-BEAM-M1",
+      "read_root": "IEHG-BEAM-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.IEHG-GL-M1": {
+      "uri": "/DB/IEHG-GL-M1",
+      "read_root": "IEHG-GL-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.IEHG-PSS-M1": {
+      "uri": "/DB/IEHG-PSS-M1",
+      "read_root": "IEHG-PSS-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.IEHG-TRUSS-M1": {
+      "uri": "/DB/IEHG-TRUSS-M1",
+      "read_root": "IEHG-TRUSS-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.IMFM-M1": {
+      "uri": "/DB/IMFM-M1",
+      "read_root": "IMFM-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.MATL-M1": {
+      "uri": "/DB/MATL-M1",
+      "read_root": "MATL-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.NLCT-M1": {
+      "uri": "/DB/NLCT-M1",
+      "read_root": "NLCT-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.NLNK-M1": {
+      "uri": "/DB/NLNK-M1",
+      "read_root": "NLNK-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.POGD-M1": {
+      "uri": "/DB/POGD-M1",
+      "read_root": "POGD-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.POLC-M1": {
+      "uri": "/DB/POLC-M1",
+      "read_root": "POLC-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
     "DB.REBB": {
       "uri": "/DB/REBB",
       "read_root": "REBB",
@@ -52,6 +182,62 @@
       ],
       "verdict": "PARTIAL"
     },
+    "DB.STCT-M1": {
+      "uri": "/DB/STCT-M1",
+      "read_root": "STCT-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.STYP-M1": {
+      "uri": "/DB/STYP-M1",
+      "read_root": "STYP-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.THGC-M1": {
+      "uri": "/DB/THGC-M1",
+      "read_root": "THGC-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.THIS-M1": {
+      "uri": "/DB/THIS-M1",
+      "read_root": "THIS-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.THOO-M1": {
+      "uri": "/DB/THOO-M1",
+      "read_root": "THOO-M1",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.UFTR": {
+      "uri": "/DB/UFTR",
+      "read_root": "UFTR",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
+    "DB.UTBL": {
+      "uri": "/DB/UTBL",
+      "read_root": "UTBL",
+      "status_code": 404,
+      "top_keys": [],
+      "verdict": "FAILED",
+      "detail": "non_json_error"
+    },
     "DESIGN.RC.KDS-41-20-2022.BEMW": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/BEMW",
       "read_root": "BEMW",
@@ -61,6 +247,16 @@
       ],
       "verdict": "PARTIAL"
     },
+    "DESIGN.RC.KDS-41-20-2022.CMFT": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CMFT",
+      "read_root": "CMFT",
+      "status_code": 200,
+      "top_keys": [
+        "CMFT"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
     "DESIGN.RC.KDS-41-20-2022.DCRE": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRE",
       "read_root": "DCRE",
@@ -69,6 +265,16 @@
         "DCRE"
       ],
       "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.DCREM": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCREM",
+      "read_root": "DCREM",
+      "status_code": 200,
+      "top_keys": [
+        "DCREM"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
     },
     "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
@@ -115,6 +321,16 @@
       ],
       "verdict": "PARTIAL"
     },
+    "DESIGN.RC.KDS-41-20-2022.EQCT": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/EQCT",
+      "read_root": "EQCT",
+      "status_code": 200,
+      "top_keys": [
+        "EQCT"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
     "DESIGN.RC.KDS-41-20-2022.FMAG": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/FMAG",
       "read_root": "FMAG",
@@ -151,6 +367,46 @@
       ],
       "verdict": "PARTIAL"
     },
+    "DESIGN.RC.KDS-41-20-2022.MBTP": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MBTP",
+      "read_root": "MBTP",
+      "status_code": 200,
+      "top_keys": [
+        "MBTP"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.MCMB": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MCMB",
+      "read_root": "MCMB",
+      "status_code": 200,
+      "top_keys": [
+        "MCMB"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.MLLR": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MLLR",
+      "read_root": "MLLR",
+      "status_code": 200,
+      "top_keys": [
+        "MLLR"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.MRFT": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MRFT",
+      "read_root": "MRFT",
+      "status_code": 200,
+      "top_keys": [
+        "MRFT"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
     "DESIGN.RC.KDS-41-20-2022.PMDM": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/PMDM",
       "read_root": "PMDM",
@@ -159,6 +415,16 @@
         "PMDM"
       ],
       "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.REBB": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBB",
+      "read_root": "REBB",
+      "status_code": 200,
+      "top_keys": [
+        "REBB"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
     },
     "DESIGN.RC.KDS-41-20-2022.REBC": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
@@ -204,6 +470,36 @@
         "SCOL"
       ],
       "verdict": "PARTIAL"
+    },
+    "DESIGN.RC.KDS-41-20-2022.SDGN": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SDGN",
+      "read_root": "SDGN",
+      "status_code": 200,
+      "top_keys": [
+        "SDGN"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.SUEQ": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SUEQ",
+      "read_root": "SUEQ",
+      "status_code": 200,
+      "top_keys": [
+        "SUEQ"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
+    },
+    "DESIGN.RC.KDS-41-20-2022.TRFT": {
+      "uri": "/DESIGN/RC/KDS-41-20-2022/TRFT",
+      "read_root": "TRFT",
+      "status_code": 200,
+      "top_keys": [
+        "TRFT"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
     },
     "DESIGN.RC.KDS-41-20-2022.ULCT": {
       "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
@@ -438,6 +734,16 @@
         "SERV"
       ],
       "verdict": "PARTIAL"
+    },
+    "DESIGN.STEEL.KDS-41-30-2022.SLRS": {
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SLRS",
+      "read_root": "SLRS",
+      "status_code": 200,
+      "top_keys": [
+        "SLRS"
+      ],
+      "verdict": "PARTIAL",
+      "detail": ""
     },
     "DESIGN.STEEL.KDS-41-30-2022.SUEQ": {
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/SUEQ",

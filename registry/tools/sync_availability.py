@@ -24,8 +24,9 @@
 
 用法（仓库根目录执行；`--probe` 需要 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY`）
 --------------------------------------------------------------------
-    # 只读实测（可只测一部分：--only KEY1,KEY2）
+    # 只读实测（**分块** ≤ 20 + 块间只读健康检查；可只测一部分：--only KEY1,KEY2）
     python registry/tools/sync_availability.py --probe
+    python registry/tools/sync_availability.py --probe --chunk-size 10
     python registry/tools/sync_availability.py --probe --only DESIGN.RC.DRC,DB.REBB
 
     # 据证据收口 YAML（只升不降）
@@ -37,6 +38,10 @@
 纪律
 ----
 * **只发 `GET`**（零副作用）：本工具**不**构造、**不**发送任何写请求。
+* **分块 + 健康检查**（P149-B2 两次实例崩溃的教训）：每块 ≤ `--chunk-size`（默认 **20**）条，
+  块间做只读健康检查 `GET /DB/NODE`；非 `200` ⇒ **立即中止**并把「实例不可达 /
+  `The project is not opened`」的行标成 `SKIPPED`（**不**冒充 `FAILED`、**不**计入收口）。
+* **累积**：既有证据里的行**逐字节保留**（不重测），本批只补新目标 ⇒ 同一份证据可**多批**增长。
 * **只升不降**：`availability` 只会 `untested → verified`；`unverified`（实测不可用）与
   `unavailable_on` **一律不碰** —— 「不可用」的判定需要另一方向的证据。
 * **不臆造**：只对**实际拿到 200 且顶层键 == `read_root`** 的端点收口；`FAILED` 的如实留在原地。
@@ -57,9 +62,22 @@ EVIDENCE_RELATIVE = "live/live_read_probe.json"
 MANIFEST_FILENAME = "manifest.json"
 INSTANCE_ALIAS = "gen-local"
 INSTANCE_PRODUCT = "GEN_NX"
-PROBED_AT = "2026-10-10"
+PROBED_AT = "2026-10-11"
+"""证据的**最后实测日期**（P149-C 首次探测 + P149-E 补测同一份文件）。"""
 VERIFIED = "verified"
 UPGRADABLE = ("PASSED", "PARTIAL")
+
+CHUNK_SIZE = 20
+"""每块端点上限（P149-B2 两次实例崩溃的教训：**绝不**一次连发；块间做只读健康检查）。"""
+
+HEALTH_PATH = "/DB/NODE"
+"""块间**只读**健康检查路径；非 `200` ⇒ **立即中止**并如实记录（**不**继续发请求）。"""
+
+INSTANCE_DOWN_MARKER = "The project is not opened"
+"""实例崩溃后重启会**关闭项目** —— 该形态**不**算「端点被拒」（与 `probe_result_tables.py` 同口径）。"""
+
+SKIPPED = "SKIPPED"
+"""传输失败 / 实例不可达（**不**计入 `availability` 的任何收口；续跑时重测）。"""
 
 
 def _load_yaml_module() -> Any:
@@ -108,8 +126,81 @@ def probe_targets(repo: Path, only: tuple[str, ...]) -> list[str]:
     return sorted(selected)
 
 
-def probe(repo: Path, only: tuple[str, ...]) -> int:
-    """只读 L4 实测 → 证据文件（零副作用）。"""
+def _existing_rows(repo: Path) -> dict[str, dict[str, Any]]:
+    """既有证据里的逐条结论（缺 / 读不动 ⇒ 空）——**累积**用。"""
+    path = repo / "registry" / EVIDENCE_RELATIVE
+    if not path.is_file():
+        return {}
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    rows = document.get("endpoints")
+    return rows if isinstance(rows, dict) else {}
+
+
+def _probe_key(client: Any, item: dict[str, Any]) -> dict[str, Any]:
+    """单端点只读实测（**只发 GET**；任何失败都被归类而**不**上抛）。"""
+    read_root = str((item.get("wrapper") or {}).get("read_root") or "")
+    uri = "/" + str(item.get("uri") or "").lstrip("/")
+    try:
+        response = client.get(uri)
+    except Exception as error:  # noqa: BLE001 - 传输失败 / 实例不可达如实归类
+        return {
+            "uri": str(item.get("uri") or ""),
+            "read_root": read_root,
+            "status_code": "",
+            "top_keys": [],
+            "verdict": SKIPPED,
+            "detail": type(error).__name__,
+        }
+    top: list[str] = []
+    verdict = "FAILED"
+    detail = ""
+    if response.status_code == 200:
+        try:
+            payload = response.json()
+        except ValueError:
+            payload = None
+        if isinstance(payload, dict):
+            top = [str(name) for name in payload]
+            block = payload.get(read_root)
+            if read_root in top:
+                verdict = "PARTIAL" if isinstance(block, dict) and not block else "PASSED"
+            else:
+                detail = "read_root_missing"
+        else:
+            detail = "payload_not_an_object"
+    else:
+        try:
+            error_payload = response.json()
+        except ValueError:
+            error_payload = None
+        if isinstance(error_payload, dict) and isinstance(error_payload.get("error"), dict):
+            detail = str(error_payload["error"].get("message") or "")[:200]
+        else:
+            detail = "non_json_error"
+        if INSTANCE_DOWN_MARKER in detail:
+            # 实例崩溃后重启会**关闭项目** ⇒ 该行**没有**取得结论，续跑时重测。
+            verdict = SKIPPED
+    return {
+        "uri": str(item.get("uri") or ""),
+        "read_root": read_root,
+        "status_code": response.status_code,
+        "top_keys": top,
+        "verdict": verdict,
+        "detail": detail,
+    }
+
+
+def probe(repo: Path, only: tuple[str, ...], chunk_size: int = CHUNK_SIZE) -> int:
+    """只读 L4 实测 → 证据文件（零副作用；**分块** + 块间只读健康检查；**累积**）。
+
+    ⚠️ 纪律（P149-B2 两次实例崩溃的教训）：每块 ≤ `chunk_size`（默认 **20**）条，块间做**只读**
+    健康检查 `GET /DB/NODE`；非 `200` ⇒ **立即中止**，并把「实例不可达 / `The project is not
+    opened`」的行标成 `SKIPPED`（**不**冒充 `FAILED`、**不**计入任何收口）。
+    ⚠️ **累积**：既有证据里的行**逐字节保留**（不重测），本批只补新目标 ⇒ 同一份证据可**多批**增长。
+    """
     import httpx  # noqa: PLC0415
 
     base = os.environ.get("MIDAS_BASE_URL", "").rstrip("/")
@@ -117,7 +208,6 @@ def probe(repo: Path, only: tuple[str, ...]) -> int:
     if not base or not key_value:
         print("❌ --probe 需要 MIDAS_BASE_URL / MIDAS_MAPI_KEY（见 scripts/load-midas-env.ps1）")
         return 1
-    files = endpoint_files(repo)
     manifest = {
         str(item["key"]): item
         for item in json.loads(
@@ -125,42 +215,37 @@ def probe(repo: Path, only: tuple[str, ...]) -> int:
         )["endpoints"]
     }
     targets = probe_targets(repo, only)
-    print(f"只读 L4 实测：{len(targets)} 个端点（实例 {INSTANCE_ALIAS} / {INSTANCE_PRODUCT}）")
-    endpoints: dict[str, dict[str, Any]] = {}
-    counts: dict[str, int] = {}
+    endpoints = _existing_rows(repo)
+    pending = [key for key in targets if key not in endpoints]
+    print(
+        f"只读 L4 实测：目标 {len(targets)} 个（既有证据 {len(endpoints)} 行 ⇒ 待测 {len(pending)} 个）"
+        f"（实例 {INSTANCE_ALIAS} / {INSTANCE_PRODUCT}）"
+    )
+    aborted = ""
     with httpx.Client(base_url=base, headers={"MAPI-Key": key_value}, timeout=30.0) as client:
-        for key in targets:
-            item = manifest[key]
-            read_root = str((item.get("wrapper") or {}).get("read_root") or "")
-            uri = "/" + str(item.get("uri") or "").lstrip("/")
-            response = client.get(uri)
-            top: list[str] = []
-            verdict = "FAILED"
-            if response.status_code == 200:
-                try:
-                    payload = response.json()
-                except ValueError:
-                    payload = None
-                if isinstance(payload, dict):
-                    top = [str(name) for name in payload]
-                    block = payload.get(read_root)
-                    if read_root in top:
-                        verdict = "PARTIAL" if isinstance(block, dict) and not block else "PASSED"
-            endpoints[key] = {
-                "uri": str(item.get("uri") or ""),
-                "read_root": read_root,
-                "status_code": response.status_code,
-                "top_keys": top,
-                "verdict": verdict,
-            }
-            counts[verdict] = counts.get(verdict, 0) + 1
+        for start in range(0, len(pending), chunk_size):
+            chunk = pending[start : start + chunk_size]
+            for key in chunk:
+                endpoints[key] = _probe_key(client, manifest[key])
+            health = client.get(HEALTH_PATH).status_code
+            print(f"  块 {start // chunk_size + 1} 完成（{len(chunk)} 条）；健康检查 → {health}")
+            if health != 200:
+                aborted = f"健康检查 {HEALTH_PATH} → {health}（**立即中止**，P149-B2 的教训）"
+                print(f"  ⚠️ {aborted}")
+                break
+    counts: dict[str, int] = {}
+    for row in endpoints.values():
+        verdict = str(row.get("verdict"))
+        counts[verdict] = counts.get(verdict, 0) + 1
     document = {
         "note": [
-            "P149-C（R111 的恢复条件）：`availability: verified` 的语义 = 「至少一个实例 GET 成功」"
-            "（registry/README.md §4），故本证据 = **只读** L4 实测（**只发 GET**，零副作用）。",
+            "`availability: verified` 的语义 = 「至少一个实例 GET 成功」（registry/README.md §4），"
+            "故本证据 = **只读** L4 实测（**只发 GET**，零副作用）。",
             "判据（与 P134 的 L4 同一口径）：响应顶层键 == `read_root` ⇒ `PASSED`（块非空）/ "
-            "`PARTIAL`（块为空 —— 空项目下的正常形态）；非 200 或顶层键不符 ⇒ `FAILED`。",
-            "生成器 = `registry/tools/sync_availability.py --probe`；收口 = `--write`（**只升不降**），"
+            "`PARTIAL`（块为空 —— 空项目下的正常形态）；非 200 或顶层键不符 ⇒ `FAILED`；"
+            "传输失败 / 实例不可达 ⇒ `SKIPPED`（**不**计入收口，续跑时重测）。",
+            "生成器 = `registry/tools/sync_availability.py --probe`（**分块** ≤ 20 + 块间只读健康检查 "
+            "`GET /DB/NODE`；**累积**：既有行逐字节保留）；收口 = `--write`（**只升不降**），"
             "随后跑 `registry/tools/sync_manifest.py --write` 重派生 manifest；`--check` 断言一致。",
             "凭据**绝不**写入本文件（MAPI-Key 只经环境变量注入）。",
         ],
@@ -169,17 +254,18 @@ def probe(repo: Path, only: tuple[str, ...]) -> int:
             "product": INSTANCE_PRODUCT,
             "base_url": base,
             "probed_at": PROBED_AT,
-            "scope": "untested ∧ GET ∧ read_root ∧ enabled",
+            "scope": "availability != verified ∧ GET ∧ read_root ∧ enabled",
         },
         "counts": counts,
+        "aborted": aborted,
         "endpoints": dict(sorted(endpoints.items())),
     }
     (repo / "registry" / EVIDENCE_RELATIVE).write_text(
         json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    print("汇总 =", counts)
-    print(f"已写入 registry/{EVIDENCE_RELATIVE}")
-    return 0
+    print("汇总 =", counts, " 中止 =", bool(aborted))
+    print(f"已写入 registry/{EVIDENCE_RELATIVE}（{len(endpoints)} 行）")
+    return 1 if aborted else 0
 
 
 def load_evidence(repo: Path) -> dict[str, dict[str, Any]]:
@@ -271,13 +357,14 @@ def main() -> int:
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--only", default="")
+    parser.add_argument("--chunk-size", type=int, default=CHUNK_SIZE)
     args = parser.parse_args()
     repo = Path(args.repo).resolve()
     only = tuple(part.strip() for part in args.only.split(",") if part.strip())
 
     status = 0
     if args.probe:
-        status = probe(repo, only)
+        status = probe(repo, only, args.chunk_size)
     if args.write:
         status = max(status, write_back(repo))
     if args.check:

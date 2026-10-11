@@ -13634,8 +13634,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -13771,8 +13773,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14092,8 +14096,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14640,8 +14646,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14684,8 +14692,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14775,8 +14785,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14819,8 +14831,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -14909,8 +14923,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -15183,8 +15199,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -15274,8 +15292,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -15450,8 +15470,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -18091,8 +18113,10 @@
       "examples": 2,
       "execution_mode": "LONG",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",

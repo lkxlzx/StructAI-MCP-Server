@@ -14,7 +14,8 @@ schema_ref:
   source: repo_midas_api
 parser: db_generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 path_key_supported: true
 table_type: null
 title: Equivalent Moment Correction Factor(Cm) (등가모멘트 보정계수)

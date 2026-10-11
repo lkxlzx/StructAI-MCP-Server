@@ -798,8 +798,11 @@ GEN NX 的候选集 = **11**，被「Transformer 未注册」挡住的写端点 
 - **计数**：覆盖率 **`70 / 633` → `72 / 633`**（`model_write` **`72 / 434`**）· 候选 **72 / 62 / 0** ·
   blocked **501 / 438 / 31** · 模板 **71** / body **115** · 响应 Schema 行 **241 → 290** ·
   留缺账本 **180 → 178**（R110 **164** · R101–R105 **11** · R109 **2** · R113 **1**）。
-- **R111 闭环**（49 个全部取得结论），恢复路径**已工具化**（可复算）；其余 **317** 个未验证的只读端点
-  可用**同一工具**后续扫（`--probe`）。
+- **R111 闭环**（49 个全部取得结论），恢复路径**已工具化**（可复算）。
+  ⚠️ **P149-E 更正**：旧记的「其余 **317** 个未验证的**只读**端点」**偏松** —— 据实复算
+  `availability != verified` 共 **155** 个 = **35** 可探（`GET` + `read_root` + 已启用）+
+  **119** **没有** `GET` + **1** 已禁用；其中 **35** 个已由 **P149-E** 只读补测（见 §8.12 ⑮），
+  余 **23** 个 `unverified` 复测**仍 `404`**（**R85** 成立）。
 - 可执行判定 = `tests/test_midas_availability_p149c.py`（**7** 项）·
   `docs/reports/P149-C_只读L4收口availability与写路径解锁_v1.0.md`。
 
@@ -878,3 +881,27 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
 **证据** = `registry/live/singleton_table_probe.json` · **复算工具** =
 `registry/tools/probe_singleton_tables.py` · **可执行判定** =
 `tests/test_midas_singleton_tables_p149d.py`。
+
+**⑮ P149-E：只读 L4 补测收口 + 「317」记法据实更正**：
+
+- **记法更正（不美化）**：旧记「其余 **317** 个未验证的**只读**端点」**偏松** —— 据实复算
+  `availability != verified` 共 **155** 个 = **35** 可探（`GET` + `read_root` + 已启用）+
+  **119** **没有** `GET` + **1** 已禁用；**更正不改任何判定**。
+- **工具加固**（P149-B2 的教训落到本工具，**只**改工具）：`sync_availability.py` 新增
+  `--chunk-size`（默认 **20**）+ 块间**只读**健康检查 `GET /DB/NODE`（非 `200` ⇒ **立即中止**）+
+  **累积**（既有证据的行**逐字节保留**，本批只补新目标）+ 传输失败 / `The project is not opened`
+  归 `SKIPPED`（**不**计入收口）+ 非 `200` 记 `detail`。
+- **只读补测**：**35** 个（**2** 块 20 / 15，健康检查均 `200`；**全部只发 `GET`**）⇒ 证据
+  `registry/live/live_read_probe.json` **84** 行 = **61** `PARTIAL` + **23** `FAILED`。
+- **收口 12 个**（`200` ∧ 块为空 ⇒ `PARTIAL`）：`DESIGN.RC.KDS-41-20-2022.{CMFT, DCREM, EQCT,
+  MBTP, MCMB, MLLR, MRFT, REBB, SDGN, SUEQ, TRFT}` · `DESIGN.STEEL.KDS-41-30-2022.SLRS`
+  ⇒ `availability: untested → verified` + `verified_on: ["gen-local"]`（**只升不降**）⇒
+  `sync_manifest.py --write`（**24** 处字段）⇒ `sync_response_schemas.py --write`（**12** 个文件
+  **只追加** `response` 块）。⚠️ 这 12 个正是 **R110** 留缺账本里的端点 —— **读路径**与**写路径**
+  是**两个**判定（读得回 ≠ 写得进），留缺账本**一行未动**。
+- **复测仍失败 23 个**（`-M1` 家族 + `DB.UFTR` / `DB.UTBL`）：本 build **`404`** ⇒ **R85 成立**；
+  `availability: unverified` ⇒ **只升不降** ⇒ **一行未改**（逐条以 `git diff --quiet HEAD -- <file>` 断言）。
+- **计数**：`availability == verified` **481 → 493**（`untested` **132 → 120**）· 响应 Schema 行
+  **305 → 317** · `midas_api_schemas` **930 → 942** 行 · **`live.write_path_coverage()` 仍 `72 / 633`**。
+- 可执行判定 = `tests/test_midas_availability_p149e.py`（**7** 项）·
+  `docs/reports/P149-E_只读L4补测收口与317记法更正_v1.0.md`。
