@@ -1,0 +1,1325 @@
+{
+  "note": [
+    "判据（**P152 接口层**）：经**既有 9 个 MCP Tool 契约** —— MCP Tool → OperationPlan（`operations.py`）→ Adapter（intent 分派）→ MidasHttpClient（护栏 + 包装键）→ MIDAS 实例。",
+    "**添加** = 创建经接口层 → 读回在；**编辑** = 创建 → `PUT` 改动过的值 → 读回确认**改动生效**；**删除** = 创建 → `DELETE` 带路径 key → 读回**确认消失**；每行另有**清理**（自建编号再读不在）。",
+    "**只读侦察先行**：每条路径前对目标端点发 `OPTIONS`（核对 `Allow`）与 `GET`（核对解包链 `read_root`）—— 映射**由实测确认**，不按名字臆造。",
+    "**删除以「再读一次、该编号确实不在」为准**（R119：本 build 的 `DELETE` 会返回 `200` 并回显被删记录却**不真正删除**）。",
+    "**只碰自建编号**（= 该端点既有编号的 `max + 1`；专用空项目 ⇒ `1`）；跑前哨兵非空 ⇒ **一个写请求都不发**（`aborted`）。",
+    "证据里的 `requests` 是**接口层实际发出**的请求（method + path + 请求体）——请求体是本探针自建的**规范化数据**，非凭据、非响应体原文；⚠️ **失败**请求另留原生 `error.message` 的前 200 字（`native_error`，诊断必需，与数据侧 `probe_put_edits` 的口径一致）；**成功**响应不留任何原文。",
+    "生成器 = `registry/tools/probe_interface_paths.py --probe`（**分块** ≤ `--chunk-size` + 块间只读健康检查 `/DB/NODE` + 跑前 / 跑后只读哨兵；**累积**：既有行逐字节保留，本批只补新目标）。",
+    "⚠️ 本判据**不**并入任何数据侧覆盖率口径（`live.write_path_coverage()` **不变**）。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11"
+  },
+  "dedicated_project": {
+    "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
+    "project_id": "ff41742e-27fa-4621-bc6b-7829494bdd59",
+    "model_id": "8a494f8a-e7ca-4f47-a545-1d6d52feb56a",
+    "software_instance_id": "fb642faa-b0d2-400f-bf6e-5f6a4f4c8f32",
+    "product": "GEN NX"
+  },
+  "sentinel_endpoints": [
+    "DB.CONS",
+    "DB.ELEM",
+    "DB.GRUP",
+    "DB.MATL",
+    "DB.NODE",
+    "DB.SECT"
+  ],
+  "sentinel_before": {
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "sentinel_after": {
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "residue": {},
+  "allowed_residue": [],
+  "aborted": "",
+  "counts": {
+    "FAILED": 9,
+    "PASSED": 4
+  },
+  "by_path": {
+    "add": {
+      "FAILED": 4,
+      "PASSED": 1
+    },
+    "edit": {
+      "FAILED": 1,
+      "PASSED": 1
+    },
+    "delete": {
+      "FAILED": 4,
+      "PASSED": 2
+    }
+  },
+  "paths": [
+    {
+      "path": "add",
+      "path_label": "添加",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.BOUNDARY.ASSIGN",
+      "endpoint": "DB.CONS",
+      "method": "POST",
+      "uri": "/DB/CONS",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [
+        {
+          "endpoint": "DB.NODE",
+          "id": "1"
+        }
+      ],
+      "recon": {
+        "uri": "/DB/CONS",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "CONS",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 400,
+        "create_data": null,
+        "create_result": {},
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.CONS"
+        }
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/CONS",
+          "body": {
+            "Assign": {
+              "ITEMS": [
+                {
+                  "ID": 1,
+                  "CONSTRAINT": "111000"
+                }
+              ]
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        }
+      ],
+      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.CONS'}"
+    },
+    {
+      "path": "add",
+      "path_label": "添加",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.ELEMENT.CREATE",
+      "endpoint": "DB.ELEM",
+      "method": "POST",
+      "uri": "/DB/ELEM",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [
+        {
+          "endpoint": "DB.NODE",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.NODE",
+          "id": "2"
+        }
+      ],
+      "recon": {
+        "uri": "/DB/ELEM",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "ELEM",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 400,
+        "create_data": null,
+        "create_result": {},
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.ELEM"
+        }
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "2": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/ELEM",
+          "body": {
+            "Assign": {
+              "1": {
+                "NODE": [
+                  1,
+                  2
+                ],
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/2",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        }
+      ],
+      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+    },
+    {
+      "path": "add",
+      "path_label": "添加",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.MATERIAL.ASSIGN",
+      "endpoint": "DB.MATL",
+      "method": "POST",
+      "uri": "/DB/MATL",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/MATL",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "MATL",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 400,
+        "create_data": null,
+        "create_result": {},
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.MATL"
+        }
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "DEN": 7850.0,
+                    "ELAST": 210000000000.0,
+                    "POISN": 0.3
+                  }
+                ],
+                "NAME": "P152M1",
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/MATL",
+          "status": 200
+        }
+      ],
+      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.MATL'}"
+    },
+    {
+      "path": "add",
+      "path_label": "添加",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.NODE.CREATE",
+      "endpoint": "DB.NODE",
+      "method": "POST",
+      "uri": "/DB/NODE",
+      "status": "PASSED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/NODE",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "NODE",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 200,
+        "create_data": {
+          "write_node": [
+            {
+              "NODE": {
+                "1": {
+                  "X": 1.0,
+                  "Y": 2.0,
+                  "Z": 3.0
+                }
+              }
+            }
+          ]
+        },
+        "create_result": {},
+        "error": {}
+      },
+      "readback": {
+        "present": true,
+        "observed": {
+          "id": "1",
+          "x": 1.0,
+          "y": 2.0,
+          "z": 3.0
+        }
+      },
+      "edit": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_node": {
+            "NODE": {
+              "1": {
+                "X": 1.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 1.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "path": "add",
+      "path_label": "添加",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.SECTION.ASSIGN",
+      "endpoint": "DB.SECT",
+      "method": "POST",
+      "uri": "/DB/SECT",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/SECT",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "SECT",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 400,
+        "create_data": null,
+        "create_result": {},
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.SECT"
+        }
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_NAME": "P152S1",
+                "SECTTYPE": "DBUSER"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/SECT",
+          "status": 200
+        }
+      ],
+      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.SECT'}"
+    },
+    {
+      "path": "edit",
+      "path_label": "编辑",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.ELEMENT.UPDATE",
+      "endpoint": "DB.ELEM",
+      "method": "PUT",
+      "uri": "/DB/ELEM",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [
+        {
+          "endpoint": "DB.NODE",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.NODE",
+          "id": "2"
+        }
+      ],
+      "recon": {
+        "uri": "/DB/ELEM",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "ELEM",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 400,
+        "create_data": null,
+        "create_result": {},
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.ELEM"
+        }
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "2": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/ELEM",
+          "body": {
+            "Assign": {
+              "1": {
+                "NODE": [
+                  1,
+                  2
+                ],
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/ELEM",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/2",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        }
+      ],
+      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+    },
+    {
+      "path": "edit",
+      "path_label": "编辑",
+      "tool": "engineering_model_assign",
+      "operation": "MODEL.NODE.UPDATE",
+      "endpoint": "DB.NODE",
+      "method": "PUT",
+      "uri": "/DB/NODE",
+      "status": "PASSED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/NODE",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "NODE",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "create_http": 200,
+        "create_data": {
+          "write_node": [
+            {
+              "NODE": {
+                "1": {
+                  "X": 1.0,
+                  "Y": 2.0,
+                  "Z": 3.0
+                }
+              }
+            }
+          ]
+        },
+        "create_result": {},
+        "error": {}
+      },
+      "readback": {
+        "present": true,
+        "observed": {
+          "id": "1",
+          "x": 1.0,
+          "y": 2.0,
+          "z": 3.0
+        }
+      },
+      "edit": {
+        "http": 200,
+        "data": {
+          "write_node": [
+            {
+              "NODE": {
+                "1": {
+                  "X": 2.0,
+                  "Y": 2.0,
+                  "Z": 3.0
+                }
+              }
+            }
+          ]
+        },
+        "error": {},
+        "field": "x",
+        "expected": 2.0,
+        "effective": true,
+        "observed": {
+          "id": "1",
+          "x": 2.0,
+          "y": 2.0,
+          "z": 3.0
+        }
+      },
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_node": {
+            "NODE": {
+              "1": {
+                "X": 2.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 1.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 2.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.BOUNDARY.DELETE",
+      "endpoint": "DB.CONS",
+      "method": "DELETE",
+      "uri": "/DB/CONS",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [
+        {
+          "endpoint": "DB.NODE",
+          "id": "1"
+        }
+      ],
+      "recon": {
+        "uri": "/DB/CONS",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "CONS",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "interface",
+        "create_http": 400,
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.CONS"
+        }
+      },
+      "readback": {},
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/CONS",
+          "body": {
+            "Assign": {
+              "ITEMS": [
+                {
+                  "ID": 1,
+                  "CONSTRAINT": "111000"
+                }
+              ]
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        }
+      ],
+      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.CONS'}"
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.ELEMENT.DELETE",
+      "endpoint": "DB.ELEM",
+      "method": "DELETE",
+      "uri": "/DB/ELEM",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [
+        {
+          "endpoint": "DB.NODE",
+          "id": "1"
+        },
+        {
+          "endpoint": "DB.NODE",
+          "id": "2"
+        }
+      ],
+      "recon": {
+        "uri": "/DB/ELEM",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "ELEM",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "interface",
+        "create_http": 400,
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.ELEM"
+        }
+      },
+      "readback": {},
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "2": {
+                "X": 0.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/ELEM",
+          "body": {
+            "Assign": {
+              "1": {
+                "NODE": [
+                  1,
+                  2
+                ],
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/2",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        }
+      ],
+      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.ELEM'}"
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.GROUP.DELETE",
+      "endpoint": "DB.GRUP",
+      "method": "DELETE",
+      "uri": "/DB/GRUP",
+      "status": "PASSED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/GRUP",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "GRUP",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "raw_post",
+        "http": 200
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_group": {
+            "GRUP": {
+              "1": {
+                "NAME": "P152G1",
+                "P_TYPE": 0
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/DB/GRUP",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "NAME": "P152G1"
+              }
+            }
+          },
+          "via": "raw_precondition"
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/GRUP/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/GRUP",
+          "status": 200
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.MATERIAL.DELETE",
+      "endpoint": "DB.MATL",
+      "method": "DELETE",
+      "uri": "/DB/MATL",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/MATL",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "MATL",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "interface",
+        "create_http": 400,
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.MATL"
+        }
+      },
+      "readback": {},
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "DEN": 7850.0,
+                    "ELAST": 210000000000.0,
+                    "POISN": 0.3
+                  }
+                ],
+                "NAME": "P152M1",
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+        }
+      ],
+      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.MATL'}"
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.NODE.DELETE",
+      "endpoint": "DB.NODE",
+      "method": "DELETE",
+      "uri": "/DB/NODE",
+      "status": "PASSED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/NODE",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "NODE",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "interface",
+        "create_http": 200,
+        "error": {}
+      },
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
+      "edit": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_node": {
+            "NODE": {
+              "1": {
+                "X": 1.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 1.0,
+                "Y": 2.0,
+                "Z": 3.0
+              }
+            }
+          },
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/NODE",
+          "status": 200
+        }
+      ],
+      "detail": ""
+    },
+    {
+      "path": "delete",
+      "path_label": "删除",
+      "tool": "engineering_model_delete",
+      "operation": "MODEL.SECTION.DELETE",
+      "endpoint": "DB.SECT",
+      "method": "DELETE",
+      "uri": "/DB/SECT",
+      "status": "FAILED",
+      "own_id": "1",
+      "preconditions": [],
+      "recon": {
+        "uri": "/DB/SECT",
+        "allow": [
+          "DELETE",
+          "GET",
+          "HEAD",
+          "POST",
+          "PUT"
+        ],
+        "get_status": 200,
+        "read_root": "SECT",
+        "read_root_present": true,
+        "method_allowed": true
+      },
+      "write": {
+        "precondition": "interface",
+        "create_http": 400,
+        "error": {
+          "code": "STRUCTAI-2200",
+          "reason": "task_not_completed",
+          "stage": "execution",
+          "task_code": "STRUCTAI-2200",
+          "native_reason": "software_api_error",
+          "native_stage": "midas_adapter",
+          "native_status": 400,
+          "native_endpoint": "DB.SECT"
+        }
+      },
+      "readback": {},
+      "edit": {},
+      "cleanup": {},
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_NAME": "P152S1",
+                "SECTTYPE": "DBUSER"
+              }
+            }
+          },
+          "status": 400,
+          "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+        }
+      ],
+      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.SECT'}"
+    }
+  ]
+}

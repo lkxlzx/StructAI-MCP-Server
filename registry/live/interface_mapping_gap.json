@@ -1,0 +1,5179 @@
+{
+  "note": [
+    "「接口层可达但适配层未映射」= `registry/manifest.json` 里在 GEN NX 上**可写**（`methods` 含 POST/PUT/DELETE/PATCH）∧ 已启用 ∧ 非破坏性，但**任何** `OperationPlan` 的步骤都没引用它的端点。",
+    "判定点**唯一**：Operation → 端点的编排**只**由 `app/infrastructure/adapters/midas/operations.py` 的 `OPERATION_PLANS` 解释（本工具直接读它，**不**另写一份映射规则）。",
+    "`reason = not_in_operation_contract`：形态齐备（有 GET + read_root ⇒ L5 三步链可表达）但**契约外**；`reason = no_readback_route`：没有 GET 或没有 read_root ⇒ 读回不可表达。",
+    "本清单**零请求**、**不改**任何数据侧文件；生成器 = `registry/tools/probe_interface_paths.py --recon`。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "probed_at": "2026-10-11"
+  },
+  "product_key": "GEN_NX",
+  "operations": 69,
+  "mapped_endpoints": 61,
+  "write_capable_endpoints": 576,
+  "three_step_endpoints": 301,
+  "mapped_inside_three_step": 30,
+  "gap_total": 517,
+  "gap_three_step": [
+    {
+      "key": "DB.ACTL",
+      "uri": "/DB/ACTL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ACTL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ACTL-M1",
+      "uri": "/DB/ACTL-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "ACTL-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BCCT",
+      "uri": "/DB/BCCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BCCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BCGA-M1",
+      "uri": "/DB/BCGA-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BCGA-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BCGD-M1",
+      "uri": "/DB/BCGD-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BCGD-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BNGR",
+      "uri": "/DB/BNGR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BNGR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BTMP",
+      "uri": "/DB/BTMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BTMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BUCK",
+      "uri": "/DB/BUCK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BUCK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CCFC",
+      "uri": "/DB/CCFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CCFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CGLP",
+      "uri": "/DB/CGLP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CGLP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CLDR",
+      "uri": "/DB/CLDR",
+      "methods": "GET,POST,PUT",
+      "read_root": "CLDR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CLWP",
+      "uri": "/DB/CLWP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CLWP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CO_F",
+      "uri": "/DB/CO_F",
+      "methods": "GET,PUT",
+      "read_root": "CO_F",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CO_M",
+      "uri": "/DB/CO_M",
+      "methods": "GET,PUT",
+      "read_root": "CO_M",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CO_S",
+      "uri": "/DB/CO_S",
+      "methods": "GET,PUT",
+      "read_root": "CO_S",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CO_T",
+      "uri": "/DB/CO_T",
+      "methods": "GET,PUT",
+      "read_root": "CO_T",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CPSETTINGS",
+      "uri": "/DB/CPSETTINGS",
+      "methods": "GET,POST,PUT",
+      "read_root": "CPSETTINGS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CRPC",
+      "uri": "/DB/CRPC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CRPC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CSCS",
+      "uri": "/DB/CSCS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CSCS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CUTL",
+      "uri": "/DB/CUTL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CUTL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.DCON",
+      "uri": "/DB/DCON",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCON",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.DCTL",
+      "uri": "/DB/DCTL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCTL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.DOEL",
+      "uri": "/DB/DOEL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DOEL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.DRLS",
+      "uri": "/DB/DRLS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DRLS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.DSTL",
+      "uri": "/DB/DSTL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DSTL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EDMP",
+      "uri": "/DB/EDMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EDMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EFCT",
+      "uri": "/DB/EFCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EFCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EIGV-M1",
+      "uri": "/DB/EIGV-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "EIGV-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ELNK",
+      "uri": "/DB/ELNK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ELNK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EPMT",
+      "uri": "/DB/EPMT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EPMT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EPMT-M1",
+      "uri": "/DB/EPMT-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EPMT-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EPSE",
+      "uri": "/DB/EPSE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EPSE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EPST",
+      "uri": "/DB/EPST",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EPST",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ESSF",
+      "uri": "/DB/ESSF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ESSF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ETFC",
+      "uri": "/DB/ETFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ETFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ETMP",
+      "uri": "/DB/ETMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ETMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EXLD",
+      "uri": "/DB/EXLD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EXLD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FBLA",
+      "uri": "/DB/FBLA",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FBLA",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FIBR",
+      "uri": "/DB/FIBR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FIBR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FIMP",
+      "uri": "/DB/FIMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FIMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FMLD",
+      "uri": "/DB/FMLD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FMLD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FRLS",
+      "uri": "/DB/FRLS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FRLS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.GALD",
+      "uri": "/DB/GALD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "GALD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.GRDP",
+      "uri": "/DB/GRDP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "GRDP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.GSPR",
+      "uri": "/DB/GSPR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "GSPR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.GSTP",
+      "uri": "/DB/GSTP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "GSTP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.GTMP",
+      "uri": "/DB/GTMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "GTMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HAHS",
+      "uri": "/DB/HAHS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HAHS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HECB",
+      "uri": "/DB/HECB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HECB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HHCT",
+      "uri": "/DB/HHCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HHCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HHCT-M1",
+      "uri": "/DB/HHCT-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "HHCT-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HHND",
+      "uri": "/DB/HHND",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HHND",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HPCE",
+      "uri": "/DB/HPCE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HPCE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HSFC",
+      "uri": "/DB/HSFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HSFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HSPT",
+      "uri": "/DB/HSPT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HSPT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.HSTG",
+      "uri": "/DB/HSTG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HSTG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHC",
+      "uri": "/DB/IEHC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHG",
+      "uri": "/DB/IEHG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHG-BEAM-M1",
+      "uri": "/DB/IEHG-BEAM-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHG-BEAM-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHG-GL-M1",
+      "uri": "/DB/IEHG-GL-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHG-GL-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHG-PSS-M1",
+      "uri": "/DB/IEHG-PSS-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHG-PSS-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEHG-TRUSS-M1",
+      "uri": "/DB/IEHG-TRUSS-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHG-TRUSS-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IELC",
+      "uri": "/DB/IELC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IELC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IEPI",
+      "uri": "/DB/IEPI",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEPI",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IFGS",
+      "uri": "/DB/IFGS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IFGS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IMFM",
+      "uri": "/DB/IMFM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IMFM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IMFM-M1",
+      "uri": "/DB/IMFM-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IMFM-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IMPF",
+      "uri": "/DB/IMPF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IMPF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.INMF",
+      "uri": "/DB/INMF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "INMF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-CONC",
+      "uri": "/DB/LCOM-CONC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-CONC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-GEN",
+      "uri": "/DB/LCOM-GEN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-GEN",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-SEISMIC",
+      "uri": "/DB/LCOM-SEISMIC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-SEISMIC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-SRC",
+      "uri": "/DB/LCOM-SRC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-SRC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-STEEL",
+      "uri": "/DB/LCOM-STEEL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-STEEL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-STLCOMP",
+      "uri": "/DB/LCOM-STLCOMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-STLCOMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LDGR",
+      "uri": "/DB/LDGR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LDGR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LDSQ",
+      "uri": "/DB/LDSQ",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LDSQ",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LENG",
+      "uri": "/DB/LENG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LENG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LLAN",
+      "uri": "/DB/LLAN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LLAN",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LLANCH",
+      "uri": "/DB/LLANCH",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LLANCH",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LLANID",
+      "uri": "/DB/LLANID",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LLANID",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LLANOP",
+      "uri": "/DB/LLANOP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LLANOP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LLANTR",
+      "uri": "/DB/LLANTR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LLANTR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LTOM",
+      "uri": "/DB/LTOM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LTOM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LTSR",
+      "uri": "/DB/LTSR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LTSR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MADO",
+      "uri": "/DB/MADO",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MADO",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MATD",
+      "uri": "/DB/MATD",
+      "methods": "GET,PUT",
+      "read_root": "MATD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MATL-M1",
+      "uri": "/DB/MATL-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MATL-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MBTP",
+      "uri": "/DB/MBTP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MBTP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MCON",
+      "uri": "/DB/MCON",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MCON",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MEMB",
+      "uri": "/DB/MEMB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MEMB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MLFC",
+      "uri": "/DB/MLFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MLSP",
+      "uri": "/DB/MLSP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLSP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MLSR",
+      "uri": "/DB/MLSR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLSR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCD",
+      "uri": "/DB/MVCD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCT",
+      "uri": "/DB/MVCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCTBS",
+      "uri": "/DB/MVCTBS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCTBS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCTCH",
+      "uri": "/DB/MVCTCH",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCTCH",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCTID",
+      "uri": "/DB/MVCTID",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCTID",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVCTTR",
+      "uri": "/DB/MVCTTR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVCTTR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVHC",
+      "uri": "/DB/MVHC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVHC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVHL",
+      "uri": "/DB/MVHL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVHL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVHLTR",
+      "uri": "/DB/MVHLTR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVHLTR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLD",
+      "uri": "/DB/MVLD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDBS",
+      "uri": "/DB/MVLDBS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDBS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDCH",
+      "uri": "/DB/MVLDCH",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDCH",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDEU",
+      "uri": "/DB/MVLDEU",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDEU",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDID",
+      "uri": "/DB/MVLDID",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDID",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDPL",
+      "uri": "/DB/MVLDPL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDPL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MVLDTR",
+      "uri": "/DB/MVLDTR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDTR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NBOF",
+      "uri": "/DB/NBOF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NBOF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NLCT-M1",
+      "uri": "/DB/NLCT-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "NLCT-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NLLP",
+      "uri": "/DB/NLLP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NLLP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NLNK",
+      "uri": "/DB/NLNK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NLNK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NLNK-M1",
+      "uri": "/DB/NLNK-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NLNK-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NMAS",
+      "uri": "/DB/NMAS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NMAS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NPLN",
+      "uri": "/DB/NPLN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NPLN",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NSPR",
+      "uri": "/DB/NSPR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NSPR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NTMP",
+      "uri": "/DB/NTMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NTMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.NUCS",
+      "uri": "/DB/NUCS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "NUCS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.OFFS",
+      "uri": "/DB/OFFS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "OFFS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PDEL",
+      "uri": "/DB/PDEL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PDEL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PHGE",
+      "uri": "/DB/PHGE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PHGE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PJCF",
+      "uri": "/DB/PJCF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PJCF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PNLA",
+      "uri": "/DB/PNLA",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PNLA",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PNLD",
+      "uri": "/DB/PNLD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PNLD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.POGD",
+      "uri": "/DB/POGD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "POGD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.POGD-M1",
+      "uri": "/DB/POGD-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "POGD-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.POLC",
+      "uri": "/DB/POLC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "POLC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.POLC-M1",
+      "uri": "/DB/POLC-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "POLC-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.POSP",
+      "uri": "/DB/POSP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "POSP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PRLS",
+      "uri": "/DB/PRLS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PRLS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PRST",
+      "uri": "/DB/PRST",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PRST",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PSLT",
+      "uri": "/DB/PSLT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PSLT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PSSF",
+      "uri": "/DB/PSSF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PSSF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PTNS",
+      "uri": "/DB/PTNS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PTNS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PZEF",
+      "uri": "/DB/PZEF",
+      "methods": "GET,POST,PUT",
+      "read_root": "PZEF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.REBB",
+      "uri": "/DB/REBB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.REBC",
+      "uri": "/DB/REBC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.REBR",
+      "uri": "/DB/REBR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.REBW",
+      "uri": "/DB/REBW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBW",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.RIGD",
+      "uri": "/DB/RIGD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "RIGD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.RPSC",
+      "uri": "/DB/RPSC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "RPSC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SBDO",
+      "uri": "/DB/SBDO",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SBDO",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDHY",
+      "uri": "/DB/SDHY",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDHY",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDIS",
+      "uri": "/DB/SDIS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDIS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDSP",
+      "uri": "/DB/SDSP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDSP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDST",
+      "uri": "/DB/SDST",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDST",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDVE",
+      "uri": "/DB/SDVE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDVE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SDVI",
+      "uri": "/DB/SDVI",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDVI",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SECF",
+      "uri": "/DB/SECF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SECF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SINF",
+      "uri": "/DB/SINF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SINF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SKEW",
+      "uri": "/DB/SKEW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SKEW",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SLAN",
+      "uri": "/DB/SLAN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SLAN",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SLANCH",
+      "uri": "/DB/SLANCH",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SLANCH",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SLANOP",
+      "uri": "/DB/SLANOP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SLANOP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SMCT",
+      "uri": "/DB/SMCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SMCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SMLC",
+      "uri": "/DB/SMLC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SMLC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SMPT",
+      "uri": "/DB/SMPT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SMPT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SPFC",
+      "uri": "/DB/SPFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SPFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SPLC",
+      "uri": "/DB/SPLC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SPLC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SSEIS",
+      "uri": "/DB/SSEIS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SSEIS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SSPS",
+      "uri": "/DB/SSPS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SSPS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STAG",
+      "uri": "/DB/STAG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STAG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STBK",
+      "uri": "/DB/STBK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STBK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STCT",
+      "uri": "/DB/STCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STCT-M1",
+      "uri": "/DB/STCT-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "STCT-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STMP",
+      "uri": "/DB/STMP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STMP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STOR",
+      "uri": "/DB/STOR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STOR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STYP-M1",
+      "uri": "/DB/STYP-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "STYP-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDCS",
+      "uri": "/DB/TDCS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDCS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDGR",
+      "uri": "/DB/TDGR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDGR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDME",
+      "uri": "/DB/TDME",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDME",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDMF",
+      "uri": "/DB/TDMF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDMF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDMT",
+      "uri": "/DB/TDMT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDMT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDNA",
+      "uri": "/DB/TDNA",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDNA",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDNT",
+      "uri": "/DB/TDNT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDNT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TDPL",
+      "uri": "/DB/TDPL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TDPL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THFC",
+      "uri": "/DB/THFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THGA",
+      "uri": "/DB/THGA",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THGA",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THGC-M1",
+      "uri": "/DB/THGC-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "THGC-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THIK",
+      "uri": "/DB/THIK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THIK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THIS-M1",
+      "uri": "/DB/THIS-M1",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THIS-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THMS",
+      "uri": "/DB/THMS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THMS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THNL",
+      "uri": "/DB/THNL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THNL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THOO-M1",
+      "uri": "/DB/THOO-M1",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "THOO-M1",
+      "availability": "unverified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THRE",
+      "uri": "/DB/THRE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THRE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THRG",
+      "uri": "/DB/THRG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THRG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THRI",
+      "uri": "/DB/THRI",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THRI",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THRS",
+      "uri": "/DB/THRS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THRS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.THSL",
+      "uri": "/DB/THSL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "THSL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TMAT",
+      "uri": "/DB/TMAT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TMAT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TMLD",
+      "uri": "/DB/TMLD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TMLD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.TSGR",
+      "uri": "/DB/TSGR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TSGR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ULCT",
+      "uri": "/DB/ULCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ULCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.ULFC",
+      "uri": "/DB/ULFC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ULFC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.UNIT",
+      "uri": "/DB/UNIT",
+      "methods": "GET,PUT",
+      "read_root": "UNIT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.VBEM",
+      "uri": "/DB/VBEM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "VBEM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.VSEC",
+      "uri": "/DB/VSEC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "VSEC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.WMAK",
+      "uri": "/DB/WMAK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WMAK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BEMW",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BEMW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BEMW",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CMFT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CMFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCRE",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCREM",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCREM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCREM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BEAM",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BEAM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCRMB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-BRACE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-BRACE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCRMR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-COLUMN",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-COLUMN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCRMC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DCRM-WALL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DCRMW",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.DFBA",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/DFBA",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DFBA",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.EQCT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/EQCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EQCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.FMAG",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/FMAG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FMAG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.HCBM",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/HCBM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HCBM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.KFAC",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/KFAC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "KFAC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.LCTB",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/LCTB",
+      "methods": "DELETE,GET",
+      "read_root": "LCTB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.LENG",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/LENG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LENG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.LLRF",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/LLRF",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "LLRF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.LMRR",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/LMRR",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "LMRR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.MATD",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MATD",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "MATD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.MBTP",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MBTP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MBTP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.MCMB",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MCMB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MCMB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.MLLR",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MLLR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLLR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.MRFT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/MRFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MRFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.PMDM",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/PMDM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PMDM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBB",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBC",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBR",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REBW",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REBW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REBW",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.REXC",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/REXC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "REXC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.SCOL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SCOL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SCOL",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.SDGN",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SDGN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SDGN",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.SRDF",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SRDF",
+      "methods": "GET,PUT",
+      "read_root": "SRDFRC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.SUEQ",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/SUEQ",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SUEQ",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.TRFT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/TRFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TRFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.ULCT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ULCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WMAK",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WMAK",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WMAK",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.CMFT",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/CMFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.EQCT",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/EQCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EQCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.FMAG",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/FMAG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FMAG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.KFAC",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/KFAC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "KFAC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LCTB",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LCTB",
+      "methods": "DELETE,GET",
+      "read_root": "LCTB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LENG",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LENG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LENG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LLRF",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LLRF",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "LLRF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.LTSR",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/LTSR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LTSR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MATD",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MATD",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "MATD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MBTP",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MBTP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MBTP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MCRD",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MCRD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MCRD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MLLR",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MLLR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLLR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.MRBD",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/MRBD",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MRBD",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.SUEQ",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/SUEQ",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SUEQ",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CBFT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CBFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CBFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CMFT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CMFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CRCM",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CRCM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CRCM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.EQCT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/EQCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EQCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.FMAG",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/FMAG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FMAG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.HCBM",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/HCBM",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "HCBM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.KFAC",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/KFAC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "KFAC",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LCTB",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LCTB",
+      "methods": "DELETE,GET",
+      "read_root": "LCTB",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LENG",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LENG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LENG",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LLRF",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LLRF",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "LLRF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.LTSR",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/LTSR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LTSR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.MBTP",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/MBTP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MBTP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.MLLR",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/MLLR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MLLR",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SERV",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SERV",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SERV",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SLRS",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SLRS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SLRS",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SMODI",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SMODI",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "SMODI",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SRDF",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SRDF",
+      "methods": "DELETE,GET,PUT",
+      "read_root": "SRDF",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.SUEQ",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/SUEQ",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SUEQ",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.ULCT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/ULCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ULCT",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "OPE.SECTPROP",
+      "uri": "/OPE/SECTPROP",
+      "methods": "GET,POST",
+      "read_root": "SECTPROP",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "OPE.STORY_IRR_PARAM",
+      "uri": "/OPE/STORY_IRR_PARAM",
+      "methods": "GET,POST",
+      "read_root": "STORY_IRR_PARAM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "OPE.STORY_PARAM",
+      "uri": "/OPE/STORY_PARAM",
+      "methods": "GET,POST",
+      "read_root": "STORY_PARAM",
+      "availability": "verified",
+      "reason": "not_in_operation_contract"
+    }
+  ],
+  "gap_no_readback": [
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BC-ANAL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BC-ANAL",
+      "methods": "POST",
+      "read_root": "BC-ANAL",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BC-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BC-REPORT",
+      "methods": "POST",
+      "read_root": "BC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BC-TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BC-TABLE",
+      "methods": "POST",
+      "read_root": "BC-TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BD-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BD-REPORT",
+      "methods": "POST",
+      "read_root": "BD-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BRC-ANAL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-ANAL",
+      "methods": "POST",
+      "read_root": "BRC-ANAL",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BRC-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-REPORT",
+      "methods": "POST",
+      "read_root": "BRC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BRC-TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BRC-TABLE",
+      "methods": "POST",
+      "read_root": "BRC-TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.BRD-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/BRD-REPORT",
+      "methods": "POST",
+      "read_root": "BRD-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CC-ANAL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CC-ANAL",
+      "methods": "POST",
+      "read_root": "CC-ANAL",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CC-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CC-REPORT",
+      "methods": "POST",
+      "read_root": "CC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CC-TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CC-TABLE",
+      "methods": "POST",
+      "read_root": "CC-TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CD-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CD-REPORT",
+      "methods": "POST",
+      "read_root": "CD-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.CDESIGN",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/CDESIGN",
+      "methods": "POST",
+      "read_root": "CDESIGN",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.HCD-ANAL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-ANAL",
+      "methods": "POST",
+      "read_root": "HCD-ANAL",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.HCD-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-REPORT",
+      "methods": "POST",
+      "read_root": "HCD-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.HCD-TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/HCD-TABLE",
+      "methods": "POST",
+      "read_root": "HCD-TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.TABLE.BEAM",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.TABLE.BRACE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WC-ANAL",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WC-ANAL",
+      "methods": "POST",
+      "read_root": "WC-ANAL",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WC-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WC-REPORT",
+      "methods": "POST",
+      "read_root": "WC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WC-TABLE",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WC-TABLE",
+      "methods": "POST",
+      "read_root": "WC-TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.RC.KDS-41-20-2022.WD-REPORT",
+      "uri": "/DESIGN/RC/KDS-41-20-2022/WD-REPORT",
+      "methods": "POST",
+      "read_root": "WD-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.BC-REPORT",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/BC-REPORT",
+      "methods": "POST",
+      "read_root": "BC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.CC-REPORT",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/CC-REPORT",
+      "methods": "POST",
+      "read_root": "CC-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.OCHECK",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/OCHECK",
+      "methods": "POST",
+      "read_root": "OCHECK",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.TABLE",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.SRC.AIK-SRC2K.TABLE.SRC",
+      "uri": "/DESIGN/SRC/AIK-SRC2K/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.CODE-REPORT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-REPORT",
+      "methods": "POST",
+      "read_root": "CODE-REPORT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.DREULT",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/DREULT",
+      "methods": "POST",
+      "read_root": "DREULT",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
+      "uri": "/DESIGN/STEEL/KDS-41-30-2022/TABLE",
+      "methods": "POST",
+      "read_root": "TABLE",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DOC.EXPORT",
+      "uri": "/DOC/EXPORT",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DOC.EXPORTMXT",
+      "uri": "/DOC/EXPORTMXT",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DOC.IMPORT",
+      "uri": "/DOC/IMPORT",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DOC.IMPORTMXT",
+      "uri": "/DOC/IMPORTMXT",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "DOC.STAGAS",
+      "uri": "/DOC/STAGAS",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.AUTOMESH",
+      "uri": "/OPE/AUTOMESH",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.DIVIDEELEM",
+      "uri": "/OPE/DIVIDEELEM",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.EDMP",
+      "uri": "/OPE/EDMP",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.GSBG",
+      "uri": "/OPE/GSBG",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.GUSTFACTOR",
+      "uri": "/OPE/GUSTFACTOR",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.LCOM-CONC",
+      "uri": "/OPE/LCOM-CONC",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.LCOM-GEN",
+      "uri": "/OPE/LCOM-GEN",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.LCOM-SRC",
+      "uri": "/OPE/LCOM-SRC",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.LCOM-STEEL",
+      "uri": "/OPE/LCOM-STEEL",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.LINEBMLD",
+      "uri": "/OPE/LINEBMLD",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.MEMB",
+      "uri": "/OPE/MEMB",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.SSPS",
+      "uri": "/OPE/SSPS",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.STOR",
+      "uri": "/OPE/STOR",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.STORPROP",
+      "uri": "/OPE/STORPROP",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.STORYPROP",
+      "uri": "/OPE/STORYPROP",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "OPE.USLC",
+      "uri": "/OPE/USLC",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.PM",
+      "uri": "/POST/PM",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.AXISYMMETRICFG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.AXISYMMETRICFL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.AXISYMMETRICSG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.AXISYMMETRICSL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMFORCESTP",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMFORCEVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMSTRESS7DOF",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMSTRESS7DOFPSC",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMSTRESSDETAIL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMSTRESSPSC",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BEAMSTRESSVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BRACEDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.BUCKLINGMODE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CABLECONFIG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CABLEEFFIENCY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CABLEFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CAPACITY_IRREGULARITY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.COLDFORMEDSTEELMEMBERDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.COLUMNDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.COMPSECTBEAMFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.COMPSECTBEAMSTRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CONCURRENT_JOINT_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.CRITERIA_FOR_REGULARITY_IN_PLAN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.DISPLACEMENTL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.EFFECTIVE_LENGTH_BEAM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.EFFECTIVE_LENGTH_PLATE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.EFFECTIVE_LENGTH_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.ELASTICLINK",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.ELASTICLINKVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.ELEMENTWEIGHT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.ELEM_PROP_EACH_STAGE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.EQUILIBRIUM_ELEM_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.FIBR_ELASTREMAIN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.FIBR_EVENTSTEP",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.FIBR_MAXCONTRACT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.FIBR_MEANCOMPCONTRACT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.FIBR_YILEDSTRENGTH",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.GENERAL_LINK_DEFORM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.GENERAL_LINK_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.GENERAL_LINK_FORCEVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_DISPLACEMENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_PIPE_NODE_TEMP",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_STRESS_G",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_STRESS_L",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_TEMPERATURE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.HEAT_HYDR_TENS_STRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_BEAM_SUM_DX",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_BEAM_SUM_DY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_BEAM_SUM_DZ",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_BEAM_SUM_RY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_BEAM_SUM_RZ",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DEFORM_DIST",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DEFORM_LUMPED",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DEFORM_SPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DEFORM_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DEFORM_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D1_DIST",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D1_LUMPED",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D1_SPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D1_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D1_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D2_DIST",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D2_LUMPED",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D2_SPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D2_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_DUCT_D2_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_ELEM_ROT_BEAM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_ELEM_ROT_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_EVENT_TIME_DIST",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_EVENT_TIME_LUMPED",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_EVENT_TIME_SPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_EVENT_TIME_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_EVENT_TIME_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_FORCE_DIST",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_FORCE_LUMPED",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_FORCE_SPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_FORCE_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_FORCE_WALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_DX",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_DY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_DZ",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_RX",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_RY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_GL_LINK_SUM_RZ",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.IEHG_TRUSS_SUM_DX",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.INITIAL_ELEM_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LACK_OF_FIT_FORCE_BEAM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LACK_OF_FIT_FORCE_PLATE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LACK_OF_FIT_FORCE_TRUSS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LOAD_SUMMARY_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LOAD_SUMMARY_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.LOAD_SUMMARY_Z",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.MASS_SUMMARY_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.MASS_SUMMARY_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.MASS_SUMMARY_Z",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.MATERIAL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.NODALBODYFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.OVERTURNING_MOMENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PARTICIPATIONVECTORMODE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRAINFG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRAINFL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRAINSG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRAINSL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRESSFG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRESSFL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRESSSG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLANESTRESSSL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEUG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEUGVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEUL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEULVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATEFORCEWA",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRAINPG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRAINPL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRAINTG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRAINTL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRESSG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.PLATESTRESSL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.REACTIONL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.REACTIONLSURFACESPRING",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.RESULTANT_FORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.RESULTANT_FORCESVBM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.RS_NODAL_ACCEL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.RS_NODAL_INERTIA",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SECTIONALL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SECT_PROP_LAST_STAGE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SELF_CONST_BEAM_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SELF_CONST_BEAM_STRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLIDFG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLIDFL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLIDSG",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLIDSL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLID_GLOB_PLAST_STRAIN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLID_GLOB_TOTAL_STRAIN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLID_LOCA_PLAST_STRAIN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SOLID_LOCA_TOTAL_STRAIN",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SRCBEAMDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SRCCOLUMNDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STEELMEMBERDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STIFFNESS_IRREGULARITY_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STIFFNESS_IRREGULARITY_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_AXIAL_FORCE_SUM",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DISPLACEMENT_COMB",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DISPLACEMENT_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DISPLACEMENT_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DRIFT_COMB",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DRIFT_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_DRIFT_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_ECNTRICITY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_MODE_SHAPE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_SHEAR_FORCE_COEFFICIENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_SHEAR_FORCE_RATIO",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_SHEAR_FOR_RS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_STABILITY_COEFFICIENT_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.STORY_STABILITY_COEFFICIENT_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.SUPPORTS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISABSOLUTEACCEL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISBEAMFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISDISPLACEMENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISGLINKDEFORMATION",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISGLINKFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISRELATIVEACCEL",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISTRUSSFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.THISVELOCITY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_APPROX_LOSS_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_APPROX_LOSS_STRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_ARRANGEMENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_COORDINATES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_ELONGATION",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_LOSS_FORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_LOSS_STRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_STRS_LIMIT_CHECK",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_WEIGHT_GROUP",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_WEIGHT_PROFILE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TNDN_WEIGHT_PROPERTY",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TORSIONAL_AMPLIFICATION_FACTOR_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TORSIONAL_IRREGULARITY_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TORSIONAL_IRREGULARITY_Y",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TRUSSFORCE",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.TRUSSSTRESS",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.ULTIMATE_STORY_SHEAR_FORCE_CHECK",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.WALLDESIGNFORCES",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.WALL_FORCE_MOMENT",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.WEIGHT_IRREGULARITY_X",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TABLE.string",
+      "uri": "/POST/TABLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "POST.TEXT",
+      "uri": "/POST/TEXT",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "verified",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "VIEW.ACTIVE",
+      "uri": "/VIEW/ACTIVE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "VIEW.ANGLE",
+      "uri": "/VIEW/ANGLE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    },
+    {
+      "key": "VIEW.PRECAPTURE",
+      "uri": "/VIEW/PRECAPTURE",
+      "methods": "POST",
+      "read_root": "",
+      "availability": "untested",
+      "reason": "no_readback_route"
+    }
+  ],
+  "mapped": {
+    "DB.BMLD": [
+      {
+        "operation": "ANALYSIS.STATIC",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load"
+      },
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load"
+      },
+      {
+        "operation": "MODEL.LOAD.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.BODF": [
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load"
+      },
+      {
+        "operation": "MODEL.LOAD.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.CNLD": [
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load"
+      }
+    ],
+    "DB.CONS": [
+      {
+        "operation": "ANALYSIS.STATIC",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "BUILD.FOUNDATION",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_boundary"
+      },
+      {
+        "operation": "BUILD.STEEL_FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_boundary"
+      },
+      {
+        "operation": "MODEL.BOUNDARY.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_boundary"
+      },
+      {
+        "operation": "MODEL.BOUNDARY.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_boundary"
+      },
+      {
+        "operation": "MODEL.BOUNDARY.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.EIGV": [
+      {
+        "operation": "ANALYSIS.BUCKLING",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "ANALYSIS.MODAL",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.ELEM": [
+      {
+        "operation": "BUILD.BEAM",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.COLUMN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.FOUNDATION",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.SLAB",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.STEEL_FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.TRUSS",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "BUILD.WALL",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.COPY",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.ELEMENT.CREATE",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.ELEMENT.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_element"
+      },
+      {
+        "operation": "MODEL.ELEMENT.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "MODEL.ELEMENT.UPDATE",
+        "tool": "engineering_model_assign",
+        "method": "PUT",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.MIRROR",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.MOVE",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      },
+      {
+        "operation": "MODEL.PATTERN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_element"
+      }
+    ],
+    "DB.FBLD": [
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load"
+      }
+    ],
+    "DB.GRUP": [
+      {
+        "operation": "MODEL.GROUP.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_group"
+      },
+      {
+        "operation": "MODEL.GROUP.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.MATL": [
+      {
+        "operation": "BUILD.BEAM",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "BUILD.COLUMN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "BUILD.FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "BUILD.STEEL_FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "BUILD.TRUSS",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "MODEL.MATERIAL.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_material"
+      },
+      {
+        "operation": "MODEL.MATERIAL.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_material"
+      },
+      {
+        "operation": "MODEL.MATERIAL.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.NLCT": [
+      {
+        "operation": "ANALYSIS.NONLINEAR",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.NODE": [
+      {
+        "operation": "BUILD.BEAM",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.COLUMN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.FOUNDATION",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.NODE_GRID",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.SLAB",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.STEEL_FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.TRUSS",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "BUILD.WALL",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.COPY",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.GENERATE_GRID",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.MIRROR",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.MOVE",
+        "tool": "engineering_model_build",
+        "method": "PUT",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.NODE.CREATE",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.NODE.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_node"
+      },
+      {
+        "operation": "MODEL.NODE.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "MODEL.NODE.UPDATE",
+        "tool": "engineering_model_assign",
+        "method": "PUT",
+        "intent": "write_node"
+      },
+      {
+        "operation": "MODEL.PATTERN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_node"
+      }
+    ],
+    "DB.POSL": [
+      {
+        "operation": "ANALYSIS.SEISMIC",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "ANALYSIS.SPECTRUM",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.PRES": [
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load"
+      },
+      {
+        "operation": "MODEL.LOAD.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.SECT": [
+      {
+        "operation": "BUILD.BEAM",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "BUILD.COLUMN",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "BUILD.FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "BUILD.STEEL_FRAME",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "BUILD.TRUSS",
+        "tool": "engineering_model_build",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "MODEL.SECTION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_section"
+      },
+      {
+        "operation": "MODEL.SECTION.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_section"
+      },
+      {
+        "operation": "MODEL.SECTION.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.STLD": [
+      {
+        "operation": "ANALYSIS.SPECTRUM",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "ANALYSIS.STATIC",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "MODEL.LOAD.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_case"
+      },
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load"
+      },
+      {
+        "operation": "MODEL.LOAD.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.STYP": [
+      {
+        "operation": "ANALYSIS.SEISMIC",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.THGC": [
+      {
+        "operation": "ANALYSIS.TIME_HISTORY",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DB.THIS": [
+      {
+        "operation": "ANALYSIS.TIME_HISTORY",
+        "tool": "engineering_analysis",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.RC.DRC": [
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.BD-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      },
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.BD-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      },
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.BRD-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.BRD-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.CD-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.CD-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.DCO": [
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.DCTL": [
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.MEMB": [
+      {
+        "operation": "DESIGN.CONCRETE",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.WD-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.RC.KDS-41-20-2022.WD-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.BC-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      },
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.BC-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      },
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.CC-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.CC-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.DCO": [
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.DCTL": [
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.DSRC": [
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "PUT",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.SRC.AIK-SRC2K.MEMB": [
+      {
+        "operation": "DESIGN.SRC",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.STEEL.DSTL": [
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      },
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design"
+      }
+    ],
+    "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      },
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "DESIGN.STEEL.KDS-41-30-2022.DCO": [
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.STEEL.KDS-41-30-2022.DCTL": [
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DESIGN.STEEL.KDS-41-30-2022.MEMB": [
+      {
+        "operation": "DESIGN.STEEL",
+        "tool": "engineering_design",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "DOC.ANAL": [
+      {
+        "operation": "ANALYSIS.BUCKLING",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.MODAL",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.NONLINEAR",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.SEISMIC",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.SPECTRUM",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.STATIC",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      },
+      {
+        "operation": "ANALYSIS.TIME_HISTORY",
+        "tool": "engineering_analysis",
+        "method": "POST",
+        "intent": "analyze"
+      }
+    ],
+    "DOC.CLOSE": [
+      {
+        "operation": "CLOSE",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.NEW": [
+      {
+        "operation": "NEW",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.OPEN": [
+      {
+        "operation": "OPEN",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.SAVE": [
+      {
+        "operation": "SAVE",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.SAVEAS": [
+      {
+        "operation": "SAVE_AS",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "OPE.PROJECTSTATUS": [
+      {
+        "operation": "INFO",
+        "tool": "engineering_doc",
+        "method": "GET",
+        "intent": "read"
+      },
+      {
+        "operation": "MODEL.QUERY",
+        "tool": "engineering_model_query",
+        "method": "GET",
+        "intent": "read"
+      }
+    ],
+    "POST.STEELCODECHECK": [
+      {
+        "operation": "DESIGN.CODE_CHECK",
+        "tool": "engineering_design",
+        "method": "POST",
+        "intent": "design_result"
+      }
+    ],
+    "POST.TABLE": [
+      {
+        "operation": "RESULT.ANALYSIS.SUMMARY",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "POST.TABLE.BEAMFORCE": [
+      {
+        "operation": "RESULT.ELEMENT.FORCE",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "POST.TABLE.BEAMSTRESS": [
+      {
+        "operation": "RESULT.ELEMENT.STRESS",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "POST.TABLE.DISPLACEMENTG": [
+      {
+        "operation": "RESULT.NODE.DISPLACEMENT",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "POST.TABLE.EIGENVALUEMODE": [
+      {
+        "operation": "RESULT.MODE.SHAPE",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "POST.TABLE.REACTIONG": [
+      {
+        "operation": "RESULT.NODE.REACTION",
+        "tool": "engineering_result",
+        "method": "POST",
+        "intent": "result"
+      }
+    ],
+    "VIEW.CAPTURE": [
+      {
+        "operation": "VIEW.DEFORMED_MODEL",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.DISPLACEMENT",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.FORCE",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.MODEL",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.MODE_SHAPE",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.REACTION",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.STRESS",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      }
+    ],
+    "VIEW.DISPLAY": [
+      {
+        "operation": "VIEW.DEFORMED_MODEL",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.MODEL",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      }
+    ],
+    "VIEW.RESULTGRAPHIC": [
+      {
+        "operation": "VIEW.DEFORMED_MODEL",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.DISPLACEMENT",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.FORCE",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.MODE_SHAPE",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.REACTION",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      },
+      {
+        "operation": "VIEW.STRESS",
+        "tool": "engineering_view",
+        "method": "POST",
+        "intent": "view"
+      }
+    ]
+  }
+}
