@@ -267,6 +267,10 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
   证据 = `registry/live/interface_path_probe.json`（**13** 条 = **4** `PASSED` + **9** `FAILED`，
   三条路径各有 `PASSED`，**零残留**）；复算工具 = `registry/tools/probe_interface_paths.py`。
   ⚠️ 该桶**独立**，**不**并入本节的 71 行子桶，也**不**并入任何覆盖率分子。
+* **接口层读路径（P153，见 §8.12 ⑲）**：**同一链路**但**零写请求**（只发 `GET` 与取报表
+  `POST /POST/TABLE`）—— **15** 条读类 Operation = **2** `PASSED` + **7** `PARTIAL` +
+  **6** `FAILED`；证据 = `registry/live/interface_read_probe.json`（同工具 `--probe-read`）。
+  ⚠️ **PUT 判据与读路径判据是两个桶**（读得回 ≠ 写得进）；两者都**不**并入覆盖率分子。
 
 
 ## 3. 统计
@@ -1104,3 +1108,69 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
 - 可执行判定 = `tests/test_midas_interface_paths_p152.py`（**14** 项 + **1** 项环境门控）·
   `registry/tools/probe_interface_paths.py`（`--recon` / `--probe` / `--check` / `--summary`）·
   `docs/reports/P152_接口层添加删除编辑端到端调试与映射缺口登记_v1.0.md`。
+
+**⑲ P153：接口层**读路径**端到端 + R126 的**裁决输入证据包** + 映射缺口分类收口（接 ⑱）**：
+
+- **接口层读路径（主）**：与写路径**同一链路**（`MCP Tool → OperationPlan（`operations.py`）
+  → Adapter（intent 分派）→ `MidasHttpClient`（护栏 + 包装键）→ MIDAS 实例`），但**零写请求**
+  —— 只发 `GET` 与取报表 `POST /POST/TABLE`。**全部**读类 Operation（**8** 个 `MODEL.*.QUERY` +
+  `INFO` + **6** 个取结果族 = **15** 条）在**专用空项目**上逐条取得结论：
+  **2** `PASSED`（`OPE.PROJECTSTATUS` 的项目状态表**非空**：`MODEL.QUERY` / `INFO`）·
+  **7** `PARTIAL`（`DB.*` 的**空块** —— L4 口径的第三态）· **6** `FAILED`
+  （**5** 条 `POST.TABLE.*` 原生 `400` `[empty] Cannot generate table data as there is no
+  analysis result.` + **1** 条 `RESULT.ANALYSIS.SUMMARY` 的通用入口 `POST.TABLE`
+  `products` **不含** `GEN_NX` ⇒ `STRUCTAI-3000 endpoint_not_available_for_product`、
+  **零** transport 调用）。
+  方法计数 = `{'GET': 12, 'POST': 5}` · `write_requests = 0` · 哨兵 **17** 个端点跑前 == 跑后 ·
+  `residue` 空 · `aborted` 空。
+  判定沿用 **L4 口径**（`docs/04` §71）：`2xx` ∧ 解包链命中（`read_root` 在响应顶层）⇒ 数据块
+  非空 `PASSED` / **空块 `PARTIAL`**；`4xx` / 解包链不命中 ⇒ `FAILED`。
+  ⚠️ **三个接口层事实**（已立 **R127**）：① 结果键是 **`intent`**（读 = `data["read"]`、
+  取报表 = `data["result"]`），**多端点**读 Operation（`MODEL.LOAD.QUERY` 的 4 个端点）的聚合键
+  会被**覆盖** ⇒ 逐端点读数**只**能取 `steps[]`；② **空块会退化成一条全 `None` 的条目**
+  （`{"NODE": {}}` → `[(None, {})]` → `{"x": None, …}`，是**非空 dict**）⇒ 「空块」判据**只**看
+  **原始块的形态**（`size == 0`），读回计数按**有取值**判；③ 哨兵的「编号」**只认数字键**
+  （单例 / 状态表的 `DATA` / `HEAD` 会被误当编号 ⇒ 哨兵**假非空**并中止整批）。
+  证据 = `registry/live/interface_read_probe.json` · 工具 = `registry/tools/probe_interface_paths.py`
+  （新增 `--probe-read` / `--read-summary`）· 判定 = `tests/test_midas_interface_read_p153.py`。
+- **R126 的裁决输入证据包（次）**：**71** 个数据侧模板端点逐条复算「接口层 canonical → native
+  产出的 body」（判定点 = `transforms.py` 的 `TRANSFORMER_REGISTRY` + P152 证据的
+  `requests[].body`）vs「手册示例 body」（判定点 = `write_templates.json` 的 `body`）的
+  **字段差集**：**有**写侧 Transformer **10** / **无** **61**；**字段集缺口 4**
+  （`DB.BMLD` · `DB.MATL` · `DB.PRES` · `DB.SECT` —— 手册示例用了、字段表**表达不了**）·
+  **取值缺口 2**（`DB.CONS` · `DB.ELEM` —— 字段**已在** canonical 里，缺的是**值** / 形态）·
+  **无 canonical 模型 61** · 已覆盖 **4**（`DB.BODF` / `DB.CNLD` / `DB.FBLD` / `DB.STLD`）。
+  与 P152 §1.4 的人工结论**逐条机械对齐**（`DB.MATL` 11 个字段 / `DB.SECT` 6 个 /
+  `DB.CONS` 的 `CONSTRAINT` 6 位 vs 手册 7 位 / `DB.ELEM` 的**取值**缺口）。
+  **二选一方案**（**只**覆盖字段集缺口的 **4** 个端点）：**A** 扩 canonical 字段集
+  （逐字段给 `canonical_hint` + `required`）· **B** 显式允许「按手册示例补原生默认值」
+  （逐字段给**手册示例取值**，来源可回溯）。⚠️ 两处如实标注：**取值缺口不并入二选一**；
+  **同一算法的新增发现**（`DB.BMLD` / `DB.PRES`）**只**登记字段差集，**不**声称会被拒。
+  证据 = `registry/live/canonical_field_gap.json` · 工具 =
+  `registry/tools/check_canonical_field_gap.py`（`--recon` / `--check` / `--summary`）。
+- **映射缺口 517 的分类收口（次）**：缺口定义**未改**（**517** = **271** 契约外 + **246**
+  无读回；`--check` 与 P152 的 `interface_mapping_gap.json` **逐条**一致）。**271** 个「契约外」
+  按命名空间（`DB` **200** / `DESIGN` **68** / `OPE` **3**）· 能力码（`MODEL` **203** /
+  `DELETE` **185** / `DESIGN` **68** / `OPERATION` **3**）· Tool 归属（`query` **271** /
+  `assign` **270** / `delete` **185**）· 就绪度（`manual_example_ready` **51** /
+  `schema_only` **219** / `no_request_schema` **1**）分桶 ⇒ **可纳入性**：
+  **已有 canonical 模型 0** + **有手册示例 51** + **需产品裁决 220**。
+  ⚠️ **`0` 是结论**：**不存在**「只声明一个 Operation 就能纳入」的端点（271 个契约外端点
+  **全部**没有被任何 Operation 引用 ⇒ 也**没有** Transformer 绑定）⇒ 纳入契约一律要**新增
+  canonical 模型**。证据 = `registry/live/interface_mapping_classification.json` · 工具 =
+  `registry/tools/classify_mapping_gap.py`（`--recon` / `--check` / `--summary`）。
+- **`app/**` 一行未改**（授权范围 = 空集；`pyproject.toml` / `migrations/` 未改 ⇒ 无新依赖、
+  **未改表**）：候选改动（扩 `transforms.py` 字段表 / 补原生默认值 / 让多端点读结果不覆盖 /
+  给 `POST.TABLE` 补 `GEN_NX`）分别属 **改契约**、**放宽既有裁决**、**改契约**、**需实测依据的
+  数据侧改动** ⇒ 均超出本批授权，理由逐条见报告 §4。
+- **计数**：本批**没有**任何既有钉住计数变化 —— 端点 **636** · Schema 文件 **625** ·
+  模板 **71** / body **115** · `availability: verified` **493** / `untested` **120** /
+  `unverified` **23** · 响应 Schema 行 **317** · 留缺账本 **178** ·
+  **`live.write_path_coverage()` 仍 `72 / 633`**（`model_write_ratio` **`72 / 434`**）·
+  候选 **72 / 62 / 0** · blocked **501 / 438 / 31** · R118 子桶 **42 / 23 / 6** ·
+  **P152 的接口层写路径子桶仍 `13` = `4 + 9`** · **缺口仍 `517` = `271 + 246`**。
+  **新增的计数 = 接口层**读**路径子桶**（**15** 条 = **2** + **7** + **6**）+ R126 证据包
+  （**71** = **10** + **61**；字段集缺口 **4** / 取值缺口 **2**）+ 缺口分类
+  （**271** = **0** + **51** + **220**），与数据侧口径**分开**、**不**并入任何覆盖率分子。
+- 可执行判定 = `tests/test_midas_interface_read_p153.py`（**19** 项 + **1** 项环境门控）·
+  `docs/reports/P153_接口层读路径端到端与R126裁决输入证据包_v1.0.md`。
