@@ -757,8 +757,12 @@ class _RecordingTransport:
             try:
                 await response.aread()
                 record["shape"] = _shape_of(response.json())
-            except Exception:  # noqa: BLE001 - 形态取不到就如实留空
+            except Exception as error:  # noqa: BLE001 - 形态取不到就如实留空
+                # ⚠️ **P157 加固**：失败时**不**再静默成 `{}`（与「真的是空对象」不可区分）——
+                # 如实记异常类型 + 正文长度（**不**含任何取值）。
                 record["shape"] = {}
+                record["shape_error"] = type(error).__name__
+            record["shape_raw_length"] = len(response.text)
         self.calls.append(record)
         return response
 
@@ -774,7 +778,12 @@ def _shape_of(payload: Any) -> dict[str, Any]:
     这里只记 `kind` 与 `size`，**不**记键名以外的任何内容（编号键**不**进证据）。
     """
     if not isinstance(payload, Mapping):
-        return {}
+        # ⚠️ **P157 加固**：非映射（**列表** / 标量 / 空）此前一律记成 `{}` ⇒
+        # 「空对象」与「列表」**不可区分**（实测：`POST.TABLE` 的 200 响应分不清是哪种）。
+        # 这里用**保留键** `"<root>"` 如实记形态（**仍不**含任何取值）。
+        if isinstance(payload, Sequence) and not isinstance(payload, str):
+            return {"<root>": {"kind": "list", "size": len(payload)}}
+        return {"<root>": {"kind": type(payload).__name__, "size": None}}
     shape: dict[str, Any] = {}
     for key, value in payload.items():
         if isinstance(value, Mapping):
@@ -789,14 +798,33 @@ def _shape_of(payload: Any) -> dict[str, Any]:
 class _Stack:
     """一次接口层探针的**进程内装配**（临时库 + GEN NX 实例绑定 + MCP Server）。"""
 
-    def __init__(self, repo: pathlib.Path, workdir: pathlib.Path, *, read_mode: bool = False) -> None:
+    def __init__(
+        self,
+        repo: pathlib.Path,
+        workdir: pathlib.Path,
+        *,
+        read_mode: bool = False,
+        allow_unverified: bool = False,
+        capture_shape: bool = False,
+    ) -> None:
         self.repo = repo
         self.workdir = workdir
         self.read_mode = read_mode
         """`True` ⇒ **读路径**探针（零写请求；成功响应记结构形态 `shape`）。"""
+        self.capture_shape = bool(read_mode or capture_shape)
+        """`True` ⇒ **成功**响应额外记**结构形态**（`shape`：顶层键的 `kind` / `size`，
+        **不含**取值）。读路径探针恒开；其它探针可**显式**开启（如 P157 的旗舰链要看清
+        `POST.TABLE` 返回的信封形态）。"""
+        self.allow_unverified = allow_unverified
+        """`True` ⇒ **Contract Test 口径**（`docs/04` §71 的 L4/L5）—— 允许调用
+        `verification_status != VERIFIED` 的端点（`MidasAdapter.allow_unverified` 的**唯一**用途，
+        见 `adapter.py` 裁决 4）。⚠️ **默认 `False`**（写路径 / 读路径探针**不**改行为）；
+        只有**显式**要**测量**一个 `untested` 端点的探针才置 `True`。"""
         self.transport: _RecordingTransport | None = None
         self.log: list[dict[str, Any]] = []
         """自上次 `clear()` 以来**接口层实际发出**的全部请求（供逐行证据）。"""
+        self.task_outcome: dict[str, Any] = {}
+        """最近一次 ASYNC 调用的**任务终态**（`{task_id, status, error}`；见 `complete()`）。"""
         self.runtime: Any = None
         self.factory: Any = None
         self.engine: Any = None
@@ -881,7 +909,7 @@ class _Stack:
 
         # ---- 专用实例：MIDAS / GEN NX（**只**在本临时库里登记）----
         self.transport = _RecordingTransport(
-            httpx.AsyncHTTPTransport(), capture_shape=self.read_mode
+            httpx.AsyncHTTPTransport(), capture_shape=self.capture_shape
         )
         install(
             runtime.adapters,
@@ -889,6 +917,7 @@ class _Stack:
                 transport=self.transport,
                 environ=dict(os.environ),
                 product=INSTANCE_PRODUCT,
+                allow_unverified=self.allow_unverified,
             ),
         )
         async with UnitOfWork.from_session_factory(factory) as uow:
@@ -1017,12 +1046,24 @@ class _Stack:
         return dict(response.to_dict())
 
     async def complete(self, payload: Mapping[str, Any]) -> dict[str, Any]:
-        """把 ASYNC 首次响应里的任务跑完（`docs/02` §88 的同一执行链）。"""
+        """把 ASYNC 首次响应里的任务跑完（`docs/02` §88 的同一执行链）。
+
+        ⚠️ **P157 加固（实测事故驱动）**：原先 `result_json is None` 就**静默**返回 `{}` ——
+        任务**失败**（如 `registry_mapping_not_verified`）与任务**没结果**因此**不可区分**，
+        调用方会把 `QUEUED → FAILED` 当成「成功」。这里把**任务的终态**记进 `self.task_outcome`，
+        由 `run_operation` 一并返回（**判定**由调用方做，本函数**不**抛）。
+        """
         execution = payload.get("execution") or {}
         task_id = execution.get("task_id")
         if not isinstance(task_id, str):
             return {}
         record = await self.bundle.engine.run_task(task_id)
+        status = getattr(record, "status", None)
+        self.task_outcome = {
+            "task_id": task_id,
+            "status": getattr(status, "value", None) or str(status),
+            "error": json.loads(record.error_json) if record.error_json else {},
+        }
         if record.result_json is None:
             return {}
         return dict(json.loads(record.result_json))
@@ -1035,9 +1076,11 @@ class _Stack:
         *,
         confirm: bool = False,
     ) -> dict[str, Any]:
-        """一次完整调用：分发 → （ASYNC）跑完任务 ⇒ `{response, result, error, requests}`。"""
+        """一次完整调用：分发 → （ASYNC）跑完任务 ⇒
+        `{response, result, data, error, task, requests}`（`task` = ASYNC 任务的**终态**）。"""
         if self.transport is not None:
             self.transport.calls.clear()
+        self.task_outcome = {}
         response = await self.call(tool, operation, parameters, confirm=confirm)
         result: dict[str, Any] = {}
         if response.get("success") is True:
@@ -1050,6 +1093,7 @@ class _Stack:
             "response": response,
             "result": result,
             "data": response.get("data"),
+            "task": dict(self.task_outcome),
             "error": _error_of(response),
             "requests": requests,
         }

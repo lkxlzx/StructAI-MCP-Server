@@ -32,6 +32,14 @@
 6. **`ANALYSIS.TIME_HISTORY` 只用数据里存在的端点**：`docs/07` §6.9 列的 `DB.THOO`
    **不在** `registry/manifest.json`（数据现状），故本批编排 `DOC.ANAL` + `DB.THGC` +
    `DB.THIS`，并把该差异记入 `docs/07` §16（**不**臆造端点）。
+7. ⚠️ **P157 / R132：`MODEL.LOAD.ASSIGN` 可选地先建工况**（**不**动 9 Tool Contract）。
+   `DB.CNLD` / `DB.BMLD` / … 要求 `LCNAME` 指向**已存在**的工况（原生 `400 Not Found Key`），
+   而**接口层**原本**没有**任何 Operation 能创建工况 —— 尽管本编排里**已经声明**了
+   `DB.STLD` 的 `write_load_case` 步（`intent` / 端点 / Transformer `midas.stld.v1` /
+   载荷入口 `parameters["load_case_definition"]` **全部**早已就位，见 `adapter.py`）。
+   ⇒ `select_steps` 改为：**调用方显式给了** `load_case_definition` 时返回
+   `(DB.STLD 步, 荷载步)`；**没给**则返回 `(荷载步,)`（**保持原样**，工况须已存在）。
+   **不**新增 Operation（仍 **69** 个）、**不**改 9 Tool Contract、**不**臆造工况取值。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -41,18 +49,20 @@ httpx，**不**依赖 `app.interfaces`，也**不**发任何请求。
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Final
 
 from app.infrastructure.adapters.midas.errors import MidasCapabilityError, MidasValidationError
 
 __all__ = [
+    "LOAD_CASE_STEP_KEY",
     "LOAD_STEP_BY_TYPE",
     "NO_NATIVE_MAPPING",
     "OPERATION_PLANS",
     "EndpointStep",
     "OperationPlan",
+    "load_case_step_for",
     "plan_for",
     "plans_for_tool",
     "select_steps",
@@ -60,6 +70,9 @@ __all__ = [
 
 NO_NATIVE_MAPPING: Final[tuple[str, ...]] = ("DESIGN.FOUNDATION", "DESIGN.OPTIMIZE")
 """`docs/07` §6.8：**无** MIDAS API 的 Operation（自研引擎；见裁决 3）。"""
+
+LOAD_CASE_STEP_KEY: Final[str] = "DB.STLD"
+"""`MODEL.LOAD.ASSIGN` 编排里**创建工况**的那一步的端点（`docs/07` §6.3 已声明）。"""
 
 LOAD_STEP_BY_TYPE: Final[dict[str, str]] = {
     "NODE_FORCE": "DB.CNLD",
@@ -685,7 +698,19 @@ def select_steps(operation: str, parameters: Mapping[str, Any]) -> tuple[Endpoin
     plan = plan_for(operation)
     if plan.operation == "MODEL.LOAD.ASSIGN":
         # `docs/07` §6.3 列了**六个**荷载端点，本次调用只执行 `load_type` 对应的那一个。
-        return (load_step_for(plan, parameters),)
+        #
+        # ⚠️ **P157 / R132（改法 A：**不**动 9 Tool Contract）**：`DB.CNLD` / `DB.BMLD` / … 要求
+        # `LCNAME` 指向**已存在**的工况（原生 `400 Not Found Key`），而接口层**没有**任何 Operation
+        # 能**创建**工况 —— 本编排里**已经声明**了 `DB.STLD` 的 `write_load_case` 步，
+        # 但它**从不**被选中。
+        # 这里改为：**调用方显式给了** `load_case_definition` 时，**先**执行那一步，再执行荷载步。
+        # ⚠️ **没给**就**保持原样**（工况须已存在）—— **不**臆造工况、**不**新增 Operation、
+        # **不**改 9 Tool Contract（Operation 仍 **69** 个）。
+        load_step = load_step_for(plan, parameters)
+        case_step = load_case_step_for(plan)
+        if case_step is not None and _has_load_case_definition(parameters):
+            return (case_step, load_step)
+        return (load_step,)
     if not plan.routes:
         return plan.steps
     route = _route_key(parameters)
@@ -711,6 +736,30 @@ def _route_key(parameters: Mapping[str, Any]) -> str:
     if material == "src" and member_type:
         return f"src:{member_type.upper()}"
     return material
+
+
+def load_case_step_for(plan: OperationPlan) -> EndpointStep | None:
+    """取该编排里**创建工况**的那一步（`intent == "write_load_case"`；没有 ⇒ `None`）。
+
+    ⚠️ **不**按端点名猜、**不**臆造步骤 —— 判定点**唯一**在编排的 `intent` 上（见裁决 2）。
+    """
+    for step in plan.steps:
+        if step.intent == "write_load_case":
+            return step
+    return None
+
+
+def _has_load_case_definition(parameters: Mapping[str, Any]) -> bool:
+    """调用方是否**显式**给了工况定义（`load_case_definition`；`None` / 空 ⇒ `False`）。
+
+    ⚠️ 只做「给没给」的判定，**不**构造、**不**补默认值（取值由调用方给出）。
+    """
+    value = parameters.get("load_case_definition")
+    if isinstance(value, Mapping):
+        return True
+    if isinstance(value, Sequence) and not isinstance(value, str):
+        return any(isinstance(item, Mapping) for item in value)
+    return False
 
 
 def load_step_for(plan: OperationPlan, parameters: Mapping[str, Any]) -> EndpointStep:

@@ -55,7 +55,7 @@ P157：`docs/07` §13.5 的**旗舰五步链**在**真机**上的端到端实测
   `DB.CNLD`（只覆盖 `DB.STLD` / `DB.BMLD`）⇒ 节点荷载靠**删除节点**连带清掉（如实记录）。
 * ⚠️ **分析结果可能清不掉**（`POST.TABLE` 的持久化不在本工具的清理能力内）⇒ 如实记录
   `analysis_result_persists`，**不**声称「项目回到空」。
-* **有界**：阶段 A **5** 步 · 阶段 B **9** 步 + 清理（请求数 ≤ `MAX_REQUESTS`）；
+* **有界**：阶段 A **5** 步 · 阶段 B **10** 步 + 清理（请求数 ≤ `MAX_REQUESTS`）；
   **不**逐端点连发试探。
 * 证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。
 
@@ -95,6 +95,8 @@ NOT_RUN = "NOT_RUN"
 # ===== `docs/07` §13.5 的钢柱（6 m 高 Q355B，H400×400×13×21，柱底固定，柱顶 500 kN 竖向）=====
 
 BASE_NODE = 1
+BOUNDARY_NODE = BASE_NODE
+"""**柱底固定**的节点编号（= 柱底节点；支承编号就是它所在节点的编号 —— R128 的外层键口径）。"""
 TOP_NODE = 2
 ELEMENT_ID = 1
 MATERIAL_ID = 1
@@ -122,6 +124,18 @@ MATERIAL_ELAST = 206_000_000.0
 
 MATERIAL_DAMP_RAT = 0.02
 """阻尼比（手册 `Standard` 示例的值）。"""
+
+RESULT_ATTEMPTS = 6
+"""取结果步骤的**有界**重试次数（`RESULT.*`）。
+
+⚠️ **R135（P157 新发现）**：`ANALYSIS.STATIC`（`DOC.ANAL`）在真机上是**触发式**的 ——
+接口层 `POST /DOC/ANAL` 返回 **`200`** 时，分析**未必**已经算完；紧接着的取结果会拿到
+**`200 {}`**（空对象），而**不是**「没有分析结果」的 `400`。
+⇒ 取结果必须**有界等待 + 重试**（**不**无限轮询）。"""
+
+RESULT_DELAY_SECONDS = 3.0
+"""每次重试之间的等待秒数（有界：最多 `RESULT_ATTEMPTS × RESULT_DELAY_SECONDS`）。"""
+
 
 
 def _material_parameters() -> dict[str, Any]:
@@ -161,6 +175,42 @@ def _material_parameters() -> dict[str, Any]:
         ]
     }
 
+BOUNDARY_CONSTRAINT = "1111110"
+"""柱底固定的 `CONSTRAINT`（**7** 位 = `DX,DY,DZ,RX,RY,RZ,RW`）。
+
+⚠️ **R134（P157 新发现）**：`docs/07` §13.5 的提示词写「**柱底固定**」，而 §6.5 给 `BUILD.COLUMN`
+的组合（= `BUILD.BEAM` 的「同上」）**不含** `DB.CONS` ⇒ 建出来的模型**没有边界条件** ⇒
+`POST /DOC/ANAL` 被原生拒绝 **`[错误] 边界条件 没有定义。`**（③ 的**真实**成因）。
+对比 §6.5 的 `BUILD.STEEL_FRAME` **含** `DB.CONS` ⇒ **§6.5 内部不一致**。
+⚠️ 取值口径：**六个经典自由度全约束**（=「固定」）；第 **7** 位 `rw`（翘曲）取 **`False`** ——
+与 P157 写路径**已实测接受**的 `seven_digits_rw0` 一致，**不**臆造 `True`。
+"""
+
+
+def _boundary_parameters() -> dict[str, Any]:
+    """`MODEL.BOUNDARY.ASSIGN` 的规范化参数（**柱底固定**；`docs/04` §31 的 7 个自由度）。
+
+    ⚠️ **P157 / D2 = A 的落地在此被**真机用到**：`rw` 由**调用方显式**给出（**不**给默认值）——
+    这正是 D2 裁决 A 的意义（见 `registry/live/constraint_value_probe.json`）。
+    """
+    return {
+        "boundaries": [
+            {
+                "id": str(BOUNDARY_NODE),
+                "node_id": BOUNDARY_NODE,
+                "group_name": "",
+                "ux": True,
+                "uy": True,
+                "uz": True,
+                "rx": True,
+                "ry": True,
+                "rz": True,
+                "rw": False,
+            }
+        ]
+    }
+
+
 COLUMN_PARAMETERS: dict[str, Any] = {
     "base_node": {"x": 0.0, "y": 0.0, "z": 0.0},
     "height": HEIGHT,
@@ -181,12 +231,30 @@ COLUMN_PARAMETERS: dict[str, Any] = {
 LOAD_PARAMETERS: dict[str, Any] = {
     "load_type": "NODE_FORCE",
     "load": {"id": TOP_NODE, "load_case": LOAD_CASE, "fz": AXIAL_FZ},
+    # ⚠️ **P157 / R132（改法 A）**：`DB.CNLD` 要求 `LCNAME` 指向**已存在**的工况 ⇒ 这里**显式**给
+    # 工况定义，`select_steps` 便会**先**执行编排里**已声明**的 `DB.STLD`（`write_load_case`）步。
+    # 取值来源（**不**臆造）：手册 `db/STLD` 的示例 + **实测可用**的同形取值
+    # （`registry/live/put_edit_probe.json` 的 `DB.STLD` 行：`status_code = 200` ·
+    # `read_back = true` · `deleted = true`；其 body 来自 `write_templates.json` 的
+    # `{"NAME": "DL", "TYPE": "D", "DESC": …}`）
+    # ⇒ 这里**只**把 `NAME` / `DESC` 改成 `AXIAL`，`TYPE` 沿用**已实测**的 `"D"`。
+    "load_case_definition": {"name": LOAD_CASE, "type": "D", "description": LOAD_CASE},
 }
 """⚠️ `load.id` = **柱顶节点编号** —— R128：`DB.CNLD` 的 `Assign` 外层键 = 该条目里映射到
-原生 `ID` 的 canonical 字段（= `id`），**必须**是**存在的**节点编号，否则原生静默 `200` 却不建。"""
+原生 `ID` 的 canonical 字段（= `id`），**必须**是**存在的**节点编号，否则原生静默 `200` 却不建。
+
+⚠️ **R132（P157 修复）**：`load_case_definition` = 建工况的载荷入口（`adapter.py` 的
+`_build_payloads` 早就读它，见 `docs/07` §16.1 的 R132 行）；`select_steps` 现在据此
+**先建工况、再加载荷**（**未**给则保持原样）。
+⚠️ **未实测（如实登记）**：工况**已存在**时再发一次建工况的**幂等性**；本批的链在**空项目**上跑，
+工况必不存在 ⇒ **不**依赖该行为。
+"""
 
 ANALYSIS_PARAMETERS: dict[str, Any] = {"analysis_type": "STATIC"}
-RESULT_PARAMETERS: dict[str, Any] = {"node_ids": [TOP_NODE], "load_cases": [LOAD_CASE]}
+RESULT_PARAMETERS: dict[str, Any] = {"node_ids": [TOP_NODE]}
+"""⚠️ **§13.5 的第 4 步只给 `node=[2]`**（**不**给工况过滤）—— 这里照此办；
+工况过滤（`load_cases`）**未**给，避免把「过滤条件不匹配」与「结果为空」混为一谈。"""
+
 DESIGN_PARAMETERS: dict[str, Any] = {"perform_type": "DESIGN"}
 
 MODEL_READBACK: tuple[str, ...] = ("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT")
@@ -195,10 +263,12 @@ STEP_LOAD: dict[str, Any] = {
     "order": 2,
     "operation": "MODEL.LOAD.ASSIGN",
     "tool": "engineering_model_assign",
-    "label": "荷载（柱顶 500 kN 竖向，工况 AXIAL）",
+    "label": "荷载（先建工况 AXIAL，再在柱顶加 500 kN 竖向）",
     "parameters": LOAD_PARAMETERS,
     "confirm": True,
-    "readback": ("DB.CNLD",),
+    # ⚠️ **R132**：**两个**端点都要**再读**确认 —— 工况 `DB.STLD` **在** ∧ 荷载 `DB.CNLD` **在**
+    # （R128：外层键无效时原生静默 `200` 却不建 ⇒ 判据**必须**以再读为准）。
+    "readback": ("DB.STLD", "DB.CNLD"),
 }
 STEP_ANALYSIS: dict[str, Any] = {
     "order": 3,
@@ -228,6 +298,19 @@ STEP_DESIGN: dict[str, Any] = {
     "readback": (),
 }
 
+def _tail_steps(start: int) -> tuple[dict[str, Any], ...]:
+    """②–⑤（荷载 / 分析 / 结果 / 设计）—— 两个阶段**同一份**声明，**不**另立判定。
+
+    `start` 只改 `order`（阶段 A 从 2 起、阶段 B 从 8 起），**不**改任何判据。
+    """
+    return (
+        {**STEP_LOAD, "order": start},
+        {**STEP_ANALYSIS, "order": start + 1},
+        {**STEP_RESULT, "order": start + 2},
+        {**STEP_DESIGN, "order": start + 3},
+    )
+
+
 SPEC_STEPS: tuple[dict[str, Any], ...] = (
     {
         "order": 1,
@@ -238,15 +321,9 @@ SPEC_STEPS: tuple[dict[str, Any], ...] = (
         "confirm": True,
         "readback": MODEL_READBACK,
     },
-    STEP_LOAD,
-    STEP_ANALYSIS,
-    STEP_RESULT,
-    STEP_DESIGN,
+    *_tail_steps(2),
 )
 """**阶段 A = `docs/07` §13.5 逐字**（① `BUILD.COLUMN` + ②–⑤）。"""
-
-SUBSTITUTE_TAIL: tuple[dict[str, Any], ...] = (STEP_LOAD, STEP_ANALYSIS, STEP_RESULT, STEP_DESIGN)
-"""阶段 B 的 ②–⑤（与阶段 A **同一份**声明，**不**另立判定）。"""
 
 SENTINEL_ENDPOINTS: tuple[str, ...] = (
     "DB.CNLD",
@@ -342,7 +419,16 @@ def _substitute_steps(module: Any) -> tuple[dict[str, Any], ...]:
             "confirm": True,
             "readback": ("DB.ELEM",),
         },
-        *SUBSTITUTE_TAIL,
+        {
+            "order": 6,
+            "operation": "MODEL.BOUNDARY.ASSIGN",
+            "tool": "engineering_model_assign",
+            "label": "①′ **柱底固定**（`DB.CONS`；`CONSTRAINT` = **7** 位 —— D2 = A 的真机落地）",
+            "parameters": _boundary_parameters(),
+            "confirm": True,
+            "readback": ("DB.CONS",),
+        },
+        *_tail_steps(7),
     )
 
 
@@ -402,6 +488,12 @@ def _requests_of(stack: Any) -> list[dict[str, Any]]:
         }
         if item.get("body") is not None:
             record["body"] = item.get("body")
+        if item.get("shape") is not None:
+            record["shape"] = item.get("shape")
+        if item.get("shape_error"):
+            record["shape_error"] = item.get("shape_error")
+        if item.get("shape_raw_length") is not None:
+            record["shape_raw_length"] = item.get("shape_raw_length")
         text = str(item.get("native_error") or "")
         if text:
             record["native_error"] = text[:MAX_NATIVE_ERROR]
@@ -461,6 +553,15 @@ def _collect_numbers(result: Any) -> dict[str, Any]:
     return numbers
 
 
+def _readback_of(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
+    """该步声明的端点的**再读**结果（`{端点: {ids, present}}`；R119 / R128 的判据）。"""
+    readback: dict[str, Any] = {}
+    for endpoint in step.get("readback") or ():
+        ids = stack.read_ids(str(endpoint))
+        readback[str(endpoint)] = {"ids": list(ids), "present": bool(ids)}
+    return readback
+
+
 async def _run_step(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
     """跑一步（判据**只**看接口层响应 + 再读）。"""
     stack.log.clear()
@@ -472,28 +573,48 @@ async def _run_step(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
         "status": FAILED,
         "detail": "",
         "error": {},
+        "task": {},
         "native_error": "",
         "readback": {},
         "numbers": {},
+        "attempts": 0,
         "requests": [],
     }
-    try:
-        outcome = await stack.run_operation(
-            str(step["tool"]),
-            str(step["operation"]),
-            dict(step["parameters"]),
-            confirm=bool(step["confirm"]),
-        )
-    except Exception as error:  # noqa: BLE001 - 逐条隔离（单条失败不打死整批）
-        row["detail"] = f"{type(error).__name__}:{error}"[:200]
+    # ⚠️ **R135**：取结果步骤**有界**重试（`DOC.ANAL` 是触发式的 ⇒ 结果稍后才可用）。
+    is_result = str(step["operation"]).startswith("RESULT.")
+    limit = RESULT_ATTEMPTS if is_result else 1
+    outcome: dict[str, Any] = {}
+    while True:
+        row["attempts"] = int(row["attempts"]) + 1
+        try:
+            outcome = await stack.run_operation(
+                str(step["tool"]),
+                str(step["operation"]),
+                dict(step["parameters"]),
+                confirm=bool(step["confirm"]),
+            )
+        except Exception as error:  # noqa: BLE001 - 逐条隔离（单条失败不打死整批）
+            row["detail"] = f"{type(error).__name__}:{error}"[:200]
+            row["requests"] = _requests_of(stack)
+            return row
+        row["error"] = _error_of(outcome["response"])
+        task = dict(outcome.get("task") or {})
+        row["task"] = task
+        if task:
+            row["error"] = task.get("error") or row["error"]
+            if str(task.get("status")) != "COMPLETED":
+                row["error"] = row["error"] or {"code": "STRUCTAI-5000", "message": "task_failed"}
+        row["native_error"] = _native_error_of(_requests_of(stack))
+        if not row["error"] or int(row["attempts"]) >= limit:
+            break
+        await asyncio.sleep(RESULT_DELAY_SECONDS)
+    if row["task"] and str(row["task"].get("status")) != "COMPLETED":
+        # ⚠️ 任务**失败**也要把**再读**记下来（它正是「哪一步真的落库了」的证据）
+        row["readback"] = _readback_of(stack, step)
+        row["detail"] = f"task_{str(row['task'].get('status')).lower()}"
         row["requests"] = _requests_of(stack)
         return row
-    row["error"] = _error_of(outcome["response"])
-    row["native_error"] = _native_error_of(_requests_of(stack))
-    readback: dict[str, Any] = {}
-    for endpoint in step.get("readback") or ():
-        ids = stack.read_ids(str(endpoint))
-        readback[str(endpoint)] = {"ids": list(ids), "present": bool(ids)}
+    readback = _readback_of(stack, step)
     row["readback"] = readback
     if row["error"]:
         row["detail"] = f"interface_error:{row['error'].get('code')}"
@@ -550,6 +671,7 @@ async def _run_chain(
                     "status": NOT_RUN,
                     "detail": "chain_stopped_at_previous_failure",
                     "error": {},
+                    "task": {},
                     "native_error": "",
                     "readback": {},
                     "numbers": {},
@@ -561,7 +683,12 @@ async def _run_chain(
 
 
 async def _cleanup(stack: Any) -> list[dict[str, Any]]:
-    """**逆序**清理 + 每步**再读确认**（R119）。"""
+    """**逆序**清理 + **收尾再读**（R119）。
+
+    ⚠️ **P157 加固（实测驱动）**：`DB.CNLD` / `DB.CONS` **没有**可用的删除路由
+    （`MODEL.LOAD.DELETE` 只覆盖 `DB.STLD` / `DB.BMLD`），它们靠**删除节点**连带清掉 ⇒
+    按依赖顺序删完之后**必须**再读一次，`gone` 记的是**最终**状态（**不**是"自己那一步之后"）。
+    """
     cleanup: list[dict[str, Any]] = []
     for endpoint, operation in CLEANUP_ORDER:
         stack.log.clear()
@@ -580,10 +707,19 @@ async def _cleanup(stack: Any) -> list[dict[str, Any]]:
                 "ids": before,
                 "remaining": list(after),
                 "gone": not after,
-                "error": _error_of(outcome["response"]),
+                "error": (
+                    _error_of(outcome["response"])
+                    or dict(outcome.get("task") or {}).get("error")
+                    or {}
+                ),
                 "requests": _requests_of(stack),
             }
         )
+    # ⚠️ **收尾再读**：以**最终**状态为准（连带删除 / 后序步骤可能已经把前面的清掉了）
+    for item in cleanup:
+        remaining = list(stack.read_ids(str(item["endpoint"])))
+        item["remaining"] = remaining
+        item["gone"] = not remaining
     return cleanup
 
 
@@ -621,7 +757,15 @@ async def _probe(
         "substitute_reason": "",
     }
     with tempfile.TemporaryDirectory(prefix="structai-p157-") as workdir:
-        async with module._Stack(repo, pathlib.Path(workdir)) as stack:  # noqa: SLF001
+        # ⚠️ **Contract Test 口径**（`docs/04` §71 的 L4/L5）：本探针要**测量**旗舰链，
+        # 而 `DOC.ANAL` 的 `availability` 是 **`untested`**（`verified_on = []`）⇒ 生产路径下会被
+        # `registry_mapping_not_verified`（`STRUCTAI-3000`）拦住。`allow_unverified=True` 是
+        # `MidasAdapter` **唯一**为此存在的开关（`adapter.py` 裁决 4：「只服务 Contract Test」；
+        # `write_probe.py` 的 L5 写路径实测**同样**用它）。⚠️ **不**改 `registry/**` 的
+        # `availability` —— 本次**测量**的结论只作**证据**，升级与否属**数据侧裁决**。
+        async with module._Stack(  # noqa: SLF001
+            repo, pathlib.Path(workdir), allow_unverified=True, capture_shape=True
+        ) as stack:
             before = stack.sentinel(SENTINEL_ENDPOINTS)
             summary["sentinel_before"] = before
             unreadable = sorted(
@@ -721,12 +865,19 @@ def _write(
             "**数值不硬编码**，逐条取自接口层响应（只留数值，不留响应原文）。",
             "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· "
             "跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · "
-            f"阶段 A **{len(SPEC_STEPS)}** 步 / 阶段 B **9** 步（请求数 ≤ {MAX_REQUESTS}）。",
+            f"阶段 A **{len(SPEC_STEPS)}** 步 / 阶段 B **{len(substitute_rows)}** 步"
+            f"（请求数 ≤ {MAX_REQUESTS}）。",
             "⚠️ 接口层的 `MODEL.LOAD.DELETE` **不**覆盖 `DB.CNLD` ⇒ "
             "节点荷载靠**删除节点**连带清掉。",
             "⚠️ **分析结果可能清不掉**（不在本工具清理能力内）⇒ "
             "`analysis_result_persists` 如实记录。",
             "证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。",
+            "⚠️ **Contract Test 口径**：`allow_unverified = True`（`docs/04` §71 的 L4/L5；"
+            "`MidasAdapter` 唯一为此存在的开关）—— 因为 `DOC.ANAL` 的 `availability` 是 "
+            "`untested`。**不**改 `registry/**` 的 `availability`；本次**测量**只作证据。",
+            "⚠️ **ASYNC 判定**：`engineering_analysis` / `engineering_design` / "
+            "`engineering_model_build` / `engineering_model_delete` 在 MCP 层只回 `QUEUED` ⇒ "
+            "**必须**看**任务终态**（`QUEUED → FAILED` 会被误判为成功）。",
             "生成器 = `registry/tools/probe_flagship_chain.py --probe`（**零** `app/**` 改动）。",
         ],
         "criterion_version": CRITERION_VERSION,
@@ -811,6 +962,8 @@ def _check_rows(rows: list[dict[str, Any]], expected: list[str], problems: list[
             problems.append(f"{row.get('operation')}: PASSED 却带接口错误")
         if status == PASSED and row.get("native_error"):
             problems.append(f"{row.get('operation')}: PASSED 却留了原生原文")
+        if status == PASSED and row.get("task") and str(row["task"].get("status")) != "COMPLETED":
+            problems.append(f"{row.get('operation')}: PASSED 但 ASYNC 任务未 COMPLETED")
         if status == FAILED and not (row.get("detail") or row.get("native_error")):
             problems.append(f"{row.get('operation')}: FAILED 但没有成因")
 

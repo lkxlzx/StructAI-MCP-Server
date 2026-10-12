@@ -76,6 +76,9 @@ GAP_EVIDENCE = REPO_ROOT / "registry" / "live" / "interface_mapping_gap.json"
 CHAIN_TOOL = REPO_ROOT / "registry" / "tools" / "probe_flagship_chain.py"
 PROBE_TOOL = REPO_ROOT / "registry" / "tools" / "probe_interface_paths.py"
 
+TOP_NODE = 2
+"""柱顶节点编号（`docs/07` §13.5：柱底固定、柱顶受荷）—— 荷载条目的外层键（R128）。"""
+
 SPEC_OPERATIONS = (
     "BUILD.COLUMN",
     "MODEL.LOAD.ASSIGN",
@@ -91,6 +94,7 @@ SUBSTITUTE_OPERATIONS = (
     "MODEL.NODE.CREATE",
     "MODEL.NODE.CREATE",
     "MODEL.ELEMENT.CREATE",
+    "MODEL.BOUNDARY.ASSIGN",
     "MODEL.LOAD.ASSIGN",
     "ANALYSIS.STATIC",
     "RESULT.NODE.DISPLACEMENT",
@@ -172,7 +176,12 @@ def _rejections(row: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def test_p157_the_spec_chain_does_not_pass_and_stops_at_the_first_step() -> None:
-    """门槛：阶段 A **未通过**，且**首个失败即停**（其余记 `NOT_RUN`，**不**硬跑）。"""
+    """门槛：阶段 A **未通过**，且**首个失败即停**（其余记 `NOT_RUN`，**不**硬跑）。
+
+    ⚠️ **P157 加固**：`engineering_model_build` 是 **ASYNC** ⇒ **必须**看**任务终态**
+    （`task_failed`）；MCP 层只回 `QUEUED` **不**算通过（实测：`DOC.ANAL` 的
+    `registry_mapping_not_verified` 就是这样被吞掉的）。
+    """
     document = _chain()
     assert document["criterion_version"] == 1
     assert [str(row["operation"]) for row in document["steps"]] == list(SPEC_OPERATIONS)
@@ -181,7 +190,9 @@ def test_p157_the_spec_chain_does_not_pass_and_stops_at_the_first_step() -> None
     assert document["aborted"] == ""
     build = document["steps"][0]
     assert build["status"] == "FAILED", build
-    assert build["detail"] == "readback_absent", build
+    assert build["detail"] == "task_failed", build
+    assert str(build["task"]["status"]) == "FAILED", build["task"]
+    assert build["error"]["details"]["endpoint"] == "DB.MATL", build["error"]
     for row in document["steps"][1:]:
         assert row["status"] == "NOT_RUN", row
         assert row["detail"] == "chain_stopped_at_previous_failure", row
@@ -341,42 +352,132 @@ def test_p157_r133_the_material_unit_convention_is_unresolved() -> None:
 
 
 def test_p157_the_substituted_prefix_builds_the_model() -> None:
-    """门槛：①′ 的 **5** 步**全部** `PASSED`（材质 / 截面 / 2 节点 / 单元，逐条**再读**确认）。"""
+    """门槛：①′ 的 **6** 步**全部** `PASSED`（材质 / 截面 / 2 节点 / 单元 / **柱底固定**）。
+
+    ⚠️ **R134（P157）**：第 **6** 步 `MODEL.BOUNDARY.ASSIGN`（柱底固定）是**必需**的 ——
+    `docs/07` §13.5 的提示词写「柱底固定」，而 §6.5 给 `BUILD.COLUMN` 的组合**不含** `DB.CONS`
+    ⇒ 没有它，`POST /DOC/ANAL` 会被原生拒绝 **`[错误] 边界条件 没有定义。`**（实测）。
+    """
     document = _chain()
     assert [str(row["operation"]) for row in document["substituted"]] == list(SUBSTITUTE_OPERATIONS)
     assert document["substitute_reason"], document
-    prefix = document["substituted"][:5]
-    assert [str(row["status"]) for row in prefix] == ["PASSED"] * 5, prefix
+    prefix = document["substituted"][:6]
+    assert [str(row["status"]) for row in prefix] == ["PASSED"] * 6, prefix
     for row in prefix:
         assert not row["error"], row
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 5, "FAILED": 1, "NOT_RUN": 3}
+    assert document["substituted_counts"] == {"PASSED": 9, "FAILED": 1}
     assert document["substituted_verdict"] == "NOT_PASSED"
 
 
-# ===== 3. 阶段 B：② 未通过（工况不存在）=====
+def test_p157_r132_the_load_case_is_created_then_the_load_is_assigned() -> None:
+    """门槛（**R132 已闭环**，有实测依据）：`MODEL.LOAD.ASSIGN` **先建工况、再加载荷**。
 
-
-def test_p157_the_load_assignment_is_blocked_by_the_missing_load_case() -> None:
-    """门槛（**R132**）：② 的成因 = `POST /DB/CNLD` 的 **`400 Not Found Key`**（工况不存在）。
-
-    ⚠️ 判据**以再读为准**（R128）：`DB.CNLD` 的再读**为空** ⇒ **不**因接口层 `2xx` 而通过
-    （本行原生 `400`，接口层如实上抛 `STRUCTAI-2200`）。
+    `select_steps` 在调用方**显式**给了 `load_case_definition` 时返回
+    `(DB.STLD 步, 荷载步)` ⇒ 两条请求**逐条**进证据，且**两个**端点都**再读确认在**
+    （R128：外层键无效时原生静默 `200` 却不建 ⇒ 判据**必须**以再读为准）。
     """
     load = _step(_chain(), "substituted", "MODEL.LOAD.ASSIGN")
-    assert load["status"] == "FAILED", load
-    assert load["error"]["code"] == "STRUCTAI-2200", load["error"]
-    assert load["error"]["details"]["reason"] == "task_not_completed", load["error"]
-    assert load["readback"]["DB.CNLD"] == {"ids": [], "present": False}, load["readback"]
-    rejected = _rejections(load)
-    assert len(rejected) == 1, rejected
-    assert rejected[0]["method"] == "POST", rejected[0]
-    assert str(rejected[0]["path"]).endswith("/DB/CNLD"), rejected[0]
-    assert "Not Found Key" in str(rejected[0]["native_error"]), rejected[0]
-    entry = rejected[0]["body"]["Assign"]["2"]["ITEMS"][0]
-    assert entry["LCNAME"] == "AXIAL", entry
+    assert load["status"] == "PASSED", load
+    assert not load["error"], load["error"]
+    assert load["readback"]["DB.STLD"]["present"] is True, load["readback"]
+    assert load["readback"]["DB.CNLD"]["present"] is True, load["readback"]
+    posts = [
+        item
+        for item in load["requests"]
+        if item["method"] == "POST" and str(item["path"]).rsplit("/", 1)[-1] in {"STLD", "CNLD"}
+    ]
+    assert [str(item["path"]).rsplit("/", 1)[-1] for item in posts] == ["STLD", "CNLD"], posts
+    assert [int(item["status"]) for item in posts] == [200, 200], posts
+    entry = posts[0]["body"]["Assign"]["1"]
+    assert entry["NAME"] == "AXIAL", entry
+    assert entry["TYPE"] == "D", entry  # 手册示例 / P150 实测可用的取值
+    # 荷载条目的外层键 = **柱顶节点编号**（R128）
+    assert list(posts[1]["body"]["Assign"]) == [str(TOP_NODE)], posts[1]["body"]
+
+
+def test_p157_r134_the_fixed_base_is_created_with_a_seven_digit_constraint() -> None:
+    """门槛（**R134**）：①′ 第 **6** 步 = **柱底固定**，`CONSTRAINT` **7** 位（D2 = A 的真机落地）。
+
+    ⚠️ 没有这一步时 `POST /DOC/ANAL` 被原生拒绝 **`[错误] 边界条件 没有定义。`**（实测）。
+    """
+    boundary = _step(_chain(), "substituted", "MODEL.BOUNDARY.ASSIGN")
+    assert boundary["status"] == "PASSED", boundary
+    assert boundary["readback"]["DB.CONS"]["present"] is True, boundary["readback"]
+    post = next(item for item in boundary["requests"] if str(item["path"]).endswith("/DB/CONS"))
+    assert int(post["status"]) == 200, post
+    outer = post["body"]["Assign"]
+    entry = outer[next(iter(outer))]["ITEMS"][0]
+    constraint = str(entry["CONSTRAINT"])
+    assert len(constraint) == 7, entry  # 7 位 = DX,DY,DZ,RX,RY,RZ,RW
+    assert constraint == "1111110", entry  # 六自由度全约束；rw=False（不臆造 True）
+
+
+def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
+    """门槛（**R135**）：取结果**不**带 `LOAD_CASE_NAMES` 过滤，且**实测取到了真实数值**。
+
+    ⚠️ 实测：带 `{"LOAD_CASE_NAMES": ["AXIAL"]}` 时原生回 **`200 {}`**（空对象 ⇒
+    `parse_table` 报 `result_shape_invalid`）；**去掉过滤**后同一端点返回真表
+    （信封根键 = `"empty"`）⇒ 这是**探针参数**问题，**不**是端点问题。
+    ⚠️ **数值不硬编码**：逐条取自响应。
+    """
+    row = _step(_chain(), "substituted", "RESULT.NODE.DISPLACEMENT")
+    assert row["status"] == "PASSED", row
+    post = next(item for item in row["requests"] if str(item["path"]).endswith("/POST/TABLE"))
+    assert int(post["status"]) == 200, post
+    assert "LOAD_CASE_NAMES" not in post["body"]["Argument"], post["body"]
+    assert row["attempts"] == 1, row  # 去掉过滤后**一次**就拿到（无需重试）
+    numbers = row["numbers"]
+    for name in ("displacement.ux", "displacement.uy", "displacement.uz"):
+        assert isinstance(numbers.get(name), float), numbers
+    assert numbers["displacement.uz"] != 0.0, numbers
+
+
+def test_p157_r136_design_steel_is_blocked_by_the_missing_load_combination() -> None:
+    """门槛（**R136**，**未**闭环）：⑤ `DESIGN.STEEL` 因**验算荷载组合不存在**而失败。
+
+    实测请求链：4 个 `GET`（规范 / 选项 / 控制 / 构件）`200` → `POST …/CODE-ANAL` **`200`**
+    （触发验算）→ `POST …/CODE-TABLE` **`400`** `MIDAS GEN NX second query is wrong`；
+    ⚠️ **根因由 MIDAS 弹窗给出**：**「验算结果错误 —— 验算荷载组合不存在。」**
+    ⇒ 验算需要**荷载组合**，而**接口层没有任何 Operation** 能创建它
+    （`DB.LCOM-GEN` / `DB.LCOM-STEEL` / … **都 `verified`**，只是**没被任何 Operation 引用**）
+    ⇒ 修它要**新增 / 扩展 Operation** ⇒ **属改 9 Tool Contract**，须**单独裁决**。
+    """
+    design = _step(_chain(), "substituted", "DESIGN.STEEL")
+    assert design["status"] == "FAILED", design
+    assert design["detail"] == "task_failed", design
+    assert design["error"]["details"]["endpoint"].endswith("CODE-TABLE"), design["error"]
+    assert "second query is wrong" in design["native_error"], design["native_error"]
+    codes = [
+        (str(item["path"]).rsplit("/", 1)[-1], int(item["status"]))
+        for item in design["requests"]
+        if str(item["path"]).startswith("/gen/DESIGN/")
+    ]
+    assert codes == [
+        ("DSTL", 200),
+        ("DCO", 200),
+        ("DCTL", 200),
+        ("MEMB", 200),
+        ("CODE-ANAL", 200),
+        ("CODE-TABLE", 400),
+    ], codes
+    # ⚠️ 离线可复算：荷载组合端点**存在**且**没有任何 Operation 引用它们**
+    from app.infrastructure.adapters.midas.operations import OPERATION_PLANS  # noqa: PLC0415
+
+    referenced = {
+        str(step.key)
+        for plan in OPERATION_PLANS.values()
+        for step in plan.steps
+        if "LCOM" in str(step.key).upper()
+    }
+    assert referenced == set(), referenced
+    registry = MidasRegistry.load(REPO_ROOT / "registry")
+    for key in ("DB.LCOM-GEN", "DB.LCOM-STEEL"):
+        entry = registry.endpoint(key)
+        assert entry.availability == "verified", key
+        assert "GEN_NX" in entry.products, key
 
 
 def test_p157_r132_no_operation_creates_a_load_case() -> None:
@@ -415,7 +516,12 @@ def test_p157_r132_no_operation_creates_a_load_case() -> None:
 
 
 def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:
-    """门槛：**零残留** + 跑前 / 跑后哨兵**一致且全空**（R119；**不**声称未验证的状态）。"""
+    """门槛：**零残留** + 跑前 / 跑中 / 跑后哨兵**一致且全空**（R119）。
+
+    ⚠️ `analysis_result_persists` 现在是 **`False`**（**不**再是 `None`）：③ **真的跑了**，
+    收尾清理删掉模型之后 `POST.TABLE` 重新变成**错误**（模型没了 ⇒ 结果不可取）——
+    **不**声称「分析结果已被清掉」，只声称**当前不可取**。
+    """
     document = _chain()
     assert document["residue"] == {}, document["residue"]
     assert tuple(document["sentinel_endpoints"]) == SENTINEL_ENDPOINTS
@@ -426,17 +532,13 @@ def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:
             assert int(value["status"]) == 200, (key, endpoint, value)
             assert value["ids"] == [], (key, endpoint, value)
     assert document["sentinel_before"] == document["sentinel_after"]
-    # 两轮清理（阶段 A 后 + 收尾）**逐条**确认
     for phase in ("cleanup_mid", "cleanup"):
         for item in document[phase]:
             assert item["gone"] is True, (phase, item)
-    # ③ **未**运行 ⇒ **没有**分析结果（**不**声称「已清掉」）
-    assert document["analysis_result_persists"] is None, document["analysis_result_persists"]
-    assert all(
-        row["status"] == "NOT_RUN"
-        for row in (*document["steps"], *document["substituted"])
-        if row["operation"] == "ANALYSIS.STATIC"
-    )
+    assert document["analysis_result_persists"] is False, document["analysis_result_persists"]
+    analysis = _step(document, "substituted", "ANALYSIS.STATIC")
+    assert analysis["status"] == "PASSED", analysis
+    assert str(analysis["task"]["status"]) == "COMPLETED", analysis["task"]
 
 
 def test_p157_the_evidence_never_carries_credentials() -> None:

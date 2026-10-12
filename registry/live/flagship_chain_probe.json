@@ -4,10 +4,12 @@
     "链路：`BUILD.COLUMN → MODEL.LOAD.ASSIGN → ANALYSIS.STATIC → RESULT.NODE.DISPLACEMENT → DESIGN.STEEL`（`docs/07` §13.5 / `docs/04` §74）。",
     "**阶段 A** = `docs/07` §13.5 逐字；**阶段 B** = **仅当** ① 失败时，用 §6.5 里 `BUILD.COLUMN` **自己组合**的原子 Operation 建模型（①′）后跑 ②–⑤（材质 = **规范库路线** `GB50017-17(S)` + 数据库 `Q355`；截面 = 手册 `db/SECT` 示例 6001；**不**新造取值、**不**掩盖 ① 的失败）。",
     "判定：每步 `PASSED` 的判据见工具 docstring（再读 / 行数 / 无错误）；**数值不硬编码**，逐条取自接口层响应（只留数值，不留响应原文）。",
-    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · 阶段 A **5** 步 / 阶段 B **9** 步（请求数 ≤ 160）。",
+    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · 阶段 A **5** 步 / 阶段 B **10** 步（请求数 ≤ 160）。",
     "⚠️ 接口层的 `MODEL.LOAD.DELETE` **不**覆盖 `DB.CNLD` ⇒ 节点荷载靠**删除节点**连带清掉。",
     "⚠️ **分析结果可能清不掉**（不在本工具清理能力内）⇒ `analysis_result_persists` 如实记录。",
     "证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。",
+    "⚠️ **Contract Test 口径**：`allow_unverified = True`（`docs/04` §71 的 L4/L5；`MidasAdapter` 唯一为此存在的开关）—— 因为 `DOC.ANAL` 的 `availability` 是 `untested`。**不**改 `registry/**` 的 `availability`；本次**测量**只作证据。",
+    "⚠️ **ASYNC 判定**：`engineering_analysis` / `engineering_design` / `engineering_model_build` / `engineering_model_delete` 在 MCP 层只回 `QUEUED` ⇒ **必须**看**任务终态**（`QUEUED → FAILED` 会被误判为成功）。",
     "生成器 = `registry/tools/probe_flagship_chain.py --probe`（**零** `app/**` 改动）。"
   ],
   "criterion_version": 1,
@@ -31,8 +33,35 @@
       "tool": "engineering_model_build",
       "label": "① 建模（钢柱：2 节点 + 1 单元 + 材质 + 截面）",
       "status": "FAILED",
-      "detail": "readback_absent",
-      "error": {},
+      "detail": "task_failed",
+      "error": {
+        "code": "STRUCTAI-2200",
+        "details": {
+          "endpoint": "DB.MATL",
+          "reason": "software_api_error",
+          "stage": "midas_adapter",
+          "status_code": 400
+        },
+        "message": "Software API error",
+        "retryable": false,
+        "type": "SOFTWARE_API_ERROR"
+      },
+      "task": {
+        "task_id": "e9db7997-12e6-448c-8562-9d272ab73d72",
+        "status": "FAILED",
+        "error": {
+          "code": "STRUCTAI-2200",
+          "details": {
+            "endpoint": "DB.MATL",
+            "reason": "software_api_error",
+            "stage": "midas_adapter",
+            "status_code": 400
+          },
+          "message": "Software API error",
+          "retryable": false,
+          "type": "SOFTWARE_API_ERROR"
+        }
+      },
       "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}",
       "readback": {
         "DB.NODE": {
@@ -58,6 +87,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -71,7 +101,14 @@
                 "Z": 0.0
               }
             }
-          }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
         },
         {
           "method": "POST",
@@ -85,7 +122,14 @@
                 "Z": 6.0
               }
             }
-          }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
         },
         {
           "method": "POST",
@@ -103,7 +147,14 @@
                 "SECT": 1
               }
             }
-          }
+          },
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 61
         },
         {
           "method": "POST",
@@ -132,10 +183,11 @@
       "order": 2,
       "operation": "MODEL.LOAD.ASSIGN",
       "tool": "engineering_model_assign",
-      "label": "荷载（柱顶 500 kN 竖向，工况 AXIAL）",
+      "label": "荷载（先建工况 AXIAL，再在柱顶加 500 kN 竖向）",
       "status": "NOT_RUN",
       "detail": "chain_stopped_at_previous_failure",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {},
       "numbers": {},
@@ -149,6 +201,7 @@
       "status": "NOT_RUN",
       "detail": "chain_stopped_at_previous_failure",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {},
       "numbers": {},
@@ -162,6 +215,7 @@
       "status": "NOT_RUN",
       "detail": "chain_stopped_at_previous_failure",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {},
       "numbers": {},
@@ -175,6 +229,7 @@
       "status": "NOT_RUN",
       "detail": "chain_stopped_at_previous_failure",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {},
       "numbers": {},
@@ -195,6 +250,7 @@
       "status": "PASSED",
       "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {
         "DB.MATL": {
@@ -205,6 +261,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -233,7 +290,14 @@
                 "TYPE": "STEEL"
               }
             }
-          }
+          },
+          "shape": {
+            "MATL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 236
         }
       ]
     },
@@ -245,6 +309,7 @@
       "status": "PASSED",
       "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {
         "DB.SECT": {
@@ -255,6 +320,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -282,7 +348,14 @@
                 "SECTTYPE": "DBUSER"
               }
             }
-          }
+          },
+          "shape": {
+            "SECT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 237
         }
       ]
     },
@@ -294,6 +367,7 @@
       "status": "PASSED",
       "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {
         "DB.NODE": {
@@ -304,6 +378,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -317,7 +392,14 @@
                 "Z": 0.0
               }
             }
-          }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
         }
       ]
     },
@@ -329,6 +411,7 @@
       "status": "PASSED",
       "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {
         "DB.NODE": {
@@ -340,6 +423,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -353,7 +437,14 @@
                 "Z": 6.0
               }
             }
-          }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
         }
       ]
     },
@@ -365,6 +456,7 @@
       "status": "PASSED",
       "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {
         "DB.ELEM": {
@@ -375,6 +467,7 @@
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
@@ -392,53 +485,117 @@
                 "TYPE": "BEAM"
               }
             }
-          }
+          },
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 61
         }
       ]
     },
     {
-      "order": 2,
-      "operation": "MODEL.LOAD.ASSIGN",
+      "order": 6,
+      "operation": "MODEL.BOUNDARY.ASSIGN",
       "tool": "engineering_model_assign",
-      "label": "荷载（柱顶 500 kN 竖向，工况 AXIAL）",
-      "status": "FAILED",
-      "detail": "interface_error:STRUCTAI-2200",
-      "error": {
-        "code": "STRUCTAI-2200",
-        "type": "SOFTWARE_API_ERROR",
-        "message": "Software API error",
-        "details": {
-          "stage": "execution",
-          "reason": "task_not_completed",
-          "status": "FAILED",
-          "task_error": {
-            "code": "STRUCTAI-2200",
-            "details": {
-              "endpoint": "DB.CNLD",
-              "reason": "software_api_error",
-              "stage": "midas_adapter",
-              "status_code": 400
-            },
-            "message": "Software API error",
-            "retryable": false,
-            "type": "SOFTWARE_API_ERROR"
-          }
-        },
-        "retryable": false
-      },
-      "native_error": "{\"error\":{\"message\":\"Not Found Key\"}}",
+      "label": "①′ **柱底固定**（`DB.CONS`；`CONSTRAINT` = **7** 位 —— D2 = A 的真机落地）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
       "readback": {
-        "DB.CNLD": {
-          "ids": [],
-          "present": false
+        "DB.CONS": {
+          "ids": [
+            "1"
+          ],
+          "present": true
         }
       },
       "numbers": {},
+      "attempts": 1,
       "requests": [
         {
           "method": "POST",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "ITEMS": [
+                  {
+                    "GROUP_NAME": "",
+                    "ID": 1,
+                    "CONSTRAINT": "1111110"
+                  }
+                ]
+              }
+            }
+          },
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 74
+        }
+      ]
+    },
+    {
+      "order": 7,
+      "operation": "MODEL.LOAD.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "荷载（先建工况 AXIAL，再在柱顶加 500 kN 竖向）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.STLD": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        },
+        "DB.CNLD": {
+          "ids": [
+            "2"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/STLD",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DESC": "AXIAL",
+                "NAME": "AXIAL",
+                "TYPE": "D"
+              }
+            }
+          },
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 57
+        },
+        {
+          "method": "POST",
           "path": "/gen/DB/CNLD",
-          "status": 400,
+          "status": 200,
           "body": {
             "Assign": {
               "2": {
@@ -452,54 +609,251 @@
               }
             }
           },
-          "native_error": "{\"error\":{\"message\":\"Not Found Key\"}}"
+          "shape": {
+            "CNLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 67
         }
       ]
     },
     {
-      "order": 3,
+      "order": 8,
       "operation": "ANALYSIS.STATIC",
       "tool": "engineering_analysis",
       "label": "分析（STATIC）",
-      "status": "NOT_RUN",
-      "detail": "chain_stopped_at_previous_failure",
+      "status": "PASSED",
+      "detail": "",
       "error": {},
+      "task": {
+        "task_id": "45e2c6d2-4692-4b66-9cc0-6851067d5032",
+        "status": "COMPLETED",
+        "error": {}
+      },
       "native_error": "",
       "readback": {},
       "numbers": {},
-      "requests": []
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/STLD",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 64
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/BMLD",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 74
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DOC/ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "TYPE": "STATIC"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 43
+        }
+      ]
     },
     {
-      "order": 4,
+      "order": 9,
       "operation": "RESULT.NODE.DISPLACEMENT",
       "tool": "engineering_result",
       "label": "结果（柱顶位移）",
-      "status": "NOT_RUN",
-      "detail": "chain_stopped_at_previous_failure",
+      "status": "PASSED",
+      "detail": "",
       "error": {},
+      "task": {},
       "native_error": "",
       "readback": {},
-      "numbers": {},
-      "requests": []
+      "numbers": {
+        "displacement.ux": 0.262136,
+        "displacement.uy": 0.262136,
+        "displacement.uz": -0.101942,
+        "displacement.rx": -0.087379,
+        "displacement.ry": 0.087379,
+        "displacement.rz": 0.0
+      },
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "DISPLACEMENTG"
+            }
+          },
+          "shape": {
+            "empty": {
+              "kind": "mapping",
+              "size": 4
+            }
+          },
+          "shape_raw_length": 275
+        }
+      ]
     },
     {
-      "order": 5,
+      "order": 10,
       "operation": "DESIGN.STEEL",
       "tool": "engineering_design",
       "label": "设计（钢构件校核）",
-      "status": "NOT_RUN",
-      "detail": "chain_stopped_at_previous_failure",
-      "error": {},
-      "native_error": "",
+      "status": "FAILED",
+      "detail": "task_failed",
+      "error": {
+        "code": "STRUCTAI-2200",
+        "details": {
+          "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
+          "reason": "software_api_error",
+          "stage": "midas_adapter",
+          "status_code": 400
+        },
+        "message": "Software API error",
+        "retryable": false,
+        "type": "SOFTWARE_API_ERROR"
+      },
+      "task": {
+        "task_id": "0ec5cfe4-5896-4b7f-921e-2e363bf98c4a",
+        "status": "FAILED",
+        "error": {
+          "code": "STRUCTAI-2200",
+          "details": {
+            "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
+            "reason": "software_api_error",
+            "stage": "midas_adapter",
+            "status_code": 400
+          },
+          "message": "Software API error",
+          "retryable": false,
+          "type": "SOFTWARE_API_ERROR"
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}",
       "readback": {},
       "numbers": {},
-      "requests": []
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/DSTL",
+          "status": 200,
+          "shape": {
+            "DSTL": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+          "status": 200,
+          "shape": {
+            "DCO": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 10
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+          "status": 200,
+          "shape": {
+            "DCTL": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+          "status": 200,
+          "shape": {
+            "MEMB": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "PERFORM_TYPE": "DESIGN"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 21
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+          "status": 400,
+          "body": {
+            "Assign": {
+              "1": {}
+            }
+          },
+          "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
+        }
+      ]
     }
   ],
   "substituted_counts": {
-    "PASSED": 5,
-    "FAILED": 1,
-    "NOT_RUN": 3
+    "PASSED": 9,
+    "FAILED": 1
   },
   "substituted_verdict": "NOT_PASSED",
   "substitute_reason": "阶段 A 的 ① `BUILD.COLUMN` 未通过 ⇒ 用 `docs/07` §6.5 的**同一组原子 Operation** 建模型（①′）后跑 ②–⑤；**不**掩盖 ① 的失败。",
@@ -621,13 +975,15 @@
       "endpoint": "DB.CNLD",
       "operation": "MODEL.LOAD.DELETE",
       "ids": [],
-      "gone": true
+      "gone": true,
+      "remaining": []
     },
     {
       "endpoint": "DB.CONS",
       "operation": "MODEL.BOUNDARY.DELETE",
       "ids": [],
-      "gone": true
+      "gone": true,
+      "remaining": []
     },
     {
       "endpoint": "DB.ELEM",
@@ -642,7 +998,14 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/ELEM/1",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 95
         }
       ]
     },
@@ -660,7 +1023,14 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/NODE/1,2",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 2
+            }
+          },
+          "shape_raw_length": 70
         }
       ]
     },
@@ -668,33 +1038,84 @@
       "endpoint": "DB.MATL",
       "operation": "MODEL.MATERIAL.DELETE",
       "ids": [],
-      "gone": true
+      "gone": true,
+      "remaining": []
     },
     {
       "endpoint": "DB.SECT",
       "operation": "MODEL.SECTION.DELETE",
       "ids": [],
-      "gone": true
+      "gone": true,
+      "remaining": []
     },
     {
       "endpoint": "DB.STLD",
       "operation": "MODEL.LOAD.DELETE",
       "ids": [],
-      "gone": true
+      "gone": true,
+      "remaining": []
     }
   ],
   "cleanup": [
     {
       "endpoint": "DB.CNLD",
       "operation": "MODEL.LOAD.DELETE",
-      "ids": [],
-      "gone": true
+      "ids": [
+        "2"
+      ],
+      "remaining": [],
+      "gone": true,
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/STLD/2",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/BMLD/2",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        }
+      ]
     },
     {
       "endpoint": "DB.CONS",
       "operation": "MODEL.BOUNDARY.DELETE",
-      "ids": [],
-      "gone": true
+      "ids": [
+        "1"
+      ],
+      "remaining": [],
+      "gone": true,
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/CONS/1",
+          "status": 200,
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 74
+        }
+      ]
     },
     {
       "endpoint": "DB.ELEM",
@@ -709,7 +1130,14 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/ELEM/1",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 95
         }
       ]
     },
@@ -727,7 +1155,14 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/NODE/1,2",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 2
+            }
+          },
+          "shape_raw_length": 70
         }
       ]
     },
@@ -744,7 +1179,14 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/MATL/1",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "MATL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 236
         }
       ]
     },
@@ -761,20 +1203,64 @@
         {
           "method": "DELETE",
           "path": "/gen/DB/SECT/1",
-          "status": 200
+          "status": 200,
+          "shape": {
+            "SECT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 355
         }
       ]
     },
     {
       "endpoint": "DB.STLD",
       "operation": "MODEL.LOAD.DELETE",
-      "ids": [],
-      "gone": true
+      "ids": [
+        "1"
+      ],
+      "remaining": [],
+      "gone": true,
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/STLD/1",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 64
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/BMLD/1",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        }
+      ]
     }
   ],
   "residue": {},
-  "analysis_result_persists": null,
-  "numbers": {},
+  "analysis_result_persists": false,
+  "numbers": {
+    "displacement.ux": 0.262136,
+    "displacement.uy": 0.262136,
+    "displacement.uz": -0.101942,
+    "displacement.rx": -0.087379,
+    "displacement.ry": 0.087379,
+    "displacement.rz": 0.0
+  },
   "requests": [
     {
       "method": "POST",
@@ -788,7 +1274,14 @@
             "Z": 0.0
           }
         }
-      }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
     },
     {
       "method": "POST",
@@ -802,7 +1295,14 @@
             "Z": 6.0
           }
         }
-      }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
     },
     {
       "method": "POST",
@@ -820,7 +1320,14 @@
             "SECT": 1
           }
         }
-      }
+      },
+      "shape": {
+        "ELEM": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 61
     },
     {
       "method": "POST",
@@ -870,7 +1377,14 @@
             "TYPE": "STEEL"
           }
         }
-      }
+      },
+      "shape": {
+        "MATL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 236
     },
     {
       "method": "POST",
@@ -898,7 +1412,14 @@
             "SECTTYPE": "DBUSER"
           }
         }
-      }
+      },
+      "shape": {
+        "SECT": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 237
     },
     {
       "method": "POST",
@@ -912,7 +1433,14 @@
             "Z": 0.0
           }
         }
-      }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
     },
     {
       "method": "POST",
@@ -926,7 +1454,14 @@
             "Z": 6.0
           }
         }
-      }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
     },
     {
       "method": "POST",
@@ -944,12 +1479,65 @@
             "TYPE": "BEAM"
           }
         }
-      }
+      },
+      "shape": {
+        "ELEM": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 61
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "GROUP_NAME": "",
+                "ID": 1,
+                "CONSTRAINT": "1111110"
+              }
+            ]
+          }
+        }
+      },
+      "shape": {
+        "CONS": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 74
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/STLD",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DESC": "AXIAL",
+            "NAME": "AXIAL",
+            "TYPE": "D"
+          }
+        }
+      },
+      "shape": {
+        "STLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 57
     },
     {
       "method": "POST",
       "path": "/gen/DB/CNLD",
-      "status": 400,
+      "status": 200,
       "body": {
         "Assign": {
           "2": {
@@ -963,7 +1551,159 @@
           }
         }
       },
-      "native_error": "{\"error\":{\"message\":\"Not Found Key\"}}"
+      "shape": {
+        "CNLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 67
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/STLD",
+      "status": 200,
+      "shape": {
+        "STLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 64
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/BMLD",
+      "status": 200,
+      "shape": {
+        "BMLD": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/CONS",
+      "status": 200,
+      "shape": {
+        "CONS": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 74
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DOC/ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "TYPE": "STATIC"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 43
+    },
+    {
+      "method": "POST",
+      "path": "/gen/POST/TABLE",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "TABLE_TYPE": "DISPLACEMENTG"
+        }
+      },
+      "shape": {
+        "empty": {
+          "kind": "mapping",
+          "size": 4
+        }
+      },
+      "shape_raw_length": 275
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/DSTL",
+      "status": 200,
+      "shape": {
+        "DSTL": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+      "status": 200,
+      "shape": {
+        "DCO": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 10
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+      "status": 200,
+      "shape": {
+        "DCTL": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+      "status": 200,
+      "shape": {
+        "MEMB": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "PERFORM_TYPE": "DESIGN"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 21
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+      "status": 400,
+      "body": {
+        "Assign": {
+          "1": {}
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
     }
   ]
 }

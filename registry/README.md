@@ -1336,9 +1336,21 @@ R129 的数据更正（接 ㉒）**：
     **用户裁决 = B**（**不**改 `app/**`；建模走 `MODEL.MATERIAL.ASSIGN`；钢号 **`Q355`**）⇒ 修正后的
     **规范库** body（`STANDARD="GB50017-17(S)"` · `DB="Q355"`（= **钢号**）· `CODE=""` · `P_TYPE=1` ·
     `ELAST=206000000`（**kN/m²**））**实测 `200` 且落库** ⇒ ①′ 五步全 `PASSED`。
-  * **R132**：`MODEL.LOAD.ASSIGN` 的编排**声明**了 `DB.STLD` 的 `write_load_case` 步，但 `select_steps`
-    **只**选出该荷载类型那一步 ⇒ `DB.STLD` **永不**被执行；而 `MODEL.LOAD.DELETE` **能删**它（**不对称**）
-    ⇒ **接口层没有**任何 Operation 能**创建**工况。
+  * **R132（✅ 已闭环，用户裁决 = A）**：`MODEL.LOAD.ASSIGN` 的编排**声明**了 `DB.STLD` 的
+    `write_load_case` 步，但 `select_steps` **只**选出该荷载类型那一步 ⇒ `DB.STLD` **永不**被执行；
+    而 `MODEL.LOAD.DELETE` **能删**它（**不对称**）⇒ **接口层没有**任何 Operation 能**创建**工况。
+    ✅ **修法（不动 9 Tool Contract）**：`select_steps` 在调用方**显式**给了 `load_case_definition` 时
+    返回 `(DB.STLD 步, 荷载步)` ⇒ ② **`PASSED`**（`POST /DB/STLD` → `POST /DB/CNLD`）。
+  * **R134（新，已闭环）**：§13.5 要求「柱底固定」，而 §6.5 给 `BUILD.COLUMN` 的组合**不含** `DB.CONS`
+    （`BUILD.STEEL_FRAME` 却**含** ⇒ **§6.5 内部不一致**）⇒ 没有它 `POST /DOC/ANAL` → `400`
+    **`[错误] 边界条件 没有定义。`**。①′ 补第 6 步 `MODEL.BOUNDARY.ASSIGN`（`CONSTRAINT = "1111110"`，
+    **7** 位）后 ③ **`PASSED`** —— 这也是 **D2 = A 在真机上的第一次实际使用**。
+  * **R135（新，已闭环）**：取结果**不能**带 `LOAD_CASE_NAMES` 过滤 —— 带过滤时原生回 **`200 {}`**
+    （⇒ `parse_table` 报 `result_shape_invalid`；**有界重试 6 次全 `{}`**，**不**是没算完）；
+    去掉过滤后同一端点返回真表 ⇒ ④ **`PASSED`** 并取到**真实数值**。
+  * **R136（新，**未**闭环）**：⑤ `DESIGN.STEEL` 的 `CODE-TABLE` → `400`，**根因 = 验算荷载组合不存在**
+    （MIDAS 弹窗原文）。荷载组合端点（`DB.LCOM-GEN` / `DB.LCOM-STEEL` / …）**都 `verified`**，
+    但**没有任何 Operation 引用它们** ⇒ 修它要**新增 / 扩展 Operation** ⇒ **属改 9 Tool Contract**，须裁决。
   * **R133（新，**只**登记）**：`DB.MATL` 的**单位口径**在 canonical 侧**未**定义 —— 手册 / 对话框是
     `kN/m²` / `kN/m³`，而写路径探针发的是 Pa / kg·m⁻³（**1000× / 100×**）；原生**不**校验量级 ⇒
     两者都 `200`，但**工程含义不同** ⇒ 写路径 `DB.MATL` 的 `PASSED` 证明的是**形状 / 字段集**被接受，
