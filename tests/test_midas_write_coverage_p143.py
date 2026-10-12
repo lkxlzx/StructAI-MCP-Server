@@ -43,6 +43,26 @@ from app.infrastructure.adapters.midas.write_probe import (
 )
 
 WRITE_PATH_TOTAL = 633
+UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
+)
+"""⚠️ **P157 / R136** 起进入候选集、但**尚**未做 L5 实测的 6 个荷载组合端点。
+
+候选集（契约 ∩ 已注册 Transformer）72 → 78；分子是**数据驱动**的 L5 `PASSED` ⇒ 仍 **72**。
+本常量把两者解耦（**不**虚增分子）。
+"""
+
+
+def _measured(keys: tuple[str, ...]) -> tuple[str, ...]:
+    """分子**只**取已实测的 key（**不**把新增的 6 个荷载组合算进分子）。"""
+    return tuple(key for key in keys if key not in UNMEASURED_LCOM_KEYS)
+
+
 """写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
 DB_CODES = (
@@ -69,6 +89,12 @@ DB_CODES = (
     "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
     "DB.LDGR",
     "DB.LDSQ",
     "DB.LENG",
@@ -144,6 +170,12 @@ CIVIL_CODES = (
     "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
     "DB.LDGR",
     "DB.LDSQ",
     "DB.MATL",
@@ -288,7 +320,7 @@ async def test_p143_probe_key_reports_the_missing_write_method_without_writing()
 def test_p143_the_coverage_numerator_is_key_based_not_product_based() -> None:
     """门槛：分子是 **registry key** 去重 —— 换产品跑**不**改变 `covered`（跨产品是另一条证据）。"""
     registry = _registry()
-    keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
+    keys = _measured(CANDIDATES_BY_PRODUCT["GEN_NX"])
     gen = write_path_coverage(registry, [_Row(key, product="GEN_NX") for key in keys])
     civil = write_path_coverage(registry, [_Row(key, product="CIVIL_NX") for key in keys])
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL

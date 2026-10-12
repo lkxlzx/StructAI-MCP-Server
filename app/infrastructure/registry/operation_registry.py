@@ -6,7 +6,7 @@
   的 **12 字段**。P03 已把它冻结在 `app.domain.protocols.OperationDefinition`，本批**只消费**，
   不新造第二个定义类。
 - `docs/07` §12 P08 / `docs/02` §113 —— 门槛：`operation_registry.get("BUILD.COLUMN")`
-  返回**完整**定义；69 个 Operation **全部**可 `get`。
+  返回**完整**定义；70 个 Operation **全部**可 `get`。
 - `docs/02` §28（Core Operation Registry）—— Database Registry + Runtime Registry：
   数据库保存 operation / capability / software / …，运行时保存 `OperationDefinition`。
 - `docs/07` §4.3 #17 / `docs/02` §23 —— `operations` 表**只**持久化 6 个字段
@@ -56,7 +56,7 @@
    `engineering_result` 6 · `engineering_design` 6 = **26** 条）取 `True`；
    标注为 **✅ 直接** 的六类（doc 6 · query 8 · assign 8 · delete 7 · view 7 · analysis 7
    = **43** 条）取 `False`。§6.5 对 Build 类的原话即「在 Core 中以**组合 Operation** 实现
-   （`OperationDefinition.transactional=true`）」。26 + 43 = **69**。
+   （`OperationDefinition.transactional=true`）」。26 + 43 = **69**（P157 / R136 起 **70**）。
 4. **`rollback_supported`** ← 与 `transactional` 同值：`docs/07` §6.5 明示组合 Operation
    「失败时按 §5.4 的事务回滚优先级处理」，即存在明确回滚路径（Native Transaction →
    Snapshot/Restore → Compensating Actions → Best Effort）；单端点 Operation 的原子性由
@@ -73,7 +73,7 @@
      → `STATE_RECONCILE`（§45 示例 `BUILD.COLUMN`、`MODEL.DELETE`）；
    - `DESIGN.OPTIMIZE` → `MANUAL_REVIEW`（§45 示例）。
    `FAIL` 是 `OperationDefinition.recovery_policy` 的**默认值**（`docs/02` §11）；
-   本批 69 条**全部**有明确归类，故无一条落 `FAIL` —— 未登记项会被装配校验直接拒绝
+   本批 70 条**全部**有明确归类，故无一条落 `FAIL` —— 未登记项会被装配校验直接拒绝
    （见 `_validate`），不会静默退化为默认值。
 
 ⚠️ 已登记的规范内部冲突（本批裁决，见 `docs/07` §16 R15–R17）
@@ -138,8 +138,12 @@ __all__ = [
 
 logger = logging.getLogger("structai.registry")
 
-OPERATION_COUNT: Final[int] = 69
-"""冻结的 Operation 总数（`docs/07` §5.1：6+8+8+7+14+7+6+6+7 = **69**；`docs/02` §69）。"""
+OPERATION_COUNT: Final[int] = 70
+"""Operation 总数（`docs/07` §5.1：6+**9**+8+7+14+7+6+6+7 = **70**；`docs/02` §69）。
+
+⚠️ **P157 / R136（用户裁决 = B）**：原为 **69**（`engineering_model_assign` = 8）；
+新增 `MODEL.LOAD_COMBINATION.ASSIGN` 后为 **70**（该 Tool = **9**）。
+"""
 
 # ===== Recovery Policy（`docs/02` §45 的四值词表）=====
 
@@ -200,7 +204,7 @@ def _profile(
 
 
 def _build_profiles() -> dict[str, OperationProfile]:
-    """构造 69 条补齐映射（`docs/07` §5.1 · §5.4 · §5.5 · §6.1–§6.10；`docs/02` §31 · §45 · §86–§87）。"""
+    """构造 70 条补齐映射（`docs/07` §5.1 · §5.4 · §5.5 · §6.1–§6.10；`docs/02` §31 · §45 · §86–§87）。"""
     profiles: dict[str, OperationProfile] = {}
 
     def add(
@@ -292,7 +296,12 @@ def _build_profiles() -> dict[str, OperationProfile]:
         ),
     )
 
-    # ===== ③ `engineering_model_assign`（8）—— `docs/07` §6.3 =====
+    # ===== ③ `engineering_model_assign`（**9**）—— `docs/07` §6.3 =====
+
+    # ⚠️ **P157 / R136（用户裁决 = B）**：新增 `MODEL.LOAD_COMBINATION.ASSIGN`
+    # （Operation **69 → 70**）—— 荷载组合按**材料 / 种类**拆成 6 个 `DB.LCOM-*` 端点
+    # （**全部** `verified`），是**独立于 `load_type` 的一个维度**，故**不**塞进
+    # `MODEL.LOAD.ASSIGN`；能力码**复用** `MODEL.LOAD.WRITE`（**不**扩 41 码词表）。
 
     add(
         (
@@ -304,6 +313,7 @@ def _build_profiles() -> dict[str, OperationProfile]:
             "MODEL.SECTION.ASSIGN",
             "MODEL.BOUNDARY.ASSIGN",
             "MODEL.LOAD.ASSIGN",
+            "MODEL.LOAD_COMBINATION.ASSIGN",
         ),
         (
             (Capability.MODEL_NODE_WRITE,),
@@ -313,6 +323,7 @@ def _build_profiles() -> dict[str, OperationProfile]:
             (Capability.MODEL_MATERIAL_WRITE,),
             (Capability.MODEL_SECTION_WRITE,),
             (Capability.MODEL_BOUNDARY_WRITE,),
+            (Capability.MODEL_LOAD_WRITE,),
             (Capability.MODEL_LOAD_WRITE,),
         ),
         permissions=(PermissionCode.MODEL_WRITE,),
@@ -596,7 +607,7 @@ class OperationRegistry:
     async def get(self, name: str) -> OperationDefinition | None:
         """按名读取定义；未登记返回 `None`（域契约口径，不抛异常）。
 
-        ⚠️ `docs/07` §12 P08 的门槛是「69 个 Operation **全部**可 `get`」——
+        ⚠️ `docs/07` §12 P08 的门槛是「全部 Operation（现 **70** 个）**全部**可 `get`」——
         任一返回 `None` 即失败，因此 `None` 只可能来自「数据库未配备」（`load()` 返回
         `None`）或未登记的 Operation 名。
         """
@@ -865,7 +876,7 @@ async def sync_operation_capabilities(session: AsyncSession) -> OperationCapabil
         `OperationCapabilitySyncReport`。
 
     Raises:
-        InternalError: `operations` / `capabilities` 未 Seed 到 69 / 41 行（先跑 P07 Seed）。
+        InternalError: `operations` / `capabilities` 未 Seed 到 70 / 41 行（先跑 P07 Seed）。
     """
     operation_ids = {
         str(name): str(identifier)

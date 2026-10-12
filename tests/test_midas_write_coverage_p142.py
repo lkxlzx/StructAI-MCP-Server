@@ -11,7 +11,8 @@
 --------------------
 1. **候选集上限**：`candidate_keys()` = 「有写方法 + 有读路径 + Transformer **已注册** +
    非危险形态」∩ 产品可得性 —— GEN NX / CIVIL NX = **11**、Civil Designer = **0**（P143 更正）；
-   被「Transformer 未注册」挡住的写端点 = **542 / 471 / 32**（P142 前为 543 / 472 / 32）。
+   被「Transformer 未注册」挡住的写端点 = **496 / 432 / 31**（P142 为 502 / 438 / 31；
+P157 / R136 起 −6）。
 2. **加模板不能新增候选**：模板只改变**已候选**端点的请求体 —— 给未候选端点（`DB.ELNK`）
    注入模板，候选集**不变**，`probe_key()` 如实记 `NO_PAYLOAD_TEMPLATE` 且**零**写请求。
 3. **契约内缺口已收口**：`operations.LOAD_STEP_BY_TYPE["FLOOR_LOAD"] = "DB.FBLD"` 早已声明，
@@ -88,6 +89,20 @@ MODEL_WRITE_TOTAL = 434
 """分母里的「模型写」子桶（P141 裁决⑤：**同时**报两个比率；P148 为 410）。"""
 
 FLOOR_LOAD_KEY = "DB.FBLD"
+
+UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
+)
+"""⚠️ **P157 / R136** 起进入候选集、但**尚**未做 L5 实测的 6 个荷载组合端点。
+
+它们是**契约声明**（新 Operation）∩ **已注册 Transformer** ⇒ 候选集 72 → 78；
+但分子是**数据驱动**的 L5 `PASSED` ⇒ 仍 **72**。本常量把两者解耦（**不**虚增分子）。
+"""
 """本批收口的端点（`docs/07` §6.3 的 `MODEL.LOAD.ASSIGN` 端点表里的楼面荷载类型）。"""
 
 FLOOR_LOAD_TYPE = "FLOOR_LOAD"
@@ -117,6 +132,12 @@ DB_CODES = (
     "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
     "DB.LDGR",
     "DB.LDSQ",
     "DB.LENG",
@@ -191,6 +212,12 @@ CIVIL_CODES = (
     "DB.HHCT",
     "DB.HSFC",
     "DB.IEHC",
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
     "DB.LDGR",
     "DB.LDSQ",
     "DB.MATL",
@@ -246,8 +273,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 502,
-    "CIVIL_NX": 438,
+    "GEN_NX": 496,
+    "CIVIL_NX": 432,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
@@ -267,7 +294,7 @@ P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified`
 （20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
 `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
-REGISTERED_TRANSFORMERS = 20
+REGISTERED_TRANSFORMERS = 26
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
 BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()
@@ -609,7 +636,7 @@ def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
     assert len(write_only_keys(registry)) == WRITE_ONLY_TOTAL
     assert len(result_query_keys(registry)) == RESULT_QUERY_TOTAL
     assert len(model_write_keys(registry)) == MODEL_WRITE_TOTAL
-    keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
+    keys = tuple(key for key in CANDIDATES_BY_PRODUCT["GEN_NX"] if key not in UNMEASURED_LCOM_KEYS)
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
     assert coverage.covered == len(keys) == 72

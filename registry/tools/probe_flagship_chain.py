@@ -250,6 +250,30 @@ LOAD_PARAMETERS: dict[str, Any] = {
 工况必不存在 ⇒ **不**依赖该行为。
 """
 
+COMBINATION_KIND = "STEEL"
+"""荷载组合的种类（→ `DB.LCOM-STEEL`；`DESIGN.STEEL` 的验算读它）。"""
+
+LOAD_COMBINATION_PARAMETERS: dict[str, Any] = {
+    "combination_kind": COMBINATION_KIND,
+    "load_combinations": [
+        {
+            "no": 1,
+            "name": "sLCB1",
+            "active": "STRENGTH",
+            "b_cb": True,
+            "i_type": 0,
+            "description": "",
+            "combination_items": [{"ANAL": "CS", "LCNAME": LOAD_CASE, "FACTOR": 1}],
+        }
+    ],
+}
+"""⚠️ **R136（P157 / 用户裁决 = B）**：`DESIGN.*` 的验算需要**荷载组合**（原生弹窗
+「验算荷载组合不存在」）。取值**照手册** `db/LCOM-STEEL` 的示例结构
+（`NO` / `NAME` / `ACTIVE` / `bCB` / `iTYPE` / `DESC` / `vCOMB`），
+⚠️ **只**把 `vCOMB[0].LCNAME` 换成**本链自建**的工况名 `AXIAL`（**不**臆造取值）。
+`combination_kind` = **分派键**（→ `DB.LCOM-STEEL`），**不**是该端点 Schema 里的字段。
+"""
+
 ANALYSIS_PARAMETERS: dict[str, Any] = {"analysis_type": "STATIC"}
 RESULT_PARAMETERS: dict[str, Any] = {"node_ids": [TOP_NODE]}
 """⚠️ **§13.5 的第 4 步只给 `node=[2]`**（**不**给工况过滤）—— 这里照此办；
@@ -298,16 +322,36 @@ STEP_DESIGN: dict[str, Any] = {
     "readback": (),
 }
 
-def _tail_steps(start: int) -> tuple[dict[str, Any], ...]:
+def _tail_steps(start: int, *, with_combination: bool) -> tuple[dict[str, Any], ...]:
     """②–⑤（荷载 / 分析 / 结果 / 设计）—— 两个阶段**同一份**声明，**不**另立判定。
 
     `start` 只改 `order`（阶段 A 从 2 起、阶段 B 从 8 起），**不**改任何判据。
+    ⚠️ `with_combination`：**只**阶段 B 追加 `MODEL.LOAD_COMBINATION.ASSIGN`（**R136**）——
+    阶段 A 是 `docs/07` §13.5 的**逐字** 5 步，**不**加任何一步。
     """
     return (
         {**STEP_LOAD, "order": start},
         {**STEP_ANALYSIS, "order": start + 1},
         {**STEP_RESULT, "order": start + 2},
-        {**STEP_DESIGN, "order": start + 3},
+        # ⚠️ **R136**：荷载组合**只**服务 ⑤ 的验算（③ 分析**不**需要它）⇒ 放在「取结果」
+        # **之后**、`DESIGN.STEEL` **之前** —— 这样 ②③④ 的证据**不**被它挡住。
+        # ⚠️ **只**阶段 B 有这一步（阶段 A 是 §13.5 逐字 5 步）。
+        *(
+            (
+                {
+                    "order": start + 3,
+                    "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+                    "tool": "engineering_model_assign",
+                    "label": "⑤′ **荷载组合**（`DB.LCOM-STEEL`；R136 —— 验算的前提）",
+                    "parameters": LOAD_COMBINATION_PARAMETERS,
+                    "confirm": True,
+                    "readback": ("DB.LCOM-STEEL",),
+                },
+            )
+            if with_combination
+            else ()
+        ),
+        {**STEP_DESIGN, "order": start + 4 if with_combination else start + 3},
     )
 
 
@@ -321,7 +365,7 @@ SPEC_STEPS: tuple[dict[str, Any], ...] = (
         "confirm": True,
         "readback": MODEL_READBACK,
     },
-    *_tail_steps(2),
+    *_tail_steps(2, with_combination=False),
 )
 """**阶段 A = `docs/07` §13.5 逐字**（① `BUILD.COLUMN` + ②–⑤）。"""
 
@@ -330,6 +374,7 @@ SENTINEL_ENDPOINTS: tuple[str, ...] = (
     "DB.CONS",
     "DB.ELEM",
     "DB.GRUP",
+    "DB.LCOM-STEEL",
     "DB.MATL",
     "DB.NODE",
     "DB.SECT",
@@ -338,13 +383,14 @@ SENTINEL_ENDPOINTS: tuple[str, ...] = (
 """跑前 / 跑后只读哨兵 = **全部**会被触碰的端点 ∪ 全部前置端点。"""
 
 CLEANUP_ORDER: tuple[tuple[str, str], ...] = (
-    ("DB.CNLD", "MODEL.LOAD.DELETE"),
-    ("DB.CONS", "MODEL.BOUNDARY.DELETE"),
-    ("DB.ELEM", "MODEL.ELEMENT.DELETE"),
-    ("DB.NODE", "MODEL.NODE.DELETE"),
-    ("DB.MATL", "MODEL.MATERIAL.DELETE"),
-    ("DB.SECT", "MODEL.SECTION.DELETE"),
-    ("DB.STLD", "MODEL.LOAD.DELETE"),
+    ("DB.LCOM-STEEL", "MODEL.LOAD.DELETE", {"combination_kind": COMBINATION_KIND}),
+    ("DB.CNLD", "MODEL.LOAD.DELETE", {}),
+    ("DB.CONS", "MODEL.BOUNDARY.DELETE", {}),
+    ("DB.ELEM", "MODEL.ELEMENT.DELETE", {}),
+    ("DB.NODE", "MODEL.NODE.DELETE", {}),
+    ("DB.MATL", "MODEL.MATERIAL.DELETE", {}),
+    ("DB.SECT", "MODEL.SECTION.DELETE", {}),
+    ("DB.STLD", "MODEL.LOAD.DELETE", {}),
 )
 """**逆序**清理（先删依赖方，再删被依赖方）；每步**再读确认**。"""
 
@@ -428,7 +474,7 @@ def _substitute_steps(module: Any) -> tuple[dict[str, Any], ...]:
             "confirm": True,
             "readback": ("DB.CONS",),
         },
-        *_tail_steps(7),
+        *_tail_steps(7, with_combination=True),
     )
 
 
@@ -690,14 +736,17 @@ async def _cleanup(stack: Any) -> list[dict[str, Any]]:
     按依赖顺序删完之后**必须**再读一次，`gone` 记的是**最终**状态（**不**是"自己那一步之后"）。
     """
     cleanup: list[dict[str, Any]] = []
-    for endpoint, operation in CLEANUP_ORDER:
+    for endpoint, operation, extra in CLEANUP_ORDER:
         stack.log.clear()
         before = list(stack.read_ids(endpoint))
         if not before:
             cleanup.append({"endpoint": endpoint, "operation": operation, "ids": [], "gone": True})
             continue
         outcome = await stack.run_operation(
-            "engineering_model_delete", operation, {"item_ids": before}, confirm=True
+            "engineering_model_delete",
+            operation,
+            {"item_ids": before, **extra},
+            confirm=True,
         )
         after = list(stack.read_ids(endpoint))
         cleanup.append(

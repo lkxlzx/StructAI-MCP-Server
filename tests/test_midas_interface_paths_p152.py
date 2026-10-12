@@ -21,7 +21,7 @@ P139–P151 的写路径判据**全部**绕开 `app/`（模板 / 前置链 / 编
 4. **`FAILED` 行必须带原生成因**：`native_status` / `native_reason` 或前置创建失败的原因
    （**不**留空、**不**美化）。
 5. **映射缺口**（`registry/live/interface_mapping_gap.json`）：**离线可复算**，
-   `gap_total = 517 = 271（契约外）+ 246（无读回）`。
+   `gap_total = 511 = 265（契约外）+ 246（无读回）`。
 6. **不变量**：数据侧写路径分母**不变**（`write_path_coverage(registry, [])` = `0 / 633`、
    `model_write_ratio` = `0 / 434`）；接口层判据**不**并入任何数据侧覆盖率分子。
 7. **凭据绝不入证据**；成功响应**不**留原文（只有失败响应留 `error.message` 前 200 字）。
@@ -92,21 +92,22 @@ EXPECTED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.GRUP", "DB.MATL", "DB.NODE", "DB
 """哨兵端点集 = **全部**被触碰的端点（跑前 / 跑后只读 `GET`）。"""
 
 EXPECTED_GAP_COUNTS = {
-    "operations": 69,
+    "operations": 70,
     "write_capable_endpoints": 577,
     "three_step_endpoints": 301,
-    "mapped_endpoints": 61,
-    "mapped_inside_three_step": 30,
-    "gap_total": 517,
+    "mapped_endpoints": 67,
+    "mapped_inside_three_step": 36,
+    "gap_total": 511,
 }
 """映射缺口的钉住计数（离线复算；见 `--recon`）。
 
 ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后成为 GEN_NX 的
 **可写端点** ⇒ `write_capable_endpoints` **576 → 577**（`POST.TABLE` 是 `POST` 端点）。
-⚠️ **缺口总数不变**（**517 = 271 + 246**）、`three_step_endpoints` / `mapped_endpoints` 不变。
+⚠️ **缺口总数 517 → 511**（**511 = 265 + 246**，P157 / R136）；
+`three_step_endpoints` **不变**、`mapped_endpoints` **61 → 67**（+6 个荷载组合）。
 """
 
-EXPECTED_GAP_THREE_STEP = 271
+EXPECTED_GAP_THREE_STEP = 265
 """缺口里的「契约外」条数（形态齐备但没有任何 Operation 映射到它）。"""
 
 EXPECTED_GAP_NO_READBACK = 246
@@ -218,7 +219,7 @@ def test_p152_every_row_matches_the_operation_plan() -> None:
     tool = _tool()
     plans = tool.operation_plans(REPO_ROOT)
     mapped = tool.mapped_endpoints(REPO_ROOT)
-    assert len(plans) == 69
+    assert len(plans) == 70
     for row in _rows():
         endpoint = str(row["endpoint"])
         operation = str(row["operation"])

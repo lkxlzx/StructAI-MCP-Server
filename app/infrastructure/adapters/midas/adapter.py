@@ -681,6 +681,7 @@ def _build_payloads(parameters: Mapping[str, Any]) -> dict[str, list[dict[str, A
         "write_boundary": _mapping_list(parameters.get("boundaries")),
         "write_load_case": _mapping_list(parameters.get("load_case_definition")),
         "write_load": _load_items(parameters),
+        "write_load_combination": _mapping_list(parameters.get("load_combinations")),
     }
     if payloads["write_node"] and payloads["write_element"]:
         return payloads

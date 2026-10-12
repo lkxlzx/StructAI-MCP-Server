@@ -208,7 +208,7 @@ def test_p127_second_software_needs_no_core_change() -> None:
     assert len(AppContainer.__dataclass_fields__) == 7
     assert BATCH_ID == "P42"  # `docs/07` §16 R82：本批**不**推进批次标记
     assert len(support.OPERATION_COUNTS_SPEC) == 9
-    assert sum(count for _tool, count in support.OPERATION_COUNTS_SPEC) == 69
+    assert sum(count for _tool, count in support.OPERATION_COUNTS_SPEC) == 70
 
     offenders: list[str] = []
     for path in support.app_module_paths():

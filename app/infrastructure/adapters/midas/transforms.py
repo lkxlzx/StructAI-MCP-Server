@@ -68,7 +68,15 @@ __all__ = [
     "ElementTransformer",
     "FieldMap",
     "FloorLoadTransformer",
+    "LCOM_KINDS",
     "LoadCaseTransformer",
+    "LoadCombinationConcTransformer",
+    "LoadCombinationGenTransformer",
+    "LoadCombinationSeismicTransformer",
+    "LoadCombinationSrcTransformer",
+    "LoadCombinationSteelTransformer",
+    "LoadCombinationStlcompTransformer",
+    "LoadCombinationTransformer",
     "LoadTransformer",
     "MaterialTransformer",
     "NodalLoadTransformer",
@@ -653,6 +661,95 @@ class LoadTransformer:
         return canonical
 
 
+# ===== 荷载组合（`docs/07` §6.3；P157 / R136）=====
+
+
+LCOM_KINDS: Final[tuple[str, ...]] = (
+    "GEN",
+    "STEEL",
+    "CONC",
+    "SRC",
+    "SEISMIC",
+    "STLCOMP",
+)
+"""`DB.LCOM-*` 的 **6** 个端点（组合种类 → 端点，见
+`operations.LOAD_COMBINATION_STEP_BY_KIND`）。"""
+
+_LCOM_FIELDS: Final[tuple[FieldMap, ...]] = (
+    FieldMap("no", "NO"),
+    FieldMap("name", "NAME", required=True),
+    FieldMap("active", "ACTIVE"),
+    FieldMap("b_cb", "bCB"),
+    FieldMap("i_type", "iTYPE"),
+    FieldMap("description", "DESC"),
+    FieldMap("combination_items", "vCOMB"),
+    FieldMap("b_es", "bES"),
+)
+"""荷载组合的 canonical 字段表（**6** 个端点**共用**；取值**只**由调用方给出）。
+
+⚠️ **P157 / R136（用户裁决 = B）**：`docs/07` §6.3 原先**没有**荷载组合的 Operation ⇒
+接口层对它是「**既不能建、也不能删**」；本批新增 `MODEL.LOAD_COMBINATION.ASSIGN`
+（Operation **69 → 70**）并把删除并入 `MODEL.LOAD.DELETE`。
+⚠️ 逐端点是否接受某字段由**该端点的 Schema** 把关（`fields_for_path`）——
+例如 `bES` **只**在 `DB.LCOM-CONC` 里声明 ⇒ 发给别的端点会**明确报错**（**不**静默丢字段）。
+⚠️ `vCOMB` 是**整数组**透传（`[{ANAL, LCNAME, FACTOR}]`）—— 与 `SectionTransformer` 的
+`SECT_I.vSIZE` 同口径（数组作为**一个** canonical 值给，**不**逐项映射）。"""
+
+
+class LoadCombinationTransformer(SchemaBoundTransformer):
+    """Load Combination（`docs/04` §33）：`NO/NAME/ACTIVE/bCB/iTYPE/DESC/vCOMB` ↔ `DB.LCOM-*`。
+
+    ⚠️ 本类是**基类**：6 个端点各有一个只换 `name` / `endpoint` 的子类，
+    字段表**完全共用**（`_LCOM_FIELDS`）。
+    """
+
+    name = "midas.lcom.v1"
+    endpoint = "DB.LCOM-GEN"
+    fields = _LCOM_FIELDS
+
+
+class LoadCombinationGenTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-GEN`（一般荷载组合）。"""
+
+    name = "midas.lcom-gen.v1"
+    endpoint = "DB.LCOM-GEN"
+
+
+class LoadCombinationSteelTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-STEEL`（钢结构设计荷载组合）。"""
+
+    name = "midas.lcom-steel.v1"
+    endpoint = "DB.LCOM-STEEL"
+
+
+class LoadCombinationConcTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-CONC`（混凝土设计荷载组合；**唯一**声明 `bES` 的端点）。"""
+
+    name = "midas.lcom-conc.v1"
+    endpoint = "DB.LCOM-CONC"
+
+
+class LoadCombinationSrcTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-SRC`（SRC 设计荷载组合）。"""
+
+    name = "midas.lcom-src.v1"
+    endpoint = "DB.LCOM-SRC"
+
+
+class LoadCombinationSeismicTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-SEISMIC`（抗震设计荷载组合）。"""
+
+    name = "midas.lcom-seismic.v1"
+    endpoint = "DB.LCOM-SEISMIC"
+
+
+class LoadCombinationStlcompTransformer(LoadCombinationTransformer):
+    """`DB.LCOM-STLCOMP`（组合钢梁设计荷载组合）。"""
+
+    name = "midas.lcom-stlcomp.v1"
+    endpoint = "DB.LCOM-STLCOMP"
+
+
 # ===== 分析 / 视图 / 设计 / 结果 =====
 
 
@@ -851,6 +948,12 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.elem.v1": ElementTransformer,
     "midas.fbld.v1": FloorLoadTransformer,
     "midas.matl.v1": MaterialTransformer,
+    "midas.lcom-conc.v1": LoadCombinationConcTransformer,
+    "midas.lcom-gen.v1": LoadCombinationGenTransformer,
+    "midas.lcom-seismic.v1": LoadCombinationSeismicTransformer,
+    "midas.lcom-src.v1": LoadCombinationSrcTransformer,
+    "midas.lcom-steel.v1": LoadCombinationSteelTransformer,
+    "midas.lcom-stlcomp.v1": LoadCombinationStlcompTransformer,
     "midas.load.v1": LoadTransformer,
     "midas.node.v1": NodeTransformer,
     "midas.pres.v1": PressureLoadTransformer,

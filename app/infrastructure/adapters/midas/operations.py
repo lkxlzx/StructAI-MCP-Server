@@ -32,7 +32,16 @@
 6. **`ANALYSIS.TIME_HISTORY` 只用数据里存在的端点**：`docs/07` §6.9 列的 `DB.THOO`
    **不在** `registry/manifest.json`（数据现状），故本批编排 `DOC.ANAL` + `DB.THGC` +
    `DB.THIS`，并把该差异记入 `docs/07` §16（**不**臆造端点）。
-7. ⚠️ **P157 / R132：`MODEL.LOAD.ASSIGN` 可选地先建工况**（**不**动 9 Tool Contract）。
+7. ⚠️ **P157 / R136：荷载组合是**一等 Operation**（用户裁决 = B；Operation 69 → 70）。**
+   `DESIGN.*` 的验算需要**荷载组合**（原生弹窗「验算荷载组合不存在」），而接口层原本对它是
+   「**既不能建、也不能删**」；组合按**材料 / 种类**拆成 **6** 个 `DB.LCOM-*` 端点
+   （**全部** `verified`）—— 这是一个**独立于 `load_type` 的维度**，故**不**塞进
+   `MODEL.LOAD.ASSIGN`（那会变成 2 维分派 + 跨关注点泄漏），而是新增
+   `MODEL.LOAD_COMBINATION.ASSIGN`（6 条 `steps`，按 `combination_kind` 分派；
+   与 `DESIGN.CODE_CHECK` 的「材料 × 构件」分派同构），并把删除并入 `MODEL.LOAD.DELETE`
+   （给了 `combination_kind` 时只删该种类那一个端点，**向后兼容**）。
+   **不**新增 Tool（9 个 Tool 是死线）、**不**扩能力码（复用 `MODEL.LOAD.WRITE`）。
+8. ⚠️ **P157 / R132：`MODEL.LOAD.ASSIGN` 可选地先建工况**（**不**动 9 Tool Contract）。
    `DB.CNLD` / `DB.BMLD` / … 要求 `LCNAME` 指向**已存在**的工况（原生 `400 Not Found Key`），
    而**接口层**原本**没有**任何 Operation 能创建工况 —— 尽管本编排里**已经声明**了
    `DB.STLD` 的 `write_load_case` 步（`intent` / 端点 / Transformer `midas.stld.v1` /
@@ -57,12 +66,15 @@ from app.infrastructure.adapters.midas.errors import MidasCapabilityError, Midas
 
 __all__ = [
     "LOAD_CASE_STEP_KEY",
+    "LOAD_COMBINATION_STEP_BY_KIND",
     "LOAD_STEP_BY_TYPE",
     "NO_NATIVE_MAPPING",
     "OPERATION_PLANS",
     "EndpointStep",
     "OperationPlan",
+    "delete_load_combination_step_for",
     "load_case_step_for",
+    "load_combination_step_for",
     "plan_for",
     "plans_for_tool",
     "select_steps",
@@ -73,6 +85,22 @@ NO_NATIVE_MAPPING: Final[tuple[str, ...]] = ("DESIGN.FOUNDATION", "DESIGN.OPTIMI
 
 LOAD_CASE_STEP_KEY: Final[str] = "DB.STLD"
 """`MODEL.LOAD.ASSIGN` 编排里**创建工况**的那一步的端点（`docs/07` §6.3 已声明）。"""
+
+LOAD_COMBINATION_STEP_BY_KIND: Final[dict[str, str]] = {
+    "GEN": "DB.LCOM-GEN",
+    "STEEL": "DB.LCOM-STEEL",
+    "CONC": "DB.LCOM-CONC",
+    "SRC": "DB.LCOM-SRC",
+    "SEISMIC": "DB.LCOM-SEISMIC",
+    "STLCOMP": "DB.LCOM-STLCOMP",
+}
+"""`MODEL.LOAD_COMBINATION.ASSIGN` 的**组合种类 → 端点**（`docs/07` §6.3；P157 / R136 新增）。
+
+⚠️ 组合按**材料 / 种类**拆成 6 个端点（`-GEN` / `-STEEL` / `-CONC` / `-SRC` / `-SEISMIC` /
+`-STLCOMP`，`registry/manifest.json` 里**全部** `availability: verified`）—— 这是**独立的
+一个维度**（与 `load_type` 无关），所以**不**塞进 `MODEL.LOAD.ASSIGN`，而是**一等 Operation**
+（用户裁决 = B；与 `DESIGN.CODE_CHECK` 的「材料 × 构件」分派同构）。
+"""
 
 LOAD_STEP_BY_TYPE: Final[dict[str, str]] = {
     "NODE_FORCE": "DB.CNLD",
@@ -243,6 +271,20 @@ _ASSIGN: Final[dict[str, OperationPlan]] = {
         "engineering_model_assign",
         steps=_steps(_write("DB.CONS", "write_boundary", "midas.cons.v1")),
     ),
+    "MODEL.LOAD_COMBINATION.ASSIGN": OperationPlan(
+        "MODEL.LOAD_COMBINATION.ASSIGN",
+        "engineering_model_assign",
+        steps=_steps(
+            _write("DB.LCOM-GEN", "write_load_combination", "midas.lcom-gen.v1"),
+            _write("DB.LCOM-STEEL", "write_load_combination", "midas.lcom-steel.v1"),
+            _write("DB.LCOM-CONC", "write_load_combination", "midas.lcom-conc.v1"),
+            _write("DB.LCOM-SRC", "write_load_combination", "midas.lcom-src.v1"),
+            _write("DB.LCOM-SEISMIC", "write_load_combination", "midas.lcom-seismic.v1"),
+            _write("DB.LCOM-STLCOMP", "write_load_combination", "midas.lcom-stlcomp.v1"),
+        ),
+        note="docs/07 §6.3：荷载组合（按 combination_kind 分派到 6 个 DB.LCOM-* 端点；"
+        "P157 / R136 新增，Operation 69 → 70）",
+    ),
     "MODEL.LOAD.ASSIGN": OperationPlan(
         "MODEL.LOAD.ASSIGN",
         "engineering_model_assign",
@@ -274,7 +316,18 @@ _DELETE: Final[dict[str, OperationPlan]] = {
     "MODEL.LOAD.DELETE": OperationPlan(
         "MODEL.LOAD.DELETE",
         "engineering_model_delete",
-        steps=_steps(_delete("DB.STLD", "delete_load"), _delete("DB.BMLD", "delete_load")),
+        steps=_steps(
+            _delete("DB.STLD", "delete_load"),
+            _delete("DB.BMLD", "delete_load"),
+            _delete("DB.LCOM-GEN", "delete_load_combination"),
+            _delete("DB.LCOM-STEEL", "delete_load_combination"),
+            _delete("DB.LCOM-CONC", "delete_load_combination"),
+            _delete("DB.LCOM-SRC", "delete_load_combination"),
+            _delete("DB.LCOM-SEISMIC", "delete_load_combination"),
+            _delete("DB.LCOM-STLCOMP", "delete_load_combination"),
+        ),
+        note="docs/07 §6.4：`DB.STLD` / `DB.BMLD` + **荷载组合**（P157 / R136 扩；"
+        "给了 `combination_kind` 时**只**删该种类的一个端点）",
     ),
     "MODEL.BOUNDARY.DELETE": OperationPlan(
         "MODEL.BOUNDARY.DELETE",
@@ -711,6 +764,17 @@ def select_steps(operation: str, parameters: Mapping[str, Any]) -> tuple[Endpoin
         if case_step is not None and _has_load_case_definition(parameters):
             return (case_step, load_step)
         return (load_step,)
+    if plan.operation == "MODEL.LOAD_COMBINATION.ASSIGN":
+        # ⚠️ **P157 / R136（用户裁决 = B）**：组合按**种类**分派 —— 本次调用**只**执行
+        # `combination_kind` 对应的那一个端点（**不**一次打 6 个）。
+        return (load_combination_step_for(plan, parameters),)
+    if plan.operation == "MODEL.LOAD.DELETE":
+        # ⚠️ **P157 / R136**：给了 `combination_kind` ⇒ **只**删该种类那一个端点；
+        # **没给** ⇒ **保持原样**（**只** `DB.STLD` + `DB.BMLD`，按 `intent` 过滤掉组合那 6 步）
+        # —— **不**让一次普通 `MODEL.LOAD.DELETE` 顺手去打 6 个组合端点（**向后兼容**）。
+        if _combination_kind(parameters):
+            return (delete_load_combination_step_for(plan, parameters),)
+        return tuple(step for step in plan.steps if step.intent == "delete_load")
     if not plan.routes:
         return plan.steps
     route = _route_key(parameters)
@@ -760,6 +824,49 @@ def _has_load_case_definition(parameters: Mapping[str, Any]) -> bool:
     if isinstance(value, Sequence) and not isinstance(value, str):
         return any(isinstance(item, Mapping) for item in value)
     return False
+
+
+def load_combination_step_for(plan: OperationPlan, parameters: Mapping[str, Any]) -> EndpointStep:
+    """`MODEL.LOAD_COMBINATION.ASSIGN` 的单步选择（`docs/07` §6.3；未映射 → 明确错误）。
+
+    Raises:
+        MidasValidationError: `STRUCTAI-1200`，`combination_kind` 未映射
+            （`details.reason = "combination_kind_not_mapped"`）。
+        MidasCapabilityError: 该种类的端点不在本 Operation 的编排里（数据不一致）。
+    """
+    return _combination_step(plan, parameters, intent="write_load_combination")
+
+
+def delete_load_combination_step_for(
+    plan: OperationPlan, parameters: Mapping[str, Any]
+) -> EndpointStep:
+    """`MODEL.LOAD.DELETE` 在给了 `combination_kind` 时的单步选择（`docs/07` §6.4）。"""
+    return _combination_step(plan, parameters, intent="delete_load_combination")
+
+
+def _combination_kind(parameters: Mapping[str, Any]) -> str:
+    """调用方给的组合种类（大写；未给 ⇒ 空串）。"""
+    return str(parameters.get("combination_kind") or "").upper()
+
+
+def _combination_step(
+    plan: OperationPlan, parameters: Mapping[str, Any], *, intent: str
+) -> EndpointStep:
+    """按 `combination_kind` 取该端点在编排里的那一步（**判定点唯一**）。"""
+    kind = _combination_kind(parameters)
+    key = LOAD_COMBINATION_STEP_BY_KIND.get(kind)
+    if key is None:
+        raise MidasValidationError(
+            "combination_kind_not_mapped",
+            combination_kind=kind,
+            mapped=sorted(LOAD_COMBINATION_STEP_BY_KIND),
+        )
+    for step in plan.steps:
+        if step.key == key and step.intent == intent:
+            return step
+    raise MidasCapabilityError(
+        "load_combination_step_not_in_plan", combination_kind=kind, endpoint=key
+    )
 
 
 def load_step_for(plan: OperationPlan, parameters: Mapping[str, Any]) -> EndpointStep:

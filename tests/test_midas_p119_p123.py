@@ -534,7 +534,7 @@ def test_p121_invalid_inputs_fail_loudly_instead_of_inventing() -> None:
 
 def test_p122_operation_counts_match_docs_07_section_5_1() -> None:
     """门槛 ③（`docs/07` §5.1 / §6.10）：9 Tool / **69** Operation 逐 Tool 计数一致。"""
-    assert len(OPERATION_PLANS) == 69
+    assert len(OPERATION_PLANS) == 70
     for tool, expected in support.OPERATION_COUNTS_SPEC:
         assert len(plans_for_tool(tool)) == expected, tool
 

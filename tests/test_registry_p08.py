@@ -119,6 +119,8 @@ DOC_TOOL_OPERATIONS: dict[str, tuple[str, ...]] = {
         "MODEL.SECTION.ASSIGN",
         "MODEL.BOUNDARY.ASSIGN",
         "MODEL.LOAD.ASSIGN",
+        # ⚠️ **P157 / R136（用户裁决 = B）**：荷载组合是一等 Operation（69 → 70）
+        "MODEL.LOAD_COMBINATION.ASSIGN",
     ),
     "engineering_model_delete": (
         "MODEL.NODE.DELETE",
@@ -413,8 +415,8 @@ async def test_gate_all_69_operations_are_resolvable(
     assert registry is not None
 
     expected = {name for names in DOC_TOOL_OPERATIONS.values() for name in names}
-    assert len(expected) == OPERATION_COUNT == 69
-    assert len(registry) == 69
+    assert len(expected) == OPERATION_COUNT == 70
+    assert len(registry) == 70
     assert registry.names() == tuple(sorted(expected))
 
     for name in sorted(expected):
@@ -499,7 +501,7 @@ async def test_six_fields_come_from_the_operations_table(
 def test_profiles_cover_all_operations_and_are_anchored() -> None:
     """门槛 ②：69 条补齐映射齐全；每条都能指回具体章节；取值都来自 P03 冻结枚举。"""
     expected = {name for names in DOC_TOOL_OPERATIONS.values() for name in names}
-    assert len(OPERATION_PROFILES) == OPERATION_COUNT == 69
+    assert len(OPERATION_PROFILES) == OPERATION_COUNT == 70
     assert set(OPERATION_PROFILES) == expected
     assert set(OPERATION_CAPABILITIES) == expected
 
@@ -579,7 +581,7 @@ def test_transactional_dry_run_and_recovery_follow_the_matrices() -> None:
 
     # `docs/07` §6.10：组合类 14 + 6 + 6 = 26；`docs/07` §5.4：Dry Run 支持 14+8+7+6+7 = 42
     assert sum(1 for item in OPERATION_PROFILES.values() if item.transactional) == 26
-    assert sum(1 for item in OPERATION_PROFILES.values() if item.dry_run_supported) == 42
+    assert sum(1 for item in OPERATION_PROFILES.values() if item.dry_run_supported) == 43
 
     for name in DOC_SAFE_RETRY_OPERATIONS:
         assert OPERATION_PROFILES[name].recovery_policy == "SAFE_RETRY"
@@ -641,22 +643,22 @@ async def test_operation_capabilities_are_persisted_and_idempotent(
     expected_pairs = {
         (name, code) for name, codes in OPERATION_CAPABILITIES.items() for code in codes
     }
-    assert len(expected_pairs) == 86
+    assert len(expected_pairs) == 87
 
     async with seeded_factory() as session:
         async with UnitOfWork(session):
             report = await sync_operation_capabilities(session)
-    assert report.created == 86
+    assert report.created == 87
     assert report.existing == 0
-    assert report.total == 86
-    assert "created 86 row(s)" in report.summary()
+    assert report.total == 87
+    assert "created 87 row(s)" in report.summary()
 
     async with seeded_factory() as session:
         async with UnitOfWork(session):
             second = await sync_operation_capabilities(session)
     assert second.created == 0
-    assert second.existing == 86
-    assert await _count(seeded_factory, OperationCapabilityORM) == 86
+    assert second.existing == 87
+    assert await _count(seeded_factory, OperationCapabilityORM) == 87
 
     # 落库内容 == 静态映射（逐对核对，含 id → 业务键的还原）
     async with seeded_factory() as session:
@@ -691,7 +693,7 @@ async def test_operation_capabilities_are_persisted_and_idempotent(
         "MODEL.ELEMENT.WRITE",
     )
     assert "BUILD.COLUMN" in registry.operations_for("MODEL.NODE.WRITE")
-    assert registry.summary()["relations"] == 86
+    assert registry.summary()["relations"] == 87
 
 
 async def test_operation_capabilities_sync_keeps_the_transaction_boundary(
@@ -920,9 +922,9 @@ async def test_container_startup_assembles_the_registry(
         assert container.started is True
         registry = container.operation_registry
         assert registry is not None
-        assert len(registry) == 69
+        assert len(registry) == 70
         assert await registry.get("BUILD.COLUMN") is not None
-        assert registry.summary()["operations"] == 69
+        assert registry.summary()["operations"] == 70
     finally:
         await container.shutdown()
 
@@ -1075,7 +1077,7 @@ def test_operation_registry_cli_persists_and_is_idempotent(
     monkeypatch.setattr(operation_registry_module, "settings", Settings(database_url=database_url))
 
     assert operation_registry_module.main([]) == 0
-    assert "created 86 row(s)" in capsys.readouterr().out
+    assert "created 87 row(s)" in capsys.readouterr().out
 
     assert operation_registry_module.main([]) == 0
     assert "created 0 row(s)" in capsys.readouterr().out

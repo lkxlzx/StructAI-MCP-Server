@@ -108,7 +108,7 @@ def test_p124_l1_static_registry_layer() -> None:
                 conflicts.append(f"{plan.operation}:{step.key}:{step.method}")
             if step.transformer is not None:
                 assert step.transformer in TRANSFORMER_REGISTRY
-    assert len(OPERATION_PLANS) == 69
+    assert len(OPERATION_PLANS) == 70
     assert conflicts == list(KNOWN_METHOD_CONFLICTS)
     # 方法集里**没有**的方法必须在**解析期**明确失败（不是静默用一个别的方法顶替）。
     # P149-A 更正：`DB.GRUP` 现已实测支持 `DELETE`（冲突消失），故用仍**无** `DELETE`

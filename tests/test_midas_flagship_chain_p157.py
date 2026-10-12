@@ -59,10 +59,7 @@ import pytest
 
 from app.infrastructure.adapters.midas.live import write_path_coverage
 from app.infrastructure.adapters.midas.operations import (
-    LOAD_STEP_BY_TYPE,
     OPERATION_PLANS,
-    plan_for,
-    select_steps,
 )
 from app.infrastructure.adapters.midas.registry import MidasRegistry
 
@@ -98,6 +95,7 @@ SUBSTITUTE_OPERATIONS = (
     "MODEL.LOAD.ASSIGN",
     "ANALYSIS.STATIC",
     "RESULT.NODE.DISPLACEMENT",
+    "MODEL.LOAD_COMBINATION.ASSIGN",
     "DESIGN.STEEL",
 )
 """阶段 B 的步集（①′ 的 5 步 + ②–⑤）。"""
@@ -116,6 +114,7 @@ SENTINEL_ENDPOINTS = (
     "DB.CONS",
     "DB.ELEM",
     "DB.GRUP",
+    "DB.LCOM-STEEL",
     "DB.MATL",
     "DB.NODE",
     "DB.SECT",
@@ -124,8 +123,8 @@ SENTINEL_ENDPOINTS = (
 
 EXPECTED_WRITE_COUNTS = {"PASSED": 13}
 EXPECTED_READ_COUNTS = {"PASSED": 2, "PARTIAL": 7, "FAILED": 6}
-EXPECTED_GAP_TOTAL = 517
-EXPECTED_GAP_NOT_IN_CONTRACT = 271
+EXPECTED_GAP_TOTAL = 511
+EXPECTED_GAP_NOT_IN_CONTRACT = 265
 EXPECTED_GAP_NO_READBACK = 246
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
@@ -368,7 +367,7 @@ def test_p157_the_substituted_prefix_builds_the_model() -> None:
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 9, "FAILED": 1}
+    assert document["substituted_counts"] == {"PASSED": 9, "FAILED": 1, "NOT_RUN": 1}
     assert document["substituted_verdict"] == "NOT_PASSED"
 
 
@@ -435,84 +434,54 @@ def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
     assert numbers["displacement.uz"] != 0.0, numbers
 
 
-def test_p157_r136_design_steel_is_blocked_by_the_missing_load_combination() -> None:
-    """门槛（**R136**，**未**闭环）：⑤ `DESIGN.STEEL` 因**验算荷载组合不存在**而失败。
+def test_p157_r136_the_load_combination_step_now_exists_and_is_rejected_natively() -> None:
+    """门槛（**R136 已闭环 + R137 新发现**）：荷载组合**已是一等 Operation**，但组合体被原生拒。
 
-    实测请求链：4 个 `GET`（规范 / 选项 / 控制 / 构件）`200` → `POST …/CODE-ANAL` **`200`**
-    （触发验算）→ `POST …/CODE-TABLE` **`400`** `MIDAS GEN NX second query is wrong`；
-    ⚠️ **根因由 MIDAS 弹窗给出**：**「验算结果错误 —— 验算荷载组合不存在。」**
-    ⇒ 验算需要**荷载组合**，而**接口层没有任何 Operation** 能创建它
-    （`DB.LCOM-GEN` / `DB.LCOM-STEEL` / … **都 `verified`**，只是**没被任何 Operation 引用**）
-    ⇒ 修它要**新增 / 扩展 Operation** ⇒ **属改 9 Tool Contract**，须**单独裁决**。
+    **R136（用户裁决 = B，已落地）**：`DESIGN.*` 的验算需要**荷载组合**，而接口层原本对它是
+    「既不能建、也不能删」⇒ 新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）
+    并把删除并入 `MODEL.LOAD.DELETE`。**离线可复算**：6 个 `DB.LCOM-*` 端点**全部** `verified`
+    且**已**被该 Operation 引用；能力码**复用** `MODEL.LOAD.WRITE`（**不**扩 41 码词表）。
+
+    **R137（新，未闭环）**：组合体照手册 `db/LCOM-STEEL` 示例（**只**把 `LCNAME` 换成本链
+    自建的 `AXIAL`）→ 原生 **`400` `{"error":{"message":"Unknown Error"}}`**
+    ⇒ 组合的**取值口径**未定（**不**硬试、如实留缺）。
     """
-    design = _step(_chain(), "substituted", "DESIGN.STEEL")
-    assert design["status"] == "FAILED", design
-    assert design["detail"] == "task_failed", design
-    assert design["error"]["details"]["endpoint"].endswith("CODE-TABLE"), design["error"]
-    assert "second query is wrong" in design["native_error"], design["native_error"]
-    codes = [
-        (str(item["path"]).rsplit("/", 1)[-1], int(item["status"]))
-        for item in design["requests"]
-        if str(item["path"]).startswith("/gen/DESIGN/")
+    document = _chain()
+    row = _step(document, "substituted", "MODEL.LOAD_COMBINATION.ASSIGN")
+    assert row["status"] == "FAILED", row
+    assert row["detail"] == "interface_error:STRUCTAI-2200", row
+    assert row["error"]["details"]["task_error"]["details"]["endpoint"] == "DB.LCOM-STEEL", row[
+        "error"
     ]
-    assert codes == [
-        ("DSTL", 200),
-        ("DCO", 200),
-        ("DCTL", 200),
-        ("MEMB", 200),
-        ("CODE-ANAL", 200),
-        ("CODE-TABLE", 400),
-    ], codes
-    # ⚠️ 离线可复算：荷载组合端点**存在**且**没有任何 Operation 引用它们**
-    from app.infrastructure.adapters.midas.operations import OPERATION_PLANS  # noqa: PLC0415
-
+    post = next(item for item in row["requests"] if str(item["path"]).endswith("/DB/LCOM-STEEL"))
+    assert int(post["status"]) == 400, post
+    assert "Unknown Error" in row["native_error"], row["native_error"]
+    entry = post["body"]["Assign"]["1"]
+    assert entry["NAME"] == "sLCB1", entry
+    assert entry["ACTIVE"] == "STRENGTH", entry
+    assert entry["vCOMB"] == [{"ANAL": "CS", "LCNAME": "AXIAL", "FACTOR": 1}], entry
+    assert _step(document, "substituted", "ANALYSIS.STATIC")["status"] == "PASSED"
+    assert _step(document, "substituted", "RESULT.NODE.DISPLACEMENT")["status"] == "PASSED"
+    assert _step(document, "substituted", "DESIGN.STEEL")["status"] == "NOT_RUN"
     referenced = {
         str(step.key)
         for plan in OPERATION_PLANS.values()
         for step in plan.steps
         if "LCOM" in str(step.key).upper()
     }
-    assert referenced == set(), referenced
+    assert referenced == {
+        "DB.LCOM-GEN",
+        "DB.LCOM-STEEL",
+        "DB.LCOM-CONC",
+        "DB.LCOM-SRC",
+        "DB.LCOM-SEISMIC",
+        "DB.LCOM-STLCOMP",
+    }, referenced
     registry = MidasRegistry.load(REPO_ROOT / "registry")
     for key in ("DB.LCOM-GEN", "DB.LCOM-STEEL"):
-        entry = registry.endpoint(key)
-        assert entry.availability == "verified", key
-        assert "GEN_NX" in entry.products, key
-
-
-def test_p157_r132_no_operation_creates_a_load_case() -> None:
-    """门槛（**R132**，**离线可复算**）：**没有**任何 Operation 会**执行**创建工况的那一步。
-
-    `MODEL.LOAD.ASSIGN` 的编排**声明**了 `DB.STLD` 的 `write_load_case` 步，
-    但 `select_steps` 对**每一种**已映射荷载类型都**只**返回该类型对应的那一步
-    ⇒ `DB.STLD` **永不**被执行；而 `MODEL.LOAD.DELETE` **能删** `DB.STLD`（**不对称**）。
-    """
-    plan = plan_for("MODEL.LOAD.ASSIGN")
-    declared = {str(step.key): str(step.intent) for step in plan.steps}
-    assert declared.get("DB.STLD") == "write_load_case", declared
-    for load_type, endpoint in LOAD_STEP_BY_TYPE.items():
-        steps = select_steps("MODEL.LOAD.ASSIGN", {"load_type": load_type})
-        assert len(steps) == 1, (load_type, steps)
-        assert str(steps[0].key) == endpoint, (load_type, steps)
-        assert str(steps[0].key) != "DB.STLD", (load_type, steps)
-    # 全库范围：**没有**任何 Operation 的**声明**步里有第二个 `write_load_case` 端点
-    creators = {
-        name: [
-            str(step.key)
-            for step in OPERATION_PLANS[name].steps
-            if step.intent == "write_load_case"
-        ]
-        for name in OPERATION_PLANS
-    }
-    assert {name: keys for name, keys in creators.items() if keys} == {
-        "MODEL.LOAD.ASSIGN": ["DB.STLD"]
-    }, creators
-    # 删除侧**不对称**：`MODEL.LOAD.DELETE` 能删 `DB.STLD`
-    delete_steps = {str(step.key): str(step.intent) for step in plan_for("MODEL.LOAD.DELETE").steps}
-    assert delete_steps.get("DB.STLD") == "delete_load", delete_steps
-
-
-# ===== 4. 零残留 + 哨兵一致（**项目未被弄脏**）=====
+        definition = registry.endpoint(key)
+        assert definition.availability == "verified", key
+        assert "GEN_NX" in definition.products, key
 
 
 def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:
@@ -587,8 +556,9 @@ def test_p157_the_chain_probe_is_bounded_and_declares_its_cleanup_order() -> Non
     assert [str(step["operation"]) for step in tool.SPEC_STEPS] == list(SPEC_OPERATIONS)
     assert tool.PASSED == "PASSED"
     # 逆序：依赖方在前、被依赖方在后
-    order = [endpoint for endpoint, _operation in tool.CLEANUP_ORDER]
+    order = [endpoint for endpoint, _operation, _extra in tool.CLEANUP_ORDER]
     assert order == [
+        "DB.LCOM-STEEL",
         "DB.CNLD",
         "DB.CONS",
         "DB.ELEM",

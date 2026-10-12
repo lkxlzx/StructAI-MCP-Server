@@ -7,47 +7,47 @@
     "生成器 = `registry/tools/classify_mapping_gap.py --recon`（**零请求**）。"
   ],
   "criterion_version": 1,
-  "gap_total": 517,
-  "gap_not_in_contract": 271,
+  "gap_total": 511,
+  "gap_not_in_contract": 265,
   "gap_no_readback": 246,
-  "mapped_endpoints": 61,
+  "mapped_endpoints": 67,
   "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
   "buckets": {
     "by_namespace": {
-      "DB": 200,
+      "DB": 194,
       "DESIGN": 68,
       "OPE": 3
     },
     "by_capability": {
-      "DELETE": 185,
+      "DELETE": 179,
       "DESIGN": 68,
-      "MODEL": 203,
+      "MODEL": 197,
       "OPERATION": 3
     },
     "by_tool_map": {
-      "assign": 270,
-      "delete": 185,
-      "query": 271
+      "assign": 264,
+      "delete": 179,
+      "query": 265
     },
     "by_adoption": {
       "adoptable_with_manual_example": 51,
-      "needs_product_decision": 220
+      "needs_product_decision": 214
     },
     "by_readiness": {
       "manual_example_ready": 51,
       "no_request_schema": 1,
-      "schema_only": 219
+      "schema_only": 213
     },
     "by_availability": {
       "unverified": 21,
-      "verified": 250
+      "verified": 244
     }
   },
   "adoption_counts": {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 220
+    "needs_product_decision": 214
   },
   "adoptable": [],
   "adoptable_with_manual_example": [
@@ -2641,156 +2641,6 @@
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "INMF",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-CONC",
-      "uri": "/DB/LCOM-CONC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-CONC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-GEN",
-      "uri": "/DB/LCOM-GEN",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-GEN",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-SEISMIC",
-      "uri": "/DB/LCOM-SEISMIC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SEISMIC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-SRC",
-      "uri": "/DB/LCOM-SRC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SRC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-STEEL",
-      "uri": "/DB/LCOM-STEEL",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STEEL",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-STLCOMP",
-      "uri": "/DB/LCOM-STLCOMP",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STLCOMP",
       "availability": "verified",
       "table_type": "",
       "risk_level": "low",
@@ -8350,156 +8200,6 @@
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "INMF",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-CONC",
-      "uri": "/DB/LCOM-CONC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-CONC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-GEN",
-      "uri": "/DB/LCOM-GEN",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-GEN",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-SEISMIC",
-      "uri": "/DB/LCOM-SEISMIC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SEISMIC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-SRC",
-      "uri": "/DB/LCOM-SRC",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SRC",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-STEEL",
-      "uri": "/DB/LCOM-STEEL",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STEEL",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.LCOM-STLCOMP",
-      "uri": "/DB/LCOM-STLCOMP",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STLCOMP",
       "availability": "verified",
       "table_type": "",
       "risk_level": "low",

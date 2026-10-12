@@ -132,13 +132,13 @@ EXPECTED_FIELD_GAP = {
 与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`
 （取值缺口 **3 → 2**、已覆盖 **5 → 6**；字段集缺口仍 **2**、模板端点仍 **71 = 10 + 61**）。
 依据 = `registry/live/{interface_path_probe,canonical_field_gap}.json`（`--recon` 复算）。"""
-EXPECTED_GAP_TOTAL = 517
-EXPECTED_GAP_NOT_IN_CONTRACT = 271
+EXPECTED_GAP_TOTAL = 511
+EXPECTED_GAP_NOT_IN_CONTRACT = 265
 EXPECTED_GAP_NO_READBACK = 246
 EXPECTED_CLASSIFICATION_ADOPTION = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 220,
+    "needs_product_decision": 214,
 }
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434

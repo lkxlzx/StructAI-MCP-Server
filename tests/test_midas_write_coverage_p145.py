@@ -65,6 +65,26 @@ CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 12 条后仍必须 0 错）。"""
 
 WRITE_PATH_TOTAL = 633
+UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
+    "DB.LCOM-CONC",
+    "DB.LCOM-GEN",
+    "DB.LCOM-SEISMIC",
+    "DB.LCOM-SRC",
+    "DB.LCOM-STEEL",
+    "DB.LCOM-STLCOMP",
+)
+"""⚠️ **P157 / R136** 起进入候选集、但**尚**未做 L5 实测的 6 个荷载组合端点。
+
+候选集（契约 ∩ 已注册 Transformer）72 → 78；分子是**数据驱动**的 L5 `PASSED` ⇒ 仍 **72**。
+本常量把两者解耦（**不**虚增分子）。
+"""
+
+
+def _measured(keys: tuple[str, ...]) -> tuple[str, ...]:
+    """分子**只**取已实测的 key（**不**把新增的 6 个荷载组合算进分子）。"""
+    return tuple(key for key in keys if key not in UNMEASURED_LCOM_KEYS)
+
+
 """写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
 
 MODEL_WRITE_TOTAL = 434
@@ -131,6 +151,12 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LCOM-CONC",
+        "DB.LCOM-GEN",
+        "DB.LCOM-SEISMIC",
+        "DB.LCOM-SRC",
+        "DB.LCOM-STEEL",
+        "DB.LCOM-STLCOMP",
         "DB.LDGR",
         "DB.LDSQ",
         "DB.LENG",
@@ -203,6 +229,12 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.HHCT",
         "DB.HSFC",
         "DB.IEHC",
+        "DB.LCOM-CONC",
+        "DB.LCOM-GEN",
+        "DB.LCOM-SEISMIC",
+        "DB.LCOM-SRC",
+        "DB.LCOM-STEEL",
+        "DB.LCOM-STLCOMP",
         "DB.LDGR",
         "DB.LDSQ",
         "DB.MATL",
@@ -252,7 +284,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 502, "CIVIL_NX": 438, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 496, "CIVIL_NX": 432, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -493,7 +525,7 @@ def test_p145_coverage_counts_thirty_six_of_609() -> None:
     """门槛：分子 = L5 `PASSED` 去重 key；72 / 633（`model_write_ratio` 72 / 434）。
     P149-B2 续跑起（分块补测 67 条 → 再 +9）；P149-C 再 +2（`WMAK` / `DSRC`）。"""
     registry = _registry()
-    keys = CANDIDATES_BY_PRODUCT["GEN_NX"]
+    keys = _measured(CANDIDATES_BY_PRODUCT["GEN_NX"])
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
     assert coverage.covered == len(keys) == 72
@@ -502,7 +534,8 @@ def test_p145_coverage_counts_thirty_six_of_609() -> None:
     assert set(coverage.covered_keys) == set(keys)
     # CIVIL NX 的候选（62）与 GEN NX 共用同一批 key 去重 ⇒ 分子**不**因跨产品而翻倍
     civil = write_path_coverage(
-        registry, [_Row(key, product="CIVIL_NX") for key in CANDIDATES_BY_PRODUCT["CIVIL_NX"]]
+        registry,
+        [_Row(key, product="CIVIL_NX") for key in _measured(CANDIDATES_BY_PRODUCT["CIVIL_NX"])],
     )
     assert civil.covered == 62
     assert civil.ratio == f"62 / {WRITE_PATH_TOTAL}"

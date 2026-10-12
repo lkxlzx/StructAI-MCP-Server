@@ -243,7 +243,7 @@ TWENTY_FOUR_TABLES_SPEC: tuple[str, ...] = (
 TOOL_OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
     ("engineering_doc", 6),
     ("engineering_model_query", 8),
-    ("engineering_model_assign", 8),
+    ("engineering_model_assign", 9),
     ("engineering_model_delete", 7),
     ("engineering_model_build", 14),
     ("engineering_view", 7),
@@ -734,7 +734,7 @@ def test_each_tool_class_name_matches_its_registry_key() -> None:
     assert len({cls.__name__ for cls in TOOL_CLASSES.values()}) == 9
 
 
-def test_the_nine_tools_partition_the_sixty_nine_operations(
+def test_the_nine_tools_partition_the_seventy_operations(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -755,7 +755,7 @@ def test_the_nine_tools_partition_the_sixty_nine_operations(
         for definition in definitions:
             assert definition.tool in counts, definition.name
             counts[definition.tool] += 1
-        assert len(definitions) == 69
+        assert len(definitions) == 70
         assert tuple(sorted(counts.items())) == tuple(sorted(TOOL_OPERATION_COUNTS_SPEC)), counts
         # 每个 Tool 的验收样例必须真的属于该 Tool（`docs/02` §82 的 Tool ↔ Operation 一致）。
         for tool, operation, mode in TOOL_CALL_MATRIX_SPEC:

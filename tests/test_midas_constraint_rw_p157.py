@@ -104,13 +104,13 @@ EXPECTED_FIELD_GAP = {
     "no_canonical_model": 61,
     "covered": 6,
 }
-EXPECTED_GAP_TOTAL = 517
-EXPECTED_GAP_NOT_IN_CONTRACT = 271
+EXPECTED_GAP_TOTAL = 511
+EXPECTED_GAP_NOT_IN_CONTRACT = 265
 EXPECTED_GAP_NO_READBACK = 246
 EXPECTED_ADOPTION = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 220,
+    "needs_product_decision": 214,
 }
 EXPECTED_READ_COUNTS = {"PASSED": 2, "PARTIAL": 7, "FAILED": 6}
 EXPECTED_PUT_EDIT_COUNTS = {"PASSED": 42, "LEFT_OUT": 23, "FAILED": 6}

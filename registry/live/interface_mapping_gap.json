@@ -12,12 +12,12 @@
     "probed_at": "2026-10-11"
   },
   "product_key": "GEN_NX",
-  "operations": 69,
-  "mapped_endpoints": 61,
+  "operations": 70,
+  "mapped_endpoints": 67,
   "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
-  "mapped_inside_three_step": 30,
-  "gap_total": 517,
+  "mapped_inside_three_step": 36,
+  "gap_total": 511,
   "gap_three_step": [
     {
       "key": "DB.ACTL",
@@ -568,54 +568,6 @@
       "uri": "/DB/INMF",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "INMF",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-CONC",
-      "uri": "/DB/LCOM-CONC",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-CONC",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-GEN",
-      "uri": "/DB/LCOM-GEN",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-GEN",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-SEISMIC",
-      "uri": "/DB/LCOM-SEISMIC",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SEISMIC",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-SRC",
-      "uri": "/DB/LCOM-SRC",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-SRC",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-STEEL",
-      "uri": "/DB/LCOM-STEEL",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STEEL",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.LCOM-STLCOMP",
-      "uri": "/DB/LCOM-STLCOMP",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "LCOM-STLCOMP",
       "availability": "verified",
       "reason": "not_in_operation_contract"
     },
@@ -4377,6 +4329,90 @@
         "tool": "engineering_model_query",
         "method": "GET",
         "intent": "read"
+      }
+    ],
+    "DB.LCOM-CONC": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
+      }
+    ],
+    "DB.LCOM-GEN": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
+      }
+    ],
+    "DB.LCOM-SEISMIC": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
+      }
+    ],
+    "DB.LCOM-SRC": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
+      }
+    ],
+    "DB.LCOM-STEEL": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
+      }
+    ],
+    "DB.LCOM-STLCOMP": [
+      {
+        "operation": "MODEL.LOAD.DELETE",
+        "tool": "engineering_model_delete",
+        "method": "DELETE",
+        "intent": "delete_load_combination"
+      },
+      {
+        "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "POST",
+        "intent": "write_load_combination"
       }
     ],
     "DB.MATL": [

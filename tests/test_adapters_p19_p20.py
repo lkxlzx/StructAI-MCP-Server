@@ -1423,7 +1423,7 @@ def test_mock_supported_operations_are_seeded_operations(seeded_engine: AsyncEng
         assert capability_registry is not None
 
         names = {item.name for item in await operation_registry.list()}
-        assert len(names) == 69
+        assert len(names) == 70
         assert set(MOCK_SUPPORTED_OPERATIONS) <= names
         assert MOCK_SUPPORTED_OPERATIONS == MockAdapter().supported_operations()
 

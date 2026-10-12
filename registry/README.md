@@ -1348,9 +1348,12 @@ R129 的数据更正（接 ㉒）**：
   * **R135（新，已闭环）**：取结果**不能**带 `LOAD_CASE_NAMES` 过滤 —— 带过滤时原生回 **`200 {}`**
     （⇒ `parse_table` 报 `result_shape_invalid`；**有界重试 6 次全 `{}`**，**不**是没算完）；
     去掉过滤后同一端点返回真表 ⇒ ④ **`PASSED`** 并取到**真实数值**。
-  * **R136（新，**未**闭环）**：⑤ `DESIGN.STEEL` 的 `CODE-TABLE` → `400`，**根因 = 验算荷载组合不存在**
-    （MIDAS 弹窗原文）。荷载组合端点（`DB.LCOM-GEN` / `DB.LCOM-STEEL` / …）**都 `verified`**，
-    但**没有任何 Operation 引用它们** ⇒ 修它要**新增 / 扩展 Operation** ⇒ **属改 9 Tool Contract**，须裁决。
+  * **R136（✅ 已闭环，用户裁决 = B）**：⑤ `DESIGN.STEEL` 的 `CODE-TABLE` → `400`，**根因 = 验算荷载组合不存在**（MIDAS 弹窗原文）。荷载组合端点（`DB.LCOM-*`）**都 `verified`** 但
+    **零引用** ⇒ **新增一等 Operation `MODEL.LOAD_COMBINATION.ASSIGN`**（Operation **69 → 70**；
+    6 条 steps 按 `combination_kind` 分派；**不**新增 Tool、**不**扩能力码），并把删除并入
+    `MODEL.LOAD.DELETE`。⇒ 契约缺口**已闭**，但组合体被原生拒（见 **R137**）。
+  * **R137（新，**未**闭环）**：`POST /DB/LCOM-STEEL` → **`400` `Unknown Error`**（照手册示例结构、
+    只换 `LCNAME` 为自建工况名）⇒ 组合的**取值口径未定**；按纪律**不**硬试，如实留缺。
   * **R133（新，**只**登记）**：`DB.MATL` 的**单位口径**在 canonical 侧**未**定义 —— 手册 / 对话框是
     `kN/m²` / `kN/m³`，而写路径探针发的是 Pa / kg·m⁻³（**1000× / 100×**）；原生**不**校验量级 ⇒
     两者都 `200`，但**工程含义不同** ⇒ 写路径 `DB.MATL` 的 `PASSED` 证明的是**形状 / 字段集**被接受，

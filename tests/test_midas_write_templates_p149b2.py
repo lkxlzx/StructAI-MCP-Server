@@ -59,13 +59,17 @@ EVIDENCE_PATH = REPO_ROOT / "registry" / "live" / "write_batch_p149b2.json"
 TEMPLATES_PATH = REPO_ROOT / "registry" / "live" / "write_templates.json"
 """模板文件（P149-B2 两轮 + P149-C 之后 **71** 条）。"""
 
-EXPECTED_POOL = 191
-"""`analyze()` 当前返回的池子（**仍缺模板**）：**178** 条在留缺账本里 + **13** 条无可用示例。"""
+EXPECTED_POOL = 185
+"""`analyze()` 当前返回的池子（**仍缺模板**）：**172** 条在留缺账本里 + **13** 条无可用示例。
 
-EXPECTED_BATCH_POOL = 205
+⚠️ **P157 / R136**：191 → **185** —— 6 个 `DB.LCOM-*` 随新增 Operation 拿到**已注册
+Transformer**（`midas.lcom-*.v1`）⇒ 按判据不再入池（它们**尚**未做 L5 实测）。
+"""
+
+EXPECTED_BATCH_POOL = 199
 """P149-B2 落盘**前**的池子：`EXPECTED_POOL` + **14** 个已验证模板（`VERIFIED_KEYS`）。"""
 
-EXPECTED_PICKS = 178
+EXPECTED_PICKS = 172
 """当前池子里**有可用示例**的端点数（= 留缺账本里那些：有示例但实测未通过）。"""
 
 EXPECTED_GAPS: dict[str, int] = {
@@ -75,8 +79,8 @@ EXPECTED_GAPS: dict[str, int] = {
 }
 """无可用示例的**如实**归类（合计 13）。"""
 
-EXPECTED_LEDGER = 178
-"""留缺账本条数（R101–R105 **11** · R109 **2** · R110 **164** · R113 **1**）。"""
+EXPECTED_LEDGER = 172
+"""留缺账本条数（R101–R105 **11** · R109 **2** · R110 **164** · R113 **1** − R136 移出 **6**）。"""
 
 EXPECTED_TEMPLATES = 71
 """模板条数（P148 的 57 + P149-B2 两轮 12 + P149-C 2 = **71** 条真实 L5 `PASSED`）。"""
@@ -203,7 +207,7 @@ def test_p149b2_the_pool_excludes_transformer_owners_and_keys_without_a_write_me
 
 
 def test_p149b2_the_ledger_is_self_consistent() -> None:
-    """门槛：账本 180 条；账本里的 key **没有**模板；
+    """门槛：账本 172 条；账本里的 key **没有**模板；
     `落盘前池子 = 账本 ∪ 12 已验证 ∪ 13 无示例`。"""
     ledger = json.loads(LEDGER_PATH.read_text(encoding="utf-8"))
     templates = json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))["templates"]
