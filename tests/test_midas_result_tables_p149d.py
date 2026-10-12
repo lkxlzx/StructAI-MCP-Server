@@ -1,7 +1,8 @@
 """P149-D —— **R106**：`POST.*`「结果表 / 文本查询」端点的**取报表判据**
 （`registry/README.md` §8.13）。
 
-本批把 `docs/07` §16.1 的 **R106** 落地：这 **197** 个端点在 L5 三步链（创建 → 读回 → 按路径 key
+本批把 `docs/07` §16.1 的 **R106** 落地：这 **197** 个端点（⚠️ **P157 / R129** 起 **198**，
+见 `EXPECTED_TARGETS`）在 L5 三步链（创建 → 读回 → 按路径 key
 删除）下**结构上不适用**（**只**有 `POST`、**没有** `GET` / `read_root` ⇒ 没有「自建 ID」可读回 /
 可删），此前一律落在「无读回」桶里、**从未取得结论**。判据（**与三步链并列的第二条**）：
 
@@ -17,6 +18,7 @@
 本文件的**可执行判定**
 ----------------------
 1. **目标集 197 逐条可复算**（`targets()`；GEN NX 的 `POST.*`）。
+   ⚠️ **P157 / R129** 起为 **198**（`POST.TABLE` 补 `GEN_NX`），但新增的那一条**未**实测。
 2. **证据完整**：**195** 条实测 + **2** 条留缺；`counts == {PASSED: 15, PARTIAL: 172, FAILED: 8}`；
    无 `SKIPPED`；`aborted == ""`。
 3. **判据可复算**：工具重算的 `select_example()` 与证据的 `example_id` / `body_sha256` /
@@ -52,12 +54,20 @@ TOOL_PATH = REPO_ROOT / "registry" / "tools" / "probe_result_tables.py"
 EVIDENCE_PATH = REPO_ROOT / "registry" / "live" / "result_table_probe.json"
 """取报表判据的**实测证据**（`--probe` 的产物；不含凭据、不含请求体原文）。"""
 
-EXPECTED_TARGETS = 197
-"""目标集（GEN NX 的 `POST.*`：`POST.TABLE.*` **194** + `POST.PM` / `POST.TEXT` /
-`POST.STEELCODECHECK`）。"""
+EXPECTED_TARGETS = 198
+"""目标集（GEN NX 的 `POST.*`：`POST.TABLE.*` **194** + `POST.TABLE` + `POST.PM` / `POST.TEXT` /
+`POST.STEELCODECHECK`）。
+
+⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后**进入**本目标集
+（**197 → 198**）—— 但它**既没有**实测行、**也不在** `gaps` 里：取报表判据的 `--probe` 需要
+**先跑分析**（`POST /DOC/ANAL`，见本文件模块 docstring 的判据 1），而 P157 **明确禁止**在**唯一**
+项目上跑分析（分析结果**可能清不掉**）⇒ **如实记为「目标集 +1、实测未覆盖」**，
+**不**伪造行、**不**把它塞进 `gaps`。恢复条件 = 有专用建模 / 分析项目后重跑 `--probe`。
+"""
 
 EXPECTED_PROBED = 195
-"""取得结论的端点数（197 − 2 条如实留缺）。"""
+"""取得结论的端点数（原 **197** − **2** 条如实留缺；⚠️ **P157 / R129**：目标集 +1 = **198**，
+但新增的 `POST.TABLE` **未**实测 ⇒ 本值**不变**，差额如实披露）。"""
 
 EXPECTED_COUNTS = {"PASSED": 15, "PARTIAL": 172, "FAILED": 8}
 """三态计数（**P149-D** 全量实测；无 `SKIPPED`）。"""
@@ -121,8 +131,13 @@ def _manifest() -> dict[str, Any]:
 # ===== 1. 目标集与判据可复算（判定 1 / 3）=====
 
 
-def test_p149d_the_target_set_is_one_hundred_ninety_seven_by_measurement() -> None:
-    """门槛：目标集 = **197**（GEN NX 的 `POST.*`），且**全部**没有 `GET` / `read_root`。"""
+def test_p149d_the_target_set_is_one_hundred_ninety_eight_by_measurement() -> None:
+    """门槛：目标集 = **198**（GEN NX 的 `POST.*`），且**全部**没有 `GET` / `read_root`。
+
+    ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后进入本目标集
+    （**197 → 198**）；判定**未**放宽（仍逐条要求 `namespace == POST` ∧ `GEN_NX ∈ products` ∧
+    无 `GET` ∧ 无 `read_root`）。⚠️ 该新增目标**未**实测（见 `EXPECTED_TARGETS` 的说明）。
+    """
     tool = _tool()
     keys = tool.targets(REPO_ROOT, ())
     assert len(keys) == EXPECTED_TARGETS
@@ -133,9 +148,9 @@ def test_p149d_the_target_set_is_one_hundred_ninety_seven_by_measurement() -> No
         assert "GEN_NX" in entry["products"], key
         assert "GET" not in str(entry["methods"]), key
         assert not (entry.get("wrapper") or {}).get("read_root"), key
-    # 构成：194 `POST.TABLE.*` + 3 个同命名空间的其它取报表端点
+    # 构成：194 `POST.TABLE.*` + 4 个同命名空间的其它取报表端点（含通用入口 `POST.TABLE`）
     assert sum(1 for key in keys if key.startswith("POST.TABLE.")) == 194
-    assert set(keys) >= {"POST.PM", "POST.TEXT", "POST.STEELCODECHECK"}
+    assert set(keys) >= {"POST.TABLE", "POST.PM", "POST.TEXT", "POST.STEELCODECHECK"}
 
 
 def test_p149d_every_probed_body_is_recomputable_from_the_manual() -> None:

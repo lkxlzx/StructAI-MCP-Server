@@ -21316,7 +21316,8 @@
       "methods": "POST",
       "products": [
         "CIVIL_DESIGNER",
-        "CIVIL_NX"
+        "CIVIL_NX",
+        "GEN_NX"
       ],
       "definition": "common/post/TABLE.yaml",
       "schema": "schema/common/post/TABLE.json",

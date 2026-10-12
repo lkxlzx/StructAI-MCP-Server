@@ -12,7 +12,7 @@ schema_ref:
   source: help_center
   params_ref: "designer_params.json#POST/TABLE"
 parser: post_table
-products: [CIVIL_DESIGNER, CIVIL_NX]
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
 product_overrides:
   CIVIL_DESIGNER:
     uri: POST/TABLE

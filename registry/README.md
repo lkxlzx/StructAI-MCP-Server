@@ -271,9 +271,11 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
   `POST /POST/TABLE`）—— **15** 条读类 Operation = **2** `PASSED` + **7** `PARTIAL` +
   **6** `FAILED`；证据 = `registry/live/interface_read_probe.json`（同工具 `--probe-read`）。
   ⚠️ **PUT 判据与读路径判据是两个桶**（读得回 ≠ 写得进）；两者都**不**并入覆盖率分子。
-* **接口层写路径（P154，见 §8.12 ⑳）**：**R126 裁决 A′** 落地后 **13** 条 = **11** `PASSED` +
-  **2** `FAILED`（`4 / 9` → `11 / 2`）；剩下的 `DB.CONS` 是**请求体形状**问题（**R128**，
-  外层键 = 节点编号），**不是**字段集。**R129**：`POST.TABLE` 在 GEN NX 上路由**存在**（只读核实）。
+* **接口层写路径（P154，见 §8.12 ⑳；**P157 已到 `13 / 13`**）**：**R126 裁决 A′** 落地后 **13** 条 =
+  **11** `PASSED` + **2** `FAILED`（`4 / 9` → `11 / 2`）；⚠️ **P157 / D2 = A 落地**（`BoundaryTransformer`
+  加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT` 输出 **7** 位）后重测 ⇒ **13** 条 = **13** `PASSED` + **0** `FAILED`
+  （`DB.CONS` 的添加 / 删除**都** `PASSED`）。**R129**：`POST.TABLE` 在 GEN NX 上路由**存在**
+  ⇒ P157 **已按实测更正数据**（`products` 补 `GEN_NX`，见 §8.12 ㉓）。
 
 
 ## 3. 统计
@@ -1122,8 +1124,12 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
   **7** `PARTIAL`（`DB.*` 的**空块** —— L4 口径的第三态）· **6** `FAILED`
   （**5** 条 `POST.TABLE.*` 原生 `400` `[empty] Cannot generate table data as there is no
   analysis result.` + **1** 条 `RESULT.ANALYSIS.SUMMARY` 的通用入口 `POST.TABLE`
-  `products` **不含** `GEN_NX` ⇒ `STRUCTAI-3000 endpoint_not_available_for_product`、
-  **零** transport 调用）。
+  ⇒ `STRUCTAI-3000`、**零** transport 调用）。
+  ⚠️ **P157 / R129 同步（有实测依据）**：P153 / P154 时该行的成因是
+  `endpoint_not_available_for_product`（`products` **不含** `GEN_NX`）；**R129 的数据更正落地**
+  （`products` 补 `GEN_NX`）后**产品闸门已通过**，重测（零写）后的成因 = **`registry_mapping_not_verified`**
+  （`availability: untested` ⇒ `verification_status != VERIFIED`，`docs/07` §6.11）。
+  ⇒ **子桶计数不变**（**15** = **2** + **7** + **6**），**只**换成因。
   方法计数 = `{'GET': 12, 'POST': 5}` · `write_requests = 0` · 哨兵 **17** 个端点跑前 == 跑后 ·
   `residue` 空 · `aborted` 空。
   判定沿用 **L4 口径**（`docs/04` §71）：`2xx` ∧ 解包链命中（`read_root` 在响应顶层）⇒ 数据块
@@ -1291,3 +1297,59 @@ GEN NX 上**无 `DELETE`** 的端点 **14** 个（`GET`+`PUT` **11** · `GET`+`P
   那一处，新断言**更强**）+ `canonical_field_gap.json` 按修好后的证据重算（计数不变）。
 - 可执行判定 = `tests/test_midas_constraint_value_p156.py`（**10** 项）·
   `docs/reports/P156_R128复验与D2更正_v1.0.md`。
+
+**㉓ P157：D2 = A 落地（接口层写路径 `11/13` → **`13/13`**）+ 旗舰五步链的两处**结构成因** +
+R129 的数据更正（接 ㉒）**：
+
+- **D2 = A 落地（主；`app/**` 授权范围 = 恰好 **1** 个文件）**：按 `docs/reports/P0_裁决清单_v1.0.md` §7 的
+  **D2 = A**，给 `BoundaryTransformer` 加第 **7** 个自由度：`BOUNDARY_FLAGS` **6 → 7**（追加 `rw`，
+  顺序 = `DB.CONS` Schema 描述 `(DX,DY,DZ,RX,RY,RZ,RW)`）· `constraint_string` 文档化「位数 = 传入的
+  自由度个数」· `constraint_flags` 增 `count`（默认 = `len(BOUNDARY_FLAGS)` = **7**）。
+  ⚠️ **授权范围 = `app/infrastructure/adapters/midas/transforms.py` 一个文件**（**未**改 canonical 字段表 ·
+  **未**改 9 Tool Contract · **未**改表 · **未**新增依赖）；**调用方显式给 `rw`**，**缺** ⇒
+  `boundary_flags_incomplete`（**不**给默认值、**不**代填 `"0"` —— **方案 B 被否**）。
+  **实测**（GEN NX 专用空项目，**3** 块 5 / 5 / 3 + 块间只读健康检查均 `200`）：
+  写路径 **13** 条 = **13** `PASSED` + **0** `FAILED`；`DB.CONS` 现在发
+  `{"Assign": {"1": {"ITEMS": [{"GROUP_NAME": "", "ID": 1, "CONSTRAINT": "1110000"}]}}}`（**7** 位）
+  ⇒ 原生 **`200` 且落库**；**零残留**、`aborted` 空。
+- **R126 证据包的**取值缺口**因 ① 而关闭（有实测依据）**：`DB.CONS` 由 `value_gap` 移入 `covered`
+  ⇒ **取值缺口 3 → 2**（余 `DB.ELEM` / `DB.MATL`）· **已覆盖 5 → 6**；字段集缺口仍 **2**
+  （`DB.BMLD` / `DB.PRES`）· 模板端点仍 **71 = 10 + 61**（`--recon` 复算）。
+- **旗舰五步链（`docs/07` §13.5）：真机**仍未跑通** —— 两处**结构成因**已定位（**新 R131 / R132**）**：
+  新工具 `registry/tools/probe_flagship_chain.py`（**两个阶段**；判据**全部**取接口层响应；
+  **数值不硬编码**；只碰自建编号 + 逆序清理 + 再读确认；**残留 = 0**、哨兵跑前 == 跑后**全空**）：
+
+  | 阶段 | 步 | 结果 | 原生成因 |
+  | --- | --- | --- | --- |
+  | **A（§13.5 逐字）** | ① `BUILD.COLUMN` | `FAILED` | `POST /DB/MATL` → **`400 Wrong Field`**（**R131**） |
+  | **B（替代前缀 ①′ + ②–⑤）** | ①′ 四个原子 Operation | **`PASSED` ×5** | —— |
+  | | ② `MODEL.LOAD.ASSIGN` | `FAILED` | `POST /DB/CNLD` → **`400 Not Found Key`**（**R132**） |
+  | | ③④⑤ | `NOT_RUN` | 链在 ② 停止（**有界**，**不**硬跑） |
+
+  * **R131**：`adapter._column_payloads` 只填 5 个字段（A′ 的 **11** 个**一个都不在**）⇒ 原生**拒绝**；
+    **同一端点**在 `MODEL.MATERIAL.ASSIGN` 下补齐 A′ 后**实测可用** ⇒ **§13.5 的参数集不足以建材质**。
+  * **R132**：`MODEL.LOAD.ASSIGN` 的编排**声明**了 `DB.STLD` 的 `write_load_case` 步，但 `select_steps`
+    **只**选出该荷载类型那一步 ⇒ `DB.STLD` **永不**被执行；而 `MODEL.LOAD.DELETE` **能删**它（**不对称**）
+    ⇒ **接口层没有**任何 Operation 能**创建**工况。
+  * ⚠️ **两处都属 `app/**`，本批**未**获授权 ⇒ 如实留缺**；**未**在空项目上跑分析
+    （③ 未运行 ⇒ **没有**分析结果 ⇒ `analysis_result_persists = None`）。
+- **R129 的数据更正（已获用户显式裁决）**：`registry/common/post/TABLE.yaml` 的 `products` →
+  `[CIVIL_DESIGNER, CIVIL_NX, GEN_NX]`（**只**改 `products`）；`sync_manifest` 预演 **1** → `--write` → 再预演 **0**。
+  **连锁**：`write_capable_endpoints` **576 → 577** ⇒ 缺口 / 分类证据重算（缺口仍 **517 = 271 + 246**）；
+  **读路径重测（零写）**后 `RESULT.ANALYSIS.SUMMARY` 的成因由 `endpoint_not_available_for_product`
+  变为 **`registry_mapping_not_verified`**（产品闸门**已通过**；下一个闸门 = `availability: untested`）
+  ⇒ **读路径子桶计数不变**（**15** = **2** + **7** + **6**），**只**换成因；
+  `MODEL.BOUNDARY.QUERY` 的读回键集**新增 `rw`**。
+- **R130（新，`app/**`、**未**授权）**：`ITEMS` 形态端点的**读回**把外层 `ITEMS` 包装体当成条目交给
+  Transformer ⇒ canonical 取值**全 `None`**（只有由**编号键**补的 `id` 有值）；**不**影响写路径判定
+  （判定 = 「该编号**在**读回里」），但**限制**其证明力。
+- **计数**：**变化的** = 写路径子桶（`11 / 2` → **`13 / 0`**）· R126 证据包（取值缺口 `3 → 2` ·
+  已覆盖 `5 → 6`）· `write_capable_endpoints`（`576 → 577`）。
+  **不变的** = 端点 **636** · Schema 文件 **625** · 模板 **71** / body **115** · `availability: verified` **493** ·
+  响应 Schema 行 **317** · 留缺账本 **178** · **`write_path_coverage()` 仍 `72 / 633`**
+  （`model_write_ratio` **`72 / 434`**）· R118 子桶 **42 / 23 / 6** · 缺口 **517** = **271** + **246** ·
+  分类 **271** = **0** + **51** + **220** · 读路径子桶 **15** = **2** + **7** + **6** ·
+  `CONSTRAINT` 取值子桶 **4** = **2** + **2**（被接受长度 **7**）。
+- 可执行判定 = `tests/test_midas_constraint_rw_p157.py`（**16** 项）+
+  `tests/test_midas_flagship_chain_p157.py`（**11** 项）·
+  `docs/reports/P157_D2落地与旗舰五步链实测_v1.0.md`。

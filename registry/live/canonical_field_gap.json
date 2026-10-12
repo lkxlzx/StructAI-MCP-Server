@@ -13,9 +13,9 @@
     "with_transformer": 10,
     "without_transformer": 61,
     "field_set_gap": 2,
-    "value_gap": 3,
+    "value_gap": 2,
     "no_canonical_model": 61,
-    "covered": 5
+    "covered": 6
   },
   "buckets": {
     "field_set_gap": [
@@ -23,7 +23,6 @@
       "DB.PRES"
     ],
     "value_gap": [
-      "DB.CONS",
       "DB.ELEM",
       "DB.MATL"
     ],
@@ -93,32 +92,14 @@
     "covered": [
       "DB.BODF",
       "DB.CNLD",
+      "DB.CONS",
       "DB.FBLD",
       "DB.SECT",
       "DB.STLD"
     ]
   },
-  "measured_rejections": [
-    {
-      "endpoint": "DB.CONS",
-      "operation": "MODEL.BOUNDARY.ASSIGN",
-      "path": "add",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
-    },
-    {
-      "endpoint": "DB.CONS",
-      "operation": "MODEL.BOUNDARY.DELETE",
-      "path": "delete",
-      "native_status": 400,
-      "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
-    }
-  ],
-  "measured_endpoints": [
-    "DB.CONS"
-  ],
+  "measured_rejections": [],
+  "measured_endpoints": [],
   "newly_discovered": [
     "DB.BMLD",
     "DB.ELEM",
@@ -214,19 +195,6 @@
     }
   },
   "value_gaps": {
-    "DB.CONS": {
-      "unfilled_expressible": [],
-      "value_shape": [
-        {
-          "field": "CONSTRAINT",
-          "interface": "111000",
-          "interface_length": 6,
-          "template": "1111000",
-          "template_length": 7
-        }
-      ],
-      "note": "字段**已在** canonical 里（或由 Transformer 合成），接口层实测 body 里没有值 / 形态不同 ⇒ 成因是**前置对象 / 取值**，**不是**字段集缺口；**不**并入「二选一」方案。"
-    },
     "DB.ELEM": {
       "unfilled_expressible": [
         "ANGLE"
@@ -1513,23 +1481,15 @@
           {
             "GROUP_NAME": "",
             "ID": 1,
-            "CONSTRAINT": "111000"
+            "CONSTRAINT": "1110000"
           }
         ]
       },
       "missing_in_canonical": [],
       "unfilled_expressible": [],
       "extra_in_canonical": [],
-      "value_shape": [
-        {
-          "field": "CONSTRAINT",
-          "interface": "111000",
-          "interface_length": 6,
-          "template": "1111000",
-          "template_length": 7
-        }
-      ],
-      "gap_class": "value_gap"
+      "value_shape": [],
+      "gap_class": "covered"
     },
     {
       "endpoint": "DB.CUTL",

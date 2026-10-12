@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "2929cfe8-2444-4614-a112-5ef7d1f1dda2",
-    "model_id": "331b0e31-240a-403d-b26d-7f58793fcf32",
-    "software_instance_id": "f2533c84-944e-4b53-a66e-353c0edb05b9",
+    "project_id": "35238076-bc22-40aa-884f-1fbd7f792466",
+    "model_id": "f7e4206a-e379-4f0d-8853-16e14e6872c7",
+    "software_instance_id": "0d64f495-9a1b-4929-8bc7-9110ee9e23ad",
     "product": "GEN NX"
   },
   "read_only": true,
@@ -582,6 +582,7 @@
         "keys": [
           "group_name",
           "node_id",
+          "rw",
           "rx",
           "ry",
           "rz",
@@ -1210,7 +1211,7 @@
         "reason": "task_not_completed",
         "stage": "execution",
         "task_code": "STRUCTAI-3000",
-        "native_reason": "endpoint_not_available_for_product",
+        "native_reason": "registry_mapping_not_verified",
         "native_stage": "midas_adapter",
         "native_endpoint": "POST.TABLE"
       },

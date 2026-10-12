@@ -14,7 +14,7 @@
   "product_key": "GEN_NX",
   "operations": 69,
   "mapped_endpoints": 61,
-  "write_capable_endpoints": 576,
+  "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
   "mapped_inside_three_step": 30,
   "gap_total": 517,

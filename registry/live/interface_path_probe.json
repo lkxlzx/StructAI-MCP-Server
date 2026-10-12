@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "659b34c2-ac0f-4da0-8ea2-092cbae8afcc",
-    "model_id": "d36409a8-189e-4820-9018-b90062ae0c45",
-    "software_instance_id": "6ba92772-3e75-4bd1-82c4-c015da903515",
+    "project_id": "f3a856e6-59a3-4cbf-a46a-8e2df8ad4617",
+    "model_id": "67c0c04a-faca-4e93-9aff-42312b98638c",
+    "software_instance_id": "4204c843-8a80-4ec4-ba92-b5f464a88d94",
     "product": "GEN NX"
   },
   "sentinel_endpoints": [
@@ -87,20 +87,17 @@
   "allowed_residue": [],
   "aborted": "",
   "counts": {
-    "FAILED": 2,
-    "PASSED": 11
+    "PASSED": 13
   },
   "by_path": {
     "add": {
-      "FAILED": 1,
-      "PASSED": 4
+      "PASSED": 5
     },
     "edit": {
       "PASSED": 2
     },
     "delete": {
-      "FAILED": 1,
-      "PASSED": 5
+      "PASSED": 6
     }
   },
   "paths": [
@@ -112,7 +109,7 @@
       "endpoint": "DB.CONS",
       "method": "POST",
       "uri": "/DB/CONS",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [
         {
@@ -135,26 +132,66 @@
         "method_allowed": true
       },
       "write": {
-        "create_http": 400,
-        "create_data": null,
+        "create_http": 200,
+        "create_data": {
+          "write_boundary": [
+            {
+              "CONS": {
+                "1": {
+                  "ITEMS": [
+                    {
+                      "CONSTRAINT": "1110000",
+                      "GROUP_NAME": "",
+                      "ID": 1
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
         "create_result": {},
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.CONS"
-        }
+        "error": {}
       },
       "readback": {
-        "present": false,
-        "observed": {}
+        "present": true,
+        "observed": {
+          "group_name": null,
+          "id": "1",
+          "node_id": null,
+          "rw": null,
+          "rx": null,
+          "ry": null,
+          "rz": null,
+          "ux": null,
+          "uy": null,
+          "uz": null
+        }
       },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_boundary": {
+            "CONS": {
+              "1": {
+                "ITEMS": [
+                  {
+                    "CONSTRAINT": "1110000",
+                    "GROUP_NAME": "",
+                    "ID": 1
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -180,14 +217,23 @@
                   {
                     "GROUP_NAME": "",
                     "ID": 1,
-                    "CONSTRAINT": "111000"
+                    "CONSTRAINT": "1110000"
                   }
                 ]
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/CONS/1",
+          "status": 200
         },
         {
           "method": "GET",
@@ -200,7 +246,7 @@
           "status": 200
         }
       ],
-      "detail": "create_rejected:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.CONS'}"
+      "detail": ""
     },
     {
       "path": "add",
@@ -1395,7 +1441,7 @@
       "endpoint": "DB.CONS",
       "method": "DELETE",
       "uri": "/DB/CONS",
-      "status": "FAILED",
+      "status": "PASSED",
       "own_id": "1",
       "preconditions": [
         {
@@ -1419,21 +1465,37 @@
       },
       "write": {
         "precondition": "interface",
-        "create_http": 400,
-        "error": {
-          "code": "STRUCTAI-2200",
-          "reason": "task_not_completed",
-          "stage": "execution",
-          "task_code": "STRUCTAI-2200",
-          "native_reason": "software_api_error",
-          "native_stage": "midas_adapter",
-          "native_status": 400,
-          "native_endpoint": "DB.CONS"
-        }
+        "create_http": 200,
+        "error": {}
       },
-      "readback": {},
+      "readback": {
+        "present": false,
+        "observed": {}
+      },
       "edit": {},
-      "cleanup": {},
+      "cleanup": {
+        "delete_http": 200,
+        "delete_data": null,
+        "delete_result": {
+          "delete_boundary": {
+            "CONS": {
+              "1": {
+                "ITEMS": [
+                  {
+                    "CONSTRAINT": "1110000",
+                    "GROUP_NAME": "",
+                    "ID": 1
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "error": {},
+        "gone": true,
+        "observed": {},
+        "attempts": 1
+      },
       "requests": [
         {
           "method": "POST",
@@ -1459,14 +1521,23 @@
                   {
                     "GROUP_NAME": "",
                     "ID": 1,
-                    "CONSTRAINT": "111000"
+                    "CONSTRAINT": "1110000"
                   }
                 ]
               }
             }
           },
-          "status": 400,
-          "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
+          "status": 200
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/CONS/1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200
         },
         {
           "method": "DELETE",
@@ -1474,7 +1545,7 @@
           "status": 200
         }
       ],
-      "detail": "precondition_failed:{'code': 'STRUCTAI-2200', 'reason': 'task_not_completed', 'stage': 'execution', 'task_code': 'STRUCTAI-2200', 'native_reason': 'software_api_error', 'native_stage': 'midas_adapter', 'native_status': 400, 'native_endpoint': 'DB.CONS'}"
+      "detail": ""
     },
     {
       "path": "delete",

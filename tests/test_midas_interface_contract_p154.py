@@ -81,17 +81,21 @@ APRIME_SECT = (
 """**A′ 的 6 个 `DB.SECT` 字段**（合计 **17**）。"""
 
 EXPECTED_WRITE_ROWS = 13
-EXPECTED_WRITE_COUNTS = {"PASSED": 11, "FAILED": 2}
+EXPECTED_WRITE_COUNTS = {"PASSED": 13}
+"""⚠️ **P157 同步（有实测依据）**：P154 是 `11 / 2`；**D2 = A 落地**（`BoundaryTransformer`
+加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT` 输出 **7** 位）后重测 ⇒ **`13 / 0`**。断言**未**放宽。"""
 EXPECTED_WRITE_BY_PATH = {
-    "add": {"PASSED": 4, "FAILED": 1},
+    "add": {"PASSED": 5},
     "edit": {"PASSED": 2},
-    "delete": {"PASSED": 5, "FAILED": 1},
+    "delete": {"PASSED": 6},
 }
 EXPECTED_PASSED = (
+    ("add", "DB.CONS"),
     ("add", "DB.ELEM"),
     ("add", "DB.MATL"),
     ("add", "DB.NODE"),
     ("add", "DB.SECT"),
+    ("delete", "DB.CONS"),
     ("delete", "DB.ELEM"),
     ("delete", "DB.GRUP"),
     ("delete", "DB.MATL"),
@@ -100,10 +104,10 @@ EXPECTED_PASSED = (
     ("edit", "DB.ELEM"),
     ("edit", "DB.NODE"),
 )
-"""**11** 条 `PASSED`（三条路径各有证据；P152 当时只有 4 条）。"""
+"""**13** 条 `PASSED`（三条路径各有证据；P152 当时只有 4 条，P154 为 11 条）。"""
 
-REMAINING_FAILED = (("add", "DB.CONS"), ("delete", "DB.CONS"))
-"""**只剩** `DB.CONS`（成因 = **R128** 的请求体形状，**不是**字段集）。"""
+REMAINING_FAILED: tuple[tuple[str, str], ...] = ()
+"""⚠️ **P157**：`DB.CONS` 的添加 / 删除**已** `PASSED`（D2 = A 落地）⇒ **零失败**。"""
 
 EXPECTED_BOUNDARY_VARIANTS = (
     "assign_items",
@@ -120,10 +124,14 @@ EXPECTED_FIELD_GAP = {
     "with_transformer": 10,
     "without_transformer": 61,
     "field_set_gap": 2,
-    "value_gap": 3,
+    "value_gap": 2,
     "no_canonical_model": 61,
-    "covered": 5,
+    "covered": 6,
 }
+"""⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层的 `CONSTRAINT` 由 **6** 位变 **7** 位，
+与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`
+（取值缺口 **3 → 2**、已覆盖 **5 → 6**；字段集缺口仍 **2**、模板端点仍 **71 = 10 + 61**）。
+依据 = `registry/live/{interface_path_probe,canonical_field_gap}.json`（`--recon` 复算）。"""
 EXPECTED_GAP_TOTAL = 517
 EXPECTED_GAP_NOT_IN_CONTRACT = 271
 EXPECTED_GAP_NO_READBACK = 246
@@ -221,6 +229,10 @@ def test_p154_the_field_set_gap_shrinks_by_exactly_the_two_endpoints() -> None:
     assert index["DB.MATL"]["missing_in_canonical"] == []
     assert index["DB.SECT"]["missing_in_canonical"] == []
     assert index["DB.SECT"]["gap_class"] == "covered"
+    # ⚠️ **P157**：`DB.CONS` 的**取值**缺口已关闭（`CONSTRAINT` 由 6 位变 **7** 位 ⇒ 与模板一致）
+    assert index["DB.CONS"]["gap_class"] == "covered"
+    assert tuple(gap["buckets"]["value_gap"]) == ("DB.ELEM", "DB.MATL")
+    assert "DB.CONS" not in gap["value_gaps"]
 
 
 # ===== 2. 接口层产出的 body == 手册示例 body（R126 在字段级关闭）=====
@@ -278,8 +290,13 @@ def test_p154_the_manual_example_values_are_not_injected_as_defaults() -> None:
 # ===== 3. 接口层写路径实测（11 / 2）=====
 
 
-def test_p154_the_interface_write_path_is_eleven_of_thirteen() -> None:
-    """门槛：**13** 条 = **11** `PASSED` + **2** `FAILED`；零残留、未中止。"""
+def test_p154_the_interface_write_path_is_thirteen_of_thirteen() -> None:
+    """门槛：**13** 条 = **13** `PASSED` + **0** `FAILED`；零残留、未中止。
+
+    ⚠️ **P157 同步（有实测依据）**：P154 为 `11 / 2`；**D2 = A 落地**（`BoundaryTransformer`
+    加第 **7** 个自由度 `rw`）后 `DB.CONS` 的添加 / 删除**都** `PASSED` ⇒ **`13 / 0`**。
+    断言**未**放宽（`passed` / `failed` 的**集合**判定原样保留）。
+    """
     document = _json(WRITE_EVIDENCE)
     rows = document["paths"]
     assert len(rows) == EXPECTED_WRITE_ROWS
@@ -291,26 +308,25 @@ def test_p154_the_interface_write_path_is_eleven_of_thirteen() -> None:
     passed = {(str(row["path"]), str(row["endpoint"])) for row in rows if row["status"] == "PASSED"}
     failed = {(str(row["path"]), str(row["endpoint"])) for row in rows if row["status"] == "FAILED"}
     assert passed == set(EXPECTED_PASSED)
-    assert failed == set(REMAINING_FAILED)
+    assert failed == set(REMAINING_FAILED) == set()
 
 
-def test_p154_the_remaining_failure_is_not_the_field_set() -> None:
-    """门槛：**只剩** `DB.CONS`，其 body 的**字段集**与手册示例**一致**（成因不在字段集）。
+def test_p154_the_boundary_row_now_passes_with_seven_digits() -> None:
+    """门槛（**P157**）：`DB.CONS` 的添加行 `PASSED`，body = 已修形状 + **7** 位 `CONSTRAINT`。
 
-    ⚠️ **P156 同步（有实测依据）**：P154 当时此处断言「外层键是字面量 `ITEMS`」（= 形状成因）。
-    P155 修好**形状**（外层键 = **节点编号**）后，原生文案从 `Wrong Field`（形状级）变成
-    **`[错误] 约束条件输入有错误。`**（**取值级**）⇒ 本用例改为钉住**修好后的形状**
-    （**判定变强**：外层键必须是节点编号，**不**得是字面量 `ITEMS`）与**取值级**成因；
-    `CONSTRAINT` 的取值要求在 `tests/test_midas_constraint_value_p156.py` 逐条断言。
+    ⚠️ P154 / P156 时该行是 `FAILED`（形状级 → 取值级成因）；**D2 = A 落地**后转为 `PASSED`。
+    本用例**保留并加强** P156 的两条判定：① 外层键 = **节点编号**（**不**是字面量 `ITEMS`）；
+    ② 条目键集 = `{ID, GROUP_NAME, CONSTRAINT}`；并新增 ③ `CONSTRAINT` 恰为 **7** 位。
     """
     document = _json(WRITE_EVIDENCE)
-    rows = [row for row in document["paths"] if row["status"] == "FAILED"]
-    assert {str(row["endpoint"]) for row in rows} == {"DB.CONS"}
-    for row in rows:
-        assert row["write"]["error"]["native_status"] == 400, row
-        assert row["write"]["error"]["native_reason"] == "software_api_error", row
-    add = next(row for row in rows if row["path"] == "add")
-    # ⚠️ 该行的 `requests` 里**也**含前置节点创建（`/DB/NODE`）⇒ 必须按**路径**认回 `DB.CONS`
+    add = next(
+        row
+        for row in document["paths"]
+        if row["path"] == "add" and str(row["endpoint"]) == "DB.CONS"
+    )
+    assert add["status"] == "PASSED", add
+    assert add["readback"]["present"] is True, add["readback"]
+    assert (add.get("cleanup") or {}).get("gone") is True, add.get("cleanup")
     bodies = [
         item["body"]
         for item in add["requests"]
@@ -318,17 +334,16 @@ def test_p154_the_remaining_failure_is_not_the_field_set() -> None:
     ]
     assert bodies, add["requests"]
     outer_key = next(iter(bodies[0]["Assign"]))
-    # 外层键 = **节点编号**（**不**是字面量 `ITEMS`）—— R128 的修复
+    # 外层键 = **节点编号**（**不**是字面量 `ITEMS`）—— R128 的修复（P155）
     assert outer_key.isdigit(), bodies[0]
     assert outer_key != "ITEMS", bodies[0]
     entry = bodies[0]["Assign"][outer_key]["ITEMS"][0]
     assert set(entry) == {"ID", "GROUP_NAME", "CONSTRAINT"}, entry
-    # 成因已下沉到**取值**（`CONSTRAINT` 必须是 7 位）：逐条留原生文案
-    rejected = [item for item in add["requests"] if int(item["status"]) >= 400]
-    assert rejected, add["requests"]
-    assert any("约束条件输入有错误" in str(item.get("native_error") or "") for item in rejected), (
-        rejected
-    )
+    # ⚠️ **P157 / D2 = A**：`CONSTRAINT` **恰好 7 位**（`DX,DY,DZ,RX,RY,RZ,RW`）
+    assert len(str(entry["CONSTRAINT"])) == 7, entry
+    assert str(entry["CONSTRAINT"]) == "1110000", entry
+    # 该行**没有**任何原生拒绝（`>= 400`）
+    assert not [item for item in add["requests"] if int(item["status"]) >= 400], add["requests"]
 
 
 # ===== 4. R128：`DB.CONS` 的请求体形状（新裁决）=====

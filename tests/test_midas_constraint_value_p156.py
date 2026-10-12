@@ -28,6 +28,16 @@ P155 修好**形状**（外层**编号键**）后，P156 重跑接口层：仍 `
 3. **接口层当前只能产出 6 位**（`BoundaryTransformer` 的字段表里**没有** `rw`）⇒ 这是
    **契约缺口**，**不**在端点 / 护栏 / 形状。
 4. **不变量**：`write_path_coverage()` = `0 / 633` · 缺口 `517` = `271` + `246` · R118 子桶未动。
+
+⚠️ **P157 更新（D2 = A 已落地）**
+--------------------------------
+用户裁决 **D2 = A**（`docs/reports/P0_裁决清单_v1.0.md` §7）⇒ P157 给 `BoundaryTransformer`
+加第 **7** 个自由度 `rw`（`BOUNDARY_FLAGS` **7** 项、`CONSTRAINT` 输出 **7** 位、
+`constraint_flags` 解析 **7** 位；调用方**显式**给 `rw`，**缺** ⇒ `boundary_flags_incomplete`，
+**不**给默认值、**不**用方案 B 补 `"0"`）。
+⇒ 上表第 3 条**已关闭**：接口层现在产出 **7** 位（`INTERFACE_LAYER_LENGTH = 7`），
+实测 `DB.CONS` 的添加 / 删除**都** `PASSED`（`registry/live/interface_path_probe.json`）。
+本文件的**历史证据**（4 变体、被接受长度 = 7、5 / 6 位被拒）**原样保留**（判定**未**放宽）。
 """
 
 from __future__ import annotations
@@ -39,6 +49,7 @@ from typing import Any
 
 import pytest
 
+from app.infrastructure.adapters.midas.errors import MidasValidationError
 from app.infrastructure.adapters.midas.live import write_path_coverage
 from app.infrastructure.adapters.midas.registry import MidasRegistry
 from app.infrastructure.adapters.midas.transforms import (
@@ -66,8 +77,14 @@ ACCEPTED_LENGTH = 7
 """被原生接受的 `CONSTRAINT` 长度（**恰好 7**：`DX,DY,DZ,RX,RY,RZ,RW`）。"""
 
 EXPECTED_COUNTS = {"PASSED": 2, "FAILED": 2}
-INTERFACE_LAYER_LENGTH = 6
-"""接口层当前产出的长度（`BoundaryTransformer` 只覆盖**六个**自由度）。"""
+INTERFACE_LAYER_LENGTH = 7
+"""接口层**当前**产出的长度（⚠️ **P157 / D2 = A 落地**：`BoundaryTransformer` 覆盖**七**个自由度）。
+
+P156 时该值是 **6**（`BOUNDARY_FLAGS` 恰好 6 个、`rw` **不**臆造）⇒ 与原生要求的 **7** 位
+**不一致** ⇒ 接口层**结构上**发不出可被接受的取值（= D2 的契约缺口）。
+**P157 落地 D2 = A** 后该值 = **7** = `ACCEPTED_LENGTH` ⇒ 缺口关闭（有实测依据：
+`registry/live/interface_path_probe.json` 的 `DB.CONS` 添加 / 删除**都** `PASSED`）。
+"""
 
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
@@ -145,32 +162,53 @@ def test_p156_the_probe_is_bounded_and_leaves_no_residue() -> None:
 # ===== 2. 接口层**结构上**只能产出 6 位（契约缺口，**不**在形状）=====
 
 
-def test_p156_the_interface_layer_can_only_produce_six_digits() -> None:
-    """门槛：`BoundaryTransformer` 的字段表**没有** `rw` ⇒ 合成的 `CONSTRAINT` 只有 **6** 位。"""
+def test_p156_the_interface_layer_now_produces_seven_digits() -> None:
+    """门槛（⚠️ **P157 / D2 = A 落地**）：`BoundaryTransformer` 的 `CONSTRAINT` = **7** 位。
+
+    P156 时此处断言「**没有** `rw` ⇒ 只能产出 **6** 位」（= 契约缺口）。**D2 = A 落地**后
+    该断言**不再成立** ⇒ 改为**更强**的判定：`BOUNDARY_FLAGS` **恰好 7** 个、第 7 个是 `rw`、
+    合成的 `CONSTRAINT` **恰好 7** 位且**等于**原生接受的长度；**缺 `rw`** ⇒ 显式报错。
+    """
     registry = MidasRegistry.load(REPO_ROOT / "registry")
     transformer = BoundaryTransformer(registry)
     canonical = dict.fromkeys(BOUNDARY_FLAGS, True)
-    assert len(BOUNDARY_FLAGS) == 6, BOUNDARY_FLAGS
-    assert "rw" not in [field.canonical for field in transformer.fields]
+    assert len(BOUNDARY_FLAGS) == 7, BOUNDARY_FLAGS
+    assert BOUNDARY_FLAGS[-1] == "rw", BOUNDARY_FLAGS
     native = transformer.to_native({"node_id": 1, **canonical})
-    assert len(str(native["CONSTRAINT"])) == INTERFACE_LAYER_LENGTH, native
-    assert str(native["CONSTRAINT"]) == constraint_string(True, True, True, True, True, True)
-    # 第 7 位（`RW`）**无从表达** ⇒ 这是**契约缺口**（D2 重开），**不**是形状 / 端点 / 护栏问题
-    assert len(str(native["CONSTRAINT"])) < ACCEPTED_LENGTH
+    assert len(str(native["CONSTRAINT"])) == INTERFACE_LAYER_LENGTH == 7, native
+    assert str(native["CONSTRAINT"]) == constraint_string(*([True] * 7))
+    assert len(str(native["CONSTRAINT"])) == ACCEPTED_LENGTH
+    # ⚠️ **不**给默认值、**不**代填 `"0"`（方案 B 被否）：缺 `rw` ⇒ 显式报错
+    incomplete = {key: value for key, value in canonical.items() if key != "rw"}
+    with pytest.raises(MidasValidationError) as failure:
+        transformer.to_native({"node_id": 1, **incomplete})
+    assert failure.value.details["reason"] == "boundary_flags_incomplete"
+    assert failure.value.details["flags"] == list(BOUNDARY_FLAGS)
+    # 读回：7 位逐位解析；6 位（旧接口层产出）⇒ 第 7 位 `None`（**不**猜成 `False`）
+    seven = transformer.from_native({"ID": 1, "CONSTRAINT": "1110000"})
+    assert seven["rw"] is False
+    assert all(seven[name] is not None for name in BOUNDARY_FLAGS)
+    six = transformer.from_native({"ID": 1, "CONSTRAINT": "111000"})
+    assert six["rw"] is None, six
 
 
-def test_p156_the_write_evidence_shows_the_value_level_failure() -> None:
-    """门槛：接口层 `DB.CONS` 的原生文案已**下沉到取值级**（不再是形状级 `Wrong Field`）。"""
+def test_p156_the_write_evidence_shows_the_value_level_failure_is_closed() -> None:
+    """门槛（⚠️ **P157 / D2 = A 落地**）：接口层 `DB.CONS` 的**取值级**拒绝**已关闭**。
+
+    P156 时此处断言「`DB.CONS` 仍 `FAILED` 且原生文案是 `约束条件输入有错误`」。
+    落地后该行 `PASSED` ⇒ 改为**更强**的判定：**没有**任何 `FAILED` 行、**没有**任何拒绝文案。
+    """
     document = _json(WRITE_EVIDENCE)
     failures = [row for row in document["paths"] if row["status"] == "FAILED"]
-    assert {str(row["endpoint"]) for row in failures} == {"DB.CONS"}
+    assert failures == [], failures
     texts = {
         str(item.get("native_error"))
-        for row in failures
+        for row in document["paths"]
         for item in row["requests"]
         if int(item["status"]) >= 400
     }
-    assert any("约束条件输入有错误" in text for text in texts), texts
+    assert texts == set(), texts
+    assert not any("约束条件输入有错误" in text for text in texts), texts
     assert not any("Wrong Field" in text for text in texts), texts
 
 
@@ -230,8 +268,12 @@ def test_p156_the_check_mode_agrees_offline() -> None:
     reason="缺 `CONSTRAINT` 取值证据",
 )
 def test_p156_the_verdict_is_seven_not_six() -> None:
-    """门槛（**D2 更正的钉子**）：结论是 **7**，而**不是** P154 声称的「位数无关」。"""
+    """门槛（**D2 更正的钉子**）：结论是 **7**，而**不是** P154 声称的「位数无关」。
+
+    ⚠️ **P157**：接口层现在**也**是 **7**（D2 = A 落地）⇒ 本用例改为断言
+    「被接受的长度 = 接口层产出的长度 = **7**」（P156 时两者是 `7 ≠ 6`）。
+    """
     document = _json(CONSTRAINT_EVIDENCE)
     assert int(document["verdict"]) == ACCEPTED_LENGTH == 7
-    assert INTERFACE_LAYER_LENGTH == 6
-    assert ACCEPTED_LENGTH != INTERFACE_LAYER_LENGTH
+    assert INTERFACE_LAYER_LENGTH == 7
+    assert ACCEPTED_LENGTH == INTERFACE_LAYER_LENGTH

@@ -89,8 +89,16 @@ __all__ = [
 WRAPPER_KEYS: Final[tuple[str, ...]] = ("Argument", "Assign")
 """Schema 根级可能出现的请求体包装键（`registry/README.md` §4 的 `wrapper.write`）。"""
 
-BOUNDARY_FLAGS: Final[tuple[str, ...]] = ("ux", "uy", "uz", "rx", "ry", "rz")
-"""`docs/04` §31 + `DB.CONS` Schema 描述 `(DX,DY,DZ,RX,RY,RZ,RW)` 的前六自由度。"""
+BOUNDARY_FLAGS: Final[tuple[str, ...]] = ("ux", "uy", "uz", "rx", "ry", "rz", "rw")
+"""`docs/04` §31 + `DB.CONS` Schema 描述 `(DX,DY,DZ,RX,RY,RZ,RW)` 的**全部七**个自由度。
+
+⚠️ **P157 / D2 = A**：第 **7** 位 `rw`（翘曲约束）此前**不在** canonical 里（原注释写作「`RW`
+**不**臆造」）⇒ 合成出的 `CONSTRAINT` 只有 **6** 位，而原生**恰好要求 7 位**
+（`registry/live/constraint_value_probe.json`：5 位 `400` · 6 位 `400` · 7 位 `200` 且落库）。
+`rw` 与其余六个自由度**同权**：由**调用方显式**给出，**缺** ⇒ `boundary_flags_incomplete`
+（**不**给默认值、**不**代填 `"0"` —— 方案 B 被否，见
+`docs/reports/P0_裁决清单_v1.0.md` §7 的 D2 行）。
+"""
 
 
 @dataclass(frozen=True, slots=True)
@@ -155,16 +163,24 @@ def parse_table(native: Mapping[str, Any], *, table_name: str) -> TableResult:
 
 
 def constraint_string(*flags: bool) -> str:
-    """六个布尔自由度 → `DB.CONS` 的 `CONSTRAINT` 字符串（`docs/04` §31）。"""
+    """布尔自由度 → `DB.CONS` 的 `CONSTRAINT` 字符串（`docs/04` §31）。
+
+    位数 = **传入的自由度个数**（`BoundaryTransformer` 传 `BOUNDARY_FLAGS` = **7** 个 ⇒ 7 位，
+    与原生要求一致；P157 / D2 = A）。
+    """
     return "".join("1" if bool(flag) else "0" for flag in flags)
 
 
-def constraint_flags(text: str) -> tuple[bool | None, ...]:
-    """`CONSTRAINT` 字符串 → 六个布尔自由度（长度不足 / 非法字符 → `None`，**不**猜）。"""
+def constraint_flags(text: str, *, count: int = len(BOUNDARY_FLAGS)) -> tuple[bool | None, ...]:
+    """`CONSTRAINT` 字符串 → `count` 个布尔自由度（长度不足 / 非法字符 → `None`，**不**猜）。
+
+    `count` 默认 = `len(BOUNDARY_FLAGS)` = **7**（P157 / D2 = A：与 `(DX,DY,DZ,RX,RY,RZ,RW)`
+    逐位对齐）；6 位输入 ⇒ 第 7 位为 `None`（**不**代填 `False`）。
+    """
     flags: list[bool | None] = []
-    for char in str(text)[:6]:
+    for char in str(text)[:count]:
         flags.append(char == "1" if char in {"1", "0"} else None)
-    while len(flags) < 6:
+    while len(flags) < count:
         flags.append(None)
     return tuple(flags)
 
@@ -431,10 +447,11 @@ class SectionTransformer(SchemaBoundTransformer):
 
 
 class BoundaryTransformer(SchemaBoundTransformer):
-    """Boundary（`docs/04` §31）：`node_id/ux..rz` ↔ `DB.CONS` 的 `ITEMS[]`。
+    """Boundary（`docs/04` §31）：`node_id/ux..rw` ↔ `DB.CONS` 的 `ITEMS[]`。
 
     `CONSTRAINT` 是按 `(DX,DY,DZ,RX,RY,RZ,RW)` 顺序的字符串（Schema 描述逐字）；
-    canonical 只覆盖前六个自由度，`RW` **不**臆造。
+    canonical 覆盖**全部七**个自由度（P157 / D2 = A）—— 调用方**必须显式**给出 `rw`，
+    缺 ⇒ `boundary_flags_incomplete`（**不**给默认值、**不**代填 `"0"`）。
     """
 
     name = "midas.cons.v1"
@@ -445,7 +462,7 @@ class BoundaryTransformer(SchemaBoundTransformer):
     )
 
     def to_native(self, canonical: Mapping[str, Any]) -> dict[str, Any]:
-        """canonical → `{ID, GROUP_NAME?, CONSTRAINT}`。"""
+        """canonical → `{ID, GROUP_NAME?, CONSTRAINT}`（`CONSTRAINT` = **7** 位）。"""
         item = super().to_native(
             {key: value for key, value in canonical.items() if key not in BOUNDARY_FLAGS}
         )
@@ -458,7 +475,7 @@ class BoundaryTransformer(SchemaBoundTransformer):
         return item
 
     def from_native(self, native: Mapping[str, Any]) -> dict[str, Any]:
-        """`{ID, GROUP_NAME?, CONSTRAINT}` → canonical（不足六位 → `None`）。"""
+        """`{ID, GROUP_NAME?, CONSTRAINT}` → canonical（不足七位 → 第 7 位 `None`）。"""
         canonical = super().from_native(native)
         parsed = constraint_flags(str(native.get("CONSTRAINT", "")))
         for name, flag in zip(BOUNDARY_FLAGS, parsed, strict=True):

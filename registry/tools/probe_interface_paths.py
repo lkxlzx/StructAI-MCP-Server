@@ -578,11 +578,15 @@ def _section_parameters(own_id: str) -> dict[str, Any]:
 
 
 def _boundary_parameters(own_id: str, *, nodes: Sequence[str]) -> dict[str, Any]:
-    """`MODEL.BOUNDARY.ASSIGN` 的规范化参数（canonical 键 + 六自由度；`docs/04` §31）。
+    """`MODEL.BOUNDARY.ASSIGN` 的规范化参数（canonical 键 + **七**自由度；`docs/04` §31）。
 
     ⚠️ **P154 / N1**：`group_name` 在 canonical 字段表里**一直存在**
     （`BoundaryTransformer` 的 `FieldMap("group_name", "GROUP_NAME")`），P152 的探针**没传**它 ⇒
     手册示例用的是**空串**（「不分组」，P139 实测：非空组名会 `400 Unknown Error`）。这里补上。
+
+    ⚠️ **P157 / D2 = A**：第 **7** 个自由度 `rw` 由**调用方显式**给出（**不**给默认值）。
+    这里取 `False`（**不**约束翘曲）—— 取值来自**实测**：`registry/live/constraint_value_probe.json`
+    的 `seven_digits_rw0` 变体（`"1110000"`）已被原生 `200` 接受且落库。
     """
     return {
         "boundaries": [
@@ -596,6 +600,7 @@ def _boundary_parameters(own_id: str, *, nodes: Sequence[str]) -> dict[str, Any]
                 "rx": False,
                 "ry": False,
                 "rz": False,
+                "rw": False,
             }
         ]
     }

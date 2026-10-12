@@ -422,15 +422,34 @@ def test_p121_node_element_material_section_round_trip() -> None:
 
 
 def test_p121_boundary_flags_become_the_documented_constraint_string() -> None:
-    """门槛 ③（`docs/04` §31）：`(DX,DY,DZ,RX,RY,RZ)` → `CONSTRAINT` 字符串并原样回读。"""
+    """门槛 ③（`docs/04` §31）：`(DX,DY,DZ,RX,RY,RZ,RW)` → `CONSTRAINT` 字符串并原样回读。
+
+    ⚠️ **P157 / D2 = A**：第 **7** 个自由度 `rw` 进 canonical（`BOUNDARY_FLAGS` **7** 项）——
+    原用例只覆盖六个（合成 `"111000"`，已被原生 `400` 拒）；现按 Schema 描述**逐位**覆盖七个
+    （合成 `"1110000"`，**实测**被原生 `200` 接受且落库）。断言**未**放宽、覆盖面**变广**。
+    """
     boundary = BoundaryTransformer(support.registry())
     native = boundary.to_native(
-        {"node_id": 1, "ux": True, "uy": True, "uz": True, "rx": False, "ry": False, "rz": False}
+        {
+            "node_id": 1,
+            "ux": True,
+            "uy": True,
+            "uz": True,
+            "rx": False,
+            "ry": False,
+            "rz": False,
+            "rw": False,
+        }
     )
-    assert native == {"ID": 1, "CONSTRAINT": "111000"}
-    canonical = boundary.from_native({"ID": 1, "CONSTRAINT": "111000"})
+    assert native == {"ID": 1, "CONSTRAINT": "1110000"}
+    canonical = boundary.from_native({"ID": 1, "CONSTRAINT": "1110000"})
     assert (canonical["ux"], canonical["uy"], canonical["uz"]) == (True, True, True)
-    assert (canonical["rx"], canonical["ry"], canonical["rz"]) == (False, False, False)
+    assert (canonical["rx"], canonical["ry"], canonical["rz"], canonical["rw"]) == (
+        False,
+        False,
+        False,
+        False,
+    )
     assert canonical["node_id"] == 1
 
 
@@ -558,9 +577,16 @@ def test_p122_every_step_matches_the_registry() -> None:
 
 
 def test_p122_product_availability_gaps_are_data_facts() -> None:
-    """把实测的**产品可得性差异**钉成事实（`docs/07` §6 的映射未逐端点标注产品）。"""
+    """把实测的**产品可得性差异**钉成事实（`docs/07` §6 的映射未逐端点标注产品）。
+
+    ⚠️ **P157 / R129 同步（有实测依据）**：P119–P126 时 `POST.TABLE` **没有** `GEN_NX`
+    （⇒ `RESULT.ANALYSIS.SUMMARY` 在 GEN NX 上被**解析期**拒绝）；P154 只读核实该路由**存在**
+    （立 **R129**），**P157 按用户裁决把 `products` 补上 `GEN_NX`** ⇒ 本用例的该条断言
+    **反转**（`GEN_NX` **在** `products` 里）。⚠️ 判定**未**放宽：仍逐条钉住数据事实。
+    """
     registry = support.registry()
-    assert "GEN_NX" not in registry.endpoint("POST.TABLE").products
+    assert "GEN_NX" in registry.endpoint("POST.TABLE").products
+    assert registry.endpoint("POST.TABLE").availability == "untested"
     assert registry.endpoint("POST.STEELCODECHECK").products == ("GEN_NX",)
     assert registry.endpoint("DB.POSL").products == ("GEN_NX",)
     assert registry.has("DB.THOO") is False  # `docs/07` §6.9 提到，但数据里没有

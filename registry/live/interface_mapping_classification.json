@@ -11,7 +11,7 @@
   "gap_not_in_contract": 271,
   "gap_no_readback": 246,
   "mapped_endpoints": 61,
-  "write_capable_endpoints": 576,
+  "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
   "buckets": {
     "by_namespace": {

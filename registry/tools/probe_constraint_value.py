@@ -64,7 +64,10 @@ VARIANTS: tuple[dict[str, Any], ...] = (
     {
         "name": "six_digits",
         "constraint": "111000",
-        "note": "**接口层当前**产出（canonical 只覆盖六个自由度 `ux..rz`；`RW` 明确不臆造）",
+        "note": (
+            "**P156 时点**接口层产出（canonical 只覆盖六个自由度 `ux..rz`；`RW` 明确不臆造）"
+            " —— ⚠️ **P157 / D2 = A 起**接口层产出 **7** 位（本变体保留为「6 位被拒」的对照）"
+        ),
     },
     {
         "name": "five_digits_control",

@@ -203,6 +203,7 @@ async def test_p155_the_adapter_sends_one_request_per_item() -> None:
                 "rx": False,
                 "ry": False,
                 "rz": False,
+                "rw": False,
             },
             {
                 "id": 2,
@@ -214,6 +215,7 @@ async def test_p155_the_adapter_sends_one_request_per_item() -> None:
                 "rx": False,
                 "ry": False,
                 "rz": False,
+                "rw": False,
             },
         ]
     }
@@ -226,6 +228,8 @@ async def test_p155_the_adapter_sends_one_request_per_item() -> None:
         assert item["items_style"] is True, item
         assert item["wrapper"] == "Assign", item
         assert len(item["body"]) == 1, item
+        # ⚠️ **P157 / D2 = A**：第 7 个自由度 `rw` 进 canonical ⇒ `CONSTRAINT` **恰好 7** 位
+        assert len(str(item["body"][0]["CONSTRAINT"])) == 7, item["body"]
     assert len(outcome["responses"]) == 2
 
 

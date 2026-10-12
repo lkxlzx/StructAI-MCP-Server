@@ -60,20 +60,24 @@ MANIFEST_PATH = REPO_ROOT / "registry" / "manifest.json"
 
 CRITERION_VERSION = 1
 EXPECTED_ROWS = 13
-EXPECTED_COUNTS = {"PASSED": 11, "FAILED": 2}
-"""⚠️ **P154 同步（有实测依据）**：P152 当时是 `4 / 9`；P154 落地 **R126 裁决 A′**（扩
+EXPECTED_COUNTS = {"PASSED": 13}
+"""⚠️ **P157 同步（有实测依据）**：P152 当时是 `4 / 9`；P154 落地 **R126 裁决 A′**（扩
 `DB.MATL` 11 + `DB.SECT` 6 = **17** 个 canonical 字段）+ 修探针的节点几何（两节点坐标必须不同）
-+ 补 `DB.CONS` 的 `group_name` 后重测 ⇒ **`11 / 2`**。断言**未**放宽，只同步数字。"""
++ 补 `DB.CONS` 的 `group_name` 后重测 ⇒ **`11 / 2`**；**P157 落地 D2 = A**（`BoundaryTransformer`
+加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT` 输出 **7** 位，与原生要求一致）后重测 ⇒ **`13 / 0`**
+（`registry/live/interface_path_probe.json`，零残留、未中止）。断言**未**放宽，只同步数字。"""
 EXPECTED_BY_PATH = {
-    "add": {"PASSED": 4, "FAILED": 1},
+    "add": {"PASSED": 5},
     "edit": {"PASSED": 2},
-    "delete": {"PASSED": 5, "FAILED": 1},
+    "delete": {"PASSED": 6},
 }
 EXPECTED_PASSED = (
+    ("add", "DB.CONS"),
     ("add", "DB.ELEM"),
     ("add", "DB.MATL"),
     ("add", "DB.NODE"),
     ("add", "DB.SECT"),
+    ("delete", "DB.CONS"),
     ("delete", "DB.ELEM"),
     ("delete", "DB.GRUP"),
     ("delete", "DB.MATL"),
@@ -89,13 +93,18 @@ EXPECTED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.GRUP", "DB.MATL", "DB.NODE", "DB
 
 EXPECTED_GAP_COUNTS = {
     "operations": 69,
-    "write_capable_endpoints": 576,
+    "write_capable_endpoints": 577,
     "three_step_endpoints": 301,
     "mapped_endpoints": 61,
     "mapped_inside_three_step": 30,
     "gap_total": 517,
 }
-"""映射缺口的钉住计数（离线复算；见 `--recon`）。"""
+"""映射缺口的钉住计数（离线复算；见 `--recon`）。
+
+⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后成为 GEN_NX 的
+**可写端点** ⇒ `write_capable_endpoints` **576 → 577**（`POST.TABLE` 是 `POST` 端点）。
+⚠️ **缺口总数不变**（**517 = 271 + 246**）、`three_step_endpoints` / `mapped_endpoints` 不变。
+"""
 
 EXPECTED_GAP_THREE_STEP = 271
 """缺口里的「契约外」条数（形态齐备但没有任何 Operation 映射到它）。"""
@@ -110,13 +119,14 @@ EXPECTED_MODEL_WRITE_TOTAL = 434
 """`model_write` 分母（本批**不得**改动）。"""
 
 FAILED_NATIVE_MARKERS = ("Wrong Field", "Unknown Error", "约束条件输入有错误")
-"""原生拒绝文案（逐条进证据的 `native_error`）。
+"""原生拒绝文案的词表（逐条进证据的 `native_error`）。
 
-⚠️ **P154 / P155 / P156 同步**：R126 的 A′ 落地后只剩 `DB.CONS` 一条；P155 修好**形状**
+⚠️ **P154 / P155 / P156 / P157 同步**：R126 的 A′ 落地后只剩 `DB.CONS` 一条；P155 修好**形状**
 （外层编号键）后，`DB.CONS` 的原生文案从 `Wrong Field`（**形状级**）变成
-**`约束条件输入有错误。`**（**取值级** = `CONSTRAINT` 必须是 **7** 位，见 **D2 的更正**与
-`tests/test_midas_constraint_value_p156.py`）。断言**未**放宽（仍要求「有原生文案且命中标记」），
-只同步文案集。"""
+**`约束条件输入有错误。`**（**取值级** = `CONSTRAINT` 必须是 **7** 位）；**P157 落地 D2 = A**
+（`BoundaryTransformer` 加第 7 个自由度 `rw`）后，原生拒绝**清零** ⇒ 本词表保留为**守卫词表**
+（一旦某行再出现这些文案，用例**立刻**失败）。断言**未**放宽（由「失败行必须命中词表」
+**收紧**为「**没有**失败行、**没有**拒绝文案」）。"""
 
 
 def _load(path: Path, name: str) -> Any:
@@ -303,9 +313,14 @@ def test_p152_the_requests_are_recorded_verbatim_for_the_interface_layer() -> No
 
 
 def test_p152_every_failed_row_carries_its_native_cause() -> None:
-    """门槛：`FAILED` ⇒ 有原生状态码 / 原因（或前置创建失败的原因），**不**留空。"""
+    """门槛：`FAILED` ⇒ 有原生状态码 / 原因（或前置创建失败的原因），**不**留空。
+
+    ⚠️ **P157 同步（有实测依据）**：**D2 = A** 落地后 `DB.CONS` 的添加 / 删除**都** `PASSED`
+    ⇒ 证据里**没有** `FAILED` 行，本用例的逐行断言在**零失败**时空转，但**判定保留**
+    （一旦再出现失败行，仍**逐条**要求原生成因）。断言**未**放宽。
+    """
     failures = [row for row in _rows() if row["status"] == "FAILED"]
-    assert len(failures) == EXPECTED_COUNTS["FAILED"]
+    assert len(failures) == EXPECTED_COUNTS.get("FAILED", 0)
     for row in failures:
         endpoint = str(row["endpoint"])
         assert row["detail"], endpoint
@@ -321,24 +336,22 @@ def test_p152_every_failed_row_carries_its_native_cause() -> None:
 
 
 def test_p152_the_native_rejections_are_the_recorded_ones() -> None:
-    """门槛：原生拒绝文案 = `Wrong Field`（`DB.CONS`）。
+    """门槛：**本批起零原生拒绝** —— 13 条**全部** `PASSED`，证据里**没有**任何拒绝文案。
 
-    ⚠️ **P154 同步**：R126 的 A′ 落地后只剩 `DB.CONS` 一条（成因 = **R128** 的请求体**形状**，
-    **不是**字段集）—— 断言**未**放宽（仍要求「有原生文案且命中标记」），只同步端点集。
+    ⚠️ **P157 同步（有实测依据）**：P154 / P156 时只剩 `DB.CONS` 一条（成因 = 取值
+    `CONSTRAINT` 必须是 **7** 位）；**D2 = A 落地**后 `POST /DB/CONS` 返回 **`200` 且落库**
+    ⇒ 拒绝集**清空**。⚠️ 判定**变强**（原为「失败行必须命中拒绝词表」，现为
+    「**没有**失败行、**没有**拒绝文案」）。
     """
-    texts: dict[str, set[str]] = {}
-    for row in _rows():
-        if row["status"] != "FAILED":
-            continue
-        for item in row["requests"]:
-            if int(item["status"]) >= 400 and item.get("native_error"):
-                texts.setdefault(str(row["endpoint"]), set()).add(str(item["native_error"]))
-    assert set(texts) == {"DB.CONS"}, texts
-    for endpoint, values in texts.items():
-        assert any(marker in text for text in values for marker in FAILED_NATIVE_MARKERS), (
-            endpoint,
-            values,
-        )
+    texts = {
+        str(item.get("native_error") or "")
+        for row in _rows()
+        for item in row["requests"]
+        if item.get("native_error")
+    }
+    assert texts == set(), texts
+    assert not any(marker in text for text in texts for marker in FAILED_NATIVE_MARKERS), texts
+    assert {row["status"] for row in _rows()} == {"PASSED"}, _rows()
 
 
 # ===== 5. 映射缺口：离线可复算（本轮任务 2）=====

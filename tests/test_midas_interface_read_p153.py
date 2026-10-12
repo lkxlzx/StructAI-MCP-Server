@@ -20,8 +20,10 @@ P152 把**接口层**的「添加 / 删除 / 编辑」三条**写**路径经**�
    必须等于编排里的声明（**判定点唯一** —— 端点**不**在声明里写死）。
 4. **`FAILED` 行必须带原生成因**：`RESULT.*` 的 5 条 = `400` + `native_status = 400` +
    `[empty] Cannot generate table data…`；`RESULT.ANALYSIS.SUMMARY` = **零请求** +
-   `STRUCTAI-3000` + `endpoint_not_available_for_product`（`POST.TABLE` 的 `products`
-   **不含** `GEN_NX`）。
+   `STRUCTAI-3000` + **`registry_mapping_not_verified`**
+   （⚠️ **P157 / R129 同步**：P153 时成因是 `endpoint_not_available_for_product`，因为
+   `POST.TABLE` 的 `products` **不含** `GEN_NX`；R129 的数据更正落地后**产品闸门已通过**，
+   现在的闸门是 `availability: untested`）。
 5. **R126 裁决输入证据包**（`registry/live/canonical_field_gap.json`）：**71** 个模板端点
    逐条字段差集（有 Transformer **10** / 无 **61**）；**字段集缺口 4**
    （`DB.BMLD` / `DB.MATL` / `DB.PRES` / `DB.SECT`）+ **取值缺口 2**（`DB.CONS` / `DB.ELEM`）；
@@ -115,16 +117,23 @@ TABLE_FAILURE_MARKER = "[empty] Cannot generate table data as there is no analys
 """`POST /POST/TABLE` 在无分析结果项目上的原生拒绝文案（前 200 字）。"""
 
 SUMMARY_OPERATION = "RESULT.ANALYSIS.SUMMARY"
-"""取结果族的**通用入口**：`POST.TABLE` 在 GEN NX 上**不可得**（`STRUCTAI-3000`）。"""
+"""取结果族的**通用入口** `POST.TABLE`。
+
+⚠️ **P157 同步（有实测依据）**：P153 / P154 时 `products` **不含** `GEN_NX` ⇒ 解析层拒绝
+（`endpoint_not_available_for_product`）；**R129 的数据更正已落地**（补 `GEN_NX`）后
+**该闸门已通过**，下一个闸门是 `availability: untested` ⇒ `registry_mapping_not_verified`
+（`docs/07` §6.11：`verification_status != VERIFIED` ⇒ `RegistryMappingNotVerified`）。
+"""
 
 READ_METHODS = {"GET", "POST"}
 WRITE_METHODS = {"PUT", "DELETE", "PATCH"}
 TABLE_URI = "/POST/TABLE"
 
 EXPECTED_WRITE_ROWS = 13
-EXPECTED_WRITE_COUNTS = {"PASSED": 11, "FAILED": 2}
-"""⚠️ **P154 同步（有实测依据）**：P153 时是 `4 / 9`；P154 落地 **R126 裁决 A′** 后重测
-⇒ **`11 / 2`**（只剩 `DB.CONS`，成因 = **R128** 的形状）。断言**未**放宽，只同步数字。"""
+EXPECTED_WRITE_COUNTS = {"PASSED": 13}
+"""⚠️ **P157 同步（有实测依据）**：P153 时是 `4 / 9`；P154 落地 **R126 裁决 A′** 后重测
+⇒ `11 / 2`；**P157 落地 D2 = A**（`BoundaryTransformer` 加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT`
+输出 **7** 位）后重测 ⇒ **`13 / 0`**。断言**未**放宽，只同步数字。"""
 EXPECTED_GAP_TOTAL = 517
 EXPECTED_GAP_NOT_IN_CONTRACT = 271
 EXPECTED_GAP_NO_READBACK = 246
@@ -148,23 +157,30 @@ EXPECTED_FIELD_GAP = {
     "with_transformer": 10,
     "without_transformer": 61,
     "field_set_gap": 2,
-    "value_gap": 3,
+    "value_gap": 2,
     "no_canonical_model": 61,
-    "covered": 5,
+    "covered": 6,
 }
 """R126 裁决输入证据包的钉住计数。
 
 ⚠️ **P154 同步（有实测依据）**：P153 时是「字段集缺口 **4** / 取值缺口 **2** / 已覆盖 **4**」；
 P154 落地**裁决 A′**（扩 `DB.MATL` **11** + `DB.SECT` **6** = **17** 个 canonical 字段）后重算 ⇒
 「字段集缺口 **2**（`DB.BMLD` / `DB.PRES`）/ 取值缺口 **3** / 已覆盖 **5**」。
-断言**未**放宽，只同步数字与注释。"""
+
+⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层的 `CONSTRAINT` 由 **6** 位变 **7** 位
+（= 原生要求的位数）⇒ `DB.CONS` 由 `value_gap` 移入 `covered` ⇒
+「字段集缺口 **2** / 取值缺口 **2** / 已覆盖 **6**」（`template_endpoints` 仍 **71 = 10 + 61**）。
+依据 = `registry/live/interface_path_probe.json`（`DB.CONS` 添加 / 删除**都** `PASSED`）+
+`check_canonical_field_gap --recon` 复算。断言**未**放宽，只同步数字与注释。"""
 
 P152_MEASURED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.MATL", "DB.SECT")
 """**P152 当时**实测被原生拒绝的 4 个端点（历史事实；逐条必须在证据包的 `endpoints` 里）。"""
 
-CURRENT_MEASURED_ENDPOINTS = ("DB.CONS",)
-"""⚠️ **P154 同步**：A′ 落地后，**当前**证据里只剩 `DB.CONS` 仍被原生拒绝
-（成因 = **R128** 的请求体**形状**，不是字段集）—— `measured_endpoints` 由证据**复算**得出。"""
+CURRENT_MEASURED_ENDPOINTS: tuple[str, ...] = ()
+"""⚠️ **P157 同步（有实测依据）**：P154 / P156 时只剩 `DB.CONS` 仍被原生拒绝（成因 = **R128**
+的形状 → 取值）；**D2 = A 落地**后接口层写路径 **13 / 13 全部 `PASSED`** ⇒ 当前证据里
+**没有**被原生拒绝的端点（`measured_endpoints` / `measured_rejections` 均为**空**，
+由证据**复算**得出）。断言**变强**（原为「必须有拒绝」，现为「**不得**有拒绝」）。"""
 
 FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.PRES")
 """「二选一」方案**适用**的端点（有 Transformer ∧ 字段表表达不了手册示例的字段）。
@@ -172,11 +188,13 @@ FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.PRES")
 ⚠️ **P154 同步**：`DB.MATL` / `DB.SECT` 已由 **A′** 落地 ⇒ 只剩这 **2** 个
 （且它们**未**实测原生拒绝，只是字段差集）。"""
 
-VALUE_GAP_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.MATL")
+VALUE_GAP_ENDPOINTS = ("DB.ELEM", "DB.MATL")
 """字段**已在** canonical 里、实测 body 里没有值 / 形态不同的端点。
 
 ⚠️ **P154 同步**：`DB.MATL` 因 A′ 后仍有两个未填的可选字段（`MASS` / `THERMAL`）而入列；
-`DB.SECT` 已**全部填齐** ⇒ 移出（`covered`）。"""
+`DB.SECT` 已**全部填齐** ⇒ 移出（`covered`）。
+⚠️ **P157 同步（有实测依据）**：`DB.CONS` 的取值缺口（`CONSTRAINT` 6 位 vs 模板 7 位）
+**已由 D2 = A 关闭** ⇒ 移出（`covered`）。"""
 
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
@@ -366,11 +384,15 @@ def test_p153_every_failed_row_carries_its_native_cause() -> None:
         ), operation
 
 
-def test_p153_the_generic_table_entry_is_unavailable_on_gen_nx() -> None:
-    """门槛：`RESULT.ANALYSIS.SUMMARY`（通用入口 `POST.TABLE`）在 GEN NX 上**不可得**。
+def test_p153_the_generic_table_entry_is_blocked_by_its_verification_status() -> None:
+    """门槛（⚠️ **P157 / R129 同步，有实测依据**）：通用入口 `POST.TABLE` 的闸门**已前移一位**。
 
-    `POST.TABLE` 的 `products` **不含** `GEN_NX` ⇒ 解析层直接拒绝（`STRUCTAI-3000`
-    `endpoint_not_available_for_product`）、**零** transport 调用（**不**发请求）。
+    P153 / P154 时 `products` **不含** `GEN_NX` ⇒ 解析层拒绝
+    （`endpoint_not_available_for_product`）。
+    **R129 的数据更正已落地**（`registry/common/post/TABLE.yaml` 的 `products` 补 `GEN_NX`，
+    `sync_manifest` 复算差异 **1 → 0**）⇒ **产品闸门已通过**；现在的成因是
+    `availability: untested` ⇒ **`registry_mapping_not_verified`**（`docs/07` §6.11）。
+    ⚠️ 判定**未**放宽：仍是 `FAILED` + **零** transport 调用（**不**发请求）+ 原生原因**逐条**留证。
     """
     row = _read_row(SUMMARY_OPERATION)
     assert row["status"] == "FAILED", row
@@ -378,8 +400,11 @@ def test_p153_the_generic_table_entry_is_unavailable_on_gen_nx() -> None:
     assert row["requests"] == [], row
     assert row["detail"] == "no_interface_request:STRUCTAI-3000", row
     assert row["error"]["code"] == "STRUCTAI-3000", row
-    assert row["error"]["native_reason"] == "endpoint_not_available_for_product", row
-    assert "GEN_NX" not in [str(item) for item in _manifest_entry("POST.TABLE")["products"]]
+    assert row["error"]["native_reason"] == "registry_mapping_not_verified", row
+    # ⚠️ **R129 已落地**：`products` **现在**含 `GEN_NX`（产品闸门不再是成因）
+    entry = _manifest_entry("POST.TABLE")
+    assert "GEN_NX" in [str(item) for item in entry["products"]], entry
+    assert str(entry["availability"]) == "untested", entry
 
 
 # ===== 4. 凭据 / 响应原文（判定 8）=====
@@ -444,15 +469,15 @@ def test_p153_the_field_gap_pack_pins_the_p152_measured_endpoints() -> None:
         assert row["has_transformer"] is True, endpoint
         assert row["interface_body"] is not None, endpoint
         assert row["gap_class"] in {"field_set_gap", "value_gap", "covered"}, endpoint
-    # 原生拒绝逐条留证（⚠️ **P154 / P155 / P156 同步**：证据包由**当前**证据复算 ⇒
+    # 原生拒绝逐条留证（⚠️ **P154 / P155 / P156 / P157 同步**：证据包由**当前**证据复算 ⇒
     # P155 修好**形状**后 `DB.CONS` 的文案已下沉到**取值级**「约束条件输入有错误」；
-    # P152 当时的 `Wrong Field` / `Unknown Error` 是**历史事实**，保留在
-    # `docs/reports/P153_*.md` §2.4、`docs/reports/P154_*.md` §3 与 `docs/07` §16.1 的 R126 行，
-    # **不**在本复算清单里）
-    texts = {str(item["native_error"]) for item in document["measured_rejections"]}
-    assert texts, document["measured_rejections"]
-    assert any("约束条件输入有错误" in text for text in texts), texts
-    assert {int(item["native_status"]) for item in document["measured_rejections"]} == {400}
+    # **P157 落地 D2 = A** 后该文案**消失**（`DB.CONS` 添加 / 删除**都** `PASSED`）⇒
+    # 当前复算清单里**没有**原生拒绝。P152 当时的 `Wrong Field` / `Unknown Error` 与 P156 的
+    # 「约束条件输入有错误」是**历史事实**，保留在 `docs/reports/P153_*.md` §2.4、
+    # `docs/reports/P154_*.md` §3、`docs/reports/P156_*.md` §1.2 与 `docs/07` §16.1 的 R126 行，
+    # **不**在本复算清单里。⚠️ 判定**变强**：原为「必须有拒绝」，现为「**不得**有拒绝」。)
+    assert document["measured_rejections"] == [], document["measured_rejections"]
+    assert document["measured_endpoints"] == [], document["measured_endpoints"]
 
 
 def test_p153_the_two_options_are_scoped_to_the_field_set_gap() -> None:
@@ -486,9 +511,25 @@ def test_p153_the_two_options_are_scoped_to_the_field_set_gap() -> None:
     # `DB.CONS` 的 `CONSTRAINT` 由 Transformer **合成**（不在字段表里）⇒ **不**算字段集缺口
     assert index["DB.CONS"]["missing_in_canonical"] == []
     assert "CONSTRAINT" in index["DB.CONS"]["synthesized_keys"]
-    shape = document["value_gaps"]["DB.CONS"]["value_shape"]
-    assert [item["field"] for item in shape] == ["CONSTRAINT"]
-    assert (shape[0]["interface_length"], shape[0]["template_length"]) == (6, 7)
+    # ⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层产出 **7** 位 ⇒ `DB.CONS` 的
+    # 取值缺口**已关闭**（`covered`）—— 原用例钉住的是「interface 6 ≠ template 7」的**不一致**，
+    # 现在改为**更强**的判定：接口层实测 body 的 `CONSTRAINT` **恰好等于**原生要求的 **7** 位。
+    assert index["DB.CONS"]["gap_class"] == "covered"
+    assert "DB.CONS" not in document["value_gaps"]
+    write_document = json.loads(WRITE_EVIDENCE.read_text(encoding="utf-8"))
+    boundary_add = next(
+        row
+        for row in write_document["paths"]
+        if row["path"] == "add" and str(row["endpoint"]) == "DB.CONS"
+    )
+    bodies = [
+        item["body"]
+        for item in boundary_add["requests"]
+        if item["method"] == "POST" and str(item["path"]).endswith("/DB/CONS")
+    ]
+    entry = bodies[0]["Assign"][next(iter(bodies[0]["Assign"]))]["ITEMS"][0]
+    assert len(str(entry["CONSTRAINT"])) == 7, entry
+    assert str(entry["CONSTRAINT"]) == "1110000", entry
 
 
 # ===== 6. 映射缺口 517 的分类收口（任务 3）=====
