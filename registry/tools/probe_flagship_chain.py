@@ -21,10 +21,18 @@ P157：`docs/07` §13.5 的**旗舰五步链**在**真机**上的端到端实测
 * **阶段 B = 替代前缀**：**仅当**阶段 A 的 ① 失败时跑 —— 用 `docs/07` §6.5 里
   `BUILD.COLUMN` **自己组合**的那四个**原子** Operation（`MODEL.MATERIAL.ASSIGN` ·
   `MODEL.SECTION.ASSIGN` · `MODEL.NODE.CREATE` ×2 · `MODEL.ELEMENT.CREATE`）先把模型建出来，
-  再跑 ②–⑤。取值 = **P154 / P157 写路径已实测可用**的同一份（`probe_interface_paths` 的
-  `_material_parameters` / `_section_parameters`），**不**新造取值、**不**放宽判定。
+  再跑 ②–⑤。取值 = **手册示例 / 用户实测给定**（材质 = `GB50017-17(S)` + 数据库 `Q355`；
+  截面 = 手册 `db/SECT` 示例 6001），**不**新造取值、**不**放宽判定。
   ⇒ 目的是把 ②–⑤（分析 / 结果 / 设计，即 **R127a** 的未知面）**也**打出来，
   **不**是把阶段 A 的失败掩盖成通过。
+  ⚠️ **R131 的更正（P157，用户给出证据）**：`BUILD.COLUMN` 的材质载荷**混用了两条互斥路线** ——
+  声明 `TYPE=STEEL`（**规范库**路线）却给"用户自定义"的属性、且**一个库判据都不给**
+  （`P_TYPE` / `STANDARD` / `DB` / `CODE`）⇒ 原生 `400 Wrong Field`。
+  手册 `db/MATL` 的 **3** 个示例划清了边界：`Standard`（规范库：`TYPE=STEEL/CONC/SRC`
+  + `P_TYPE=1` + `STANDARD` + `DB` + `CODE`）·
+  `Isotropic - User Defined`（`TYPE=USER` + `P_TYPE=2` + 属性值）·
+  `Orthotropic - User Defined`（`TYPE=USER` + `P_TYPE=3` + `*_M` 数组）——
+  **`TYPE`+`P_TYPE` 决定哪组属性有效**。
 
 判据（**先写清楚再动手**）
 --------------------------
@@ -95,6 +103,64 @@ LOAD_CASE = "AXIAL"
 AXIAL_FZ = -500_000.0
 HEIGHT = 6.0
 
+MATERIAL_NAME = "Q355"
+"""材料名（= **钢号**）。
+
+⚠️ §13.5 原文写的 `Q355B` **不在** `GB50017-17(S)` 的钢号库里。
+"""
+
+MATERIAL_STANDARD = "GB50017-17(S)"
+"""钢材·**规范**（GEN NX「材料数据」对话框实测可选值，P157 由用户给定）。"""
+
+MATERIAL_GRADE = "Q355"
+"""钢材·**数据库**（`DB`）—— ⚠️ **P157 更正**：`DB` 装的是**钢号**，`CODE`（产品）留空；
+手册 `Standard` 示例同构（`EN05(S)` + `DB:"S450"` + `CODE:""`）。"""
+
+MATERIAL_ELAST = 206_000_000.0
+"""弹性模量，单位 **kN/m²**（与对话框一致：选 `Q355` 后自动带出 `2.0600e+08`）。
+⚠️ 旧探针发的 `2.1e11` 是 **Pa**，量纲差 **1000×**。"""
+
+MATERIAL_DAMP_RAT = 0.02
+"""阻尼比（手册 `Standard` 示例的值）。"""
+
+
+def _material_parameters() -> dict[str, Any]:
+    """`MODEL.MATERIAL.ASSIGN` 的规范化参数（**规范库路线**；P157 由用户给定取值）。
+
+    取值来源（**不**臆造）：
+    * **结构** = 手册 `db/MATL` 的 `Standard` 示例（与 `registry/live/write_templates.json`
+      的 `DB.MATL.body` 同源）：`PARAM[0]` 带 `P_TYPE` / `STANDARD` / `DB` / `CODE` /
+      `bELAST` / `ELAST`；
+    * `STANDARD` = **GB50017-17(S)** · `DB` = **Q355**（钢号）· `ELAST` = **2.06e8 kN/m²** ——
+      用户在 GEN NX「材料数据」对话框上实测给定；
+    * `CODE` = `""`（**产品**为空）、`bELAST` = `false`（与手册示例一致）。
+
+    ⚠️ **不**给 `POISN` / `DEN` —— 钢材的属性由**规范库**带出（对话框里弹性模量是**自动**填的），
+    用户**不能**自定义 ⇒ 这正是 **R131** 的成因（`BUILD.COLUMN` 的载荷给了"用户自定义"的属性、
+    却声明 `TYPE=STEEL`（规范库路线），两条路线混用 ⇒ 原生 `400 Wrong Field`）。
+    """
+    return {
+        "materials": [
+            {
+                "id": str(MATERIAL_ID),
+                "name": MATERIAL_NAME,
+                "type": "STEEL",
+                "he_spec": 0,
+                "he_cond": 0,
+                "plmt": 0,
+                "p_name": "",
+                "bmass_dens": False,
+                "damp_rat": MATERIAL_DAMP_RAT,
+                "p_type": 1,
+                "standard": MATERIAL_STANDARD,
+                "db": MATERIAL_GRADE,
+                "code": "",
+                "belast": False,
+                "elastic_modulus": MATERIAL_ELAST,
+            }
+        ]
+    }
+
 COLUMN_PARAMETERS: dict[str, Any] = {
     "base_node": {"x": 0.0, "y": 0.0, "z": 0.0},
     "height": HEIGHT,
@@ -105,7 +171,12 @@ COLUMN_PARAMETERS: dict[str, Any] = {
     "poisson_ratio": 0.3,
     "density": 7850.0,
 }
-"""`docs/07` §13.5 的钢柱参数（与 L3 的 `CIVIL_NX_COLUMN_PARAMETERS` **同一份**）。"""
+"""`docs/07` §13.5 的钢柱参数（与 L3 的 `CIVIL_NX_COLUMN_PARAMETERS` **同一份**）。
+
+⚠️ **P157 / R131 更正**：`material` 原文是 **`Q355B`**，而 `GB50017-17(S)` 的钢号库里
+**没有** `Q355B`（只有 Q235 / Q355 / Q390 / Q420 / Q460 / Q345GJ / Q345）⇒ 这里**保持 §13.5 原文**
+（阶段 A 是"逐字"链），**不**改它；阶段 B 用库里存在的 **`Q355`**（见 `MATERIAL_NAME`）。
+"""
 
 LOAD_PARAMETERS: dict[str, Any] = {
     "load_type": "NODE_FORCE",
@@ -204,12 +275,18 @@ CLEANUP_ORDER: tuple[tuple[str, str], ...] = (
 def _substitute_steps(module: Any) -> tuple[dict[str, Any], ...]:
     """**阶段 B 的 ①′**：用 `BUILD.COLUMN` **自己组合**的四个原子 Operation 建模型。
 
-    取值**全部**来自 `probe_interface_paths` 的规范化参数（P154 / P157 **已实测可用**），
-    **不**新造取值。顺序 = 先材质 / 截面（被引用方），再节点，最后单元（引用方）——
-    与 `docs/07` §6.5 的组合一致，但把**被引用方提前**（`BUILD.COLUMN` 的编排是
-    NODE → ELEM → MATL → SECT，单元会先于材质 / 截面建立）。
+    取值（**不**新造）：
+    * **材质** = 本模块的 `_material_parameters()`（**规范库路线**：
+      `GB50017-17(S)` + 数据库 `Q355`；由用户在 GEN NX 对话框上给定 —— 见 **R131** 的更正）；
+    * **截面** = `probe_interface_paths` 的规范化参数（= 手册 `db/SECT` 示例 `6001`
+      `Offset : Left-Top` 的逐字节照抄，**不是**臆造）；
+    * **节点 / 单元** = 同模块的规范化参数（P154 / P157 已实测可用）。
+
+    顺序 = 先材质 / 截面（被引用方），再节点，最后单元（引用方）—— 与 `docs/07` §6.5 的组合一致，
+    但把**被引用方提前**（`BUILD.COLUMN` 的编排是 NODE → ELEM → MATL → SECT，
+    单元会先于材质 / 截面建立）。
     """
-    material = module._material_parameters(str(MATERIAL_ID))  # noqa: SLF001 - 同一份规范化参数
+    material = _material_parameters()
     section = module._section_parameters(str(SECTION_ID))  # noqa: SLF001
     base = module._node_parameters(str(BASE_NODE), x=0.0, y=0.0, z=0.0)  # noqa: SLF001
     top = module._node_parameters(str(TOP_NODE), x=0.0, y=0.0, z=HEIGHT)  # noqa: SLF001
@@ -224,7 +301,7 @@ def _substitute_steps(module: Any) -> tuple[dict[str, Any], ...]:
             "order": 1,
             "operation": "MODEL.MATERIAL.ASSIGN",
             "tool": "engineering_model_assign",
-            "label": "①′ 材质（`DB.MATL`；取值 = P154 A′ 已实测可用）",
+            "label": "①′ 材质（`DB.MATL`；**规范库路线**：GB50017-17(S) + 数据库 Q355）",
             "parameters": material,
             "confirm": True,
             "readback": ("DB.MATL",),
@@ -638,7 +715,8 @@ def _write(
             "RESULT.NODE.DISPLACEMENT → DESIGN.STEEL`（`docs/07` §13.5 / `docs/04` §74）。",
             "**阶段 A** = `docs/07` §13.5 逐字；**阶段 B** = **仅当** ① 失败时，用 §6.5 里 "
             "`BUILD.COLUMN` **自己组合**的原子 Operation 建模型（①′）后跑 ②–⑤"
-            "（取值 = P154 / P157 **已实测可用**的同一份；**不**新造取值、**不**掩盖 ① 的失败）。",
+            "（材质 = **规范库路线** `GB50017-17(S)` + 数据库 `Q355`；"
+            "截面 = 手册 `db/SECT` 示例 6001；**不**新造取值、**不**掩盖 ① 的失败）。",
             "判定：每步 `PASSED` 的判据见工具 docstring（再读 / 行数 / 无错误）；"
             "**数值不硬编码**，逐条取自接口层响应（只留数值，不留响应原文）。",
             "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· "

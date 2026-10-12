@@ -13,12 +13,16 @@
 
 ⚠️ **两条都是 `app/**` 的结构缺口，本批未获授权 ⇒ 如实留缺、不修、不硬凑。**
 
-* **R131（新）**：`BUILD.COLUMN` 的**材质**子步**结构上**发不出可被接受的 body ——
-  `adapter._column_payloads` 只填 `name` / `type` / `elastic_modulus` / `poisson_ratio` /
-  `density`，而原生**拒绝**这个字段集（`400 Wrong Field`）；**同一端点**在
-  `MODEL.MATERIAL.ASSIGN` 下、**补齐 A′ 的 11 个原生字段**后**实测可用**
-  （P154 / P157 写路径）。⇒ **`docs/07` §13.5 的参数集不足以在 GEN NX 上建材质**。
-* **R132（新）**：`MODEL.LOAD.ASSIGN` **结构上**无法在**没有工况**的项目上成功 ——
+⚠️ **R131 的成因经用户证据更正（本文件已按更正的结论写）**：**不**是"canonical 少 11 个字段"，
+而是 **`BUILD.COLUMN` 的材质载荷混用了两条互斥路线** —— 它声明 `TYPE="STEEL"`（= **规范库**路线）
+却给"用户自定义"的属性（`elastic_modulus` / `poisson_ratio` / `density`），且**一个库判据都不给**
+（`p_type` / `standard` / `db` / `code`）⇒ 原生 `400 Wrong Field`。
+手册 `db/MATL` 的 **3** 个示例划清了边界（`Standard` / `Isotropic - User Defined` /
+`Orthotropic - User Defined`）：**`TYPE` + `P_TYPE` 决定哪一组属性有效**。
+**修正后的取值**（用户给定：钢材 · `GB50017-17(S)` · 数据库 `Q355`）在 `MODEL.MATERIAL.ASSIGN` 下
+**实测 `200` 且落库** ⇒ **R131 的材质面已闭环**（`app/**` **零**改动）。
+
+* **R132（新，仍未闭环）**：`MODEL.LOAD.ASSIGN` **结构上**无法在**没有工况**的项目上成功 ——
   `DB.CNLD` 要求 `LCNAME` 指向**已存在**的工况（`400 Not Found Key`），而接口层
   **没有**任何 Operation 能**创建**工况：`MODEL.LOAD.ASSIGN` 的编排里**声明**了
   `DB.STLD` 的 `write_load_case` 步，但 `select_steps` **只**选出该荷载类型对应的那一步
@@ -33,8 +37,8 @@
 
 本文件的判定点
 --------------
-1. **阶段 A 未通过**，且成因是 `DB.MATL` 的 `Wrong Field`（不是探针 / 不是端点不存在）。
-2. **阶段 B 的 ①′ 通过 5 步**（建模链本身是通的）。
+1. **阶段 A 未通过**，成因是 `DB.MATL` 的 `Wrong Field`（**两条路线混用**；不是探针 / 端点不存在）。
+2. **阶段 B 的 ①′ 通过 5 步**（建模链本身是通的；材质走**规范库路线** `GB50017-17(S)` + `Q355`）。
 3. **阶段 B 的 ② 未通过**，成因是 `DB.CNLD` 的 `Not Found Key`（工况不存在）。
 4. **R131 / R132 是结构事实**：离线**可复算**（不依赖证据文件）。
 5. **零残留 + 哨兵一致**（项目未被弄脏）。
@@ -50,6 +54,8 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any
+
+import pytest
 
 from app.infrastructure.adapters.midas.live import write_path_coverage
 from app.infrastructure.adapters.midas.operations import (
@@ -68,6 +74,7 @@ WRITE_EVIDENCE = REPO_ROOT / "registry" / "live" / "interface_path_probe.json"
 READ_EVIDENCE = REPO_ROOT / "registry" / "live" / "interface_read_probe.json"
 GAP_EVIDENCE = REPO_ROOT / "registry" / "live" / "interface_mapping_gap.json"
 CHAIN_TOOL = REPO_ROOT / "registry" / "tools" / "probe_flagship_chain.py"
+PROBE_TOOL = REPO_ROOT / "registry" / "tools" / "probe_interface_paths.py"
 
 SPEC_OPERATIONS = (
     "BUILD.COLUMN",
@@ -91,20 +98,14 @@ SUBSTITUTE_OPERATIONS = (
 )
 """阶段 B 的步集（①′ 的 5 步 + ②–⑤）。"""
 
-APRIME_MATERIAL_FIELDS = (
-    "he_spec",
-    "he_cond",
-    "plmt",
-    "p_name",
-    "bmass_dens",
-    "damp_rat",
-    "p_type",
-    "standard",
-    "code",
-    "db",
-    "belast",
-)
-"""**R131 的关键**：`DB.MATL` 的 **11** 个 A′ 字段（`docs/07` §16.1 的 R126 行）。"""
+MANUAL = REPO_ROOT / "MIDAS_API_Online_Manual_数据_v1.0.json"
+"""上游手册（`db/MATL` 的 **3** 个示例在这里；**离线**可读）。"""
+
+LIBRARY_ROUTE_KEYS = ("p_type", "standard", "db", "code", "belast")
+"""**规范库路线**的判据键（`Standard` 示例里 `PARAM[0]` 的那一组）。"""
+
+USER_ROUTE_PROPERTIES = ("elastic_modulus", "poisson_ratio", "density")
+"""**用户自定义路线**的属性键（`_column_payloads` 只给这些）。"""
 
 SENTINEL_ENDPOINTS = (
     "DB.CNLD",
@@ -137,6 +138,18 @@ def _load(path: Path, name: str) -> Any:
 
 def _json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _matl_examples() -> dict[str, Any]:
+    """上游手册 `db/MATL` 的**全部**示例（`{示例名: 解析后的 JSON}`；**离线**）。"""
+    manual = _json(MANUAL)
+    for endpoint in manual["endpoints"]:
+        if str(endpoint.get("input_uri") or "").lower() == "db/matl":
+            return {
+                str(item["name"]): json.loads(str(item["json"]))
+                for item in endpoint.get("examples") or []
+            }
+    raise AssertionError("db/MATL 不在上游手册里")
 
 
 def _chain() -> dict[str, Any]:
@@ -174,8 +187,8 @@ def test_p157_the_spec_chain_does_not_pass_and_stops_at_the_first_step() -> None
         assert row["detail"] == "chain_stopped_at_previous_failure", row
 
 
-def test_p157_the_spec_chain_is_blocked_by_the_material_field_set() -> None:
-    """门槛（**R131**）：① 的成因 = `POST /DB/MATL` 的 **`400 Wrong Field`**（取值级 / 字段集）。
+def test_p157_the_spec_chain_is_blocked_by_the_material_body() -> None:
+    """门槛（**R131**）：① 的成因 = `POST /DB/MATL` 的 **`400 Wrong Field`**（**两条路线混用**）。
 
     ⚠️ **不是**端点不存在、**不是**形状（外层键是编号 `"1"`）、**不是**探针参数缺失 ——
     节点 / 单元**都**已建成（再读确认），只有材质被拒。
@@ -194,45 +207,134 @@ def test_p157_the_spec_chain_is_blocked_by_the_material_field_set() -> None:
     assert list(body) == ["1"], body  # 外层键 = **编号**（形状是对的）
     entry = body["1"]
     assert entry["NAME"] == "Q355B" and entry["TYPE"] == "STEEL", entry
-    # ⚠️ 被拒的 body **只**有 3 个顶层键 + `PARAM` 的 3 个叶子 —— 与 A′ 后的 11 个字段的差集
+    # ⚠️ 被拒的 body：声明了 `TYPE=STEEL`（规范库路线）却只给**用户自定义**的属性，
+    #    且**一个库判据都没有**（见下一个用例的逐条断言）
     assert set(entry) == {"NAME", "TYPE", "PARAM"}, entry
     assert set(entry["PARAM"][0]) == {"ELAST", "POISN", "DEN"}, entry["PARAM"][0]
 
 
-def test_p157_r131_the_build_column_material_payload_cannot_express_the_aprime_fields() -> None:
-    """门槛（**R131**，离线可复算）：`BUILD.COLUMN` 的材质载荷**结构上**发不出 A′ 的 11 字段。"""
+def test_p157_r131_the_manual_defines_two_mutually_exclusive_routes() -> None:
+    """门槛（**R131 的判据**，**离线**可复算）：手册 `db/MATL` 的 **3** 个示例划清两条**互斥**路线。
+
+    * `Standard`（**规范库**）：`TYPE=STEEL/CONC/SRC` + `P_TYPE=1` + `STANDARD` + `DB` + `CODE`
+      + `bELAST`；**属性值由库带出**（`POISN` / `DEN` **不**在示例里 ⇒ 用户不可自定义）。
+    * `Isotropic - User Defined`：`TYPE=USER` + `P_TYPE=2` + `ELAST` / `POISN` / `THERMAL` /
+      `DEN` / `MASS`；**没有** `STANDARD` / `DB` / `CODE`。
+    * `Orthotropic - User Defined`：`TYPE=USER` + `P_TYPE=3` + `ELAST_M` / `POISN_M` /
+      `THERMAL_M` / `SHEAR_M`。
+
+    ⇒ **`TYPE` + `P_TYPE` 决定哪一组属性有效**；混用即 `Wrong Field`。
+    """
+    examples = _matl_examples()
+    assert set(examples) == {
+        "Standard",
+        "Isotropic - User Defined",
+        "Orthotropic - User Defined",
+    }, sorted(examples)
+
+    standard = examples["Standard"]["Assign"]["1"]
+    assert standard["TYPE"] == "STEEL", standard
+    param = standard["PARAM"][0]
+    assert param["P_TYPE"] == 1, param
+    assert {"STANDARD", "DB", "CODE", "bELAST"} <= set(param), param
+    # 规范库路线**不**给属性值（E 由库带出）
+    assert "POISN" not in param and "DEN" not in param, param
+
+    isotropic = examples["Isotropic - User Defined"]["Assign"]["5"]
+    assert isotropic["TYPE"] == "USER", isotropic
+    assert isotropic["PARAM"][0]["P_TYPE"] == 2, isotropic
+    assert {"ELAST", "POISN", "THERMAL", "DEN", "MASS"} <= set(isotropic["PARAM"][0]), isotropic
+    assert "STANDARD" not in isotropic["PARAM"][0], isotropic
+    assert "DB" not in isotropic["PARAM"][0], isotropic
+
+    orthotropic = examples["Orthotropic - User Defined"]["Assign"]["6"]
+    assert orthotropic["TYPE"] == "USER", orthotropic
+    assert orthotropic["PARAM"][0]["P_TYPE"] == 3, orthotropic
+    assert {"ELAST_M", "POISN_M", "THERMAL_M", "SHEAR_M"} <= set(orthotropic["PARAM"][0]), (
+        orthotropic
+    )
+
+
+def test_p157_r131_build_column_mixes_the_two_routes() -> None:
+    """门槛（**R131，更正后的成因**，离线可复算）：`BUILD.COLUMN` 的材质载荷**混用两条路线**。
+
+    它声明 `TYPE="STEEL"`（= **规范库**路线）却给"用户自定义"的属性
+    （`elastic_modulus` / `poisson_ratio` / `density`），且**一个库判据都不给**
+    （`p_type` / `standard` / `db` / `code`）⇒ 原生 `400 Wrong Field`（实测）。
+    """
     from app.infrastructure.adapters.midas.adapter import _column_payloads  # noqa: PLC0415
 
     tool = _load(CHAIN_TOOL, "structai_probe_flagship_chain_p157")
-    parameters = dict(tool.COLUMN_PARAMETERS)
-    payloads = _column_payloads(parameters)
-    material = payloads["write_material"][0]
-    assert material["name"] == "Q355B"
-    # 这 5 个是 `_column_payloads` **能**表达的；A′ 的 11 个**一个都不在**（**不**臆造）
-    assert set(material) == {
-        "id",
-        "name",
-        "type",
-        "elastic_modulus",
-        "poisson_ratio",
-        "density",
-    }, material
-    for field in APRIME_MATERIAL_FIELDS:
+    material = _column_payloads(dict(tool.COLUMN_PARAMETERS))["write_material"][0]
+    # ① 声明了**规范库**路线
+    assert material["type"] == "STEEL", material
+    # ② 却给**用户自定义**的属性
+    for field in USER_ROUTE_PROPERTIES:
+        assert field in material, field
+    # ③ 而**库判据一个都没有**
+    for field in LIBRARY_ROUTE_KEYS:
         assert field not in material, field
-    # ⇒ 同一端点用**补齐 A′** 的载荷时**实测可用**（P154 / P157 写路径的 `DB.MATL` 行）
-    write = _json(WRITE_EVIDENCE)
-    add = next(
-        row for row in write["paths"] if row["path"] == "add" and str(row["endpoint"]) == "DB.MATL"
-    )
-    assert add["status"] == "PASSED", add
+
+
+def test_p157_r131_the_corrected_material_body_is_accepted() -> None:
+    """门槛（**R131 的材质面闭环**，有实测依据）：修正后的**规范库**取值被原生 `200` 接受且落库。
+
+    取值由用户给定：**钢材 · `GB50017-17(S)` · 数据库（钢号）`Q355`**；
+    ⚠️ `DB` 装**钢号**、`CODE`（产品）留空 —— 与手册 `Standard` 示例同构（`EN05(S)` + `S450`）。
+    """
+    document = _chain()
+    material_row = _step(document, "substituted", "MODEL.MATERIAL.ASSIGN")
+    assert material_row["status"] == "PASSED", material_row
+    assert material_row["readback"]["DB.MATL"]["present"] is True, material_row["readback"]
     accepted = next(
         item
-        for item in add["requests"]
+        for item in material_row["requests"]
         if item["method"] == "POST" and str(item["path"]).endswith("/DB/MATL")
     )
     assert int(accepted["status"]) == 200, accepted
     entry = accepted["body"]["Assign"]["1"]
-    assert set(entry["PARAM"][0]) >= {"ELAST", "POISN", "DEN", "DB", "STANDARD", "P_TYPE"}, entry
+    assert entry["TYPE"] == "STEEL", entry
+    assert entry["NAME"] == "Q355", entry
+    param = entry["PARAM"][0]
+    assert param["P_TYPE"] == 1, param
+    assert param["STANDARD"] == "GB50017-17(S)", param
+    assert param["DB"] == "Q355", param
+    assert param["CODE"] == "", param
+    assert param["bELAST"] is False, param
+    # ⚠️ 单位：对话框显示 `2.0600e+08 kN/m²` ⇒ `ELAST` 按 **kN/m²** 发（**不**是 Pa）
+    assert float(param["ELAST"]) == 206_000_000.0, param
+    # 规范库路线**不**给属性值
+    assert "POISN" not in param and "DEN" not in param, param
+
+
+def test_p157_r133_the_material_unit_convention_is_unresolved() -> None:
+    """门槛（**R133**，**如实登记**）：`DB.MATL` 的**单位口径**在 canonical 侧**未**定义。
+
+    * 上游手册 `Standard` 示例的 `ELAST` = `210000000` —— 与 GEN NX「材料数据」对话框一致
+      （**kN/m²**；选 `Q355` 后自动带出 `2.0600e+08`）；
+    * 用户自定义示例的 `DEN` = `76.98`（**kN/m³**）；
+    * ⚠️ 而**写路径探针**（`probe_interface_paths._material_parameters`）发的是
+      `elastic_modulus = 2.1e11`（**Pa**）与 `density = 7850.0`（**kg/m³**）⇒ 量纲差
+      **1000× / 100×**。原生**不**校验量级 ⇒ 两者都 `200`，但**工程含义不同**。
+
+    ⇒ 本批**只**登记（**未**改探针、**未**改 canonical）："canonical 的长度 / 质量单位"
+    属**契约**决定。⚠️ 本文件的旗舰链**按 UI 口径**发（`kN/m²`），并在此**逐条**钉住差异。
+    """
+    standard = _matl_examples()["Standard"]["Assign"]["1"]["PARAM"][0]
+    assert float(standard["ELAST"]) == 210_000_000.0, standard  # kN/m²
+    user = _matl_examples()["Isotropic - User Defined"]["Assign"]["5"]["PARAM"][0]
+    assert float(user["DEN"]) == pytest.approx(76.98), user  # kN/m³
+    # 写路径探针发的是 Pa / kg·m⁻³（量纲差 1000× / 100×）—— 如实钉住**现状**
+    probe = _load(PROBE_TOOL, "structai_probe_interface_paths_p157_units")
+    material = probe._material_parameters("1")["materials"][0]  # noqa: SLF001 - 判定点
+    assert float(material["elastic_modulus"]) == 210_000_000_000.0, material
+    assert float(material["density"]) == 7850.0, material
+    # 本文件的旗舰链**按 UI 口径**发（kN/m²）
+    chain_material = _step(_chain(), "substituted", "MODEL.MATERIAL.ASSIGN")
+    accepted = next(
+        item for item in chain_material["requests"] if str(item["path"]).endswith("/DB/MATL")
+    )
+    assert float(accepted["body"]["Assign"]["1"]["PARAM"][0]["ELAST"]) == 206_000_000.0
 
 
 # ===== 2. 阶段 B：①′ 通过（建模链是通的）=====

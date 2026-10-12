@@ -2,7 +2,7 @@
   "note": [
     "P157：`docs/07` §13.5 的**旗舰五步链**在**真机**上的端到端实测（判据走**接口层**）。",
     "链路：`BUILD.COLUMN → MODEL.LOAD.ASSIGN → ANALYSIS.STATIC → RESULT.NODE.DISPLACEMENT → DESIGN.STEEL`（`docs/07` §13.5 / `docs/04` §74）。",
-    "**阶段 A** = `docs/07` §13.5 逐字；**阶段 B** = **仅当** ① 失败时，用 §6.5 里 `BUILD.COLUMN` **自己组合**的原子 Operation 建模型（①′）后跑 ②–⑤（取值 = P154 / P157 **已实测可用**的同一份；**不**新造取值、**不**掩盖 ① 的失败）。",
+    "**阶段 A** = `docs/07` §13.5 逐字；**阶段 B** = **仅当** ① 失败时，用 §6.5 里 `BUILD.COLUMN` **自己组合**的原子 Operation 建模型（①′）后跑 ②–⑤（材质 = **规范库路线** `GB50017-17(S)` + 数据库 `Q355`；截面 = 手册 `db/SECT` 示例 6001；**不**新造取值、**不**掩盖 ① 的失败）。",
     "判定：每步 `PASSED` 的判据见工具 docstring（再读 / 行数 / 无错误）；**数值不硬编码**，逐条取自接口层响应（只留数值，不留响应原文）。",
     "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · 阶段 A **5** 步 / 阶段 B **9** 步（请求数 ≤ 160）。",
     "⚠️ 接口层的 `MODEL.LOAD.DELETE` **不**覆盖 `DB.CNLD` ⇒ 节点荷载靠**删除节点**连带清掉。",
@@ -191,7 +191,7 @@
       "order": 1,
       "operation": "MODEL.MATERIAL.ASSIGN",
       "tool": "engineering_model_assign",
-      "label": "①′ 材质（`DB.MATL`；取值 = P154 A′ 已实测可用）",
+      "label": "①′ 材质（`DB.MATL`；**规范库路线**：GB50017-17(S) + 数据库 Q355）",
       "status": "PASSED",
       "detail": "",
       "error": {},
@@ -217,19 +217,17 @@
                   {
                     "bELAST": false,
                     "CODE": "",
-                    "DB": "S450",
-                    "DEN": 7850.0,
-                    "ELAST": 210000000000.0,
+                    "DB": "Q355",
+                    "ELAST": 206000000.0,
                     "P_TYPE": 1,
-                    "POISN": 0.3,
-                    "STANDARD": "EN05(S)"
+                    "STANDARD": "GB50017-17(S)"
                   }
                 ],
                 "bMASS_DENS": false,
                 "DAMP_RAT": 0.02,
                 "HE_COND": 0,
                 "HE_SPEC": 0,
-                "NAME": "P154M1",
+                "NAME": "Q355",
                 "P_NAME": "",
                 "PLMT": 0,
                 "TYPE": "STEEL"
@@ -856,19 +854,17 @@
               {
                 "bELAST": false,
                 "CODE": "",
-                "DB": "S450",
-                "DEN": 7850.0,
-                "ELAST": 210000000000.0,
+                "DB": "Q355",
+                "ELAST": 206000000.0,
                 "P_TYPE": 1,
-                "POISN": 0.3,
-                "STANDARD": "EN05(S)"
+                "STANDARD": "GB50017-17(S)"
               }
             ],
             "bMASS_DENS": false,
             "DAMP_RAT": 0.02,
             "HE_COND": 0,
             "HE_SPEC": 0,
-            "NAME": "P154M1",
+            "NAME": "Q355",
             "P_NAME": "",
             "PLMT": 0,
             "TYPE": "STEEL"

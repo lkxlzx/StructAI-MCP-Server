@@ -1315,7 +1315,7 @@ R129 的数据更正（接 ㉒）**：
 - **R126 证据包的**取值缺口**因 ① 而关闭（有实测依据）**：`DB.CONS` 由 `value_gap` 移入 `covered`
   ⇒ **取值缺口 3 → 2**（余 `DB.ELEM` / `DB.MATL`）· **已覆盖 5 → 6**；字段集缺口仍 **2**
   （`DB.BMLD` / `DB.PRES`）· 模板端点仍 **71 = 10 + 61**（`--recon` 复算）。
-- **旗舰五步链（`docs/07` §13.5）：真机**仍未跑通** —— 两处**结构成因**已定位（**新 R131 / R132**）**：
+- **旗舰五步链（`docs/07` §13.5）：真机**仍未跑通** —— 成因已定位（**R131 材质面已闭环** / **R132** 待授权）**：
   新工具 `registry/tools/probe_flagship_chain.py`（**两个阶段**；判据**全部**取接口层响应；
   **数值不硬编码**；只碰自建编号 + 逆序清理 + 再读确认；**残留 = 0**、哨兵跑前 == 跑后**全空**）：
 
@@ -1326,12 +1326,24 @@ R129 的数据更正（接 ㉒）**：
   | | ② `MODEL.LOAD.ASSIGN` | `FAILED` | `POST /DB/CNLD` → **`400 Not Found Key`**（**R132**） |
   | | ③④⑤ | `NOT_RUN` | 链在 ② 停止（**有界**，**不**硬跑） |
 
-  * **R131**：`adapter._column_payloads` 只填 5 个字段（A′ 的 **11** 个**一个都不在**）⇒ 原生**拒绝**；
-    **同一端点**在 `MODEL.MATERIAL.ASSIGN` 下补齐 A′ 后**实测可用** ⇒ **§13.5 的参数集不足以建材质**。
+  * **R131（⚠️ 结论经用户证据更正；材质面已闭环）**：`BUILD.COLUMN` 的材质载荷**混用两条互斥路线** ——
+    声明 `TYPE="STEEL"`（**规范库**路线）却给"用户自定义"的属性、且**一个库判据都不给**
+    （`p_type` / `standard` / `db` / `code`）⇒ `400 Wrong Field`。
+    ⚠️ **不**是"canonical 少 11 个字段"（原记**作废**）、**不**是 API 问题。依据 = **上游手册 `db/MATL`
+    的 3 个示例**（`Standard`（规范库）· `Isotropic - User Defined`（`TYPE=USER`+`P_TYPE=2`）·
+    `Orthotropic - User Defined`（`TYPE=USER`+`P_TYPE=3`+`*_M`）⇒ **`TYPE`+`P_TYPE` 决定哪组属性有效**）
+    + 用户在 GEN NX「材料数据」对话框上的实测（**钢材属性由规范库带出、不能自定义**）。
+    **用户裁决 = B**（**不**改 `app/**`；建模走 `MODEL.MATERIAL.ASSIGN`；钢号 **`Q355`**）⇒ 修正后的
+    **规范库** body（`STANDARD="GB50017-17(S)"` · `DB="Q355"`（= **钢号**）· `CODE=""` · `P_TYPE=1` ·
+    `ELAST=206000000`（**kN/m²**））**实测 `200` 且落库** ⇒ ①′ 五步全 `PASSED`。
   * **R132**：`MODEL.LOAD.ASSIGN` 的编排**声明**了 `DB.STLD` 的 `write_load_case` 步，但 `select_steps`
     **只**选出该荷载类型那一步 ⇒ `DB.STLD` **永不**被执行；而 `MODEL.LOAD.DELETE` **能删**它（**不对称**）
     ⇒ **接口层没有**任何 Operation 能**创建**工况。
-  * ⚠️ **两处都属 `app/**`，本批**未**获授权 ⇒ 如实留缺**；**未**在空项目上跑分析
+  * **R133（新，**只**登记）**：`DB.MATL` 的**单位口径**在 canonical 侧**未**定义 —— 手册 / 对话框是
+    `kN/m²` / `kN/m³`，而写路径探针发的是 Pa / kg·m⁻³（**1000× / 100×**）；原生**不**校验量级 ⇒
+    两者都 `200`，但**工程含义不同** ⇒ 写路径 `DB.MATL` 的 `PASSED` 证明的是**形状 / 字段集**被接受，
+    **不**证明取值工程正确。
+  * ⚠️ **R132 属 `app/**`，本批**未**获授权 ⇒ 如实留缺**；**未**在空项目上跑分析
     （③ 未运行 ⇒ **没有**分析结果 ⇒ `analysis_result_persists = None`）。
 - **R129 的数据更正（已获用户显式裁决）**：`registry/common/post/TABLE.yaml` 的 `products` →
   `[CIVIL_DESIGNER, CIVIL_NX, GEN_NX]`（**只**改 `products`）；`sync_manifest` 预演 **1** → `--write` → 再预演 **0**。
