@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "06a99d7c-0def-41bc-b4a9-9546fb0f4a51",
+        "task_id": "d5d3f663-f4b4-4198-ad97-e6ac5ec74f7a",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -628,7 +628,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "233aca34-583e-4e21-836f-8cb76cb663c4",
+        "task_id": "9871d770-a154-4f5e-a4b1-72f226495be4",
         "status": "COMPLETED",
         "error": {}
       },
@@ -781,7 +781,6 @@
             "Assign": {
               "1": {
                 "ACTIVE": "STRENGTH",
-                "bCB": true,
                 "vCOMB": [
                   {
                     "ANAL": "CS",
@@ -1629,7 +1628,6 @@
         "Assign": {
           "1": {
             "ACTIVE": "STRENGTH",
-            "bCB": true,
             "vCOMB": [
               {
                 "ANAL": "CS",

@@ -260,7 +260,8 @@ LOAD_COMBINATION_PARAMETERS: dict[str, Any] = {
             "no": 1,
             "name": "sLCB1",
             "active": "STRENGTH",
-            "b_cb": True,
+            # ⚠️ **R137 单变量 A/B**：`bCB` 在 `db/LCOM-*` 的 **输入 Schema** 里标注
+            # **`(ReadOnly)minmaxcbtype`** ⇒ **不**发（手册示例里带了它，但手册示例**不**保证可发）。
             "i_type": 0,
             "description": "",
             "combination_items": [{"ANAL": "CS", "LCNAME": LOAD_CASE, "FACTOR": 1}],
