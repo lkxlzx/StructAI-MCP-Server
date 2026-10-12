@@ -109,12 +109,14 @@ EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
 """`model_write` 分母（本批**不得**改动）。"""
 
-FAILED_NATIVE_MARKERS = ("Wrong Field", "Unknown Error")
+FAILED_NATIVE_MARKERS = ("Wrong Field", "Unknown Error", "约束条件输入有错误")
 """原生拒绝文案（逐条进证据的 `native_error`）。
 
-⚠️ **P154 同步**：R126 的 A′ 落地后，原先的 `Wrong Field` ×3 / `Unknown Error` ×1 里
-**只剩 `DB.CONS` 的 `Wrong Field`**（`DB.ELEM` / `DB.MATL` / `DB.SECT` 已 `PASSED`）；
-`DB.SECT` 当时的 `Unknown Error` 已随字段集补齐而消失。成因另立 **R128**（请求体**形状**）。"""
+⚠️ **P154 / P155 / P156 同步**：R126 的 A′ 落地后只剩 `DB.CONS` 一条；P155 修好**形状**
+（外层编号键）后，`DB.CONS` 的原生文案从 `Wrong Field`（**形状级**）变成
+**`约束条件输入有错误。`**（**取值级** = `CONSTRAINT` 必须是 **7** 位，见 **D2 的更正**与
+`tests/test_midas_constraint_value_p156.py`）。断言**未**放宽（仍要求「有原生文案且命中标记」），
+只同步文案集。"""
 
 
 def _load(path: Path, name: str) -> Any:

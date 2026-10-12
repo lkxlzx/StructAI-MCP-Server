@@ -105,7 +105,7 @@
       "path": "add",
       "native_status": 400,
       "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
     },
     {
       "endpoint": "DB.CONS",
@@ -113,7 +113,7 @@
       "path": "delete",
       "native_status": 400,
       "native_reason": "software_api_error",
-      "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
     }
   ],
   "measured_endpoints": [
@@ -1509,9 +1509,13 @@
         "ID"
       ],
       "interface_body": {
-        "GROUP_NAME": "",
-        "ID": 1,
-        "CONSTRAINT": "111000"
+        "ITEMS": [
+          {
+            "GROUP_NAME": "",
+            "ID": 1,
+            "CONSTRAINT": "111000"
+          }
+        ]
       },
       "missing_in_canonical": [],
       "unfilled_expressible": [],

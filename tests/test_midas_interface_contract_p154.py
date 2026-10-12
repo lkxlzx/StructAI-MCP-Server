@@ -294,23 +294,41 @@ def test_p154_the_interface_write_path_is_eleven_of_thirteen() -> None:
     assert failed == set(REMAINING_FAILED)
 
 
-def test_p154_the_remaining_failure_is_the_boundary_shape_not_the_field_set() -> None:
-    """门槛：**只剩** `DB.CONS`，其 body 的字段集与手册示例**一致**（差异在**形状**）。"""
+def test_p154_the_remaining_failure_is_not_the_field_set() -> None:
+    """门槛：**只剩** `DB.CONS`，其 body 的**字段集**与手册示例**一致**（成因不在字段集）。
+
+    ⚠️ **P156 同步（有实测依据）**：P154 当时此处断言「外层键是字面量 `ITEMS`」（= 形状成因）。
+    P155 修好**形状**（外层键 = **节点编号**）后，原生文案从 `Wrong Field`（形状级）变成
+    **`[错误] 约束条件输入有错误。`**（**取值级**）⇒ 本用例改为钉住**修好后的形状**
+    （**判定变强**：外层键必须是节点编号，**不**得是字面量 `ITEMS`）与**取值级**成因；
+    `CONSTRAINT` 的取值要求在 `tests/test_midas_constraint_value_p156.py` 逐条断言。
+    """
     document = _json(WRITE_EVIDENCE)
     rows = [row for row in document["paths"] if row["status"] == "FAILED"]
     assert {str(row["endpoint"]) for row in rows} == {"DB.CONS"}
     for row in rows:
         assert row["write"]["error"]["native_status"] == 400, row
         assert row["write"]["error"]["native_reason"] == "software_api_error", row
-    # `DB.CONS` 的接口层 body：外层键是字面量 `ITEMS`（**不是**节点编号）⇒ 见 R128
     add = next(row for row in rows if row["path"] == "add")
-    bodies = [item["body"] for item in add["requests"] if item["method"] == "POST"]
-    cons = [body for body in bodies if "Assign" in body and "ITEMS" in body["Assign"]]
-    assert cons, bodies
-    assert list(cons[0]["Assign"]) == ["ITEMS"], cons[0]
-    # 字段集本身已与手册示例一致（`GROUP_NAME` 已补上）
-    entry = cons[0]["Assign"]["ITEMS"][0]
+    # ⚠️ 该行的 `requests` 里**也**含前置节点创建（`/DB/NODE`）⇒ 必须按**路径**认回 `DB.CONS`
+    bodies = [
+        item["body"]
+        for item in add["requests"]
+        if item["method"] == "POST" and str(item["path"]).endswith("/DB/CONS")
+    ]
+    assert bodies, add["requests"]
+    outer_key = next(iter(bodies[0]["Assign"]))
+    # 外层键 = **节点编号**（**不**是字面量 `ITEMS`）—— R128 的修复
+    assert outer_key.isdigit(), bodies[0]
+    assert outer_key != "ITEMS", bodies[0]
+    entry = bodies[0]["Assign"][outer_key]["ITEMS"][0]
     assert set(entry) == {"ID", "GROUP_NAME", "CONSTRAINT"}, entry
+    # 成因已下沉到**取值**（`CONSTRAINT` 必须是 7 位）：逐条留原生文案
+    rejected = [item for item in add["requests"] if int(item["status"]) >= 400]
+    assert rejected, add["requests"]
+    assert any("约束条件输入有错误" in str(item.get("native_error") or "") for item in rejected), (
+        rejected
+    )
 
 
 # ===== 4. R128：`DB.CONS` 的请求体形状（新裁决）=====

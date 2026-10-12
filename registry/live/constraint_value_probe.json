@@ -1,0 +1,238 @@
+{
+  "note": [
+    "P156：`DB.CONS` 的 `CONSTRAINT` **取值要求**的裁决输入 —— 位数 / 自由度的有界 A/B。",
+    "⚠️ **更正 P154 的 D2 结论**：P154 那次「位数 A/B」的**三个变体都用了当时（未修）的形状** `{\"Assign\": {\"ITEMS\": […]}}`，而该形状**无论位数都被 `400` 拒** ⇒ 位数被**形状混淆**，「位数不是成因」**不成立**。本工具用**已修的正确形状**（外层**编号键**）重测。",
+    "判定：`PASSED` = `2xx` **且**再读时该编号**在**（只记**键名**，不记取值）；`FAILED` = 非 `2xx`，或 `2xx` 但**没落库**。",
+    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**）· **变体间先清理** · **恰好 4** 个变体 + **1** 个前置节点（请求数 ≤ 26）。",
+    "证据里**绝不**出现凭据；**成功**响应只留**键名**，**失败**响应只留 `error.message` 前 200 字。",
+    "生成器 = `registry/tools/probe_constraint_value.py --probe`（**零** `app/**` 改动）。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-10-11"
+  },
+  "variants": [
+    {
+      "name": "six_digits",
+      "note": "**接口层当前**产出（canonical 只覆盖六个自由度 `ux..rz`；`RW` 明确不臆造）",
+      "constraint": "111000",
+      "length": 6,
+      "outer_key": "1",
+      "http": 400,
+      "created": false,
+      "readback_keys": [],
+      "cleanup": {},
+      "status": "FAILED",
+      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
+    },
+    {
+      "name": "five_digits_control",
+      "note": "对照：更短（隔离「长度」这一变量）",
+      "constraint": "11100",
+      "length": 5,
+      "outer_key": "1",
+      "http": 400,
+      "created": false,
+      "readback_keys": [],
+      "cleanup": {},
+      "status": "FAILED",
+      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+    },
+    {
+      "name": "seven_digits_rw0",
+      "note": "六自由度 + 第 7 位 `RW = 0`（**不**约束翘曲）",
+      "constraint": "1110000",
+      "length": 7,
+      "outer_key": "1",
+      "http": 200,
+      "created": true,
+      "readback_keys": [
+        "CONSTRAINT",
+        "GROUP_NAME",
+        "ID"
+      ],
+      "cleanup": {
+        "uri": "/DB/CONS/1",
+        "status": 200,
+        "gone": true
+      },
+      "status": "PASSED",
+      "native_error": ""
+    },
+    {
+      "name": "seven_digits_rx1",
+      "note": "**手册示例**的取值（`registry/live/write_templates.json` 的 `DB.CONS.body`）",
+      "constraint": "1111000",
+      "length": 7,
+      "outer_key": "1",
+      "http": 200,
+      "created": true,
+      "readback_keys": [
+        "CONSTRAINT",
+        "GROUP_NAME",
+        "ID"
+      ],
+      "cleanup": {
+        "uri": "/DB/CONS/1",
+        "status": 200,
+        "gone": true
+      },
+      "status": "PASSED",
+      "native_error": ""
+    }
+  ],
+  "counts": {
+    "FAILED": 2,
+    "PASSED": 2
+  },
+  "verdict": "7",
+  "aborted": "",
+  "health_status": 200,
+  "sentinel_before": {
+    "/DB/NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "/DB/CONS": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "sentinel_after": {
+    "/DB/NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "/DB/CONS": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "cleanup": [
+    {
+      "uri": "/DB/CONS/1",
+      "status": 200,
+      "gone": true
+    },
+    {
+      "uri": "/DB/CONS/1",
+      "status": 200,
+      "gone": true
+    },
+    {
+      "uri": "/DB/NODE/1",
+      "status": 200,
+      "gone": true
+    }
+  ],
+  "residue": {},
+  "allowed_residue": [],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/DB/NODE",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 400,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "111000"
+              }
+            ]
+          }
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 400,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "11100"
+              }
+            ]
+          }
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "1110000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/CONS/1",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "ID": 1,
+                "GROUP_NAME": "",
+                "CONSTRAINT": "1111000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/CONS/1",
+      "status": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/DB/NODE/1",
+      "status": 200
+    }
+  ]
+}

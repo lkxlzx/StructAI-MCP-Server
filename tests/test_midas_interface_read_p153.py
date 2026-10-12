@@ -444,12 +444,14 @@ def test_p153_the_field_gap_pack_pins_the_p152_measured_endpoints() -> None:
         assert row["has_transformer"] is True, endpoint
         assert row["interface_body"] is not None, endpoint
         assert row["gap_class"] in {"field_set_gap", "value_gap", "covered"}, endpoint
-    # 原生拒绝逐条留证（⚠️ **P154 同步**：证据包由**当前**证据复算 ⇒ A′ 后只剩 `DB.CONS`
-    # 的 `Wrong Field`；P152 当时的 `Unknown Error`（`DB.SECT`）是**历史事实**，
-    # 保留在 `docs/reports/P153_*.md` §2.4 与 `docs/07` §16.1 的 R126 行，**不**在本复算清单里）
+    # 原生拒绝逐条留证（⚠️ **P154 / P155 / P156 同步**：证据包由**当前**证据复算 ⇒
+    # P155 修好**形状**后 `DB.CONS` 的文案已下沉到**取值级**「约束条件输入有错误」；
+    # P152 当时的 `Wrong Field` / `Unknown Error` 是**历史事实**，保留在
+    # `docs/reports/P153_*.md` §2.4、`docs/reports/P154_*.md` §3 与 `docs/07` §16.1 的 R126 行，
+    # **不**在本复算清单里）
     texts = {str(item["native_error"]) for item in document["measured_rejections"]}
     assert texts, document["measured_rejections"]
-    assert any("Wrong Field" in text for text in texts), texts
+    assert any("约束条件输入有错误" in text for text in texts), texts
     assert {int(item["native_status"]) for item in document["measured_rejections"]} == {400}
 
 

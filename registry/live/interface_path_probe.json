@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "fff3ae31-bf84-49be-931f-ce6823711b82",
-    "model_id": "01457e37-22c7-4184-8b87-abbe0328ba35",
-    "software_instance_id": "0f46e399-1b4b-448c-a3c3-fcfb2757d651",
+    "project_id": "659b34c2-ac0f-4da0-8ea2-092cbae8afcc",
+    "model_id": "d36409a8-189e-4820-9018-b90062ae0c45",
+    "software_instance_id": "6ba92772-3e75-4bd1-82c4-c015da903515",
     "product": "GEN NX"
   },
   "sentinel_endpoints": [
@@ -175,17 +175,19 @@
           "path": "/gen/DB/CONS",
           "body": {
             "Assign": {
-              "ITEMS": [
-                {
-                  "GROUP_NAME": "",
-                  "ID": 1,
-                  "CONSTRAINT": "111000"
-                }
-              ]
+              "1": {
+                "ITEMS": [
+                  {
+                    "GROUP_NAME": "",
+                    "ID": 1,
+                    "CONSTRAINT": "111000"
+                  }
+                ]
+              }
             }
           },
           "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
         },
         {
           "method": "GET",
@@ -1452,17 +1454,19 @@
           "path": "/gen/DB/CONS",
           "body": {
             "Assign": {
-              "ITEMS": [
-                {
-                  "GROUP_NAME": "",
-                  "ID": 1,
-                  "CONSTRAINT": "111000"
-                }
-              ]
+              "1": {
+                "ITEMS": [
+                  {
+                    "GROUP_NAME": "",
+                    "ID": 1,
+                    "CONSTRAINT": "111000"
+                  }
+                ]
+              }
             }
           },
           "status": 400,
-          "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+          "native_error": "{\"error\":{\"message\":\"[错误] 约束条件输入有错误。\"}}"
         },
         {
           "method": "DELETE",
