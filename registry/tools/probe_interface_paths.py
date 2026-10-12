@@ -672,6 +672,30 @@ def _read_json(path: pathlib.Path) -> dict[str, Any]:
     return document if isinstance(document, dict) else {}
 
 
+def _write_json(path: pathlib.Path, document: Mapping[str, Any]) -> None:
+    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _write_evidence(path: pathlib.Path, document: Mapping[str, Any], aborted: str) -> bool:
+    """落证据；⚠️ **中止**时**不**覆盖既有证据（**P155 加固**）。
+
+    P154 的 `--probe` 在实例不可达时：5 条行全失败 → 块间健康检查**抛异常** → 进程崩溃
+    ⇒ **证据文件没写成**（而此前已把好证据删掉）⇒ **上一份有效证据被冲掉**。
+    这里改为：`aborted` 非空且**已有**证据 ⇒ **保留**既有证据、只打印原因（退出码仍为 1）。
+
+    Returns:
+        `True` = 已写入；`False` = 因中止而保留既有证据。
+    """
+    if aborted and path.is_file():
+        print(
+            f"⚠️ 本次中止（{aborted[:80]}）⇒ **不覆盖**既有证据 registry/"
+            f"{path.relative_to(path.parents[1])}（保留上一份有效证据）"
+        )
+        return False
+    _write_json(path, document)
+    return True
+
+
 def load_evidence(repo: pathlib.Path) -> dict[str, Any]:
     """接口层端到端证据（缺失 / 版本不符 → 明确退出）。"""
     document = _read_json(repo / "registry" / EVIDENCE_RELATIVE)
@@ -1809,7 +1833,8 @@ def probe_read(
         "paths": rows,
     }
     path = repo / "registry" / READ_EVIDENCE_RELATIVE
-    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if _write_evidence(path, document, aborted):
+        print(f"已写入 registry/{READ_EVIDENCE_RELATIVE}（{len(rows)} 行）")
     undisclosed = {name for name in residue if name not in allow_residue}
     print(
         "verdict =",
@@ -1823,7 +1848,6 @@ def probe_read(
         " 未披露残留 =",
         sorted(undisclosed),
     )
-    print(f"已写入 registry/{READ_EVIDENCE_RELATIVE}（{len(rows)} 行）")
     return 1 if (aborted or undisclosed) else 0
 
 
@@ -1847,6 +1871,17 @@ async def _probe_read_async(
             "product": INSTANCE_PRODUCT,
         }
         before = stack.sentinel(sentinel_keys)
+        # ⚠️ **P155 加固**：读路径**零写请求** ⇒ 只要求「**全部**不可读」时中止（部分 405 是正常的：
+        # `POST.TABLE*` 的 `GET` 本就 `405`）。
+        unreadable = sorted(
+            key
+            for key, value in before.items()
+            if int(value.get("status") or 0) == 0 or value.get("error")
+        )
+        if unreadable and len(unreadable) == len(before):
+            aborted = f"跑前哨兵**全部不可读**（实例不可达 / 传输失败）⇒ 一个请求都不发：{unreadable[:5]}"
+            print(f"⚠️ {aborted}")
+            return rows, aborted, before, before, dedicated
         blocked = {
             key: value["ids"]
             for key, value in before.items()
@@ -1865,7 +1900,15 @@ async def _probe_read_async(
                     f"  [{row['tool']}] {row['operation']} → {','.join(row['endpoints'])} "
                     f"= {row['status']} {row.get('detail') or ''}"
                 )
-            health = stack.client.get(HEALTH_PATH).status_code
+            try:
+                health = int(stack.client.get(HEALTH_PATH).status_code)
+            except Exception as error:  # noqa: BLE001 - 传输失败如实中止
+                aborted = (
+                    f"健康检查 {HEALTH_PATH} **传输失败**（{type(error).__name__}）"
+                    "⇒ **立即中止**（P149-B2 的教训 + P155 的加固）"
+                )
+                print(f"  ⚠️ {aborted}")
+                break
             print(f"  块 {start // chunk_size + 1} 完成（{len(chunk)} 条）；健康检查 → {health}")
             if health != 200:
                 aborted = f"健康检查 {HEALTH_PATH} → {health}（**立即中止**，P149-B2 的教训）"
@@ -1986,7 +2029,8 @@ def probe(
         "paths": rows,
     }
     path = repo / "registry" / EVIDENCE_RELATIVE
-    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if _write_evidence(path, document, aborted):
+        print(f"已写入 registry/{EVIDENCE_RELATIVE}（{len(rows)} 行）")
     undisclosed = {name for name in residue if name not in allow_residue}
     print(
         "verdict =",
@@ -2000,7 +2044,6 @@ def probe(
         " 未披露残留 =",
         sorted(undisclosed),
     )
-    print(f"已写入 registry/{EVIDENCE_RELATIVE}（{len(rows)} 行）")
     return 1 if (aborted or undisclosed) else 0
 
 
@@ -2024,6 +2067,21 @@ async def _probe_async(
             "product": INSTANCE_PRODUCT,
         }
         before = stack.sentinel(sentinel_keys)
+        # ⚠️ **P155 加固（实测事故驱动）**：哨兵**读不到**（传输失败 / 实例不可达）时**绝不盲写** ——
+        # 读不到就**无法**证明「跑前为空」；P154 的 `--probe` 在实例不可达时曾一路发到 5 条失败并
+        # 在块间健康检查处**崩溃**（证据文件都没写成）。这里改为：**任一**被触碰端点读不到 ⇒ 中止。
+        unreadable = sorted(
+            key
+            for key, value in before.items()
+            if int(value.get("status") or 0) == 0 or value.get("error")
+        )
+        if unreadable:
+            aborted = (
+                "跑前哨兵**不可读**（实例不可达 / 传输失败）⇒ 一个请求都不发："
+                f"{unreadable[:5]}（P138c：读不到就**不盲写**）"
+            )
+            print(f"⚠️ {aborted}")
+            return rows, aborted, before, before, dedicated
         blocked = {
             key: value["ids"]
             for key, value in before.items()
@@ -2042,7 +2100,17 @@ async def _probe_async(
                     f"  [{row['path_label']}] {row['operation']} → {row['endpoint']} "
                     f"= {row['status']} {row.get('detail') or ''}"
                 )
-            health = stack.client.get(HEALTH_PATH).status_code
+            # ⚠️ **P155 加固**：健康检查的**传输失败**也归 `aborted`（**不**让异常把整批打崩、
+            # 从而丢掉已跑出的行与证据文件）。
+            try:
+                health = int(stack.client.get(HEALTH_PATH).status_code)
+            except Exception as error:  # noqa: BLE001 - 传输失败如实中止
+                aborted = (
+                    f"健康检查 {HEALTH_PATH} **传输失败**（{type(error).__name__}）"
+                    "⇒ **立即中止**（P149-B2 的教训 + P155 的加固）"
+                )
+                print(f"  ⚠️ {aborted}")
+                break
             print(f"  块 {start // chunk_size + 1} 完成（{len(chunk)} 条）；健康检查 → {health}")
             if health != 200:
                 aborted = f"健康检查 {HEALTH_PATH} → {health}（**立即中止**，P149-B2 的教训）"

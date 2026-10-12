@@ -519,14 +519,20 @@ class MidasHttpClient:
         if resolved.is_flat or wrapper in {"", "none"}:
             return dict(body) if isinstance(body, Mapping) else list(body)
         if wrapper == "Assign":
+            key = "1" if item_id is None else str(item_id)
             if items_style:
+                # ⚠️ **R128（P155 修复）**：`ITEMS` 形态**也**必须带外层**编号键** —— 原生期望
+                # `{"Assign": {"<编号>": {"ITEMS": […]}}}`；只发 `{"Assign": {"ITEMS": […]}}`
+                # 会被 `400 Wrong Field` 拒（`DB.CONS` 实测）。
+                # ⚠️ 外层键**必须**是**存在的**对象编号：无效键时原生会**静默 `200` 而不落库**
+                # （假成功陷阱，见 `docs/07` §16.1 R128）⇒ 键由 Adapter 按 canonical 的
+                # 「映射到原生 `ID` 的字段」给出，**不**在此臆造。
                 items = (
                     list(body)
                     if isinstance(body, Sequence) and not isinstance(body, str)
                     else [body]
                 )
-                return {"Assign": {"ITEMS": items}}
-            key = "1" if item_id is None else str(item_id)
+                return {"Assign": {key: {"ITEMS": items}}}
             item = dict(body) if isinstance(body, Mapping) else {}
             return {"Assign": {key: item}}
         if wrapper == "Argument":

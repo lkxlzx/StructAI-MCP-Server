@@ -434,10 +434,21 @@ class MidasAdapter(BaseAdapter):
         bodies = [body for body, _wrapper, _style in prepared]
         results: list[dict[str, Any]] = []
         if items_style:
-            request = self._build(
-                operation, resolved, body=bodies, wrapper=wrapper, items_style=True
-            )
-            results.append(await self._send(request))
+            # ⚠️ **R128（P155 修复）**：`ITEMS` 形态的 `Assign` **每条一个请求**，外层键 = 该条目的
+            # **编号**（`{"Assign": {"<编号>": {"ITEMS": […]}}}`）—— 与**数据侧实测可用**的形状一致
+            # （`write_probe` 把整份模板体当条目 + `_wrap` 的非 `ITEMS` 分支按键包装）。
+            # 外层键**必须**是存在的对象编号：无效键时原生**静默 `200` 而不落库**（假成功陷阱）
+            # ⇒ 取不到键就**明确失败**（`_item_key`），**不**臆造 `1`。
+            for body, item in zip(bodies, items, strict=True):
+                request = self._build(
+                    operation,
+                    resolved,
+                    body=[body],
+                    wrapper=wrapper,
+                    items_style=True,
+                    item_id=_item_key(item, transformer, endpoint=resolved.definition.key),
+                )
+                results.append(await self._send(request))
         else:
             for body, item in zip(bodies, items, strict=True):
                 request = self._build(
@@ -631,6 +642,33 @@ class MidasAdapter(BaseAdapter):
 
 
 # ===== 参数辅助（只做机械展开，**不**臆造字段）=====
+
+
+def _item_key(item: Mapping[str, Any], transformer: Any, *, endpoint: str) -> Any:
+    """条目在 `Assign` 里的**外层键**（`docs/07` §16.1 **R128**）。
+
+    规则（**由代码导出，不臆造**）：取该 Transformer 字段表里**映射到原生 `ID`** 的 canonical 字段
+    —— `DB.CONS` 是 `node_id`（支承的编号**就是**它所在节点的编号），节点 / 梁 / 面荷载是 `id`。
+
+    ⚠️ 外层键**必须**是**存在的**对象编号：无效键时原生会**静默 `200` 而不落库**
+    （假成功陷阱）⇒ 取不到就**明确失败**，**不**回落到 `"1"`。
+
+    Raises:
+        MidasValidationError: `STRUCTAI-1200`，条目里没有可用的编号（**不**臆造键）。
+    """
+    if transformer is not None:
+        for field in getattr(transformer, "fields", ()):
+            if str(getattr(field, "native", "")) == "ID":
+                value = item.get(field.canonical)
+                if value is not None:
+                    return value
+                break
+    value = item.get("id")
+    if value is None:
+        raise MidasValidationError(
+            "assign_item_key_missing", endpoint=endpoint, item=sorted(str(key) for key in item)
+        )
+    return value
 
 
 def _build_payloads(parameters: Mapping[str, Any]) -> dict[str, list[dict[str, Any]]]:

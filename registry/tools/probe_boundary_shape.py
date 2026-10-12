@@ -213,6 +213,7 @@ def probe(repo: pathlib.Path, *, allow_residue: tuple[str, ...] = ()) -> int:
 
     requests: list[dict[str, Any]] = []
     rows: list[dict[str, Any]] = []
+    aborted = ""
     with httpx.Client(
         base_url=base_url, headers={"MAPI-Key": key_value}, timeout=60.0
     ) as client:
@@ -224,6 +225,16 @@ def probe(repo: pathlib.Path, *, allow_residue: tuple[str, ...] = ()) -> int:
         }
         if blocked:
             aborted = f"跑前哨兵**非空** ⇒ 一个请求都不发（{blocked}）"
+            print(f"⚠️ {aborted}")
+            return _write(repo, rows, before, before, requests, aborted, allow_residue)
+        # ⚠️ **P155 加固（实测事故驱动）**：哨兵**读不到**（实例不可达）⇒ **绝不盲写**。
+        unreadable = sorted(
+            uri
+            for uri, value in before.items()
+            if int(value.get("status") or 0) == 0 or value.get("error")
+        )
+        if unreadable:
+            aborted = f"跑前哨兵**不可读**（实例不可达 / 传输失败）⇒ 一个请求都不发：{unreadable}"
             print(f"⚠️ {aborted}")
             return _write(repo, rows, before, before, requests, aborted, allow_residue)
 
@@ -305,9 +316,14 @@ def probe(repo: pathlib.Path, *, allow_residue: tuple[str, ...] = ()) -> int:
 
         after = _sentinel(client)
         residue = {uri: value["ids"] for uri, value in after.items() if value.get("ids")}
-        health = int(client.get(HEALTH_PATH).status_code)
+        try:
+            health = int(client.get(HEALTH_PATH).status_code)
+        except Exception as error:  # noqa: BLE001 - 传输失败如实中止（**不**让异常把整批打崩）
+            aborted = f"健康检查 {HEALTH_PATH} **传输失败**（{type(error).__name__}）⇒ 立即中止"
+            print(f"  ⚠️ {aborted}")
+            health = 0
     return _write(
-        repo, rows, before, after, requests, "", allow_residue, residue, cleanup, health
+        repo, rows, before, after, requests, aborted, allow_residue, residue, cleanup, health
     )
 
 
