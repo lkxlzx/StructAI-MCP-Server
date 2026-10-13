@@ -97,12 +97,12 @@ EXPECTED_WRITE_BY_PATH = {
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 10,
-    "without_transformer": 61,
+    "with_transformer": 12,
+    "without_transformer": 59,
     "field_set_gap": 2,
     "value_gap": 2,
-    "no_canonical_model": 61,
-    "covered": 6,
+    "no_canonical_model": 59,
+    "covered": 8,
 }
 EXPECTED_GAP_TOTAL = 511
 EXPECTED_GAP_NOT_IN_CONTRACT = 265

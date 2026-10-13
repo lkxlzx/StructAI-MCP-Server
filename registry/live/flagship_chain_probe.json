@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "5f602295-b84c-4a6d-8f91-c4d4ab00691a",
+        "task_id": "2214c7d5-5951-4430-b073-6679c6a9c64f",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -681,7 +681,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "4e445d1d-a365-4a43-9536-93f08b3e194f",
+        "task_id": "f88b30de-cb29-40e0-a460-898ddd2752d4",
         "status": "COMPLETED",
         "error": {}
       },
@@ -790,22 +790,156 @@
       "operation": "DESIGN.STEEL",
       "tool": "engineering_design",
       "label": "设计（钢构件校核）",
-      "status": "SKIPPED",
-      "detail": "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes",
+      "status": "PASSED",
+      "detail": "",
       "error": {},
-      "task": {},
+      "task": {
+        "task_id": "87d04b8a-12d7-46ab-82b4-3b154007607b",
+        "status": "COMPLETED",
+        "error": {}
+      },
       "native_error": "",
       "readback": {},
       "numbers": {},
-      "attempts": 0,
-      "requests": []
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/DSTL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DGNCODE": "KDS 41 30 : 2022"
+              }
+            }
+          },
+          "shape": {
+            "DSTL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 45
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "COL_WEAK": true,
+                "COMB_RATIO": 0,
+                "DEFL_CHK": true,
+                "DGNCODE": "KDS 41 30 : 2022",
+                "LAT_BRACE": false,
+                "SEIS_SYS": "Special Moment Frames",
+                "SEISMIC": false,
+                "UNDGR_LD": true
+              }
+            }
+          },
+          "shape": {
+            "DCO": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 176
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "bAUTOKF": false,
+                "DT": "3D",
+                "FRAMEX": "Braced Non-sway",
+                "FRAMEY": "Braced Non-sway"
+              }
+            }
+          },
+          "shape": {
+            "DCTL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 96
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "AELEM": [
+                  1
+                ],
+                "bREVERSE": false
+              }
+            }
+          },
+          "shape": {
+            "MEMB": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 45
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "PERFORM_TYPE": "ALL"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 21
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "ELEMS": {
+                "KEYS": [
+                  1
+                ]
+              },
+              "PRI_SORT": 1,
+              "RESULT": 0,
+              "TABLE_TYPE": "PROP"
+            }
+          },
+          "shape": {
+            "Result Table": {
+              "kind": "mapping",
+              "size": 4
+            }
+          },
+          "shape_raw_length": 555
+        }
+      ]
     }
   ],
   "substituted_counts": {
-    "PASSED": 10,
-    "SKIPPED": 1
+    "PASSED": 11
   },
-  "substituted_verdict": "NOT_PASSED",
+  "substituted_verdict": "PASSED",
   "substitute_reason": "阶段 A 的 ① `BUILD.COLUMN` 未通过 ⇒ 用 `docs/07` §6.5 的**同一组原子 Operation** 建模型（①′）后跑 ②–⑤；**不**掩盖 ① 的失败。",
   "aborted": "",
   "sentinel_endpoints": [
@@ -1652,6 +1786,136 @@
         }
       },
       "shape_raw_length": 445
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/DSTL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DGNCODE": "KDS 41 30 : 2022"
+          }
+        }
+      },
+      "shape": {
+        "DSTL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 45
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "COL_WEAK": true,
+            "COMB_RATIO": 0,
+            "DEFL_CHK": true,
+            "DGNCODE": "KDS 41 30 : 2022",
+            "LAT_BRACE": false,
+            "SEIS_SYS": "Special Moment Frames",
+            "SEISMIC": false,
+            "UNDGR_LD": true
+          }
+        }
+      },
+      "shape": {
+        "DCO": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 176
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "bAUTOKF": false,
+            "DT": "3D",
+            "FRAMEX": "Braced Non-sway",
+            "FRAMEY": "Braced Non-sway"
+          }
+        }
+      },
+      "shape": {
+        "DCTL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 96
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "AELEM": [
+              1
+            ],
+            "bREVERSE": false
+          }
+        }
+      },
+      "shape": {
+        "MEMB": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 45
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "PERFORM_TYPE": "ALL"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 21
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "ELEMS": {
+            "KEYS": [
+              1
+            ]
+          },
+          "PRI_SORT": 1,
+          "RESULT": 0,
+          "TABLE_TYPE": "PROP"
+        }
+      },
+      "shape": {
+        "Result Table": {
+          "kind": "mapping",
+          "size": 4
+        }
+      },
+      "shape_raw_length": 555
     }
   ]
 }

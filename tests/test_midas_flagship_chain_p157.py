@@ -82,6 +82,9 @@ SPEC_OPERATIONS = (
 )
 """`docs/07` §13.5 的五步链（阶段 A 的步集）。"""
 
+ELEMENT_ID = 1
+"""柱单元编号（`DESIGN.STEEL` 的**构件指派** `MEMB.AELEM` 用它）。"""
+
 SUBSTITUTE_OPERATIONS = (
     "MODEL.MATERIAL.ASSIGN",
     "MODEL.SECTION.ASSIGN",
@@ -364,8 +367,8 @@ def test_p157_the_substituted_prefix_builds_the_model() -> None:
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 10, "SKIPPED": 1}
-    assert document["substituted_verdict"] == "NOT_PASSED"
+    assert document["substituted_counts"] == {"PASSED": 11}
+    assert document["substituted_verdict"] == "PASSED"
 
 
 def test_p157_r132_the_load_case_is_created_then_the_load_is_assigned() -> None:
@@ -431,45 +434,49 @@ def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
     assert numbers["displacement.uz"] != 0.0, numbers
 
 
-def test_p157_r136_r137_r140_the_chain_reaches_the_design_step_which_stays_unverified() -> None:
-    """门槛（**R136 / R137 已闭环 + R140 未跑通**）：链跑到 ⑤；⑤ **未**跑通且**已停手**。
+def test_p157_r136_r137_r141_the_whole_chain_passes_eleven_of_eleven() -> None:
+    """门槛（**五步链在真机上 11/11 全绿**）：配置 → 验算 → 取表，全部 `200`。
 
     **R136**（用户裁决 = B）：新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）。
-    **R137**（✅ 闭环，取值 = **厂商真值**）：**只读**读回官方验证模型 `Static-01.mgbx` 的
-    `GET /DB/LCOM-GEN` ⇒ `ANAL` 的真值是 **`"ST"`**（手册示例的 `"CS"` 不被接受）；
-    `bCB` 是 `(ReadOnly)` ⇒ 不发。⚠️ 组合是**分析的输入** ⇒ 必须先于 `DOC.ANAL`。
-    **R138**（✅ 闭环）：12 个 `DESIGN.*.*-TABLE` 的 `wrapper.write` 由 `Assign` 修为
-    **`Argument`**（45 处全库一并修 + 加全库闸门）。
-    **R140**（新，**未跑通**）：请求体已照手册改对（`CODE-ANAL` 单独实测 = **`200`
-    `{"message":"success"}`**），
-    但 MIDAS 的「截面验算」对话框随后报 **`Error occured while setting unit`** 并**阻塞 API**、
-    应用**崩溃**（实测两次）。已排除模型单位（`GET /DB/UNIT` = `KN/M`）⇒ 成因在 **MIDAS 验算界面侧**
-    ⇒ 该步记 `SKIPPED`（**未跑通**，**不**声称产品边界、**也**不声称是我们的 bug）。
+    **R137**（✅）：组合取值 = **厂商真值** `ANAL: "ST"`（**只读**读回官方验证模型
+    `Static-01.mgbx`）；组合是**分析的输入** ⇒ 必须先于 `DOC.ANAL`。
+    **R138**（✅）：12 个 `DESIGN.*.*-TABLE` 的 `wrapper.write` 由 `Assign` 修为 **`Argument`**
+    （45 处全库一并修 + 加全库闸门）。
+    **R141**（✅，**手册驱动**）：`DESIGN.STEEL` 的前四步（`DSTL` / `DCO` / `DCTL` / `MEMB`）
+    手册方法是 **`GET, PUT, DELETE`** —— 它们是**配置**入口；原编排当 `GET` 读 ⇒ 设计**从未被配置**
+    （尤其**构件指派** `MEMB`）⇒ MIDAS 验算对话框报 `Error occured while setting unit`、阻塞 API、
+    应用崩溃。现按手册改为 **PUT 配置 → `CODE-ANAL` → `CODE-TABLE`**（端点集不变）。
     """
     document = _chain()
-    row = _step(document, "substituted", "MODEL.LOAD_COMBINATION.ASSIGN")
-    assert row["status"] == "PASSED", row
-    assert row["readback"]["DB.LCOM-STEEL"]["present"] is True, row["readback"]
-    post = next(item for item in row["requests"] if str(item["path"]).endswith("/DB/LCOM-STEEL"))
-    assert int(post["status"]) == 200, post
-    entry = post["body"]["Assign"]["1"]
-    assert entry["NAME"] == "sLCB1", entry
-    assert entry["ACTIVE"] == "STRENGTH", entry
-    assert entry["iTYPE"] == 0, entry
-    # ⚠️ 厂商真值：`ANAL` = `"ST"`（**不**是手册示例的 `"CS"`）；`FACTOR` 是 float
-    assert entry["vCOMB"] == [{"ANAL": "ST", "LCNAME": "AXIAL", "FACTOR": 1.0}], entry
-    assert "bCB" not in entry, entry
+    assert document["substituted_verdict"] == "PASSED", document
+    assert document["substituted_counts"] == {"PASSED": 11}, document
 
-    # ⚠️ **R140 产品边界**：⑤ 记 `SKIPPED` 且**一条请求都没发**
     design = _step(document, "substituted", "DESIGN.STEEL")
-    assert design["status"] == "SKIPPED", design
-    assert design["detail"] == (
-        "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes"
-    ), design
-    assert design["requests"] == [], design["requests"]
-    # ⚠️ 组合**必须**在分析之前（它是分析的输入）；③④ 仍通过
-    assert _step(document, "substituted", "ANALYSIS.STATIC")["status"] == "PASSED"
-    assert _step(document, "substituted", "RESULT.NODE.DISPLACEMENT")["status"] == "PASSED"
+    assert design["status"] == "PASSED", design
+    assert not design["error"], design["error"]
+    calls = [
+        (str(i["path"]).rsplit("/", 1)[-1], i["method"], int(i["status"]))
+        for i in design["requests"]
+    ]
+    assert calls == [
+        ("DSTL", "PUT", 200),
+        ("DCO", "PUT", 200),
+        ("DCTL", "PUT", 200),
+        ("MEMB", "PUT", 200),
+        ("CODE-ANAL", "POST", 200),
+        ("CODE-TABLE", "POST", 200),
+    ], calls
+    # ⚠️ **构件指派**是原先缺的那一步（手册方法 `GET, PUT, DELETE`）
+    memb = next(i for i in design["requests"] if str(i["path"]).endswith("/MEMB"))
+    assert memb["body"] == {"Assign": {"1": {"AELEM": [ELEMENT_ID], "bREVERSE": False}}}, memb[
+        "body"
+    ]
+    # ⚠️ 验算体照手册示例；结果表体照手册 STEEL 示例（`TABLE_TYPE: "PROP"` + `ELEMS.KEYS`）
+    anal = next(i for i in design["requests"] if str(i["path"]).endswith("/CODE-ANAL"))
+    assert anal["body"] == {"Argument": {"PERFORM_TYPE": "ALL"}}, anal["body"]
+    table = next(i for i in design["requests"] if str(i["path"]).endswith("/CODE-TABLE"))
+    assert table["body"]["Argument"]["TABLE_TYPE"] == "PROP", table["body"]
+    assert table["body"]["Argument"]["ELEMS"] == {"KEYS": [ELEMENT_ID]}, table["body"]
 
 
 def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:

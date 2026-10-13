@@ -62,6 +62,10 @@ __all__ = [
     "BodyForceTransformer",
     "BoundaryTransformer",
     "DesignResultTransformer",
+    "DesignCodeTransformer",
+    "DesignFrameTransformer",
+    "DesignMemberTransformer",
+    "DesignOptionTransformer",
     "DesignTransformer",
     "DisplacementTransformer",
     "ElementForceTransformer",
@@ -246,7 +250,22 @@ class SchemaBoundTransformer:
             node = properties.get(wrapper)
             if isinstance(node, Mapping):
                 inner = node.get("properties")
-                return inner if isinstance(inner, Mapping) else {}
+                if isinstance(inner, Mapping):
+                    return inner
+                # ⚠️ **P157 / R141**：**键控对象**形状
+                # （`Assign` → `patternProperties["^[0-9]+$"]`）——
+                # `DESIGN/STEEL` 的**配置**端点（`DSTL` / `DCO` / `DCTL` / `MEMB`）用这种 Schema，
+                # 条目字段挂在 `patternProperties` 下而**不是** `properties` 下。
+                # 原先这里直接返回 `{}` ⇒ 白名单空集 ⇒ 任何字段都被
+                # `transformer_field_not_in_schema` 拒掉（实测）。
+                pattern = node.get("patternProperties")
+                if isinstance(pattern, Mapping):
+                    for candidate in pattern.values():
+                        if isinstance(candidate, Mapping):
+                            fields = candidate.get("properties")
+                            if isinstance(fields, Mapping):
+                                return fields
+                return {}
         return properties
 
     def is_items_style(self) -> bool:
@@ -784,6 +803,64 @@ class ViewTransformer(SchemaBoundTransformer):
     )
 
 
+class DesignCodeTransformer(SchemaBoundTransformer):
+    """设计规范（`DESIGN/STEEL/DSTL`）：`DGNCODE`。
+
+    ⚠️ **P157 / R141**：该端点手册的方法是 **`GET, PUT, DELETE`** —— 它是**配置**入口，
+    不是只读入口；`DESIGN.STEEL` 的编排原本把它当 `GET` 读 ⇒ 设计**从未被配置**，
+    真机验算对话框因此报 `Error occured while setting unit`。
+    """
+
+    name = "midas.design.dstl.v1"
+    endpoint = "DESIGN.STEEL.DSTL"
+    fields = (FieldMap("dgn_code", "DGNCODE", required=True),)
+
+
+class DesignOptionTransformer(SchemaBoundTransformer):
+    """设计规范选项（`DESIGN/STEEL/KDS-41-30-2022/DCO`；字段照该端点 Schema）。"""
+
+    name = "midas.design.dco.v1"
+    endpoint = "DESIGN.STEEL.KDS-41-30-2022.DCO"
+    fields = (
+        FieldMap("dgn_code", "DGNCODE", required=True),
+        FieldMap("lat_brace", "LAT_BRACE"),
+        FieldMap("defl_chk", "DEFL_CHK"),
+        FieldMap("seismic", "SEISMIC"),
+        FieldMap("comb_ratio", "COMB_RATIO"),
+        FieldMap("seis_sys", "SEIS_SYS"),
+        FieldMap("col_weak", "COL_WEAK"),
+        FieldMap("undgr_ld", "UNDGR_LD"),
+    )
+
+
+class DesignFrameTransformer(SchemaBoundTransformer):
+    """框架定义（`DESIGN/STEEL/KDS-41-30-2022/DCTL`）。"""
+
+    name = "midas.design.dctl.v1"
+    endpoint = "DESIGN.STEEL.KDS-41-30-2022.DCTL"
+    fields = (
+        FieldMap("frame_x", "FRAMEX"),
+        FieldMap("frame_y", "FRAMEY"),
+        FieldMap("auto_kf", "bAUTOKF"),
+        FieldMap("design_type", "DT"),
+    )
+
+
+class DesignMemberTransformer(SchemaBoundTransformer):
+    """**构件指派**（`DESIGN/STEEL/KDS-41-30-2022/MEMB`）：告诉设计**哪些单元**要验算。
+
+    ⚠️ 该端点 Schema **没有** `ID` 字段 ⇒ `Assign` 的**外层键**走 `_item_key` 的
+    `item["id"]` 回落（`id` 由 `_prepare_item` 在转换前摘掉，**不**进原生体）。
+    """
+
+    name = "midas.design.memb.v1"
+    endpoint = "DESIGN.STEEL.KDS-41-30-2022.MEMB"
+    fields = (
+        FieldMap("elements", "AELEM", required=True),
+        FieldMap("reverse", "bREVERSE"),
+    )
+
+
 class DesignTransformer(SchemaBoundTransformer):
     """Design（`docs/04` §52–§55）：设计执行参数 ↔ `CODE-ANAL` 的 `Argument`。
 
@@ -946,6 +1023,10 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.bodf.v1": BodyForceTransformer,
     "midas.cnld.v1": NodalLoadTransformer,
     "midas.cons.v1": BoundaryTransformer,
+    "midas.design.dco.v1": DesignOptionTransformer,
+    "midas.design.dctl.v1": DesignFrameTransformer,
+    "midas.design.dstl.v1": DesignCodeTransformer,
+    "midas.design.memb.v1": DesignMemberTransformer,
     "midas.design.steel.v1": DesignTransformer,
     "midas.elem.v1": ElementTransformer,
     "midas.fbld.v1": FloorLoadTransformer,

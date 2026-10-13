@@ -121,12 +121,12 @@ EXPECTED_BOUNDARY_VERDICT = "assign_node_keyed_items,assign_node_keyed_items_no_
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 10,
-    "without_transformer": 61,
+    "with_transformer": 12,
+    "without_transformer": 59,
     "field_set_gap": 2,
     "value_gap": 2,
-    "no_canonical_model": 61,
-    "covered": 6,
+    "no_canonical_model": 59,
+    "covered": 8,
 }
 """⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层的 `CONSTRAINT` 由 **6** 位变 **7** 位，
 与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`

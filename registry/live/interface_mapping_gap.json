@@ -4905,8 +4905,8 @@
       {
         "operation": "DESIGN.STEEL",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_code"
       }
     ],
     "DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL": [
@@ -4941,24 +4941,24 @@
       {
         "operation": "DESIGN.STEEL",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_option"
       }
     ],
     "DESIGN.STEEL.KDS-41-30-2022.DCTL": [
       {
         "operation": "DESIGN.STEEL",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_frame"
       }
     ],
     "DESIGN.STEEL.KDS-41-30-2022.MEMB": [
       {
         "operation": "DESIGN.STEEL",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_member"
       }
     ],
     "DOC.ANAL": [

@@ -552,15 +552,35 @@ _DESIGN_ANAL = _write("DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL", "design", "midas.
 _DESIGN_TABLE = _write("DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE", "design_result", None)
 
 _DESIGN: Final[dict[str, OperationPlan]] = {
+    # ⚠️ **P157 / R141（事故复盘，手册驱动）**：`DESIGN.STEEL` 的**前四步是「配置」不是「读取」**
+    # —— 手册里 `DSTL` / `DCO` / `DCTL` / `MEMB` 的方法都是 **`GET, PUT, DELETE`**，
+    # 手册示例体也全是 `Assign` 写入体。原编排把它们当 `GET` 读 ⇒ 设计**从未被配置**
+    # ⇒ 真机验算对话框报 `Error occured while setting unit` 并阻塞 API、应用崩溃。
+    # **端点集不变**（仍这 6 个），只把前四步由 `read` 改为 `write_*`（**PUT**）。
     "DESIGN.STEEL": OperationPlan(
         "DESIGN.STEEL",
         "engineering_design",
         composite=True,
         steps=_steps(
-            _read("DESIGN.STEEL.DSTL"),
-            _read("DESIGN.STEEL.KDS-41-30-2022.DCO"),
-            _read("DESIGN.STEEL.KDS-41-30-2022.DCTL"),
-            _read("DESIGN.STEEL.KDS-41-30-2022.MEMB"),
+            _write("DESIGN.STEEL.DSTL", "write_design_code", "midas.design.dstl.v1", method="PUT"),
+            _write(
+                "DESIGN.STEEL.KDS-41-30-2022.DCO",
+                "write_design_option",
+                "midas.design.dco.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.STEEL.KDS-41-30-2022.DCTL",
+                "write_design_frame",
+                "midas.design.dctl.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.STEEL.KDS-41-30-2022.MEMB",
+                "write_design_member",
+                "midas.design.memb.v1",
+                method="PUT",
+            ),
             _DESIGN_ANAL,
             _DESIGN_TABLE,
         ),

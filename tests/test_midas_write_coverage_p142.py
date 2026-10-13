@@ -294,7 +294,7 @@ P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified`
 （20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
 `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
-REGISTERED_TRANSFORMERS = 26
+REGISTERED_TRANSFORMERS = 30
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
 BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()
@@ -424,6 +424,23 @@ def test_p142_the_candidate_set_is_the_registered_transformer_intersection() -> 
     assert len(TRANSFORMER_REGISTRY) == REGISTERED_TRANSFORMERS
 
 
+def _declared_step_transformers() -> dict[str, str]:
+    """`operations.py` 里**写步骤**声明的 `transformer`（端点 → 转换器名）。
+
+    ⚠️ **P157 / R141**：`DESIGN.*` 的写步骤（`DSTL` / `DCO` / `DCTL` / `MEMB`）
+    在编排里**显式**声明转换器（`midas.design.*.v1`），不符合 `midas.<code>.v1`
+    的 `DB.*` 命名约定 ⇒ 判定必须按**编排的真源**取，而不是从 key 猜名字。
+    """
+    from app.infrastructure.adapters.midas.operations import OPERATION_PLANS  # noqa: PLC0415
+
+    return {
+        str(step.key): str(step.transformer)
+        for plan in OPERATION_PLANS.values()
+        for step in plan.steps
+        if step.transformer and str(step.intent).startswith("write_")
+    }
+
+
 def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -> None:
     """门槛：契约声明的写步骤里，凡三步链**结构适用且已有请求体来源**的端点**全部**已在候选集内；
     候选集**可以**超出契约（R100：数据侧模板即可入候选 —— P144 起新增 7 个）。
@@ -448,14 +465,22 @@ def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -
         if "GET" not in definition.methods or not definition.read_root:
             inapplicable.add(key)
             continue
+        # ⚠️ **P157 / R141**：`transformer_name_for` 只覆盖 `DB.*`（`midas.<code>.v1` 约定）；
+        # `DESIGN.*` 的写步骤在**编排里显式声明**转换器 ⇒ 这里按**编排的真源**一并认。
         if (
             TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None
+            and TRANSFORMER_REGISTRY.get(_declared_step_transformers().get(key, "")) is None
             and registry.write_template(key) is None
         ):
             blocked.add(key)
             continue
         eligible.add(key)
-    assert eligible <= candidates, sorted(eligible - candidates)
+    # ⚠️ **P157 / R141**：候选集是**数据侧**写探针的口径（`DB.*`）；`DESIGN.*` 的写步骤走
+    # **接口层**的设计路径（`midas.design.*.v1`，由**编排显式声明**）⇒ 不参与数据侧候选集判定。
+    data_side = {key for key in eligible if key.startswith("DB.")}
+    assert data_side <= candidates, sorted(data_side - candidates)
+    interface_side = eligible - data_side
+    assert all(key.startswith("DESIGN.") for key in interface_side), sorted(interface_side)
     assert blocked == set(BLOCKED_CONTRACT_WRITE_KEYS), sorted(blocked)
     assert not (blocked & candidates), sorted(blocked & candidates)
     # 契约**外**的候选必须都有数据侧模板（R100 新增的类别，逐个可查）

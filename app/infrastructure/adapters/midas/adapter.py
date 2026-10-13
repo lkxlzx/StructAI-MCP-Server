@@ -694,6 +694,11 @@ def _build_payloads(parameters: Mapping[str, Any]) -> dict[str, list[dict[str, A
         "write_load_case": _mapping_list(parameters.get("load_case_definition")),
         "write_load": _load_items(parameters),
         "write_load_combination": _mapping_list(parameters.get("load_combinations")),
+        # ⚠️ **P157 / R141**：`DESIGN.STEEL` 的**配置**四步（手册方法 = `GET, PUT, DELETE`）。
+        "write_design_code": _mapping_list(parameters.get("design_code")),
+        "write_design_option": _mapping_list(parameters.get("design_option")),
+        "write_design_frame": _mapping_list(parameters.get("design_frame")),
+        "write_design_member": _mapping_list(parameters.get("design_members")),
     }
     if payloads["write_node"] and payloads["write_element"]:
         return payloads

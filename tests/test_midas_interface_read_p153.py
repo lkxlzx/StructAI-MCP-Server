@@ -154,12 +154,12 @@ EXPECTED_ADOPTION_COUNTS = {
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 10,
-    "without_transformer": 61,
+    "with_transformer": 12,
+    "without_transformer": 59,
     "field_set_gap": 2,
     "value_gap": 2,
-    "no_canonical_model": 61,
-    "covered": 6,
+    "no_canonical_model": 59,
+    "covered": 8,
 }
 """R126 裁决输入证据包的钉住计数。
 

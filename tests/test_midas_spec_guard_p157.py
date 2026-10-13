@@ -69,5 +69,5 @@ def test_p157_r140_the_flagship_probe_uses_only_spec_values() -> None:
     lines = [line.strip() for line in source.splitlines()]
     assert '"perform_type": "ALL",' in lines, lines[:0]
     assert not any(line.startswith('"perform_type": "DESIGN"') for line in lines)
-    # ⚠️ 而且该步**不再被调用**（未跑通 ⇒ `skip`；理由如实、**不**声称产品边界）
-    assert "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes" in source
+    # ⚠️ R141 起该步**会**被调用（配置已按手册补齐）⇒ 不再有 `skip`
+    assert "product_boundary" not in source

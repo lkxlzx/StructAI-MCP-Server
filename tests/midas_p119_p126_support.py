@@ -154,6 +154,12 @@ ROUTES: dict[tuple[str, str], Any] = {
     ("GET", "/DESIGN/STEEL/KDS-41-30-2022/DCO"): {"DCO": {"1": {}}},
     ("GET", "/DESIGN/STEEL/KDS-41-30-2022/DCTL"): {"DCTL": {"1": {}}},
     ("GET", "/DESIGN/STEEL/KDS-41-30-2022/MEMB"): {"MEMB": {"1": {}}},
+    # ⚠️ **P157 / R141**：这四步是**配置**（手册方法 `GET, PUT, DELETE`）—— 编排已由 `GET`
+    # 改为 **`PUT`**，假传输必须同形（否则 404 ⇒ `endpoint_not_found`）。
+    ("PUT", "/DESIGN/STEEL/DSTL"): {"Assign": {"1": {"DGNCODE": "KDS 41 30 : 2022"}}},
+    ("PUT", "/DESIGN/STEEL/KDS-41-30-2022/DCO"): {"Assign": {"1": {}}},
+    ("PUT", "/DESIGN/STEEL/KDS-41-30-2022/DCTL"): {"Assign": {"1": {}}},
+    ("PUT", "/DESIGN/STEEL/KDS-41-30-2022/MEMB"): {"Assign": {"1": {"AELEM": [1]}}},
 }
 """假传输的路由表（key = `(method, path)`；未命中的路径一律 `404`）。"""
 

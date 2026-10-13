@@ -290,6 +290,27 @@ RESULT_PARAMETERS: dict[str, Any] = {"node_ids": [TOP_NODE]}
 工况过滤（`load_cases`）**未**给，避免把「过滤条件不匹配」与「结果为空」混为一谈。"""
 
 DESIGN_PARAMETERS: dict[str, Any] = {
+    # ⚠️ **P157 / R141**：`DESIGN.STEEL` 的**前四步是「配置」**（手册方法 = `GET, PUT, DELETE`）——
+    # 取值**照手册示例**（`DESIGN/STEEL/DSTL` · `…/DCO` · `…/DCTL` · `…/MEMB`），
+    # **只**把构件指派换成**本链自建**的单元编号（**不**臆造取值）。
+    "design_code": [{"id": "1", "dgn_code": "KDS 41 30 : 2022"}],
+    "design_option": [
+        {
+            "id": "1",
+            "dgn_code": "KDS 41 30 : 2022",
+            "lat_brace": False,
+            "defl_chk": True,
+            "seismic": False,
+            "comb_ratio": 0,
+            "seis_sys": "Special Moment Frames",
+            "col_weak": True,
+            "undgr_ld": True,
+        }
+    ],
+    "design_frame": [
+        {"id": "1", "frame_x": "Braced Non-sway", "frame_y": "Braced Non-sway", "auto_kf": False, "design_type": "3D"}
+    ],
+    "design_members": [{"id": "1", "elements": [ELEMENT_ID], "reverse": False}],
     # ⚠️ **R140（事故驱动）**：原值 `"DESIGN"` **不在**该端点的枚举里
     # （Schema = `ALL` / `ELEMS` / `SECTIONS`，写在 `oneOf[].const`）——
     # 原生对非法枚举回 `200` 但随后**弹模态框并崩溃**（实测）。取值照 Schema。
@@ -303,8 +324,8 @@ DESIGN_PARAMETERS: dict[str, Any] = {
     # （`TABLE_TYPE: "MEMB"` + `SECTIONS: [..]` + `PRI_SORT` / `RESULT`）；
     # ⚠️ 手册示例里**没有** `UNIT` 字段 ⇒ **不**臆造它。
     "arguments": {
-        "TABLE_TYPE": "MEMB",
-        "SECTIONS": [SECTION_ID],
+        "TABLE_TYPE": "PROP",
+        "ELEMS": {"KEYS": [ELEMENT_ID]},
         "PRI_SORT": 1,
         "RESULT": 0,
     },
@@ -342,19 +363,13 @@ STEP_RESULT: dict[str, Any] = {
     "readback": (),
 }
 STEP_DESIGN: dict[str, Any] = {
-    # ⚠️ **P157 / R140（事故复盘；结论**只**写到有证据的那一步）**
-    # ① **请求体已改对**：`CODE-ANAL` 照手册示例发 `{"Argument": {"PERFORM_TYPE": "ALL"}}`
-    #    ⇒ 真机 **`200` `{"message": "success"}`**（阶段 1 单独实测，见报告 §2.10）——
-    #    所以**不是**「我们的请求形状不对」这一层的问题了。
-    # ② **但随后 MIDAS 侧出错**：其「截面验算」对话框弹出并报
-    #    **`Error occured while setting unit`**（信息窗口同时显示「开始验算构件- GB50017-17」、
-    #    且表格里**已算出结果行**）⇒ 模态框**阻塞 API** ⇒ 应用**崩溃**（实测两次）。
-    # ③ 已排除：`GET /DB/UNIT` = `KN / M / KJ / C`（与对话框显示的「单位: kN, m」一致）
-    #    ⇒ **不是**模型单位设错。
-    # ⇒ **成因在 MIDAS 的验算界面侧**，本批**无法**靠继续调 API 诊断（每次尝试都可能让应用崩溃）
-    #    ⇒ 该步记 `SKIPPED`（**未跑通**，**不**声称是产品边界、**也**不声称是我们的 bug）。
-    # 恢复条件 = 用户提供「手工跑截面验算时是否也报同一错」的观察，或改用只读取结果表。
-    "skip": "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes",
+    # ⚠️ **P157 / R141（手册驱动，已修）**：原先崩溃的**真正**成因是 ——
+    # `DESIGN.STEEL` 的前四步（`DSTL` / `DCO` / `DCTL` / `MEMB`）手册方法是
+    # **`GET, PUT, DELETE`**，它们是**配置**入口；原编排把它们当 `GET` 读
+    # ⇒ 设计**从未被配置**（尤其**构件指派** `MEMB` 没做）⇒ MIDAS 验算对话框
+    # 报 `Error occured while setting unit` 并阻塞 API、应用崩溃。
+    # 现已按手册改为 **PUT 配置 → 验算 → 取表**（端点集不变）；配置的写入与读回
+    # 已**单独实测通过**（4 个 `PUT` 全 `200`，`GET` 读回内容在）。
     "order": 5,
     "operation": "DESIGN.STEEL",
     "tool": "engineering_design",
@@ -737,7 +752,8 @@ async def _run_step(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
         return row
     result = outcome.get("result") or outcome.get("data")
     row["numbers"] = _collect_numbers(result)
-    if str(step["operation"]).startswith("RESULT.") and not _rows_of(result):
+    # ⚠️ **R135 / R141 的同一课**：`200` 不等于「有数据」—— 空表必须判失败。
+    if str(step["operation"]).startswith(("RESULT.", "DESIGN.")) and not _rows_of(result):
         row["detail"] = "empty_result_table"
         row["requests"] = _requests_of(stack)
         return row

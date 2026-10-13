@@ -173,9 +173,16 @@ async def test_p125_civil_nx_full_project_chain_follows_docs_07_section_6() -> N
         elif operation == "RESULT.NODE.DISPLACEMENT":
             parameters = {"node_ids": [2], "load_cases": ["AXIAL"]}
         elif operation == "DESIGN.STEEL":
+            # ⚠️ P157/R140：`PERFORM_TYPE` 原为非法枚举 "DESIGN"（只允许 ALL/ELEMS/SECTIONS）
+            # ⚠️ P157/R141：前四步是**配置**（手册方法 `GET, PUT, DELETE`）⇒ 必须给配置载荷，
+            # 否则 `_has_payload` 会跳过它们（那是**正确**行为）。
             parameters = {
-                "perform_type": "ALL"
-            }  # ⚠️ P157/R140：原为非法枚举 "DESIGN"（Schema 只允许 ALL/ELEMS/SECTIONS）
+                "perform_type": "ALL",
+                "design_code": [{"id": "1", "dgn_code": "KDS 41 30 : 2022"}],
+                "design_option": [{"id": "1", "dgn_code": "KDS 41 30 : 2022"}],
+                "design_frame": [{"id": "1", "frame_x": "Braced Non-sway"}],
+                "design_members": [{"id": "1", "elements": [1]}],
+            }
         transport.clear()
         outcome = await adapter.execute_normalized(operation, parameters, _NO_CONTEXT)
         executed = [step["endpoint"] for step in outcome["executed"]]
