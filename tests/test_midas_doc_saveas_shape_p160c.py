@@ -17,6 +17,8 @@ from tests import midas_p119_p126_support as support
 from tests.test_midas_e2e_p125_p126 import _NO_CONTEXT
 
 from app.domain.errors import EngineeringValidationError
+from app.infrastructure.adapters.midas.adapter import DOC_PATH_OPERATIONS, _doc_arguments
+from app.infrastructure.adapters.midas.operations import EndpointStep
 
 MODEL_PATH = r"E:\MCP\MMCP\.tmp_p160c\p160c-model.mgbx"
 
@@ -60,17 +62,56 @@ async def test_p160c_r143_save_is_refused_until_the_path_is_established() -> Non
 
 
 async def test_p160c_r143_save_is_allowed_after_a_successful_save_as() -> None:
-    """门槛：`SAVE_AS` **成功后**，`SAVE` 才放行；体仍按手册 = `{"Argument": {}}`。"""
+    """门槛：`SAVE_AS` **成功后**，`SAVE` 才放行；体**带项目路径**（用户口径）。
+
+    ⚠️ **P160c 实测（R146）**：`SAVE` 的体**带**路径（原生**忽略**它，但按用户口径
+    「保存及另存必须带项目路径」带上）；**实际保存位置**由**项目自身**的路径决定
+    ⇒ 故 `SAVE` **同时**需要「带路径」与「项目已有路径」。
+    """
     adapter, transport = await _adapter()
     await adapter.execute_normalized("SAVE_AS", {"project_path": MODEL_PATH}, _NO_CONTEXT)
     transport.clear()
     await adapter.execute_normalized("SAVE", {"project_path": MODEL_PATH}, _NO_CONTEXT)
-    assert transport.calls[-1][2] == {"Argument": {}}
+    assert transport.calls[-1][2] == {"Argument": MODEL_PATH}
     await adapter.disconnect()
 
 
 async def test_p160c_r143_new_clears_the_established_path_again() -> None:
     """门槛：`NEW`（新建）⇒ 路径**清空** ⇒ `SAVE` 重新被拒（**不**留错误状态）。"""
+    adapter, transport = await _adapter()
+    await adapter.execute_normalized("SAVE_AS", {"project_path": MODEL_PATH}, _NO_CONTEXT)
+    await adapter.execute_normalized("NEW", {"arguments": {}}, _NO_CONTEXT)
+    transport.clear()
+    with pytest.raises(EngineeringValidationError) as caught:
+        await adapter.execute_normalized("SAVE", {"project_path": MODEL_PATH}, _NO_CONTEXT)
+    assert caught.value.details["reason"] == "project_path_not_established"
+    assert transport.calls == []
+    await adapter.disconnect()
+
+
+# ===== R145：`DOC.NEW` 的体**只能**是 `{}`（带路径会被原生**忽略**）=====
+
+NEW = EndpointStep(key="DOC.NEW", method="POST", intent="write_doc", transformer=None)
+
+
+def test_p160c_r145_new_is_not_a_path_requiring_operation() -> None:
+    """门槛：`DOC.NEW` **不**在"必须带路径"的集合里（它**没有**文件可言）。"""
+    assert "DOC.NEW" not in DOC_PATH_OPERATIONS
+
+
+def test_p160c_r145_a_path_passed_to_new_is_dropped_not_sent() -> None:
+    """门槛（**R145 的钉子**）：给 `NEW` 传路径 ⇒ 体仍是 `{}`（**不**发一个原生会忽略的体）。
+
+    ⚠️ **实测**：`POST /gen/DOC/NEW` 带 `{"Argument": "<路径>"}` ⇒ 原生回 **`200`** 但
+    **忽略路径**（文件**没**创建、项目**仍无路径**）⇒ 紧接着的 `SAVE` 走"另存为"弹窗并**挂起 API**。
+    ⇒ 唯一给项目路径的办法是 `SAVE_AS` / `OPEN`。
+    """
+    assert _doc_arguments(NEW, {"project_path": MODEL_PATH}) == {}
+    assert _doc_arguments(NEW, {"arguments": {}}) == {}
+
+
+async def test_p160c_r145_save_after_new_is_refused_again() -> None:
+    """门槛：`NEW` **清空**已确立的路径 ⇒ 之后的 `SAVE` 必须被拒（**零请求**）。"""
     adapter, transport = await _adapter()
     await adapter.execute_normalized("SAVE_AS", {"project_path": MODEL_PATH}, _NO_CONTEXT)
     await adapter.execute_normalized("NEW", {"arguments": {}}, _NO_CONTEXT)

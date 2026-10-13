@@ -58,9 +58,15 @@ def test_p160b_r143_open_and_save_as_carry_the_path_as_a_plain_string() -> None:
     assert _doc_arguments(SAVE_AS, {"arguments": path}) == path
 
 
-def test_p160b_r143_save_asserts_the_path_but_keeps_the_manual_body() -> None:
-    """门槛：`SAVE` 只做**前置断言**（路径由项目自身持有），体仍按手册 = `{}`。"""
-    assert _doc_arguments(SAVE, {"project_path": r"E:\MCP\MMCP\.tmp_p160b\model.mgbx"}) == {}
+def test_p160b_r143_save_carries_the_path_too() -> None:
+    """门槛：`SAVE` 的体**也带**项目路径（**用户口径**：「保存及另存必须代项目路径」）。
+
+    ⚠️ **P160c 实测（R146）**：原生**忽略** `SAVE` 体里的路径（**不**据此写盘），
+    但按用户口径仍**带上**；**实际保存位置**由**项目自身**的路径决定
+    ⇒ 故 `SAVE` **同时**需要「带路径」与「项目已有路径」。
+    """
+    path = r"E:\MCP\MMCP\.tmp_p160c\model.mgbx"
+    assert _doc_arguments(SAVE, {"project_path": path}) == path
 
 
 def test_p160b_r143_operations_without_a_file_do_not_require_a_path() -> None:

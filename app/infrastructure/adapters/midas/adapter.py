@@ -378,15 +378,15 @@ class MidasAdapter(BaseAdapter):
             # ⚠️ **P160 / R143**：DOC 的**文件操作**必须先过「项目路径」守卫（见 `_doc_arguments`）。
             arguments = _doc_arguments(step, parameters)
             if step.key == "DOC.SAVE" and self._project_path is None:
-                # ⚠️ **P160c 实测事故**：调用方给了路径**不**等于项目**真的**有路径 ——
-                # 在无路径的项目上发 `SAVE`，原生会弹「另存为」**模态窗口**并**挂起 API**。
-                # ⇒ 核心按**自己确知**的状态拦（`NEW` 清、`SAVEAS`/`OPEN` 成功后置）。
+                # ⚠️ **P160c 实测（R146）**：`SAVE` **带**路径 ⇒ **不**弹窗，但原生**忽略**它
+                # ⇒ 若项目**自身无路径**，这次 `SAVE` 会**静默什么都不做**（假成功）。
+                # ⇒ 故这里按**核心自己确知**的状态拦（`NEW` 清、`SAVEAS`/`OPEN` 成功后置）。
                 raise MidasValidationError(
                     "project_path_not_established",
                     endpoint=step.key,
                     hint=(
-                        "本项目**尚无**文件路径 ⇒ 先 `SAVE_AS`（带项目路径）或 `OPEN`；"
-                        "否则原生会弹「另存为」窗口并**挂起 API**。"
+                        "本项目**尚无**文件路径 ⇒ 先 `SAVE_AS`（带项目路径）或 `OPEN`。"
+                        "⚠️ 直接发 `SAVE` 即使**带**路径，原生也会**忽略**它 ⇒ 会**静默不保存**。"
                     ),
                 )
             result = await self._arguments_step(
@@ -414,6 +414,9 @@ class MidasAdapter(BaseAdapter):
 
         ⚠️ 只在**已经发出且未抛错**之后调用 ⇒ 走到这里即视为成功。
         """
+        # ⚠️ **P160c 实测（R145）**：`DOC.NEW` 的体**只能**是 `{}` —— 带路径时原生**接受但忽略**
+        # （`200` 假成功），项目**仍无路径** ⇒ 核心**必须**在这里**清空**，否则后续 `SAVE`
+        # 会被放行并弹「另存为」窗口挂起 API。**唯一**给项目路径的办法是 `SAVE_AS` / `OPEN`。
         if step.key == "DOC.NEW":
             self._project_path = None
         elif step.key in {"DOC.OPEN", "DOC.SAVEAS"}:
@@ -1023,9 +1026,10 @@ def _doc_arguments(step: EndpointStep, parameters: Mapping[str, Any]) -> Any:
                 "缺路径时 MIDAS 会弹「另存为」模态窗口并**挂起 API**。"
             ),
         )
-    if step.key == "DOC.SAVE":
-        # 手册体 = `{"Argument": {}}`；路径由项目自身持有（调用方已断言存在）
-        return {}
+    # ⚠️ **P160c（用户口径的更正）**：**保存**（`DOC.SAVE`）**也**带项目路径 ——
+    # 用户原话：「**保存及另存必须代项目路径**，不然会弹出另存窗口，这会挂起 API 造成
+    # API 链路阻塞」。⚠️ 上游手册的 `DOC.SAVE` 体写的是 `{}`（**与厂商行为不符**，
+    # 同 `DOC.ANAL` 的 `TYPE` 取值那一类）⇒ **以用户口径 + 实测为准**。
     return project_path
 
 
