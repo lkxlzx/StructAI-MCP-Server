@@ -10,17 +10,18 @@
   "criterion_version": 1,
   "summary": {
     "template_endpoints": 71,
-    "with_transformer": 12,
-    "without_transformer": 59,
-    "field_set_gap": 2,
+    "with_transformer": 15,
+    "without_transformer": 56,
+    "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 59,
-    "covered": 8
+    "no_canonical_model": 56,
+    "covered": 10
   },
   "buckets": {
     "field_set_gap": [
       "DB.BMLD",
-      "DB.PRES"
+      "DB.PRES",
+      "DESIGN.RC.KDS-41-20-2022.DCO"
     ],
     "value_gap": [
       "DB.ELEM",
@@ -80,9 +81,6 @@
       "DB.THIK",
       "DB.VSEC",
       "DB.WMAK",
-      "DESIGN.RC.DRC",
-      "DESIGN.RC.KDS-41-20-2022.DCO",
-      "DESIGN.RC.KDS-41-20-2022.DCTL",
       "DESIGN.RC.KDS-41-20-2022.WMAK",
       "DESIGN.SRC.AIK-SRC2K.DCO",
       "DESIGN.SRC.AIK-SRC2K.DSRC"
@@ -94,6 +92,8 @@
       "DB.FBLD",
       "DB.SECT",
       "DB.STLD",
+      "DESIGN.RC.DRC",
+      "DESIGN.RC.KDS-41-20-2022.DCTL",
       "DESIGN.STEEL.DSTL",
       "DESIGN.STEEL.KDS-41-30-2022.DCO"
     ]
@@ -104,7 +104,8 @@
     "DB.BMLD",
     "DB.ELEM",
     "DB.MATL",
-    "DB.PRES"
+    "DB.PRES",
+    "DESIGN.RC.KDS-41-20-2022.DCO"
   ],
   "newly_discovered_note": "同一算法在**有 Transformer 的模板端点**上扫出的、P152 **未**实测过原生拒绝的端点（⇒ 只是字段差集，**不**声称会被拒；要断言必须再跑一次接口层 `--probe`）。",
   "options": {
@@ -112,7 +113,8 @@
       "note": "扩 canonical 字段集（`docs/04` §20–§31）—— 需同步 Operation 输入 Schema与 9 Tool Contract；**超出**本批授权（P153 只做输入）。",
       "endpoints": [
         "DB.BMLD",
-        "DB.PRES"
+        "DB.PRES",
+        "DESIGN.RC.KDS-41-20-2022.DCO"
       ],
       "per_endpoint": {
         "DB.BMLD": [
@@ -143,6 +145,73 @@
             "canonical_hint": "group_name",
             "required": false
           }
+        ],
+        "DESIGN.RC.KDS-41-20-2022.DCO": [
+          {
+            "native": "A1",
+            "canonical_hint": "a1",
+            "required": false
+          },
+          {
+            "native": "A2",
+            "canonical_hint": "a2",
+            "required": false
+          },
+          {
+            "native": "BDRY_ELEM_MTHD",
+            "canonical_hint": "bdry_elem_mthd",
+            "required": false
+          },
+          {
+            "native": "BEAM_COL_JNT_DES",
+            "canonical_hint": "beam_col_jnt_des",
+            "required": false
+          },
+          {
+            "native": "CHK_POS",
+            "canonical_hint": "chk_pos",
+            "required": false
+          },
+          {
+            "native": "DEFL_AMP_FACT",
+            "canonical_hint": "defl_amp_fact",
+            "required": false
+          },
+          {
+            "native": "EXCL_MEM_TYPES",
+            "canonical_hint": "excl_mem_types",
+            "required": false
+          },
+          {
+            "native": "FRAME_TYPE",
+            "canonical_hint": "frame_type",
+            "required": false
+          },
+          {
+            "native": "IMP_FACT",
+            "canonical_hint": "imp_fact",
+            "required": false
+          },
+          {
+            "native": "MTHD",
+            "canonical_hint": "mthd",
+            "required": false
+          },
+          {
+            "native": "R",
+            "canonical_hint": "r",
+            "required": false
+          },
+          {
+            "native": "SPEC_RC_WALL",
+            "canonical_hint": "spec_rc_wall",
+            "required": false
+          },
+          {
+            "native": "STRONG_COL_WEAK_LAST",
+            "canonical_hint": "strong_col_weak_last",
+            "required": false
+          }
         ]
       },
       "requires": [
@@ -155,7 +224,8 @@
       "note": "**显式**允许「按手册示例补原生必填字段」的例外 —— 直接违反既有裁决「**不**臆造字段 / **不**虚构 `0`」（`transforms.py` §21 / §26 / §31），属**放宽**判定 ⇒ 必须由产品**显式**裁决。",
       "endpoints": [
         "DB.BMLD",
-        "DB.PRES"
+        "DB.PRES",
+        "DESIGN.RC.KDS-41-20-2022.DCO"
       ],
       "per_endpoint": {
         "DB.BMLD": [
@@ -185,6 +255,73 @@
             "native": "GROUP_NAME",
             "manual_example_value": "",
             "canonical_hint": "group_name"
+          }
+        ],
+        "DESIGN.RC.KDS-41-20-2022.DCO": [
+          {
+            "native": "A1",
+            "manual_example_value": 1.1,
+            "canonical_hint": "a1"
+          },
+          {
+            "native": "A2",
+            "manual_example_value": 1.2,
+            "canonical_hint": "a2"
+          },
+          {
+            "native": "BDRY_ELEM_MTHD",
+            "manual_example_value": "Displacement",
+            "canonical_hint": "bdry_elem_mthd"
+          },
+          {
+            "native": "BEAM_COL_JNT_DES",
+            "manual_example_value": true,
+            "canonical_hint": "beam_col_jnt_des"
+          },
+          {
+            "native": "CHK_POS",
+            "manual_example_value": "Top",
+            "canonical_hint": "chk_pos"
+          },
+          {
+            "native": "DEFL_AMP_FACT",
+            "manual_example_value": 4,
+            "canonical_hint": "defl_amp_fact"
+          },
+          {
+            "native": "EXCL_MEM_TYPES",
+            "manual_example_value": "SUBBEAM",
+            "canonical_hint": "excl_mem_types"
+          },
+          {
+            "native": "FRAME_TYPE",
+            "manual_example_value": "Special",
+            "canonical_hint": "frame_type"
+          },
+          {
+            "native": "IMP_FACT",
+            "manual_example_value": 1.2,
+            "canonical_hint": "imp_fact"
+          },
+          {
+            "native": "MTHD",
+            "manual_example_value": "Ve1",
+            "canonical_hint": "mthd"
+          },
+          {
+            "native": "R",
+            "manual_example_value": 0.5,
+            "canonical_hint": "r"
+          },
+          {
+            "native": "SPEC_RC_WALL",
+            "manual_example_value": true,
+            "canonical_hint": "spec_rc_wall"
+          },
+          {
+            "native": "STRONG_COL_WEAK_LAST",
+            "manual_example_value": true,
+            "canonical_hint": "strong_col_weak_last"
           }
         ]
       },
@@ -1045,54 +1182,6 @@
       "template_keys": [
         "MARKNAME",
         "WID_LIST"
-      ],
-      "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
-    },
-    "DESIGN.RC.DRC": {
-      "operations": [],
-      "template_keys": [
-        "DGNCODE"
-      ],
-      "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
-    },
-    "DESIGN.RC.KDS-41-20-2022.DCO": {
-      "operations": [],
-      "template_keys": [
-        "A1",
-        "A2",
-        "BDRY_ELEM_MTHD",
-        "BEAM_COL_JNT_DES",
-        "CHK_POS",
-        "CONC_STRS_STRN",
-        "DEFL_AMP_FACT",
-        "DESIGN_CD",
-        "EXCL_MEM_TYPES",
-        "EXP_COND",
-        "FRAME_TYPE",
-        "FS_MAIN_BAR",
-        "IMP_FACT",
-        "MOM_CALC_MTHD",
-        "MOM_REDIST_FACT",
-        "MTHD",
-        "PM_CRV_CALC",
-        "R",
-        "SEISMIC_PROV",
-        "SPEC_RC_WALL",
-        "STRONG_COL_WEAK_LAST",
-        "TORS_DES",
-        "TORS_RDCT_FACT",
-        "UG_LC",
-        "USE_SUBDIV_FORCE"
-      ],
-      "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
-    },
-    "DESIGN.RC.KDS-41-20-2022.DCTL": {
-      "operations": [],
-      "template_keys": [
-        "DT",
-        "FRAMEX",
-        "FRAMEY",
-        "bAUTOKF"
       ],
       "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
     },
@@ -5333,36 +5422,50 @@
     {
       "endpoint": "DESIGN.RC.DRC",
       "wrapper": "Assign",
-      "has_transformer": false,
-      "transformers": [],
-      "operations": [],
+      "has_transformer": true,
+      "transformers": [
+        "midas.design.rc-code.v1"
+      ],
+      "operations": [
+        "DESIGN.CONCRETE"
+      ],
       "template_keys": [
         "DGNCODE"
       ],
       "template_paths": [
         "DGNCODE"
       ],
-      "expressible_keys": [],
-      "declared_keys": [],
-      "synthesized_keys": [],
-      "expressible_paths": [],
-      "required_paths": [],
-      "interface_keys": [],
-      "interface_body": null,
-      "missing_in_canonical": [
+      "expressible_keys": [
         "DGNCODE"
       ],
+      "declared_keys": [
+        "DGNCODE"
+      ],
+      "synthesized_keys": [],
+      "expressible_paths": [
+        "DGNCODE"
+      ],
+      "required_paths": [
+        "DGNCODE"
+      ],
+      "interface_keys": [],
+      "interface_body": null,
+      "missing_in_canonical": [],
       "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [],
-      "gap_class": "no_canonical_model"
+      "gap_class": "covered"
     },
     {
       "endpoint": "DESIGN.RC.KDS-41-20-2022.DCO",
       "wrapper": "Assign",
-      "has_transformer": false,
-      "transformers": [],
-      "operations": [],
+      "has_transformer": true,
+      "transformers": [
+        "midas.design.rc-option.v1"
+      ],
+      "operations": [
+        "DESIGN.CONCRETE"
+      ],
       "template_keys": [
         "A1",
         "A2",
@@ -5419,11 +5522,55 @@
         "UG_LC",
         "USE_SUBDIV_FORCE"
       ],
-      "expressible_keys": [],
-      "declared_keys": [],
+      "expressible_keys": [
+        "CONC_STRS_STRN",
+        "DESIGN_CD",
+        "EXP_COND",
+        "FS_MAIN_BAR",
+        "MOM_CALC_MTHD",
+        "MOM_REDIST_FACT",
+        "PM_CRV_CALC",
+        "SEISMIC",
+        "SEISMIC_PROV",
+        "TORS_DES",
+        "TORS_RDCT_FACT",
+        "UG_LC",
+        "USE_SUBDIV_FORCE"
+      ],
+      "declared_keys": [
+        "CONC_STRS_STRN",
+        "DESIGN_CD",
+        "EXP_COND",
+        "FS_MAIN_BAR",
+        "MOM_CALC_MTHD",
+        "MOM_REDIST_FACT",
+        "PM_CRV_CALC",
+        "SEISMIC",
+        "SEISMIC_PROV",
+        "TORS_DES",
+        "TORS_RDCT_FACT",
+        "UG_LC",
+        "USE_SUBDIV_FORCE"
+      ],
       "synthesized_keys": [],
-      "expressible_paths": [],
-      "required_paths": [],
+      "expressible_paths": [
+        "CONC_STRS_STRN",
+        "DESIGN_CD",
+        "EXP_COND",
+        "FS_MAIN_BAR",
+        "MOM_CALC_MTHD",
+        "MOM_REDIST_FACT",
+        "PM_CRV_CALC",
+        "SEISMIC",
+        "SEISMIC_PROV",
+        "TORS_DES",
+        "TORS_RDCT_FACT",
+        "UG_LC",
+        "USE_SUBDIV_FORCE"
+      ],
+      "required_paths": [
+        "DESIGN_CD"
+      ],
       "interface_keys": [],
       "interface_body": null,
       "missing_in_canonical": [
@@ -5432,38 +5579,32 @@
         "BDRY_ELEM_MTHD",
         "BEAM_COL_JNT_DES",
         "CHK_POS",
-        "CONC_STRS_STRN",
         "DEFL_AMP_FACT",
-        "DESIGN_CD",
         "EXCL_MEM_TYPES",
-        "EXP_COND",
         "FRAME_TYPE",
-        "FS_MAIN_BAR",
         "IMP_FACT",
-        "MOM_CALC_MTHD",
-        "MOM_REDIST_FACT",
         "MTHD",
-        "PM_CRV_CALC",
         "R",
-        "SEISMIC_PROV",
         "SPEC_RC_WALL",
-        "STRONG_COL_WEAK_LAST",
-        "TORS_DES",
-        "TORS_RDCT_FACT",
-        "UG_LC",
-        "USE_SUBDIV_FORCE"
+        "STRONG_COL_WEAK_LAST"
       ],
       "unfilled_expressible": [],
-      "extra_in_canonical": [],
+      "extra_in_canonical": [
+        "SEISMIC"
+      ],
       "value_shape": [],
-      "gap_class": "no_canonical_model"
+      "gap_class": "field_set_gap"
     },
     {
       "endpoint": "DESIGN.RC.KDS-41-20-2022.DCTL",
       "wrapper": "Assign",
-      "has_transformer": false,
-      "transformers": [],
-      "operations": [],
+      "has_transformer": true,
+      "transformers": [
+        "midas.design.rc-frame.v1"
+      ],
+      "operations": [
+        "DESIGN.CONCRETE"
+      ],
       "template_keys": [
         "DT",
         "FRAMEX",
@@ -5476,23 +5617,33 @@
         "FRAMEY",
         "bAUTOKF"
       ],
-      "expressible_keys": [],
-      "declared_keys": [],
-      "synthesized_keys": [],
-      "expressible_paths": [],
-      "required_paths": [],
-      "interface_keys": [],
-      "interface_body": null,
-      "missing_in_canonical": [
+      "expressible_keys": [
         "DT",
         "FRAMEX",
         "FRAMEY",
         "bAUTOKF"
       ],
+      "declared_keys": [
+        "DT",
+        "FRAMEX",
+        "FRAMEY",
+        "bAUTOKF"
+      ],
+      "synthesized_keys": [],
+      "expressible_paths": [
+        "DT",
+        "FRAMEX",
+        "FRAMEY",
+        "bAUTOKF"
+      ],
+      "required_paths": [],
+      "interface_keys": [],
+      "interface_body": null,
+      "missing_in_canonical": [],
       "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [],
-      "gap_class": "no_canonical_model"
+      "gap_class": "covered"
     },
     {
       "endpoint": "DESIGN.RC.KDS-41-20-2022.WMAK",

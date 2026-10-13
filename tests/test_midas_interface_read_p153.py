@@ -154,12 +154,12 @@ EXPECTED_ADOPTION_COUNTS = {
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 12,
-    "without_transformer": 59,
-    "field_set_gap": 2,
+    "with_transformer": 15,
+    "without_transformer": 56,
+    "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 59,
-    "covered": 8,
+    "no_canonical_model": 56,
+    "covered": 10,
 }
 """R126 裁决输入证据包的钉住计数。
 
@@ -182,7 +182,7 @@ CURRENT_MEASURED_ENDPOINTS: tuple[str, ...] = ()
 **没有**被原生拒绝的端点（`measured_endpoints` / `measured_rejections` 均为**空**，
 由证据**复算**得出）。断言**变强**（原为「必须有拒绝」，现为「**不得**有拒绝」）。"""
 
-FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.PRES")
+FIELD_SET_GAP_ENDPOINTS = ("DB.BMLD", "DB.PRES", "DESIGN.RC.KDS-41-20-2022.DCO")
 """「二选一」方案**适用**的端点（有 Transformer ∧ 字段表表达不了手册示例的字段）。
 
 ⚠️ **P154 同步**：`DB.MATL` / `DB.SECT` 已由 **A′** 落地 ⇒ 只剩这 **2** 个

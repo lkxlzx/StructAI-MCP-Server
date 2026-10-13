@@ -4721,8 +4721,8 @@
       {
         "operation": "DESIGN.CONCRETE",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_code"
       }
     ],
     "DESIGN.RC.KDS-41-20-2022.BD-ANAL": [
@@ -4789,24 +4789,24 @@
       {
         "operation": "DESIGN.CONCRETE",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_option"
       }
     ],
     "DESIGN.RC.KDS-41-20-2022.DCTL": [
       {
         "operation": "DESIGN.CONCRETE",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_frame"
       }
     ],
     "DESIGN.RC.KDS-41-20-2022.MEMB": [
       {
         "operation": "DESIGN.CONCRETE",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_member"
       }
     ],
     "DESIGN.RC.KDS-41-20-2022.WD-ANAL": [

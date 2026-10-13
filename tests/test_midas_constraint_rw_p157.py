@@ -97,12 +97,12 @@ EXPECTED_WRITE_BY_PATH = {
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 12,
-    "without_transformer": 59,
-    "field_set_gap": 2,
+    "with_transformer": 15,
+    "without_transformer": 56,
+    "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 59,
-    "covered": 8,
+    "no_canonical_model": 56,
+    "covered": 10,
 }
 EXPECTED_GAP_TOTAL = 510
 EXPECTED_GAP_NOT_IN_CONTRACT = 264
@@ -342,7 +342,11 @@ def test_p157_the_db_cons_value_gap_is_closed() -> None:
     assert index["DB.CONS"]["gap_class"] == "covered"
     assert index["DB.CONS"]["missing_in_canonical"] == []
     # ⚠️ 字段集缺口**未**被本批触及（仍 `DB.BMLD` / `DB.PRES`）
-    assert tuple(document["buckets"]["field_set_gap"]) == ("DB.BMLD", "DB.PRES")
+    assert tuple(document["buckets"]["field_set_gap"]) == (
+        "DB.BMLD",
+        "DB.PRES",
+        "DESIGN.RC.KDS-41-20-2022.DCO",
+    )
 
 
 # ===== 7. 不变量（本批**不得**放宽既有判定）=====

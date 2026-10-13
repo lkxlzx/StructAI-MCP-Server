@@ -622,10 +622,28 @@ _DESIGN: Final[dict[str, OperationPlan]] = {
         "engineering_design",
         composite=True,
         steps=_steps(
-            _read("DESIGN.RC.DRC"),
-            _read("DESIGN.RC.KDS-41-20-2022.DCO"),
-            _read("DESIGN.RC.KDS-41-20-2022.DCTL"),
-            _read("DESIGN.RC.KDS-41-20-2022.MEMB"),
+            # ⚠️ **P160e-b / R153（用户授权）**：这 4 步是**配置**（手册方法 `GET, PUT, DELETE`），
+            # 原先用 `_read(...)` ⇒ **RC 设计永远配不上** ⇒ 与 **R141**（`DESIGN.STEEL`）
+            # 实测的事故（弹窗 / 崩溃）**逐条同形** ⇒ 改 `_write(..., method="PUT")`。
+            _write("DESIGN.RC.DRC", "write_design_code", "midas.design.rc-code.v1", method="PUT"),
+            _write(
+                "DESIGN.RC.KDS-41-20-2022.DCO",
+                "write_design_option",
+                "midas.design.rc-option.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.RC.KDS-41-20-2022.DCTL",
+                "write_design_frame",
+                "midas.design.rc-frame.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.RC.KDS-41-20-2022.MEMB",
+                "write_design_member",
+                "midas.design.rc-member.v1",
+                method="PUT",
+            ),
             _write("DESIGN.RC.KDS-41-20-2022.BD-ANAL", "design", None),
             _write("DESIGN.RC.KDS-41-20-2022.BD-TABLE", "design_result", None),
         ),

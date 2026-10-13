@@ -294,7 +294,7 @@ P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified`
 （20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
 `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
-REGISTERED_TRANSFORMERS = 31
+REGISTERED_TRANSFORMERS = 35
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
 BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()

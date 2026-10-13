@@ -91,6 +91,10 @@ __all__ = [
     "SchemaBoundTransformer",
     "SectionTransformer",
     "UnitSystemTransformer",
+    "DesignRcCodeTransformer",
+    "DesignRcOptionTransformer",
+    "DesignRcFrameTransformer",
+    "DesignRcMemberTransformer",
     "TableResult",
     "ViewTransformer",
     "constraint_flags",
@@ -814,6 +818,63 @@ class ViewTransformer(SchemaBoundTransformer):
     )
 
 
+# ⚠️ **P160e-b / R153**：`DESIGN.RC.*` 的 4 个**配置**端点（手册方法 `GET, PUT, DELETE`）
+# 与 `DESIGN.STEEL` 的 4 个**逐条同形**，但字段表**不同**（尤其 `DCO`：RC 要求 `DESIGN_CD`、
+# STEEL 要求 `DGNCODE`）⇒ **各自**的转换器，字段**逐个**照端点 Schema 取（**不**臆造）。
+class DesignRcCodeTransformer(SchemaBoundTransformer):
+    """RC 设计规范选择（`DESIGN.RC.DRC`）。"""
+
+    name = "midas.design.rc-code.v1"
+    endpoint = "DESIGN.RC.DRC"
+    fields = (FieldMap("dgn_code", "DGNCODE", True),)
+
+
+class DesignRcOptionTransformer(SchemaBoundTransformer):
+    """RC 设计选项（`DESIGN.RC.KDS-41-20-2022.DCO`；**必填** `DESIGN_CD`）。"""
+
+    name = "midas.design.rc-option.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.DCO"
+    fields = (
+        FieldMap("design_cd", "DESIGN_CD", True),
+        FieldMap("seismic_prov", "SEISMIC_PROV"),
+        FieldMap("seismic", "SEISMIC"),
+        FieldMap("tors_des", "TORS_DES"),
+        FieldMap("tors_rdct_fact", "TORS_RDCT_FACT"),
+        FieldMap("mom_redist_fact", "MOM_REDIST_FACT"),
+        FieldMap("mom_calc_mthd", "MOM_CALC_MTHD"),
+        FieldMap("use_subdiv_force", "USE_SUBDIV_FORCE"),
+        FieldMap("exp_cond", "EXP_COND"),
+        FieldMap("pm_crv_calc", "PM_CRV_CALC"),
+        FieldMap("ug_lc", "UG_LC"),
+        FieldMap("conc_strs_strn", "CONC_STRS_STRN"),
+        FieldMap("fs_main_bar", "FS_MAIN_BAR"),
+    )
+
+
+class DesignRcFrameTransformer(SchemaBoundTransformer):
+    """RC 设计控制（`DESIGN.RC.KDS-41-20-2022.DCTL`）。"""
+
+    name = "midas.design.rc-frame.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.DCTL"
+    fields = (
+        FieldMap("frame_x", "FRAMEX"),
+        FieldMap("frame_y", "FRAMEY"),
+        FieldMap("auto_kf", "bAUTOKF"),
+        FieldMap("design_type", "DT"),
+    )
+
+
+class DesignRcMemberTransformer(SchemaBoundTransformer):
+    """RC 设计构件指派（`DESIGN.RC.KDS-41-20-2022.MEMB`；**必填** `AELEM`）。"""
+
+    name = "midas.design.rc-member.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.MEMB"
+    fields = (
+        FieldMap("elements", "AELEM", True),
+        FieldMap("reverse", "bREVERSE"),
+    )
+
+
 class UnitSystemTransformer(SchemaBoundTransformer):
     """单位系统（`DB.UNIT`）：`FORCE` / `DIST` / `HEAT` / `TEMPER` ↔ canonical。
 
@@ -1111,6 +1172,10 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.result.request.v1": ResultRequestTransformer,
     "midas.sect.v1": SectionTransformer,
     "midas.unit.v1": UnitSystemTransformer,
+    "midas.design.rc-code.v1": DesignRcCodeTransformer,
+    "midas.design.rc-option.v1": DesignRcOptionTransformer,
+    "midas.design.rc-frame.v1": DesignRcFrameTransformer,
+    "midas.design.rc-member.v1": DesignRcMemberTransformer,
     "midas.stld.v1": LoadCaseTransformer,
     "midas.view.capture.v1": ViewTransformer,
 }

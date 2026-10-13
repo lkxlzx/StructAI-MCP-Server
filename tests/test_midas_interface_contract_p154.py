@@ -121,12 +121,12 @@ EXPECTED_BOUNDARY_VERDICT = "assign_node_keyed_items,assign_node_keyed_items_no_
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 12,
-    "without_transformer": 59,
-    "field_set_gap": 2,
+    "with_transformer": 15,
+    "without_transformer": 56,
+    "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 59,
-    "covered": 8,
+    "no_canonical_model": 56,
+    "covered": 10,
 }
 """⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层的 `CONSTRAINT` 由 **6** 位变 **7** 位，
 与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`
@@ -216,14 +216,24 @@ def test_p154_aprime_native_fields_are_all_schema_declared() -> None:
 
 
 def test_p154_the_field_set_gap_shrinks_by_exactly_the_two_endpoints() -> None:
-    """门槛：A′ 后「字段集缺口」只剩 `DB.BMLD` / `DB.PRES`（`DB.MATL` / `DB.SECT` 已关闭）。"""
+    """门槛：A′ 后「字段集缺口」= `DB.BMLD` / `DB.PRES`（`DB.MATL` / `DB.SECT` 已关闭）。
+
+    ⚠️ **P160e-b / R153**：新增 4 个 RC 设计转换器后，`DESIGN.RC.KDS-41-20-2022.DCO`
+    的**字段集**也进了缺口（该端点 Schema 比转换器映射的字段多）⇒ **事实变更**，
+    本用例据实同步（**不**是放宽断言）。
+    """
     gap = _json(FIELD_GAP)
     for key, expected in EXPECTED_FIELD_GAP.items():
         assert int(gap["summary"][key]) == expected, (key, gap["summary"][key])
-    assert tuple(gap["buckets"]["field_set_gap"]) == ("DB.BMLD", "DB.PRES")
+    assert tuple(gap["buckets"]["field_set_gap"]) == (
+        "DB.BMLD",
+        "DB.PRES",
+        "DESIGN.RC.KDS-41-20-2022.DCO",
+    )
     assert tuple(gap["options"]["A_extend_canonical_field_set"]["endpoints"]) == (
         "DB.BMLD",
         "DB.PRES",
+        "DESIGN.RC.KDS-41-20-2022.DCO",
     )
     index = {str(row["endpoint"]): row for row in gap["endpoints"]}
     assert index["DB.MATL"]["missing_in_canonical"] == []
