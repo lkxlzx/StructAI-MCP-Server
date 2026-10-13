@@ -1,3 +1,8 @@
+# ⚠️ **P160d（**未**收口 —— 如实留缺）**：`POST /gen/VIEW/RESULTGRAPHIC` → **`400`**
+# `{"error":{"message":"MIDAS GEN NX second query is wrong"}}`
+# 取值 = 手册示例形状（`CURRENT_MODE: "displacement"` + `LOAD_CASE_COMB: {TYPE: "ST", NAME: "CASE1"}`），
+# 在**无分析结果**的项目上测得。⇒ **成因未定**（可能是缺分析结果，也可能是 `CURRENT_MODE` 取值不符）。
+# ⚠️ **不**据此升级 `availability`；恢复条件 = 在**有分析结果**的项目上重测并给出正确取值。
 key: VIEW.RESULTGRAPHIC
 namespace: VIEW
 uri: /VIEW/RESULTGRAPHIC

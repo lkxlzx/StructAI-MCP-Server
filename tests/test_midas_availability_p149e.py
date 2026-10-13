@@ -7,16 +7,16 @@ verified` 的只读端点可用 `sync_availability.py --probe` 只读扫」—�
 | 构成 | 条数 | 能否只读收口 |
 | --- | --- | --- |
 | `availability != verified` ∧ 有 `GET` ∧ 有 `read_root` ∧ 已启用 | **35** | ✅ 可探 |
-| 同上但**没有** `GET` | **111** | ❌ 只读探针**完全**覆盖不到 |
+| 同上但**没有** `GET` | **109** | ❌ 只读探针**完全**覆盖不到 |
 | 已禁用 | **1** | ❌ 客户端直接拒绝 |
-| **合计** | **147** | — |
+| **合计** | **145** | — |
 
 ⚠️ 其中 **23** 个是 `unverified`（`-M1` 家族，R85：本 build `404`）—— **只升不降** ⇒ `--write`
 **不**碰它们；本批**复测**只为**如实复核** R85 是否仍成立。
 
 本文件的**可执行判定**
 ----------------------
-1. **目标集 35 逐条可复算**（`probe_targets()`）；「111 无 `GET` + 1 禁用」的构成据实可复算。
+1. **目标集 35 逐条可复算**（`probe_targets()`）；「109 无 `GET` + 1 禁用」的构成据实可复算。
 2. **证据累积**：`live_read_probe.json` **84** 行 = **61** `PARTIAL` + **23** `FAILED`；未中止。
 3. **12 个收口**：`availability: untested → verified` + `verified_on` 含 `gen-local`；
    且与 P149-C 的 49 个**不重叠**（累积**未**覆盖既有结论）。
@@ -76,9 +76,9 @@ EXPECTED_REFUSED = 23
 EXPECTED_ROWS = 84
 EXPECTED_PARTIAL = 61
 EXPECTED_FAILED = 23
-EXPECTED_VERIFIED_TOTAL = 501
+EXPECTED_VERIFIED_TOTAL = 503
 EXPECTED_RESPONSE_BLOCKS = 317
-NO_GET = 111
+NO_GET = 109
 DISABLED = 1
 
 
@@ -133,7 +133,7 @@ def _p149c_keys() -> set[str]:
 
 def test_p149e_the_probeable_target_set_is_thirty_five_by_measurement() -> None:
     """门槛（判定 1）：本批**探测了 35 个**（证据 84 − P149-C 的 49），
-    收口后 `probe_targets()` 只剩 **23**（`unverified`）；「111 无 `GET` + 1 禁用」逐条可复算。
+    收口后 `probe_targets()` 只剩 **23**（`unverified`）；「109 无 `GET` + 1 禁用」逐条可复算。
     """
     tool = _tool()
     document = _read_evidence()

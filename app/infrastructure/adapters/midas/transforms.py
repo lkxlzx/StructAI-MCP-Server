@@ -799,6 +799,16 @@ class ViewTransformer(SchemaBoundTransformer):
         FieldMap("export_path", "EXPORT_PATH"),
         FieldMap("width", "WIDTH"),
         FieldMap("height", "HEIGHT"),
+        # ⚠️ **P160d / R148**：手册示例的 `VIEW.CAPTURE` 体**还含** `SET_MODE` / `SET_HIDDEN`
+        # （原转换器**没有**这两个字段 ⇒ 只发其余字段时原生 **`400`**，实测）。
+        FieldMap("set_mode", "SET_MODE"),
+        FieldMap("set_hidden", "SET_HIDDEN"),
+        # ⚠️ **P160d / R148**：手册示例的 `VIEW.CAPTURE` 体**自带**显示设置 ——
+        # `DISPLAY` / `RESULT_GRAPHIC` / `STAGE_NAME`（原转换器**没有**这三个字段 ⇒
+        # 只发 `EXPORT_PATH`/`WIDTH`/`HEIGHT` 时原生 **`400`**，实测）
+        FieldMap("stage_name", "STAGE_NAME"),
+        FieldMap("display", "DISPLAY"),
+        FieldMap("result_graphic", "RESULT_GRAPHIC"),
         FieldMap("active", "ACTIVE"),
         FieldMap("angle", "ANGLE"),
     )

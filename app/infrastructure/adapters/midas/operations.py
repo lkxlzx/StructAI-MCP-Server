@@ -50,6 +50,11 @@
    `(DB.STLD 步, 荷载步)`；**没给**则返回 `(荷载步,)`（**保持原样**，工况须已存在）。
    **不**新增 Operation（当时仍 **69** 个）、**不**改 9 Tool Contract、**不**臆造工况取值。
 
+10. ⚠️ **P160d / R148：`VIEW.*` 的三步各有参数通道（用户授权）。**
+    `view_display` ← `parameters["display"]` · `view_result` ← `parameters["result_graphic"]` ·
+    `view_capture` ← `parameters["capture"]`（**该步有**白名单转换器）。
+    ⚠️ 原因是三步**形状不同**，共用一份 `arguments` 必然失败（两种失败方式都已实测）。
+
 9. ⚠️ **P159 / R133：单位系统是一等 Operation（用户裁决；Operation 70 → 71）。**
    单位是**输入**（UI 新建模型时选 / AI 建模时**先定口径**），**不**在核心里写死
    ⇒ `MODEL.UNIT.ASSIGN` 的四个字段（`force` / `dist` / `heat` / `temper`）**全部必填**，
@@ -467,9 +472,16 @@ _BUILD: Final[dict[str, OperationPlan]] = {
 
 # ===== §6.6 engineering_view（7）=====
 
-_DISPLAY = _write("VIEW.DISPLAY", "view", None)
-_RESULTGRAPHIC = _write("VIEW.RESULTGRAPHIC", "view", None)
-_CAPTURE = _write("VIEW.CAPTURE", "view", "midas.view.capture.v1")
+# ⚠️ **P160d / R148（用户授权）**：`VIEW.*` 的两三步**形状不同** ——
+# `VIEW.DISPLAY` / `VIEW.RESULTGRAPHIC` 要**原生键**且**无**转换器；
+# `VIEW.CAPTURE` 要**canonical 键**且**有**白名单转换器（`midas.view.capture.v1`）。
+# 原先三步共用**同一个** `parameters["arguments"]` ⇒ 传并集会被转换器白名单**拒**
+# （`transformer_field_not_in_schema`，实测），传子集则 `VIEW.DISPLAY` **400**
+# ⇒ 7 个 `VIEW.*` Operation **全部不可用**。按 **R141 的先例**（配置步 / 验算步分开）
+# 拆成**各自的参数通道**：`display` / `result_graphic` / `capture`。
+_DISPLAY = _write("VIEW.DISPLAY", "view_display", None)
+_RESULTGRAPHIC = _write("VIEW.RESULTGRAPHIC", "view_result", None)
+_CAPTURE = _write("VIEW.CAPTURE", "view_capture", "midas.view.capture.v1")
 
 _VIEW: Final[dict[str, OperationPlan]] = {
     "VIEW.MODEL": OperationPlan("VIEW.MODEL", "engineering_view", steps=_steps(_DISPLAY, _CAPTURE)),

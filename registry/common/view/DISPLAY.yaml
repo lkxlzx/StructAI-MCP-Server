@@ -24,7 +24,14 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
-availability: untested
+# ⚠️ **P160d（实测收口，**带效果判据**）**：依据 = P160d 的有界真机实测 ——
+# **同一模型、同一机位**下改 `ELEM_NUMBER`（true → false）后各截一张：
+#   · 两次 `POST /gen/VIEW/DISPLAY` → **`200`**
+#   · 两张截图 **12 400 → 12 142 字节**（**字节不同**）⇒ **显示设置真的生效**（**不**只是回了 `200`）
+# ⚠️ 体是**原生键**（`{"ELEMENT": {"ELEM_NUMBER": true}}`）；**无**转换器。
+# ⚠️ **只升不降**（同 §4 口径）。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Display
 risk:

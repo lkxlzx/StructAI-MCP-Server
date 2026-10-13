@@ -365,6 +365,18 @@ class MidasAdapter(BaseAdapter):
             )
         if step.intent == "design_result":
             return await self._design_result(operation, step, resolved, parameters)
+        if step.intent in VIEW_ARGUMENT_CHANNELS:
+            # ⚠️ **P160d / R148**：`VIEW.*` 的三步**形状不同** ⇒ 各走**自己的**参数通道
+            # （`display` / `result_graphic` / `capture`）—— 共用一份 `arguments` 时，
+            # 传并集会被 `VIEW.CAPTURE` 的白名单转换器**拒**，传子集则 `VIEW.DISPLAY` **400**。
+            return await self._arguments_step(
+                operation,
+                step,
+                resolved,
+                parameters,
+                transformer_name=step.transformer,
+                arguments=dict(parameters.get(VIEW_ARGUMENT_CHANNELS[step.intent]) or {}),
+            )
         if step.intent == "view":
             return await self._arguments_step(
                 operation,
@@ -988,6 +1000,17 @@ def _items_style(transformer: Any) -> bool:
         return False
     return transformer.is_items_style()
 
+
+VIEW_ARGUMENT_CHANNELS: Final[dict[str, str]] = {
+    "view_display": "display",
+    "view_result": "result_graphic",
+    "view_capture": "capture",
+}
+"""`VIEW.*` 各步的参数通道（`docs/07` §16.1 **R148**）。
+
+⚠️ 三步**形状不同**：`VIEW.DISPLAY` / `VIEW.RESULTGRAPHIC` 要**原生键**（无转换器），
+`VIEW.CAPTURE` 要**canonical 键**（有白名单转换器）⇒ **不**能共用一份 `arguments`。
+"""
 
 DOC_PATH_OPERATIONS: Final[frozenset[str]] = frozenset({"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS"})
 """**必须带项目路径**的 DOC 文件操作（`docs/07` §16.1 **R143**）。

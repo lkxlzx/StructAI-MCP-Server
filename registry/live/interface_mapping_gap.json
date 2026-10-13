@@ -5120,43 +5120,43 @@
         "operation": "VIEW.DEFORMED_MODEL",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.DISPLACEMENT",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.FORCE",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.MODEL",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.MODE_SHAPE",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.REACTION",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       },
       {
         "operation": "VIEW.STRESS",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_capture"
       }
     ],
     "VIEW.DISPLAY": [
@@ -5164,13 +5164,13 @@
         "operation": "VIEW.DEFORMED_MODEL",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_display"
       },
       {
         "operation": "VIEW.MODEL",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_display"
       }
     ],
     "VIEW.RESULTGRAPHIC": [
@@ -5178,37 +5178,37 @@
         "operation": "VIEW.DEFORMED_MODEL",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       },
       {
         "operation": "VIEW.DISPLACEMENT",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       },
       {
         "operation": "VIEW.FORCE",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       },
       {
         "operation": "VIEW.MODE_SHAPE",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       },
       {
         "operation": "VIEW.REACTION",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       },
       {
         "operation": "VIEW.STRESS",
         "tool": "engineering_view",
         "method": "POST",
-        "intent": "view"
+        "intent": "view_result"
       }
     ]
   }

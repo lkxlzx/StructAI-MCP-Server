@@ -68,7 +68,9 @@ GAP_VALUE = "value_gap"
 GAP_NO_MODEL = "no_canonical_model"
 GAP_COVERED = "covered"
 
-WRITE_INTENTS = frozenset({"write_doc", "view", "analyze", "design"})
+WRITE_INTENTS = frozenset(
+    {"write_doc", "view", "view_display", "view_result", "view_capture", "analyze", "design"}
+)
 """写步骤的 intent 前缀之外的**具名**写 intent（其余写 intent 以 `write_` 开头）。"""
 
 RESULT_INTENTS = frozenset({"read", "result", "design_result"})

@@ -24,7 +24,17 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
-availability: untested
+# ⚠️ **P160d（实测收口，**带效果判据**）**：依据 = P160d 的有界真机实测
+# （`VIEW.MODEL` = `VIEW.DISPLAY` + `VIEW.CAPTURE`，建最小模型后跑）：
+#   · `POST /gen/VIEW/CAPTURE` → **`200`** 且 **jpg 真的落盘**（12 400 / 12 142 字节）
+# ⚠️ **实测取值（手册示例**不**适用）**：
+#   · `SET_MODE`：手册示例 `"post"` ⇒ **`400`**「Post Mode is not available」（**需要分析结果**）；
+#     `"pre"` / `"PRE"` / **省略** ⇒ `200` ✓；`"model"` ⇒ `400`
+#   · `FIGURE_NAME`：**只能**引用**已存在**的图形名 —— 任意标签 ⇒ **`400`**「It's not found Figure Name」
+#   · `ACTIVE` / `ANGLE` / `DISPLAY` / `RESULT_GRAPHIC` / `STAGE_NAME` 手册示例里都有，本批**实测**可用
+# ⚠️ **只升不降**（同 §4 口径）。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Capture
 risk:
