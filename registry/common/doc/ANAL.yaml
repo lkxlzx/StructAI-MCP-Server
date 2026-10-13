@@ -12,7 +12,14 @@ schema_ref:
   source: help_center
 parser: generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+# ⚠️ **P160 / P160a（实测收口）**：`availability` 的语义是**实测可用性**（`registry/README.md` §4）——
+# 依据 = **P157 / P159 的真机旗舰链**（`registry/live/flagship_chain_probe.json`）：
+#   · `DOC.ANAL`：`POST /gen/DOC/ANAL` → **`200`**，ASYNC 任务 **`COMPLETED`**（分析真的跑了）
+#   · `CODE-ANAL`：`PUT` 配置 4 步后 `POST …/CODE-ANAL` → **`200`**
+#   · `CODE-TABLE`：`POST …/CODE-TABLE` → **`200`** 且结果表**有数据**（35 列，`RatPc`/`CHK`/`LCB` 齐）
+# ⚠️ **只升不降**（同 §4 口径）。⇒ 旗舰链在**生产路径**下不再需要 Contract Test 旁路。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Perform Analysis
 risk:

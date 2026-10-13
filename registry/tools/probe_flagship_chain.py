@@ -128,6 +128,15 @@ MATERIAL_ELAST = 206_000_000.0
 MATERIAL_DAMP_RAT = 0.02
 """阻尼比（手册 `Standard` 示例的值）。"""
 
+ALLOW_UNVERIFIED = False
+"""**默认走生产口径**：`False` ⇒ `allow_unverified=False`（`verification_status != VERIFIED`
+的端点会被 `registry_mapping_not_verified` 拦住 —— 这正是**生产**的行为）。
+
+⚠️ **P160 / P160a**：本探针**原先**恒为 `True`（P157 起，因为 `DOC.ANAL` 等端点是 `untested`）；
+那些端点已按**实测**收口 ⇒ 默认改为生产口径。需要**测量**仍未收口的端点时，用 `--contract-test`
+显式开启（`docs/04` §71 的 L4/L5 口径）。
+"""
+
 RESULT_ATTEMPTS = 6
 """取结果步骤的**有界**重试次数（`RESULT.*`）。
 
@@ -931,7 +940,10 @@ async def _probe(
         # `write_probe.py` 的 L5 写路径实测**同样**用它）。⚠️ **不**改 `registry/**` 的
         # `availability` —— 本次**测量**的结论只作**证据**，升级与否属**数据侧裁决**。
         async with module._Stack(  # noqa: SLF001
-            repo, pathlib.Path(workdir), allow_unverified=True, capture_shape=True
+            repo,
+            pathlib.Path(workdir),
+            allow_unverified=ALLOW_UNVERIFIED,
+            capture_shape=True,
         ) as stack:
             before = stack.sentinel(SENTINEL_ENDPOINTS)
             summary["sentinel_before"] = before
@@ -1039,9 +1051,10 @@ def _write(
             "⚠️ **分析结果可能清不掉**（不在本工具清理能力内）⇒ "
             "`analysis_result_persists` 如实记录。",
             "证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。",
-            "⚠️ **Contract Test 口径**：`allow_unverified = True`（`docs/04` §71 的 L4/L5；"
-            "`MidasAdapter` 唯一为此存在的开关）—— 因为 `DOC.ANAL` 的 `availability` 是 "
-            "`untested`。**不**改 `registry/**` 的 `availability`；本次**测量**只作证据。",
+            "⚠️ **默认 = 生产口径**（`allow_unverified=False`）—— P160a 起链上的端点已按**实测**"
+            "收口（`DOC.ANAL` / `DESIGN.STEEL.CODE-ANAL` / `CODE-TABLE`）⇒ **不**再需要 "
+            "Contract Test 旁路；"
+            "`--contract-test` 才开启旁路（测量仍未收口的端点时用）。",
             "⚠️ **ASYNC 判定**：`engineering_analysis` / `engineering_design` / "
             "`engineering_model_build` / `engineering_model_delete` 在 MCP 层只回 `QUEUED` ⇒ "
             "**必须**看**任务终态**（`QUEUED → FAILED` 会被误判为成功）。",
@@ -1227,8 +1240,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--probe", action="store_true", help="真机五步链（需要 MIDAS_* 环境）")
     parser.add_argument("--check", action="store_true", help="离线：断言证据自洽")
     parser.add_argument("--summary", action="store_true", help="打印摘要")
+    parser.add_argument(
+        "--contract-test",
+        action="store_true",
+        help="Contract Test 口径（allow_unverified=True；测量仍未收口的端点时用）",
+    )
     args = parser.parse_args(argv)
     repo = pathlib.Path(args.repo).resolve()
+    global ALLOW_UNVERIFIED  # noqa: PLW0603 - 命令行开关
+    ALLOW_UNVERIFIED = bool(args.contract_test)
     if args.probe:
         return probe(repo)
     if args.check:

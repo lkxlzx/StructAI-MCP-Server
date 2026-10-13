@@ -8,7 +8,7 @@
     "⚠️ 接口层的 `MODEL.LOAD.DELETE` **不**覆盖 `DB.CNLD` ⇒ 节点荷载靠**删除节点**连带清掉。",
     "⚠️ **分析结果可能清不掉**（不在本工具清理能力内）⇒ `analysis_result_persists` 如实记录。",
     "证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。",
-    "⚠️ **Contract Test 口径**：`allow_unverified = True`（`docs/04` §71 的 L4/L5；`MidasAdapter` 唯一为此存在的开关）—— 因为 `DOC.ANAL` 的 `availability` 是 `untested`。**不**改 `registry/**` 的 `availability`；本次**测量**只作证据。",
+    "⚠️ **默认 = 生产口径**（`allow_unverified=False`）—— P160a 起链上的端点已按**实测**收口（`DOC.ANAL` / `DESIGN.STEEL.CODE-ANAL` / `CODE-TABLE`）⇒ **不**再需要 Contract Test 旁路；`--contract-test` 才开启旁路（测量仍未收口的端点时用）。",
     "⚠️ **ASYNC 判定**：`engineering_analysis` / `engineering_design` / `engineering_model_build` / `engineering_model_delete` 在 MCP 层只回 `QUEUED` ⇒ **必须**看**任务终态**（`QUEUED → FAILED` 会被误判为成功）。",
     "生成器 = `registry/tools/probe_flagship_chain.py --probe`（**零** `app/**` 改动）。"
   ],
@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "89648ca4-7536-4123-8f91-a4a308de3161",
+        "task_id": "29a2245f-0dbf-412d-807f-53dd392e9cc7",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -726,7 +726,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "98dfc4f9-4bf1-45de-9530-65fcd03385c5",
+        "task_id": "cc3109d1-4c43-4c75-b5ae-8b39c3dd01bf",
         "status": "COMPLETED",
         "error": {}
       },
@@ -839,7 +839,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "6d6f8154-9b27-422c-ad13-1fb22aad44bf",
+        "task_id": "b4f20030-e51d-47e5-9920-2c972e5803b3",
         "status": "COMPLETED",
         "error": {}
       },
