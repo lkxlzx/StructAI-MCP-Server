@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "2214c7d5-5951-4430-b073-6679c6a9c64f",
+        "task_id": "41a63a4d-c923-42af-8499-b38c14d6999e",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -681,7 +681,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "f88b30de-cb29-40e0-a460-898ddd2752d4",
+        "task_id": "6a84ba08-f4bc-4c3e-ae95-61631232e3e3",
         "status": "COMPLETED",
         "error": {}
       },
@@ -794,13 +794,30 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "87d04b8a-12d7-46ab-82b4-3b154007607b",
+        "task_id": "80f8c532-37a0-4431-a488-2a76a34e9f28",
         "status": "COMPLETED",
         "error": {}
       },
       "native_error": "",
       "readback": {},
-      "numbers": {},
+      "numbers": {
+        "design.ratio": 1.814,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": -500000.0,
+        "design.axial_capacity": 275668.0,
+        "design.moment_y": 250000.0,
+        "design.moment_y_capacity": 70875.0,
+        "design.moment_z": -250000.0,
+        "design.moment_z_capacity": 70875.0,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 170100.0,
+        "design.shear_z": 0.0,
+        "design.shear_z_capacity": 170100.0
+      },
       "attempts": 1,
       "requests": [
         {
@@ -1387,7 +1404,23 @@
     "displacement.uz": -0.101942,
     "displacement.rx": -0.087379,
     "displacement.ry": 0.087379,
-    "displacement.rz": 0.0
+    "displacement.rz": 0.0,
+    "design.ratio": 1.814,
+    "design.status": "NG",
+    "design.combination": "1",
+    "design.section_name": "P154S1",
+    "design.material_name": "Q355",
+    "design.fy": 315000.0,
+    "design.axial_force": -500000.0,
+    "design.axial_capacity": 275668.0,
+    "design.moment_y": 250000.0,
+    "design.moment_y_capacity": 70875.0,
+    "design.moment_z": -250000.0,
+    "design.moment_z_capacity": 70875.0,
+    "design.shear_y": 0.0,
+    "design.shear_y_capacity": 170100.0,
+    "design.shear_z": 0.0,
+    "design.shear_z_capacity": 170100.0
   },
   "requests": [
     {

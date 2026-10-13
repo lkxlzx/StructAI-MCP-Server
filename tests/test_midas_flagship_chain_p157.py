@@ -478,6 +478,33 @@ def test_p157_r136_r137_r141_the_whole_chain_passes_eleven_of_eleven() -> None:
     assert table["body"]["Argument"]["TABLE_TYPE"] == "PROP", table["body"]
     assert table["body"]["Argument"]["ELEMS"] == {"KEYS": [ELEMENT_ID]}, table["body"]
 
+    # ⚠️ **R142**：设计结果必须**真的取回**（出计算书要用）——
+    # 真机列名是 `RatPc`（利用率）/ `CHK`（结论）/ `LCB`（组合号）+ 「需求 vs 承载力」对。
+    numbers = design["numbers"]
+    for key in (
+        "design.ratio",
+        "design.status",
+        "design.combination",
+        "design.section_name",
+        "design.material_name",
+        "design.fy",
+        "design.axial_force",
+        "design.axial_capacity",
+        "design.moment_y",
+        "design.moment_y_capacity",
+        "design.moment_z",
+        "design.moment_z_capacity",
+        "design.shear_y",
+        "design.shear_y_capacity",
+        "design.shear_z",
+        "design.shear_z_capacity",
+    ):
+        assert key in numbers, (key, numbers)
+    assert isinstance(numbers["design.ratio"], float), numbers
+    assert numbers["design.status"] in {"OK", "NG"}, numbers
+    # 利用率与结论必须**自洽**（> 1 ⇒ `NG`）
+    assert (numbers["design.ratio"] > 1.0) == (numbers["design.status"] == "NG"), numbers
+
 
 def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:
     """门槛：**零残留** + 跑前 / 跑中 / 跑后哨兵**一致且全空**（R119）。

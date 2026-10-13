@@ -637,7 +637,9 @@ def _numeric(value: Any) -> float | None:
 def _collect_numbers(result: Any) -> dict[str, Any]:
     """从结果步骤的响应里**逐条取出**真实数值（**不**硬编码、**不**臆造）。
 
-    只取两类：① 柱顶节点的位移分量（`ux..rz`）；② 设计结果的 `ratio` / `status`。
+    只取三类：① 柱顶节点的位移分量（`ux..rz`）；② 设计结果的 `ratio` / `status` / 组合 / 截面 / 材料；
+    ③ 设计结果的「**需求 vs 承载力**」对（`Pu`/`pPn`、`Muy`/`pMny`、`Muz`/`pMnz`、
+    `Vuy`/`pVny`、`Vuz`/`pVnz`）—— **出计算书**要用（列名取自真机实测，见 `transforms.py`）。
     """
     numbers: dict[str, Any] = {}
     rows = _rows_of(result)
@@ -654,8 +656,26 @@ def _collect_numbers(result: Any) -> dict[str, Any]:
         ratio = _numeric(row.get("ratio"))
         if ratio is not None:
             numbers["design.ratio"] = ratio
-            if row.get("status") is not None:
-                numbers["design.status"] = str(row.get("status"))
+            for name in ("status", "combination", "section_name", "material_name"):
+                if row.get(name) is not None:
+                    numbers[f"design.{name}"] = str(row[name])
+            # ⚠️ **R142**：「需求 vs 承载力」对（实测列名）—— 出计算书要用
+            for name in (
+                "fy",
+                "axial_force",
+                "axial_capacity",
+                "moment_y",
+                "moment_y_capacity",
+                "moment_z",
+                "moment_z_capacity",
+                "shear_y",
+                "shear_y_capacity",
+                "shear_z",
+                "shear_z_capacity",
+            ):
+                value = _numeric(row.get(name))
+                if value is not None:
+                    numbers[f"design.{name}"] = value
             break
     return numbers
 

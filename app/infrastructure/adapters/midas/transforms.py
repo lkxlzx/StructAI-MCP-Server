@@ -1007,14 +1007,47 @@ class DesignResultTransformer(_ResultRowTransformer):
 
     name = "midas.result.design.v1"
     table_type = "CODE-TABLE"
+    # ⚠️ **P157 / R142（实测驱动）**：真机 `DESIGN.STEEL` 的 `CODE-TABLE` 返回的列名是
+    # MIDAS 规范校核表的**原名**（实测 35 列）—— **利用率 = `RatPc`**、
+    # **结论 = `CHK`**（`OK`/`NG`）、**组合号 = `LCB`**；原别名表里没有这三个
+    # ⇒ 规范化后 `ratio` / `status` 为 `None`（**出计算书要用的数就丢了**）。
+    # 另补「需求 vs 承载力」对（`Pu`/`pPn`、`Muy`/`pMny`、`Muz`/`pMnz`、`Vuy`/`pVny`、
+    # `Vuz`/`pVnz`）与截面 / 材料 / `Fy`。未映射的列**原样保留**在行里（不丢数据）。
     columns = {
         "element_id": ("Elem", "Element"),
         "member_id": ("Member", "MEMB"),
         "code": ("Code", "CODE"),
-        "ratio": ("Ratio", "Utilization", "Util"),
-        "status": ("Status", "Result", "Check"),
+        "ratio": ("Ratio", "Utilization", "Util", "RatPc"),
+        "status": ("Status", "Result", "Check", "CHK"),
+        "combination": ("LCB",),
+        "section_name": ("Section",),
+        "material_name": ("Material",),
+        "fy": ("Fy",),
+        "axial_force": ("Pu",),
+        "axial_capacity": ("pPn",),
+        "moment_y": ("Muy",),
+        "moment_y_capacity": ("pMny",),
+        "moment_z": ("Muz",),
+        "moment_z_capacity": ("pMnz",),
+        "shear_y": ("Vuy",),
+        "shear_y_capacity": ("pVny",),
+        "shear_z": ("Vuz",),
+        "shear_z_capacity": ("pVnz",),
     }
-    numeric = ("ratio",)
+    numeric = (
+        "ratio",
+        "fy",
+        "axial_force",
+        "axial_capacity",
+        "moment_y",
+        "moment_y_capacity",
+        "moment_z",
+        "moment_z_capacity",
+        "shear_y",
+        "shear_y_capacity",
+        "shear_z",
+        "shear_z_capacity",
+    )
 
 
 TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
