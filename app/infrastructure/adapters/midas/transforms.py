@@ -796,7 +796,9 @@ class DesignTransformer(SchemaBoundTransformer):
     endpoint = "DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL"
     fields = (
         FieldMap("perform_type", "PERFORM_TYPE"),
-        FieldMap("elements", "ELEMS"),
+        # ⚠️ **R140**：Schema 要 `ELEMS: {"KEYS": [..]}`（**不是** `ELEMS: [..]`）——
+        # 少一层会让原生收到形状不符的体（与 `CODE-ANAL` 的 `oneOf` 冲突）。
+        FieldMap("elements", "ELEMS.KEYS"),
         FieldMap("sections", "SECTIONS"),
     )
 

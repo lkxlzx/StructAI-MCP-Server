@@ -6,7 +6,7 @@ tool_map:
   query: midas_db_query
   assign: midas_db_assign
 wrapper:
-  write: Assign
+  write: Argument
   read_root: "WC-ANAL"
 schema_ref:
   local: "schema/design/rc/KDS-41-20-2022/WC-ANAL.json"

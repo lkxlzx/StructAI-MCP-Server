@@ -173,7 +173,9 @@ async def test_p125_civil_nx_full_project_chain_follows_docs_07_section_6() -> N
         elif operation == "RESULT.NODE.DISPLACEMENT":
             parameters = {"node_ids": [2], "load_cases": ["AXIAL"]}
         elif operation == "DESIGN.STEEL":
-            parameters = {"perform_type": "DESIGN"}
+            parameters = {
+                "perform_type": "ALL"
+            }  # ⚠️ P157/R140：原为非法枚举 "DESIGN"（Schema 只允许 ALL/ELEMS/SECTIONS）
         transport.clear()
         outcome = await adapter.execute_normalized(operation, parameters, _NO_CONTEXT)
         executed = [step["endpoint"] for step in outcome["executed"]]
@@ -190,7 +192,10 @@ async def test_p125_civil_nx_full_project_chain_follows_docs_07_section_6() -> N
     row = result["data"]["result"]["rows"][0]
     assert row["node_id"] == "2" and row["uz"] == pytest.approx(support.DISPLACEMENT_UZ_M)
     design = await adapter.execute_normalized(
-        "DESIGN.STEEL", {"perform_type": "DESIGN"}, _NO_CONTEXT
+        "DESIGN.STEEL",
+        # ⚠️ P157/R140：原为非法枚举 "DESIGN"（Schema 只允许 ALL/ELEMS/SECTIONS）
+        {"perform_type": "ALL"},
+        _NO_CONTEXT,
     )
     table = design["data"]["design_result"]
     assert table["rows"][0]["ratio"] == pytest.approx(support.DESIGN_RATIO)

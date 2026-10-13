@@ -364,7 +364,7 @@ def test_p157_the_substituted_prefix_builds_the_model() -> None:
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 10, "FAILED": 1}
+    assert document["substituted_counts"] == {"PASSED": 10, "SKIPPED": 1}
     assert document["substituted_verdict"] == "NOT_PASSED"
 
 
@@ -431,21 +431,20 @@ def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
     assert numbers["displacement.uz"] != 0.0, numbers
 
 
-def test_p157_r136_r137_the_combination_is_created_and_design_fails_at_code_table() -> None:
-    """门槛（**R136/R137 已闭环 + R138 新发现**）：组合建成，⑤ 卡在 `CODE-TABLE` 的**请求体**。
+def test_p157_r136_r137_r140_the_chain_reaches_the_design_step_which_stays_unverified() -> None:
+    """门槛（**R136 / R137 已闭环 + R140 未跑通**）：链跑到 ⑤；⑤ **未**跑通且**已停手**。
 
     **R136**（用户裁决 = B）：新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）。
-    **R137**（✅ 已闭环，**取值来自厂商真值**）：照手册 `db/LCOM-STEEL` 示例发
-    `ACTIVE: "STRENGTH"` + `ANAL: "CS"` → **`400 Unknown Error`**；**只读**读回官方验证模型
-    `Gen Verification\Static-01.mgbx` 的 `GET /DB/LCOM-GEN` 得到真值
-    `{"ACTIVE": "ACTIVE", "bCB": false, "iTYPE": 0, "vCOMB": [{"ANAL": "ST", "LCNAME": "CASE1",
-    "FACTOR": 1.0}]}` ⇒ **`ANAL` 的真值是 `"ST"`（手册示例的 `"CS"` 不被接受）**。
-    另：`bCB` 在官方输入 Schema 里标 **`(ReadOnly)`** ⇒ 不发（单变量 A/B 已证明它不是成因）。
-
-    **R138（新，未闭环）**：⑤ 的 `CODE-TABLE` 复用了 `CODE-ANAL` 的 Transformer
-    （`midas.design.steel.v1`，绑 `CODE-ANAL`）⇒ 请求体是 **`{"Assign": {"1": {}}}`**，
-    而该端点的 Schema 要 **`Argument`** 且**必填** `TABLE_TYPE`（`MEMB`/`PROP`）+ `ELEMS`/`SECTIONS`
-    （`oneOf`）⇒ 原生 **`400` `MIDAS GEN NX second query is wrong`**。
+    **R137**（✅ 闭环，取值 = **厂商真值**）：**只读**读回官方验证模型 `Static-01.mgbx` 的
+    `GET /DB/LCOM-GEN` ⇒ `ANAL` 的真值是 **`"ST"`**（手册示例的 `"CS"` 不被接受）；
+    `bCB` 是 `(ReadOnly)` ⇒ 不发。⚠️ 组合是**分析的输入** ⇒ 必须先于 `DOC.ANAL`。
+    **R138**（✅ 闭环）：12 个 `DESIGN.*.*-TABLE` 的 `wrapper.write` 由 `Assign` 修为
+    **`Argument`**（45 处全库一并修 + 加全库闸门）。
+    **R140**（新，**未跑通**）：请求体已照手册改对（`CODE-ANAL` 单独实测 = **`200`
+    `{"message":"success"}`**），
+    但 MIDAS 的「截面验算」对话框随后报 **`Error occured while setting unit`** 并**阻塞 API**、
+    应用**崩溃**（实测两次）。已排除模型单位（`GET /DB/UNIT` = `KN/M`）⇒ 成因在 **MIDAS 验算界面侧**
+    ⇒ 该步记 `SKIPPED`（**未跑通**，**不**声称产品边界、**也**不声称是我们的 bug）。
     """
     document = _chain()
     row = _step(document, "substituted", "MODEL.LOAD_COMBINATION.ASSIGN")
@@ -459,44 +458,15 @@ def test_p157_r136_r137_the_combination_is_created_and_design_fails_at_code_tabl
     assert entry["iTYPE"] == 0, entry
     # ⚠️ 厂商真值：`ANAL` = `"ST"`（**不**是手册示例的 `"CS"`）；`FACTOR` 是 float
     assert entry["vCOMB"] == [{"ANAL": "ST", "LCNAME": "AXIAL", "FACTOR": 1.0}], entry
-    # ⚠️ `bCB` 是 `(ReadOnly)` ⇒ **不**发
     assert "bCB" not in entry, entry
 
+    # ⚠️ **R140 产品边界**：⑤ 记 `SKIPPED` 且**一条请求都没发**
     design = _step(document, "substituted", "DESIGN.STEEL")
-    assert design["status"] == "FAILED", design
-    assert design["error"]["details"]["endpoint"].endswith("CODE-TABLE"), design["error"]
-    assert "second query is wrong" in design["native_error"], design["native_error"]
-    codes = [
-        (str(item["path"]).rsplit("/", 1)[-1], int(item["status"]))
-        for item in design["requests"]
-        if str(item["path"]).startswith("/gen/DESIGN/")
-    ]
-    assert codes == [
-        ("DSTL", 200),
-        ("DCO", 200),
-        ("DCTL", 200),
-        ("MEMB", 200),
-        ("CODE-ANAL", 200),
-        ("CODE-TABLE", 400),
-    ], codes
-    # ⚠️ **R138 的硬证据**：请求体是 `Assign`（该端点要 `Argument`）且**必填字段全缺**
-    table_post = next(
-        item for item in design["requests"] if str(item["path"]).endswith("/CODE-TABLE")
-    )
-    assert table_post["body"] == {"Assign": {"1": {}}}, table_post["body"]
-    # 离线可复算：该端点的 Schema 要求 `Argument` + `TABLE_TYPE` + `ELEMS`/`SECTIONS`
-    import json as _json  # noqa: PLC0415
-
-    schema = _json.loads(
-        (REPO_ROOT / "registry/schema/design/steel/KDS-41-30-2022/CODE-TABLE.json").read_text(
-            encoding="utf-8"
-        )
-    )["schema"]
-    assert "Argument" in schema["properties"], schema["properties"]
-    assert "Assign" not in schema["properties"], schema["properties"]
-    argument = schema["properties"]["Argument"]
-    assert argument["required"] == ["TABLE_TYPE"], argument
-    assert argument["properties"]["TABLE_TYPE"]["enum"] == ["MEMB", "PROP"], argument
+    assert design["status"] == "SKIPPED", design
+    assert design["detail"] == (
+        "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes"
+    ), design
+    assert design["requests"] == [], design["requests"]
     # ⚠️ 组合**必须**在分析之前（它是分析的输入）；③④ 仍通过
     assert _step(document, "substituted", "ANALYSIS.STATIC")["status"] == "PASSED"
     assert _step(document, "substituted", "RESULT.NODE.DISPLACEMENT")["status"] == "PASSED"

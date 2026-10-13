@@ -478,9 +478,7 @@ def test_p121_load_dispatch_and_analysis_view_design_round_trip() -> None:
     }
     from app.infrastructure.adapters.midas.transforms import DesignTransformer
 
-    assert DesignTransformer(registry).to_native({"perform_type": "DESIGN"}) == {
-        "PERFORM_TYPE": "DESIGN"
-    }
+    assert DesignTransformer(registry).to_native({"perform_type": "ALL"}) == {"PERFORM_TYPE": "ALL"}
 
 
 def test_p121_result_request_and_result_parsing() -> None:

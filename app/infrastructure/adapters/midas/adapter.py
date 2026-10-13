@@ -86,6 +86,7 @@ from app.infrastructure.adapters.midas.operations import (
     select_steps,
 )
 from app.infrastructure.adapters.midas.registry import MidasRegistry, ResolvedEndpoint
+from app.infrastructure.adapters.midas.spec_guard import guard_spec_values
 from app.infrastructure.adapters.midas.transforms import (
     TRANSFORMER_REGISTRY,
     DesignResultTransformer,
@@ -616,8 +617,19 @@ class MidasAdapter(BaseAdapter):
         item_id: Any = None,
         item_ids: Sequence[str] = (),
     ) -> BuiltRequest:
-        """构造请求（护栏在 `build_request` 内求值）。"""
+        """构造请求（护栏在 `build_request` 内求值）。
+
+        ⚠️ **R140**：**先**做说明书枚举预检（`spec_guard`）—— 非法枚举原生**不**校验，
+        会一路走到 UI 层并**弹窗 / 崩溃**（实测事故），故必须拦在**我们这一侧**。
+        """
         client = self._require_client()
+        registry = self._require_registry()
+        guard_spec_values(
+            registry.schema_json(resolved.definition.key),
+            body,
+            endpoint=resolved.definition.key,
+            wrapper=wrapper,
+        )
         return client.build_request(
             resolved,
             operation=operation,

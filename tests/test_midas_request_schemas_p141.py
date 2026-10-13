@@ -882,3 +882,38 @@ async def test_p141_live_the_marker_discriminates_accepted_from_rejected_tokens(
             payload = await client.get(f"/DB/{code}")
             assert (payload.get(code) or {}) == {}, f"清理后仍有残留：/DB/{code}"
         await client.close()
+
+
+def test_p141_every_declared_wrapper_matches_its_request_schema_envelope() -> None:
+    """门槛（**P157 / R138**）：请求 Schema 若把整份体包在**一个对象信封**里，`wrapper.write`
+    **必须**等于该信封名 —— 本用例把这条规则从 `SPEC_TABLE_LOCATORS` 扩到**全库**。
+
+    ⚠️ **为什么此前漏了**：全库曾有 **45** 处 `DESIGN.*` 端点声明 `wrapper.write: Assign`
+    而它们的请求 Schema 要 **`Argument`**。`CODE-ANAL` 那类走 **Transformer**（读 Schema）所以
+    没暴露；`CODE-TABLE` 走 **`_design_result`**（读 registry 的 `wrapper.write`）才暴露为
+    原生 `400 MIDAS GEN NX second query is wrong`。**是事实变更**（45 处 `Assign → Argument`，
+    依据 = 各自请求 Schema），**不**是放宽断言。
+
+    ⚠️ **形态判据**（**不**能把「单字段体」误判成信封）：唯一 `required` 根键 **且** 它是
+    `properties` 里唯一的键 **且** 它的值是**带 `properties` 的对象**
+    ⇒ 排除 `DOC.ACTIVE`（`{"DocName": <string>}`）那类。
+    """
+    registry = _registry()
+    checked = 0
+    for key in registry.keys():
+        schema = registry.schema_json(key)
+        if not isinstance(schema, dict):
+            continue
+        required = list(schema.get("required") or [])
+        properties = schema.get("properties") or {}
+        if len(required) != 1 or list(properties) != required:
+            continue
+        envelope = properties[required[0]]
+        if not isinstance(envelope, dict) or envelope.get("type") != "object":
+            continue
+        if not envelope.get("properties"):
+            continue
+        checked += 1
+        declared = registry.endpoint(key).wrapper_write
+        assert declared == required[0], (key, declared, required[0])
+    assert checked >= 60, checked  # 口径覆盖数（本批 63）——**不**允许退化成空跑

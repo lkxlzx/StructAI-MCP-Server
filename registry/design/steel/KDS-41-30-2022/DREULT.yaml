@@ -6,7 +6,7 @@ tool_map:
   query: midas_db_query
   assign: midas_db_assign
 wrapper:
-  write: Assign
+  write: Argument
   read_root: DREULT
 schema_ref:
   local: "schema/design/steel/KDS-41-30-2022/DREULT.json"

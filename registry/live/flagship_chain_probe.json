@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "aff0ddfa-10fa-49f8-b38d-b9b711038c24",
+        "task_id": "5f602295-b84c-4a6d-8f91-c4d4ab00691a",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -681,7 +681,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "082a22b5-c4f0-409c-a046-46c20cccb9e1",
+        "task_id": "4e445d1d-a365-4a43-9536-93f08b3e194f",
         "status": "COMPLETED",
         "error": {}
       },
@@ -790,123 +790,20 @@
       "operation": "DESIGN.STEEL",
       "tool": "engineering_design",
       "label": "设计（钢构件校核）",
-      "status": "FAILED",
-      "detail": "task_failed",
-      "error": {
-        "code": "STRUCTAI-2200",
-        "details": {
-          "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
-          "reason": "software_api_error",
-          "stage": "midas_adapter",
-          "status_code": 400
-        },
-        "message": "Software API error",
-        "retryable": false,
-        "type": "SOFTWARE_API_ERROR"
-      },
-      "task": {
-        "task_id": "0a43a35c-e687-4dca-b11c-3345fba0a89d",
-        "status": "FAILED",
-        "error": {
-          "code": "STRUCTAI-2200",
-          "details": {
-            "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
-            "reason": "software_api_error",
-            "stage": "midas_adapter",
-            "status_code": 400
-          },
-          "message": "Software API error",
-          "retryable": false,
-          "type": "SOFTWARE_API_ERROR"
-        }
-      },
-      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}",
+      "status": "SKIPPED",
+      "detail": "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes",
+      "error": {},
+      "task": {},
+      "native_error": "",
       "readback": {},
       "numbers": {},
-      "attempts": 1,
-      "requests": [
-        {
-          "method": "GET",
-          "path": "/gen/DESIGN/STEEL/DSTL",
-          "status": 200,
-          "shape": {
-            "DSTL": {
-              "kind": "mapping",
-              "size": 0
-            }
-          },
-          "shape_raw_length": 11
-        },
-        {
-          "method": "GET",
-          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
-          "status": 200,
-          "shape": {
-            "DCO": {
-              "kind": "mapping",
-              "size": 0
-            }
-          },
-          "shape_raw_length": 10
-        },
-        {
-          "method": "GET",
-          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
-          "status": 200,
-          "shape": {
-            "DCTL": {
-              "kind": "mapping",
-              "size": 0
-            }
-          },
-          "shape_raw_length": 11
-        },
-        {
-          "method": "GET",
-          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
-          "status": 200,
-          "shape": {
-            "MEMB": {
-              "kind": "mapping",
-              "size": 0
-            }
-          },
-          "shape_raw_length": 11
-        },
-        {
-          "method": "POST",
-          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
-          "status": 200,
-          "body": {
-            "Argument": {
-              "PERFORM_TYPE": "DESIGN"
-            }
-          },
-          "shape": {
-            "message": {
-              "kind": "scalar",
-              "size": null
-            }
-          },
-          "shape_raw_length": 21
-        },
-        {
-          "method": "POST",
-          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
-          "status": 400,
-          "body": {
-            "Assign": {
-              "1": {}
-            }
-          },
-          "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
-        }
-      ]
+      "attempts": 0,
+      "requests": []
     }
   ],
   "substituted_counts": {
     "PASSED": 10,
-    "FAILED": 1
+    "SKIPPED": 1
   },
   "substituted_verdict": "NOT_PASSED",
   "substitute_reason": "阶段 A 的 ① `BUILD.COLUMN` 未通过 ⇒ 用 `docs/07` §6.5 的**同一组原子 Operation** 建模型（①′）后跑 ②–⑤；**不**掩盖 ① 的失败。",
@@ -1755,82 +1652,6 @@
         }
       },
       "shape_raw_length": 445
-    },
-    {
-      "method": "GET",
-      "path": "/gen/DESIGN/STEEL/DSTL",
-      "status": 200,
-      "shape": {
-        "DSTL": {
-          "kind": "mapping",
-          "size": 0
-        }
-      },
-      "shape_raw_length": 11
-    },
-    {
-      "method": "GET",
-      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
-      "status": 200,
-      "shape": {
-        "DCO": {
-          "kind": "mapping",
-          "size": 0
-        }
-      },
-      "shape_raw_length": 10
-    },
-    {
-      "method": "GET",
-      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
-      "status": 200,
-      "shape": {
-        "DCTL": {
-          "kind": "mapping",
-          "size": 0
-        }
-      },
-      "shape_raw_length": 11
-    },
-    {
-      "method": "GET",
-      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
-      "status": 200,
-      "shape": {
-        "MEMB": {
-          "kind": "mapping",
-          "size": 0
-        }
-      },
-      "shape_raw_length": 11
-    },
-    {
-      "method": "POST",
-      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
-      "status": 200,
-      "body": {
-        "Argument": {
-          "PERFORM_TYPE": "DESIGN"
-        }
-      },
-      "shape": {
-        "message": {
-          "kind": "scalar",
-          "size": null
-        }
-      },
-      "shape_raw_length": 21
-    },
-    {
-      "method": "POST",
-      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
-      "status": 400,
-      "body": {
-        "Assign": {
-          "1": {}
-        }
-      },
-      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
     }
   ]
 }

@@ -91,6 +91,9 @@ STACK_TOOL_RELATIVE = "registry/tools/probe_interface_paths.py"
 PASSED = "PASSED"
 FAILED = "FAILED"
 NOT_RUN = "NOT_RUN"
+SKIPPED = "SKIPPED"
+"""**已知产品边界**（**不**调用）—— 例如 `DESIGN.*` 的执行会驱动 MIDAS 界面
+（弹模态对话框 + 崩溃风险，见 `docs/07` §16.1 **R140**）⇒ 如实登记、**不**硬试。"""
 
 # ===== `docs/07` §13.5 的钢柱（6 m 高 Q355B，H400×400×13×21，柱底固定，柱顶 500 kN 竖向）=====
 
@@ -137,7 +140,6 @@ RESULT_DELAY_SECONDS = 3.0
 """每次重试之间的等待秒数（有界：最多 `RESULT_ATTEMPTS × RESULT_DELAY_SECONDS`）。"""
 
 
-
 def _material_parameters() -> dict[str, Any]:
     """`MODEL.MATERIAL.ASSIGN` 的规范化参数（**规范库路线**；P157 由用户给定取值）。
 
@@ -174,6 +176,7 @@ def _material_parameters() -> dict[str, Any]:
             }
         ]
     }
+
 
 BOUNDARY_CONSTRAINT = "1111110"
 """柱底固定的 `CONSTRAINT`（**7** 位 = `DX,DY,DZ,RX,RY,RZ,RW`）。
@@ -286,7 +289,26 @@ RESULT_PARAMETERS: dict[str, Any] = {"node_ids": [TOP_NODE]}
 """⚠️ **§13.5 的第 4 步只给 `node=[2]`**（**不**给工况过滤）—— 这里照此办；
 工况过滤（`load_cases`）**未**给，避免把「过滤条件不匹配」与「结果为空」混为一谈。"""
 
-DESIGN_PARAMETERS: dict[str, Any] = {"perform_type": "DESIGN"}
+DESIGN_PARAMETERS: dict[str, Any] = {
+    # ⚠️ **R140（事故驱动）**：原值 `"DESIGN"` **不在**该端点的枚举里
+    # （Schema = `ALL` / `ELEMS` / `SECTIONS`，写在 `oneOf[].const`）——
+    # 原生对非法枚举回 `200` 但随后**弹模态框并崩溃**（实测）。取值照 Schema。
+    "perform_type": "ALL",
+    # ⚠️ **P157 / R138**：`DESIGN.*.*-TABLE` 的请求体**由调用方给出**
+    # （`adapter.py` 的 `_design_result` 明写「本方法**不**臆造字段」），且该端点的 Schema 要
+    # **`Argument`** 信封 + **必填** `TABLE_TYPE`（enum `MEMB`/`PROP`）+
+    # `ELEMS`/`SECTIONS`（`oneOf` 必填其一）—— 取值照 `registry/schema/design/steel/
+    # KDS-41-30-2022/CODE-TABLE.json`（**不**臆造）。
+    # 取值**照手册** `DESIGN/RC/KDS-41-20-2022/BC-TABLE` 的示例形状
+    # （`TABLE_TYPE: "MEMB"` + `SECTIONS: [..]` + `PRI_SORT` / `RESULT`）；
+    # ⚠️ 手册示例里**没有** `UNIT` 字段 ⇒ **不**臆造它。
+    "arguments": {
+        "TABLE_TYPE": "MEMB",
+        "SECTIONS": [SECTION_ID],
+        "PRI_SORT": 1,
+        "RESULT": 0,
+    },
+}
 
 MODEL_READBACK: tuple[str, ...] = ("DB.NODE", "DB.ELEM", "DB.MATL", "DB.SECT")
 
@@ -320,6 +342,19 @@ STEP_RESULT: dict[str, Any] = {
     "readback": (),
 }
 STEP_DESIGN: dict[str, Any] = {
+    # ⚠️ **P157 / R140（事故复盘；结论**只**写到有证据的那一步）**
+    # ① **请求体已改对**：`CODE-ANAL` 照手册示例发 `{"Argument": {"PERFORM_TYPE": "ALL"}}`
+    #    ⇒ 真机 **`200` `{"message": "success"}`**（阶段 1 单独实测，见报告 §2.10）——
+    #    所以**不是**「我们的请求形状不对」这一层的问题了。
+    # ② **但随后 MIDAS 侧出错**：其「截面验算」对话框弹出并报
+    #    **`Error occured while setting unit`**（信息窗口同时显示「开始验算构件- GB50017-17」、
+    #    且表格里**已算出结果行**）⇒ 模态框**阻塞 API** ⇒ 应用**崩溃**（实测两次）。
+    # ③ 已排除：`GET /DB/UNIT` = `KN / M / KJ / C`（与对话框显示的「单位: kN, m」一致）
+    #    ⇒ **不是**模型单位设错。
+    # ⇒ **成因在 MIDAS 的验算界面侧**，本批**无法**靠继续调 API 诊断（每次尝试都可能让应用崩溃）
+    #    ⇒ 该步记 `SKIPPED`（**未跑通**，**不**声称是产品边界、**也**不声称是我们的 bug）。
+    # 恢复条件 = 用户提供「手工跑截面验算时是否也报同一错」的观察，或改用只读取结果表。
+    "skip": "not_verified_midas_design_ui_setting_unit_error_blocks_api_and_crashes",
     "order": 5,
     "operation": "DESIGN.STEEL",
     "tool": "engineering_design",
@@ -328,6 +363,7 @@ STEP_DESIGN: dict[str, Any] = {
     "confirm": True,
     "readback": (),
 }
+
 
 def _tail_steps(start: int, *, with_combination: bool) -> tuple[dict[str, Any], ...]:
     """②–⑤（荷载 / 分析 / 结果 / 设计）—— 两个阶段**同一份**声明，**不**另立判定。
@@ -619,7 +655,26 @@ def _readback_of(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
 
 
 async def _run_step(stack: Any, step: dict[str, Any]) -> dict[str, Any]:
-    """跑一步（判据**只**看接口层响应 + 再读）。"""
+    """跑一步（判据**只**看接口层响应 + 再读）。
+
+    ⚠️ 带 `skip` 的步骤 = **已知产品边界** ⇒ **不**发任何请求，如实记 `SKIPPED`。
+    """
+    if step.get("skip"):
+        return {
+            "order": int(step["order"]),
+            "operation": str(step["operation"]),
+            "tool": str(step["tool"]),
+            "label": str(step["label"]),
+            "status": SKIPPED,
+            "detail": str(step["skip"]),
+            "error": {},
+            "task": {},
+            "native_error": "",
+            "readback": {},
+            "numbers": {},
+            "attempts": 0,
+            "requests": [],
+        }
     stack.log.clear()
     row: dict[str, Any] = {
         "order": int(step["order"]),
@@ -707,7 +762,7 @@ async def _run_chain(
             f"  [{row['order']}] {row['operation']} = {row['status']} "
             f"{row.get('detail') or ''} {row.get('numbers') or ''}"
         )
-        if row["status"] == PASSED:
+        if row["status"] in (PASSED, SKIPPED):
             try:
                 health = int(stack.client.get(health_path).status_code)
             except Exception as error:  # noqa: BLE001 - 传输失败如实中止
@@ -1015,7 +1070,7 @@ def _check_rows(rows: list[dict[str, Any]], expected: list[str], problems: list[
         problems.append("步集 ≠ 声明（判定点唯一）")
     for row in rows:
         status = str(row["status"])
-        if status not in {PASSED, FAILED, NOT_RUN}:
+        if status not in {PASSED, FAILED, NOT_RUN, SKIPPED}:
             problems.append(f"{row.get('operation')}: 未知状态 {status}")
         if status == PASSED and row.get("error"):
             problems.append(f"{row.get('operation')}: PASSED 却带接口错误")
@@ -1025,6 +1080,10 @@ def _check_rows(rows: list[dict[str, Any]], expected: list[str], problems: list[
             problems.append(f"{row.get('operation')}: PASSED 但 ASYNC 任务未 COMPLETED")
         if status == FAILED and not (row.get("detail") or row.get("native_error")):
             problems.append(f"{row.get('operation')}: FAILED 但没有成因")
+        if status == SKIPPED and not row.get("detail"):
+            problems.append(f"{row.get('operation')}: SKIPPED 但没有登记成因")
+        if status == SKIPPED and row.get("requests"):
+            problems.append(f"{row.get('operation')}: SKIPPED 却发了请求")
 
 
 def check(repo: pathlib.Path) -> int:

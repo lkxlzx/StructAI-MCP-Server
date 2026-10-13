@@ -12761,7 +12761,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-ANAL"
       },
       "risk": {
@@ -12805,7 +12805,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-REPORT"
       },
       "risk": {
@@ -12849,7 +12849,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-TABLE"
       },
       "risk": {
@@ -12893,7 +12893,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BD-ANAL"
       },
       "risk": {
@@ -12937,7 +12937,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BD-REPORT"
       },
       "risk": {
@@ -12981,7 +12981,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BD-TABLE"
       },
       "risk": {
@@ -13071,7 +13071,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRC-ANAL"
       },
       "risk": {
@@ -13115,7 +13115,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRC-REPORT"
       },
       "risk": {
@@ -13159,7 +13159,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRC-TABLE"
       },
       "risk": {
@@ -13203,7 +13203,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRD-ANAL"
       },
       "risk": {
@@ -13247,7 +13247,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRD-REPORT"
       },
       "risk": {
@@ -13291,7 +13291,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BRD-TABLE"
       },
       "risk": {
@@ -13335,7 +13335,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-ANAL"
       },
       "risk": {
@@ -13379,7 +13379,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-REPORT"
       },
       "risk": {
@@ -13423,7 +13423,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-TABLE"
       },
       "risk": {
@@ -13467,7 +13467,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CD-ANAL"
       },
       "risk": {
@@ -13511,7 +13511,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CD-REPORT"
       },
       "risk": {
@@ -13555,7 +13555,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CD-TABLE"
       },
       "risk": {
@@ -13599,7 +13599,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CDESIGN"
       },
       "risk": {
@@ -14243,7 +14243,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "HCD-ANAL"
       },
       "risk": {
@@ -14287,7 +14287,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "HCD-REPORT"
       },
       "risk": {
@@ -14331,7 +14331,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "HCD-TABLE"
       },
       "risk": {
@@ -15347,7 +15347,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
@@ -15391,7 +15391,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
@@ -15435,7 +15435,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
@@ -15571,7 +15571,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WC-ANAL"
       },
       "risk": {
@@ -15615,7 +15615,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WC-REPORT"
       },
       "risk": {
@@ -15659,7 +15659,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WC-TABLE"
       },
       "risk": {
@@ -15703,7 +15703,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WD-ANAL"
       },
       "risk": {
@@ -15747,7 +15747,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WD-REPORT"
       },
       "risk": {
@@ -15791,7 +15791,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "WD-TABLE"
       },
       "risk": {
@@ -15881,7 +15881,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-ANAL"
       },
       "risk": {
@@ -15925,7 +15925,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-REPORT"
       },
       "risk": {
@@ -15969,7 +15969,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "BC-TABLE"
       },
       "risk": {
@@ -16013,7 +16013,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-ANAL"
       },
       "risk": {
@@ -16057,7 +16057,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-REPORT"
       },
       "risk": {
@@ -16101,7 +16101,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CC-TABLE"
       },
       "risk": {
@@ -16934,7 +16934,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "OCHECK"
       },
       "risk": {
@@ -17024,7 +17024,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
@@ -17068,7 +17068,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
@@ -17251,7 +17251,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CODE-ANAL"
       },
       "risk": {
@@ -17295,7 +17295,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CODE-REPORT"
       },
       "risk": {
@@ -17339,7 +17339,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "CODE-TABLE"
       },
       "risk": {
@@ -17523,7 +17523,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "DREULT"
       },
       "risk": {
@@ -18308,7 +18308,7 @@
       "params_ref": "",
       "schema_shape": "",
       "wrapper": {
-        "write": "Assign",
+        "write": "Argument",
         "read_root": "TABLE"
       },
       "risk": {
