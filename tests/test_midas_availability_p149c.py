@@ -61,7 +61,7 @@ INSTANCE_ALIAS = "gen-local"
 EXPECTED_PROBED = 49
 """本次只读 L4 实测的端点数。"""
 
-EXPECTED_VERIFIED_TOTAL = 497
+EXPECTED_VERIFIED_TOTAL = 501
 """全库 `availability == verified` 的端点数（P149-B2 的 247 + P149-C 的 49 +
 **P149-D** 取报表判据实测收口的 **185** + **P149-E** 只读补测收口的 **12**）。"""
 

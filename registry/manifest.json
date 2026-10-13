@@ -18492,7 +18492,7 @@
       "examples": 1,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
+      "availability": "verified",
       "verified_on": [
         "gen-local"
       ],
@@ -19087,8 +19087,10 @@
       "examples": 1,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -19198,7 +19200,7 @@
       "examples": 1,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
+      "availability": "verified",
       "verified_on": [
         "gen-local"
       ],
@@ -19259,8 +19261,10 @@
       "examples": 1,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",

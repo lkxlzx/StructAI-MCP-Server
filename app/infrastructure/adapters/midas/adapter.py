@@ -163,6 +163,11 @@ class MidasAdapter(BaseAdapter):
         self._client: MidasHttpClient | None = None
         self._configured_product = str(product) if product else ""
         self._product = self._configured_product or MIDAS_PRODUCT
+        # ⚠️ **P160c / R143**：核心**自己确知**的「项目文件路径」——
+        # `DOC.NEW` 清空、`DOC.OPEN` / `DOC.SAVEAS` **成功后**置上。
+        # 用途：`DOC.SAVE` 在没有路径的项目上会弹「另存为」**模态窗口**并**挂起 API**
+        # （实测事故）⇒ 只有**确知**有路径才允许发 `SAVE`。
+        self._project_path: str | None = None
         self._product_key = registry_product_key(self._product)
         self._solver = ""
         self._declared_version = ""
@@ -371,14 +376,29 @@ class MidasAdapter(BaseAdapter):
             )
         if step.intent == "write_doc":
             # ⚠️ **P160 / R143**：DOC 的**文件操作**必须先过「项目路径」守卫（见 `_doc_arguments`）。
-            return await self._arguments_step(
+            arguments = _doc_arguments(step, parameters)
+            if step.key == "DOC.SAVE" and self._project_path is None:
+                # ⚠️ **P160c 实测事故**：调用方给了路径**不**等于项目**真的**有路径 ——
+                # 在无路径的项目上发 `SAVE`，原生会弹「另存为」**模态窗口**并**挂起 API**。
+                # ⇒ 核心按**自己确知**的状态拦（`NEW` 清、`SAVEAS`/`OPEN` 成功后置）。
+                raise MidasValidationError(
+                    "project_path_not_established",
+                    endpoint=step.key,
+                    hint=(
+                        "本项目**尚无**文件路径 ⇒ 先 `SAVE_AS`（带项目路径）或 `OPEN`；"
+                        "否则原生会弹「另存为」窗口并**挂起 API**。"
+                    ),
+                )
+            result = await self._arguments_step(
                 operation,
                 step,
                 resolved,
                 parameters,
                 transformer_name=step.transformer,
-                arguments=_doc_arguments(step, parameters),
+                arguments=arguments,
             )
+            self._remember_project_path(step, parameters)
+            return result
         if step.intent.startswith("delete_"):
             return await self._delete(operation, step, resolved, parameters)
         return await self._write(operation, step, resolved, payloads)
@@ -388,6 +408,19 @@ class MidasAdapter(BaseAdapter):
         if self._registry is None:
             raise MidasCapabilityError("adapter_not_connected")
         return self._registry
+
+    def _remember_project_path(self, step: EndpointStep, parameters: Mapping[str, Any]) -> None:
+        """按**成功**的 DOC 文件操作记住 / 清除项目路径（`docs/07` §16.1 **R143**）。
+
+        ⚠️ 只在**已经发出且未抛错**之后调用 ⇒ 走到这里即视为成功。
+        """
+        if step.key == "DOC.NEW":
+            self._project_path = None
+        elif step.key in {"DOC.OPEN", "DOC.SAVEAS"}:
+            raw_path = parameters.get("project_path")
+            if raw_path is None and isinstance(parameters.get("arguments"), str):
+                raw_path = parameters.get("arguments")
+            self._project_path = str(raw_path).strip() if raw_path is not None else None
 
     async def _read(
         self, operation: str, step: EndpointStep, resolved: ResolvedEndpoint

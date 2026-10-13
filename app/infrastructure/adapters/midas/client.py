@@ -538,6 +538,14 @@ class MidasHttpClient:
         if wrapper == "Argument":
             if isinstance(body, Mapping):
                 return {"Argument": dict(body)}
+            if isinstance(body, str):
+                # ⚠️ **P160c / R143**：`DOC.OPEN` / `DOC.SAVEAS` 的体**就是路径字符串**
+                # （手册 `{"Argument": "<路径>"}`）—— **不**能当序列拆成 `ITEMS` **字符数组**。
+                # ⚠️ **实测事故**：拆成字符后原生**静默 `200` 却什么都不做**
+                # （R128 同族的假成功陷阱），
+                # 于是文件**没**落盘、项目**仍无路径**，紧接着的 `SAVE` 弹出「另存为」**模态窗口**
+                # ⇒ **挂起 API**。
+                return {"Argument": body}
             return {"Argument": {"ITEMS": list(body)}}
         return dict(body) if isinstance(body, Mapping) else list(body)
 

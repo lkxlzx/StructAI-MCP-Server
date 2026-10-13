@@ -80,9 +80,12 @@ CIVIL_NX_FIRST_E2E_SPEC: tuple[str, ...] = (
     "node_create",
     "node_query_again",
     "node_delete",
+    # ⚠️ **P160c / R143**：`SAVE` 前**必须**先 `SAVE_AS`（确立项目路径），
+    # 否则原生会弹「另存为」模态窗口并**挂起 API**。
+    "document_save_as",
     "document_save",
 )
-"""`docs/04` §73 的第一条 CIVIL NX E2E（八步）。"""
+"""`docs/04` §73 的第一条 CIVIL NX E2E（八步 + P160c 起的 `SAVE_AS`）。"""
 
 CIVIL_NX_COLUMN_PARAMETERS: dict[str, Any] = {
     "base_node": {"x": 0.0, "y": 0.0, "z": 0.0},
@@ -148,6 +151,9 @@ ROUTES: dict[tuple[str, str], Any] = {
     ("POST", "/DOC/ANAL"): {"Argument": {"TYPE": "STATIC"}},
     ("POST", "/DOC/NEW"): {"Argument": {}},
     ("POST", "/DOC/SAVE"): {"Argument": {}},
+    # ⚠️ **P160c / R143**：`SAVEAS` / `OPEN` 的体是**路径字符串**（`{"Argument": "<路径>"}`）
+    ("POST", "/DOC/SAVEAS"): {"Argument": {}},
+    ("POST", "/DOC/OPEN"): {"Argument": {}},
     ("POST", "/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL"): {"Assign": {"Argument": {}}},
     ("POST", "/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE"): design_table(),
     ("GET", "/DESIGN/STEEL/DSTL"): {"DSTL": {"1": {"DGNCODE": "KDS-41-30-2022"}}},

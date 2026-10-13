@@ -1,0 +1,162 @@
+# P160c 报告：DOC 生命周期 4 个端点收口 + 两处核心修复 + 两次弹窗事故
+
+> 批次：**P160c** ｜ 状态：✅ **已验收**（含**两次**弹窗事故、**一次**判定作废、**两处**核心修复）
+> 授权范围：`app/**` = **2** 个文件（`client.py` / `adapter.py`）+ **数据侧** 4 个 YAML
+> 前置：P160b（R143 路径守卫 —— 但守卫**只**要求"调用方给路径"，**不**够）
+
+---
+
+## 0. 一句话结论
+
+1. ✅ **4 个端点收口**（**带效果判据**）：`DOC.SAVEAS` / `DOC.OPEN` / `DOC.SAVE` / `DOC.CLOSE`
+   → `availability: verified`。
+2. ✅ **两处核心修复**：
+   - **字符串体被拆成字符数组**（`client._wrap`）—— `OPEN`/`SAVEAS` 的体是**路径字符串**，
+     原先 `list(body)` 把它拆成 `{"Argument": {"ITEMS": ["E",":",…]}}`；
+   - **`SAVE` 必须"路径已确立"**（`adapter`）—— 核心按**自己确知**的状态拦（`NEW` 清、
+     `SAVEAS`/`OPEN` 成功后置），**不**再只信调用方给的路径。
+3. ✅ **生产可用 Operation 56 → 60**；剩余 **17** 个端点（RC/SRC 设计 13 · 视图 3 · `POST.TABLE` 1）。
+
+---
+
+## 1. 两次弹窗事故（如实记录）
+
+### 事故 A：字符串被拆成字符数组 ⇒ `SAVEAS` **假成功** ⇒ `SAVE` 弹窗
+
+第一次实测（顺序 `NEW → 建节点 → SAVE_AS → SAVE → …`）的真实请求体是：
+
+```json
+{"Argument": {"ITEMS": ["E", ":", "\\", "M", "C", "P", ...]}}
+```
+
+⇒ 原生**静默 `200` 却什么都不做**（**R128 同族的假成功陷阱**）⇒ **文件没落盘**、
+项目**仍无路径** ⇒ 紧接着的 `SAVE` 弹出「另存为」**模态窗口** ⇒ **API 被挂起**
+（**由用户手动取消**才解除）。
+
+**两个错都在我**：
+1. 形状：`client._wrap` 对 `Argument` 包装的非 Mapping 体一律 `{"Argument": {"ITEMS": list(body)}}`
+   —— 字符串因此被 `list()` 拆开；
+2. 判据：我拿**状态码 `200`** 当成功，**没有验效果**（文件是否真的出现）。
+
+### 事故 B：`NEW` 之后项目**无路径** ⇒ MIDAS 的**自动保存**自己弹窗
+
+收尾后用户又看到「另存为」弹窗，底部信息窗口写着：
+
+> **用自动保存功能保存项目。**
+
+⇒ 这**不是**我们的请求触发的：**`DOC.NEW` 让项目变成"无路径"**，
+只要 MIDAS 的**自动保存**开着，它就会**自己**弹「另存为」并挂起 API。
+⇒ 核心**拦不住**（触发者是原生自己的定时器）⇒ 只能**约定流程**（见 R144）。
+
+---
+
+## 2. 两处核心修复
+
+### 2.1 `client._wrap`：字符串体**不**拆
+
+```python
+if wrapper == "Argument":
+    if isinstance(body, Mapping):
+        return {"Argument": dict(body)}
+    if isinstance(body, str):            # ⚠️ P160c / R143
+        return {"Argument": body}        # 路径**就是**字符串，**不**能拆成 ITEMS 字符数组
+    return {"Argument": {"ITEMS": list(body)}}
+```
+
+### 2.2 `adapter`：`SAVE` 必须"路径已确立"
+
+```text
+self._project_path: str | None      # 核心**自己确知**的项目文件路径
+  · DOC.NEW  成功后 ⇒ 清空
+  · DOC.OPEN / DOC.SAVEAS 成功后 ⇒ 置上
+  · DOC.SAVE 且 _project_path is None ⇒ STRUCTAI-1200 project_path_not_established（**零请求**）
+```
+
+⚠️ **为什么不能只信调用方**：P160b 的守卫只要求"调用方给 `project_path`" —— 但**给了路径
+≠ 项目真的有路径**（事故 A 里 `SAVEAS` 假成功，项目仍无路径）⇒ 必须按**核心确知**的状态拦。
+
+---
+
+## 3. 实测（真机，**带效果判据**）
+
+```text
+（顺序**修正**：**不**调 `NEW` —— 见 R144；改为先 `SAVE_AS` 给项目一个路径）
+
+① SAVE_AS → 200  body {"Argument": "E:\\MCP\\MMCP\\.tmp_p160c\\p160c-model.mgbx"}
+            ⚠️ 效果：文件**真的落盘** ✓ 24 651 字节（`*.mgbx`）
+② CLOSE   → 200  之后 DB.NODE = () ⇒ 项目确实被关掉 ✓
+③ OPEN    → 200  body {"Argument": "<同一路径>"}
+            ⚠️ 效果：DB.NODE = ('1',) ⇒ **节点回来了** ⇒ 真的打开了文件 ✓
+④ SAVE    → 200  body {"Argument": {}}（项目**确已**有路径 ⇒ 安全）✓
+⑤ CLOSE   → 200
+```
+
+**收尾**：`NEW` → `SAVE_AS <临时路径>` ⇒ 实例停在**「干净 + 有路径」**的项目上
+（`DB.NODE` / `DB.ELEM` 全空；文件 24 614 字节）⇒ **自动保存以后会静默存盘，不再弹窗**。
+
+---
+
+## 4. 收益：生产可用 Operation **56 → 60**
+
+| | P160a 前 | P160a 后 | **P160c 后** |
+| --- | --- | --- | --- |
+| 生产路径**可用** | 48 | 56 | **60** |
+| 生产路径**被挡** | 23 | 15 | **11** |
+| 挡住它们的**端点**数 | 24 | 21 | **17** |
+
+**本批解锁**：`OPEN` / `SAVE` / `SAVE_AS` / `CLOSE`（**4** 个 Operation）。
+`NEW` / `INFO` 在 P158 已可用。
+
+**仍被挡的 17 个端点**：`DESIGN.RC.*`（8）+ `DESIGN.SRC.*`（4）+ `POST.STEELCODECHECK` +
+`POST.TABLE`（⇒ 6 个 Operation）+ `VIEW.CAPTURE` / `DISPLAY` / `RESULTGRAPHIC`（⇒ 7 个）。
+
+---
+
+## 5. 连锁同步（**事实变更**，**不**是放宽断言）
+
+| 指标 | 前 → 后 |
+| --- | --- |
+| `availability: verified` | **497 → 501** |
+| `availability: untested` | **116 → 112** |
+| 「`untested` 且**无** `GET`」 | **115 → 111**（合计 151 → **147**） |
+| 「untested 样本」用例 | `DOC.SAVE` → **`DOC.EXPORT`**（已换过两次：`DOC.NEW` → `DOC.SAVE` → `DOC.EXPORT`，**同形**） |
+
+⚠️ **新增** `tests/test_midas_doc_saveas_shape_p160c.py`（**5** 项）：`SAVEAS`/`OPEN` 的体是
+**字符串**（**不**是字符数组）；未确立路径时 `SAVE` 被拒且**零请求**；`SAVEAS` 成功后 `SAVE` 放行；
+`NEW` 会**清空**已确立的路径（**不**留错误状态）。
+
+---
+
+## 6. 闸门（原始输出）
+
+```text
+pytest -q                    1246 passed / 11 skipped / 0 failed（P160b 基线 1241 ⇒ +5）
+ruff check app tests         All checks passed!
+ruff format --check app tests 246 files already formatted
+mypy app                     Success: no issues found in 185 source files
+sync_availability --check    ✅ 与只读证据一致（61 个可用端点已收口）
+实例状态                     干净 + **有路径**（自动保存不再弹窗）
+```
+
+---
+
+## 7. 本批的教训（按重要性）
+
+1. **判据必须验"效果"，不是"状态码"** —— 事故 A 的 `SAVEAS` 回了 `200`，文件却**没**落盘。
+   ⇒ 凡有**外部可见效果**的操作，判据必须包含那个效果（文件存在 / 读回内容）。
+2. **"调用方给了输入" ≠ "系统状态真的如此"** —— 守卫必须按**核心确知**的状态拦，
+   而不是相信调用方的声明（事故 A 的 `SAVE` 就是这么弹的）。
+3. **有些弹窗**不**是我们的请求触发的**（自动保存）—— 核心拦不住 ⇒ 只能**约定流程**
+   （`NEW` 之后必须尽快确立路径，或实例关掉自动保存）。
+4. **回退与换样本都要留痕**：判定作废的收口在 YAML 里写明原因；"untested 样本"换了两次，
+   每次都在注释里写明**为什么**换。
+
+---
+
+## 8. 仍未闭环（交给下一批）
+
+| 项 | 内容 | 需要什么 |
+| --- | --- | --- |
+| **`VIEW.*`（3 个端点 / 7 个 Operation）** | 未实测 | P160d（⚠️ 先查手册：`VIEW.CAPTURE` 会**截图**） |
+| **`DESIGN.RC/SRC`（12）+ `POST.STEELCODECHECK` + `POST.TABLE`** | 未实测 | P160e |
+| **D5 / R126 剩余** | 扩面决策 | 产品裁决 |

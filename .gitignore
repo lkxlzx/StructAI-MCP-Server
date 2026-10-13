@@ -40,3 +40,6 @@ temp/
 .cache/
 # SQLite 库文件与产物目录（P04 起由 DATABASE_URL / ARTIFACT_ROOT 生成，禁止入库）
 data/
+
+# ⚠️ **P160c**：DOC 文件操作的临时项目目录（真机实测用；**不**进仓库）
+.tmp_p160c/

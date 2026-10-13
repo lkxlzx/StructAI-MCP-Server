@@ -124,7 +124,7 @@ NODE_KEY = "DB.NODE"
 DESIGNER_ONLY_KEY = "DOC.UNIT"
 """只有 Designer 单信封链的样例端点（`registry/README.md` §2.2）。"""
 
-UNCOVERED_KEYS = ("DB.SWIND", "OPE.PROJECTSTATUS", "DOC.SAVE")
+UNCOVERED_KEYS = ("DB.SWIND", "OPE.PROJECTSTATUS", "DOC.EXPORT")
 """无 `response` 块的端点（未实测 / 无 Schema / 已禁用）—— 必须如实留 `None`。"""
 
 LIVE_BASE_ENV = "MIDAS_BASE_URL"
@@ -389,11 +389,13 @@ async def test_p137b_seven_and_is_reported_truthfully_without_promoting_any_stat
             ).all()
         )
         node = await _status_of(session, NODE_KEY)
-        partial = await _status_of(session, "DOC.SAVE")
+        partial = await _status_of(session, "DOC.EXPORT")
     await engine.dispose()
     # 实测端点（7 项 AND 全满足）与未实测端点（缺 response 项）都**未**被报告改动：
     # `DOC.SAVE` 的 `availability = untested` → 仍是 `PARTIAL`（**不**升级、**不**降级）
-    # ⚠️ **P158 / R139**：原样本是 `DOC.NEW`；它已被**实测**收口为 `verified` ⇒ 样本改用 `DOC.SAVE`。
+    # ⚠️ **P158 / R139**：原样本是 `DOC.NEW`；它已被**实测**收口为 `verified`。
+    # ⚠️ **P160c**：本样本已换过两次 —— 原 `DOC.NEW`（P158 收口）→ `DOC.SAVE`
+    # （P160c 收口）→ 现 `DOC.EXPORT`（仍 `untested` + `POST` + `Argument` 包装，**同形**）。
     assert node == "VERIFIED" and partial == "PARTIAL"
     assert statuses["PARTIAL"] > 0 and statuses["VERIFIED"] > 0
 
@@ -417,7 +419,7 @@ async def test_p137b_ci_records_never_promote_a_verification_status(tmp_path: Pa
     async with factory() as session:
         session.add(
             MidasApiVerificationORM(
-                endpoint_key="DOC.SAVE",
+                endpoint_key="DOC.EXPORT",
                 contract_level="L1",
                 product="CIVIL_NX",
                 version_range=VERSION_RANGE,
@@ -434,7 +436,7 @@ async def test_p137b_ci_records_never_promote_a_verification_status(tmp_path: Pa
         after_import = await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
     async with factory() as session:
-        status = await _status_of(session, "DOC.SAVE")
+        status = await _status_of(session, "DOC.EXPORT")
         levels = (
             (await session.execute(select(MidasApiVerificationORM.contract_level))).scalars().all()
         )
@@ -475,7 +477,7 @@ def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
     assert evidence["request_schema_confirmed"] is True
     # 报告**不**回写任何状态：端点状态仍由 `availability` 机械映射
     assert registry.endpoint("DB.MBTP").verification_status == "VERIFIED"
-    assert registry.endpoint("DOC.SAVE").verification_status == "PARTIAL"
+    assert registry.endpoint("DOC.EXPORT").verification_status == "PARTIAL"
 
 
 def test_p137b_the_judgment_point_is_not_duplicated_in_the_importer() -> None:

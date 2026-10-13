@@ -24,7 +24,17 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
-availability: untested
+# ⚠️ **P160 / P160c（实测收口，**带效果判据**）**：`availability` 的语义是**实测可用性**
+# （`registry/README.md` §4）—— 依据 = P160c 的**有界**真机实测（`registry/live/` 未落盘，见报告 §3）：
+#   · `SAVE_AS <项目路径>` → **`200`** 且**文件真的落盘**（24 651 / 24 614 字节，`*.mgbx`）
+#   · `CLOSE` → **`200`**（之后 `DB.NODE` 读回为空 ⇒ 项目确实被关掉）
+#   · `OPEN <同一路径>` → **`200`** 且**节点读回**（`DB.NODE` = `('1',)`）⇒ 真的打开了文件
+#   · `SAVE` → **`200`**（在**确已**有路径的项目上；体仍按手册 = `{"Argument": {}}`）
+# ⚠️ **前提（R143 / R144）**：文件操作**必须带项目路径**（否则弹「另存为」窗口挂起 API）；
+# `SAVE` 还要求**项目确已有路径**（先 `SAVE_AS` / `OPEN`）—— 核心**先拦**（缺 ⇒ 零请求）。
+# ⚠️ **只升不降**（同 §4 口径）。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Open Project
 risk:
