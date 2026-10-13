@@ -14,7 +14,7 @@
 ③ Lock（`docs/02` §36–§42）：按资源键互斥，冲突 → **`STRUCTAI-6100`**（`docs/07` §11）；
    `LockPolicy` 的兼容矩阵逐条可查；
 ④ Capability（`docs/02` §43–§48）：以「实例 + 版本 + 能力码」判定，未知 / 不支持 →
-   **`STRUCTAI-3000`**（`docs/07` §11）；取值只来自 P07 落库的 `capabilities`（41 条），
+   **`STRUCTAI-3000`**（`docs/07` §11）；取值只来自 P07 落库的 `capabilities`（42 条），
    **不得**在代码里另造能力码（`docs/07` §14.2）；
 ⑤ Confirmation（`docs/07` §8.4；`docs/02` §34–§39）：server-generated / 短期 /
    绑定 user + tenant + operation + resource / 一次性；缺 token → **`STRUCTAI-4100`**；
@@ -497,7 +497,7 @@ async def _operation(session: AsyncSession, name: str) -> OperationDefinition:
 
 
 async def _capability_registry(session: AsyncSession) -> CapabilityRegistry:
-    """从已配备库装配 Capability Registry（P08；41 条能力码）。"""
+    """从已配备库装配 Capability Registry（P08；42 条能力码）。"""
     engine = _async_engine_of(session)
     registry = await CapabilityRegistry.load(engine, create_session_factory(engine))
     assert registry is not None  # noqa: S101 - 已配备库必然装配成功
@@ -1215,7 +1215,7 @@ def test_double_release_does_not_affect_other_holders() -> None:
 def test_capability_vocabulary_comes_only_from_the_seeded_table(
     sessions: SessionFactory,
 ) -> None:
-    """门槛 ④：能力词表只来自 P07 落库的 `capabilities`（41 条），代码里不得另造。"""
+    """门槛 ④：能力词表只来自 P07 落库的 `capabilities`（42 条），代码里不得另造。"""
 
     async def _run() -> None:
         async with sessions() as session:
@@ -1223,7 +1223,7 @@ def test_capability_vocabulary_comes_only_from_the_seeded_table(
             resolver = CapabilityResolver(registry, build_resource_store(session))
             operations = await _operation_registry_list(session)
 
-            assert len(resolver.known) == 41
+            assert len(resolver.known) == 42
             assert resolver.known == frozenset(registry.codes())
             assert resolver.unknown_codes(operations) == ()
             for operation in operations:

@@ -1413,7 +1413,7 @@ def test_build_column_rejects_non_positive_height() -> None:
 
 
 def test_mock_supported_operations_are_seeded_operations(seeded_engine: AsyncEngine) -> None:
-    """门槛 ④：Mock 实现的操作 ⊆ P07 落库的 69 个 Operation；能力 ⊆ 落库的 41 条。"""
+    """门槛 ④：Mock 实现的操作 ⊆ P07 落库的 71 个 Operation；能力 ⊆ 落库的 42 条。"""
 
     async def _run() -> None:
         factory = create_session_factory(seeded_engine)
@@ -1423,12 +1423,12 @@ def test_mock_supported_operations_are_seeded_operations(seeded_engine: AsyncEng
         assert capability_registry is not None
 
         names = {item.name for item in await operation_registry.list()}
-        assert len(names) == 70
+        assert len(names) == 71
         assert set(MOCK_SUPPORTED_OPERATIONS) <= names
         assert MOCK_SUPPORTED_OPERATIONS == MockAdapter().supported_operations()
 
         codes = set(capability_registry.codes())
-        assert len(codes) == 41
+        assert len(codes) == 42
         assert set(MOCK_CAPABILITIES) <= codes
         assert "ANALYSIS.NONLINEAR" in codes
         assert "ANALYSIS.NONLINEAR" not in MOCK_CAPABILITIES
@@ -1765,7 +1765,7 @@ def test_check_rejects_an_operation_with_an_unsupported_capability(
 def test_runtime_capability_vocabulary_comes_only_from_the_seeded_table(
     seeded_engine: AsyncEngine,
 ) -> None:
-    """门槛 ⑤/⑧：能力码只来自落库的 41 条（`docs/07` §14.2）。"""
+    """门槛 ⑤/⑧：能力码只来自落库的 42 条（`docs/07` §14.2）。"""
 
     async def _run() -> None:
         registry = await CapabilityRegistry.load(
@@ -1773,7 +1773,7 @@ def test_runtime_capability_vocabulary_comes_only_from_the_seeded_table(
         )
         assert registry is not None
         codes = set(registry.codes())
-        assert len(codes) == 41
+        assert len(codes) == 42
         assert set(MOCK_CAPABILITIES) <= codes
         assert sorted(codes) == sorted({str(code) for code in registry.codes()})
 

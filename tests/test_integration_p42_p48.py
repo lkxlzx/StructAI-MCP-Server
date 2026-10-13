@@ -367,7 +367,7 @@ async def test_container_startup_provisions_the_registry(
     try:
         assert container.started is True
         assert container.operation_registry is not None
-        assert len(container.operation_registry.names()) == 70
+        assert len(container.operation_registry.names()) == 71
         assert isinstance(container.execution_service, ExecutionServiceFactory)
         assert container.execution_service.runtime.ready() is True
     finally:
@@ -498,8 +498,8 @@ async def test_seed_is_idempotent_and_creates_the_documented_rows(
         assert await support.row_count(engine, "permissions") == 12
         assert await support.row_count(engine, "roles") == 4
         assert await support.row_count(engine, "role_permissions") == 24
-        assert await support.row_count(engine, "capabilities") == 41
-        assert await support.row_count(engine, "operations") == 70
+        assert await support.row_count(engine, "capabilities") == 42
+        assert await support.row_count(engine, "operations") == 71
         assert await support.row_count(engine, "software_instances") == 1
         assert await support.select_one(engine) == 1
     finally:

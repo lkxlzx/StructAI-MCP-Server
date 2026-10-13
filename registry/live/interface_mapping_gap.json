@@ -12,12 +12,12 @@
     "probed_at": "2026-10-11"
   },
   "product_key": "GEN_NX",
-  "operations": 70,
-  "mapped_endpoints": 67,
+  "operations": 71,
+  "mapped_endpoints": 68,
   "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
-  "mapped_inside_three_step": 36,
-  "gap_total": 511,
+  "mapped_inside_three_step": 37,
+  "gap_total": 510,
   "gap_three_step": [
     {
       "key": "DB.ACTL",
@@ -1536,14 +1536,6 @@
       "uri": "/DB/ULFC",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "ULFC",
-      "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.UNIT",
-      "uri": "/DB/UNIT",
-      "methods": "GET,PUT",
-      "read_root": "UNIT",
       "availability": "verified",
       "reason": "not_in_operation_contract"
     },
@@ -4715,6 +4707,14 @@
         "tool": "engineering_analysis",
         "method": "GET",
         "intent": "read"
+      }
+    ],
+    "DB.UNIT": [
+      {
+        "operation": "MODEL.UNIT.ASSIGN",
+        "tool": "engineering_model_assign",
+        "method": "PUT",
+        "intent": "write_unit"
       }
     ],
     "DESIGN.RC.DRC": [

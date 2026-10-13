@@ -92,12 +92,12 @@ EXPECTED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.GRUP", "DB.MATL", "DB.NODE", "DB
 """哨兵端点集 = **全部**被触碰的端点（跑前 / 跑后只读 `GET`）。"""
 
 EXPECTED_GAP_COUNTS = {
-    "operations": 70,
+    "operations": 71,
     "write_capable_endpoints": 577,
     "three_step_endpoints": 301,
-    "mapped_endpoints": 67,
-    "mapped_inside_three_step": 36,
-    "gap_total": 511,
+    "mapped_endpoints": 68,
+    "mapped_inside_three_step": 37,
+    "gap_total": 510,
 }
 """映射缺口的钉住计数（离线复算；见 `--recon`）。
 
@@ -107,7 +107,7 @@ EXPECTED_GAP_COUNTS = {
 `three_step_endpoints` **不变**、`mapped_endpoints` **61 → 67**（+6 个荷载组合）。
 """
 
-EXPECTED_GAP_THREE_STEP = 265
+EXPECTED_GAP_THREE_STEP = 264
 """缺口里的「契约外」条数（形态齐备但没有任何 Operation 映射到它）。"""
 
 EXPECTED_GAP_NO_READBACK = 246
@@ -219,7 +219,7 @@ def test_p152_every_row_matches_the_operation_plan() -> None:
     tool = _tool()
     plans = tool.operation_plans(REPO_ROOT)
     mapped = tool.mapped_endpoints(REPO_ROOT)
-    assert len(plans) == 70
+    assert len(plans) == 71
     for row in _rows():
         endpoint = str(row["endpoint"])
         operation = str(row["operation"])

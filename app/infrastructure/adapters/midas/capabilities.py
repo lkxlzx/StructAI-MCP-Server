@@ -68,6 +68,9 @@ CAPABILITY_ENDPOINTS: Final[dict[str, tuple[str, ...]]] = {
     Capability.MODEL_LOAD_WRITE.value: ("DB.STLD", "DB.BMLD", "DB.BODF", "DB.PRES"),
     Capability.MODEL_LOAD_DELETE.value: ("DB.STLD", "DB.BMLD"),
     Capability.MODEL_GROUP_READ.value: ("DB.GRUP",),
+    # ⚠️ **P159 / R133（用户裁决 = C）**：单位是**模型级**设置（`DB.UNIT` 是 `GET, PUT`
+    # 且 `verified`）⇒ 单列一族能力码，不借实体码（词表 41 → 42）。
+    Capability.MODEL_UNIT_WRITE.value: ("DB.UNIT",),
     Capability.DOCUMENT_NEW.value: ("DOC.NEW",),
     Capability.DOCUMENT_OPEN.value: ("DOC.OPEN",),
     Capability.DOCUMENT_SAVE.value: ("DOC.SAVE",),

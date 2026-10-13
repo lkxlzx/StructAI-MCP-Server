@@ -256,6 +256,14 @@ LOAD_PARAMETERS: dict[str, Any] = {
 COMBINATION_KIND = "STEEL"
 """荷载组合的种类（→ `DB.LCOM-STEEL`；`DESIGN.STEEL` 的验算读它）。"""
 
+UNIT_PARAMETERS: dict[str, Any] = {
+    # ⚠️ **P159 / R133（用户裁决）**：单位是**输入**（UI 新建模型时选 / AI 建模时**先定口径**），
+    # **不**在核心里写死 ⇒ 本链把它作为**第 0 步**显式给出。取值 = 该实例的**实测默认**
+    # （P157 `GET /DB/UNIT` = `{"FORCE": "KN", "DIST": "M", "HEAT": "KJ", "TEMPER": "C"}`）。
+    "unit": [{"id": "1", "force": "KN", "dist": "M", "heat": "KJ", "temper": "C"}],
+}
+"""单位系统（`DB.UNIT`；**四个字段全给** —— 缺一即 `transformer_required_field_missing`）。"""
+
 LOAD_COMBINATION_PARAMETERS: dict[str, Any] = {
     "combination_kind": COMBINATION_KIND,
     "load_combinations": [
@@ -481,6 +489,15 @@ def _substitute_steps(module: Any) -> tuple[dict[str, Any], ...]:
         sections=[str(SECTION_ID)],
     )
     return (
+        {
+            "order": 0,
+            "operation": "MODEL.UNIT.ASSIGN",
+            "tool": "engineering_model_assign",
+            "label": "⓪ **先定单位口径**（`DB.UNIT`；R133 —— UI / AI 提示词的**输入**）",
+            "parameters": UNIT_PARAMETERS,
+            "confirm": True,
+            "readback": ("DB.UNIT",),
+        },
         {
             "order": 1,
             "operation": "MODEL.MATERIAL.ASSIGN",

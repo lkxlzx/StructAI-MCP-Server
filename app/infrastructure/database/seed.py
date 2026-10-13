@@ -326,6 +326,8 @@ OPERATIONS: Final[tuple[tuple[str, str], ...]] = (
     ("engineering_model_assign", "MODEL.LOAD.ASSIGN"),
     # ⚠️ **P157 / R136（用户裁决 = B）**：荷载组合是一等 Operation（69 → 70）
     ("engineering_model_assign", "MODEL.LOAD_COMBINATION.ASSIGN"),
+    # ⚠️ **P159 / R133（用户裁决 = C）**：单位系统是一等 Operation（70 → 71）
+    ("engineering_model_assign", "MODEL.UNIT.ASSIGN"),
     # `engineering_model_delete`（7）
     ("engineering_model_delete", "MODEL.NODE.DELETE"),
     ("engineering_model_delete", "MODEL.ELEMENT.DELETE"),

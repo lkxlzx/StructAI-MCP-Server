@@ -86,6 +86,7 @@ ELEMENT_ID = 1
 """柱单元编号（`DESIGN.STEEL` 的**构件指派** `MEMB.AELEM` 用它）。"""
 
 SUBSTITUTE_OPERATIONS = (
+    "MODEL.UNIT.ASSIGN",
     "MODEL.MATERIAL.ASSIGN",
     "MODEL.SECTION.ASSIGN",
     "MODEL.NODE.CREATE",
@@ -123,8 +124,8 @@ SENTINEL_ENDPOINTS = (
 
 EXPECTED_WRITE_COUNTS = {"PASSED": 13}
 EXPECTED_READ_COUNTS = {"PASSED": 2, "PARTIAL": 7, "FAILED": 6}
-EXPECTED_GAP_TOTAL = 511
-EXPECTED_GAP_NOT_IN_CONTRACT = 265
+EXPECTED_GAP_TOTAL = 510
+EXPECTED_GAP_NOT_IN_CONTRACT = 264
 EXPECTED_GAP_NO_READBACK = 246
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
@@ -350,8 +351,8 @@ def test_p157_r133_the_material_unit_convention_is_unresolved() -> None:
 # ===== 2. 阶段 B：①′ 通过（建模链是通的）=====
 
 
-def test_p157_the_substituted_prefix_builds_the_model() -> None:
-    """门槛：①′ 的 **6** 步**全部** `PASSED`（材质 / 截面 / 2 节点 / 单元 / **柱底固定**）。
+def test_p159_the_substituted_prefix_starts_with_the_unit_system() -> None:
+    """门槛：⓪+①′ 的 **7** 步**全部** `PASSED`（材质 / 截面 / 2 节点 / 单元 / **柱底固定**）。
 
     ⚠️ **R134（P157）**：第 **6** 步 `MODEL.BOUNDARY.ASSIGN`（柱底固定）是**必需**的 ——
     `docs/07` §13.5 的提示词写「柱底固定」，而 §6.5 给 `BUILD.COLUMN` 的组合**不含** `DB.CONS`
@@ -360,14 +361,14 @@ def test_p157_the_substituted_prefix_builds_the_model() -> None:
     document = _chain()
     assert [str(row["operation"]) for row in document["substituted"]] == list(SUBSTITUTE_OPERATIONS)
     assert document["substitute_reason"], document
-    prefix = document["substituted"][:6]
-    assert [str(row["status"]) for row in prefix] == ["PASSED"] * 6, prefix
+    prefix = document["substituted"][:7]
+    assert [str(row["status"]) for row in prefix] == ["PASSED"] * 7, prefix
     for row in prefix:
         assert not row["error"], row
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 11}
+    assert document["substituted_counts"] == {"PASSED": 12}
     assert document["substituted_verdict"] == "PASSED"
 
 
@@ -434,7 +435,7 @@ def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
     assert numbers["displacement.uz"] != 0.0, numbers
 
 
-def test_p157_r136_r137_r141_the_whole_chain_passes_eleven_of_eleven() -> None:
+def test_p159_the_whole_chain_passes_twelve_of_twelve() -> None:
     """门槛（**五步链在真机上 11/11 全绿**）：配置 → 验算 → 取表，全部 `200`。
 
     **R136**（用户裁决 = B）：新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）。
@@ -449,7 +450,7 @@ def test_p157_r136_r137_r141_the_whole_chain_passes_eleven_of_eleven() -> None:
     """
     document = _chain()
     assert document["substituted_verdict"] == "PASSED", document
-    assert document["substituted_counts"] == {"PASSED": 11}, document
+    assert document["substituted_counts"] == {"PASSED": 12}, document
 
     design = _step(document, "substituted", "DESIGN.STEEL")
     assert design["status"] == "PASSED", design

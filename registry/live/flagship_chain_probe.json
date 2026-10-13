@@ -4,7 +4,7 @@
     "链路：`BUILD.COLUMN → MODEL.LOAD.ASSIGN → ANALYSIS.STATIC → RESULT.NODE.DISPLACEMENT → DESIGN.STEEL`（`docs/07` §13.5 / `docs/04` §74）。",
     "**阶段 A** = `docs/07` §13.5 逐字；**阶段 B** = **仅当** ① 失败时，用 §6.5 里 `BUILD.COLUMN` **自己组合**的原子 Operation 建模型（①′）后跑 ②–⑤（材质 = **规范库路线** `GB50017-17(S)` + 数据库 `Q355`；截面 = 手册 `db/SECT` 示例 6001；**不**新造取值、**不**掩盖 ① 的失败）。",
     "判定：每步 `PASSED` 的判据见工具 docstring（再读 / 行数 / 无错误）；**数值不硬编码**，逐条取自接口层响应（只留数值，不留响应原文）。",
-    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · 阶段 A **5** 步 / 阶段 B **11** 步（请求数 ≤ 160）。",
+    "纪律：只碰自建编号 · `DELETE` 必带路径 key · 删除以「再读确认不在」为准（R119）· 跑前 / 跑后只读哨兵（**读不到就不盲写**；**跑前非空就不写**）· 逆序清理 · 阶段 A **5** 步 / 阶段 B **12** 步（请求数 ≤ 160）。",
     "⚠️ 接口层的 `MODEL.LOAD.DELETE` **不**覆盖 `DB.CNLD` ⇒ 节点荷载靠**删除节点**连带清掉。",
     "⚠️ **分析结果可能清不掉**（不在本工具清理能力内）⇒ `analysis_result_persists` 如实记录。",
     "证据里**绝不**出现凭据；**失败**响应只留 `error.message` 前 200 字。",
@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "41a63a4d-c923-42af-8499-b38c14d6999e",
+        "task_id": "89648ca4-7536-4123-8f91-a4a308de3161",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -242,6 +242,51 @@
   },
   "verdict": "NOT_PASSED",
   "substituted": [
+    {
+      "order": 0,
+      "operation": "MODEL.UNIT.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "⓪ **先定单位口径**（`DB.UNIT`；R133 —— UI / AI 提示词的**输入**）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.UNIT": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "PUT",
+          "path": "/gen/DB/UNIT",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DIST": "M",
+                "FORCE": "KN",
+                "HEAT": "KJ",
+                "TEMPER": "C"
+              }
+            }
+          },
+          "shape": {
+            "UNIT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 65
+        }
+      ]
+    },
     {
       "order": 1,
       "operation": "MODEL.MATERIAL.ASSIGN",
@@ -681,7 +726,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "6a84ba08-f4bc-4c3e-ae95-61631232e3e3",
+        "task_id": "98dfc4f9-4bf1-45de-9530-65fcd03385c5",
         "status": "COMPLETED",
         "error": {}
       },
@@ -794,7 +839,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "80f8c532-37a0-4431-a488-2a76a34e9f28",
+        "task_id": "6d6f8154-9b27-422c-ad13-1fb22aad44bf",
         "status": "COMPLETED",
         "error": {}
       },
@@ -954,7 +999,7 @@
     }
   ],
   "substituted_counts": {
-    "PASSED": 11
+    "PASSED": 12
   },
   "substituted_verdict": "PASSED",
   "substitute_reason": "阶段 A 的 ① `BUILD.COLUMN` 未通过 ⇒ 用 `docs/07` §6.5 的**同一组原子 Operation** 建模型（①′）后跑 ②–⑤；**不**掩盖 ① 的失败。",
@@ -1510,6 +1555,28 @@
         }
       },
       "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DB/UNIT",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DIST": "M",
+            "FORCE": "KN",
+            "HEAT": "KJ",
+            "TEMPER": "C"
+          }
+        }
+      },
+      "shape": {
+        "UNIT": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 65
     },
     {
       "method": "POST",

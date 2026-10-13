@@ -90,6 +90,7 @@ __all__ = [
     "ResultRequestTransformer",
     "SchemaBoundTransformer",
     "SectionTransformer",
+    "UnitSystemTransformer",
     "TableResult",
     "ViewTransformer",
     "constraint_flags",
@@ -803,6 +804,26 @@ class ViewTransformer(SchemaBoundTransformer):
     )
 
 
+class UnitSystemTransformer(SchemaBoundTransformer):
+    """单位系统（`DB.UNIT`）：`FORCE` / `DIST` / `HEAT` / `TEMPER` ↔ canonical。
+
+    ⚠️ **P159 / R133（用户裁决）**：单位是**输入**（UI 新建模型时选 / AI 建模时**先定口径**），
+    **不**在核心里写死、**不**代填默认值 ⇒ 四个字段**全部必填**（缺一即
+    `transformer_required_field_missing`，与 D2 的 `rw` 同口径）。
+    ⚠️ 单位确定**之后**的所有数值（`ELAST` / `DEN` / 坐标 / 力）**按该口径解释** ——
+    这是**流程**约定，不是 canonical 常量。
+    """
+
+    name = "midas.unit.v1"
+    endpoint = "DB.UNIT"
+    fields = (
+        FieldMap("force", "FORCE", required=True),
+        FieldMap("dist", "DIST", required=True),
+        FieldMap("heat", "HEAT", required=True),
+        FieldMap("temper", "TEMPER", required=True),
+    )
+
+
 class DesignCodeTransformer(SchemaBoundTransformer):
     """设计规范（`DESIGN/STEEL/DSTL`）：`DGNCODE`。
 
@@ -1079,6 +1100,7 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.result.reaction.v1": ReactionTransformer,
     "midas.result.request.v1": ResultRequestTransformer,
     "midas.sect.v1": SectionTransformer,
+    "midas.unit.v1": UnitSystemTransformer,
     "midas.stld.v1": LoadCaseTransformer,
     "midas.view.capture.v1": ViewTransformer,
 }

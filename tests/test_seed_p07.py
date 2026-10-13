@@ -154,6 +154,7 @@ DOC_CAPABILITIES: tuple[str, ...] = (
     "MODEL.LOAD.WRITE",
     "MODEL.LOAD.DELETE",
     "MODEL.GROUP.READ",
+    "MODEL.UNIT.WRITE",
     "MODEL.READ",
     "DOCUMENT.NEW",
     "DOCUMENT.OPEN",
@@ -206,6 +207,7 @@ DOC_OPERATIONS: dict[str, tuple[str, ...]] = {
         "MODEL.LOAD.ASSIGN",
         # ⚠️ **P157 / R136（用户裁决 = B）**：荷载组合是一等 Operation（69 → 70）
         "MODEL.LOAD_COMBINATION.ASSIGN",
+        "MODEL.UNIT.ASSIGN",
     ),
     "engineering_model_delete": (
         "MODEL.NODE.DELETE",
@@ -269,8 +271,8 @@ DOC_OPERATIONS: dict[str, tuple[str, ...]] = {
 }
 """`docs/02` §69 / `docs/07` §5.1：Operation 全量 69 条（含 2026-10-05 新增 `DESIGN.SRC`）。"""
 
-DOC_OPERATION_COUNT: int = 70
-DOC_CAPABILITY_COUNT: int = 41
+DOC_OPERATION_COUNT: int = 71
+DOC_CAPABILITY_COUNT: int = 42
 
 
 async def _count(session_factory: SessionFactory, model: type[Any]) -> int:
@@ -516,14 +518,14 @@ async def test_seed_creates_capabilities_and_operations(
 
     # Capability：与 docs/02 §70 ＋ docs/07 §5.6 的**规范原文副本**逐条一致（41 条）
     assert {capability.code for capability in capabilities} == set(DOC_CAPABILITIES)
-    assert len(capabilities) == DOC_CAPABILITY_COUNT == 41
+    assert len(capabilities) == DOC_CAPABILITY_COUNT == 42
     assert await _count(session_factory, CapabilityORM) == DOC_CAPABILITY_COUNT
     # P03 的类型化视图（app.domain.enums.Capability）也必须与规范副本一致
     assert {capability.value for capability in Capability} == set(DOC_CAPABILITIES)
 
     # Operation：69 条，与 docs/02 §69 的**规范原文副本**逐条一致（名称 + Tool）
     expected_operations = {(tool, name) for tool, names in DOC_OPERATIONS.items() for name in names}
-    assert len(expected_operations) == DOC_OPERATION_COUNT == 70
+    assert len(expected_operations) == DOC_OPERATION_COUNT == 71
     assert {(operation.tool, operation.name) for operation in operations} == expected_operations
     assert await _count(session_factory, OperationORM) == DOC_OPERATION_COUNT
     # seed.py 的常量也必须与规范副本一致（否则「常量改错」会静默通过）

@@ -7,47 +7,47 @@
     "生成器 = `registry/tools/classify_mapping_gap.py --recon`（**零请求**）。"
   ],
   "criterion_version": 1,
-  "gap_total": 511,
-  "gap_not_in_contract": 265,
+  "gap_total": 510,
+  "gap_not_in_contract": 264,
   "gap_no_readback": 246,
-  "mapped_endpoints": 67,
+  "mapped_endpoints": 68,
   "write_capable_endpoints": 577,
   "three_step_endpoints": 301,
   "buckets": {
     "by_namespace": {
-      "DB": 194,
+      "DB": 193,
       "DESIGN": 68,
       "OPE": 3
     },
     "by_capability": {
       "DELETE": 179,
       "DESIGN": 68,
-      "MODEL": 197,
+      "MODEL": 196,
       "OPERATION": 3
     },
     "by_tool_map": {
-      "assign": 264,
+      "assign": 263,
       "delete": 179,
-      "query": 265
+      "query": 264
     },
     "by_adoption": {
       "adoptable_with_manual_example": 51,
-      "needs_product_decision": 214
+      "needs_product_decision": 213
     },
     "by_readiness": {
       "manual_example_ready": 51,
       "no_request_schema": 1,
-      "schema_only": 213
+      "schema_only": 212
     },
     "by_availability": {
       "unverified": 21,
-      "verified": 244
+      "verified": 243
     }
   },
   "adoption_counts": {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 214
+    "needs_product_decision": 213
   },
   "adoptable": [],
   "adoptable_with_manual_example": [
@@ -4840,29 +4840,6 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.UNIT",
-      "uri": "/DB/UNIT",
-      "namespace": "DB",
-      "methods": "GET,PUT",
-      "read_root": "UNIT",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -11224,29 +11201,6 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.UNIT",
-      "uri": "/DB/UNIT",
-      "namespace": "DB",
-      "methods": "GET,PUT",
-      "read_root": "UNIT",
-      "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,

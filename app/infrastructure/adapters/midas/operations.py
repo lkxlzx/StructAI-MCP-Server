@@ -48,7 +48,16 @@
    载荷入口 `parameters["load_case_definition"]` **全部**早已就位，见 `adapter.py`）。
    ⇒ `select_steps` 改为：**调用方显式给了** `load_case_definition` 时返回
    `(DB.STLD 步, 荷载步)`；**没给**则返回 `(荷载步,)`（**保持原样**，工况须已存在）。
-   **不**新增 Operation（仍 **69** 个）、**不**改 9 Tool Contract、**不**臆造工况取值。
+   **不**新增 Operation（当时仍 **69** 个）、**不**改 9 Tool Contract、**不**臆造工况取值。
+
+9. ⚠️ **P159 / R133：单位系统是一等 Operation（用户裁决；Operation 70 → 71）。**
+   单位是**输入**（UI 新建模型时选 / AI 建模时**先定口径**），**不**在核心里写死
+   ⇒ `MODEL.UNIT.ASSIGN` 的四个字段（`force` / `dist` / `heat` / `temper`）**全部必填**，
+   缺一即 `transformer_required_field_missing`（与 D2 的 `rw` 同口径，**不**代填默认值）。
+   ⚠️ `MODEL.UNIT.WRITE` 是**新增**能力码（词表 **41 → 42**，用户裁决 = C）：单位是
+   **模型级**设置，与实体读写**正交** ⇒ 单列一族，不借实体码。
+   ⚠️ 单位确定**之后**的所有数值（`ELAST` / `DEN` / 坐标 / 力）**按该口径解释** ——
+   这是**流程**约定（链的第 0 步），**不**是 canonical 常量。
 
 分层红线（`docs/07` §14.1 / §14.2）
 ----------------------------------
@@ -270,6 +279,16 @@ _ASSIGN: Final[dict[str, OperationPlan]] = {
         "MODEL.BOUNDARY.ASSIGN",
         "engineering_model_assign",
         steps=_steps(_write("DB.CONS", "write_boundary", "midas.cons.v1")),
+    ),
+    # ⚠️ **P159 / R133（用户裁决）**：单位是**输入**（UI 新建模型时选 / AI 建模时**先定口径**），
+    # **不**在核心里写死。`DB.UNIT` 是 `verified` 端点（`GET, PUT`）但**原先零引用**
+    # ⇒ 契约里**没有**任何地方能「先定单位」⇒ 新增本 Operation（Operation **70 → 71**），
+    # 四个字段**全部必填**（缺一即报错，**不**代填默认值）。
+    "MODEL.UNIT.ASSIGN": OperationPlan(
+        "MODEL.UNIT.ASSIGN",
+        "engineering_model_assign",
+        steps=_steps(_write("DB.UNIT", "write_unit", "midas.unit.v1", method="PUT")),
+        note="docs/07 §6.3：单位系统（模型级设置；P159 / R133 新增，Operation 70 → 71）",
     ),
     "MODEL.LOAD_COMBINATION.ASSIGN": OperationPlan(
         "MODEL.LOAD_COMBINATION.ASSIGN",

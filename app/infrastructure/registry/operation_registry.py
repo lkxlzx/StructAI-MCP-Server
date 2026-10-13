@@ -56,7 +56,7 @@
    `engineering_result` 6 · `engineering_design` 6 = **26** 条）取 `True`；
    标注为 **✅ 直接** 的六类（doc 6 · query 8 · assign 8 · delete 7 · view 7 · analysis 7
    = **43** 条）取 `False`。§6.5 对 Build 类的原话即「在 Core 中以**组合 Operation** 实现
-   （`OperationDefinition.transactional=true`）」。26 + 43 = **69**（P157 / R136 起 **70**）。
+   （`OperationDefinition.transactional=true`）」。26 + 43 = **69**（P157 / R136 起 **70**，P159 / R133 起 **71**）。
 4. **`rollback_supported`** ← 与 `transactional` 同值：`docs/07` §6.5 明示组合 Operation
    「失败时按 §5.4 的事务回滚优先级处理」，即存在明确回滚路径（Native Transaction →
    Snapshot/Restore → Compensating Actions → Best Effort）；单端点 Operation 的原子性由
@@ -138,11 +138,13 @@ __all__ = [
 
 logger = logging.getLogger("structai.registry")
 
-OPERATION_COUNT: Final[int] = 70
-"""Operation 总数（`docs/07` §5.1：6+**9**+8+7+14+7+6+6+7 = **70**；`docs/02` §69）。
+OPERATION_COUNT: Final[int] = 71
+"""Operation 总数（`docs/07` §5.1：6+**10**+8+7+14+7+6+6+7 = **71**；`docs/02` §69）。
 
 ⚠️ **P157 / R136（用户裁决 = B）**：原为 **69**（`engineering_model_assign` = 8）；
 新增 `MODEL.LOAD_COMBINATION.ASSIGN` 后为 **70**（该 Tool = **9**）。
+⚠️ **P159 / R133（用户裁决 = C）**：再新增 `MODEL.UNIT.ASSIGN`（单位系统）⇒ **71**
+（该 Tool = **10**）；能力码**新增** `MODEL.UNIT.WRITE`（词表 **41 → 42**）。
 """
 
 # ===== Recovery Policy（`docs/02` §45 的四值词表）=====
@@ -296,7 +298,11 @@ def _build_profiles() -> dict[str, OperationProfile]:
         ),
     )
 
-    # ===== ③ `engineering_model_assign`（**9**）—— `docs/07` §6.3 =====
+    # ===== ③ `engineering_model_assign`（**10**）—— `docs/07` §6.3 =====
+
+    # ⚠️ **P159 / R133（用户裁决 = C）**：新增 `MODEL.UNIT.ASSIGN`（单位系统，Operation
+    # **70 → 71**）—— `DB.UNIT` 是 `verified` 端点但**原先零引用**；单位是**模型级**设置，
+    # 与实体读写**正交** ⇒ 能力码**新增** `MODEL.UNIT.WRITE`（词表 41 → 42），**不**借实体码。
 
     # ⚠️ **P157 / R136（用户裁决 = B）**：新增 `MODEL.LOAD_COMBINATION.ASSIGN`
     # （Operation **69 → 70**）—— 荷载组合按**材料 / 种类**拆成 6 个 `DB.LCOM-*` 端点
@@ -314,6 +320,7 @@ def _build_profiles() -> dict[str, OperationProfile]:
             "MODEL.BOUNDARY.ASSIGN",
             "MODEL.LOAD.ASSIGN",
             "MODEL.LOAD_COMBINATION.ASSIGN",
+            "MODEL.UNIT.ASSIGN",
         ),
         (
             (Capability.MODEL_NODE_WRITE,),
@@ -325,6 +332,7 @@ def _build_profiles() -> dict[str, OperationProfile]:
             (Capability.MODEL_BOUNDARY_WRITE,),
             (Capability.MODEL_LOAD_WRITE,),
             (Capability.MODEL_LOAD_WRITE,),
+            (Capability.MODEL_UNIT_WRITE,),
         ),
         permissions=(PermissionCode.MODEL_WRITE,),
         transactional=False,

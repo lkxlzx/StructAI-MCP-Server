@@ -300,6 +300,10 @@ class Capability(StrEnum):
     MODEL_LOAD_DELETE = "MODEL.LOAD.DELETE"
     MODEL_GROUP_READ = "MODEL.GROUP.READ"
     MODEL_READ = "MODEL.READ"
+    # ⚠️ **P159 / R133（用户裁决 = C）**：词表原先**没有**「单位」这一族。
+    # 单位是**模型级**设置（`DB.UNIT`；`docs/02` §70 的 `MODEL.*` 族），
+    # 且与实体读写**正交** ⇒ 单列一个能力码（41 → **42**），而不是借实体码。
+    MODEL_UNIT_WRITE = "MODEL.UNIT.WRITE"
 
     # --- 文档 ---
     DOCUMENT_NEW = "DOCUMENT.NEW"

@@ -273,8 +273,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 496,
-    "CIVIL_NX": 432,
+    "GEN_NX": 495,
+    "CIVIL_NX": 431,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
@@ -294,7 +294,7 @@ P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified`
 （20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
 `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
-REGISTERED_TRANSFORMERS = 30
+REGISTERED_TRANSFORMERS = 31
 """`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
 
 BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()
@@ -477,10 +477,30 @@ def test_p142_no_contract_write_endpoint_is_blocked_by_a_missing_transformer() -
         eligible.add(key)
     # ⚠️ **P157 / R141**：候选集是**数据侧**写探针的口径（`DB.*`）；`DESIGN.*` 的写步骤走
     # **接口层**的设计路径（`midas.design.*.v1`，由**编排显式声明**）⇒ 不参与数据侧候选集判定。
-    data_side = {key for key in eligible if key.startswith("DB.")}
+    # ⚠️ **P159 / R133**：只对**三步链结构适用**（有写方法 + `GET` + `read_root` + `DELETE`）
+    # 的写端点要求入候选集；`DB.UNIT` 只有 `GET, PUT`（**无** `DELETE`）⇒ 结构上**不**适用，
+    # 由接口层的**专用** `MODEL.UNIT.ASSIGN` 承载（本批已实测 `PUT /DB/UNIT` → `200`）。
+    registry = _registry()
+    data_side = {
+        key
+        for key in eligible
+        if key.startswith("DB.")
+        and "DELETE" in registry.methods_for(key=key, product="GEN_NX")
+        and "GET" in registry.methods_for(key=key, product="GEN_NX")
+        and registry.endpoint(key).read_root
+    }
     assert data_side <= candidates, sorted(data_side - candidates)
+    # `interface_side` = 其余**已声明**的写端点：`DESIGN.*` 的配置/取表步（走接口层设计路径）
+    # **＋** `DB.*` 里**三步链结构不适用**的（如 `DB.UNIT` 只有 `GET, PUT`）——
+    # 后者由接口层的**专用** Operation 承载（P159：`MODEL.UNIT.ASSIGN`，已实测 `200`）。
     interface_side = eligible - data_side
-    assert all(key.startswith("DESIGN.") for key in interface_side), sorted(interface_side)
+    db_interface_side = {key for key in interface_side if key.startswith("DB.")}
+    assert all(
+        "DELETE" not in registry.methods_for(key=key, product="GEN_NX") for key in db_interface_side
+    ), sorted(db_interface_side)
+    assert all(key.startswith("DESIGN.") for key in interface_side - db_interface_side), sorted(
+        interface_side - db_interface_side
+    )
     assert blocked == set(BLOCKED_CONTRACT_WRITE_KEYS), sorted(blocked)
     assert not (blocked & candidates), sorted(blocked & candidates)
     # 契约**外**的候选必须都有数据侧模板（R100 新增的类别，逐个可查）

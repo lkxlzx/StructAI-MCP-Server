@@ -35,7 +35,7 @@ ETABS_PACKAGE_DIR = APP_DIR / "infrastructure" / "adapters" / "etabs"
 OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
     ("engineering_doc", 6),
     ("engineering_model_query", 8),
-    ("engineering_model_assign", 9),
+    ("engineering_model_assign", 10),
     ("engineering_model_delete", 7),
     ("engineering_model_build", 14),
     ("engineering_view", 7),

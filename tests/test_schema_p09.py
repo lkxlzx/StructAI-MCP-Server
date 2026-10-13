@@ -179,7 +179,7 @@ ALIGNED_OPERATION_URIS = frozenset(
         "structai://schema/doc/save/v1",
     }
 )
-"""P07 的 140 个 Operation URI 中，能被数据侧 Schema 解析的 **4** 个（本批实测）。"""
+"""P07 的 142 个 Operation URI 中，能被数据侧 Schema 解析的 **4** 个（本批实测）。"""
 
 ACTL_ID = "structai://schema/db/actl/v1"
 """`DB.ACTL` 的 Schema id（主门槛用它演示「合法通过 / 非法拒绝」）。"""
@@ -531,14 +531,14 @@ def test_eleven_endpoints_still_have_no_schema_on_the_data_side() -> None:
 
 
 def test_operation_schema_uris_align_with_the_data_side(schema_registry: SchemaRegistry) -> None:
-    """门槛 ③：P07 的 140 个 Operation URI 中 **4** 个可解析，**0** 个 `/result/v1`。"""
-    assert len(OPERATIONS) == 70
+    """门槛 ③：P07 的 142 个 Operation URI 中 **4** 个可解析，**0** 个 `/result/v1`。"""
+    assert len(OPERATIONS) == 71
     operation_uris: set[str] = set()
     for tool, name in OPERATIONS:
         input_uri = input_schema_uri(tool, name)
         operation_uris.add(input_uri)
         operation_uris.add(output_schema_uri(input_uri))
-    assert len(operation_uris) == 140
+    assert len(operation_uris) == 142
 
     registered = set(schema_registry.registered_ids())
     resolved = operation_uris & registered
@@ -549,8 +549,8 @@ def test_operation_schema_uris_align_with_the_data_side(schema_registry: SchemaR
     for key in ("DOC.NEW", "DOC.OPEN", "DOC.SAVE", "DOC.CLOSE"):
         assert schema_id_for(key) in resolved
 
-    # 其余 136 个 URI 指向 Core 自有的 `schemas/`（`docs/02` §22），本批不产出
-    assert len(operation_uris - registered) == 136
+    # 其余 138 个 URI 指向 Core 自有的 `schemas/`（`docs/02` §22），本批不产出
+    assert len(operation_uris - registered) == 138
 
 
 def test_save_as_is_the_single_uri_shape_divergence(schema_registry: SchemaRegistry) -> None:
@@ -704,7 +704,7 @@ async def test_p07_seed_fixes_the_operation_schema_uris(
 
     async with session_factory() as session:
         total = (await session.execute(select(func.count()).select_from(OperationORM))).scalar_one()
-        assert total == 70
+        assert total == 71
         row = (
             (await session.execute(select(OperationORM).where(OperationORM.name == "BUILD.COLUMN")))
             .scalars()
