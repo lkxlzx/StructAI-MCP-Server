@@ -860,6 +860,11 @@ def _items_of(payload: Any) -> list[tuple[str | None, Mapping[str, Any]]]:
     - `{"ITEMS": [ ... ]}` → 每条一个元素（编号为 `None`）；
     - `{"1": {...}, "2": {...}}`（DB 类端点）→ 编号取自**键**；
     - 单对象 → 一条（编号 `None`）。
+
+    ⚠️ **P158 / R130**：`ITEMS` 形态的端点（`DB.CONS` / `DB.CNLD` / `DB.BMLD` / `DB.PRES`）
+    读回来是 `{<编号>: {"ITEMS": [<条目>, …]}}` —— 原先把**外层 `ITEMS` 包装体**当成条目
+    ⇒ Transformer 在包装体这一层找不到 `ID` / `CONSTRAINT` / `LCNAME` … ⇒ canonical 取值
+    **全 `None`**（只剩由**编号键**补的 `id`）。这里改为**逐元素**展开（编号仍作兜底 `id`）。
     """
     if isinstance(payload, Mapping):
         for name in ("ITEMS", "items"):
@@ -867,11 +872,30 @@ def _items_of(payload: Any) -> list[tuple[str | None, Mapping[str, Any]]]:
             if isinstance(nested, Sequence) and not isinstance(nested, str):
                 return [(None, item) for item in nested if isinstance(item, Mapping)]
         if payload and all(isinstance(value, Mapping) for value in payload.values()):
-            return [(str(key), value) for key, value in payload.items()]
+            items: list[tuple[str | None, Mapping[str, Any]]] = []
+            for key, value in payload.items():
+                items.extend(_explode_items(str(key), value))
+            return items
         return [(None, payload)]
     if isinstance(payload, Sequence) and not isinstance(payload, str):
         return [(None, item) for item in payload if isinstance(item, Mapping)]
     return []
+
+
+def _explode_items(
+    key: str, value: Mapping[str, Any]
+) -> list[tuple[str | None, Mapping[str, Any]]]:
+    """一个编号键下的条目：`ITEMS` 包装体 ⇒ **逐元素**展开；否则整体一条（**P158 / R130**）。
+
+    ⚠️ 外层编号**不丢**：仍作为该条的**兜底 `id`**（元素自带 `ID` 时以元素为准）。
+    """
+    for name in ("ITEMS", "items"):
+        nested = value.get(name)
+        if isinstance(nested, Sequence) and not isinstance(nested, str):
+            inner = [item for item in nested if isinstance(item, Mapping)]
+            if inner:
+                return [(key, item) for item in inner]
+    return [(key, value)]
 
 
 def _unwrap(response: Mapping[str, Any], resolved: ResolvedEndpoint) -> Any:

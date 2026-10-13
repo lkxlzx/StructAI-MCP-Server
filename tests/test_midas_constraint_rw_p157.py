@@ -406,37 +406,32 @@ def test_p157_the_check_modes_agree_offline() -> None:
 # ===== 8. R130：`ITEMS` 形态端点的**读回**退化（本批**新发现**，**未**修）=====
 
 
-def test_p157_r130_items_style_readback_drops_the_leaf() -> None:
-    """门槛（**R130**，如实留缺）：`ITEMS` 形态端点读回时，交给 Transformer 的是**外层包装体**。
+def test_p158_r130_items_style_readback_is_unwrapped_to_the_leaf() -> None:
+    """门槛（**R130 ✅ 已闭环**）：`ITEMS` 形态端点读回时，交给 Transformer 的是**叶子**。
 
-    `MidasAdapter._read` 用 `_items_of(read_root 块)` 解包：对**编号键映射**里的
-    `{"1": {"ITEMS": [<叶子>]}}`，它返回 `("1", {"ITEMS": [<叶子>]})` —— 即**包装体**，
-    **不是**叶子 ⇒ `BoundaryTransformer.from_native` 拿不到 `ID` / `GROUP_NAME` / `CONSTRAINT`
-    ⇒ 7 个自由度**全 `None`**（只有由**键**补的 `id` 有值）。
-
-    ⚠️ **本批不修**（属 `app/**` 的 `MidasAdapter._read` / `_items_of`，**未**获授权）。
-    影响面 = **4** 个 `ITEMS` 形态端点（`DB.CONS` · `DB.CNLD` · `DB.BMLD` · `DB.PRES`）；
-    ⚠️ **不影响**本批的写路径判定（判定 = 「该编号**在**读回里」，键来自编号、**不**依赖叶子字段），
-    但**限制**了它的证明力：`DB.CONS` 的 `PASSED` 证明的是「**建成且可按编号读回**」，
-    **不**是「canonical 取值可回读」。**未**修 ⇒ **不**声称已修。
+    ⚠️ **P157 定位、P158 修复**：`MidasAdapter._read` 用 `_items_of(read_root 块)` 解包；
+    对**编号键映射**里的 `{"1": {"ITEMS": [<叶子>]}}`，原先返回 `("1", {"ITEMS": [<叶子>]})`
+    —— 即**包装体**，**不是**叶子 ⇒ `BoundaryTransformer.from_native` 拿不到
+    `ID` / `GROUP_NAME` / `CONSTRAINT` ⇒ 7 个自由度**全 `None`**（只有由**键**补的 `id` 有值）。
+    用户授权后（P158）改为**逐元素展开**（`adapter._explode_items`）。
+    **真机实测**：`MODEL.BOUNDARY.QUERY` 读回 `{"id": "1", "node_id": 1, "group_name": "",
+    "ux": true, …, "rw": false}` —— 7 个自由度全在。
     """
     from app.infrastructure.adapters.midas.adapter import _items_of  # noqa: PLC0415
 
     payload = {"1": {"ITEMS": [{"CONSTRAINT": ACCEPTED_CONSTRAINT, "GROUP_NAME": "", "ID": 1}]}}
     items = _items_of(payload)
-    assert items == [
-        ("1", {"ITEMS": [{"CONSTRAINT": ACCEPTED_CONSTRAINT, "GROUP_NAME": "", "ID": 1}]})
-    ]
+    assert items == [("1", {"CONSTRAINT": ACCEPTED_CONSTRAINT, "GROUP_NAME": "", "ID": 1})]
     transformer = BoundaryTransformer(_registry())
     canonical = transformer.from_native(items[0][1])
-    assert canonical["node_id"] is None, canonical
-    assert canonical["group_name"] is None, canonical
-    assert all(canonical[name] is None for name in EXPECTED_FLAGS), canonical
-    # 对照：叶子**直接**作为值（非 `ITEMS` 形态，如 `DB.NODE`）⇒ 逐位解析正常
+    assert canonical["node_id"] == 1, canonical
+    assert canonical["group_name"] == "", canonical
+    assert all(canonical[name] is not None for name in EXPECTED_FLAGS), canonical
+    # 对照：叶子**直接**作为值（非 `ITEMS` 形态，如 `DB.NODE`）⇒ 逐位解析正常（**不变**）
     leaf = transformer.from_native({"ID": 1, "GROUP_NAME": "", "CONSTRAINT": ACCEPTED_CONSTRAINT})
     assert leaf["node_id"] == 1
     assert all(leaf[name] is not None for name in EXPECTED_FLAGS), leaf
-    # ⚠️ 该退化**已实测**出现在写路径证据的读回里（`observed` 全 `null`，只有 `id` 有值）
+    # ⚠️ 写路径证据的读回**已随修复刷新**（`observed` 不再只有 `id` 有值）
     document = _json(WRITE_EVIDENCE)
     add = next(
         row
@@ -445,8 +440,8 @@ def test_p157_r130_items_style_readback_drops_the_leaf() -> None:
     )
     observed = add["readback"]["observed"]
     assert observed["id"] == "1", observed
-    assert all(observed[name] is None for name in EXPECTED_FLAGS), observed
-    assert all(observed[name] is None for name in ("node_id", "group_name")), observed
+    assert observed["node_id"] == 1, observed
+    assert all(observed[name] is not None for name in EXPECTED_FLAGS), observed
 
 
 @pytest.mark.skipif(

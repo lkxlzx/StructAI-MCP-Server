@@ -18,9 +18,9 @@
   },
   "dedicated_project": {
     "note": "临时库自建（`docs/04` §72：专用实例 / 专用 Key / 专用项目）；跑完即弃",
-    "project_id": "f3a856e6-59a3-4cbf-a46a-8e2df8ad4617",
-    "model_id": "67c0c04a-faca-4e93-9aff-42312b98638c",
-    "software_instance_id": "4204c843-8a80-4ec4-ba92-b5f464a88d94",
+    "project_id": "c0c4cb66-b73b-4532-b210-b10517b53091",
+    "model_id": "ae69b267-3eb2-479c-9840-894d4b924409",
+    "software_instance_id": "0fd3c259-964a-4f73-bed8-55edb1a93302",
     "product": "GEN NX"
   },
   "sentinel_endpoints": [
@@ -156,16 +156,16 @@
       "readback": {
         "present": true,
         "observed": {
-          "group_name": null,
+          "group_name": "",
           "id": "1",
-          "node_id": null,
-          "rw": null,
-          "rx": null,
-          "ry": null,
-          "rz": null,
-          "ux": null,
-          "uy": null,
-          "uz": null
+          "node_id": 1,
+          "rw": false,
+          "rx": false,
+          "ry": false,
+          "rz": false,
+          "ux": true,
+          "uy": true,
+          "uz": true
         }
       },
       "edit": {},

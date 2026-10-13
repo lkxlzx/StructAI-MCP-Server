@@ -12,7 +12,12 @@ schema_ref:
   source: help_center
 parser: generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+# ⚠️ **P158 / R139（用户裁决）**：`availability` 的语义是**实测可用性**（`registry/README.md` §4）——
+# `DOC.NEW` 无 `GET` ⇒ **不**在 `sync_availability` 的只读 L4 探测范围内，故由**实测**直接收口：
+# **P157** Contract Test 口径下 `POST /gen/DOC/NEW` → **`200`**，且跑后哨兵 **10** 个端点全空
+# （项目被真的清空）；`gen-local` = GEN NX。⚠️ **只升不降**（同 §4 的口径）。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: New Project
 risk:

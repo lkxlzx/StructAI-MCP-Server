@@ -238,22 +238,22 @@ async def test_p124_l1_to_l3_records_never_promote_verification_status(tmp_path:
     async with factory() as session:
         await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
-    before = await _status_of(factory, "DOC.NEW")
+    before = await _status_of(factory, "DOC.SAVE")
     assert before == "PARTIAL"
 
-    await _record_verifications(factory, key="DOC.NEW", levels=CONTRACT_LEVELS_CI)
-    await _record_verifications(factory, key="DOC.NEW", levels=CONTRACT_LEVELS_CI)  # 幂等
+    await _record_verifications(factory, key="DOC.SAVE", levels=CONTRACT_LEVELS_CI)
+    await _record_verifications(factory, key="DOC.SAVE", levels=CONTRACT_LEVELS_CI)  # 幂等
     async with factory() as session:
         count = await session.scalar(select(func.count()).select_from(MidasApiVerificationORM))
         levels = sorted(
             row[0]
             for row in await session.execute(
                 select(MidasApiVerificationORM.contract_level).where(
-                    MidasApiVerificationORM.endpoint_key == "DOC.NEW"
+                    MidasApiVerificationORM.endpoint_key == "DOC.SAVE"
                 )
             )
         )
-    after = await _status_of(factory, "DOC.NEW")
+    after = await _status_of(factory, "DOC.SAVE")
     await engine.dispose()
     assert count == len(CONTRACT_LEVELS_CI)
     assert levels == list(CONTRACT_LEVELS_CI)

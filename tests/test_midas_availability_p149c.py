@@ -61,7 +61,7 @@ INSTANCE_ALIAS = "gen-local"
 EXPECTED_PROBED = 49
 """本次只读 L4 实测的端点数。"""
 
-EXPECTED_VERIFIED_TOTAL = 493
+EXPECTED_VERIFIED_TOTAL = 494
 """全库 `availability == verified` 的端点数（P149-B2 的 247 + P149-C 的 49 +
 **P149-D** 取报表判据实测收口的 **185** + **P149-E** 只读补测收口的 **12**）。"""
 
@@ -165,8 +165,9 @@ def test_p149c_every_probed_endpoint_confirms_its_read_root() -> None:
 
 
 def test_p149c_the_upgrade_is_verified_and_recorded_on_the_instance() -> None:
-    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = 493
-    （P149-C 的 296 + **P149-D** 取报表判据收口的 185 + **P149-E** 只读补测的 12）。"""
+    """门槛：49 个 YAML 已 `verified` + `verified_on` 含 `gen-local`；全库 `verified` = **494**
+    （P158 / R139 起：`DOC.NEW` 实测收口）。
+        （P149-C 的 296 + **P149-D** 取报表判据收口的 185 + **P149-E** 只读补测的 12）。"""
     tool = _load(TOOL_PATH, "structai_sync_availability_p149c")
     files = tool.endpoint_files(REPO_ROOT)
     for key in _p149c_keys():

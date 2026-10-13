@@ -233,7 +233,7 @@ def test_p120_availability_maps_to_verification_status_per_docs_07_section_7_2()
     registry = support.registry()
     assert registry.endpoint("DB.SWIND").verification_status == "DEPRECATED"
     assert registry.endpoint("DB.NODE").verification_status == "VERIFIED"
-    assert registry.endpoint("DOC.NEW").verification_status == "PARTIAL"
+    assert registry.endpoint("DOC.SAVE").verification_status == "PARTIAL"
 
 
 async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
@@ -707,7 +707,7 @@ def test_p123_solver_gate_and_disabled_endpoint() -> None:
 
 def test_p123_unverified_endpoint_is_refused_unless_contract_mode() -> None:
     """门槛 ④（`docs/04` §130 / `docs/07` §7.2）：`!= VERIFIED` → 拒绝（除 Contract 模式）。"""
-    partial = _resolved("DOC.NEW", method="POST")
+    partial = _resolved("DOC.SAVE", method="POST")
     assert partial.verification_status == "PARTIAL"
     with pytest.raises(RegistryMappingNotVerified) as refused:
         guard_verified(partial, operation="NEW", allow_unverified=False)
