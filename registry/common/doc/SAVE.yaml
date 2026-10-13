@@ -23,6 +23,11 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
+# ⚠️ **P160 / P160b（实测**作废**）**：本批在**无项目路径**的新建项目上发过 `POST /gen/DOC/SAVE` ——
+# 真机**弹出了「另存为」模态窗口**（**由用户手动操作**才解除）⇒ **API 链路被阻塞**。
+# ⇒ 该次 `200` **不能**作为「生产可用」的证据（**判定作废**，`availability` 退回 `untested`）。
+# ⚠️ **规则（用户给出，P160b 起做进核心）**：**保存 / 另存必须带项目路径**，否则会弹「另存为」窗口
+# 并挂起 API；文件操作一律在**项目文件夹**内。⇒ 核心必须先拦（缺路径 ⇒ **不发请求**）。
 availability: untested
 table_type: null
 title: Save

@@ -142,7 +142,13 @@ async def test_p125_civil_nx_first_e2e_chain() -> None:
     observed.append("node_delete")
     assert transport.paths()[-1] == "/DB/NODE/9"
 
-    await adapter.execute_normalized("SAVE", {"arguments": {}}, _NO_CONTEXT)
+    # ⚠️ **P160 / R143**：`DOC.SAVE` **必须带项目路径**（缺 ⇒ `project_path_required`，零请求）
+    # —— 否则 MIDAS 会弹「另存为」模态窗口并**挂起 API**。
+    await adapter.execute_normalized(
+        "SAVE",
+        {"arguments": {}, "project_path": r"E:\MCP\MMCP\.tmp_p160b\model.mgbx"},
+        _NO_CONTEXT,
+    )
     observed.append("document_save")
     assert transport.paths()[-1] == "/DOC/SAVE"
     await adapter.disconnect()

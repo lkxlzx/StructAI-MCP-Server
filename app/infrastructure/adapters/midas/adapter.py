@@ -360,7 +360,7 @@ class MidasAdapter(BaseAdapter):
             )
         if step.intent == "design_result":
             return await self._design_result(operation, step, resolved, parameters)
-        if step.intent in {"view", "write_doc"}:
+        if step.intent == "view":
             return await self._arguments_step(
                 operation,
                 step,
@@ -368,6 +368,16 @@ class MidasAdapter(BaseAdapter):
                 parameters,
                 transformer_name=step.transformer,
                 arguments=dict(parameters.get("arguments") or {}),
+            )
+        if step.intent == "write_doc":
+            # ⚠️ **P160 / R143**：DOC 的**文件操作**必须先过「项目路径」守卫（见 `_doc_arguments`）。
+            return await self._arguments_step(
+                operation,
+                step,
+                resolved,
+                parameters,
+                transformer_name=step.transformer,
+                arguments=_doc_arguments(step, parameters),
             )
         if step.intent.startswith("delete_"):
             return await self._delete(operation, step, resolved, parameters)
@@ -580,7 +590,7 @@ class MidasAdapter(BaseAdapter):
         parameters: Mapping[str, Any],
         *,
         transformer_name: str | None,
-        arguments: Mapping[str, Any],
+        arguments: Any,
     ) -> dict[str, Any]:
         """通用步骤：由调用方给出该端点的 `arguments`（**不**臆造字段）。
 
@@ -588,7 +598,9 @@ class MidasAdapter(BaseAdapter):
         为空时按数据的包装键原样包装（`view` / `design_result` / `write_doc`）。
         """
         registry = self._require_registry()
-        body: Any = dict(arguments)
+        # ⚠️ **P160 / R143**：体**不**再强制成对象 —— `DOC.OPEN` / `DOC.SAVEAS` 的体是
+        # **字符串路径**（手册示例 `{"Argument": "C:\\MIDAS\\FSM.mcb"}`）。
+        body: Any = arguments
         wrapper = _wrapper_of(resolved)
         if transformer_name and transformer_name in TRANSFORMER_REGISTRY:
             transformer = TRANSFORMER_REGISTRY[transformer_name](registry)
@@ -939,6 +951,49 @@ def _items_style(transformer: Any) -> bool:
     if transformer is None:
         return False
     return transformer.is_items_style()
+
+
+DOC_PATH_OPERATIONS: Final[frozenset[str]] = frozenset({"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS"})
+"""**必须带项目路径**的 DOC 文件操作（`docs/07` §16.1 **R143**）。
+
+⚠️ **用户给出的产品规则**：**保存 / 另存必须带项目路径**，否则 MIDAS 会弹出「另存为」
+**模态窗口** ⇒ **挂起 API、阻塞链路**（P160b 实测：一次无路径的 `DOC.SAVE` 弹了窗，
+**由用户手动操作**才解除）。文件操作一律在**项目文件夹**内。
+⇒ 核心**先拦**：缺路径 ⇒ `STRUCTAI-1200` `project_path_required`，**一条请求都不发**。
+"""
+
+
+def _doc_arguments(step: EndpointStep, parameters: Mapping[str, Any]) -> Any:
+    """DOC 文件操作的请求体（**项目路径守卫**；`docs/07` §16.1 **R143**）。
+
+    - `DOC.OPEN` / `DOC.SAVEAS`：体**就是**路径字符串（手册示例 `{"Argument": "<路径>"}`）；
+    - `DOC.SAVE`：手册体是 `{"Argument": {}}` —— 路径由**项目自身**持有，故这里**只**做
+      **前置断言**（调用方必须给出项目路径，表示「该项目已有路径」），**不**把它塞进体里。
+
+    Raises:
+        MidasValidationError: `STRUCTAI-1200`，缺项目路径（`reason = "project_path_required"`）。
+            ⚠️ **必须**在**发请求之前**拦住 —— 否则 MIDAS 会弹「另存为」模态窗口并挂起 API。
+    """
+    if step.key not in DOC_PATH_OPERATIONS:
+        # ⚠️ **不**做文件操作的 DOC 步骤（如 `DOC.NEW`）⇒ 原样发对象体，**不**要求路径。
+        return dict(parameters.get("arguments") or {})
+    raw_path = parameters.get("project_path")
+    if raw_path is None and isinstance(parameters.get("arguments"), str):
+        raw_path = parameters.get("arguments")
+    project_path = str(raw_path).strip() if raw_path is not None else ""
+    if not project_path:
+        raise MidasValidationError(
+            "project_path_required",
+            endpoint=step.key,
+            hint=(
+                "保存 / 另存必须带项目路径（文件操作在**项目文件夹**内）；"
+                "缺路径时 MIDAS 会弹「另存为」模态窗口并**挂起 API**。"
+            ),
+        )
+    if step.key == "DOC.SAVE":
+        # 手册体 = `{"Argument": {}}`；路径由项目自身持有（调用方已断言存在）
+        return {}
+    return project_path
 
 
 def _wrapper_of(resolved: ResolvedEndpoint) -> str:

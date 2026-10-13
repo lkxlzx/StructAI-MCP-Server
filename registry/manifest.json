@@ -18493,7 +18493,9 @@
       "execution_mode": "FAST",
       "solver": "",
       "availability": "untested",
-      "verified_on": [],
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -19197,7 +19199,9 @@
       "execution_mode": "FAST",
       "solver": "",
       "availability": "untested",
-      "verified_on": [],
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
