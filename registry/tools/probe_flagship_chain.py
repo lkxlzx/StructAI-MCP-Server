@@ -260,11 +260,17 @@ LOAD_COMBINATION_PARAMETERS: dict[str, Any] = {
             "no": 1,
             "name": "sLCB1",
             "active": "STRENGTH",
-            # ⚠️ **R137 单变量 A/B**：`bCB` 在 `db/LCOM-*` 的 **输入 Schema** 里标注
-            # **`(ReadOnly)minmaxcbtype`** ⇒ **不**发（手册示例里带了它，但手册示例**不**保证可发）。
+            # ⚠️ **R137**：`bCB` 在 `db/LCOM-*` 的**输入 Schema** 里标注 **`(ReadOnly)`** ⇒ **不**发
+            # （**单变量 A/B** 已证明它**不是**成因；厂商记录里它是 `false`）。
             "i_type": 0,
             "description": "",
-            "combination_items": [{"ANAL": "CS", "LCNAME": LOAD_CASE, "FACTOR": 1}],
+            # ⚠️ **R137 的取值依据 = 厂商真值**（**只读**读回官方验证模型
+            # `Gen Verification\Static-01.mgbx` 的 `GET /DB/LCOM-GEN`）：
+            #   {"NO": 1, "NAME": "LCOMB1", "ACTIVE": "ACTIVE", "bCB": false, "iTYPE": 0,
+            #    "DESC": "", "vCOMB": [{"ANAL": "ST", "LCNAME": "CASE1", "FACTOR": 1.0}]}
+            # ⇒ `ANAL` 的真值是 **"ST"（Static）**；手册 `db/LCOM-STEEL` 示例里的 `"CS"`
+            # **不**被真机接受（实测 `400 Unknown Error`）—— **不**照抄手册的错示例。
+            "combination_items": [{"ANAL": "ST", "LCNAME": LOAD_CASE, "FACTOR": 1.0}],
         }
     ],
 }
@@ -330,29 +336,32 @@ def _tail_steps(start: int, *, with_combination: bool) -> tuple[dict[str, Any], 
     ⚠️ `with_combination`：**只**阶段 B 追加 `MODEL.LOAD_COMBINATION.ASSIGN`（**R136**）——
     阶段 A 是 `docs/07` §13.5 的**逐字** 5 步，**不**加任何一步。
     """
+    # ⚠️ **R137（实测驱动）**：荷载组合是**分析的输入** —— 组合必须在 `DOC.ANAL` **之前**建，
+    # 否则分析**不**为组合算结果，`DESIGN.STEEL` 的 `CODE-TABLE` 会 `400`
+    # （实测：组合放在分析**之后**时 `CODE-ANAL` `200` 但 `CODE-TABLE` `400`）。
+    # ⚠️ **只**阶段 B 有这一步（阶段 A 是 §13.5 逐字 5 步）。
+    combination = (
+        (
+            {
+                "order": start + 1,
+                "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+                "tool": "engineering_model_assign",
+                "label": "②′ **荷载组合**（`DB.LCOM-STEEL`；R136/R137 —— 分析的输入）",
+                "parameters": LOAD_COMBINATION_PARAMETERS,
+                "confirm": True,
+                "readback": ("DB.LCOM-STEEL",),
+            },
+        )
+        if with_combination
+        else ()
+    )
+    shift = 1 if with_combination else 0
     return (
         {**STEP_LOAD, "order": start},
-        {**STEP_ANALYSIS, "order": start + 1},
-        {**STEP_RESULT, "order": start + 2},
-        # ⚠️ **R136**：荷载组合**只**服务 ⑤ 的验算（③ 分析**不**需要它）⇒ 放在「取结果」
-        # **之后**、`DESIGN.STEEL` **之前** —— 这样 ②③④ 的证据**不**被它挡住。
-        # ⚠️ **只**阶段 B 有这一步（阶段 A 是 §13.5 逐字 5 步）。
-        *(
-            (
-                {
-                    "order": start + 3,
-                    "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
-                    "tool": "engineering_model_assign",
-                    "label": "⑤′ **荷载组合**（`DB.LCOM-STEEL`；R136 —— 验算的前提）",
-                    "parameters": LOAD_COMBINATION_PARAMETERS,
-                    "confirm": True,
-                    "readback": ("DB.LCOM-STEEL",),
-                },
-            )
-            if with_combination
-            else ()
-        ),
-        {**STEP_DESIGN, "order": start + 4 if with_combination else start + 3},
+        *combination,
+        {**STEP_ANALYSIS, "order": start + 1 + shift},
+        {**STEP_RESULT, "order": start + 2 + shift},
+        {**STEP_DESIGN, "order": start + 3 + shift},
     )
 
 

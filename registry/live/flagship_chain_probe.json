@@ -47,7 +47,7 @@
         "type": "SOFTWARE_API_ERROR"
       },
       "task": {
-        "task_id": "d5d3f663-f4b4-4198-ad97-e6ac5ec74f7a",
+        "task_id": "aff0ddfa-10fa-49f8-b38d-b9b711038c24",
         "status": "FAILED",
         "error": {
           "code": "STRUCTAI-2200",
@@ -621,6 +621,59 @@
     },
     {
       "order": 8,
+      "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "②′ **荷载组合**（`DB.LCOM-STEEL`；R136/R137 —— 分析的输入）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.LCOM-STEEL": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/LCOM-STEEL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "ACTIVE": "STRENGTH",
+                "vCOMB": [
+                  {
+                    "ANAL": "ST",
+                    "FACTOR": 1.0,
+                    "LCNAME": "AXIAL"
+                  }
+                ],
+                "DESC": "",
+                "iTYPE": 0,
+                "NAME": "sLCB1",
+                "NO": 1
+              }
+            }
+          },
+          "shape": {
+            "LCOM-STEEL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 138
+        }
+      ]
+    },
+    {
+      "order": 9,
       "operation": "ANALYSIS.STATIC",
       "tool": "engineering_analysis",
       "label": "分析（STATIC）",
@@ -628,7 +681,7 @@
       "detail": "",
       "error": {},
       "task": {
-        "task_id": "9871d770-a154-4f5e-a4b1-72f226495be4",
+        "task_id": "082a22b5-c4f0-409c-a046-46c20cccb9e1",
         "status": "COMPLETED",
         "error": {}
       },
@@ -693,7 +746,7 @@
       ]
     },
     {
-      "order": 9,
+      "order": 10,
       "operation": "RESULT.NODE.DISPLACEMENT",
       "tool": "engineering_result",
       "label": "结果（柱顶位移）",
@@ -728,74 +781,7 @@
               "size": 4
             }
           },
-          "shape_raw_length": 275
-        }
-      ]
-    },
-    {
-      "order": 10,
-      "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
-      "tool": "engineering_model_assign",
-      "label": "⑤′ **荷载组合**（`DB.LCOM-STEEL`；R136 —— 验算的前提）",
-      "status": "FAILED",
-      "detail": "interface_error:STRUCTAI-2200",
-      "error": {
-        "code": "STRUCTAI-2200",
-        "type": "SOFTWARE_API_ERROR",
-        "message": "Software API error",
-        "details": {
-          "stage": "execution",
-          "reason": "task_not_completed",
-          "status": "FAILED",
-          "task_error": {
-            "code": "STRUCTAI-2200",
-            "details": {
-              "endpoint": "DB.LCOM-STEEL",
-              "reason": "software_api_error",
-              "stage": "midas_adapter",
-              "status_code": 400
-            },
-            "message": "Software API error",
-            "retryable": false,
-            "type": "SOFTWARE_API_ERROR"
-          }
-        },
-        "retryable": false
-      },
-      "task": {},
-      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}",
-      "readback": {
-        "DB.LCOM-STEEL": {
-          "ids": [],
-          "present": false
-        }
-      },
-      "numbers": {},
-      "attempts": 1,
-      "requests": [
-        {
-          "method": "POST",
-          "path": "/gen/DB/LCOM-STEEL",
-          "status": 400,
-          "body": {
-            "Assign": {
-              "1": {
-                "ACTIVE": "STRENGTH",
-                "vCOMB": [
-                  {
-                    "ANAL": "CS",
-                    "FACTOR": 1,
-                    "LCNAME": "AXIAL"
-                  }
-                ],
-                "DESC": "",
-                "iTYPE": 0,
-                "NAME": "sLCB1",
-                "NO": 1
-              }
-            }
-          },
-          "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+          "shape_raw_length": 445
         }
       ]
     },
@@ -804,20 +790,123 @@
       "operation": "DESIGN.STEEL",
       "tool": "engineering_design",
       "label": "设计（钢构件校核）",
-      "status": "NOT_RUN",
-      "detail": "chain_stopped_at_previous_failure",
-      "error": {},
-      "task": {},
-      "native_error": "",
+      "status": "FAILED",
+      "detail": "task_failed",
+      "error": {
+        "code": "STRUCTAI-2200",
+        "details": {
+          "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
+          "reason": "software_api_error",
+          "stage": "midas_adapter",
+          "status_code": 400
+        },
+        "message": "Software API error",
+        "retryable": false,
+        "type": "SOFTWARE_API_ERROR"
+      },
+      "task": {
+        "task_id": "0a43a35c-e687-4dca-b11c-3345fba0a89d",
+        "status": "FAILED",
+        "error": {
+          "code": "STRUCTAI-2200",
+          "details": {
+            "endpoint": "DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE",
+            "reason": "software_api_error",
+            "stage": "midas_adapter",
+            "status_code": 400
+          },
+          "message": "Software API error",
+          "retryable": false,
+          "type": "SOFTWARE_API_ERROR"
+        }
+      },
+      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}",
       "readback": {},
       "numbers": {},
-      "requests": []
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/DSTL",
+          "status": 200,
+          "shape": {
+            "DSTL": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+          "status": 200,
+          "shape": {
+            "DCO": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 10
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+          "status": 200,
+          "shape": {
+            "DCTL": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+          "status": 200,
+          "shape": {
+            "MEMB": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "PERFORM_TYPE": "DESIGN"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 21
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+          "status": 400,
+          "body": {
+            "Assign": {
+              "1": {}
+            }
+          },
+          "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
+        }
+      ]
     }
   ],
   "substituted_counts": {
-    "PASSED": 9,
-    "FAILED": 1,
-    "NOT_RUN": 1
+    "PASSED": 10,
+    "FAILED": 1
   },
   "substituted_verdict": "NOT_PASSED",
   "substitute_reason": "阶段 A 的 ① `BUILD.COLUMN` 未通过 ⇒ 用 `docs/07` §6.5 的**同一组原子 Operation** 建模型（①′）后跑 ②–⑤；**不**掩盖 ① 的失败。",
@@ -1044,9 +1133,26 @@
     {
       "endpoint": "DB.LCOM-STEEL",
       "operation": "MODEL.LOAD.DELETE",
-      "ids": [],
+      "ids": [
+        "1"
+      ],
+      "remaining": [],
       "gone": true,
-      "remaining": []
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/LCOM-STEEL/1",
+          "status": 200,
+          "shape": {
+            "LCOM-STEEL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 150
+        }
+      ]
     },
     {
       "endpoint": "DB.CNLD",
@@ -1551,6 +1657,36 @@
       "shape_raw_length": 67
     },
     {
+      "method": "POST",
+      "path": "/gen/DB/LCOM-STEEL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ACTIVE": "STRENGTH",
+            "vCOMB": [
+              {
+                "ANAL": "ST",
+                "FACTOR": 1.0,
+                "LCNAME": "AXIAL"
+              }
+            ],
+            "DESC": "",
+            "iTYPE": 0,
+            "NAME": "sLCB1",
+            "NO": 1
+          }
+        }
+      },
+      "shape": {
+        "LCOM-STEEL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 138
+    },
+    {
       "method": "GET",
       "path": "/gen/DB/STLD",
       "status": 200,
@@ -1618,31 +1754,83 @@
           "size": 4
         }
       },
-      "shape_raw_length": 275
+      "shape_raw_length": 445
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/DSTL",
+      "status": 200,
+      "shape": {
+        "DSTL": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCO",
+      "status": 200,
+      "shape": {
+        "DCO": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 10
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+      "status": 200,
+      "shape": {
+        "DCTL": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+      "status": 200,
+      "shape": {
+        "MEMB": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
     },
     {
       "method": "POST",
-      "path": "/gen/DB/LCOM-STEEL",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "PERFORM_TYPE": "DESIGN"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 21
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
       "status": 400,
       "body": {
         "Assign": {
-          "1": {
-            "ACTIVE": "STRENGTH",
-            "vCOMB": [
-              {
-                "ANAL": "CS",
-                "FACTOR": 1,
-                "LCNAME": "AXIAL"
-              }
-            ],
-            "DESC": "",
-            "iTYPE": 0,
-            "NAME": "sLCB1",
-            "NO": 1
-          }
+          "1": {}
         }
       },
-      "native_error": "{\"error\":{\"message\":\"Unknown Error\"}}"
+      "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
     }
   ]
 }

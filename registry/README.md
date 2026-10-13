@@ -1352,8 +1352,14 @@ R129 的数据更正（接 ㉒）**：
     **零引用** ⇒ **新增一等 Operation `MODEL.LOAD_COMBINATION.ASSIGN`**（Operation **69 → 70**；
     6 条 steps 按 `combination_kind` 分派；**不**新增 Tool、**不**扩能力码），并把删除并入
     `MODEL.LOAD.DELETE`。⇒ 契约缺口**已闭**，但组合体被原生拒（见 **R137**）。
-  * **R137（新，**未**闭环）**：`POST /DB/LCOM-STEEL` → **`400` `Unknown Error`**（照手册示例结构、
-    只换 `LCNAME` 为自建工况名）⇒ 组合的**取值口径未定**；按纪律**不**硬试，如实留缺。
+  * **R137（✅ 已闭环）**：`POST /DB/LCOM-STEEL` 照手册示例（`ANAL: "CS"`）→ **`400` `Unknown Error`**；
+    **只读**读回官方验证模型 `Static-01.mgbx` 的 `GET /DB/LCOM-GEN` ⇒ 真值 **`ANAL = "ST"`**
+    （手册的 `"CS"` 不被接受）⇒ 改后 **`200`** 且再读确认在。⚠️ 组合是**分析的输入** ⇒ 必须先于分析。
+  * **R138（新，**未**闭环）**：⑤ 的 `CODE-TABLE` **复用**了 `CODE-ANAL` 的 Transformer ⇒ 请求体
+    `{"Assign": {"1": {}}}`，而该端点要 **`Argument`** + **必填** `TABLE_TYPE`/`ELEMS` ⇒ **`400`**；
+    修它要**新增 Transformer**（属 `app/**`，须授权）。
+  * **R139（新，**未**闭环）**：`DOC.NEW` 也**未** `verified` ⇒ 接口层**无法**重置项目
+    （Contract Test 口径下实测 `POST /gen/DOC/NEW` → `200`）。
   * **R133（新，**只**登记）**：`DB.MATL` 的**单位口径**在 canonical 侧**未**定义 —— 手册 / 对话框是
     `kN/m²` / `kN/m³`，而写路径探针发的是 Pa / kg·m⁻³（**1000× / 100×**）；原生**不**校验量级 ⇒
     两者都 `200`，但**工程含义不同** ⇒ 写路径 `DB.MATL` 的 `PASSED` 证明的是**形状 / 字段集**被接受，

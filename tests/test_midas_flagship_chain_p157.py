@@ -58,9 +58,6 @@ from typing import Any
 import pytest
 
 from app.infrastructure.adapters.midas.live import write_path_coverage
-from app.infrastructure.adapters.midas.operations import (
-    OPERATION_PLANS,
-)
 from app.infrastructure.adapters.midas.registry import MidasRegistry
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -93,9 +90,9 @@ SUBSTITUTE_OPERATIONS = (
     "MODEL.ELEMENT.CREATE",
     "MODEL.BOUNDARY.ASSIGN",
     "MODEL.LOAD.ASSIGN",
+    "MODEL.LOAD_COMBINATION.ASSIGN",
     "ANALYSIS.STATIC",
     "RESULT.NODE.DISPLACEMENT",
-    "MODEL.LOAD_COMBINATION.ASSIGN",
     "DESIGN.STEEL",
 )
 """阶段 B 的步集（①′ 的 5 步 + ②–⑤）。"""
@@ -367,7 +364,7 @@ def test_p157_the_substituted_prefix_builds_the_model() -> None:
         assert not _rejections(row), row
         for endpoint, snapshot in row["readback"].items():
             assert snapshot["present"] is True, (endpoint, snapshot)
-    assert document["substituted_counts"] == {"PASSED": 9, "FAILED": 1, "NOT_RUN": 1}
+    assert document["substituted_counts"] == {"PASSED": 10, "FAILED": 1}
     assert document["substituted_verdict"] == "NOT_PASSED"
 
 
@@ -434,54 +431,75 @@ def test_p157_r135_the_result_query_must_not_filter_by_load_case() -> None:
     assert numbers["displacement.uz"] != 0.0, numbers
 
 
-def test_p157_r136_the_load_combination_step_now_exists_and_is_rejected_natively() -> None:
-    """门槛（**R136 已闭环 + R137 新发现**）：荷载组合**已是一等 Operation**，但组合体被原生拒。
+def test_p157_r136_r137_the_combination_is_created_and_design_fails_at_code_table() -> None:
+    """门槛（**R136/R137 已闭环 + R138 新发现**）：组合建成，⑤ 卡在 `CODE-TABLE` 的**请求体**。
 
-    **R136（用户裁决 = B，已落地）**：`DESIGN.*` 的验算需要**荷载组合**，而接口层原本对它是
-    「既不能建、也不能删」⇒ 新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）
-    并把删除并入 `MODEL.LOAD.DELETE`。**离线可复算**：6 个 `DB.LCOM-*` 端点**全部** `verified`
-    且**已**被该 Operation 引用；能力码**复用** `MODEL.LOAD.WRITE`（**不**扩 41 码词表）。
+    **R136**（用户裁决 = B）：新增 `MODEL.LOAD_COMBINATION.ASSIGN`（Operation **69 → 70**）。
+    **R137**（✅ 已闭环，**取值来自厂商真值**）：照手册 `db/LCOM-STEEL` 示例发
+    `ACTIVE: "STRENGTH"` + `ANAL: "CS"` → **`400 Unknown Error`**；**只读**读回官方验证模型
+    `Gen Verification\Static-01.mgbx` 的 `GET /DB/LCOM-GEN` 得到真值
+    `{"ACTIVE": "ACTIVE", "bCB": false, "iTYPE": 0, "vCOMB": [{"ANAL": "ST", "LCNAME": "CASE1",
+    "FACTOR": 1.0}]}` ⇒ **`ANAL` 的真值是 `"ST"`（手册示例的 `"CS"` 不被接受）**。
+    另：`bCB` 在官方输入 Schema 里标 **`(ReadOnly)`** ⇒ 不发（单变量 A/B 已证明它不是成因）。
 
-    **R137（新，未闭环）**：组合体照手册 `db/LCOM-STEEL` 示例（**只**把 `LCNAME` 换成本链
-    自建的 `AXIAL`）→ 原生 **`400` `{"error":{"message":"Unknown Error"}}`**
-    ⇒ 组合的**取值口径**未定（**不**硬试、如实留缺）。
+    **R138（新，未闭环）**：⑤ 的 `CODE-TABLE` 复用了 `CODE-ANAL` 的 Transformer
+    （`midas.design.steel.v1`，绑 `CODE-ANAL`）⇒ 请求体是 **`{"Assign": {"1": {}}}`**，
+    而该端点的 Schema 要 **`Argument`** 且**必填** `TABLE_TYPE`（`MEMB`/`PROP`）+ `ELEMS`/`SECTIONS`
+    （`oneOf`）⇒ 原生 **`400` `MIDAS GEN NX second query is wrong`**。
     """
     document = _chain()
     row = _step(document, "substituted", "MODEL.LOAD_COMBINATION.ASSIGN")
-    assert row["status"] == "FAILED", row
-    assert row["detail"] == "interface_error:STRUCTAI-2200", row
-    assert row["error"]["details"]["task_error"]["details"]["endpoint"] == "DB.LCOM-STEEL", row[
-        "error"
-    ]
+    assert row["status"] == "PASSED", row
+    assert row["readback"]["DB.LCOM-STEEL"]["present"] is True, row["readback"]
     post = next(item for item in row["requests"] if str(item["path"]).endswith("/DB/LCOM-STEEL"))
-    assert int(post["status"]) == 400, post
-    assert "Unknown Error" in row["native_error"], row["native_error"]
+    assert int(post["status"]) == 200, post
     entry = post["body"]["Assign"]["1"]
     assert entry["NAME"] == "sLCB1", entry
     assert entry["ACTIVE"] == "STRENGTH", entry
-    assert entry["vCOMB"] == [{"ANAL": "CS", "LCNAME": "AXIAL", "FACTOR": 1}], entry
+    assert entry["iTYPE"] == 0, entry
+    # ⚠️ 厂商真值：`ANAL` = `"ST"`（**不**是手册示例的 `"CS"`）；`FACTOR` 是 float
+    assert entry["vCOMB"] == [{"ANAL": "ST", "LCNAME": "AXIAL", "FACTOR": 1.0}], entry
+    # ⚠️ `bCB` 是 `(ReadOnly)` ⇒ **不**发
+    assert "bCB" not in entry, entry
+
+    design = _step(document, "substituted", "DESIGN.STEEL")
+    assert design["status"] == "FAILED", design
+    assert design["error"]["details"]["endpoint"].endswith("CODE-TABLE"), design["error"]
+    assert "second query is wrong" in design["native_error"], design["native_error"]
+    codes = [
+        (str(item["path"]).rsplit("/", 1)[-1], int(item["status"]))
+        for item in design["requests"]
+        if str(item["path"]).startswith("/gen/DESIGN/")
+    ]
+    assert codes == [
+        ("DSTL", 200),
+        ("DCO", 200),
+        ("DCTL", 200),
+        ("MEMB", 200),
+        ("CODE-ANAL", 200),
+        ("CODE-TABLE", 400),
+    ], codes
+    # ⚠️ **R138 的硬证据**：请求体是 `Assign`（该端点要 `Argument`）且**必填字段全缺**
+    table_post = next(
+        item for item in design["requests"] if str(item["path"]).endswith("/CODE-TABLE")
+    )
+    assert table_post["body"] == {"Assign": {"1": {}}}, table_post["body"]
+    # 离线可复算：该端点的 Schema 要求 `Argument` + `TABLE_TYPE` + `ELEMS`/`SECTIONS`
+    import json as _json  # noqa: PLC0415
+
+    schema = _json.loads(
+        (REPO_ROOT / "registry/schema/design/steel/KDS-41-30-2022/CODE-TABLE.json").read_text(
+            encoding="utf-8"
+        )
+    )["schema"]
+    assert "Argument" in schema["properties"], schema["properties"]
+    assert "Assign" not in schema["properties"], schema["properties"]
+    argument = schema["properties"]["Argument"]
+    assert argument["required"] == ["TABLE_TYPE"], argument
+    assert argument["properties"]["TABLE_TYPE"]["enum"] == ["MEMB", "PROP"], argument
+    # ⚠️ 组合**必须**在分析之前（它是分析的输入）；③④ 仍通过
     assert _step(document, "substituted", "ANALYSIS.STATIC")["status"] == "PASSED"
     assert _step(document, "substituted", "RESULT.NODE.DISPLACEMENT")["status"] == "PASSED"
-    assert _step(document, "substituted", "DESIGN.STEEL")["status"] == "NOT_RUN"
-    referenced = {
-        str(step.key)
-        for plan in OPERATION_PLANS.values()
-        for step in plan.steps
-        if "LCOM" in str(step.key).upper()
-    }
-    assert referenced == {
-        "DB.LCOM-GEN",
-        "DB.LCOM-STEEL",
-        "DB.LCOM-CONC",
-        "DB.LCOM-SRC",
-        "DB.LCOM-SEISMIC",
-        "DB.LCOM-STLCOMP",
-    }, referenced
-    registry = MidasRegistry.load(REPO_ROOT / "registry")
-    for key in ("DB.LCOM-GEN", "DB.LCOM-STEEL"):
-        definition = registry.endpoint(key)
-        assert definition.availability == "verified", key
-        assert "GEN_NX" in definition.products, key
 
 
 def test_p157_the_run_left_no_residue_and_the_sentinels_agree() -> None:
