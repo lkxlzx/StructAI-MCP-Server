@@ -120,11 +120,17 @@ def test_p164e_the_crash_path_check_reuses_the_app_table() -> None:
 
 
 def test_p164e_the_default_run_is_a_dry_run_and_writes_nothing() -> None:
-    """门槛：默认（无 `--probe`）只预演 —— 打印**表内**取值构成的请求体，**零**落盘。"""
-    assert not PROBE_EVIDENCE.exists(), "预演不该留下证据文件"
+    """门槛：默认（无 `--probe`）只预演 —— 打印**表内**取值构成的请求体，**零**落盘。
+
+    ⚠️ **判据是「不写」而不是「不存在」**：证据文件在**真机跑过之后本来就该在**
+    （P164-f 已实跑）⇒ 断言「不存在」会在真机跑完后**假红**（本批踩到过）。
+    正确判据 = 预演**不改变**它的字节（原本没有 ⇒ 跑完仍然没有）。
+    """
+    before = PROBE_EVIDENCE.read_bytes() if PROBE_EVIDENCE.exists() else None
     result = _run()
     assert result.returncode == 0, result.stdout + result.stderr
     assert "预演" in result.stdout, result.stdout
     assert "DisplacementContour" in result.stdout, result.stdout
     assert "LOAD_CASE_COMB" in result.stdout, result.stdout
-    assert not PROBE_EVIDENCE.exists(), "预演**不**允许写证据文件"
+    after = PROBE_EVIDENCE.read_bytes() if PROBE_EVIDENCE.exists() else None
+    assert after == before, "预演**不**允许写 / 改证据文件"

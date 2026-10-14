@@ -1,0 +1,67 @@
+{
+ "tool": "registry/tools/probe_view_result_effect.py",
+ "endpoint": "VIEW.RESULTGRAPHIC",
+ "load_case": "DL",
+ "mode_a": "DisplacementContour",
+ "mode_b": "DeformedShape",
+ "mode_table": "registry/live/view_result_modes.json",
+ "rows": [
+  {
+   "tag": "A",
+   "capture_status": 200,
+   "exists": true,
+   "bytes": 32023,
+   "sha256": "1c2f38a857071c80c27de1688877e7e795cf1753dee77f96721dd3c9bd1369b6",
+   "current_mode": "DisplacementContour",
+   "resultgraphic_status": 200
+  },
+  {
+   "tag": "B",
+   "capture_status": 200,
+   "exists": true,
+   "bytes": 32023,
+   "sha256": "1c2f38a857071c80c27de1688877e7e795cf1753dee77f96721dd3c9bd1369b6",
+   "current_mode": "DeformedShape",
+   "resultgraphic_status": 200
+  },
+  {
+   "tag": "C",
+   "capture_status": 200,
+   "exists": true,
+   "bytes": 32023,
+   "sha256": "1c2f38a857071c80c27de1688877e7e795cf1753dee77f96721dd3c9bd1369b6",
+   "current_mode": "DisplacementContour",
+   "resultgraphic_status": 200
+  }
+ ],
+ "control": {
+  "what": "VIEW.DISPLAY 的 ELEMENT.ELEM_NUMBER 开/关（R148 的先例）",
+  "rows": [
+   {
+    "tag": "P1",
+    "capture_status": 200,
+    "exists": true,
+    "bytes": 38869,
+    "sha256": "7a1946b946d6c71ce4b1ae386fbcc66a7346a4c48e8ecc322bace8bfffaa59fa",
+    "elem_number": true,
+    "display_status": 200
+   },
+   {
+    "tag": "P2",
+    "capture_status": 200,
+    "exists": true,
+    "bytes": 32023,
+    "sha256": "1c2f38a857071c80c27de1688877e7e795cf1753dee77f96721dd3c9bd1369b6",
+    "elem_number": false,
+    "display_status": 200
+   }
+  ],
+  "instrument_works": true
+ },
+ "effect": {
+  "graphic_changed_when_mode_changed": false,
+  "same_mode_reproducible": true,
+  "verdict": "FAILED"
+ },
+ "note": "铁律 ⓪：视图类端点的判据 = 改前/改后**截图字节**。阳性对照（④）用于区分「原生静默空转」与「截图拍不到结果图形」。⚠️ 本工具**不**改任何 availability —— 收口与否**由人裁决**。"
+}

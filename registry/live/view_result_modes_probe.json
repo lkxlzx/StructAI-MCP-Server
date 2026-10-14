@@ -1,0 +1,31 @@
+{
+ "tool": "registry/tools/probe_view_result_modes.py",
+ "endpoint": "VIEW.RESULTGRAPHIC",
+ "path": "/VIEW/RESULTGRAPHIC",
+ "known_failure_marker": "second query is wrong",
+ "load_case": "DL",
+ "mode_table": "registry\\live\\view_result_modes.json",
+ "rows": [
+  {
+   "current_mode": "DisplacementContour",
+   "load_case": "DL",
+   "status": 200,
+   "known_failure_marker": false,
+   "payload_top_keys": [
+    "message"
+   ],
+   "body_bytes": 43
+  },
+  {
+   "current_mode": "DeformedShape",
+   "load_case": "DL",
+   "status": 200,
+   "known_failure_marker": false,
+   "payload_top_keys": [
+    "message"
+   ],
+   "body_bytes": 43
+  }
+ ],
+ "note": "⚠️ 判据**只**到「合法取值是否被接受」这一步。视图类端点的**真实效果**需要改前 / 改后截图对比（VIEW.CAPTURE，R148 的先例）⇒ 收口与否**由人裁决**；本工具**不**改任何 availability。"
+}

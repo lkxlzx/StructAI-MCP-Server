@@ -1768,6 +1768,30 @@ Fault offset         : 0x2d97e5c        ← 四次实测**完全相同**
 **单独一次数据侧作业（须裁决）**；⚠️ **不建议**只按手册补枚举（**枚举可能不全**，R151 的教训
 ⇒ 会**误拦**原生其实接受的取值，而这里要防的只是 `400`、**不是崩溃** ⇒ 代价不对等）。
 
+#### 8.19.5 🛑 P164-f（R157）：真机重测做完 —— `200` 了，但**画面没变** ⇒ **不**收口
+
+**R155 成立**：用**表内**取值（`DisplacementContour` / `DeformedShape`）在 `gen-local` 的
+混凝土简支梁上（21 节点 / 20 单元 / 工况 `DL` / **63** 行位移结果）**都**回 **`200`**
+—— R150 的 `400 second query is wrong` **确实**只是**取值非法**。
+
+**但效果判据 FAILED**：三次截图（A：Contour · B：Deformed · C：Contour 重放）
+**字节完全相同**（**32023** 字节 · 同一 sha256）⇒ **`200` 是静默空转**
+（与 **R119 / R128 / R145 / R146** 同族）⇒ **铁律 ⓪** 不成立 ⇒ **`availability` 保持 `untested`**。
+
+⚠️ **方法学（缺一不可，本批最要紧的一条）**：**阳性对照**必须先通过 ——
+`VIEW.DISPLAY` 的 `ELEMENT.ELEM_NUMBER` 开/关让截图**真的不同**
+（**38869** vs **32023** 字节）⇒ 截图**确实**能看见显示变化 ⇒ 「无差异」**不是**仪器失灵；
+且对照组 C == A（同取值可复现）⇒ 排除「截图本来就不稳定」。
+**没有阳性对照的「无差异」不构成证据。**
+
+⚠️ **另一条实测**：`VIEW.CAPTURE` 的 `SET_MODE: "post"` 也回 `200` 但截图与 `pre` **相同**
+⇒ 与 `docs/nxsdk_review` 的实测摘要**一致**（**纯 API 进不了 post 模式**，需 GUI 手动点）
+⇒ **成因未定**（原生空转？进不了结果视图？）⇒ **如实留缺**。
+
+⚠️ **零残留**：跑后哨兵 6 项全一致（视图类操作**不**动模型）；
+`VIEW.RESULTGRAPHIC` 挡住的 **6** 个 Operation **未**解锁（生产可用仍 **62/71**）。
+证据 = `registry/live/view_result_effect_probe.json`（生成器 `registry/tools/probe_view_result_effect.py`）。
+
 **可执行判定** = `tests/test_midas_native_crash_guard_p164c.py`（**30** 项）·
 `tests/test_midas_view_result_modes_p164d.py`（**10** 项）·
 `tests/test_midas_view_result_modes_probe_p164e.py`（**6** 项）。

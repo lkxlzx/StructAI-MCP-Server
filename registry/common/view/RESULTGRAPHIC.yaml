@@ -21,6 +21,25 @@
 #
 # ⚠️ **不**据此升级 `availability`（**保持 `untested`**）。
 # 恢复条件 = 用**表内**的 `CURRENT_MODE` 取值，在**有分析结果**的项目上重测并读到结果行。
+#
+# ✅ **P164-f / R157：真机重测做完了 —— 效果判据 FAILED ⇒ 仍**不**收口**
+# 2026-10-14 在 `gen-local` 的混凝土简支梁（21 节点 / 20 单元 / 工况 `DL` / 63 行位移结果）上，
+# 用**表内**取值实测：`RESULTGRAPHIC(DisplacementContour)` 与 `(DeformedShape)`
+# **都**回 **`200`**（R150 的 `second query is wrong` **确实**只是取值非法 ⇒ R155 成立），
+# **但改前/改后截图字节完全相同**（三次 32023 字节 · 同一 sha256）⇒
+# **`200` 是静默空转**，**画面没变** ⇒ **铁律 ⓪** 的效果判据**不成立**。
+#
+# ⚠️ **方法学（缺一不可）**：**阳性对照**必须先通过 —— `VIEW.DISPLAY` 的
+# `ELEMENT.ELEM_NUMBER` 开/关会让截图**真的不同**（38869 vs 32023 字节）
+# ⇒ 截图**确实**能看见显示变化 ⇒ 「无差异」**不是**仪器失灵。
+# ⚠️ 另记：`VIEW.CAPTURE` 的 `SET_MODE: "post"` 也回 `200` 但截图与 `pre` **相同**
+# ⇒ 与 `docs/nxsdk_review` 的实测摘要一致（**纯 API 进不了 post 模式**，需 GUI 手动点）。
+# ⇒ **成因未定**（原生空转？进不了结果视图？），**如实留缺**。
+#
+# 恢复条件（更新）= ① 确认是否存在**纯 API** 进入结果视图（post）的路径；
+# ② 或由 **MIDAS 侧**澄清 `RESULTGRAPHIC` 的生效前提。
+# 证据 = `registry/live/view_result_effect_probe.json`（生成器
+# `registry/tools/probe_view_result_effect.py`，默认预演 / `--probe` 真机 / `--check` 离线自洽）。
 key: VIEW.RESULTGRAPHIC
 namespace: VIEW
 uri: /VIEW/RESULTGRAPHIC
