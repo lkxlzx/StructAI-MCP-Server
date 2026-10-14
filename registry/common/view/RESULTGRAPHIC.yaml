@@ -1,8 +1,26 @@
 # ⚠️ **P160d（**未**收口 —— 如实留缺）**：`POST /gen/VIEW/RESULTGRAPHIC` → **`400`**
 # `{"error":{"message":"MIDAS GEN NX second query is wrong"}}`
-# 取值 = 手册示例形状（`CURRENT_MODE: "displacement"` + `LOAD_CASE_COMB: {TYPE: "ST", NAME: "CASE1"}`），
-# 在**无分析结果**的项目上测得。⇒ **成因未定**（可能是缺分析结果，也可能是 `CURRENT_MODE` 取值不符）。
-# ⚠️ **不**据此升级 `availability`；恢复条件 = 在**有分析结果**的项目上重测并给出正确取值。
+# 取值 = `CURRENT_MODE: "displacement"` + `LOAD_CASE_COMB: {TYPE: "ST", NAME: "CASE1"}`，
+# 在**无分析结果**的项目上测得。
+#
+# ✅ **P164-d / R155：成因已定（**更正**「成因未定」）**
+# 本端点是**多变体端点** —— 手册里 **34** 篇文章（`… - Result Display` /
+# `… - Moving Tracer Display` / `… - Mode Shapes Display` / `… - Heat of Hydration Display`）
+# 都映射到 `view/RESULTGRAPHIC`，**由 `Argument.CURRENT_MODE` 选变体**，共 **36** 个取值
+# （**56** 条示例）。而 `"displacement"` **不在**这 36 个里
+# ⇒ 那一次的 `400` = **变体选择子取值非法**，**不是**「缺分析结果」。
+# 最接近的合法取值 = `DisplacementContour` / `MVLTRC_Displacements`。
+# 证据（**离线、零请求、可复算**）= `registry/live/view_result_modes.json`
+# （生成器 `registry/tools/extract_result_modes.py`，逐条回溯到文章标题 / 示例名 / URL）。
+#
+# ⚠️ **数据侧缺口（如实记录、本批不修）**：本端点的**请求 Schema**
+# （`registry/schema/common/view/RESULTGRAPHIC.json`）的 `Argument` **只**声明
+# `TYPE_OF_DISPLAY`（= **36** 个变体里的**一个**）⇒ **R140 的 `spec_guard` 抓不到非法的
+# `CURRENT_MODE`**（没有枚举可查）⇒ 非法取值会一路发到原生。补全 36 个变体的 Schema
+# 是**单独一次数据侧作业**（须裁决），**不**在本批硬凑。
+#
+# ⚠️ **不**据此升级 `availability`（**保持 `untested`**）。
+# 恢复条件 = 用**表内**的 `CURRENT_MODE` 取值，在**有分析结果**的项目上重测并读到结果行。
 key: VIEW.RESULTGRAPHIC
 namespace: VIEW
 uri: /VIEW/RESULTGRAPHIC

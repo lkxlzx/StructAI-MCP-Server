@@ -644,7 +644,14 @@ _DESIGN: Final[dict[str, OperationPlan]] = {
                 "midas.design.rc-member.v1",
                 method="PUT",
             ),
-            _write("DESIGN.RC.KDS-41-20-2022.BD-ANAL", "design", None),
+            # ⚠️ **P164-c / R154（实测驱动，事故驱动）**：`BD-ANAL` 原先 `transformer=None`
+            # ⇒ `_arguments_step` 把 `_design_arguments()` 的**小写 canonical 体**原样发出
+            # （`{"Argument": {"perform_type": "ALL", "elements": [...], "sections": null}}`），
+            # 而原生要 `{"Argument": {"PERFORM_TYPE": "ALL", "ELEMS": {"KEYS": [...]}}}`。
+            # **形状不对 ⇒ MIDAS Gen NX 直接崩溃**（恢复文件 `p164c-concrete_restore.mgbx`）。
+            # 与 `DESIGN.STEEL` 的 `CODE-ANAL`（有 `midas.design.steel.v1`）**同形**
+            # ⇒ 补同形的转换器。
+            _write("DESIGN.RC.KDS-41-20-2022.BD-ANAL", "design", "midas.design.rc-anal.v1"),
             _write("DESIGN.RC.KDS-41-20-2022.BD-TABLE", "design_result", None),
         ),
         note="docs/07 §6.8：BD/CD/BRD/WD-ANAL（设计）或 BC/CC/BRC/WC-ANAL（校核）",
@@ -654,11 +661,41 @@ _DESIGN: Final[dict[str, OperationPlan]] = {
         "engineering_design",
         composite=True,
         steps=_steps(
-            _write("DESIGN.SRC.AIK-SRC2K.DSRC", "design", None, method="PUT"),
-            _read("DESIGN.SRC.AIK-SRC2K.DCO"),
-            _read("DESIGN.SRC.AIK-SRC2K.DCTL"),
-            _read("DESIGN.SRC.AIK-SRC2K.MEMB"),
-            _write("DESIGN.SRC.AIK-SRC2K.BC-ANAL", "design", None),
+            # ⚠️ **P164-c / R154（实测驱动）**：本步原先 `intent="design"` + `transformer=None`
+            # ⇒ `_arguments_step` 会把 `_design_arguments()` 的小写 canonical 体发到
+            # **设计规范**端点（`{"Assign": {"perform_type": …, "elements": …}}`），而原生要
+            # `{"Assign": {"1": {"DGNCODE": "AIK-SRC2K"}}}` ⇒ 与 `DESIGN.RC.DRC` 的写法对齐。
+            _write(
+                "DESIGN.SRC.AIK-SRC2K.DSRC",
+                "write_design_code",
+                "midas.design.src-code.v1",
+                method="PUT",
+            ),
+            # ⚠️ **P164-b / R153 收尾（用户授权）**：这 3 步是**配置**
+            # （手册方法 `GET, PUT, DELETE`），原先用 `_read(...)` ⇒ **SRC 设计永远配不上**
+            # ⇒ 与 **R141**（`DESIGN.STEEL`）/ **R153**（`DESIGN.CONCRETE`）实测的事故
+            # **逐条同形** ⇒ 改 `_write(..., method="PUT")`。
+            _write(
+                "DESIGN.SRC.AIK-SRC2K.DCO",
+                "write_design_option",
+                "midas.design.src-option.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.SRC.AIK-SRC2K.DCTL",
+                "write_design_frame",
+                "midas.design.src-frame.v1",
+                method="PUT",
+            ),
+            _write(
+                "DESIGN.SRC.AIK-SRC2K.MEMB",
+                "write_design_member",
+                "midas.design.src-member.v1",
+                method="PUT",
+            ),
+            # ⚠️ **P164-c / R154**：与 `DESIGN.CONCRETE` 的 `BD-ANAL` **完全同形**的缺陷
+            # （`transformer=None` ⇒ 小写 canonical 体被原样发出 ⇒ 原生崩溃）⇒ **一并**修。
+            _write("DESIGN.SRC.AIK-SRC2K.BC-ANAL", "design", "midas.design.src-anal.v1"),
             _write("DESIGN.SRC.AIK-SRC2K.BC-TABLE", "design_result", None),
         ),
         note="docs/07 §6.8：DSRC（规范选择）→ DCO → DCTL → MEMB → BC/CC-ANAL → *-TABLE",
@@ -686,27 +723,31 @@ _DESIGN: Final[dict[str, OperationPlan]] = {
                 _write("POST.STEELCODECHECK", "design_result", None),
             ),
             "concrete:BD": _steps(
-                _write("DESIGN.RC.KDS-41-20-2022.BD-ANAL", "design", None),
+                _write("DESIGN.RC.KDS-41-20-2022.BD-ANAL", "design", "midas.design.rc-anal.v1"),
                 _write("DESIGN.RC.KDS-41-20-2022.BD-TABLE", "design_result", None),
             ),
             "concrete:CD": _steps(
-                _write("DESIGN.RC.KDS-41-20-2022.CD-ANAL", "design", None),
+                _write("DESIGN.RC.KDS-41-20-2022.CD-ANAL", "design", "midas.design.rc-cd-anal.v1"),
                 _write("DESIGN.RC.KDS-41-20-2022.CD-TABLE", "design_result", None),
             ),
             "concrete:BRD": _steps(
-                _write("DESIGN.RC.KDS-41-20-2022.BRD-ANAL", "design", None),
+                _write(
+                    "DESIGN.RC.KDS-41-20-2022.BRD-ANAL",
+                    "design",
+                    "midas.design.rc-brd-anal.v1",
+                ),
                 _write("DESIGN.RC.KDS-41-20-2022.BRD-TABLE", "design_result", None),
             ),
             "concrete:WD": _steps(
-                _write("DESIGN.RC.KDS-41-20-2022.WD-ANAL", "design", None),
+                _write("DESIGN.RC.KDS-41-20-2022.WD-ANAL", "design", "midas.design.rc-wd-anal.v1"),
                 _write("DESIGN.RC.KDS-41-20-2022.WD-TABLE", "design_result", None),
             ),
             "src:BC": _steps(
-                _write("DESIGN.SRC.AIK-SRC2K.BC-ANAL", "design", None),
+                _write("DESIGN.SRC.AIK-SRC2K.BC-ANAL", "design", "midas.design.src-anal.v1"),
                 _write("DESIGN.SRC.AIK-SRC2K.BC-TABLE", "design_result", None),
             ),
             "src:CC": _steps(
-                _write("DESIGN.SRC.AIK-SRC2K.CC-ANAL", "design", None),
+                _write("DESIGN.SRC.AIK-SRC2K.CC-ANAL", "design", "midas.design.src-cc-anal.v1"),
                 _write("DESIGN.SRC.AIK-SRC2K.CC-TABLE", "design_result", None),
             ),
         },

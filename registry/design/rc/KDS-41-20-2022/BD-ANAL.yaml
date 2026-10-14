@@ -1,3 +1,17 @@
+# 🛑 **P164-c（**实测**：本端点会让 MIDAS Gen NX 直接崩溃 ⇒ **产品缺陷 / 留缺）**
+# 触发：`POST /DESIGN/RC/KDS-41-20-2022/BD-ANAL`（**四次**实测，2026-10-14）
+# 形态：`GenNX.exe` 26.9.1.1001 在 `wg_db.dll` 1.0.0.1 里**访问违例** ——
+#       `Exception code = 0xc0000005` · `Fault offset = 0x2d97e5c`（**四次完全相同**），
+#       恢复文件 = `.tmp_p164c/p164c-concrete_restore.mgbx`。
+# 四次的请求体**各不相同**（① 小写 canonical 键 · ② `ALL` + `ELEMS` 自相矛盾 ·
+#   ③ **手册 `BD-ANAL` 文章的逐字示例体** · ④ ③ 的形状 + **关掉抗震**）
+#   ⇒ **崩溃与请求体无关**，是原生设计引擎的缺陷，我方**无法规避、无法修复**。
+# ⚠️ **不**据此升级 / 降级 `availability`（**保持 `untested`**）—— 没有成功实测。
+# ✅ **已加护栏**：`app/infrastructure/adapters/midas/client.py` 的 `guard_native_crash()`
+#   在**发请求之前**拒绝（`MidasNativeCrashRisk` · `STRUCTAI-1200` · `native_crash_risk`，**零请求**）；
+#   要重跑须显式 `allow_native_crash_risk=True` **且**已获用户对「会打崩他的 MIDAS」的明确同意。
+# 恢复条件 = **MIDAS 侧**修掉 `wg_db.dll` 的崩溃（我方无法解锁）。
+# 证据：`docs/reports/P164-c_分块2_DESIGN_CONCRETE原生崩溃留缺_v1.0.md` · `docs/07` §16.1 **R154**
 key: "DESIGN.RC.KDS-41-20-2022.BD-ANAL"
 namespace: DESIGN
 uri: "/DESIGN/RC/KDS-41-20-2022/BD-ANAL"

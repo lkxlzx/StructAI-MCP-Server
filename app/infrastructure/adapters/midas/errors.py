@@ -53,6 +53,7 @@ __all__ = [
     "MidasConnectionError",
     "MidasEndpointDisabled",
     "MidasGlobalDeleteRejected",
+    "MidasNativeCrashRisk",
     "MidasResultShapeError",
     "MidasSchemaShapeMismatch",
     "MidasSolverUnsupported",
@@ -149,6 +150,31 @@ class RegistryMappingNotVerified(MidasCapabilityError):
             operation=operation,
             endpoint=endpoint,
             verification_status=status,
+            **kwargs,
+        )
+
+
+class MidasNativeCrashRisk(MidasValidationError):
+    """原生崩溃护栏：该端点**实测会把宿主程序打崩** ⇒ **发请求前**拒绝（→ `1200`）。
+
+    ⚠️ **P164-c（事故驱动）**：`DESIGN.RC.KDS-41-20-2022.BD-ANAL` 让 **MIDAS Gen NX
+    26.9.1.1001 直接终止**（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`，**四次**实测同一偏移，
+    请求体各不相同 —— 含手册逐字示例体）。宿主崩溃**不是** `4xx` 业务拒绝：链路会以
+    `STRUCTAI-2000 transport_error` 收场，而**用户的应用已经没了**（恢复文件
+    `p164c-concrete_restore.mgbx`）。
+
+    与 **R140**（`spec_guard` 拦非法枚举）**同族、更深一层**：那一次拦的是「弹窗 / 崩溃」，
+    这一次拦的是「**已实测确认**的宿主崩溃」。
+
+    异常族取 `MidasValidationError`（`STRUCTAI-1200`）—— 与 R140 的 `spec_guard`
+    口径一致：**拦在发请求之前**属于校验拒绝，不是能力缺失。
+    """
+
+    def __init__(self, endpoint: str, *, measured: bool, **kwargs: Any) -> None:
+        super().__init__(
+            "native_crash_risk",
+            endpoint=endpoint,
+            measured=bool(measured),
             **kwargs,
         )
 

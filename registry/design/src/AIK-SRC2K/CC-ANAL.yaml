@@ -1,3 +1,10 @@
+# 🛑 **P164-c（同族推定：**未**实测，先拦后放）**
+# 同族 = `DESIGN.RC.KDS-41-20-2022.BD-ANAL`（**实测四次**把 `GenNX.exe` 26.9.1.1001
+# 打崩在 `wg_db.dll`：`0xc0000005` @ `0x2d97e5c`）。本端点与它**同调用形态**
+# （`POST` + `Argument` + `PERFORM_TYPE` / `ELEMS.KEYS`，只是规范族不同）⇒ 一并**推定**有风险。
+# ✅ **已加护栏**：`guard_native_crash()` 在**发请求之前**拒绝（`details.measured = False`）。
+# ⚠️ **不**改 `availability`（**保持 `untested`**）；要实测须先获用户明确同意。
+# 证据：`docs/reports/P164-c_分块2_DESIGN_CONCRETE原生崩溃留缺_v1.0.md` · `docs/07` §16.1 **R154**
 key: "DESIGN.SRC.AIK-SRC2K.CC-ANAL"
 namespace: DESIGN
 uri: "/DESIGN/SRC/AIK-SRC2K/CC-ANAL"

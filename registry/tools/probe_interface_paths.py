@@ -805,6 +805,7 @@ class _Stack:
         *,
         read_mode: bool = False,
         allow_unverified: bool = False,
+        allow_native_crash_risk: bool = False,
         capture_shape: bool = False,
     ) -> None:
         self.repo = repo
@@ -820,6 +821,12 @@ class _Stack:
         `verification_status != VERIFIED` 的端点（`MidasAdapter.allow_unverified` 的**唯一**用途，
         见 `adapter.py` 裁决 4）。⚠️ **默认 `False`**（写路径 / 读路径探针**不**改行为）；
         只有**显式**要**测量**一个 `untested` 端点的探针才置 `True`。"""
+        self.allow_native_crash_risk = bool(allow_native_crash_risk)
+        """⚠️ **P164-c（事故驱动）**：`True` ⇒ 放开 `NATIVE_CRASH_ENDPOINTS`
+        （`DESIGN.RC.*` / `DESIGN.SRC.*` 的 `*-ANAL`）—— 这些端点**实测会把
+        MIDAS Gen NX 打崩**（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）。
+        **默认 `False`**：探针会在**发请求之前**拿到 `native_crash_risk`（零请求）。
+        重跑前必须取得用户对「会打崩他的 MIDAS」的明确同意。"""
         self.transport: _RecordingTransport | None = None
         self.log: list[dict[str, Any]] = []
         """自上次 `clear()` 以来**接口层实际发出**的全部请求（供逐行证据）。"""
@@ -918,6 +925,7 @@ class _Stack:
                 environ=dict(os.environ),
                 product=INSTANCE_PRODUCT,
                 allow_unverified=self.allow_unverified,
+                allow_native_crash_risk=self.allow_native_crash_risk,
             ),
         )
         async with UnitOfWork.from_session_factory(factory) as uow:
@@ -2518,4 +2526,10 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    # Windows 控制台默认 cp949/cp936：本工具会打印中文/符号，不重设编码会 UnicodeEncodeError。
+    # ⚠️ 必须在 `__main__` 块内：测试用 `exec_module()` 装载本模块，模块级调用会改写
+    #    **pytest 的捕获流**，破坏其后所有用例的 capture。
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     raise SystemExit(main())

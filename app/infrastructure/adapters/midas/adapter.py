@@ -150,6 +150,7 @@ class MidasAdapter(BaseAdapter):
         transport: Any = None,
         environ: Mapping[str, str] | None = None,
         allow_unverified: bool = False,
+        allow_native_crash_risk: bool = False,
         product: str | None = None,
     ) -> None:
         """构造（**不**做 I/O；见裁决 4 的 `allow_unverified`）。"""
@@ -160,6 +161,10 @@ class MidasAdapter(BaseAdapter):
         self._transport = transport
         self._environ: Mapping[str, str] = os.environ if environ is None else environ
         self._allow_unverified = bool(allow_unverified)
+        # ⚠️ **P164-c（事故驱动）**：`NATIVE_CRASH_ENDPOINTS`（`client.py`）里的设计执行
+        # 端点**实测会把 MIDAS Gen NX 打崩**（`wg_db.dll` 访问违例）。默认**拦死**；
+        # 只有「已取得用户明确同意、且知道会打崩他的软件」时才显式打开。
+        self._allow_native_crash_risk = bool(allow_native_crash_risk)
         self._client: MidasHttpClient | None = None
         self._configured_product = str(product) if product else ""
         self._product = self._configured_product or MIDAS_PRODUCT
@@ -188,6 +193,11 @@ class MidasAdapter(BaseAdapter):
     def allow_unverified(self) -> bool:
         """是否处于 Contract Test 模式（见裁决 4）。"""
         return self._allow_unverified
+
+    @property
+    def allow_native_crash_risk(self) -> bool:
+        """是否已显式放开「已知会打崩宿主程序」的端点（**默认 `False`**；P164-c）。"""
+        return self._allow_native_crash_risk
 
     # ===== 生命周期（`docs/02` §10 / §54）=====
 
@@ -355,6 +365,23 @@ class MidasAdapter(BaseAdapter):
                 arguments=_analysis_arguments(parameters),
             )
         if step.intent == "design":
+            # ⚠️ **P164-c / R154（事故驱动，**结构性防护**）**：`_design_arguments()` 产出的是
+            # **小写 canonical 键**（`perform_type` / `elements` / …），而原生 `*-ANAL` 要的是
+            # `PERFORM_TYPE` / `ELEMS.KEYS`。**没有转换器时 `_arguments_step` 会把 canonical 体
+            # 原样发出去** ⇒ 原生收到形状不符的设计体 ⇒ **MIDAS Gen NX 直接崩溃**
+            # （实测：`DESIGN.RC.KDS-41-20-2022.BD-ANAL`，恢复文件 `p164c-concrete_restore.mgbx`）。
+            # ⇒ 宁可在**发请求前**明确失败，也不让一个畸形体把宿主程序打崩。
+            if not step.transformer:
+                raise MidasValidationError(
+                    "design_transformer_missing",
+                    endpoint=str(step.key),
+                    operation=str(operation),
+                    note=(
+                        "`intent=design` 的步骤**必须**有转换器：`_design_arguments()` 产出的是"
+                        "小写 canonical 键，没有转换器就会把畸形体发给原生设计引擎"
+                        "（实测会**打崩** MIDAS Gen NX）。"
+                    ),
+                )
             return await self._arguments_step(
                 operation,
                 step,
@@ -700,6 +727,7 @@ class MidasAdapter(BaseAdapter):
             item_ids=item_ids,
             solver=self._solver,
             allow_unverified=self._allow_unverified,
+            allow_native_crash_risk=self._allow_native_crash_risk,
         )
 
     async def _send(self, request: BuiltRequest) -> dict[str, Any]:
@@ -840,12 +868,52 @@ def _analysis_arguments(parameters: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _design_arguments(parameters: Mapping[str, Any]) -> dict[str, Any]:
-    """设计执行参数（`CODE-ANAL` 的 `PERFORM_TYPE` / `ELEMS` / `SECTIONS`）。"""
-    return {
+    """设计执行参数（`*-ANAL` 的 `PERFORM_TYPE` / `ELEMS` / `SECTIONS` / `SELECTIONS`）。
+
+    ⚠️ **P164-c / R154（实测驱动）**：
+    * `DESIGN.RC.KDS-41-20-2022.WD-ANAL`（**墙**设计）的 `Argument` **只有** `SELECTIONS`
+      （`{WALL_IDS, STORY}` 数组），与同族其它 `*-ANAL` **不同形** ⇒ 单独透传（**不**臆造）。
+    * ⚠️ **只返回调用方真正给了的字段**（丢掉 `None`）：`SchemaBoundTransformer.to_native()`
+      在**检查 `None` 之前**就校验字段名 ⇒ 多带一个 `None` 会让**所有**不含该字段的转换器
+      抛 `transformer_field_not_in_schema`（本批实测踩到）。
+      ⚠️ 反过来也**不能**把 `None` 收进白名单 —— 那会**放宽**「不臆造字段」的判定。
+    """
+    candidates = {
         "perform_type": parameters.get("perform_type"),
         "elements": parameters.get("elements"),
         "sections": parameters.get("sections"),
+        "selections": parameters.get("selections"),
     }
+    arguments = {key: value for key, value in candidates.items() if value is not None}
+
+    # ⚠️ **P164-c / R154（事故驱动，**自洽性守卫**）**：`PERFORM_TYPE` 与目标选择**必须一致** ——
+    # 手册把三者定义得很清楚：`ALL` = 全部构件 · `ELEMS` = 按**单元编号** ·
+    # `SECTIONS` = 按**截面编号**。
+    # 发 `PERFORM_TYPE="ALL"` **同时**带 `ELEMS.KEYS` 是**自相矛盾**的请求。
+    # 实测：这种矛盾请求会让 MIDAS Gen NX 在 `wg_db.dll` 里**访问违例崩溃**
+    # （`GenNX.exe` 26.9.1.1001 · `0xc0000005` · offset `0x2d97e5c`，两次实测同一偏移）。
+    # ⇒ 在**发请求前**明确失败 —— **绝不**把一个自相矛盾的设计请求交给原生设计引擎。
+    perform = arguments.get("perform_type")
+    if perform == "ALL" and ("elements" in arguments or "sections" in arguments):
+        raise MidasValidationError(
+            "design_target_conflict",
+            perform_type=perform,
+            given=sorted(k for k in ("elements", "sections") if k in arguments),
+            note=(
+                '`PERFORM_TYPE="ALL"`（全部构件）不能与 `elements` / `sections` 同时给出 —— '
+                "那是自相矛盾的请求（实测会**打崩** MIDAS Gen NX）。"
+                '要按编号设计请用 `perform_type="ELEMS"` 或 `"SECTIONS"`。'
+            ),
+        )
+    if perform == "ELEMS" and "elements" not in arguments:
+        raise MidasValidationError(
+            "design_target_missing", perform_type=perform, note="`ELEMS` 需要 `elements`。"
+        )
+    if perform == "SECTIONS" and "sections" not in arguments:
+        raise MidasValidationError(
+            "design_target_missing", perform_type=perform, note="`SECTIONS` 需要 `sections`。"
+        )
+    return arguments
 
 
 def _parse_result(

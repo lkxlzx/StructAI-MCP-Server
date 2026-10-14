@@ -95,6 +95,16 @@ __all__ = [
     "DesignRcOptionTransformer",
     "DesignRcFrameTransformer",
     "DesignRcMemberTransformer",
+    "DesignSrcOptionTransformer",
+    "DesignSrcFrameTransformer",
+    "DesignSrcMemberTransformer",
+    "DesignSrcCodeTransformer",
+    "DesignRcAnalTransformer",
+    "DesignSrcAnalTransformer",
+    "DesignRcColumnAnalTransformer",
+    "DesignRcBraceAnalTransformer",
+    "DesignRcWallAnalTransformer",
+    "DesignSrcColumnAnalTransformer",
     "TableResult",
     "ViewTransformer",
     "constraint_flags",
@@ -875,6 +885,151 @@ class DesignRcMemberTransformer(SchemaBoundTransformer):
     )
 
 
+class DesignSrcOptionTransformer(SchemaBoundTransformer):
+    """SRC 设计选项（`DESIGN.SRC.AIK-SRC2K.DCO`；**必填** `DGNCODE` + `SEISMIC`）。
+
+    ⚠️ **P164-b / R153 收尾**：与 STEEL / RC 的 `DCO` 同形但是**另一份**字段表 ——
+    SRC 只有 **2** 个字段（`DGNCODE` + `SEISMIC`，**都必填**），且 `SEISMIC` 是 **boolean**
+    （RC 是 object、STEEL 是 boolean）。字段逐个照端点 Schema 取，**不**臆造。
+    """
+
+    name = "midas.design.src-option.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.DCO"
+    fields = (
+        FieldMap("dgn_code", "DGNCODE", True),
+        FieldMap("seismic", "SEISMIC", True),
+    )
+
+
+class DesignSrcFrameTransformer(SchemaBoundTransformer):
+    """SRC 设计控制（`DESIGN.SRC.AIK-SRC2K.DCTL`）。"""
+
+    name = "midas.design.src-frame.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.DCTL"
+    fields = (
+        FieldMap("frame_x", "FRAMEX"),
+        FieldMap("frame_y", "FRAMEY"),
+        FieldMap("auto_kf", "bAUTOKF"),
+        FieldMap("design_type", "DT"),
+    )
+
+
+class DesignSrcMemberTransformer(SchemaBoundTransformer):
+    """SRC 设计构件指派（`DESIGN.SRC.AIK-SRC2K.MEMB`；**必填** `AELEM`）。"""
+
+    name = "midas.design.src-member.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.MEMB"
+    fields = (
+        FieldMap("elements", "AELEM", True),
+        FieldMap("reverse", "bREVERSE"),
+    )
+
+
+class DesignSrcCodeTransformer(SchemaBoundTransformer):
+    """SRC 设计规范（`DESIGN.SRC.AIK-SRC2K.DSRC`）。
+
+    ⚠️ **P164-c / R154（实测驱动）**：该端点的编排原先是 `intent="design"` + `transformer=None`
+    ⇒ `_arguments_step` 会把 `_design_arguments()` 的**小写 canonical 体**原样发出去
+    （`{"Assign": {"perform_type": …, "elements": …}}`），而原生要的是
+    `{"Assign": {"1": {"DGNCODE": "AIK-SRC2K"}}}`。与 `DESIGN.RC.DRC` 的写法对齐。
+    """
+
+    name = "midas.design.src-code.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.DSRC"
+    fields = (FieldMap("dgn_code", "DGNCODE", True),)
+
+
+class DesignRcAnalTransformer(SchemaBoundTransformer):
+    """RC 设计执行（`DESIGN.RC.KDS-41-20-2022.BD-ANAL`）—— 与 `midas.design.steel.v1` 同形。
+
+    ⚠️ **P164-c / R154（实测驱动，**事故驱动**）**：该端点原先 `transformer=None` ⇒
+    `_arguments_step` 把 `_design_arguments()` 的小写 canonical 体**原样**发出
+    （`{"Argument": {"perform_type": "ALL", "elements": [...], "sections": null}}`），
+    而原生要 `{"Argument": {"PERFORM_TYPE": "ALL", "ELEMS": {"KEYS": [...]}}}`。
+    **形状不对 ⇒ MIDAS Gen NX 直接崩溃**（`发生了无法确定的问题需要终止程序`，
+    恢复文件 `p164c-concrete_restore.mgbx`）—— 与 R141 / R153 **同族、深一层**。
+
+    字段照 `DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL` 的 `midas.design.steel.v1`（三个端点
+    Schema **逐字段一致**：`PERFORM_TYPE` / `ELEMS` / `SECTIONS` + 同一 `oneOf`）。
+    """
+
+    name = "midas.design.rc-anal.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.BD-ANAL"
+    fields = (
+        FieldMap("perform_type", "PERFORM_TYPE"),
+        FieldMap("elements", "ELEMS.KEYS"),
+        FieldMap("sections", "SECTIONS"),
+    )
+
+
+class DesignSrcAnalTransformer(SchemaBoundTransformer):
+    """SRC 设计执行（`DESIGN.SRC.AIK-SRC2K.BC-ANAL`）—— 与 `midas.design.rc-anal.v1` 同形。
+
+    ⚠️ **P164-c / R154**：与 `BD-ANAL` **完全同形**的缺陷（`transformer=None` ⇒ 体形状不对）。
+    本批**一并**修 —— 按 R153 的教训「**修一个族的时候要把同族全查一遍**」。
+    """
+
+    name = "midas.design.src-anal.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.BC-ANAL"
+    fields = (
+        FieldMap("perform_type", "PERFORM_TYPE"),
+        FieldMap("elements", "ELEMS.KEYS"),
+        FieldMap("sections", "SECTIONS"),
+    )
+
+
+class DesignRcColumnAnalTransformer(SchemaBoundTransformer):
+    """RC 柱设计执行（`DESIGN.RC.KDS-41-20-2022.CD-ANAL`）—— 与 `BD-ANAL` 同形。"""
+
+    name = "midas.design.rc-cd-anal.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.CD-ANAL"
+    fields = (
+        FieldMap("perform_type", "PERFORM_TYPE"),
+        FieldMap("elements", "ELEMS.KEYS"),
+        FieldMap("sections", "SECTIONS"),
+    )
+
+
+class DesignRcBraceAnalTransformer(SchemaBoundTransformer):
+    """RC 斜撑设计执行（`DESIGN.RC.KDS-41-20-2022.BRD-ANAL`）—— 与 `BD-ANAL` 同形。"""
+
+    name = "midas.design.rc-brd-anal.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.BRD-ANAL"
+    fields = (
+        FieldMap("perform_type", "PERFORM_TYPE"),
+        FieldMap("elements", "ELEMS.KEYS"),
+        FieldMap("sections", "SECTIONS"),
+    )
+
+
+class DesignRcWallAnalTransformer(SchemaBoundTransformer):
+    """RC 墙设计执行（`DESIGN.RC.KDS-41-20-2022.WD-ANAL`）。
+
+    ⚠️ **与同族其它 `*-ANAL` **不同形****：该端点的 `Argument` **只有** `SELECTIONS`
+    （数组，元素 = `{WALL_IDS: {KEYS, TO}, STORY}`）—— 没有 `PERFORM_TYPE` / `ELEMS` / `SECTIONS`。
+    字段**照该端点自己的 Schema** 取（**不**臆造、**不**照抄兄弟端点）。
+
+    ⚠️ **未实测**（需**墙**模型）：本转换器只保证**形状**与数据侧 Schema 一致，
+    **不**声称墙设计可用。留缺记录见 `docs/reports/P164-c_*`。
+    """
+
+    name = "midas.design.rc-wd-anal.v1"
+    endpoint = "DESIGN.RC.KDS-41-20-2022.WD-ANAL"
+    fields = (FieldMap("selections", "SELECTIONS"),)
+
+
+class DesignSrcColumnAnalTransformer(SchemaBoundTransformer):
+    """SRC 柱校核执行（`DESIGN.SRC.AIK-SRC2K.CC-ANAL`）—— 与 `BC-ANAL` 同形。"""
+
+    name = "midas.design.src-cc-anal.v1"
+    endpoint = "DESIGN.SRC.AIK-SRC2K.CC-ANAL"
+    fields = (
+        FieldMap("perform_type", "PERFORM_TYPE"),
+        FieldMap("elements", "ELEMS.KEYS"),
+        FieldMap("sections", "SECTIONS"),
+    )
+
+
 class UnitSystemTransformer(SchemaBoundTransformer):
     """单位系统（`DB.UNIT`）：`FORCE` / `DIST` / `HEAT` / `TEMPER` ↔ canonical。
 
@@ -1176,6 +1331,16 @@ TRANSFORMER_REGISTRY: Final[dict[str, type[Any]]] = {
     "midas.design.rc-option.v1": DesignRcOptionTransformer,
     "midas.design.rc-frame.v1": DesignRcFrameTransformer,
     "midas.design.rc-member.v1": DesignRcMemberTransformer,
+    "midas.design.src-option.v1": DesignSrcOptionTransformer,
+    "midas.design.src-frame.v1": DesignSrcFrameTransformer,
+    "midas.design.src-member.v1": DesignSrcMemberTransformer,
+    "midas.design.src-code.v1": DesignSrcCodeTransformer,
+    "midas.design.rc-anal.v1": DesignRcAnalTransformer,
+    "midas.design.src-anal.v1": DesignSrcAnalTransformer,
+    "midas.design.rc-cd-anal.v1": DesignRcColumnAnalTransformer,
+    "midas.design.rc-brd-anal.v1": DesignRcBraceAnalTransformer,
+    "midas.design.rc-wd-anal.v1": DesignRcWallAnalTransformer,
+    "midas.design.src-cc-anal.v1": DesignSrcColumnAnalTransformer,
     "midas.stld.v1": LoadCaseTransformer,
     "midas.view.capture.v1": ViewTransformer,
 }

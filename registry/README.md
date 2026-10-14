@@ -1401,3 +1401,373 @@ R129 的数据更正（接 ㉒）**：
 - 可执行判定 = `tests/test_midas_constraint_rw_p157.py`（**16** 项）+
   `tests/test_midas_flagship_chain_p157.py`（**11** 项）·
   `docs/reports/P157_D2落地与旗舰五步链实测_v1.0.md`。
+
+### 8.15 P161：外部证据（NXSDK）裁决 —— `products` 归属更正 33 条 + 3 处字段类型更正
+
+**来源**：外部开源项目 [`Dennis5882/MIDAS-API-NX-SDK`](https://github.com/Dennis5882/MIDAS-API-NX-SDK)
+（MIDAS IT 在职员工基于真机验证维护的双语言 SDK，**非**官方产品）。评估与逐条比对见
+[`docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md`](../docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md)；
+证据清单 [`docs/nxsdk_review/nxsdk_product_corrections.json`](../docs/nxsdk_review/nxsdk_product_corrections.json)
+（**54** 条候选 = A **21** / B **21** / C **12**）。
+
+> ⚠️ **口径**：外部证据是**待裁决输入**，**不是**判据。本批**只**落地证据最硬的两级
+> （A + C），**B 级 21 条一律未动**（见下「未落地」）。全部改动**只**碰 `products` 与
+> 3 处字段 `type`；`availability` / `verified_on` / `unavailable_on` / `enabled` **一行未改**。
+
+**A 级（21 条）：Hyper-S `-M1` 族 `products` 由 `[GEN_NX]` 改为 `[CIVIL_NX]`**
+
+四条独立证据同向：
+
+| # | 证据 | 内容 |
+| --- | --- | --- |
+| 1 | **我方 `instances.yaml` 第 16 行** | gen-local「**缺 21 个 Hyper-S 变体**」—— 而这 21 条**全部**带 `unavailable_on: ["gen-local"]` |
+| 2 | 对方 `docs/CLAUDE.md` | **"Hyper-S (`-M1`) endpoints are Civil NX only"**，`db/base.py` 设 `HYPER_S_ONLY` |
+| 3 | 对方 `docs/live_verification_notes.md` | `HYPER_S_ONLY` = **13 implemented + 8 undocumented-stub** = **21**，live **两次**确认 "civil GET ok, gen GET fails" |
+| 4 | 对方 `schema/hyper-s-info.json` | 以 `product: "civil"` 单独抓取；384 份契约中 18 个 `-M1` **全部** `products: [civil]` |
+
+⚠️ **与 §8.2 的关系**：§8.2 对「声明的产品在其**唯一实例**上 404」的既定处置是
+**不动**（先例 = `DB.UFTR` / `DB.UTBL`：摘除会让 `products` 变空）。本批**不主张**
+这 21 条违反 §8.2；**主张的是**：Hyper-S 有 §8.2 先例所没有的**产品级归属证据**
+（对方在 Gen NX 2026 v2.2 上复测仍为 Civil-only）。同形的 24 条里，另 3 条
+（`DB.UFTR` / `DB.UTBL` / `OPE.STORPROP`）**保持不动**。
+
+**C 级（12 条）：`products` 由 `[CIVIL_NX, GEN_NX]` 收为 `[GEN_NX]`**
+
+`DB.REBB` · `DB.REBC` · `DB.REBR` · `DB.REBW` · `DESIGN.RC.KDS-41-20-2022.{REBB,REBC,REBR,REBW,TRFT,ULCT}` ·
+`DESIGN.STEEL.KDS-41-30-2022.ULCT` · `OPE.STORYPROP`。
+
+判据（**可复算**）：这 12 条的 `verified_on` **只有** `gen-local`、`unavailable_on` **为空**
+⇒ `CIVIL_NX` **从未被实测**；而对方 `GEN_ONLY` 家族经**两次独立复现**
+（其自身 `scripts/live_readonly_sweep.py --product civil` + 另一台机器/会话的独立扫描），
+并被其 `tests/db/test_civil_v22_gen_only_products.py` 参数化钉住。
+⇒ **摘除的是一个从未被验证过的声明**（保守方向）。
+
+**3 处字段类型更正**（服务端 `/info` **与**对方**已复核契约**双证据同向才动）：
+
+| 端点 | 字段 | 改动 | 依据 |
+| --- | --- | --- | --- |
+| `DB.SLANOP` | `OPT_STRADD` | `integer` → **`boolean`** | 服务端描述 **"BS Straddling Lane Boolean"**；对方契约 `provenance: info_schema` |
+| `DB.REBC` | `ITEMS[].HOOP_TYPE` | `string`(+`oneOf` 字符串常量, `default: "Ties"`) → **`integer`** | 服务端描述 **"Hoop Type (1=Tied, 2=Spiral)"**；对方契约 `provenance: live_corrected`。⚠️ **不**声明 `enum` —— `/info` 未声明，含义是 description 里的散文，**从散文里读出枚举就是发明门控** |
+| `DB.REBR` | `ITEMS[].HOOP_TYPE` | 同上 → **`integer`** + **`enum: [1, 2]`** | 同上，且该端点的 `/info` **声明了** `enum` |
+
+⚠️ 三处都**删除**了手册的 `default: "Ties"` —— 字符串默认值在 `integer` 字段上不成立。
+
+**未落地（B 级 21 条，需我方 CIVIL_NX 实例复测）**：服务端 `/info` 在 CIVIL_NX 上有 Schema
+而我方只声明 `GEN_NX` 的 13 条 `/db/*`（`DB.DCTL` `DB.DSTL` `DB.EPSE` `DB.ESSF` `DB.LENG`
+`DB.LLAN` `DB.LLANID` `DB.LTSR` `DB.MBTP` `DB.MEMB` `DB.POSL` `DB.POSP` `DB.WMAK`）
++ 8 条非 `/db/*`。**理由**：`/info` 是**产品族级**自述，我方 `products` 是**实例级**实测结论，
+二者可同时为真（构建版本差异）⇒ 依 §8.2 需**我方实例实测 + 显式裁决**。
+⚠️ 其中 `DB.POSP` 另需 `product_overrides.CIVIL_NX`：两产品记录**不同**
+（Civil 多 `STR_HEIGHT` / `STR_WIDTH`），即 **MD-46** 形态。
+
+**未采纳的 4 处类型分歧**（证据不足或与已复核契约相反）：`DB.EPSE` / `DB.EPST` 的
+`LOADING_AREA_GROUP`（对方契约 `provenance: manual` 支持 `integer`，与服务端 `/info` 的
+`string` **相反** ⇒ 契约站在我方）· `DB.RPSC` 的 `LBAR_INC_FC`（我方 `number` / 服务端
+`boolean` / 契约 `integer` ⇒ **三方差歧**）· `DB.NLLP` 的 `SEIS_TYPE`（仅 `/info` 出现 ⇒ 单来源）。
+
+**⚠️ 横切修复（独立动机，非本批判定）：`registry/tools/*.py` 的控制台编码守卫**
+
+**21** 个工具原本在 Windows gbk 控制台下打印中文/符号时 `UnicodeEncodeError`，
+使 **13** 个既有用例失败。守卫**必须放在 `if __name__ == "__main__":` 块内** ——
+测试用 `exec_module()` 装载工具模块，**模块级** `sys.stdout.reconfigure()` 会改写
+**pytest 的捕获流**，破坏其后所有用例的 capture（实测：75 个 ERROR）。
+
+**计数（本批变化 / 不变）**
+
+| 项 | 变化 |
+| --- | --- |
+| `products` 含 `CIVIL_NX` | **505 → 514**（+21 −12） |
+| `products` 含 `GEN_NX` | **580 → 559**（−21） |
+| 写路径候选集 `GEN_NX` / `CIVIL_NX` | **78 / 68 → 78 / 68**（**不变** —— 被移动的端点**无一**曾是候选） |
+| 写路径 blocked `GEN_NX` / `CIVIL_NX` | **495 / 431 → 474 / 440** |
+| 映射缺口（`product_key = GEN_NX`） | `gap_total` **510 → 489**；`write_capable_endpoints` **577 → 556** · `three_step_endpoints` **301 → 280** · `mapped_endpoints` **68（不变）** |
+| 缺口分类 | `gap_total` **510 → 489** = 契约外 **264 → 243** + 无读回 **246（不变）**；三分类 **0** + **51** + **192**（需产品裁决 **213 → 192**）；`by_availability` 的 `unverified: 21` 桶**整体消失**（这 21 条离开了 GEN_NX 口径） |
+| 缺口分桶（`by_namespace` / `by_capability` / `by_tool_map`） | `DB` **193 → 172** · `DELETE` **179 → 158** · `MODEL` **196 → 175** · `assign` **263 → 242** · `query` **264 → 243** · `schema_only` **212 → 191**（**全部 −21**） |
+| **不变** | 端点 **636** · Schema 文件 **625** · 桶分布（`common` **370** / `products/gen_nx` **100** / `products/civil_nx` **17** / `products/civil_designer` **24** / `design` **125**）· `availability` 三档 **503 / 23 / 110** · 模板 **71** / body **115** |
+
+**落地方式（可复现）**
+
+```bash
+python registry/tools/import_nxsdk_evidence.py --tier A --write   # 21 条 Hyper-S
+python registry/tools/import_nxsdk_evidence.py --tier C --write   # 12 条 GEN_ONLY
+python registry/tools/sync_manifest.py --write                    # 派生 manifest（33 处）
+python registry/tools/probe_interface_paths.py --recon            # 缺口证据重算
+python registry/tools/classify_mapping_gap.py --recon             # 分类证据重算
+```
+
+工具**默认预演**、**幂等**、`--tier` 分级、`--check` 断言；`sync_manifest` 落盘后再预演 **0**。
+
+**可执行判定** = `tests/test_midas_nxsdk_products_p161.py`（**11** 项：Hyper-S 归属与全库不变量 ·
+GEN_ONLY 收口 · B 级**故意未落地** · `availability` 三档未动 · 3 处类型更正 ·
+4 处未采纳分歧）· 另**同步** `p142` / `p144`–`p148` / `p149` / `p149e` / `p150` / `p151` /
+`p152` / `p153` / `p154` / `p155` / `p156` / `p157`（**只**改钉住数字与「整文件未改」→
+「指定字段未改」的口径收窄；断言**未**放宽）· `p119_p123` 的求解器门控用例
+（原取 `GEN_NX` **恰好编码了**被更正的那个错误归属 ⇒ 改为 `CIVIL_NX` 并断言 `GEN_NX` 被拒）。
+
+### 8.16 P162：外部证据裁决（第二批）—— `/db/REB*` 家族形状重建 + `/db/PRES` 必填性
+
+**承接 §8.15**。本批处理**字段结构类**勘误（MD-17 / MD-34 / MD-45），
+判据统一为「服务端 `GET /info` **与**对方**已复核契约**同向 **且** 有**实测的形状级拒绝**」。
+
+#### 8.16.1 🔴 `/db/REB*` 家族：手册的字段名**全部不对**（MD-34）
+
+四个端点的 `ITEMS` 条目形状按**原生短键**重建。判据是三方一致：
+
+| 端点 | 我方（改前） | `GET /info` | 对方契约 | 实测的形状级拒绝 |
+| --- | ---: | ---: | ---: | --- |
+| `/db/REBB` | 11 字段（长名） | **45** 路径 | **45** 路径（逐路径一致） | A-03：多种载荷**全部** `Wrong Field`；短键到达域检查 |
+| `/db/REBC` | 9 字段 | **22** | **22** | A-02：手册单对象 → `Wrong Field`；数组形状 → 域错误（**形状被接受**），POST→GET→PUT→DELETE→GET 往返成功 |
+| `/db/REBR` | 8 字段 | **17** | **17** | A-04：长键 → `Wrong Field`；短键 → 域检查 |
+| `/db/REBW` | 12 字段（**一个都不对**） | **20** | **20** | A-01：`GET` 回显 + `/info` + **`PUT` 往返（改→验证→改回）** 三次确认 ⇒ 是**写契约** |
+
+**关键更正**：
+
+- **`MAIN_BAR`（单对象）+ 顶层 `DO`** → **`vMAIN_BAR`（数组）**，覆盖层在每条目内叫 **`D0`**
+  （**数字零**，不是字母 O）。`/db/REBC`、`/db/REBR` 两处。
+- **`CREATE_SUB_SECTION` / `ELEMS`** 在原生**根本不存在** —— 从三个端点移除。
+- **`/db/REBW` 的 `STORY: {FROM, TO}`** → **`vSTORY_NAME`**（**字符串数组**，不是范围）；
+  其余长名同理（`VERTICAL_REBAR`→`VER_BAR`、`HORIZONTAL_REBAR`→`HOR_BAR`、
+  `END_REBAR`→`END_BAR`、`THICKNESS`→`THICK`、`USE_MODEL_THICKNESS`→`bUSE_MODEL_THICK` …）。
+- **`/db/REBB` 的 `{LAYER1, LAYER2}` 对象** → **`{NAME, NUM}` 数组**（数组位置即层号，无 `LAYER` 字段）；
+  三个 `BAR_SECTOR_{I,J,M}` 各含 `SHEAR_BAR` / `SKIN_BAR_NAME` / `SKIN_BAR_NUM` /
+  `vMAIN_BAR_BOT[]` / `vMAIN_BAR_TOP[]`。
+
+⚠️ **`/db/REBB` 的写路径不可用**（**从未观察到任何一次写入成功**）：
+多种载荷（我方数组形状 · 官方文章的 `LAYER1`/`LAYER2` 形状 · 混合变体 · 字面空 item）
+在 2026-08-27 / 09-03 / 09-27 / 10-04 四次尝试中**全部** `Wrong Field` 或 `Unknown Error`。
+`ID` **必须**送（缺它得到 `Wrong Field`；`/info` 不声明 `required` 数组，故 requiredness 记为
+`unstated`，该事实记在 `ID` 的 `description` 里）。同类：`/db/NLLP`、`/db/WVLD`。
+
+#### 8.16.2 🔴 `/db/PRES` 的 `DIRECTION` 必须显式给出（MD-17）
+
+**问题比"默认值错"更重**：手册把 `DIRECTION` 标 **Optional**、默认 `"NORMAL"`，
+而**省略字段正是坏默认值被应用的途径** —— 在 `ELEM_TYPE="PLATE"` + `FACE_EDGE_TYPE="FACE"`
+上，**省略**与**显式填 `"NORMAL"`** 得到**同一条**拒绝
+（`[Error] Errors detected in Pressure Loads Data.(Item:Load Direction)`）。
+
+**改动**（`registry/schema/common/db/PRES.json`）：
+
+| 项 | 改前 | 改后 |
+| --- | --- | --- |
+| `required` | **无** | `["LCNAME", "FACE_EDGE_TYPE", "DIRECTION"]` |
+| `DIRECTION` | 无 `enum`、无 `default` | `enum` = 服务端承认的**八个**值；**不**记 `default` |
+| `ELEM_TYPE` / `FACE_EDGE_TYPE` | 无 `enum` | `["PLATE","SOLID","PLANE"]` / `["FACE","EDGE","PRES"]` |
+| `VECTORS` | 无界 | `minItems: 3` · `maxItems: 3` |
+| `EDGE_FACE` | 无界 | `minimum: 1` · `maximum: 6` |
+| `ID` / `GROUP_NAME` / `CMD` / `ELEM_TYPE` / `OPT_PROJECTION` | 无默认值 | 记入 `0` / `""` / `"PRES"` / `"PLATE"` / `false` |
+
+⚠️ **`"NORMAL"` 的可用性排除刻意不做成硬闸门**：手册的可用性矩阵是
+`PLATE`+`FACE` **排除 `NORMAL`**、`PLANE`+`EDGE` 排除 `GX`/`GY`/`GZ`、
+`PLATE`+`EDGE` 与 `SOLID`+`PRES` 接受全部八个。对方契约把该排除定为
+`kind: warn` 而**不是** `reject_request`，理由是：该值对另外三种组合合法、原生错误本身是显式的、
+而拒绝调用方**显式给出**的值等于替工程师做工程决策。**本批遵循该判断**，只写进 `description`。
+
+**`EDGE_FACE` 未列入 `required`**：契约标 `required` 但 `safeToOmit: unverified`，
+且手册自己的示例省略了它 ⇒ 不把它做成硬闸门（改前改后一致）。
+
+#### 8.16.3 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| 字段级比对「完全一致」对 | **316 → 337**（+21） |
+| 「仅服务端有」字段 | **991 → 349**（**−642**，其中 `/db/REBW` 一个端点贡献 −400+） |
+| 「仅我方有」字段 | **278 → 229** |
+| 类型冲突 | **20 → 17** |
+| 端点 **636** · Schema 文件 **625** · `availability` **503 / 23 / 110** · `products` 分布 | **不变** |
+
+**可执行判定** = `tests/test_midas_nxsdk_schemas_p162.py`（**18** 项：
+四个端点的 `ITEMS` 字段集逐条等于 `/info` · 手册长名**一个都不在** · `vMAIN_BAR` 是数组且覆盖层是 `D0` ·
+`/db/REBW` 的 `vSTORY_NAME` 是字符串数组 · `/db/REBB` 的 `ID` 与「写路径不可用」口径 ·
+`/db/PRES` 的 `DIRECTION` 必填 / `enum` / 无默认值 · `VECTORS` 恰好 3 · `EDGE_FACE` 有界 ·
+`"NORMAL"` **未**被硬闸门排除）。
+
+### 8.17 P163：CIVIL_NX 上线 —— **产品级只读路由探针**收口 B 级 21 条
+
+**背景**：§8.15 的 B 级（**21** 条「我方只声明 `GEN_NX`、而服务端 `/info` 或对方契约含 `civil`」）
+当时**故意未落地** —— 判据是「`/info` 是**产品族级**自述，我方 `products` 是**实例级**实测结论，
+二者可同时为真（构建版本差异）」，故需**我方 CIVIL_NX 实例实测**。
+
+**本批有了**：CIVIL_NX 云实例上线。证据 = `registry/live/civil_product_probe.json`
+（**只发 `GET`**、零副作用；分块 + 块间只读健康检查 `GET /DB/NODE`；**带三组对照自检**）。
+生成器 = `registry/tools/import_civil_probe.py`（默认预演 / 幂等 / `--check`）。
+
+#### 8.17.1 判据（区分「路由存在」与「读回成功」）
+
+| 探针结果 | 含义 | 动作 |
+| --- | --- | --- |
+| 非 `200` | **路由不在**该产品上 —— 唯一可用于产品归属的判据 | **不**并 `products`；`unavailable_on` 并上 `civil-cloud` |
+| `200` ∧ 顶层键 == `read_root` | 路由在 + 读回成功 | 并 `products` · 并 `verified_on` · `availability → verified` |
+| `200` ∧ 空表（`{"message": ""}`） | 路由在，本模型无数据 | 同上（P149-E 同一口径：`200` ∧ 空表 ⇒ `PARTIAL` ⇒ `verified`） |
+
+⚠️ **`instances.yaml` 记载 civil-cloud 的语义**：未知 URI 返回 `404`（可靠）；
+**空表返回 `200` + `{"message": ""}`**。故「路由存在」的判据是 **`200`**，**不是**「读回非空」。
+
+**三组对照**（不符则证据不可用，工具拒绝执行）：
+`DB.NODE` / `DB.MATL`（共有端点，必须 `200`）· `DB.SDHY` / `DB.SDIS`（§8.2 已摘除 `CIVIL_NX`，必须 `404`）·
+`DB.STCT-M1` / `DB.MATL-M1` / `DB.STYP-M1`（Hyper-S 复核，见 §8.17.3）。
+
+#### 8.17.2 B 级 21 条的收口结果
+
+| 组 | 条数 | 端点 | 动作 |
+| --- | ---: | --- | --- |
+| **`200`（路由在 CIVIL_NX 上）** | **18** | `DB.{DCTL,DSTL,EPSE,ESSF,LENG,LLAN,LLANID,LTSR,MBTP,MEMB,POSL,WMAK}` · `OPE.{EDMP,GSBG,GUSTFACTOR,MEMB,SSPS}` · `VIEW.PRECAPTURE` | `products` 并 `CIVIL_NX` · `verified_on` 并 `civil-cloud` · `availability → verified` |
+| **`404`（路由不在）** | **3** | `DB.POSP` · `DOC.STAGAS` · `POST.STEELCODECHECK` | **不**并 `CIVIL_NX`；`unavailable_on` 并上 `civil-cloud` |
+
+⚠️ `DB.POSP` 的 `404` 与对方契约的 `verified_both`（含 `posp-civil-2026-10-11`）**冲突** ——
+对方在 **Civil NX Build 10/10/2026** 上实测有它（其 CLAUDE.md 亦记「Civil NX 于 2026-10-11 获得
+自己的 `/db/POSP`」），而我方云实例没有 ⇒ **构建差异**，如实记为实例级缺口。
+
+#### 8.17.3 ⚠️ **一处我方实测与外部证据的冲突：Hyper-S `-M1`（21 条）**
+
+| 来源 | GEN NX | CIVIL NX |
+| --- | --- | --- |
+| **我方 `gen-local`** | `404`（`unavailable_on` 已记） | —— |
+| **我方 `civil-cloud`（本批，逐条实测）** | —— | **`404`（21/21 全部）** |
+| **对方**（MIDAS IT 在职员工，两产品实测） | `404` | **`200`**（`HYPER_S_ONLY` = 13 + 8 = 21；live 两次确认；`hyper-s-info.json` 以 `product: civil` 抓取；18 份契约 `products: [civil]`） |
+
+**处置（沿用 §8.2 的 `DB.UFTR`/`DB.UTBL` 先例）**：
+`products` **保留** `[CIVIL_NX]`（**产品级能力声明**，依现有最强的产品级证据），
+`unavailable_on` **两个实例都记**（`["civil-cloud", "gen-local"]`），
+`availability` **仍为 `unverified`**（**从未在任何实例上验证成功过**）。
+
+**为什么不回退到 `[GEN_NX]`**：`gen-local` 上它同样 `404`，且对方实测 Gen 也是 `404` ——
+回退只会**放行必然 404 的 GEN_NX 调用**、同时**拦掉对方实测可用的 CIVIL_NX 调用**，两头都错。
+**为什么不改成 `products: []`**：`products` 是能力声明，不是实例清单；空集会让端点彻底不可达。
+
+**这条冲突本身是本批最值得注意的结论** —— 它说明「我方实例缺该能力」与
+「该产品不支持该能力」是两件事，而 §8.2 的口径只覆盖前者。
+
+#### 8.17.4 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| `products` 含 `CIVIL_NX` | **514 → 532**（+18） |
+| `availability` | `verified` **503 → 509**（+6）· `untested` **110 → 104**（−6）· `unverified` **23（不变）** |
+| 写路径候选集 `CIVIL_NX` | **68 → 74**（+6） |
+| 写路径 blocked `CIVIL_NX` | **440 → 452**（+18 − 6） |
+| CIVIL_NX 覆盖率分子 | **`62 / 633` → `68 / 633`** |
+| `civil-cloud` 出现在 `verified_on` | **226** 条 |
+| `civil-cloud` 出现在 `unavailable_on` | **32** 条 |
+| **不变** | 端点 **636** · Schema 文件 **625** · 映射缺口（`product_key = GEN_NX`）**489 = 243 + 246** |
+
+**可执行判定** = `tests/test_midas_nxsdk_products_p161.py`（**13** 项，含本批新增的
+「探针证据必须带三组对照且自检通过」与「21 条 `-M1` 在我方 CIVIL_NX 上全部 `404` 且如实入账」）·
+`registry/tools/import_civil_probe.py --check` · 另**同步** `p141` / `p142` / `p143` / `p144`–`p148` /
+`p149` / `p149c` / `p149d` / `p149e` / `p150` / `p150r118` / `p151`（**只**改钉住数字与
+「整文件未改」→「指定字段未改」的口径收窄；断言**未**放宽）。
+
+### 8.18 P164：手册勘误第四批 —— MD-60 / MD-03 / MD-16 / MD-29
+
+判据同 §8.16：**服务端 `GET /info` 与对方已复核契约同向**，或**该节自己的示例/实测**定案。
+
+| MD | 端点 | 手册怎么说 | 实际是什么 | 我方动作 |
+| --- | --- | --- | --- | --- |
+| **MD-60** | `/db/SPFC` | EURO2004 表把 `SPECTYPE`/`GROUTYPE`/`NATIONALANNEX` 放 **`OPT`** | 服务端 `/info` 把三者声明在 **`STR`**（字符串）；手册那个 body 在**两个产品**上都被拒（`Unknown Error`），去掉 `OPT` / 换 `VAL.AG` / 两者都改**同样被拒** —— **至今无可用 EURO2004 请求** | ✅ 我方**本来就是对的**（`STR` 有、`OPT` 无）；补 `STR` 说明 |
+| **MD-60 附带** | `/db/SPFC` | 手册把同一字段拼成 **`LARGEBRIDEGE`**（描述也拼成 `LargeBridege`） | 服务端 `/info` 拼 **`LARGEBRIDGE`** | ✅ **保留手册拼写**（见下方「一处自我纠正」）并互相加注 |
+| **MD-03** | `/db/MATL-M1` | 称它与 `/db/MATL` **同结构** | 两者**不共用 wire key**：`-M1` 用 `MATL_NAME`/`MATL_TYPE`/`PARAM`/`DAMP_RAT`，`/db/MATL` 用 `NAME`/`TYPE`/…+`HE_COND`/`HE_SPEC`/`PLMT`/`P_NAME`/`bMASS_DENS`；且 `PARAM[].P_TYPE` 在 `-M1` 是 **0-based**（`/db/MATL` 1-based） | ✅ 我方**本来就是对的**（4 个 `-M1` 专属名 + `enum: [0,1,2]`），**不改数据** |
+| **MD-16** | `/db/MVHL` | 公共 Specifications 表把 `VEHICLE_TYPE_NAME`/`STANDARD_CODE` 标 **Required**、`USER_LOAD_TYPE` 标 Optional，**完全不提** `VEHICLE_LOAD_NUM` | `VEHICLE_LOAD_NUM` 是**分支判别子**（1 标准 / 2 用户定义）：`VEHICLE_TYPE_NAME` **只在分支 1 必填**（缺它得 `(Item:Length of Vehicular Load Type(0 ~ 40 characters))`，分支 2 下送它被**丢弃**）；`STANDARD_CODE` **两个分支都不需要**；`USER_LOAD_TYPE` 在 `MVLD_CODE = 2` 下**不是输入**（四种取值与省略**都**存成 `"Truck/Lane"`） | ✅ 补 `LOAD_ITEMS[].POINT_DIST2`（`/info` 有、我方缺）· `VEHICLE_LOAD_NUM` 加 `enum: [1,2]` + 分支说明 · **`if/then`** 表达条件必填 · 两处「手册说必填、实测不必填」**只加注不做闸门** |
+| **MD-29** | `/DESIGN/RC/KDS-41-20-2022/REBB` | 该节的 **JSON Schema / Parameters 表**给 `MAIN_BAR_TOP`/`MAIN_BAR_BOT`（`{LAYER1, LAYER2}` 对象）+ `DT`/`DB` + `SKIN_BAR` 对象 | 该节**自己的** Request Body / Response Body / Python 示例**一律**用 `vMAIN_BAR_TOP`/`vMAIN_BAR_BOT` **数组** + `MAIN_BAR_DC_TOP`/`MAIN_BAR_DC_BOT` + 扁平 `SKIN_BAR_NAME`/`SKIN_BAR_NUM` + 三个 `bSAME_SIZE_*`；且该节有一处 callout **明说以示例为准** | ✅ 条目按**示例**重建（8 → **11** 成员；`DT`/`DB` 移除） |
+
+**MD-16 为什么不做成硬闸门**：与 §8.16.2 的 `PRES.DIRECTION` 不同 —— 那里对方契约给的是
+`reject_request`（`rejects: omission`），而这里契约只给 `appliesWhen` 元数据。
+`STANDARD_CODE` 更是「手册标 Required、实测不必填」⇒ 做成闸门会**拒掉合法请求**。
+`VEHICLE_TYPE_NAME` 的 `if/then` 是例外：缺它实测**被拒**，故表达为条件必填。
+
+#### 8.18.1 ⚠️ 一处**自我纠正**：`OPT.LARGEBRIDEGE` 不能删
+
+初版把 `OPT.LARGEBRIDEGE` 当成我方转写笔误**删掉**了（理由：描述也拼成 `LargeBridege`，
+且 `OPT.LARGEBRIDGE` 就在旁边）。`sync_introspect_fields.py --check` 立刻报错：
+
+> `DB.SPFC: 反向缺口（data_only）与证据不一致 —— 反向缺口**一律不动**`
+
+核对后确认该拼写**确实出自官方手册**（`MIDAS_API_Online_Manual_数据_v1.0.json` /
+`_Gen_NX_v1.0.json` / `_开发文档_v1.0.md` / `_完整API手册_v1.0.md` **四处**），
+而 **R117** 明令「手册声明而本 build 自省**没有**的字段**不删**、**不改名** —— 删除会**削弱**既有判定」。
+⇒ 已**恢复**，改为两个拼写**互相加注**。**这是本批最有价值的一条：既有规则挡住了我的一次越界。**
+
+#### 8.18.2 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| `/db/MVHL` Schema | +`LOAD_ITEMS[].POINT_DIST2` · +`allOf`（`if/then`）· `VEHICLE_LOAD_NUM` +`enum` |
+| `/db/SPFC` Schema | `STR` 说明 + `OPT.LARGEBRIDGE`/`LARGEBRIDEGE` 互相加注（**字段数不变**） |
+| `/DESIGN/RC/KDS-41-20-2022/REBB` | `ITEMS` 条目 **8 → 11** 成员（按示例重建） |
+| **不变** | 端点 **636** · Schema 文件 **625** · `products` 分布 · `availability` 三档 **509 / 23 / 104** · 映射缺口 **489** |
+
+**可执行判定** = `tests/test_midas_nxsdk_schemas_p164.py`（**18** 项：
+MD-60 的 `STR`/`OPT` 归属与拼写保留 · MD-03 的 `-M1` 专属 wire key 与 0-based `P_TYPE` ·
+MD-16 的缺字段 / `enum` / `if/then` / **两处不做闸门** · MD-29 的示例形状与表名消失）。
+
+---
+
+### 8.19 P164-c / P164-d：`DESIGN.{RC,SRC}` 的 `*-ANAL` 执行族 —— **实测打崩宿主程序 ⇒ 留缺 + 护栏**
+
+> 事故驱动（**不是**手册勘误）。完整报告 = `docs/reports/P164-c_分块2_DESIGN_CONCRETE原生崩溃留缺_v1.0.md`
+> · 裁决 = `docs/07` §16.1 **R154 / R155 / R156**。
+
+#### 8.19.1 🛑 实测：`BD-ANAL` 让 **MIDAS Gen NX 直接终止**
+
+```text
+POST /DESIGN/RC/KDS-41-20-2022/BD-ANAL
+Faulting application : GenNX.exe 26.9.1.1001
+Faulting module      : wg_db.dll 1.0.0.1
+Exception code       : 0xc0000005（访问违例）
+Fault offset         : 0x2d97e5c        ← 四次实测**完全相同**
+恢复文件             : .tmp_p164c/p164c-concrete_restore.mgbx
+```
+
+**四次**（2026-10-14 的 20:05:04 / 20:47:15 / 20:58:20 / **21:12:30**）用的请求体**各不相同**
+（① 小写 canonical 键 · ② `PERFORM_TYPE="ALL"` + `ELEMS` 自相矛盾 · ③ **手册 `BD-ANAL` 文章的逐字示例**
+· ④ ③ 的形状 + **关掉抗震**）⇒ **崩溃与请求体无关**，是**原生设计引擎的缺陷**，我方**无法规避**。
+
+⚠️ **判据口径（本批最有价值的一条）**：链路层只回报 `STRUCTAI-2000 transport_error`
+（`details.endpoint = /DESIGN/RC/KDS-41-20-2022/BD-ANAL`）—— **看不出**宿主机已经被打崩
+⇒ 真机写路径的判据**必须**核对 **Windows 应用程序日志**（`Application Error 1000` / WER `1001`），
+**不能**只看链路错误码。
+
+#### 8.19.2 留缺口径与**覆盖范围**（同族全查）
+
+`registry/manifest.json` 里**恰好 12** 个 `*-ANAL` 端点。**11** 个登记为「原生崩溃风险」留缺：
+
+| 族 | 端点 | 依据 |
+| --- | --- | --- |
+| RC 设计执行 | `BD-ANAL` | 🛑 **实测**（四次，同一偏移） |
+| RC 设计执行 | `CD-ANAL` · `BRD-ANAL` · `WD-ANAL` | 同族推定 |
+| RC **校核**执行 | `BC-ANAL` · `CC-ANAL` · `BRC-ANAL` · `WC-ANAL` · `HCD-ANAL` | 同族推定（同原生模块 / 同调用形态） |
+| SRC 执行 | `BC-ANAL` · `CC-ANAL` | 同族推定 |
+| ~~钢铁~~ | ~~`DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL`~~ | ✅ **排除**：旗舰链**真机 12/12 跑通** ⇒ 拦它 = 过度防护 |
+
+⚠️ **第一版只拦了 6 个、漏了 5 个**：`DESIGN.RC.*` 的**校核**族**没进任何 Operation 的编排**
+⇒ 只按「编排里出现的端点」查**查不出来**，**必须按 `manifest.json` 全量查**（R153 的教训）。
+覆盖口径现由 `tests/test_midas_native_crash_guard_p164c.py` **对着 manifest 逐条复算**
+（新增一个 RC/SRC 的 `*-ANAL` ⇒ 用例先红）。
+
+⚠️ **`availability` 一行未改**（11 个**全部**保持 `untested`）：没有成功实测 ⇒ **不**升级。
+这 11 个端点在生产路径**本来**就被 `registry_mapping_not_verified` 挡住
+⇒ 护栏实际只收紧**探针**（`allow_unverified=True`）那条路 —— 那正是打崩 MIDAS 的那条路。
+每个端点 YAML 头部写明失败形态 / 护栏 / 恢复条件（**恢复条件 = MIDAS 侧修 `wg_db.dll`**）。
+
+#### 8.19.3 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| 端点 / Schema 文件 | **不变**（636 / 625） |
+| `availability` 三档 | **不变**（509 / 23 / 104） |
+| 映射缺口 | **不变**（489） |
+| `DESIGN.{RC,SRC}` 的 `*-ANAL` | **11** 个登记为「原生崩溃风险」留缺（**新口径**，不改变既有计数） |
+| 新增证据 | `registry/live/view_result_modes.json`（`VIEW.RESULTGRAPHIC` 的 **36** 个 `CURRENT_MODE` 取值；生成器 `registry/tools/extract_result_modes.py`） |
+
+#### 8.19.4 顺带：`VIEW.RESULTGRAPHIC` 的成因更正（**R155**）
+
+`registry/live/view_result_modes.json` 证明：该端点是**多变体端点**，`Argument.CURRENT_MODE`
+是**变体选择子**（手册 **34** 篇文章 / **56** 条示例 ⇒ **36** 个取值）；R150 实测被拒的
+**`"displacement"` 不在表内** ⇒ 那一次 `400`（`second query is wrong`）= **取值非法**，
+**不是**「缺分析结果」。⚠️ **数据侧缺口如实记录**：该端点的**请求 Schema** 的 `Argument`
+**只**声明 `TYPE_OF_DISPLAY`（36 个变体里的 1 个；且实测覆盖只有 **53/56** —— **不是**必填）
+⇒ **R140 的 `spec_guard` 抓不到非法 `CURRENT_MODE`**。补全 36 个变体的 Schema 是
+**单独一次数据侧作业（须裁决）**；⚠️ **不建议**只按手册补枚举（**枚举可能不全**，R151 的教训
+⇒ 会**误拦**原生其实接受的取值，而这里要防的只是 `400`、**不是崩溃** ⇒ 代价不对等）。
+
+**可执行判定** = `tests/test_midas_native_crash_guard_p164c.py`（**30** 项）·
+`tests/test_midas_view_result_modes_p164d.py`（**10** 项）·
+`tests/test_midas_view_result_modes_probe_p164e.py`（**6** 项）。

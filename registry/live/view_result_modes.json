@@ -1,0 +1,773 @@
+{
+ "tool": "registry/tools/extract_result_modes.py",
+ "endpoint": "VIEW.RESULTGRAPHIC",
+ "uri": "VIEW/RESULTGRAPHIC",
+ "source": {
+  "manual": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json",
+  "input_uri_suffix": "resultgraphic",
+  "note": "逐条回溯到手册的文章标题 / 示例名 / URL；**不**臆造取值"
+ },
+ "articles": 34,
+ "examples": 56,
+ "mode_count": 36,
+ "families": {
+  "- Result Display": 20,
+  "- Moving Tracer Display": 6,
+  "- Heat of Hydration Display": 5,
+  "- Mode Shapes Display": 2,
+  "(other) Type of Display": 1
+ },
+ "argument_keys": {
+  "LOAD_CASE_COMB": 56,
+  "TYPE_OF_DISPLAY": 53,
+  "COMPONENTS": 52,
+  "OPTIONS": 25,
+  "OUTPUT_SECT_LOCATION": 13,
+  "DISPLAY_OPTIONS": 7,
+  "CUTTING_NAME": 2
+ },
+ "modes_without_type_of_display": [
+  "PlateCuttingLineDiagram",
+  "Resultant Force Diagram"
+ ],
+ "modes_partially_without_type_of_display": [],
+ "modes": {
+  "AxisymmetricStresses": {
+   "current_mode": "AxisymmetricStresses",
+   "count": 3,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Axisymmetric Stresses - Result Display",
+     "example": "Axisymmetric Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003190685209-Axisymmetric-Stresses-Result-Display"
+    },
+    {
+     "title": "Axisymmetric Stresses - Result Display",
+     "example": "Axisymmetric Stresses - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003190685209-Axisymmetric-Stresses-Result-Display"
+    },
+    {
+     "title": "Axisymmetric Stresses - Result Display",
+     "example": "Axisymmetric Stresses - Result Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003190685209-Axisymmetric-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamDiagrams": {
+   "current_mode": "BeamDiagrams",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "DISPLAY_OPTIONS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Diagrams - Result Display",
+     "example": "Beam Diagrams - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997754209817-Beam-Diagrams-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamForces/Moments": {
+   "current_mode": "BeamForces/Moments",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Forces/Moments - Result Display",
+     "example": "Beam Forces/Moments - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997711810969-Beam-Forces-Moments-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamStresses": {
+   "current_mode": "BeamStresses",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses - Result Display",
+     "example": "Beam Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36001119330969-Beam-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamStresses(Equivalent)": {
+   "current_mode": "BeamStresses(Equivalent)",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses (Equivalent) - Result Display",
+     "example": "Beam Stresses (Equivalent) - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002326176665-Beam-Stresses-Equivalent-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamStresses(PSC)": {
+   "current_mode": "BeamStresses(PSC)",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "DISPLAY_OPTIONS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses (PSC) - Result Display",
+     "example": "Beam Stresses (PSC) - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002716977817-Beam-Stresses-PSC-Result-Display"
+    },
+    {
+     "title": "Plane-Stress/Plate Stresses - Result Display",
+     "example": "Plane-Stress/Plate Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002978639641-Plane-Stress-Plate-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamStressesDiagram": {
+   "current_mode": "BeamStressesDiagram",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "DISPLAY_OPTIONS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses Diagram - Result Display",
+     "example": "Beam Stresses Diagram - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36001679829785-Beam-Stresses-Diagram-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "BeamStressesDiagram(Equivalent)": {
+   "current_mode": "BeamStressesDiagram(Equivalent)",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "DISPLAY_OPTIONS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses Diagram (Equivalent) - Result Display",
+     "example": "Beam Stresses Diagram (Equivalent) - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002496760217-Beam-Stresses-Diagram-Equivalent-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "Buckling Mode Shapes": {
+   "current_mode": "Buckling Mode Shapes",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Buckling Mode Shapes - Mode Shapes Display",
+     "example": "Buckling Mode Shapes - Mode Shapes Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36005908557465-Buckling-Mode-Shapes-Mode-Shapes-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "DeformedShape": {
+   "current_mode": "DeformedShape",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Deformed Shape - Result Display",
+     "example": "Deformed Shape - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997589496089-Deformed-Shape-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "DisplacementContour": {
+   "current_mode": "DisplacementContour",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Displacement Contour - Result Display",
+     "example": "Displacement Contour - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997611572505-Displacement-Contour-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "HY_ALLOWABLETENSILESTRESS": {
+   "current_mode": "HY_ALLOWABLETENSILESTRESS",
+   "count": 1,
+   "sibling_keys": [
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Allowable Tensile Stress - Heat of Hydration Display",
+     "example": "Allowable Tensile Stress - Heat of Hydration Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006326138521-Allowable-Tensile-Stress-Heat-of-Hydration-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "HY_CRACKRATIO": {
+   "current_mode": "HY_CRACKRATIO",
+   "count": 1,
+   "sibling_keys": [
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Crack Ratio - Heat of Hydration Display",
+     "example": "Crack Ratio - Heat of Hydration Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006358418713-Crack-Ratio-Heat-of-Hydration-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "HY_DISPLACEMENTS": {
+   "current_mode": "HY_DISPLACEMENTS",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Displacements - Heat of Hydration Display",
+     "example": "Displacements - Heat of Hydration Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006239859225-Displacements-Heat-of-Hydration-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "HY_STRESS": {
+   "current_mode": "HY_STRESS",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Stress - Heat of Hydration Display",
+     "example": "Stress - Heat of Hydration Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006059687449-Stress-Heat-of-Hydration-Display"
+    },
+    {
+     "title": "Stress - Heat of Hydration Display",
+     "example": "Stress - Heat of Hydration Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006059687449-Stress-Heat-of-Hydration-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "HY_TEMPERATURE": {
+   "current_mode": "HY_TEMPERATURE",
+   "count": 1,
+   "sibling_keys": [
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Temperature - Heat of Hydration Display",
+     "example": "Temperature - Heat of Hydration Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36006173505433-Temperature-Heat-of-Hydration-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_BeamForces/Moments": {
+   "current_mode": "MVLTRC_BeamForces/Moments",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Forces/Moments - Moving Tracer Display",
+     "example": "Beam Forces/Moments - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004453575193-Beam-Forces-Moments-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_BeamStresses": {
+   "current_mode": "MVLTRC_BeamStresses",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Beam Stresses - Moving Tracer Display",
+     "example": "Beam Stresses - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36005757391385-Beam-Stresses-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_Displacements": {
+   "current_mode": "MVLTRC_Displacements",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Displacements - Moving Tracer Display",
+     "example": "Displacements - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004334029593-Displacements-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_PlateForces/Moments": {
+   "current_mode": "MVLTRC_PlateForces/Moments",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Plate Forces/Moments - Moving Tracer Display",
+     "example": "Plate Forces/Moments - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004497508505-Plate-Forces-Moments-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_Reactions": {
+   "current_mode": "MVLTRC_Reactions",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #9",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Reactions - Moving Tracer Display",
+     "example": "Reactions - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004234384665-Reactions-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "MVLTRC_TrussForces": {
+   "current_mode": "MVLTRC_TrussForces",
+   "count": 1,
+   "sibling_keys": [
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Truss Forces - Moving Tracer Display",
+     "example": "Truss Forces - Moving Tracer Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004378825497-Truss-Forces-Moving-Tracer-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "Plane-Stress/PlateStresses": {
+   "current_mode": "Plane-Stress/PlateStresses",
+   "count": 5,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #5",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #6",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #7",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Plane-Stress/Plate Stresses - Result Display",
+     "example": "Plane-Stress/Plate Stresses - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002978639641-Plane-Stress-Plate-Stresses-Result-Display"
+    },
+    {
+     "title": "Plane-Stress/Plate Stresses - Result Display",
+     "example": "Plane-Stress/Plate Stresses - Result Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36002978639641-Plane-Stress-Plate-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "PlaneStrainStresses": {
+   "current_mode": "PlaneStrainStresses",
+   "count": 3,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Plane Strain Stresses - Result Display",
+     "example": "Plane Strain Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003113196441-Plane-Strain-Stresses-Result-Display"
+    },
+    {
+     "title": "Plane Strain Stresses - Result Display",
+     "example": "Plane Strain Stresses - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003113196441-Plane-Strain-Stresses-Result-Display"
+    },
+    {
+     "title": "Plane Strain Stresses - Result Display",
+     "example": "Plane Strain Stresses - Result Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36003113196441-Plane-Strain-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "PlateCuttingLineDiagram": {
+   "current_mode": "PlateCuttingLineDiagram",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "CUTTING_NAME",
+    "LOAD_CASE_COMB",
+    "OPTIONS"
+   ],
+   "articles": [
+    {
+     "title": "Plate Cutting Line Diagram - Result Display",
+     "example": "Plate Cutting Line Diagram - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36000934415257-Plate-Cutting-Line-Diagram-Result-Display"
+    },
+    {
+     "title": "Plate Cutting Line Diagram - Result Display",
+     "example": "Plate Cutting Line Diagram - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36000934415257-Plate-Cutting-Line-Diagram-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 2
+  },
+  "PlateForces/Moments": {
+   "current_mode": "PlateForces/Moments",
+   "count": 4,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Plate Forces/Moments - Result Display",
+     "example": "Plate Forces/Moments - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997813329177-Plate-Forces-Moments-Result-Display"
+    },
+    {
+     "title": "Plate Forces/Moments - Result Display",
+     "example": "Plate Forces/Moments - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997813329177-Plate-Forces-Moments-Result-Display"
+    },
+    {
+     "title": "Plate Forces/Moments - Result Display",
+     "example": "Plate Forces/Moments - Result Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997813329177-Plate-Forces-Moments-Result-Display"
+    },
+    {
+     "title": "Plate Forces/Moments - Result Display",
+     "example": "Plate Forces/Moments - Result Display #4",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997813329177-Plate-Forces-Moments-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "ReactionForces/Moments": {
+   "current_mode": "ReactionForces/Moments",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Reaction Forces/Moments - Result Display",
+     "example": "Reaction Forces/Moments - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997222326937-Reaction-Forces-Moments-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "Resultant Force Diagram": {
+   "current_mode": "Resultant Force Diagram",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "OUTPUT_SECT_LOCATION"
+   ],
+   "articles": [
+    {
+     "title": "Resultant Force Diagram - Result Display",
+     "example": "Resultant Force Diagram - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/50694881913241-Resultant-Force-Diagram-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 1
+  },
+  "SoilPressure": {
+   "current_mode": "SoilPressure",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Soil Pressure - Result Display",
+     "example": "Soil Pressure - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997247818393-Soil-Pressure-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "SolidStresses": {
+   "current_mode": "SolidStresses",
+   "count": 3,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Solid Stresses - Result Display",
+     "example": "Solid Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004183629209-Solid-Stresses-Result-Display"
+    },
+    {
+     "title": "Solid Stresses - Result Display",
+     "example": "Solid Stresses - Result Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004183629209-Solid-Stresses-Result-Display"
+    },
+    {
+     "title": "Solid Stresses - Result Display",
+     "example": "Solid Stresses - Result Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36004183629209-Solid-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "TrussForces": {
+   "current_mode": "TrussForces",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Truss Forces - Result Display",
+     "example": "Truss Forces - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35997661413785-Truss-Forces-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "TrussStresses": {
+   "current_mode": "TrussStresses",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Truss Stresses - Result Display",
+     "example": "Truss Stresses - Result Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36001099992985-Truss-Stresses-Result-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "VibrationModeShapes": {
+   "current_mode": "VibrationModeShapes",
+   "count": 1,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Vibration Mode Shapes - Mode Shapes Display",
+     "example": "Vibration Mode Shapes - Mode Shapes Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/36005864558617-Vibration-Mode-Shapes-Mode-Shapes-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "beamdiagrams": {
+   "current_mode": "beamdiagrams",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "DISPLAY_OPTIONS",
+    "LOAD_CASE_COMB",
+    "OUTPUT_SECT_LOCATION",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #1",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #4",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "reactionforces/moments": {
+   "current_mode": "reactionforces/moments",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #2",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #3",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  },
+  "solidstresses": {
+   "current_mode": "solidstresses",
+   "count": 2,
+   "sibling_keys": [
+    "COMPONENTS",
+    "LOAD_CASE_COMB",
+    "OPTIONS",
+    "TYPE_OF_DISPLAY"
+   ],
+   "articles": [
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #8",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    },
+    {
+     "title": "Type of Display",
+     "example": "Type of Display #10",
+     "url": "https://support.midasuser.com/hc/en-us/articles/35996812786841-Type-of-Display"
+    }
+   ],
+   "examples_without_type_of_display": 0
+  }
+ },
+ "rejected": {
+  "value": "displacement",
+  "in_manual_table": false,
+  "note": "P160d 实测 `400` `MIDAS GEN NX second query is wrong` 时用的取值；**不在**手册的取值表里 ⇒ 那一次的成因 = **变体选择子取值非法**"
+ }
+}

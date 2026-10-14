@@ -58,6 +58,7 @@ from app.infrastructure.adapters.midas.errors import (
     MidasConnectionError,
     MidasEndpointDisabled,
     MidasGlobalDeleteRejected,
+    MidasNativeCrashRisk,
     MidasSchemaShapeMismatch,
     MidasSolverUnsupported,
     MidasTimeoutError,
@@ -69,6 +70,8 @@ __all__ = [
     "DEFAULT_BUDGET_SECONDS",
     "EXECUTION_MODE_BUDGETS",
     "MAPI_KEY_HEADER",
+    "NATIVE_CRASH_ENDPOINTS",
+    "NATIVE_CRASH_MEASURED",
     "BuiltRequest",
     "CredentialProviderLike",
     "MidasHttpClient",
@@ -76,9 +79,13 @@ __all__ = [
     "SendResult",
     "guard_destructive",
     "guard_enabled",
+    "guard_native_crash",
+    "guard_native_crash_path",
     "guard_shape",
     "guard_solver",
     "guard_verified",
+    "native_crash_key_for_path",
+    "native_crash_paths",
 ]
 
 MAPI_KEY_HEADER: Final[str] = "MAPI-Key"
@@ -97,6 +104,117 @@ EXECUTION_MODE_BUDGETS: Final[dict[str, float]] = {
 _CLIENT_NOT_CONNECTED_MARKERS: Final[tuple[str, ...]] = ("client does not exist",)
 _PROJECT_NOT_OPENED_MARKERS: Final[tuple[str, ...]] = ("project is not opened",)
 """`docs/07` §11 补充：实测得到的两种状态类错误文案（只做**包含**匹配）。"""
+
+NATIVE_CRASH_MEASURED: Final[frozenset[str]] = frozenset({"DESIGN.RC.KDS-41-20-2022.BD-ANAL"})
+"""**已实测确认**会让宿主程序崩溃的端点（P164-c；见 `guard_native_crash`）。
+
+`DESIGN.RC.KDS-41-20-2022.BD-ANAL` —— **四次**实测，`GenNX.exe` 26.9.1.1001
+在 `wg_db.dll` 里访问违例（`0xc0000005` @ `0x2d97e5c`），**四次偏移完全相同**，
+而四次用的请求体**各不相同**（含手册 `BD-ANAL` 文章的逐字示例体）
+⇒ 崩溃**与请求体无关**，是原生设计引擎的缺陷。证据：
+`docs/reports/P164-c_分块2_DESIGN_CONCRETE原生崩溃留缺_v1.0.md` · Windows 应用程序日志。
+"""
+
+NATIVE_CRASH_ENDPOINTS: Final[frozenset[str]] = NATIVE_CRASH_MEASURED | frozenset(
+    {
+        # ---- RC **设计**执行（`DESIGN.CONCRETE` / `DESIGN.CODE_CHECK` 的 concrete 路由）----
+        "DESIGN.RC.KDS-41-20-2022.CD-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.BRD-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.WD-ANAL",
+        # ---- RC **校核**执行（同原生模块、同调用形态；R153 的教训：同族要**全查**）----
+        "DESIGN.RC.KDS-41-20-2022.BC-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.CC-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.BRC-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.WC-ANAL",
+        "DESIGN.RC.KDS-41-20-2022.HCD-ANAL",
+        # ---- SRC 执行（同调用形态，只是规范族不同）----
+        "DESIGN.SRC.AIK-SRC2K.BC-ANAL",
+        "DESIGN.SRC.AIK-SRC2K.CC-ANAL",
+    }
+)
+"""`DESIGN.{RC,SRC}` 的**全部** `*-ANAL` 执行端点（**11** 个 = 1 实测 + 10 同族推定）。
+
+⚠️ **覆盖口径（可复算）**：`registry/manifest.json` 里**恰好 12** 个 `*-ANAL` 端点 ——
+本名单收 **11** 个（`DESIGN.RC.*` 8 + `DESIGN.SRC.*` 2 + 实测的 1），**唯一**排除的是
+`DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL`：它在旗舰链里**真机实测 12/12 跑通**
+（`registry/live/flagship_chain_probe.json`）⇒ 拦它就是**过度**防护、会把能用的功能关掉。
+`tests/test_midas_native_crash_guard_p164c.py` 会**逐条**对着 manifest 复算这条覆盖
+（新增一个 RC/SRC 的 `*-ANAL` 端点 ⇒ 用例先红，**不**允许静默漏拦）。
+
+⚠️ **诚实边界**：只有 `NATIVE_CRASH_MEASURED` 里的那个是**实测**的；其余 10 个是
+**同族推定**（同一原生设计引擎入口、同一 `Argument` + `PERFORM_TYPE` / `ELEMS` 形态、
+同为 `availability: untested`），**未**实测 ⇒ 一律**先拦后放**。理由与 **R153** 的教训一致
+（「修一个族的时候要把同族全查一遍」）：**代价不对称** —— 误拦的代价是少一次真机验证，
+漏拦的代价是**把用户正在用的软件打崩**。
+⚠️ 这些端点**全都**是 `untested` ⇒ 生产路径**本来**就被 `registry_mapping_not_verified` 挡住
+⇒ 本护栏实际只收紧**探针**（`allow_unverified=True`）那条路 —— 那正是打崩 MIDAS 的那条路。
+
+⚠️ **要重新实测**：必须显式传 `allow_native_crash_risk=True`（`MidasAdapter` 构造参数
+或 `build_request` / 裸请求方法的同名参数）—— **默认拦死**，因为重跑的代价落在**用户**头上。
+"""
+
+
+def native_crash_paths() -> frozenset[str]:
+    """崩溃族端点的**原生 URI**（由端点键**机械**推导：`.` → `/`，前置 `/`）。
+
+    ⚠️ 为什么要推导而不是再抄一份字面量：**两处字面量必然漂移**。推导规则**只**对这 6 个
+    端点声明成立，并由 `tests/test_midas_native_crash_guard_p164c.py` **逐条**与 `registry`
+    里的实际 `uri` 对齐 —— 一旦有人改了 `uri`，用例先红。
+
+    ⚠️ **裸请求方法（`post` / `put` / `delete` / `get` / `probe`）按 `path` 走**，
+    拿不到端点键 ⇒ 必须有这份路径表，否则护栏**可被绕过**（见 `guard_native_crash_path`）。
+    """
+    return frozenset(f"/{key.replace('.', '/')}" for key in NATIVE_CRASH_ENDPOINTS)
+
+
+def native_crash_key_for_path(path: str) -> str | None:
+    """路径 → 崩溃族端点键（**不**在族内 ⇒ `None`）。
+
+    归一化：去空白、去尾部 `/`、**忽略大小写**（原生路由大小写不敏感，
+    而 `path` 常常由探针手写）。
+    """
+    normalized = f"/{str(path).strip().strip('/')}".upper()
+    for key in NATIVE_CRASH_ENDPOINTS:
+        if f"/{key.replace('.', '/')}".upper() == normalized:
+            return key
+    return None
+
+
+def guard_native_crash_path(path: str, *, allow_native_crash_risk: bool = False) -> None:
+    """**裸请求路径**上的原生崩溃护栏（`guard_native_crash` 的路径版）。
+
+    ⚠️ **P164-c（事故驱动）**：`guard_native_crash()` 只挂在 `build_request()` 上，
+    而 `MidasHttpClient` 还有**裸**的 `post` / `put` / `delete` / `get` / `probe` 一族
+    （它们直接走 `_raw`，**不**经过 `build_request`）⇒ 一次 `client.post("/DESIGN/RC/…/BD-ANAL", …)`
+    就能把 MIDAS 打崩，护栏形同虚设。本函数把同一条判定挂到**唯一的发送点** `_raw()` 上。
+
+    ⚠️ **按路径拦，不分方法**：这几个端点的方法集**只有 `POST`**（没有读语义）
+    ⇒ 对该路径的任何流量要么是会打崩的那个 `POST`、要么本身无意义，**不**值得为它开口子。
+
+    Args:
+        path: 原生路径（`/DESIGN/RC/KDS-41-20-2022/BD-ANAL` 形式）。
+        allow_native_crash_risk: 显式声明「我知道这会打崩 MIDAS，仍要发」。默认 `False`。
+
+    Raises:
+        MidasNativeCrashRisk: `STRUCTAI-1200`，路径属于崩溃族。
+    """
+    if allow_native_crash_risk:
+        return
+    key = native_crash_key_for_path(path)
+    if key is None:
+        return
+    raise MidasNativeCrashRisk(
+        key,
+        measured=key in NATIVE_CRASH_MEASURED,
+        path=str(path),
+        via="raw_path",
+        note=(
+            "该路径会让 MIDAS Gen NX 在 `wg_db.dll` 里访问违例并**终止进程**"
+            "（实测 `0xc0000005` @ `0x2d97e5c`）⇒ 默认**不发**（裸请求方法同样拦）。"
+            "要重新实测须显式 `allow_native_crash_risk=True`，"
+            "并已取得用户对「会打崩他的 MIDAS」的明确同意。"
+        ),
+    )
 
 
 class CredentialProviderLike(Protocol):
@@ -237,6 +355,48 @@ def guard_destructive(
             )
 
 
+def guard_native_crash(
+    resolved: ResolvedEndpoint, *, allow_native_crash_risk: bool = False
+) -> None:
+    """原生崩溃护栏：**已实测 / 同族推定**会打崩宿主程序的端点 ⇒ **发请求前**拒绝。
+
+    ⚠️ **P164-c（事故驱动；见 `NATIVE_CRASH_ENDPOINTS`）**。与 `guard_destructive`
+    （`docs/07` §7.6）**并列**的第三条「发请求前」护栏：
+
+    | 护栏 | 拦的是什么 | 代价 |
+    | --- | --- | --- |
+    | `guard_destructive` | 会被解释成「删全表」的形态 | 数据 |
+    | `spec_guard`（R140） | 非法枚举 | 弹窗 / 崩溃 |
+    | **本护栏** | **已实测确认**的宿主崩溃 | **用户的软件进程** |
+
+    ⚠️ 与 `guard_verified` 的 `allow_unverified` **不是**同一件事：`allow_unverified`
+    放开的是「**没验过**」的端点（Contract Test 口径），而本护栏拦的是「**验过、且验出
+    会把宿主打崩**」的端点 ⇒ **必须**单独显式放开（`allow_native_crash_risk=True`）。
+
+    Args:
+        resolved: 已解析端点。
+        allow_native_crash_risk: 显式声明「我知道这会打崩 MIDAS，仍要发」。默认 `False`。
+
+    Raises:
+        MidasNativeCrashRisk: `STRUCTAI-1200`，端点在 `NATIVE_CRASH_ENDPOINTS` 内。
+    """
+    if allow_native_crash_risk:
+        return
+    key = resolved.definition.key
+    if key in NATIVE_CRASH_ENDPOINTS:
+        raise MidasNativeCrashRisk(
+            key,
+            measured=key in NATIVE_CRASH_MEASURED,
+            product=resolved.product,
+            note=(
+                "该设计执行端点会让 MIDAS Gen NX 在 `wg_db.dll` 里访问违例并**终止进程**"
+                "（实测 `0xc0000005` @ `0x2d97e5c`，四次同一偏移、请求体各不相同）"
+                "⇒ 默认**不发**。要重新实测须显式 `allow_native_crash_risk=True`，"
+                "并已取得用户对「会打崩他的 MIDAS」的明确同意。"
+            ),
+        )
+
+
 def guard_shape(resolved: ResolvedEndpoint, body: object) -> None:
     """请求体形态护栏（`docs/07` §7.3 第 4 步；`docs/07` §7.6）。
 
@@ -319,6 +479,7 @@ class MidasHttpClient:
         item_ids: Sequence[str] = (),
         solver: str = "",
         allow_unverified: bool = False,
+        allow_native_crash_risk: bool = False,
     ) -> BuiltRequest:
         """护栏 + 构造（**不**发请求；见裁决 3）。
 
@@ -332,6 +493,7 @@ class MidasHttpClient:
             item_ids: 删除目标的路径 key（`docs/07` §6.4）。
             solver: 实例求解器（用于门控）。
             allow_unverified: 仅 Contract Test 使用（见裁决 5）。
+            allow_native_crash_risk: 仅「已知会打崩宿主、仍要实测」时显式打开（P164-c）。
 
         Returns:
             已构造的请求。
@@ -339,12 +501,14 @@ class MidasHttpClient:
         Raises:
             MidasEndpointDisabled: 端点被数据文件禁用。
             RegistryMappingNotVerified: `verification_status != VERIFIED`。
+            MidasNativeCrashRisk: 端点在 `NATIVE_CRASH_ENDPOINTS` 内（P164-c 事故驱动）。
             MidasSolverUnsupported: 求解器不匹配。
             MidasGlobalDeleteRejected: 破坏性形态会被解释为删全表。
             MidasSchemaShapeMismatch: 请求体形态不符。
         """
         guard_enabled(resolved)
         guard_verified(resolved, operation=operation, allow_unverified=allow_unverified)
+        guard_native_crash(resolved, allow_native_crash_risk=allow_native_crash_risk)
         guard_solver(resolved, solver)
 
         method = resolved.method
@@ -407,10 +571,25 @@ class MidasHttpClient:
             payload=_json_body(response, endpoint=request.endpoint),
         )
 
-    async def get(self, path: str, *, budget_seconds: float | None = None) -> dict[str, Any]:
-        """`GET {path}`（`docs/04` §6）。"""
+    async def get(
+        self,
+        path: str,
+        *,
+        budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
+    ) -> dict[str, Any]:
+        """`GET {path}`（`docs/04` §6）。
+
+        ⚠️ **P164-c**：裸路径同样过原生崩溃护栏（`guard_native_crash_path`）——
+        见 `_raw()`。要重跑须显式 `allow_native_crash_risk=True`。
+        """
         response = await self._request(
-            "GET", path, body=None, budget_seconds=budget_seconds, endpoint=path
+            "GET",
+            path,
+            body=None,
+            budget_seconds=budget_seconds,
+            endpoint=path,
+            allow_native_crash_risk=allow_native_crash_risk,
         )
         return _json_body(response, endpoint=path)
 
@@ -420,10 +599,20 @@ class MidasHttpClient:
         *,
         json_body: Mapping[str, Any] | Sequence[Any] | None = None,
         budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
     ) -> dict[str, Any]:
-        """`POST {path}`（`docs/04` §6）。"""
+        """`POST {path}`（`docs/04` §6）。
+
+        ⚠️ **P164-c（事故驱动）**：这是**绕过 `build_request`** 的裸路径之一
+        ⇒ 必须与 `build_request` 受**同一条**原生崩溃护栏约束（见 `_raw()`）。
+        """
         response = await self._request(
-            "POST", path, body=json_body, budget_seconds=budget_seconds, endpoint=path
+            "POST",
+            path,
+            body=json_body,
+            budget_seconds=budget_seconds,
+            endpoint=path,
+            allow_native_crash_risk=allow_native_crash_risk,
         )
         return _json_body(response, endpoint=path)
 
@@ -433,10 +622,16 @@ class MidasHttpClient:
         *,
         json_body: Mapping[str, Any] | Sequence[Any] | None = None,
         budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
     ) -> dict[str, Any]:
-        """`PUT {path}`（`docs/04` §6）。"""
+        """`PUT {path}`（`docs/04` §6；裸路径同样过原生崩溃护栏）。"""
         response = await self._request(
-            "PUT", path, body=json_body, budget_seconds=budget_seconds, endpoint=path
+            "PUT",
+            path,
+            body=json_body,
+            budget_seconds=budget_seconds,
+            endpoint=path,
+            allow_native_crash_risk=allow_native_crash_risk,
         )
         return _json_body(response, endpoint=path)
 
@@ -445,26 +640,48 @@ class MidasHttpClient:
         path: str,
         *,
         budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
     ) -> dict[str, Any]:
         """`DELETE {path}`（`docs/04` §6；路径 key 由调用方保证，见裁决 4）。"""
         response = await self._request(
-            "DELETE", path, body=None, budget_seconds=budget_seconds, endpoint=path
+            "DELETE",
+            path,
+            body=None,
+            budget_seconds=budget_seconds,
+            endpoint=path,
+            allow_native_crash_risk=allow_native_crash_risk,
         )
         return _json_body(response, endpoint=path)
 
-    async def probe(self, path: str, *, budget_seconds: float | None = None) -> int:
+    async def probe(
+        self,
+        path: str,
+        *,
+        budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
+    ) -> int:
         """零副作用探测（`registry/README.md` §7.1 第 2 步）：只回状态码。
 
         `404` = 不支持；`200` = 支持。**不**落盘、**不**抛业务错误。
         """
         try:
-            response = await self._raw("GET", path, body=None, budget_seconds=budget_seconds)
+            response = await self._raw(
+                "GET",
+                path,
+                body=None,
+                budget_seconds=budget_seconds,
+                allow_native_crash_risk=allow_native_crash_risk,
+            )
         except (MidasConnectionError, MidasTimeoutError):
             raise
         return int(response.status_code)
 
     async def probe_payload(
-        self, path: str, *, budget_seconds: float | None = None
+        self,
+        path: str,
+        *,
+        budget_seconds: float | None = None,
+        allow_native_crash_risk: bool = False,
     ) -> ProbeResponse:
         """零副作用探测并**如实回报**状态码与载荷形态（L4 探针用；P134 新增）。
 
@@ -477,7 +694,13 @@ class MidasHttpClient:
             MidasTimeoutError: `STRUCTAI-2300`，超时（云端中继首次调用会复现，
                 见 `docs/07` §16 R84）。
         """
-        response = await self._raw("GET", path, body=None, budget_seconds=budget_seconds)
+        response = await self._raw(
+            "GET",
+            path,
+            body=None,
+            budget_seconds=budget_seconds,
+            allow_native_crash_risk=allow_native_crash_risk,
+        )
         text = _text_of(response)
         payload: dict[str, Any] = {}
         json_ok = False
@@ -563,9 +786,16 @@ class MidasHttpClient:
         body: Mapping[str, Any] | Sequence[Any] | None,
         budget_seconds: float | None,
         endpoint: str,
+        allow_native_crash_risk: bool = False,
     ) -> httpx.Response:
         """发请求并按 20 码归一化（唯一实现点，见裁决 6）。"""
-        response = await self._raw(method, path, body=body, budget_seconds=budget_seconds)
+        response = await self._raw(
+            method,
+            path,
+            body=body,
+            budget_seconds=budget_seconds,
+            allow_native_crash_risk=allow_native_crash_risk,
+        )
         _raise_for_status(response, endpoint=endpoint)
         return response
 
@@ -576,8 +806,16 @@ class MidasHttpClient:
         *,
         body: Mapping[str, Any] | Sequence[Any] | None,
         budget_seconds: float | None,
+        allow_native_crash_risk: bool = False,
     ) -> httpx.Response:
-        """真正发请求（凭据在此刻取，且只进请求头）。"""
+        """真正发请求（凭据在此刻取，且只进请求头）。
+
+        ⚠️ **P164-c（事故驱动）**：这里是**全部**发送路径的**唯一**汇合点
+        （`build_request` → `send` 走 `_request`；裸 `post`/`put`/`delete`/`get`/`probe`
+        也走 `_request` 或直接走本方法）⇒ 原生崩溃护栏**必须**也挂在这里，
+        否则裸路径可绕过 `build_request` 上的那道护栏（实测缺口）。
+        """
+        guard_native_crash_path(path, allow_native_crash_risk=allow_native_crash_risk)
         secret = await self._credentials.get_secret(self._secret_ref)
         headers = {
             MAPI_KEY_HEADER: secret,
