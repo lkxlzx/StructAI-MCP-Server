@@ -169,6 +169,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.CONS",
         "DB.CUTL",
         "DB.DCON",
+        "DB.DCTL",
+        "DB.DSTL",
         "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
@@ -190,7 +192,9 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.LCOM-STLCOMP",
         "DB.LDGR",
         "DB.LDSQ",
+        "DB.LENG",
         "DB.MATL",
+        "DB.MBTP",
         "DB.MLFC",
         "DB.MVCD",
         "DB.MVCTBS",
@@ -205,6 +209,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PJCF",
         "DB.PNLD",
         "DB.POGD",
+        "DB.POSL",
         "DB.PRES",
         "DB.PSLT",
         "DB.SDST",
@@ -221,6 +226,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.THFC",
         "DB.THIK",
         "DB.VSEC",
+        "DB.WMAK",
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
@@ -238,7 +244,7 @@ P149-C：+2 真实 L5 `PASSED`）。"""
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 431, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -416,5 +422,5 @@ def test_p144_coverage_counts_thirty_six_of_609() -> None:
     civil = write_path_coverage(
         registry, [_Row(key) for key in _measured(CANDIDATES_BY_PRODUCT["CIVIL_NX"])]
     )
-    assert civil.covered == 62
-    assert civil.ratio == f"62 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 68
+    assert civil.ratio == f"68 / {WRITE_PATH_TOTAL}"

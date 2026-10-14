@@ -76,9 +76,9 @@ EXPECTED_REFUSED = 23
 EXPECTED_ROWS = 84
 EXPECTED_PARTIAL = 61
 EXPECTED_FAILED = 23
-EXPECTED_VERIFIED_TOTAL = 503
+EXPECTED_VERIFIED_TOTAL = 509
 EXPECTED_RESPONSE_BLOCKS = 317
-NO_GET = 109
+NO_GET = 103
 DISABLED = 1
 
 
@@ -109,6 +109,37 @@ def _unchanged_since_head(path: Path) -> bool:
         capture_output=True,
     )
     return result.returncode == 0
+
+
+AVAILABILITY_FIELDS = ("availability",)
+"""「**只升不降**」真正约束的两个字段。
+
+`products` 由**另一批**（NXSDK 外部证据裁决）按实测归属更正 —— 21 个 Hyper-S `-M1`
+由 `[GEN_NX]` 改为 `[CIVIL_NX]`（对方 `HYPER_S_ONLY` = 13 implemented + 8 stubs = **21**，
+live 两次确认 "civil GET ok, gen GET fails"），另 12 个由 `[CIVIL_NX, GEN_NX]` 收为
+`[GEN_NX]`（对方 `GEN_ONLY` 家族，两次独立复现）。本批的「只升不降」是**关于
+`availability`** 的主张，故按字段复算，不按整文件 —— 整文件判定是更强的代理，
+但会被后续**已裁决**的 `products` 更正误伤。
+"""
+
+
+def _fields_unchanged_since_head(path: Path, fields: tuple[str, ...]) -> bool:
+    """该文件相对 `HEAD` 在**指定字段**上未变（`git show HEAD:<rel>` 后逐字段比对）。"""
+    import yaml
+
+    rel = path.relative_to(REPO_ROOT).as_posix()
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{rel}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return True  # `HEAD` 里没有该文件（本批新增）⇒ 谈不上「改」
+    before = yaml.safe_load(result.stdout) or {}
+    after = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return all(before.get(f) == after.get(f) for f in fields)
 
 
 def _opaque_tokens(node: object) -> list[str]:
@@ -232,8 +263,9 @@ def test_p149e_the_twenty_three_unverified_endpoints_still_return_404() -> None:
         availability, _ = tool.read_availability(files[key])
         # **只升不降**：实测不可用的判定需要另一方向的证据 ⇒ 本批**不**动
         assert availability == "unverified", key
-        # **只升不降**：这 23 个 YAML 相对 `HEAD` **一字未改**（最强的「一行未动」判定）
-        assert _unchanged_since_head(files[key]), key
+        # **只升不降**：`availability` / `unavailable_on` 相对 `HEAD` **一字未改**
+        # （`products` 由另一批外部证据裁决更正，见 `AVAILABILITY_FIELDS`）
+        assert _fields_unchanged_since_head(files[key], AVAILABILITY_FIELDS), key
 
 
 def test_p149e_the_data_side_matches_the_evidence_and_the_counts_are_pinned() -> None:

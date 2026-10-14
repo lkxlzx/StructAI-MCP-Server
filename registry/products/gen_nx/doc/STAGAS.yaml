@@ -13,6 +13,7 @@ schema_ref:
 parser: generic
 products: [GEN_NX]
 availability: untested
+unavailable_on: [civil-cloud]
 table_type: null
 title: Save Current Stage As
 risk:

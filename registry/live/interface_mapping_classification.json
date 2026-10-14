@@ -7,47 +7,46 @@
     "生成器 = `registry/tools/classify_mapping_gap.py --recon`（**零请求**）。"
   ],
   "criterion_version": 1,
-  "gap_total": 510,
-  "gap_not_in_contract": 264,
+  "gap_total": 489,
+  "gap_not_in_contract": 243,
   "gap_no_readback": 246,
   "mapped_endpoints": 68,
-  "write_capable_endpoints": 577,
-  "three_step_endpoints": 301,
+  "write_capable_endpoints": 556,
+  "three_step_endpoints": 280,
   "buckets": {
     "by_namespace": {
-      "DB": 193,
+      "DB": 172,
       "DESIGN": 68,
       "OPE": 3
     },
     "by_capability": {
-      "DELETE": 179,
+      "DELETE": 158,
       "DESIGN": 68,
-      "MODEL": 196,
+      "MODEL": 175,
       "OPERATION": 3
     },
     "by_tool_map": {
-      "assign": 263,
-      "delete": 179,
-      "query": 264
+      "assign": 242,
+      "delete": 158,
+      "query": 243
     },
     "by_adoption": {
       "adoptable_with_manual_example": 51,
-      "needs_product_decision": 213
+      "needs_product_decision": 192
     },
     "by_readiness": {
       "manual_example_ready": 51,
       "no_request_schema": 1,
-      "schema_only": 212
+      "schema_only": 191
     },
     "by_availability": {
-      "unverified": 21,
       "verified": 243
     }
   },
   "adoption_counts": {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 213
+    "needs_product_decision": 192
   },
   "adoptable": [],
   "adoptable_with_manual_example": [
@@ -1350,87 +1349,12 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.ACTL-M1",
-      "uri": "/DB/ACTL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "ACTL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "BCCT",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.BCGA-M1",
-      "uri": "/DB/BCGA-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGA-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.BCGD-M1",
-      "uri": "/DB/BCGD-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGD-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -1813,62 +1737,12 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.EIGV-M1",
-      "uri": "/DB/EIGV-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "EIGV-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.ELNK",
       "uri": "/DB/ELNK",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "ELNK",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.EPMT-M1",
-      "uri": "/DB/EPMT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "EPMT-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -2238,31 +2112,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.HHCT-M1",
-      "uri": "/DB/HHCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "HHCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.HHND",
       "uri": "/DB/HHND",
       "namespace": "DB",
@@ -2388,106 +2237,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.IEHG-BEAM-M1",
-      "uri": "/DB/IEHG-BEAM-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-BEAM-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-GL-M1",
-      "uri": "/DB/IEHG-GL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-GL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-PSS-M1",
-      "uri": "/DB/IEHG-PSS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-PSS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-TRUSS-M1",
-      "uri": "/DB/IEHG-TRUSS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-TRUSS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "namespace": "DB",
@@ -2567,31 +2316,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "IMFM",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IMFM-M1",
-      "uri": "/DB/IMFM-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IMFM-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -2875,31 +2599,6 @@
       "tool_map": {
         "query": "midas_db_query",
         "assign": "midas_db_assign"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.MATL-M1",
-      "uri": "/DB/MATL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "MATL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
       },
       "transformers": [],
       "has_transformer": false,
@@ -3284,31 +2983,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.NLCT-M1",
-      "uri": "/DB/NLCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "NLCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.NLLP",
       "uri": "/DB/NLLP",
       "namespace": "DB",
@@ -3340,31 +3014,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "NLNK",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.NLNK-M1",
-      "uri": "/DB/NLNK-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "NLNK-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -3534,62 +3183,12 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.POGD-M1",
-      "uri": "/DB/POGD-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "POGD-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.POLC",
       "uri": "/DB/POLC",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "POLC",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.POLC-M1",
-      "uri": "/DB/POLC-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "POLC-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -4274,62 +3873,12 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.STCT-M1",
-      "uri": "/DB/STCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.STMP",
       "uri": "/DB/STMP",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "STMP",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.STYP-M1",
-      "uri": "/DB/STYP-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STYP-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -4474,56 +4023,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.THGC-M1",
-      "uri": "/DB/THGC-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THGC-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.THIS-M1",
-      "uri": "/DB/THIS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "THIS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.THMS",
       "uri": "/DB/THMS",
       "namespace": "DB",
@@ -4555,31 +4054,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "THNL",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.THOO-M1",
-      "uri": "/DB/THOO-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THOO-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -6513,87 +5987,12 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.ACTL-M1",
-      "uri": "/DB/ACTL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "ACTL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "BCCT",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.BCGA-M1",
-      "uri": "/DB/BCGA-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGA-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.BCGD-M1",
-      "uri": "/DB/BCGD-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGD-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -7149,31 +6548,6 @@
       "readiness": "manual_example_ready"
     },
     {
-      "key": "DB.EIGV-M1",
-      "uri": "/DB/EIGV-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "EIGV-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.ELNK",
       "uri": "/DB/ELNK",
       "namespace": "DB",
@@ -7222,31 +6596,6 @@
       "has_manual_example": true,
       "adoption": "adoptable_with_manual_example",
       "readiness": "manual_example_ready"
-    },
-    {
-      "key": "DB.EPMT-M1",
-      "uri": "/DB/EPMT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "EPMT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
     },
     {
       "key": "DB.EPSE",
@@ -7724,31 +7073,6 @@
       "readiness": "manual_example_ready"
     },
     {
-      "key": "DB.HHCT-M1",
-      "uri": "/DB/HHCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "HHCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.HHND",
       "uri": "/DB/HHND",
       "namespace": "DB",
@@ -7924,106 +7248,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.IEHG-BEAM-M1",
-      "uri": "/DB/IEHG-BEAM-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-BEAM-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-GL-M1",
-      "uri": "/DB/IEHG-GL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-GL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-PSS-M1",
-      "uri": "/DB/IEHG-PSS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-PSS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IEHG-TRUSS-M1",
-      "uri": "/DB/IEHG-TRUSS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-TRUSS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "namespace": "DB",
@@ -8103,31 +7327,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "IMFM",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.IMFM-M1",
-      "uri": "/DB/IMFM-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IMFM-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -8486,31 +7685,6 @@
       "tool_map": {
         "query": "midas_db_query",
         "assign": "midas_db_assign"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.MATL-M1",
-      "uri": "/DB/MATL-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "MATL-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
       },
       "transformers": [],
       "has_transformer": false,
@@ -9095,31 +8269,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.NLCT-M1",
-      "uri": "/DB/NLCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "NLCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.NLLP",
       "uri": "/DB/NLLP",
       "namespace": "DB",
@@ -9151,31 +8300,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "NLNK",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.NLNK-M1",
-      "uri": "/DB/NLNK-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "NLNK-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -9495,62 +8619,12 @@
       "readiness": "manual_example_ready"
     },
     {
-      "key": "DB.POGD-M1",
-      "uri": "/DB/POGD-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "POGD-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.POLC",
       "uri": "/DB/POLC",
       "namespace": "DB",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "POLC",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.POLC-M1",
-      "uri": "/DB/POLC-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "POLC-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [
@@ -10460,31 +9534,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.STCT-M1",
-      "uri": "/DB/STCT-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STCT-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.STMP",
       "uri": "/DB/STMP",
       "namespace": "DB",
@@ -10533,31 +9582,6 @@
       "has_manual_example": true,
       "adoption": "adoptable_with_manual_example",
       "readiness": "manual_example_ready"
-    },
-    {
-      "key": "DB.STYP-M1",
-      "uri": "/DB/STYP-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STYP-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
     },
     {
       "key": "DB.TDCS",
@@ -10810,31 +9834,6 @@
       "readiness": "schema_only"
     },
     {
-      "key": "DB.THGC-M1",
-      "uri": "/DB/THGC-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THGC-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
       "key": "DB.THIK",
       "uri": "/DB/THIK",
       "namespace": "DB",
@@ -10858,31 +9857,6 @@
       "has_manual_example": true,
       "adoption": "adoptable_with_manual_example",
       "readiness": "manual_example_ready"
-    },
-    {
-      "key": "DB.THIS-M1",
-      "uri": "/DB/THIS-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "THIS-M1",
-      "availability": "unverified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
     },
     {
       "key": "DB.THMS",
@@ -10916,31 +9890,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "THNL",
       "availability": "verified",
-      "table_type": "",
-      "risk_level": "low",
-      "capability": [
-        "DELETE",
-        "MODEL"
-      ],
-      "tool_map": {
-        "query": "midas_db_query",
-        "assign": "midas_db_assign",
-        "delete": "midas_db_delete"
-      },
-      "transformers": [],
-      "has_transformer": false,
-      "has_request_schema": true,
-      "has_manual_example": false,
-      "adoption": "needs_product_decision",
-      "readiness": "schema_only"
-    },
-    {
-      "key": "DB.THOO-M1",
-      "uri": "/DB/THOO-M1",
-      "namespace": "DB",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THOO-M1",
-      "availability": "unverified",
       "table_type": "",
       "risk_level": "low",
       "capability": [

@@ -203,6 +203,35 @@ def _unchanged_since_head(path: Path) -> bool:
     return result.returncode == 0
 
 
+AVAILABILITY_FIELDS = ("availability",)
+"""本批「未改端点」主张真正约束的两个字段。
+
+`products` 由**另一批**（NXSDK 外部证据裁决）按实测归属更正：21 个 Hyper-S `-M1`
+由 `[GEN_NX]` 改为 `[CIVIL_NX]`、12 个由 `[CIVIL_NX, GEN_NX]` 收为 `[GEN_NX]`。
+本批「只断言自省路由 404、不断言端点不可用」是**关于 `availability`** 的主张，
+故按字段复算，避免被后续**已裁决**的 `products` 更正误伤。
+"""
+
+
+def _fields_unchanged_since_head(path: Path, fields: tuple[str, ...]) -> bool:
+    """该文件相对 `HEAD` 在**指定字段**上未变（`git show HEAD:<rel>` 后逐字段比对）。"""
+    import yaml
+
+    rel = path.relative_to(REPO_ROOT).as_posix()
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{rel}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return True  # `HEAD` 里没有该文件（本批新增）⇒ 谈不上「改」
+    before = yaml.safe_load(result.stdout) or {}
+    after = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return all(before.get(f) == after.get(f) for f in fields)
+
+
 # ===== 1. 目标集（判定 1）=====
 
 
@@ -273,10 +302,12 @@ def test_p150_the_forty_five_unavailable_introspect_routes_are_explained_per_buc
         EXPECTED_FAILED_UNAVAILABLE,
         EXPECTED_FAILED_OTHER_PRODUCT,
     )
-    # ⚠️ 本证据**只**断言「自省路由在本 build 上 404」，**不**断言端点不可用 ⇒ 端点 YAML 一行未改
+    # ⚠️ 本证据**只**断言「自省路由在本 build 上 404」，**不**断言端点不可用
+    # ⇒ 端点 YAML 的 `availability` / `unavailable_on` 一行未改
+    # （`products` 由另一批外部证据裁决更正，见 `AVAILABILITY_FIELDS`）
     for key in failed:
         definition = REPO_ROOT / "registry" / str(manifest[key]["definition"])
-        assert _unchanged_since_head(definition), key
+        assert _fields_unchanged_since_head(definition, AVAILABILITY_FIELDS), key
 
 
 # ===== 3. 裁决（判定 4）=====

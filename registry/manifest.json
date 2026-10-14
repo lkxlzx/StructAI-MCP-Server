@@ -7,13 +7,13 @@
   ],
   "counts": {
     "keys": 636,
-    "schemas": 616,
+    "schemas": 625,
     "buckets": {
       "common": 370,
-      "products/gen_nx": 100,
+      "design": 125,
       "products/civil_designer": 24,
       "products/civil_nx": 17,
-      "design": 125
+      "products/gen_nx": 100
     }
   },
   "endpoints": [
@@ -75,7 +75,7 @@
       "uri": "/DB/ACTL-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/ACTL-M1.yaml",
       "schema": "schema/products/gen_nx/db/ACTL-M1.json",
@@ -91,6 +91,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -176,7 +177,7 @@
       "uri": "/DB/BCGA-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/BCGA-M1.yaml",
       "schema": "schema/products/gen_nx/db/BCGA-M1.json",
@@ -192,6 +193,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -226,7 +228,7 @@
       "uri": "/DB/BCGD-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/BCGD-M1.yaml",
       "schema": "schema/products/gen_nx/db/BCGD-M1.json",
@@ -242,6 +244,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -1744,6 +1747,7 @@
       "uri": "/DB/DCTL",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/DCTL.yaml",
@@ -1759,6 +1763,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -1896,6 +1901,7 @@
       "uri": "/DB/DSTL",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/DSTL.yaml",
@@ -1911,6 +1917,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -2258,7 +2265,7 @@
       "uri": "/DB/EIGV-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/EIGV-M1.yaml",
       "schema": "schema/products/gen_nx/db/EIGV-M1.json",
@@ -2274,6 +2281,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -2483,7 +2491,7 @@
       "uri": "/DB/EPMT-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/EPMT-M1.yaml",
       "schema": "schema/products/gen_nx/db/EPMT-M1.json",
@@ -2499,6 +2507,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -2533,6 +2542,7 @@
       "uri": "/DB/EPSE",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/EPSE.yaml",
@@ -2548,6 +2558,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -2633,6 +2644,7 @@
       "uri": "/DB/ESSF",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/ESSF.yaml",
@@ -2648,6 +2660,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -3770,7 +3783,7 @@
       "uri": "/DB/HHCT-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/HHCT-M1.yaml",
       "schema": "schema/products/gen_nx/db/HHCT-M1.json",
@@ -3786,6 +3799,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -4182,7 +4196,7 @@
       "uri": "/DB/IEHG-BEAM-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/IEHG-BEAM-M1.yaml",
       "schema": "schema/products/gen_nx/db/IEHG-BEAM-M1.json",
@@ -4198,6 +4212,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -4232,7 +4247,7 @@
       "uri": "/DB/IEHG-GL-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/IEHG-GL-M1.yaml",
       "schema": "schema/products/gen_nx/db/IEHG-GL-M1.json",
@@ -4248,6 +4263,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -4282,7 +4298,7 @@
       "uri": "/DB/IEHG-PSS-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/IEHG-PSS-M1.yaml",
       "schema": "schema/products/gen_nx/db/IEHG-PSS-M1.json",
@@ -4298,6 +4314,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -4332,7 +4349,7 @@
       "uri": "/DB/IEHG-TRUSS-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/IEHG-TRUSS-M1.yaml",
       "schema": "schema/products/gen_nx/db/IEHG-TRUSS-M1.json",
@@ -4348,6 +4365,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -4588,7 +4606,7 @@
       "uri": "/DB/IMFM-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/IMFM-M1.yaml",
       "schema": "schema/products/gen_nx/db/IMFM-M1.json",
@@ -4604,6 +4622,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -5268,6 +5287,7 @@
       "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_DESIGNER",
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/LENG.yaml",
@@ -5283,8 +5303,9 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
-        "gen-local",
-        "designer-cloud"
+        "civil-cloud",
+        "designer-cloud",
+        "gen-local"
       ],
       "unavailable_on": [],
       "enabled": true,
@@ -5337,6 +5358,7 @@
       "uri": "/DB/LLAN",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/LLAN.yaml",
@@ -5352,6 +5374,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -5439,6 +5462,7 @@
       "uri": "/DB/LLANID",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/LLANID.yaml",
@@ -5454,6 +5478,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -5645,6 +5670,7 @@
       "uri": "/DB/LTSR",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/LTSR.yaml",
@@ -5660,6 +5686,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -5848,7 +5875,7 @@
       "uri": "/DB/MATL-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/MATL-M1.yaml",
       "schema": "schema/products/gen_nx/db/MATL-M1.json",
@@ -5864,6 +5891,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -5898,6 +5926,7 @@
       "uri": "/DB/MBTP",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/MBTP.yaml",
@@ -5913,6 +5942,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -6001,6 +6031,7 @@
       "methods": "POST, GET, PUT, DELETE",
       "products": [
         "CIVIL_DESIGNER",
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/MEMB.yaml",
@@ -6016,8 +6047,9 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
-        "gen-local",
-        "designer-cloud"
+        "civil-cloud",
+        "designer-cloud",
+        "gen-local"
       ],
       "unavailable_on": [],
       "enabled": true,
@@ -7222,7 +7254,7 @@
       "uri": "/DB/NLCT-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/NLCT-M1.yaml",
       "schema": "schema/products/gen_nx/db/NLCT-M1.json",
@@ -7238,6 +7270,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -7375,7 +7408,7 @@
       "uri": "/DB/NLNK-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/NLNK-M1.yaml",
       "schema": "schema/products/gen_nx/db/NLNK-M1.json",
@@ -7391,6 +7424,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -8172,7 +8206,7 @@
       "uri": "/DB/POGD-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/POGD-M1.yaml",
       "schema": "schema/products/gen_nx/db/POGD-M1.json",
@@ -8188,6 +8222,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -8273,7 +8308,7 @@
       "uri": "/DB/POLC-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/POLC-M1.yaml",
       "schema": "schema/products/gen_nx/db/POLC-M1.json",
@@ -8289,6 +8324,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -8323,6 +8359,7 @@
       "uri": "/DB/POSL",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/POSL.yaml",
@@ -8338,6 +8375,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -8390,7 +8428,9 @@
       "verified_on": [
         "gen-local"
       ],
-      "unavailable_on": [],
+      "unavailable_on": [
+        "civil-cloud"
+      ],
       "enabled": true,
       "disable_reason": "",
       "path_key_supported": true,
@@ -8837,7 +8877,6 @@
       "uri": "/DB/REBB",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/REBB.yaml",
@@ -8883,7 +8922,6 @@
       "uri": "/DB/REBC",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/REBC.yaml",
@@ -8929,7 +8967,6 @@
       "uri": "/DB/REBR",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/REBR.yaml",
@@ -8975,7 +9012,6 @@
       "uri": "/DB/REBW",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/db/REBW.yaml",
@@ -10444,7 +10480,7 @@
       "uri": "/DB/STCT-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/STCT-M1.yaml",
       "schema": "schema/products/gen_nx/db/STCT-M1.json",
@@ -10460,6 +10496,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -10748,7 +10785,7 @@
       "uri": "/DB/STYP-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/STYP-M1.yaml",
       "schema": "schema/products/gen_nx/db/STYP-M1.json",
@@ -10764,6 +10801,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -11411,7 +11449,7 @@
       "uri": "/DB/THGC-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/THGC-M1.yaml",
       "schema": "schema/products/gen_nx/db/THGC-M1.json",
@@ -11427,6 +11465,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -11564,7 +11603,7 @@
       "uri": "/DB/THIS-M1",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/THIS-M1.yaml",
       "schema": "schema/products/gen_nx/db/THIS-M1.json",
@@ -11580,6 +11619,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -11718,7 +11758,7 @@
       "uri": "/DB/THOO-M1",
       "methods": "GET, PUT, DELETE",
       "products": [
-        "GEN_NX"
+        "CIVIL_NX"
       ],
       "definition": "products/gen_nx/db/THOO-M1.yaml",
       "schema": "schema/products/gen_nx/db/THOO-M1.json",
@@ -11734,6 +11774,7 @@
       "availability": "unverified",
       "verified_on": [],
       "unavailable_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "enabled": true,
@@ -12589,6 +12630,7 @@
       "uri": "/DB/WMAK",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/db/WMAK.yaml",
@@ -12604,6 +12646,7 @@
       "solver": "",
       "availability": "verified",
       "verified_on": [
+        "civil-cloud",
         "gen-local"
       ],
       "unavailable_on": [],
@@ -14909,7 +14952,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBB",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/REBB.yaml",
@@ -14955,7 +14997,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBC",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/REBC.yaml",
@@ -15001,7 +15042,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBR",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/REBR.yaml",
@@ -15047,7 +15087,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/REBW",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/REBW.yaml",
@@ -15456,7 +15495,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/TRFT",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/TRFT.yaml",
@@ -15502,7 +15540,6 @@
       "uri": "/DESIGN/RC/KDS-41-20-2022/ULCT",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/rc/KDS-41-20-2022/ULCT.yaml",
@@ -18333,7 +18370,6 @@
       "uri": "/DESIGN/STEEL/KDS-41-30-2022/ULCT",
       "methods": "POST, GET, PUT, DELETE",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "design/steel/KDS-41-30-2022/ULCT.yaml",
@@ -19322,7 +19358,9 @@
       "solver": "",
       "availability": "untested",
       "verified_on": [],
-      "unavailable_on": [],
+      "unavailable_on": [
+        "civil-cloud"
+      ],
       "enabled": true,
       "disable_reason": "",
       "path_key_supported": false,
@@ -19759,6 +19797,7 @@
       "uri": "/OPE/EDMP",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/ope/EDMP.yaml",
@@ -19772,8 +19811,10 @@
       "examples": 5,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -19802,6 +19843,7 @@
       "uri": "/OPE/GSBG",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/ope/GSBG.yaml",
@@ -19815,8 +19857,10 @@
       "examples": 6,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -19845,6 +19889,7 @@
       "uri": "/OPE/GUSTFACTOR",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/ope/GUSTFACTOR.yaml",
@@ -19858,8 +19903,10 @@
       "examples": 3,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -20482,6 +20529,7 @@
       "uri": "/OPE/MEMB",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/ope/MEMB.yaml",
@@ -20495,8 +20543,10 @@
       "examples": 3,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -20621,6 +20671,7 @@
       "uri": "/OPE/SSPS",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/ope/SSPS.yaml",
@@ -20634,8 +20685,10 @@
       "examples": 11,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -20751,7 +20804,6 @@
       "uri": "/OPE/STORYPROP",
       "methods": "POST",
       "products": [
-        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "common/ope/STORYPROP.yaml",
@@ -21303,7 +21355,9 @@
       "solver": "",
       "availability": "untested",
       "verified_on": [],
-      "unavailable_on": [],
+      "unavailable_on": [
+        "civil-cloud"
+      ],
       "enabled": true,
       "disable_reason": "",
       "path_key_supported": false,
@@ -30464,6 +30518,7 @@
       "uri": "/VIEW/PRECAPTURE",
       "methods": "POST",
       "products": [
+        "CIVIL_NX",
         "GEN_NX"
       ],
       "definition": "products/gen_nx/view/PRECAPTURE.yaml",
@@ -30477,8 +30532,10 @@
       "examples": 3,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "civil-cloud"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",

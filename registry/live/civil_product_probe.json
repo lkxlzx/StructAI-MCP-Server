@@ -1,0 +1,477 @@
+{
+ "note": [
+  "CIVIL_NX **产品级路由探针**（B 级 21 条候选 + 三组对照）。**只发 GET**，零副作用。",
+  "判据：非 200 ⇒ ABSENT（路由不在该产品上 —— 唯一可用于产品归属的判据）；",
+  "200 且顶层键 == read_root ⇒ PASSED；200 但空表（`{\"message\": \"\"}`）⇒ PRESENT_EMPTY。",
+  "⚠️ civil-cloud 的语义（instances.yaml）：未知 URI 返回 404（可靠）；空表返回 200 + message。",
+  "对照：DB.NODE/DB.MATL 必须存在；DB.SDHY/DB.SDIS（§8.2 已摘除 CIVIL_NX）必须不存在；",
+  "DB.STCT-M1/DB.MATL-M1/DB.STYP-M1 用于复核第一/二批的 Hyper-S 归属更正。",
+  "生成器 = .tmp_analysis/p74_civil_probe.py（归档于 docs/nxsdk_review/scripts/）。"
+ ],
+ "instance": {
+  "alias": "civil-cloud",
+  "product": "CIVIL_NX",
+  "base_url": "https://moa-engineers.midasit.cn:443/civil",
+  "probed_at": "2026-10-14",
+  "scope": "B 级 21 条候选（我方仅声明 GEN_NX）+ 三组对照"
+ },
+ "counts": {
+  "PRESENT_EMPTY": 20,
+  "ABSENT": 26
+ },
+ "aborted": "",
+ "controls": {
+  "present_expected": [
+   "DB.NODE",
+   "DB.MATL"
+  ],
+  "absent_expected": [
+   "DB.SDHY",
+   "DB.SDIS"
+  ],
+  "hyper_s_recheck": [
+   "DB.STCT-M1",
+   "DB.MATL-M1",
+   "DB.STYP-M1"
+  ]
+ },
+ "hyper_s_family": [
+  "DB.ACTL-M1",
+  "DB.BCGA-M1",
+  "DB.BCGD-M1",
+  "DB.EIGV-M1",
+  "DB.EPMT-M1",
+  "DB.HHCT-M1",
+  "DB.IEHG-BEAM-M1",
+  "DB.IEHG-GL-M1",
+  "DB.IEHG-PSS-M1",
+  "DB.IEHG-TRUSS-M1",
+  "DB.IMFM-M1",
+  "DB.MATL-M1",
+  "DB.NLCT-M1",
+  "DB.NLNK-M1",
+  "DB.POGD-M1",
+  "DB.POLC-M1",
+  "DB.STCT-M1",
+  "DB.STYP-M1",
+  "DB.THGC-M1",
+  "DB.THIS-M1",
+  "DB.THOO-M1"
+ ],
+ "endpoints": {
+  "DB.NODE": {
+   "uri": "/DB/NODE",
+   "read_root": "NODE",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.MATL": {
+   "uri": "/DB/MATL",
+   "read_root": "MATL",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.STCT-M1": {
+   "uri": "/DB/STCT-M1",
+   "read_root": "STCT-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.MATL-M1": {
+   "uri": "/DB/MATL-M1",
+   "read_root": "MATL-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.STYP-M1": {
+   "uri": "/DB/STYP-M1",
+   "read_root": "STYP-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.SDHY": {
+   "uri": "/DB/SDHY",
+   "read_root": "SDHY",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.SDIS": {
+   "uri": "/DB/SDIS",
+   "read_root": "SDIS",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.DCTL": {
+   "uri": "/DB/DCTL",
+   "read_root": "DCTL",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.DSTL": {
+   "uri": "/DB/DSTL",
+   "read_root": "DSTL",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.EPSE": {
+   "uri": "/DB/EPSE",
+   "read_root": "EPSE",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.ESSF": {
+   "uri": "/DB/ESSF",
+   "read_root": "ESSF",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.LENG": {
+   "uri": "/DB/LENG",
+   "read_root": "LENG",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.LLAN": {
+   "uri": "/DB/LLAN",
+   "read_root": "LLAN",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.LLANID": {
+   "uri": "/DB/LLANID",
+   "read_root": "LLANID",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.LTSR": {
+   "uri": "/DB/LTSR",
+   "read_root": "LTSR",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.MBTP": {
+   "uri": "/DB/MBTP",
+   "read_root": "MBTP",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.MEMB": {
+   "uri": "/DB/MEMB",
+   "read_root": "MEMB",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.POSL": {
+   "uri": "/DB/POSL",
+   "read_root": "POSL",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.POSP": {
+   "uri": "/DB/POSP",
+   "read_root": "POSP",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.WMAK": {
+   "uri": "/DB/WMAK",
+   "read_root": "WMAK",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DOC.STAGAS": {
+   "uri": "/DOC/STAGAS",
+   "read_root": "",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "OPE.EDMP": {
+   "uri": "/OPE/EDMP",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "OPE.GSBG": {
+   "uri": "/OPE/GSBG",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "OPE.GUSTFACTOR": {
+   "uri": "/OPE/GUSTFACTOR",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "OPE.MEMB": {
+   "uri": "/OPE/MEMB",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "OPE.SSPS": {
+   "uri": "/OPE/SSPS",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "POST.STEELCODECHECK": {
+   "uri": "/POST/STEELCODECHECK",
+   "read_root": "",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "VIEW.PRECAPTURE": {
+   "uri": "/VIEW/PRECAPTURE",
+   "read_root": "",
+   "status_code": 200,
+   "top_keys": [
+    "message"
+   ],
+   "verdict": "PRESENT_EMPTY"
+  },
+  "DB.ACTL-M1": {
+   "uri": "/DB/ACTL-M1",
+   "read_root": "ACTL-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.BCGA-M1": {
+   "uri": "/DB/BCGA-M1",
+   "read_root": "BCGA-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.BCGD-M1": {
+   "uri": "/DB/BCGD-M1",
+   "read_root": "BCGD-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.EIGV-M1": {
+   "uri": "/DB/EIGV-M1",
+   "read_root": "EIGV-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.EPMT-M1": {
+   "uri": "/DB/EPMT-M1",
+   "read_root": "EPMT-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.HHCT-M1": {
+   "uri": "/DB/HHCT-M1",
+   "read_root": "HHCT-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.IEHG-BEAM-M1": {
+   "uri": "/DB/IEHG-BEAM-M1",
+   "read_root": "IEHG-BEAM-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.IEHG-GL-M1": {
+   "uri": "/DB/IEHG-GL-M1",
+   "read_root": "IEHG-GL-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.IEHG-PSS-M1": {
+   "uri": "/DB/IEHG-PSS-M1",
+   "read_root": "IEHG-PSS-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.IEHG-TRUSS-M1": {
+   "uri": "/DB/IEHG-TRUSS-M1",
+   "read_root": "IEHG-TRUSS-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.IMFM-M1": {
+   "uri": "/DB/IMFM-M1",
+   "read_root": "IMFM-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.NLCT-M1": {
+   "uri": "/DB/NLCT-M1",
+   "read_root": "NLCT-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.NLNK-M1": {
+   "uri": "/DB/NLNK-M1",
+   "read_root": "NLNK-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.POGD-M1": {
+   "uri": "/DB/POGD-M1",
+   "read_root": "POGD-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.POLC-M1": {
+   "uri": "/DB/POLC-M1",
+   "read_root": "POLC-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.THGC-M1": {
+   "uri": "/DB/THGC-M1",
+   "read_root": "THGC-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.THIS-M1": {
+   "uri": "/DB/THIS-M1",
+   "read_root": "THIS-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  },
+  "DB.THOO-M1": {
+   "uri": "/DB/THOO-M1",
+   "read_root": "THOO-M1",
+   "status_code": 404,
+   "top_keys": [
+    "error"
+   ],
+   "verdict": "ABSENT"
+  }
+ }
+}

@@ -386,7 +386,7 @@ def test_p141_the_five_endpoints_keep_the_mechanical_verification_status() -> No
     """
     registry = _registry()
     expected = {
-        "OPE.MEMB": "PARTIAL",
+        "OPE.MEMB": "VERIFIED",
         "OPE.STOR": "PARTIAL",
         "OPE.STORPROP": "PARTIAL",
         "OPE.STORY_IRR_PARAM": "VERIFIED",

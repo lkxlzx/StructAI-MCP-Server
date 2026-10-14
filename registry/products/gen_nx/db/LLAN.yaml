@@ -14,9 +14,9 @@ schema_ref:
   introspect: info/db/LLAN
   source: help_center
 parser: db_generic
-products: [GEN_NX]
+products: [CIVIL_NX, GEN_NX]
 availability: verified
-verified_on: ["gen-local"]
+verified_on: [civil-cloud, gen-local]
 path_key_supported: true
 table_type: null
 title: Traffic Line Lanes

@@ -238,6 +238,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.CONS",
         "DB.CUTL",
         "DB.DCON",
+        "DB.DCTL",
+        "DB.DSTL",
         "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
@@ -259,7 +261,9 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.LCOM-STLCOMP",
         "DB.LDGR",
         "DB.LDSQ",
+        "DB.LENG",
         "DB.MATL",
+        "DB.MBTP",
         "DB.MLFC",
         "DB.MVCD",
         "DB.MVCTBS",
@@ -274,6 +278,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PJCF",
         "DB.PNLD",
         "DB.POGD",
+        "DB.POSL",
         "DB.PRES",
         "DB.PSLT",
         "DB.SDST",
@@ -290,6 +295,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.THFC",
         "DB.THIK",
         "DB.VSEC",
+        "DB.WMAK",
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
@@ -307,7 +313,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 431, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -420,8 +426,10 @@ def test_p148_the_candidate_gate_counts_58_and_49_and_0() -> None:
         assert TRANSFORMER_REGISTRY.get(transformer_name_for(key)) is None, key
         assert registry.write_template(key) is not None, key
         assert key in CANDIDATES_BY_PRODUCT["GEN_NX"], key
-    # `DB.POSL` / `DB.STOR` 只属 GEN NX（数据侧在 `registry/products/gen_nx/`）
-    for key in ("DB.POSL", "DB.STOR"):
+    # ⚠️ **CIVIL_NX 探针（第三批）**：`DB.POSL` 在 CIVIL_NX 上实测存在（`200`）⇒ 已并上
+    # `CIVIL_NX` 并成为其候选；`DB.STOR` 仍只属 GEN NX（数据侧在 `registry/products/gen_nx/`）。
+    assert "DB.POSL" in CANDIDATES_BY_PRODUCT["CIVIL_NX"]
+    for key in ("DB.STOR",):
         assert key not in CANDIDATES_BY_PRODUCT["CIVIL_NX"], key
     # 每个候选在该产品上都必须**能删**（R100）
     for product, keys in CANDIDATES_BY_PRODUCT.items():
@@ -583,13 +591,13 @@ def test_p148_coverage_counts_fifty_eight_of_609() -> None:
 
 
 def test_p148_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
-    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 62 条时原分子仍为 62。"""
+    """门槛：子桶口径**不**过滤、**不**隐藏 —— 只给 CIVIL NX 的 68 条时原分子仍为 68。"""
     registry = _registry()
     civil_keys = _measured(CANDIDATES_BY_PRODUCT["CIVIL_NX"])
     civil = write_path_coverage(registry, [_Row(key) for key in civil_keys])
-    assert civil.covered == len(civil_keys) == 62
+    assert civil.covered == len(civil_keys) == 68
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "62 / 633"
+    assert civil.ratio == "68 / 633"
 
 
 def test_p148_the_twelve_new_keys_are_delivered_by_the_data_side_only() -> None:

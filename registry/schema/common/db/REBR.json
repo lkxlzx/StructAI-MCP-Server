@@ -23,46 +23,33 @@
                 "minItems": 1,
                 "items": {
                   "type": "object",
+                  "description": "Rebar item。⚠️ 手册（chapter 24 §13）的形状与原生不符：手册写**单个 `MAIN_BAR` 对象** + **顶层 `DO`** + 可选 `CREATE_SUB_SECTION`/`ELEMS`；原生收 **`vMAIN_BAR` 数组**（覆盖层在每条目内叫 **`D0`**，数字零），且**没有** `CREATE_SUB_SECTION`/`ELEMS`。实测（Gen NX v2.2 build 09/24/2026，2026-09-28）：照手册的长键发 → `Wrong Field`（形状被拒）；改用 `/info` 的键 → 到达域检查（形状被接受）。R144 / MD-34。",
                   "properties": {
-                    "CREATE_SUB_SECTION": {
-                      "type": "boolean",
-                      "default": false
-                    },
                     "ID": {
                       "type": "integer",
                       "description": "read only"
                     },
-                    "ELEMS": {
-                      "type": "object",
-                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
-                      "properties": {
-                        "KEYS": {
-                          "type": "array",
-                          "items": {
+                    "vMAIN_BAR": {
+                      "type": "array",
+                      "description": "主筋数组。手册写作**单个 `MAIN_BAR` 对象** + **顶层 `DO`** —— 两者都不被原生接受（R144 / MD-34）。",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "D4~D57"
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "min 4"
+                          },
+                          "ROW": {
                             "type": "integer"
+                          },
+                          "D0": {
+                            "type": "number",
+                            "description": "Concrete face to center of rebar。手册把它写成**顶层 `DO`**；原生是**每条目内的 `D0`**（数字零，不是字母 O）。"
                           }
-                        },
-                        "TO": {
-                          "type": "string"
-                        },
-                        "STRUCTURE_GROUP_NAME": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "MAIN_BAR": {
-                      "type": "object",
-                      "properties": {
-                        "NAME": {
-                          "type": "string",
-                          "description": "D4~D57"
-                        },
-                        "NUM": {
-                          "type": "integer",
-                          "description": "min 4"
-                        },
-                        "ROW": {
-                          "type": "integer"
                         }
                       }
                     },
@@ -102,22 +89,12 @@
                         }
                       }
                     },
-                    "DO": {
-                      "type": "number",
-                      "description": "Concrete face to center of rebar"
-                    },
                     "HOOP_TYPE": {
-                      "type": "string",
-                      "default": "Ties",
-                      "oneOf": [
-                        {
-                          "title": "Ties",
-                          "const": "Ties"
-                        },
-                        {
-                          "title": "Spirals",
-                          "const": "Spirals"
-                        }
+                      "type": "integer",
+                      "description": "Hoop Type (1=Tied, 2=Spiral)",
+                      "enum": [
+                        1,
+                        2
                       ]
                     }
                   }

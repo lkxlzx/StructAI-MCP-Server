@@ -46,3 +46,11 @@ data/
 
 # ⚠️ **P160d**：视图截图的临时目录（真机实测用；**不**进仓库）
 .tmp_p160d/
+
+# ⚠️ **NXSDK 评估**：外部 SDK（Dennis5882/MIDAS-API-NX-SDK）的浅克隆与比对脚本
+#    （只读参考；产出物已落在 docs/nxsdk_review/，见该目录 00_评估与查漏补缺报告）
+.tmp_nxsdk/
+.tmp_analysis/
+
+# ⚠️ **P164-c**：混凝土 / SRC 设计链真机实测的临时项目目录（真机实测用；**不**进仓库）
+.tmp_p164c/

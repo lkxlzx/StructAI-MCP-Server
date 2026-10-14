@@ -24,63 +24,292 @@
                 "items": {
                   "type": "object",
                   "properties": {
-                    "CREATE_SUB_SECTION": {
-                      "type": "boolean",
-                      "default": false
-                    },
                     "ID": {
                       "type": "integer",
-                      "description": "Sub Section ID (read only)"
+                      "description": "ID。⚠️ 实测：**省略 `ID` 会得到 `Wrong Field`**（2026-09-27，Gen NX v2.2 build 09/24/2026）—— `Wrong Field` 在本端点**不**意味着字段名错，而意味着**缺 `ID`** 或用了官方文章的**长名**。`/info` 不声明 `required` 数组，故本 Schema **不**把它列入 `required`（requiredness 记为 `unstated`），但调用方必须送它。R144 / MD-34 / 实测发现 A-03。"
                     },
                     "BAR_SECTOR_I": {
                       "type": "object",
-                      "description": "I단 구간 철근"
+                      "description": "Bar Sector-I",
+                      "properties": {
+                        "vMAIN_BAR_TOP": {
+                          "type": "array",
+                          "description": "Main Bar List : Top (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "vMAIN_BAR_BOT": {
+                          "type": "array",
+                          "description": "Main Bar List : Bottom (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "SHEAR_BAR": {
+                          "type": "object",
+                          "description": "Shear Bar",
+                          "properties": {
+                            "NAME": {
+                              "type": "string",
+                              "description": "Name"
+                            },
+                            "LEG": {
+                              "type": "integer",
+                              "description": "Leg"
+                            },
+                            "DIST": {
+                              "type": "number",
+                              "description": "Dist"
+                            }
+                          },
+                          "required": [
+                            "NAME",
+                            "LEG",
+                            "DIST"
+                          ]
+                        },
+                        "SKIN_BAR_NAME": {
+                          "type": "string",
+                          "description": "Skin Bar Name"
+                        },
+                        "SKIN_BAR_NUM": {
+                          "type": "integer",
+                          "description": "Skin Bar Number"
+                        }
+                      },
+                      "required": [
+                        "vMAIN_BAR_TOP",
+                        "vMAIN_BAR_BOT",
+                        "SHEAR_BAR"
+                      ]
                     },
                     "BAR_SECTOR_M": {
                       "type": "object",
-                      "description": "중앙(M) 구간 철근"
+                      "description": "Bar Sector-M",
+                      "properties": {
+                        "vMAIN_BAR_TOP": {
+                          "type": "array",
+                          "description": "Main Bar List : Top (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "vMAIN_BAR_BOT": {
+                          "type": "array",
+                          "description": "Main Bar List : Bottom (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "SHEAR_BAR": {
+                          "type": "object",
+                          "description": "Shear Bar",
+                          "properties": {
+                            "NAME": {
+                              "type": "string",
+                              "description": "Name"
+                            },
+                            "LEG": {
+                              "type": "integer",
+                              "description": "Leg"
+                            },
+                            "DIST": {
+                              "type": "number",
+                              "description": "Dist"
+                            }
+                          },
+                          "required": [
+                            "NAME",
+                            "LEG",
+                            "DIST"
+                          ]
+                        },
+                        "SKIN_BAR_NAME": {
+                          "type": "string",
+                          "description": "Skin Bar Name"
+                        },
+                        "SKIN_BAR_NUM": {
+                          "type": "integer",
+                          "description": "Skin Bar Number"
+                        }
+                      },
+                      "required": [
+                        "vMAIN_BAR_TOP",
+                        "vMAIN_BAR_BOT",
+                        "SHEAR_BAR"
+                      ]
                     },
                     "BAR_SECTOR_J": {
                       "type": "object",
-                      "description": "J단 구간 철근"
+                      "description": "Bar Sector-J",
+                      "properties": {
+                        "vMAIN_BAR_TOP": {
+                          "type": "array",
+                          "description": "Main Bar List : Top (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "vMAIN_BAR_BOT": {
+                          "type": "array",
+                          "description": "Main Bar List : Bottom (size = 1 or 2)",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "NAME": {
+                                "type": "string",
+                                "description": "Name"
+                              },
+                              "NUM": {
+                                "type": "integer",
+                                "description": "Number"
+                              }
+                            },
+                            "required": [
+                              "NAME",
+                              "NUM"
+                            ]
+                          }
+                        },
+                        "SHEAR_BAR": {
+                          "type": "object",
+                          "description": "Shear Bar",
+                          "properties": {
+                            "NAME": {
+                              "type": "string",
+                              "description": "Name"
+                            },
+                            "LEG": {
+                              "type": "integer",
+                              "description": "Leg"
+                            },
+                            "DIST": {
+                              "type": "number",
+                              "description": "Dist"
+                            }
+                          },
+                          "required": [
+                            "NAME",
+                            "LEG",
+                            "DIST"
+                          ]
+                        },
+                        "SKIN_BAR_NAME": {
+                          "type": "string",
+                          "description": "Skin Bar Name"
+                        },
+                        "SKIN_BAR_NUM": {
+                          "type": "integer",
+                          "description": "Skin Bar Number"
+                        }
+                      },
+                      "required": [
+                        "vMAIN_BAR_TOP",
+                        "vMAIN_BAR_BOT",
+                        "SHEAR_BAR"
+                      ]
                     },
                     "MAIN_BAR_DC_TOP": {
                       "type": "number",
-                      "description": "상단 피복 dT"
+                      "description": "Dc Top : Outest bar center ~ Concrete Face"
                     },
                     "MAIN_BAR_DC_BOT": {
                       "type": "number",
-                      "description": "하단 피복 dB"
+                      "description": "Dc Bottom : Outest bar center ~ Concrete Face"
                     },
                     "bSAME_SIZE_TOP_BOT": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Same Main Bar Size at Top and Bottom"
                     },
                     "bSAME_SIZE_IMJ": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "description": "Same Main Bar Size at I,M,J"
                     },
                     "bSAME_SIZE_LAYER": {
-                      "type": "boolean"
-                    },
-                    "ELEMS": {
-                      "type": "object",
-                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
-                      "properties": {
-                        "KEYS": {
-                          "type": "array",
-                          "items": {
-                            "type": "integer"
-                          }
-                        },
-                        "TO": {
-                          "type": "string"
-                        },
-                        "STRUCTURE_GROUP_NAME": {
-                          "type": "string"
-                        }
-                      }
+                      "type": "boolean",
+                      "description": "Same Main Bar Size at Each Layer"
                     }
-                  }
-                }
+                  },
+                  "required": [
+                    "BAR_SECTOR_I",
+                    "BAR_SECTOR_M",
+                    "BAR_SECTOR_J",
+                    "MAIN_BAR_DC_TOP",
+                    "MAIN_BAR_DC_BOT"
+                  ]
+                },
+                "description": "⚠️ 手册与官方文章的字段名**全部不对**（`{LAYER1, LAYER2}` 对象 vs 原生的 `{NAME, NUM}` **数组**），且**没有** `CREATE_SUB_SECTION`/`ELEMS`。实测（2026-08-27 / 09-03 / 09-27 / 10-04）多种载荷**全部** `Wrong Field`，**从未观察到任何一次写入成功**；短键能过字段校验并到达域检查。⚠️ `ID` 必填（缺它得到 `Wrong Field`）。R144 / MD-34 / 实测发现 A-03。"
               }
             }
           }

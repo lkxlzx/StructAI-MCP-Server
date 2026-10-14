@@ -47,6 +47,7 @@ import json
 import pathlib
 import sys
 from typing import Any
+
 RESULT_TABLE_EVIDENCE_RELATIVE = "live/result_table_probe.json"
 """**R106**（P149-D）取报表判据的实测证据（`registry/tools/probe_result_tables.py --probe` 的产物）。"""
 
@@ -223,4 +224,10 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Windows 控制台默认 cp949/cp936：本工具会打印中文/符号，不重设编码会 UnicodeEncodeError。
+    # ⚠️ 必须在 `__main__` 块内：测试用 `exec_module()` 装载本模块，模块级调用会改写
+    #    **pytest 的捕获流**，破坏其后所有用例的 capture。
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     sys.exit(main())

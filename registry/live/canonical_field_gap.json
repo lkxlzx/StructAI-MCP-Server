@@ -10,12 +10,12 @@
   "criterion_version": 1,
   "summary": {
     "template_endpoints": 71,
-    "with_transformer": 15,
-    "without_transformer": 56,
+    "with_transformer": 17,
+    "without_transformer": 54,
     "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 56,
-    "covered": 10
+    "no_canonical_model": 54,
+    "covered": 12
   },
   "buckets": {
     "field_set_gap": [
@@ -81,9 +81,7 @@
       "DB.THIK",
       "DB.VSEC",
       "DB.WMAK",
-      "DESIGN.RC.KDS-41-20-2022.WMAK",
-      "DESIGN.SRC.AIK-SRC2K.DCO",
-      "DESIGN.SRC.AIK-SRC2K.DSRC"
+      "DESIGN.RC.KDS-41-20-2022.WMAK"
     ],
     "covered": [
       "DB.BODF",
@@ -94,6 +92,8 @@
       "DB.STLD",
       "DESIGN.RC.DRC",
       "DESIGN.RC.KDS-41-20-2022.DCTL",
+      "DESIGN.SRC.AIK-SRC2K.DCO",
+      "DESIGN.SRC.AIK-SRC2K.DSRC",
       "DESIGN.STEEL.DSTL",
       "DESIGN.STEEL.KDS-41-30-2022.DCO"
     ]
@@ -1190,23 +1190,6 @@
       "template_keys": [
         "MARKNAME",
         "WID_LIST"
-      ],
-      "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
-    },
-    "DESIGN.SRC.AIK-SRC2K.DCO": {
-      "operations": [],
-      "template_keys": [
-        "DGNCODE",
-        "SEISMIC"
-      ],
-      "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
-    },
-    "DESIGN.SRC.AIK-SRC2K.DSRC": {
-      "operations": [
-        "DESIGN.SRC"
-      ],
-      "template_keys": [
-        "DGNCODE"
       ],
       "note": "该端点**没有**任何写侧 Transformer ⇒ 连 canonical 模型都没有；属「需产品裁决：要不要纳入 9 Tool 契约」，**不是** R126 的字段集裁决。"
     }
@@ -5679,9 +5662,13 @@
     {
       "endpoint": "DESIGN.SRC.AIK-SRC2K.DCO",
       "wrapper": "Assign",
-      "has_transformer": false,
-      "transformers": [],
-      "operations": [],
+      "has_transformer": true,
+      "transformers": [
+        "midas.design.src-option.v1"
+      ],
+      "operations": [
+        "DESIGN.SRC"
+      ],
       "template_keys": [
         "DGNCODE",
         "SEISMIC"
@@ -5690,27 +5677,38 @@
         "DGNCODE",
         "SEISMIC"
       ],
-      "expressible_keys": [],
-      "declared_keys": [],
-      "synthesized_keys": [],
-      "expressible_paths": [],
-      "required_paths": [],
-      "interface_keys": [],
-      "interface_body": null,
-      "missing_in_canonical": [
+      "expressible_keys": [
         "DGNCODE",
         "SEISMIC"
       ],
+      "declared_keys": [
+        "DGNCODE",
+        "SEISMIC"
+      ],
+      "synthesized_keys": [],
+      "expressible_paths": [
+        "DGNCODE",
+        "SEISMIC"
+      ],
+      "required_paths": [
+        "DGNCODE",
+        "SEISMIC"
+      ],
+      "interface_keys": [],
+      "interface_body": null,
+      "missing_in_canonical": [],
       "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [],
-      "gap_class": "no_canonical_model"
+      "gap_class": "covered"
     },
     {
       "endpoint": "DESIGN.SRC.AIK-SRC2K.DSRC",
       "wrapper": "Assign",
-      "has_transformer": false,
-      "transformers": [],
+      "has_transformer": true,
+      "transformers": [
+        "midas.design.src-code.v1"
+      ],
       "operations": [
         "DESIGN.SRC"
       ],
@@ -5720,20 +5718,26 @@
       "template_paths": [
         "DGNCODE"
       ],
-      "expressible_keys": [],
-      "declared_keys": [],
-      "synthesized_keys": [],
-      "expressible_paths": [],
-      "required_paths": [],
-      "interface_keys": [],
-      "interface_body": null,
-      "missing_in_canonical": [
+      "expressible_keys": [
         "DGNCODE"
       ],
+      "declared_keys": [
+        "DGNCODE"
+      ],
+      "synthesized_keys": [],
+      "expressible_paths": [
+        "DGNCODE"
+      ],
+      "required_paths": [
+        "DGNCODE"
+      ],
+      "interface_keys": [],
+      "interface_body": null,
+      "missing_in_canonical": [],
       "unfilled_expressible": [],
       "extra_in_canonical": [],
       "value_shape": [],
-      "gap_class": "no_canonical_model"
+      "gap_class": "covered"
     },
     {
       "endpoint": "DESIGN.STEEL.DSTL",

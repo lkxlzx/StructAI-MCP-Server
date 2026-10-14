@@ -13,6 +13,7 @@ schema_ref:
 parser: post_table
 products: [GEN_NX]
 availability: untested
+unavailable_on: [civil-cloud]
 table_type: null
 title: Steel Code Check
 risk:

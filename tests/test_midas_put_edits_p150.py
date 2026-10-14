@@ -202,6 +202,35 @@ def _unchanged_since_head(path: Path) -> bool:
     return result.returncode == 0
 
 
+AVAILABILITY_FIELDS = ("availability",)
+"""本批「数据侧一字未改」真正约束的字段。
+
+`products` / `verified_on` / `unavailable_on` 由**后续已裁决的批次**更正
+（NXSDK 外部证据的产品归属 · `/db/REB*` 形状 · CIVIL_NX 产品级探针）——
+本批的主张是「工具**不**移动 `availability` / `verification_status` 口径」，
+故按字段复算，避免被后续合法改动误伤。
+"""
+
+
+def _fields_unchanged_since_head(path: Path, fields: tuple[str, ...]) -> bool:
+    """该文件相对 `HEAD` 在**指定字段**上未变。"""
+    import yaml
+
+    relative = path.relative_to(REPO_ROOT).as_posix()
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{relative}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return True
+    before = yaml.safe_load(result.stdout) or {}
+    after = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return all(before.get(field) == after.get(field) for field in fields)
+
+
 # ===== 1. 目标集 =====
 
 
@@ -394,10 +423,11 @@ def test_p150r118_the_bucket_is_separate_and_the_data_side_is_untouched() -> Non
     # 工具**不**触碰任何覆盖率口径（只在说明文字里**提到**它 ⇒ 检查命名空间而非源码）
     assert not [name for name in dir(tool) if "coverage" in name.lower()]
     assert _unchanged_since_head(TEMPLATES_PATH)
-    # 数据侧：模板文件与端点 YAML **一字未改**
+    # 数据侧：模板文件**一字未改**；端点 YAML 的 `availability` 未变
+    # （`products`/`verified_on`/`unavailable_on` 由后续已裁决批次更正，见 `AVAILABILITY_FIELDS`）
     for key in document["endpoints"]:
         definition = REPO_ROOT / "registry" / str(_manifest()[key]["definition"])
-        assert _unchanged_since_head(definition), key
+        assert _fields_unchanged_since_head(definition, AVAILABILITY_FIELDS), key
 
 
 # ===== 7. 工具纪律 =====

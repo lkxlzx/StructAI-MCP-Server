@@ -12,10 +12,17 @@
           "type": "array",
           "items": {
             "type": "object",
+            "description": "压力荷载条目。⚠️ `DIRECTION` 必须显式给出 —— 省略会让服务端套用手册的默认值 `\"NORMAL\"`，而该值在 `ELEM_TYPE=\"PLATE\"` + `FACE_EDGE_TYPE=\"FACE\"` 上被拒（R143 / MD-17）。",
+            "required": [
+              "LCNAME",
+              "FACE_EDGE_TYPE",
+              "DIRECTION"
+            ],
             "properties": {
               "ID": {
                 "description": "ID",
-                "type": "integer"
+                "type": "integer",
+                "default": 0
               },
               "LCNAME": {
                 "description": "LoadCaseName",
@@ -23,34 +30,60 @@
               },
               "GROUP_NAME": {
                 "description": "LoadGroupName",
-                "type": "string"
+                "type": "string",
+                "default": ""
               },
               "CMD": {
-                "description": "CommandType",
-                "type": "string"
+                "description": "CommandType（\"PRES\"）",
+                "type": "string",
+                "default": "PRES"
               },
               "ELEM_TYPE": {
-                "description": "ElementType",
-                "type": "string"
+                "description": "ElementType（\"PLATE\" / \"SOLID\" / \"PLANE\"）",
+                "type": "string",
+                "enum": [
+                  "PLATE",
+                  "SOLID",
+                  "PLANE"
+                ],
+                "default": "PLATE"
               },
               "FACE_EDGE_TYPE": {
-                "description": "Face/Edge",
-                "type": "string"
+                "description": "PressureType（\"FACE\" / \"EDGE\" / \"PRES\"）",
+                "type": "string",
+                "enum": [
+                  "FACE",
+                  "EDGE",
+                  "PRES"
+                ]
               },
               "DIRECTION": {
-                "description": "Direction",
-                "type": "string"
+                "description": "Direction（\"NORMAL\" / \"LX\" / \"LY\" / \"LZ\" / \"GX\" / \"GY\" / \"GZ\" / \"VECTOR\"）。⚠️ **必须显式给出**：省略会让服务端套用手册的默认值 `\"NORMAL\"`，从而在 `PLATE`+`FACE` 上报 `[Error] Errors detected in Pressure Loads Data.(Item:Load Direction)` —— 即「省略」与「填 NORMAL」在该组合下**同样失败**。手册的可用性矩阵：`PLATE`+`FACE` **排除 `NORMAL`**（用 `LZ`，单元局部 z 即板面法向）；`PLANE`+`EDGE` 排除 `GX`/`GY`/`GZ`；`PLATE`+`EDGE` 与 `SOLID`+`PRES` 接受全部八个。⚠️ 该排除**不**做成硬闸门 —— 原生错误本身是显式的，拒绝调用方显式给的值等于替工程师做工程决策。",
+                "type": "string",
+                "enum": [
+                  "NORMAL",
+                  "LX",
+                  "LY",
+                  "LZ",
+                  "GX",
+                  "GY",
+                  "GZ",
+                  "VECTOR"
+                ]
               },
               "VECTORS": {
-                "description": "VectorArray",
+                "description": "VectorArray [X, Y, Z]（仅当 `DIRECTION=\"VECTOR\"`）",
                 "type": "array",
                 "items": {
                   "type": "number"
-                }
+                },
+                "minItems": 3,
+                "maxItems": 3
               },
               "OPT_PROJECTION": {
-                "description": "ProjectionBoolean",
-                "type": "boolean"
+                "description": "ProjectionBoolean（仅对 `DIRECTION` 为 `GX`/`GY`/`GZ` 有意义）",
+                "type": "boolean",
+                "default": false
               },
               "FORCES": {
                 "description": "ForceArray",
@@ -67,12 +100,14 @@
                 }
               },
               "PSLT_KEY": {
-                "description": "PsltKey",
+                "description": "PsltKey —— 指向 `/db/PSLT` 压力荷载类型的键。可选：压力荷载不需要有 `/db/PSLT` 类型支撑。（手册的 Specifications 表未列此字段，服务端 `/info` 两产品均声明。）",
                 "type": "integer"
               },
               "EDGE_FACE": {
-                "description": "EdgeFace",
-                "type": "integer"
+                "description": "EdgeFace —— 面/边编号（Solid: 1~6；Plate/Plane: 1~4）。⚠️ 手册标 Required 但**省略从未被实测**，且手册自己的示例省略了它 ⇒ 本 Schema **不**把它列入 `required`。",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
               }
             }
           }

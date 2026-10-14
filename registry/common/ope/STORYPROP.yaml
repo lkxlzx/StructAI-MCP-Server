@@ -12,7 +12,7 @@ schema_ref:
   source: unavailable
   unavailable_reason: 非 DB 命名空间无 info/db 自省能力，且源手册未提供 JSON Schema
 parser: generic
-products: [CIVIL_NX, GEN_NX]
+products: [GEN_NX]
 availability: untested
 table_type: null
 title: Story Properties

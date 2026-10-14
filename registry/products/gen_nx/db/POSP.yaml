@@ -16,6 +16,7 @@ schema_ref:
 parser: db_generic
 products: [GEN_NX]
 availability: verified
+unavailable_on: [civil-cloud]
 verified_on: ["gen-local"]
 path_key_supported: true
 table_type: null

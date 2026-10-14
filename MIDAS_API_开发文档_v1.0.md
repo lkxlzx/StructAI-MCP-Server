@@ -7,6 +7,43 @@
 
 ---
 
+## ⚠️ 勘误与权威来源（**先读这一节**）
+
+**本文档是官方手册的转写整理本，不是权威来源。** 官方页面存在大量缺陷，且部分缺陷**已被真机实测证伪**。
+
+| 文件 | 内容 |
+| --- | --- |
+| [`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`](MIDAS_API_Online_Manual_勘误与补全_v1.0.md) | **62 条**官方手册缺陷（MD-01～MD-62）逐条说明：手册怎么说、实测是什么、证据来源、建议动作 |
+| [`docs/nxsdk_review/nxsdk_manual_errata.csv`](docs/nxsdk_review/nxsdk_manual_errata.csv) | 同上的机器可读版（含「我方 registry 键」与「我方现状」两列） |
+| [`registry/`](registry/README.md) | **MIDAS API 的唯一权威来源**（636 端点 + 625 Schema + 逐端点 `products` / `availability` / `risk`）。凡本文档与 `registry/` 冲突，**以 `registry/` 为准** |
+| [`docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md`](docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md) | 与外部 SDK 的逐端点 / 逐字段 / 逐产品比对评估 |
+
+**勘误来源**：外部开源项目 [`Dennis5882/MIDAS-API-NX-SDK`](https://github.com/Dennis5882/MIDAS-API-NX-SDK)
+（MIDAS IT 在职员工基于真机验证维护，**非**官方产品）的 `docs/manual_defects_register.md`。
+
+**本文档（及所依据的官方手册）已知最需注意的 8 处**：
+
+| 端点 | 手册怎么说 | 实际是什么 |
+| --- | --- | --- |
+| `/db/PRES` | `DIRECTION` 标 **Optional**、默认 `"NORMAL"` | **省略与填 `"NORMAL"` 都被拒** —— 省略即触发坏默认值；必须显式给出（压力方向是工程决策，SDK 不应替调用方选） |
+| `/db/REBR` | 每条 `ITEMS` 带单个 `MAIN_BAR` 对象 + 顶层 `DO` | 服务端收 **`vMAIN_BAR` 数组**，覆盖层在每个条目内叫 **`D0`**（数字零）；`HOOP_TYPE` 是**整数**（1=Tied, 2=Spiral）而非字符串 |
+| `/db/REBW` | Specifications 表里的**每个字段名** | 服务端用的是完全不同的名字（`VER_BAR` / `HOR_BAR` / `vSTORY_NAME` / 顶层 `DW`·`DE` …） |
+| `/db/MVHL` | 公共表把分支必填性写成**无条件**必填 | `VEHICLE_LOAD_NUM` 是**分支判别子**（1 标准 / 2 用户定义），必填性随分支而变 |
+| `/db/NMAS` | `rmX`/`rmY`/`rmZ` 标 Optional、默认 0 | **省略会崩服务端**（两产品均复现，2026-07-29 根因定位；服务端已修，护栏保留） |
+| `/DESIGN/SRC/AIK-SRC2K/OCHECK` | 文档 URL | 实际路由在 **`/TEMP/`** 前缀下，且**该调用会终止 NX 会话并占住 license**（4 次复现） |
+| 模型文件扩展名 | 示例仍用 pre-NX 拼写 | **两对**：pre-NX Gen `.mgb` / Civil `.mcb`；**NX Gen `.mgbx` / Civil `.mcbz`**。`/doc/SAVEAS` 要 NX 对，`/doc/STAGAS` 要 legacy `.mcb` |
+| `/db/SLANop` | `OPT_STRADD` 标整数 | 服务端是 **boolean**（描述原文 "BS Straddling Lane Boolean"） |
+
+> **铁律（务必遵守）**：**绝不要把本文档或官方手册的转写本当"文档"引用到任何对外材料。**
+> 要主张 MIDASIT 发布了什么，必须取官方文章并引用原文。
+> 报告手册缺陷时，须先排除"是自己的提取器/转写出错"——**先查工具，再指认手册**。
+
+> **另一条实测铁律**：**HTTP 200 不代表成功。** 200/201 都可能携带 `{"error": {...}}`；
+> 失败形态不统一（`/doc/ANAL` 只回 `{"message": "... Analysis failed."}`，**没有** `error` 键；
+> `/doc/SAVEAS` 对从未发生的保存回 `"... command complete"`）。**写操作必须读回验证。**
+
+---
+
 ## 第 1 章 文档说明
 
 ### 1.1 数据来源

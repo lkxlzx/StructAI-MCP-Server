@@ -11,8 +11,9 @@ schema_ref:
   introspect: null
   source: help_center
 parser: generic
-products: [GEN_NX]
-availability: untested
+products: [CIVIL_NX, GEN_NX]
+availability: verified
+verified_on: [civil-cloud]
 table_type: null
 title: Dialog Capture
 risk:

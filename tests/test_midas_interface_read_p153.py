@@ -134,13 +134,13 @@ EXPECTED_WRITE_COUNTS = {"PASSED": 13}
 """⚠️ **P157 同步（有实测依据）**：P153 时是 `4 / 9`；P154 落地 **R126 裁决 A′** 后重测
 ⇒ `11 / 2`；**P157 落地 D2 = A**（`BoundaryTransformer` 加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT`
 输出 **7** 位）后重测 ⇒ **`13 / 0`**。断言**未**放宽，只同步数字。"""
-EXPECTED_GAP_TOTAL = 510
-EXPECTED_GAP_NOT_IN_CONTRACT = 264
+EXPECTED_GAP_TOTAL = 489
+EXPECTED_GAP_NOT_IN_CONTRACT = 243
 EXPECTED_GAP_NO_READBACK = 246
 
 EXPECTED_CLASSIFICATION = {
-    "gap_total": 510,
-    "gap_not_in_contract": 264,
+    "gap_total": 489,
+    "gap_not_in_contract": 243,
     "gap_no_readback": 246,
 }
 """**271** 个「契约外」的分类清单的顶层钉住计数。"""
@@ -148,18 +148,18 @@ EXPECTED_CLASSIFICATION = {
 EXPECTED_ADOPTION_COUNTS = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 213,
+    "needs_product_decision": 192,
 }
 """**271** 个「契约外」的三分类（**离线可复算**）。"""
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 15,
-    "without_transformer": 56,
+    "with_transformer": 17,
+    "without_transformer": 54,
     "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 56,
-    "covered": 10,
+    "no_canonical_model": 54,
+    "covered": 12,
 }
 """R126 裁决输入证据包的钉住计数。
 
@@ -596,15 +596,15 @@ def test_p153_the_classification_buckets_by_namespace_capability_and_tool() -> N
     """门槛：按命名空间 / 能力码 / Tool 归属分桶（逐条可复核）。"""
     document = json.loads(CLASSIFICATION.read_text(encoding="utf-8"))
     buckets = document["buckets"]
-    assert buckets["by_namespace"] == {"DB": 193, "DESIGN": 68, "OPE": 3}
-    assert buckets["by_capability"] == {"DELETE": 179, "DESIGN": 68, "MODEL": 196, "OPERATION": 3}
-    assert buckets["by_tool_map"] == {"assign": 263, "delete": 179, "query": 264}
+    assert buckets["by_namespace"] == {"DB": 172, "DESIGN": 68, "OPE": 3}
+    assert buckets["by_capability"] == {"DELETE": 158, "DESIGN": 68, "MODEL": 175, "OPERATION": 3}
+    assert buckets["by_tool_map"] == {"assign": 242, "delete": 158, "query": 243}
     assert buckets["by_readiness"] == {
         "manual_example_ready": 51,
         "no_request_schema": 1,
-        "schema_only": 212,
+        "schema_only": 191,
     }
-    assert buckets["by_availability"] == {"unverified": 21, "verified": 243}
+    assert buckets["by_availability"] == {"verified": 243}
     # 分桶之和自洽：命名空间 = 契约外条数
     assert sum(buckets["by_namespace"].values()) == EXPECTED_GAP_NOT_IN_CONTRACT
     assert sum(buckets["by_adoption"].values()) == EXPECTED_GAP_NOT_IN_CONTRACT

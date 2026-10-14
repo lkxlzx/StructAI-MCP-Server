@@ -49,7 +49,7 @@
         },
         "OPT_STRADD": {
           "description": "BSStraddlingLaneBoolean",
-          "type": "integer"
+          "type": "boolean"
         },
         "OFFSET_TYPE": {
           "description": "OffsetType",

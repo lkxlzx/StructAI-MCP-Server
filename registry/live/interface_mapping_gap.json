@@ -14,10 +14,10 @@
   "product_key": "GEN_NX",
   "operations": 71,
   "mapped_endpoints": 68,
-  "write_capable_endpoints": 577,
-  "three_step_endpoints": 301,
+  "write_capable_endpoints": 556,
+  "three_step_endpoints": 280,
   "mapped_inside_three_step": 37,
-  "gap_total": 510,
+  "gap_total": 489,
   "gap_three_step": [
     {
       "key": "DB.ACTL",
@@ -28,35 +28,11 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.ACTL-M1",
-      "uri": "/DB/ACTL-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "ACTL-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "BCCT",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.BCGA-M1",
-      "uri": "/DB/BCGA-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGA-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.BCGD-M1",
-      "uri": "/DB/BCGD-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "BCGD-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -236,14 +212,6 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.EIGV-M1",
-      "uri": "/DB/EIGV-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "EIGV-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.ELNK",
       "uri": "/DB/ELNK",
       "methods": "DELETE,GET,POST,PUT",
@@ -257,14 +225,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "EPMT",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.EPMT-M1",
-      "uri": "/DB/EPMT-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "EPMT-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -420,14 +380,6 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.HHCT-M1",
-      "uri": "/DB/HHCT-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "HHCT-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.HHND",
       "uri": "/DB/HHND",
       "methods": "DELETE,GET,POST,PUT",
@@ -484,38 +436,6 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.IEHG-BEAM-M1",
-      "uri": "/DB/IEHG-BEAM-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-BEAM-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.IEHG-GL-M1",
-      "uri": "/DB/IEHG-GL-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-GL-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.IEHG-PSS-M1",
-      "uri": "/DB/IEHG-PSS-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-PSS-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.IEHG-TRUSS-M1",
-      "uri": "/DB/IEHG-TRUSS-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IEHG-TRUSS-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "methods": "DELETE,GET,POST,PUT",
@@ -545,14 +465,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "IMFM",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.IMFM-M1",
-      "uri": "/DB/IMFM-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "IMFM-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -665,14 +577,6 @@
       "methods": "GET,PUT",
       "read_root": "MATD",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.MATL-M1",
-      "uri": "/DB/MATL-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "MATL-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -860,14 +764,6 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.NLCT-M1",
-      "uri": "/DB/NLCT-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "NLCT-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.NLLP",
       "uri": "/DB/NLLP",
       "methods": "DELETE,GET,POST,PUT",
@@ -881,14 +777,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "NLNK",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.NLNK-M1",
-      "uri": "/DB/NLNK-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "NLNK-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -988,27 +876,11 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.POGD-M1",
-      "uri": "/DB/POGD-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "POGD-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.POLC",
       "uri": "/DB/POLC",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "POLC",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.POLC-M1",
-      "uri": "/DB/POLC-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "POLC-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1300,14 +1172,6 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.STCT-M1",
-      "uri": "/DB/STCT-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STCT-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.STMP",
       "uri": "/DB/STMP",
       "methods": "DELETE,GET,POST,PUT",
@@ -1321,14 +1185,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "STOR",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.STYP-M1",
-      "uri": "/DB/STYP-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "STYP-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1412,27 +1268,11 @@
       "reason": "not_in_operation_contract"
     },
     {
-      "key": "DB.THGC-M1",
-      "uri": "/DB/THGC-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THGC-M1",
-      "availability": "unverified",
-      "reason": "not_in_operation_contract"
-    },
-    {
       "key": "DB.THIK",
       "uri": "/DB/THIK",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "THIK",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.THIS-M1",
-      "uri": "/DB/THIS-M1",
-      "methods": "DELETE,GET,POST,PUT",
-      "read_root": "THIS-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1449,14 +1289,6 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "THNL",
       "availability": "verified",
-      "reason": "not_in_operation_contract"
-    },
-    {
-      "key": "DB.THOO-M1",
-      "uri": "/DB/THOO-M1",
-      "methods": "DELETE,GET,PUT",
-      "read_root": "THOO-M1",
-      "availability": "unverified",
       "reason": "not_in_operation_contract"
     },
     {
@@ -2442,7 +2274,7 @@
       "uri": "/OPE/EDMP",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     },
     {
@@ -2450,7 +2282,7 @@
       "uri": "/OPE/GSBG",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     },
     {
@@ -2458,7 +2290,7 @@
       "uri": "/OPE/GUSTFACTOR",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     },
     {
@@ -2506,7 +2338,7 @@
       "uri": "/OPE/MEMB",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     },
     {
@@ -2514,7 +2346,7 @@
       "uri": "/OPE/SSPS",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     },
     {
@@ -4098,7 +3930,7 @@
       "uri": "/VIEW/PRECAPTURE",
       "methods": "POST",
       "read_root": "",
-      "availability": "untested",
+      "availability": "verified",
       "reason": "no_readback_route"
     }
   ],
@@ -4873,16 +4705,16 @@
       {
         "operation": "DESIGN.SRC",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_option"
       }
     ],
     "DESIGN.SRC.AIK-SRC2K.DCTL": [
       {
         "operation": "DESIGN.SRC",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_frame"
       }
     ],
     "DESIGN.SRC.AIK-SRC2K.DSRC": [
@@ -4890,15 +4722,15 @@
         "operation": "DESIGN.SRC",
         "tool": "engineering_design",
         "method": "PUT",
-        "intent": "design"
+        "intent": "write_design_code"
       }
     ],
     "DESIGN.SRC.AIK-SRC2K.MEMB": [
       {
         "operation": "DESIGN.SRC",
         "tool": "engineering_design",
-        "method": "GET",
-        "intent": "read"
+        "method": "PUT",
+        "intent": "write_design_member"
       }
     ],
     "DESIGN.STEEL.DSTL": [

@@ -40,7 +40,7 @@
           "type": "number"
         },
         "STR": {
-          "description": "StringDataByCode",
+          "description": "SpectrumTypeData。⚠️ **MD-60**：手册的 EURO2004 表把 `SPECTYPE` / `GROUTYPE` / `NATIONALANNEX` 放在 **`OPT`**，并把 `VAL.ag` 一并放在那里；该 body 在**两个产品**上都被拒 （`Unknown Error`），去掉 `OPT`、换成 `VAL.AG`、或两者都改**同样被拒** —— **至今未找到任何可用的 EURO2004 请求**。服务端 `/info` 把这三个声明在 **`STR`**（字符串），本 Schema 从 `/info`。",
           "type": "object",
           "properties": {
             "SPEC_CODE": {
@@ -128,10 +128,6 @@
             "nLForce": {
               "description": "nLForce",
               "type": "integer"
-            },
-            "LARGEBRIDEGE": {
-              "description": "LargeBridege",
-              "type": "boolean"
             },
             "bVACC": {
               "description": "VerticalAccelerationSpec",
@@ -238,12 +234,16 @@
               "type": "integer"
             },
             "LARGEBRIDGE": {
-              "description": " Large Bridge",
+              "description": " Large Bridge。⚠️ 手册把同一字段拼成 **`LARGEBRIDEGE`**（见该键）；服务端 `/info` 的拼写是本键。MD-60 附带发现。",
               "type": "boolean"
             },
             "RET_PERIOD": {
               "description": " Return Period",
               "type": "integer"
+            },
+            "LARGEBRIDEGE": {
+              "description": "LargeBridege。⚠️ **手册的拼写**（`MIDAS_API_Online_Manual_*` 四处均如此，描述也拼成 `LargeBridege`）；服务端 `GET /info/db/SPFC` 拼 **`LARGEBRIDGE`**。按 R117「反向缺口一律不动」**保留**（手册声明而自省没有的字段不删、不改名 —— 删除会削弱既有判定）。实际发送时以 `LARGEBRIDGE` 为准。MD-60 附带发现。",
+              "type": "boolean"
             }
           }
         },

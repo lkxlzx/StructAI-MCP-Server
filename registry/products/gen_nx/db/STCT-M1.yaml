@@ -14,10 +14,10 @@ schema_ref:
   introspect: "info/db/STCT-M1"
   source: help_center
 parser: db_generic
-products: [GEN_NX]
+products: [CIVIL_NX]
 solver: HYPER_S
 availability: unverified
-unavailable_on: ["gen-local"]
+unavailable_on: [civil-cloud, gen-local]
 path_key_supported: true
 table_type: null
 title: Construction Stage Analysis Control Data

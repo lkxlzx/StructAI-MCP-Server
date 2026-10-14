@@ -93,11 +93,11 @@ EXPECTED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.GRUP", "DB.MATL", "DB.NODE", "DB
 
 EXPECTED_GAP_COUNTS = {
     "operations": 71,
-    "write_capable_endpoints": 577,
-    "three_step_endpoints": 301,
+    "write_capable_endpoints": 556,
+    "three_step_endpoints": 280,
     "mapped_endpoints": 68,
     "mapped_inside_three_step": 37,
-    "gap_total": 510,
+    "gap_total": 489,
 }
 """映射缺口的钉住计数（离线复算；见 `--recon`）。
 
@@ -107,7 +107,7 @@ EXPECTED_GAP_COUNTS = {
 `three_step_endpoints` **不变**、`mapped_endpoints` **61 → 67**（+6 个荷载组合）。
 """
 
-EXPECTED_GAP_THREE_STEP = 264
+EXPECTED_GAP_THREE_STEP = 243
 """缺口里的「契约外」条数（形态齐备但没有任何 Operation 映射到它）。"""
 
 EXPECTED_GAP_NO_READBACK = 246

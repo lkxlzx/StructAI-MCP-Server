@@ -454,7 +454,6 @@ def upgrade_lines(text: str, alias: str) -> tuple[str, bool]:
     return "".join(lines), True
 
 
-
 def read_availability(path: Path) -> tuple[str, list[str]]:
     """YAML 里的 `(availability, verified_on)`。"""
     import yaml  # noqa: PLC0415
@@ -578,4 +577,10 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Windows 控制台默认 cp949/cp936：本工具会打印中文/符号，不重设编码会 UnicodeEncodeError。
+    # ⚠️ 必须在 `__main__` 块内：测试用 `exec_module()` 装载本模块，模块级调用会改写
+    #    **pytest 的捕获流**，破坏其后所有用例的 capture。
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     sys.exit(main())

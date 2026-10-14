@@ -21,157 +21,117 @@
             "properties": {
               "ITEMS": {
                 "type": "array",
-                "description": "Concrete column rebar items.",
+                "description": "⚠️ 手册与官方文章给**单个 `MAIN_BAR` 对象** + 顶层 `DO`；原生收 **`vMAIN_BAR` 数组**（每项含 `D0`，数字零）。实测（2026-08-27）：照手册发 → `Wrong Field`（形状被拒）；数组形状 → 域错误（形状被接受、目标缺失），且 POST→GET→PUT→DELETE→GET 往返成功 ⇒ 同时推翻手册的「POST only」。R144 / MD-34 / 实测发现 A-02。",
                 "minItems": 1,
                 "items": {
                   "type": "object",
-                  "required": [
-                    "MAIN_BAR",
-                    "SHEAR_BAR_END",
-                    "SHEAR_BAR_CEN",
-                    "DO"
-                  ],
                   "properties": {
-                    "CREATE_SUB_SECTION": {
-                      "type": "boolean",
-                      "default": false
-                    },
                     "ID": {
                       "type": "integer",
-                      "description": "Sub Section ID (read only)"
+                      "description": "ID"
                     },
-                    "ELEMS": {
-                      "type": "object",
-                      "description": "CREATE_SUB_SECTION=true 일 때. KEYS / TO / STRUCTURE_GROUP_NAME 중 택1",
-                      "properties": {
-                        "KEYS": {
-                          "type": "array",
-                          "items": {
-                            "type": "integer"
+                    "vMAIN_BAR": {
+                      "type": "array",
+                      "description": "Main Bar List",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "NAME": {
+                            "type": "string",
+                            "description": "Main Name"
+                          },
+                          "NUM": {
+                            "type": "integer",
+                            "description": "Number"
+                          },
+                          "ROW": {
+                            "type": "integer",
+                            "description": "Row"
+                          },
+                          "D0": {
+                            "type": "number",
+                            "description": "Concrete Face ~ Center of Rebar"
+                          },
+                          "bUSE_CORNER": {
+                            "type": "boolean",
+                            "description": "Use Corner Bar"
+                          },
+                          "NAME_CORNER": {
+                            "type": "string",
+                            "description": "Corner Name"
                           }
-                        },
-                        "TO": {
-                          "type": "string"
-                        },
-                        "STRUCTURE_GROUP_NAME": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "MAIN_BAR": {
-                      "type": "object",
-                      "required": [
-                        "NAME",
-                        "NUM",
-                        "ROW",
-                        "USE_CORNER"
-                      ],
-                      "properties": {
-                        "NAME": {
-                          "type": "string",
-                          "description": "Main rebar size (D4~D57)"
-                        },
-                        "NUM": {
-                          "type": "integer",
-                          "description": "Total number of rebars"
-                        },
-                        "ROW": {
-                          "type": "integer",
-                          "description": "Number of column row for rebar"
-                        },
-                        "USE_CORNER": {
-                          "type": "boolean"
-                        },
-                        "NAME_CORNER": {
-                          "type": "string",
-                          "description": "Corner rebar size (USE_CORNER=true 일 때)"
                         }
                       }
                     },
                     "SHEAR_BAR_END": {
                       "type": "object",
-                      "required": [
-                        "NAME",
-                        "LEG_Y",
-                        "LEG_Z",
-                        "DIST"
-                      ],
+                      "description": "Shear Bar-End",
                       "properties": {
                         "NAME": {
                           "type": "string",
-                          "description": "Hoop rebar size (D4~D57)"
+                          "description": "Name"
                         },
                         "LEG_Y": {
                           "type": "integer",
-                          "description": "Number of leg (local Y dir.)"
+                          "description": "Leg y"
                         },
                         "LEG_Z": {
                           "type": "integer",
-                          "description": "Number of leg (local Z dir.)"
+                          "description": "Leg z"
                         },
                         "DIST": {
                           "type": "number",
-                          "description": "Distance between rebars"
+                          "description": "Dist"
                         }
                       }
                     },
                     "SHEAR_BAR_CEN": {
                       "type": "object",
-                      "required": [
-                        "NAME",
-                        "LEG_Y",
-                        "LEG_Z",
-                        "DIST"
-                      ],
+                      "description": "Shear Bar-Center",
                       "properties": {
                         "NAME": {
                           "type": "string",
-                          "description": "Hoop rebar size (D4~D57)"
+                          "description": "Name"
                         },
                         "LEG_Y": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Leg y"
                         },
                         "LEG_Z": {
-                          "type": "integer"
+                          "type": "integer",
+                          "description": "Leg z"
                         },
                         "DIST": {
-                          "type": "number"
+                          "type": "number",
+                          "description": "Dist"
                         }
                       }
                     },
-                    "DO": {
-                      "type": "number",
-                      "description": "Distance from concrete face to center of rebar"
-                    },
                     "HOOP_TYPE": {
-                      "type": "string",
-                      "default": "Ties",
-                      "oneOf": [
-                        {
-                          "title": "Ties",
-                          "const": "Ties"
-                        },
-                        {
-                          "title": "Spirals",
-                          "const": "Spirals"
-                        }
-                      ]
+                      "type": "integer",
+                      "description": "Hoop Type (1=Tied, 2=Spiral)"
+                    },
+                    "bSAME_SPACE_END_CEN": {
+                      "type": "boolean",
+                      "description": "Same Rebar Spaces at End and Center"
+                    },
+                    "NUM_BAR_BC_JOINT": {
+                      "type": "integer",
+                      "description": "Number of Rebars of Beam-Column Joint"
                     },
                     "HOOK_TYPE": {
                       "type": "integer",
-                      "default": 0,
-                      "oneOf": [
-                        {
-                          "title": "90+(135 or 180)",
-                          "const": 0
-                        },
-                        {
-                          "title": "Both(135 or 180)",
-                          "const": 1
-                        }
-                      ]
+                      "enum": [
+                        0,
+                        1
+                      ],
+                      "description": "Hook Type (0: 90+(135 or 180) / 1: Both(135 or 180))"
                     }
-                  }
+                  },
+                  "required": [
+                    "SHEAR_BAR_END",
+                    "SHEAR_BAR_CEN"
+                  ]
                 }
               }
             }

@@ -50,6 +50,36 @@ def norm(v):
     return v
 
 
+def _bucket(definition: object) -> str:
+    """端点定义文件所属的**桶**（= `registry/` 下的目录）。
+
+    `products/*` 取两段（`products/gen_nx`），其余取一段（`common` / `design`）。
+    """
+    if not definition:
+        return "(none)"
+    parts = str(definition).split("/")
+    return "/".join(parts[:2]) if parts[0] == "products" else parts[0]
+
+
+def _counts(endpoints: list[dict]) -> dict:
+    """`manifest["counts"]` 的**唯一**来源。
+
+    ⚠️ **2026-10-14 修**：本工具原先**只**维护 `endpoints`，`counts` 一旦写下就**再没人更新** ⇒
+    它停在 `schemas: 616` 而实际是 **625**。而 `docs/07` §15.1「30 秒接手」的**第一条命令**
+    正是 `print(mf['counts'])` ⇒ **新会话第一眼看到的就是错数**。
+    ⇒ 按「模板由工具拥有」的口径，`counts` 改由本工具**每次复算**。
+    """
+    buckets: dict[str, int] = {}
+    for e in endpoints:
+        name = _bucket(e.get("definition"))
+        buckets[name] = buckets.get(name, 0) + 1
+    return {
+        "keys": len(endpoints),
+        "schemas": sum(1 for e in endpoints if e.get("schema")),
+        "buckets": dict(sorted(buckets.items())),
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default=".")
@@ -144,6 +174,15 @@ def main() -> int:
                 changed.append((e["key"], "schema_source", e.get("schema_source"), sr["source"]))
                 e["schema_source"] = sr["source"]
 
+    # ---- counts：由本工具**复算**（见 `_counts` 的说明）----
+    fresh_counts = _counts(man["endpoints"])
+    old_counts = man.get("counts") or {}
+    if old_counts != fresh_counts:
+        for field in sorted(set(old_counts) | set(fresh_counts)):
+            if old_counts.get(field) != fresh_counts.get(field):
+                changed.append(("counts", field, old_counts.get(field), fresh_counts.get(field)))
+        man["counts"] = fresh_counts
+
     print(f"manifest 条目数 = {len(man['endpoints'])}")
     if missing_yaml:
         print(f"⚠️ 找不到 YAML 的条目 {len(missing_yaml)}: {missing_yaml[:10]}")
@@ -167,4 +206,10 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Windows 控制台默认 cp949/cp936：本工具会打印中文/符号，不重设编码会 UnicodeEncodeError。
+    # ⚠️ 必须在 `__main__` 块内：测试用 `exec_module()` 装载本模块，模块级调用会改写
+    #    **pytest 的捕获流**，破坏其后所有用例的 capture。
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     raise SystemExit(main())

@@ -216,6 +216,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.CONS",
         "DB.CUTL",
         "DB.DCON",
+        "DB.DCTL",
+        "DB.DSTL",
         "DB.EFCT",
         "DB.EIGV",
         "DB.ELEM",
@@ -237,7 +239,9 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.LCOM-STLCOMP",
         "DB.LDGR",
         "DB.LDSQ",
+        "DB.LENG",
         "DB.MATL",
+        "DB.MBTP",
         "DB.MLFC",
         "DB.MVCD",
         "DB.MVCTBS",
@@ -252,6 +256,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.PJCF",
         "DB.PNLD",
         "DB.POGD",
+        "DB.POSL",
         "DB.PRES",
         "DB.PSLT",
         "DB.SDST",
@@ -268,6 +273,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
         "DB.THFC",
         "DB.THIK",
         "DB.VSEC",
+        "DB.WMAK",
         "DESIGN.RC.DRC",
         "DESIGN.RC.KDS-41-20-2022.DCO",
         "DESIGN.RC.KDS-41-20-2022.DCTL",
@@ -284,7 +290,7 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 495, "CIVIL_NX": 431, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -532,13 +538,14 @@ def test_p145_coverage_counts_thirty_six_of_609() -> None:
     assert coverage.ratio == f"72 / {WRITE_PATH_TOTAL}"
     assert coverage.model_write_ratio == f"72 / {MODEL_WRITE_TOTAL}"
     assert set(coverage.covered_keys) == set(keys)
-    # CIVIL NX 的候选（62）与 GEN NX 共用同一批 key 去重 ⇒ 分子**不**因跨产品而翻倍
+    # CIVIL NX 的候选（**68**，含 CIVIL_NX 探针新收口的 6 条）与 GEN NX 共用同一批 key 去重
+    # ⇒ 分子**不**因跨产品而翻倍
     civil = write_path_coverage(
         registry,
         [_Row(key, product="CIVIL_NX") for key in _measured(CANDIDATES_BY_PRODUCT["CIVIL_NX"])],
     )
-    assert civil.covered == 62
-    assert civil.ratio == f"62 / {WRITE_PATH_TOTAL}"
+    assert civil.covered == 68
+    assert civil.ratio == f"68 / {WRITE_PATH_TOTAL}"
     # 非 `L5` / 非 `PASSED` 行**不**计入（判据未放宽）
     assert write_path_coverage(registry, [_Row("DB.NODE", contract_level="L4")]).covered == 0
     assert write_path_coverage(registry, [_Row("DB.NODE", status="FAILED")]).covered == 0

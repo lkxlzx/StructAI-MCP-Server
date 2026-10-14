@@ -15,7 +15,7 @@ schema_ref:
   source: help_center
   params_ref: "designer_params.json#DB/LENG"
 parser: db_generic
-products: [CIVIL_DESIGNER, GEN_NX]
+products: [CIVIL_DESIGNER, CIVIL_NX, GEN_NX]
 product_overrides:
   CIVIL_DESIGNER:
     uri: DB/LENG
@@ -29,7 +29,7 @@ product_overrides:
       body_kind: array
       read_root_path: [result, return_value]
 availability: verified
-verified_on: ["gen-local", "designer-cloud"]
+verified_on: [civil-cloud, designer-cloud, gen-local]
 path_key_supported: true
 table_type: null
 title: Unbraced Length

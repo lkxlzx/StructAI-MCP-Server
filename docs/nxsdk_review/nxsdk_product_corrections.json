@@ -1,0 +1,1258 @@
+{
+ "schemaVersion": 1,
+ "source": "Dennis5882/MIDAS-API-NX-SDK (shallow clone, .tmp_nxsdk)",
+ "source_files": [
+  "schema/info-baseline.json (capturedAt 2026-10-11, Civil/Gen NX 2026 v2.2 build 10/10/2026)",
+  "schema/hyper-s-info.json (product=civil, 2026-09-02)",
+  "contracts/endpoints/*.yaml (384 contracts)",
+  "docs/CLAUDE.md",
+  "contracts/verification/ledger.yaml (249 records, 397 endpoints)"
+ ],
+ "generated_by": ".tmp_analysis/p25_evidence.py",
+ "note": "外部证据，非本仓库实测。全部条目 requires_adjudication=true；工具默认预演。",
+ "corrections": [
+  {
+   "key": "DB.ACTL-M1",
+   "definition": "products/gen_nx/db/ACTL-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.ACTL-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.BCGA-M1",
+   "definition": "products/gen_nx/db/BCGA-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.BCGA-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.BCGD-M1",
+   "definition": "products/gen_nx/db/BCGD-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.BCGD-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.EIGV-M1",
+   "definition": "products/gen_nx/db/EIGV-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.EIGV-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.EPMT-M1",
+   "definition": "products/gen_nx/db/EPMT-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.EPMT-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.HHCT-M1",
+   "definition": "products/gen_nx/db/HHCT-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.HHCT-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.IEHG-BEAM-M1",
+   "definition": "products/gen_nx/db/IEHG-BEAM-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.IEHG-BEAM-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.IMFM-M1",
+   "definition": "products/gen_nx/db/IMFM-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.IMFM-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.MATL-M1",
+   "definition": "products/gen_nx/db/MATL-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.MATL-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.NLCT-M1",
+   "definition": "products/gen_nx/db/NLCT-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.NLCT-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.NLNK-M1",
+   "definition": "products/gen_nx/db/NLNK-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.NLNK-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.POGD-M1",
+   "definition": "products/gen_nx/db/POGD-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.POGD-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.POLC-M1",
+   "definition": "products/gen_nx/db/POLC-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.POLC-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.STCT-M1",
+   "definition": "products/gen_nx/db/STCT-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.STCT-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.STYP-M1",
+   "definition": "products/gen_nx/db/STYP-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.STYP-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.THGC-M1",
+   "definition": "products/gen_nx/db/THGC-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.THGC-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.THIS-M1",
+   "definition": "products/gen_nx/db/THIS-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.THIS-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.THOO-M1",
+   "definition": "products/gen_nx/db/THOO-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（该产品实例上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK schema/hyper-s-info.json：product=civil，8 端点由 Civil NX 抓取",
+    "服务端 GET /infoDB.THOO-M1：gen 无 Schema civil 有 Schema",
+    "SDK contracts/endpoints/*.yaml：18 个 -M1 契约全部 products: [civil]"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.DCTL",
+   "definition": "products/gen_nx/db/DCTL.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/DCTL：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.DSTL",
+   "definition": "products/gen_nx/db/DSTL.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/DSTL：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.EPSE",
+   "definition": "products/gen_nx/db/EPSE.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/EPSE：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.ESSF",
+   "definition": "products/gen_nx/db/ESSF.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/ESSF：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.LENG",
+   "definition": "common/db/LENG.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_DESIGNER",
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_DESIGNER",
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/LENG：两产品均有 Schema；我方只声明 ['CIVIL_DESIGNER', 'GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.LLAN",
+   "definition": "products/gen_nx/db/LLAN.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/LLAN：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.LLANID",
+   "definition": "products/gen_nx/db/LLANID.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/LLANid：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.LTSR",
+   "definition": "products/gen_nx/db/LTSR.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/LTSR：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.MBTP",
+   "definition": "products/gen_nx/db/MBTP.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/MBTP：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.MEMB",
+   "definition": "common/db/MEMB.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_DESIGNER",
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_DESIGNER",
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/MEMB：两产品均有 Schema；我方只声明 ['CIVIL_DESIGNER', 'GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.POSL",
+   "definition": "products/gen_nx/db/POSL.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/POSL：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.POSP",
+   "definition": "products/gen_nx/db/POSP.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/POSP：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.WMAK",
+   "definition": "products/gen_nx/db/WMAK.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/WMAK：两产品均有 Schema；我方只声明 ['GEN_NX']",
+    "SDK 契约 products 含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.REBB",
+   "definition": "common/db/REBB.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/REBB：civil 无 Schema，gen 有 Schema",
+    "SDK 契约 products 不含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.REBC",
+   "definition": "common/db/REBC.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/REBC：civil 无 Schema，gen 有 Schema",
+    "SDK 契约 products 不含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.REBR",
+   "definition": "common/db/REBR.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/REBR：civil 无 Schema，gen 有 Schema",
+    "SDK 契约 products 不含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.REBW",
+   "definition": "common/db/REBW.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "服务端 GET /info/db/REBW：civil 无 Schema，gen 有 Schema",
+    "SDK 契约 products 不含 civil"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBB",
+   "definition": "design/rc/KDS-41-20-2022/REBB.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-rebb.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBC",
+   "definition": "design/rc/KDS-41-20-2022/REBC.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-rebc.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBR",
+   "definition": "design/rc/KDS-41-20-2022/REBR.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-rebr.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBW",
+   "definition": "design/rc/KDS-41-20-2022/REBW.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-rebw.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.TRFT",
+   "definition": "design/rc/KDS-41-20-2022/TRFT.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-trft.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.ULCT",
+   "definition": "design/rc/KDS-41-20-2022/ULCT.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-rc-kds-41-20-2022-ulct.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DESIGN.STEEL.KDS-41-30-2022.ULCT",
+   "definition": "design/steel/KDS-41-30-2022/ULCT.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "verified",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 design-steel-kds-41-30-2022-ulct.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DOC.STAGAS",
+   "definition": "products/gen_nx/doc/STAGAS.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 doc-stagas.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.EDMP",
+   "definition": "products/gen_nx/ope/EDMP.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-edmp.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.GSBG",
+   "definition": "products/gen_nx/ope/GSBG.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-gsbg.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.GUSTFACTOR",
+   "definition": "products/gen_nx/ope/GUSTFACTOR.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-gustfactor.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.MEMB",
+   "definition": "products/gen_nx/ope/MEMB.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-memb.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.SSPS",
+   "definition": "products/gen_nx/ope/SSPS.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-ssps.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "OPE.STORYPROP",
+   "definition": "common/ope/STORYPROP.yaml",
+   "field": "products",
+   "from": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "to": [
+    "GEN_NX"
+   ],
+   "tier": "C",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 ope-storyprop.yaml: products=['GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "POST.STEELCODECHECK",
+   "definition": "products/gen_nx/post/STEELCODECHECK.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 post-steelcodecheck.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "VIEW.PRECAPTURE",
+   "definition": "products/gen_nx/view/PRECAPTURE.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX",
+    "GEN_NX"
+   ],
+   "tier": "B",
+   "solver": "",
+   "availability": "untested",
+   "unavailable_on": [],
+   "evidence": [
+    "SDK 契约 view-precapture.yaml: products=['CIVIL_NX', 'GEN_NX']",
+    "（非 /db/* 端点，/info 不作为判据）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.IEHG-GL-M1",
+   "definition": "products/gen_nx/db/IEHG-GL-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（gen-local 上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK docs/coverage.json：products=['civil']",
+    "SDK schema/hyper-s-info.json（product=civil）包含该端点",
+    "⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.IEHG-PSS-M1",
+   "definition": "products/gen_nx/db/IEHG-PSS-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（gen-local 上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK docs/coverage.json：products=['civil']",
+    "SDK schema/hyper-s-info.json（product=civil）包含该端点",
+    "⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）"
+   ],
+   "requires_adjudication": true
+  },
+  {
+   "key": "DB.IEHG-TRUSS-M1",
+   "definition": "products/gen_nx/db/IEHG-TRUSS-M1.yaml",
+   "field": "products",
+   "from": [
+    "GEN_NX"
+   ],
+   "to": [
+    "CIVIL_NX"
+   ],
+   "tier": "A",
+   "solver": "HYPER_S",
+   "availability": "unverified",
+   "unavailable_on": [
+    "gen-local"
+   ],
+   "evidence": [
+    "instances.yaml 第 16 行：gen-local「缺 21 个 Hyper-S 变体」",
+    "本条目 unavailable_on=['gen-local']（gen-local 上 404）",
+    "SDK docs/CLAUDE.md：Hyper-S (-M1) endpoints are Civil NX only; they 404 under Gen",
+    "SDK docs/coverage.json：products=['civil']",
+    "SDK schema/hyper-s-info.json（product=civil）包含该端点",
+    "⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）"
+   ],
+   "requires_adjudication": true
+  }
+ ]
+}

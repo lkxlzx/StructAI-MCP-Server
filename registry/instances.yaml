@@ -20,12 +20,18 @@ instances:
     base_url: https://moa-engineers.midasit.cn:443/civil
     profile: NX_FAMILY
     tested_at: "2026-05-07"
+    probed_at: "2026-10-14"
+    probe_evidence: registry/live/civil_product_probe.json
     loaded_project: (共享云账号，会话状态在测试期间变化过)
     get_endpoints_tested: 215
     routed_ok: 29
     routed_empty: 179
     not_found: 7
     note: 未知 URI 返回 404（可靠）；空表返回 200 + {"message": ""}。缺 DB.SDHY/SDIS/THRS/UFTR/UTBL 与 2 个 DESIGN.*.MATD。
+      ⚠️ 2026-10-14 的产品级只读探针（49 条：21 条 B 级候选 + 全部 21 条 Hyper-S -M1 + 三组对照）
+      结论：**21 条 Hyper-S `-M1` 在本实例上全部 404**（与外部证据「Hyper-S 是 Civil NX 专属」冲突，
+      见 registry/README.md §8.17.3）；B 级 21 条中 18 条存在、3 条不存在（DB.POSP / DOC.STAGAS /
+      POST.STEELCODECHECK）。**本实例缺少 Hyper-S 求解器能力**，不代表产品不支持。
 
   - alias: designer-cloud
     product: CIVIL_DESIGNER

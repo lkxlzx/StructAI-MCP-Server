@@ -199,6 +199,8 @@ CIVIL_CODES = (
     "DB.CONS",
     "DB.CUTL",
     "DB.DCON",
+    "DB.DCTL",
+    "DB.DSTL",
     "DB.EFCT",
     "DB.EIGV",
     "DB.ELEM",
@@ -220,7 +222,9 @@ CIVIL_CODES = (
     "DB.LCOM-STLCOMP",
     "DB.LDGR",
     "DB.LDSQ",
+    "DB.LENG",
     "DB.MATL",
+    "DB.MBTP",
     "DB.MLFC",
     "DB.MVCD",
     "DB.MVCTBS",
@@ -235,6 +239,7 @@ CIVIL_CODES = (
     "DB.PJCF",
     "DB.PNLD",
     "DB.POGD",
+    "DB.POSL",
     "DB.PRES",
     "DB.PSLT",
     "DB.SDST",
@@ -251,6 +256,7 @@ CIVIL_CODES = (
     "DB.THFC",
     "DB.THIK",
     "DB.VSEC",
+    "DB.WMAK",
     "DESIGN.RC.DRC",
     "DESIGN.RC.KDS-41-20-2022.DCO",
     "DESIGN.RC.KDS-41-20-2022.DCTL",
@@ -273,8 +279,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 495,
-    "CIVIL_NX": 431,
+    "GEN_NX": 474,
+    "CIVIL_NX": 452,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
@@ -294,8 +300,11 @@ P149-C：49 个 `availability: untested` 端点经只读 L4 收口为 `verified`
 （20 / 20 / 9，零残留、未崩溃）⇒ 再 +2 真实 L5 `PASSED`（`DESIGN.RC.KDS-41-20-2022.WMAK` /
 `DESIGN.SRC.AIK-SRC2K.DSRC`）⇒ 候选集各 +2、blocked 各 -2 ⇒ **501 / 438 / 31**。"""
 
-REGISTERED_TRANSFORMERS = 35
-"""`TRANSFORMER_REGISTRY` 的条数（P139 起 19，本批 +1）。"""
+REGISTERED_TRANSFORMERS = 45
+"""`TRANSFORMER_REGISTRY` 的条数。
+
+P139 起 19 · P160e-b（R153，RC 4 个）35 · **P164-b（R153 收尾，SRC 3 个）38**。
+"""
 
 BLOCKED_CONTRACT_WRITE_KEYS: tuple[str, ...] = ()
 """`operations.py` 声明的写步骤里，三步链**结构适用**（有写方法 + `GET`/`read_root` + `DELETE`）

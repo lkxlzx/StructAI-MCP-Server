@@ -24,105 +24,100 @@
                 "items": {
                   "type": "object",
                   "properties": {
-                    "CREATE_SUB_WALL_ID": {
-                      "type": "boolean",
-                      "default": false
-                    },
-                    "SUB_WALL_ID": {
+                    "ID": {
                       "type": "integer",
-                      "description": "read only"
+                      "description": "ID"
                     },
-                    "STORY": {
-                      "type": "object",
-                      "properties": {
-                        "FROM": {
-                          "type": "string"
-                        },
-                        "TO": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "VERTICAL_REBAR": {
-                      "type": "object",
-                      "properties": {
-                        "NAME": {
-                          "type": "string",
-                          "description": "D4~D57"
-                        },
-                        "DIST": {
-                          "type": "number"
-                        }
-                      }
-                    },
-                    "HORIZONTAL_REBAR": {
-                      "type": "object",
-                      "properties": {
-                        "NAME": {
-                          "type": "string",
-                          "description": "D4~D57"
-                        },
-                        "DIST": {
-                          "type": "number"
-                        }
-                      }
-                    },
-                    "USE_END_REBAR": {
+                    "bUSE_MODEL_THICK": {
                       "type": "boolean",
-                      "default": false
+                      "description": "Use Model Thickness"
                     },
-                    "END_REBAR": {
+                    "THICK": {
+                      "type": "number",
+                      "description": "Thickness (Input check-off Use Model Thickness)"
+                    },
+                    "DW": {
+                      "type": "number",
+                      "description": "Dw (Concrete Face ~ Rebar Center)"
+                    },
+                    "DE": {
+                      "type": "number",
+                      "description": "De (Concrete Face ~ Rebar Center)"
+                    },
+                    "VER_BAR": {
                       "type": "object",
+                      "description": "Vertical Rebar",
                       "properties": {
                         "NAME": {
                           "type": "string",
-                          "description": "D4~D57"
-                        },
-                        "NUM": {
-                          "type": "integer"
+                          "description": "Name"
                         },
                         "DIST": {
-                          "type": "number"
+                          "type": "number",
+                          "description": "Space"
                         }
                       }
                     },
-                    "BE_HORIZONTAL_REBAR": {
+                    "HOR_BAR": {
                       "type": "object",
+                      "description": "Horizontal Rebar",
                       "properties": {
                         "NAME": {
                           "type": "string",
-                          "description": "D4~D57"
+                          "description": "Name"
                         },
                         "DIST": {
-                          "type": "number"
+                          "type": "number",
+                          "description": "Space"
                         }
                       }
                     },
-                    "BOUNDARY_ELEMENT_LENGTH": {
-                      "type": "number",
-                      "default": 0
-                    },
-                    "CONCRETE_FACE_TO_CENTER_OF_REBAR": {
+                    "END_BAR": {
                       "type": "object",
+                      "description": "End Rebar",
                       "properties": {
-                        "DW": {
-                          "type": "number"
+                        "NAME": {
+                          "type": "string",
+                          "description": "Name"
                         },
-                        "DE": {
-                          "type": "number"
+                        "DIST": {
+                          "type": "number",
+                          "description": "Space"
                         }
                       }
                     },
-                    "USE_MODEL_THICKNESS": {
-                      "type": "boolean",
-                      "default": true
+                    "NUM_END_BAR": {
+                      "type": "integer",
+                      "description": "End Rebar Num"
                     },
-                    "THICKNESS": {
+                    "BE_HOR_BAR": {
+                      "type": "object",
+                      "description": "Boundary Element Horizontal Rebar",
+                      "properties": {
+                        "NAME": {
+                          "type": "string",
+                          "description": "Name"
+                        },
+                        "DIST": {
+                          "type": "number",
+                          "description": "Space"
+                        }
+                      }
+                    },
+                    "BE_LENGTH": {
                       "type": "number",
-                      "description": "USE_MODEL_THICKNESS=false 일 때"
+                      "description": "Boundary Element Length"
+                    },
+                    "vSTORY_NAME": {
+                      "type": "array",
+                      "description": "Story Key List",
+                      "items": {
+                        "type": "string"
+                      }
                     }
                   }
-                }
+                },
+                "description": "⚠️ 手册里**一个字段名都不对**（长名 `VERTICAL_REBAR`/`HORIZONTAL_REBAR`/`STORY:{FROM,TO}`/`THICKNESS`… vs 原生短名 `VER_BAR`/`HOR_BAR`/`vSTORY_NAME`（字符串数组，**不是** `{FROM,TO}` 范围）/`THICK`…）。实测（2026-07-29，真实生产模型 4044 节点/4686 单元）：`GET` 回显 + `/info` + **`PUT` 往返（改→验证→改回）** 三次独立确认 ⇒ 是**写契约**，不只是读。R144 / MD-34 / 实测发现 A-01。"
               }
             }
           }

@@ -16,19 +16,23 @@
           "type": "string"
         },
         "VEHICLE_LOAD_NUM": {
-          "description": "VehicularLoadNumber",
-          "type": "integer"
+          "description": "VehicularLoadNumber。**分支判别子**：`1` = 标准车辆（Standard），`2` = 用户定义（User Defined）。手册的公共 Specifications 表**没有**提到它，却把只属分支 1 的字段写成**无条件**必填（MD-16）。",
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ]
         },
         "VEHICLE_TYPE_NAME": {
           "description": "VehicularTypeName",
           "type": "string"
         },
         "STANDARD_CODE": {
-          "description": "StandardCode",
+          "description": "StandardCode。⚠️ **MD-16**：手册标 **Required**，实测**两个分支都不需要** —— 省略后记录照样落库（未报错）。",
           "type": "string"
         },
         "USER_LOAD_TYPE": {
-          "description": "UserLoadType",
+          "description": "UserLoadType。⚠️ **MD-16**：仅在 `VEHICLE_LOAD_NUM = 2` 有意义；在 `MVLD_CODE = 2` 下它**根本不是输入** —— `\"Train\"` / `\"Lane\"` / `\"Truck\"` / `\"TruckLane\"` 与省略**都**存成 `\"Truck/Lane\"`。",
           "type": "string"
         },
         "VEH_DEFAULT": {
@@ -196,6 +200,10 @@
               },
               "POINT_DIST": {
                 "description": "PointDistance",
+                "type": "number"
+              },
+              "POINT_DIST2": {
+                "description": "Point Distance 2",
                 "type": "number"
               }
             }
@@ -1869,7 +1877,27 @@
             }
           }
         }
-      }
+      },
+      "allOf": [
+        {
+          "description": "MD-16 / 实测：`VEHICLE_TYPE_NAME` **只在 `VEHICLE_LOAD_NUM = 1` 时必填** —— 缺它得到 `(Item:Length of Vehicular Load Type(0 ~ 40 characters))`；在分支 2 下送它会被**丢弃**。",
+          "if": {
+            "properties": {
+              "VEHICLE_LOAD_NUM": {
+                "const": 1
+              }
+            },
+            "required": [
+              "VEHICLE_LOAD_NUM"
+            ]
+          },
+          "then": {
+            "required": [
+              "VEHICLE_TYPE_NAME"
+            ]
+          }
+        }
+      ]
     }
   },
   "response": {

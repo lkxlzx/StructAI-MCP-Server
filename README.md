@@ -26,7 +26,7 @@ MIDAS Open API 的**机器可读端点注册表（Endpoint Registry）**与配�
 ## 目录
 
 ```
-registry/          Endpoint Registry（636 端点定义 + 616 JSON Schema + 索引 + 实例矩阵）
+registry/          Endpoint Registry（636 端点定义 + 625 JSON Schema + 索引 + 实例矩阵）
 examples/          参考客户端与冒烟测试（midas_client.py / smoke_test.py / cases.json）
 app/               Core 实现（P01 起逐步落地；进度见 docs/08 §3）
 pyproject.toml     依赖与工具链配置（冻结于 docs/07 §3.1–§3.2）· .env.example 环境变量样例
@@ -42,14 +42,31 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | 指标 | 数值 |
 | --- | --- |
 | 端点定义 | **636** |
-| JSON Schema | **616**（96.9%） |
-| 命名空间 | `DB` / `POST` / `DESIGN` / `OPE` / `DOC` / `VIEW` / `OPRT` |
+| JSON Schema | **625**（98.3%） |
+| 命名空间 | `DB`(244) / `POST`(199) / `DESIGN`(125) / `OPE`(34) / `DOC`(21) / `VIEW`(7) / `OPRT`(6) |
 | 覆盖产品 | `GEN_NX` / `CIVIL_NX` / `CIVIL_DESIGNER` |
 | 实测实例 | 3 个（本地 GEN NX、云 CIVIL NX、云 Civil Designer） |
 
 字段与用法见 [`registry/README.md`](registry/README.md)。
 
-**实测验证状态**（`availability`）：`verified` 246 · `unverified` 23 · `untested` 367。
+**实测验证状态**（`availability`）：`verified` **509** · `unverified` **23** · `untested` **104**。
+
+### 1.1 主指标：**接口层端到端**（`docs/07` §15.6.3）
+
+> ⚠️ **`availability` 是端点级、**次**指标**。产品对外的单位是 **Operation**，
+> 故主指标是**接口层端到端**与**生产路径可用 Operation**（`docs/07` §15.6.3）。
+
+| 层级 | 指标 | 当前 |
+| --- | --- | --- |
+| 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
+| 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
+| 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
+| 🔴 主指标 | **生产路径可用 Operation** | **`62 / 71`**（缺口 = **6** 个端点 → 9 个 Operation） |
+| 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / 633` |
+| ⚪ 账本 | 映射缺口 / 留缺账本 | `489` / `178`（**只登记，不驱动优先级**） |
+
+证据 = `registry/live/{interface_path_probe,interface_read_probe,flagship_chain_probe}.json`；
+生成器 = `registry/tools/probe_interface_paths.py` / `probe_flagship_chain.py`（均可 `--check` 离线复算）。
 
 ---
 
@@ -62,7 +79,7 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | **`docs/01`–`docs/06`** | **V2 原始规范（架构 / 实现 / 9 Tools / Adapter / SDK / 验收）** |
 | **`docs/07_开发方案与任务续接_v1.0.md`** | **开发方案 + 任务续接（含 Operation → MIDAS API 映射）** |
 | **`docs/08_会话交接与续接提示词_v1.0.md`** | **会话边界硬性原则 + 交接协议 + 批次状态表 + 续接提示词（每个新会话的第一个入口）** |
-| **`registry/`** | **MIDAS API 唯一权威来源**（636 端点定义 + 616 JSON Schema） |
+| **`registry/`** | **MIDAS API 唯一权威来源**（636 端点定义 + 625 JSON Schema） |
 | `docs/00_文档通读与API对照报告_v1.0.md` | V2 六份文档的通读与 API 对照结论 |
 | `docs/reports/` | 5 份逐节精读报告 |
 | `MIDAS_API_手册覆盖对照_CivilDesigner_v1.0.md` | 手册覆盖对照 |
@@ -80,6 +97,20 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 
 > ⚠️ `archive/legacy_v1/` 下全部文件**不作为开发依据，不作为准则**，仅用于来源追溯与审计核对。
 > 索引与约束见 [`archive/legacy_v1/README.md`](archive/legacy_v1/README.md)。
+
+### 2.3 外部证据输入（第三方 SDK 对照，**不作开发依据**）
+
+| 文件 | 说明 |
+| --- | --- |
+| [`docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md`](docs/nxsdk_review/00_评估与查漏补缺报告_v1.0.md) | 对 [`Dennis5882/MIDAS-API-NX-SDK`](https://github.com/Dennis5882/MIDAS-API-NX-SDK) 的评估与逐端点/逐字段/逐产品比对 |
+| [`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`](MIDAS_API_Online_Manual_勘误与补全_v1.0.md) | **官方手册勘误 62 条（MD-01～MD-62）** + 我方手册补全清单 |
+| [`docs/nxsdk_review/nxsdk_product_corrections.json`](docs/nxsdk_review/nxsdk_product_corrections.json) | 54 条产品归属更正（A/B/C 三级 + 逐条证据），供导入工具消费 |
+| [`docs/nxsdk_review/nxsdk_gap_summary.json`](docs/nxsdk_review/nxsdk_gap_summary.json) | 全部计数的机器可读汇总 |
+| [`registry/tools/import_nxsdk_evidence.py`](registry/tools/import_nxsdk_evidence.py) | 外部证据导入工具（默认预演、幂等、`--tier` 分级、`--check` 断言） |
+
+> ⚠️ 上列内容**全部是外部证据**，**不是本仓库的实测结论**。
+> 依 §8.2 的既定口径，凡涉及 `products` / 必填性 / 类型的变更，均需**我方实例实测 + 显式裁决**。
+> 导入工具**默认只预演**；本批次**未改动 `registry/` 任何数据**。
 
 ---
 
@@ -110,9 +141,38 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 
 ## 5. 已知边界
 
-- 写路径实测覆盖 11 / 369 个纯写端点（读路径 266 个含 GET 端点已全部实测）。
-- 20 个端点尚无 JSON Schema（OPE 13 / VIEW 1 / DB.LCOM / DOC.CLOSEALL·EXIT / 3 个 POST 表）。
-- `DOC.CLOSEALL`、`DOC.EXIT` 等不可回滚操作**明确未测**。
-- 云端中继存在**间歇性掉线**（`client does not exist`），客户端已用 `CLIENT_NOT_CONNECTED` 区分。
+> ⚠️ 本节按 **`docs/07` §15.6.3 的指标层级**写：**主指标 = 接口层端到端 / 生产路径可用 Operation**；
+> `availability` 计数与缺口账本属**次指标 / 账本**，**不**驱动优先级。
 
-详见 `archive/legacy_v1/StructAI_MIDAS_MCP_Live冒烟测试报告_v1.0.md` 与 `archive/legacy_v1/StructAI_MIDAS_MCP_统一修复计划_v1.0.md`（**非规范性**证据留痕）。
+### 5.1 🔴 主指标上的剩余缺口：**6 个端点 → 9 个 Operation**（收口即 `71 / 71`）
+
+| 端点 | 挡住 | 状态 |
+| --- | ---: | --- |
+| **`VIEW.RESULTGRAPHIC`** | **6** | 多变体端点（Civil NX 手册里 **20+** 篇各自带 Schema）；P160d 实测 `400 second query is wrong` ⇒ **留缺** |
+| `DESIGN.RC.KDS-41-20-2022.BD-ANAL` + `BD-TABLE` | 1 | 需**混凝土**模型（`DESIGN.CONCRETE` 真机链） |
+| `DESIGN.SRC.AIK-SRC2K.BC-ANAL` + `BC-TABLE` | 1 | 需 **SRC** 模型（`DESIGN.SRC` 真机链） |
+| `POST.TABLE` | 1 | 需真机 `POST` + 读回结果表 |
+
+⚠️ 这 6 个**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
+
+### 5.2 🟡 次指标：数据侧可达性上限与 Schema 覆盖
+
+- **写路径模板**：`71` 个端点 / `115` 个 body（**全部**来源可复算：`check_write_templates.py --check` 全绿）。
+- **11 个端点无 JSON Schema**：`DB.LCOM` · `DOC.CLOSEALL` · `DOC.EXIT` ·
+  `OPE.{CPCREATE,CPEXPORT,CPUPDATEMODEL,CPUPDATERESULT,PROJECTSTATUS,SECTPROP,STORYPROP}` · `VIEW.SELECT`。
+  ⚠️ 其中 `DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 属**无请求体**端点
+  （`docs/07` §16 R5 的裁决），**不**建 Schema 文件是**如实留缺**，不是遗漏。
+- **`availability` 分档**：`untested` 的 **104** 个里，绝大多数在现有实例上**结构性不可达**
+  （`-M1` 家族 21 个 · `unavailable_on: gen-local` · CIVIL_DESIGNER 独有而 `designer-cloud` 宕机）
+  ⇒ `docs/07` §15.6.2 的 **P4** 已明确**降级**，不再消耗批次预算。
+
+### 5.3 环境与安全
+
+- `DOC.CLOSEALL`、`DOC.EXIT` 等**不可回滚**操作**明确未测**。
+- 云端中继存在**间歇性掉线**（`client does not exist`），客户端已用 `CLIENT_NOT_CONNECTED` 区分。
+- 已实测的**静默失败**形态（**铁律 ⓪** 的由来）：原生**返回 `200` 却什么都不做**至少 **6** 次
+  （`R128` `ITEMS` 外层键无效 · `R145` `DOC.NEW` 忽略路径 · `R146` `DOC.SAVE` 不写盘 ·
+  P160c 事故 A `SAVEAS` 体被拆 · P164-c 的 `DELETE` 响应体**回显删除前状态**）。
+  ⇒ **判据必须是「再读的效果」，不能是状态码。**
+
+详见 `docs/07` §15.6（指标层级）· `docs/08` §3（批次状态）· `registry/README.md`（字段与口径）。

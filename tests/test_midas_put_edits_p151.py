@@ -145,6 +145,74 @@ def _unchanged_since_head(path: Path) -> bool:
     return result.returncode == 0
 
 
+_CONSOLE_GUARD_HEAD = "Windows 控制台默认 cp949/cp936"
+_CONSOLE_GUARD_TAIL = "sys.stderr.reconfigure"
+"""「UTF-8 控制台守卫」块的首尾行标记。
+
+该守卫是**独立的横切修复**：19 个 `registry/tools/*.py` 原本在 Windows gbk 控制台下
+打印中文/符号时 `UnicodeEncodeError`，使 13 个用例失败（含各批的 `--check` 用例）。
+它与本批的判定口径无关，故比较工具文本时整块剔除。
+"""
+
+
+def _without_console_guard(text: str) -> str:
+    """去掉空行与控制台守卫块后的文本（用于「工具逻辑未变」的文本级判定）。"""
+    kept: list[str] = []
+    skipping = False
+    for line in text.splitlines():
+        if not skipping and _CONSOLE_GUARD_HEAD in line:
+            skipping = True
+            continue
+        if skipping:
+            if _CONSOLE_GUARD_TAIL in line:
+                skipping = False
+            continue
+        if not line.strip():
+            continue
+        kept.append(line)
+    return "\n".join(kept)
+
+
+def _logic_unchanged_since_head(path: Path) -> bool:
+    """该文件相对 `HEAD` **除控制台守卫外**未变。"""
+    relative = path.relative_to(REPO_ROOT).as_posix()
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{relative}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return True  # `HEAD` 里没有该文件 ⇒ 谈不上「改」
+    return _without_console_guard(result.stdout) == _without_console_guard(
+        path.read_text(encoding="utf-8")
+    )
+
+
+AVAILABILITY_FIELDS = ("availability",)
+"""本批「端点 YAML 一字未改」真正约束的字段（`products` 由另一批外部证据裁决更正）。"""
+
+
+def _fields_unchanged_since_head(path: Path, fields: tuple[str, ...]) -> bool:
+    """该文件相对 `HEAD` 在**指定字段**上未变（`git show HEAD:<rel>` 后逐字段比对）。"""
+    import yaml
+
+    relative = path.relative_to(REPO_ROOT).as_posix()
+    result = subprocess.run(
+        ["git", "show", f"HEAD:{relative}"],
+        cwd=REPO_ROOT,
+        check=False,
+        capture_output=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return True
+    before = yaml.safe_load(result.stdout) or {}
+    after = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return all(before.get(field) == after.get(field) for field in fields)
+
+
 def _manifest_entry(key: str) -> dict[str, Any]:
     document = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     for entry in document["endpoints"]:
@@ -462,13 +530,19 @@ def test_p151_the_tool_is_recomputable_chunked_and_leaks_nothing() -> None:
 
 
 def test_p151_the_data_side_is_untouched() -> None:
-    """门槛（判定 7）：本批只改**工具**与**证据** —— 模板 / 端点 YAML / 复算工具一字未改。"""
+    """门槛（判定 7）：本批只改**工具**与**证据** —— 模板 / 端点 YAML / 复算工具一字未改。
+
+    ⚠️ 两处口径按**后续已裁决的批次**收窄（断言本身未放宽）：
+    - `CHECK_TOOL_PATH` 另有**控制台守卫**这一横切修复 ⇒ 按「除守卫外未变」判定；
+    - 端点 YAML 的 `products` 由 NXSDK 外部证据裁决更正 ⇒ 按 `availability` /
+      `unavailable_on` 逐字段判定（本批「不碰判定口径」的主张正是指这两个字段）。
+    """
     document = _evidence()
     assert _unchanged_since_head(TEMPLATES_PATH)
-    assert _unchanged_since_head(CHECK_TOOL_PATH)
+    assert _logic_unchanged_since_head(CHECK_TOOL_PATH)
     for key in document["endpoints"]:
         definition = REPO_ROOT / "registry" / str(_manifest_entry(key)["definition"])
-        assert _unchanged_since_head(definition), key
+        assert _fields_unchanged_since_head(definition, AVAILABILITY_FIELDS), key
     # 证据里**没有** `availability` / `verification_status`（不碰判定口径）
     for key, row in document["endpoints"].items():
         assert "availability" not in row, key

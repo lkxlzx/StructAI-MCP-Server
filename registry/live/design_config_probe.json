@@ -1,0 +1,559 @@
+{
+ "criterion_version": 1,
+ "note": [
+  "P164-c：`DESIGN.*` 配置端点的真机写入 + **读回验效果**（铁律 ⓪）+ 清理再读。",
+  "判据 = **读回里有那个值**，**不是** `200`。",
+  "⚠️ **DELETE 语义分两族（本批实测，已更正初版结论）**：",
+  "   · `/DESIGN/<族>/<模块>` 的 DELETE = **把该模块的设置写回产品默认值**（STEEL → `GB50017-17`、RC → `GB/T50010-10`）—— **不是**删除；其响应体**回显删除前的状态**。",
+  "   · `/db/*` 家族的 DELETE = **真删除**（⇒ `{}`）。两者作用于**同一份数据**（给别名 PUT，规范路由的 GET 立刻可见，反之亦然）。",
+  "   · 故清理必须走**规范路由**；`/DESIGN/SRC/AIK-SRC2K/DSRC` **没有**规范路由 ⇒ 无法删除，而其唯一合法值 `AIK-SRC2K` 即产品默认值 ⇒ 重置与 no-op **不可区分**（这才是「看起来像 no-op」的真正原因，**不是**「单例不可清」）。",
+  "⚠️ `DB/GRUP` 的 26 条是 **app 自建**的 `TEMP_DATA` 组（2026-10-11 的探针记录为空）—— 哨兵口径是「跑前 == 跑后」，**不是**「必须全空」。",
+  "生成器 = `registry/tools/probe_design_config.py --probe`（只碰设计配置端点）。"
+ ],
+ "instance": {
+  "alias": "gen-local",
+  "product": "GEN NX",
+  "base_url": "http://localhost:3030/gen",
+  "probed_at": "2026-10-13"
+ },
+ "sentinel_paths": [
+  "DB/NODE",
+  "DB/ELEM",
+  "DB/MATL",
+  "DB/SECT",
+  "DB/STLD",
+  "DB/CNLD",
+  "DB/CONS",
+  "DB/LCOM-STEEL",
+  "DB/LCOM-CONC",
+  "DB/GRUP",
+  "DESIGN/RC/DRC",
+  "DESIGN/RC/KDS-41-20-2022/DCO",
+  "DESIGN/SRC/AIK-SRC2K/DSRC",
+  "DESIGN/SRC/AIK-SRC2K/DCO"
+ ],
+ "aborted": "",
+ "steps": [
+  {
+   "key": "DESIGN.RC.DRC",
+   "uri": "DESIGN/RC/DRC",
+   "read_root": "DCON",
+   "request": {
+    "Assign": {
+     "1": {
+      "DGNCODE": "KDS 41 20 : 2022"
+     }
+    }
+   },
+   "status_code": 200,
+   "readback": {
+    "1": {
+     "DGNCODE": "KDS 41 20 : 2022"
+    }
+   },
+   "identity": {
+    "DGNCODE": "KDS 41 20 : 2022"
+   },
+   "presence": [],
+   "found": {
+    "DGNCODE": "KDS 41 20 : 2022"
+   },
+   "present": [],
+   "effect_ok": true,
+   "dropped_fields": {}
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.DCO",
+   "uri": "DESIGN/RC/KDS-41-20-2022/DCO",
+   "read_root": "DCORC",
+   "request": {
+    "Assign": {
+     "1": {
+      "DESIGN_CD": "KDS 41 20 : 2022",
+      "MOM_CALC_MTHD": "Equivalent",
+      "EXP_COND": "etc",
+      "PM_CRV_CALC": "KeepMPConstant",
+      "CONC_STRS_STRN": "Equivalent",
+      "FS_MAIN_BAR": "2/3fy",
+      "SEISMIC_PROV": true,
+      "TORS_DES": true,
+      "TORS_RDCT_FACT": 1,
+      "MOM_REDIST_FACT": 1,
+      "USE_SUBDIV_FORCE": true,
+      "UG_LC": true,
+      "SEISMIC": {
+       "FRAME_TYPE": "Special",
+       "STRONG_COL_WEAK_LAST": true,
+       "BEAM_COL_JNT_DES": true,
+       "JOINT": {
+        "CHK_POS": "Top",
+        "EXCL_MEM_TYPES": [
+         "SUBBEAM",
+         "CANTIL",
+         "UGBEAMCOL"
+        ]
+       },
+       "SHEAR_WALL": {
+        "SPEC_RC_WALL": true,
+        "BDRY_ELEM_MTHD": "Displacement",
+        "DEFL_AMP_FACT": 4,
+        "IMP_FACT": 1.2
+       },
+       "SHEAR_DES": {
+        "R": 0.5,
+        "MTHD": "Ve1",
+        "A1": 1.1,
+        "A2": 1.2
+       }
+      }
+     }
+    }
+   },
+   "status_code": 200,
+   "readback": {
+    "1": {
+     "DESIGN_CD": "KDS 41 20 : 2022",
+     "SEISMIC_PROV": true,
+     "TORS_DES": true,
+     "MOM_REDIST_FACT": 1.0,
+     "MOM_CALC_MTHD": "Equivalent",
+     "USE_SUBDIV_FORCE": true,
+     "EXP_COND": "etc",
+     "PM_CRV_CALC": "KeepMPConstant",
+     "UG_LC": true,
+     "CONC_STRS_STRN": "Equivalent",
+     "FS_MAIN_BAR": "2/3fy",
+     "SEISMIC": {
+      "FRAME_TYPE": "Special",
+      "STRONG_COL_WEAK_LAST": true,
+      "SHEAR_WALL": {
+       "SPEC_RC_WALL": true,
+       "BDRY_ELEM_MTHD": "Displacement",
+       "DEFL_AMP_FACT": 4.0,
+       "IMP_FACT": 1.2
+      },
+      "SHEAR_DES": {
+       "MTHD": "Ve1",
+       "R": 0.5,
+       "A1": 1.1
+      },
+      "BEAM_COL_JNT_DES": true,
+      "JOINT": {
+       "EXCL_MEM_TYPES": [
+        "SUBBEAM",
+        "CANTIL",
+        "UGBEAMCOL"
+       ],
+       "CHK_POS": "Top"
+      }
+     },
+     "TORS_RDCT_FACT": 1.0
+    }
+   },
+   "identity": {
+    "DESIGN_CD": "KDS 41 20 : 2022"
+   },
+   "presence": [
+    "SEISMIC"
+   ],
+   "found": {
+    "DESIGN_CD": "KDS 41 20 : 2022"
+   },
+   "present": [
+    "SEISMIC"
+   ],
+   "effect_ok": true,
+   "dropped_fields": {
+    "SEISMIC.SHEAR_DES.A2": 1.2
+   }
+  },
+  {
+   "key": "DESIGN.SRC.AIK-SRC2K.DSRC",
+   "uri": "DESIGN/SRC/AIK-SRC2K/DSRC",
+   "read_root": "DSRC",
+   "request": {
+    "Assign": {
+     "1": {
+      "DGNCODE": "AIK-SRC2K"
+     }
+    }
+   },
+   "status_code": 200,
+   "readback": {
+    "1": {
+     "DGNCODE": "AIK-SRC2K"
+    }
+   },
+   "identity": {
+    "DGNCODE": "AIK-SRC2K"
+   },
+   "presence": [],
+   "found": {
+    "DGNCODE": "AIK-SRC2K"
+   },
+   "present": [],
+   "effect_ok": true,
+   "dropped_fields": {}
+  },
+  {
+   "key": "DESIGN.SRC.AIK-SRC2K.DCO",
+   "uri": "DESIGN/SRC/AIK-SRC2K/DCO",
+   "read_root": "SRCDCO",
+   "request": {
+    "Assign": {
+     "1": {
+      "DGNCODE": "AIK-SRC2K",
+      "SEISMIC": true
+     }
+    }
+   },
+   "status_code": 200,
+   "readback": {
+    "1": {
+     "DGNCODE": "AIK-SRC2K",
+     "SEISMIC": true
+    }
+   },
+   "identity": {
+    "DGNCODE": "AIK-SRC2K"
+   },
+   "presence": [
+    "SEISMIC"
+   ],
+   "found": {
+    "DGNCODE": "AIK-SRC2K"
+   },
+   "present": [
+    "SEISMIC"
+   ],
+   "effect_ok": true,
+   "dropped_fields": {}
+  }
+ ],
+ "cleanup": [
+  {
+   "key": "DESIGN.RC.DRC",
+   "uri": "DESIGN/RC/DRC",
+   "delete_uri": "/DB/DCON",
+   "status_code": 200,
+   "before": {
+    "1": {
+     "DGNCODE": "KDS 41 20 : 2022"
+    }
+   },
+   "after": {},
+   "cleared": true,
+   "reason": ""
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.DCO",
+   "uri": "DESIGN/RC/KDS-41-20-2022/DCO",
+   "delete_uri": "DESIGN/RC/KDS-41-20-2022/DCO",
+   "status_code": 200,
+   "before": {},
+   "after": {},
+   "cleared": true,
+   "reason": ""
+  },
+  {
+   "key": "DESIGN.SRC.AIK-SRC2K.DSRC",
+   "uri": "DESIGN/SRC/AIK-SRC2K/DSRC",
+   "delete_uri": null,
+   "status_code": null,
+   "before": {
+    "1": {
+     "DGNCODE": "AIK-SRC2K"
+    }
+   },
+   "after": {
+    "1": {
+     "DGNCODE": "AIK-SRC2K"
+    }
+   },
+   "cleared": false,
+   "reason": "no_canonical_route",
+   "note": "`/DESIGN/<族>/…` 的 DELETE 是「写回产品默认值」而非删除；本端点没有 `/db/*` 规范路由 ⇒ **无法**删除。其唯一合法值即产品默认值 ⇒ 重置与 no-op 不可区分。"
+  },
+  {
+   "key": "DESIGN.SRC.AIK-SRC2K.DCO",
+   "uri": "DESIGN/SRC/AIK-SRC2K/DCO",
+   "delete_uri": "DESIGN/SRC/AIK-SRC2K/DCO",
+   "status_code": 200,
+   "before": {
+    "1": {
+     "DGNCODE": "AIK-SRC2K",
+     "SEISMIC": true
+    }
+   },
+   "after": {},
+   "cleared": true,
+   "reason": ""
+  }
+ ],
+ "sentinel_before": {
+  "DB/NODE": {
+   "status": 200,
+   "top": [
+    "NODE"
+   ],
+   "count": 0
+  },
+  "DB/ELEM": {
+   "status": 200,
+   "top": [
+    "ELEM"
+   ],
+   "count": 0
+  },
+  "DB/MATL": {
+   "status": 200,
+   "top": [
+    "MATL"
+   ],
+   "count": 0
+  },
+  "DB/SECT": {
+   "status": 200,
+   "top": [
+    "SECT"
+   ],
+   "count": 0
+  },
+  "DB/STLD": {
+   "status": 200,
+   "top": [
+    "STLD"
+   ],
+   "count": 0
+  },
+  "DB/CNLD": {
+   "status": 200,
+   "top": [
+    "CNLD"
+   ],
+   "count": 0
+  },
+  "DB/CONS": {
+   "status": 200,
+   "top": [
+    "CONS"
+   ],
+   "count": 0
+  },
+  "DB/LCOM-STEEL": {
+   "status": 200,
+   "top": [
+    "LCOM-STEEL"
+   ],
+   "count": 0
+  },
+  "DB/LCOM-CONC": {
+   "status": 200,
+   "top": [
+    "LCOM-CONC"
+   ],
+   "count": 0
+  },
+  "DB/GRUP": {
+   "status": 200,
+   "top": [
+    "GRUP"
+   ],
+   "count": 26
+  },
+  "DESIGN/RC/DRC": {
+   "status": 200,
+   "top": [
+    "DCON"
+   ],
+   "count": 0
+  },
+  "DESIGN/RC/KDS-41-20-2022/DCO": {
+   "status": 200,
+   "top": [
+    "DCORC"
+   ],
+   "count": 0
+  },
+  "DESIGN/SRC/AIK-SRC2K/DSRC": {
+   "status": 200,
+   "top": [
+    "DSRC"
+   ],
+   "count": 1
+  },
+  "DESIGN/SRC/AIK-SRC2K/DCO": {
+   "status": 200,
+   "top": [
+    "SRCDCO"
+   ],
+   "count": 0
+  }
+ },
+ "sentinel_after": {
+  "DB/NODE": {
+   "status": 200,
+   "top": [
+    "NODE"
+   ],
+   "count": 0
+  },
+  "DB/ELEM": {
+   "status": 200,
+   "top": [
+    "ELEM"
+   ],
+   "count": 0
+  },
+  "DB/MATL": {
+   "status": 200,
+   "top": [
+    "MATL"
+   ],
+   "count": 0
+  },
+  "DB/SECT": {
+   "status": 200,
+   "top": [
+    "SECT"
+   ],
+   "count": 0
+  },
+  "DB/STLD": {
+   "status": 200,
+   "top": [
+    "STLD"
+   ],
+   "count": 0
+  },
+  "DB/CNLD": {
+   "status": 200,
+   "top": [
+    "CNLD"
+   ],
+   "count": 0
+  },
+  "DB/CONS": {
+   "status": 200,
+   "top": [
+    "CONS"
+   ],
+   "count": 0
+  },
+  "DB/LCOM-STEEL": {
+   "status": 200,
+   "top": [
+    "LCOM-STEEL"
+   ],
+   "count": 0
+  },
+  "DB/LCOM-CONC": {
+   "status": 200,
+   "top": [
+    "LCOM-CONC"
+   ],
+   "count": 0
+  },
+  "DB/GRUP": {
+   "status": 200,
+   "top": [
+    "GRUP"
+   ],
+   "count": 26
+  },
+  "DESIGN/RC/DRC": {
+   "status": 200,
+   "top": [
+    "DCON"
+   ],
+   "count": 0
+  },
+  "DESIGN/RC/KDS-41-20-2022/DCO": {
+   "status": 200,
+   "top": [
+    "DCORC"
+   ],
+   "count": 0
+  },
+  "DESIGN/SRC/AIK-SRC2K/DSRC": {
+   "status": 200,
+   "top": [
+    "DSRC"
+   ],
+   "count": 1
+  },
+  "DESIGN/SRC/AIK-SRC2K/DCO": {
+   "status": 200,
+   "top": [
+    "SRCDCO"
+   ],
+   "count": 0
+  }
+ },
+ "route_semantics": {
+  "alias_uri": "/DESIGN/RC/DRC",
+  "canonical_uri": "/DB/DCON",
+  "seed": "KDS 41 20 : 2022",
+  "steps": [
+   {
+    "step": "baseline",
+    "state": {
+     "alias": {},
+     "canonical": {}
+    }
+   },
+   {
+    "step": "put_alias",
+    "state": {
+     "alias": {
+      "1": {
+       "DGNCODE": "KDS 41 20 : 2022"
+      }
+     },
+     "canonical": {
+      "1": {
+       "DGNCODE": "KDS 41 20 : 2022"
+      }
+     }
+    }
+   },
+   {
+    "step": "delete_alias",
+    "state": {
+     "alias": {
+      "1": {
+       "DGNCODE": "GB/T50010-10"
+      }
+     },
+     "canonical": {
+      "1": {
+       "DGNCODE": "GB/T50010-10"
+      }
+     }
+    }
+   },
+   {
+    "step": "delete_canonical",
+    "state": {
+     "alias": {},
+     "canonical": {}
+    }
+   }
+  ],
+  "alias_delete_response": "{\"DCON\":{\"1\":{\"DGNCODE\":\"KDS 41 20 : 2022\"}}}",
+  "canonical_delete_response": "{\"DCON\":{\"1\":{\"DGNCODE\":\"GB/T50010-10\"}}}",
+  "verdict": {
+   "alias_delete_clears": false,
+   "alias_delete_writes_default": true,
+   "callback_alias_delete_value": "GB/T50010-10",
+   "canonical_delete_clears": true,
+   "routes_share_storage": true
+  }
+ },
+ "counts": {
+  "steps": 4,
+  "effect_ok": 4,
+  "cleared": 3,
+  "not_cleared": 1
+ }
+}

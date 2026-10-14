@@ -1,0 +1,55 @@
+﻿tier,route,registry_key,solver,server_gen_schema,server_civil_schema,registry_gen,registry_civil,availability,note
+A-归属倒置,/db/ACTL-M1,DB.ACTL-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/BCGA-M1,DB.BCGA-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/BCGD-M1,DB.BCGD-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/EIGV-M1,DB.EIGV-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/EPMT-M1,DB.EPMT-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/HHCT-M1,DB.HHCT-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/IEHG-BEAM-M1,DB.IEHG-BEAM-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/IMFM-M1,DB.IMFM-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/MATL-M1,DB.MATL-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/NLCT-M1,DB.NLCT-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/NLNK-M1,DB.NLNK-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/POGD-M1,DB.POGD-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/POLC-M1,DB.POLC-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/STCT-M1,DB.STCT-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/STYP-M1,DB.STYP-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/THGC-M1,DB.THGC-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/THIS-M1,DB.THIS-M1,HYPER_S,无,有,Y,,unverified,
+A-归属倒置,/db/THOO-M1,DB.THOO-M1,HYPER_S,无,有,Y,,unverified,
+B-我方少声明,/db/DCTL,DB.DCTL,,有,有,Y,,verified,
+B-我方少声明,/db/DSTL,DB.DSTL,,有,有,Y,,verified,
+B-我方少声明,/db/EPSE,DB.EPSE,,有,有,Y,,verified,
+B-我方少声明,/db/ESSF,DB.ESSF,,有,有,Y,,verified,
+B-我方少声明,/db/LENG,DB.LENG,,有,有,Y,,verified,
+B-我方少声明,/db/LLAN,DB.LLAN,,有,有,Y,,verified,
+B-我方少声明,/db/LLANid,DB.LLANID,,有,有,Y,,verified,
+B-我方少声明,/db/LTSR,DB.LTSR,,有,有,Y,,verified,
+B-我方少声明,/db/MBTP,DB.MBTP,,有,有,Y,,verified,
+B-我方少声明,/db/MEMB,DB.MEMB,,有,有,Y,,verified,
+B-我方少声明,/db/POSL,DB.POSL,,有,有,Y,,verified,
+B-我方少声明,/db/POSP,DB.POSP,,有,有,Y,,verified,
+B-我方少声明,/db/WMAK,DB.WMAK,,有,有,Y,,verified,
+C-我方多声明,/db/REBB,DB.REBB,,有,无,Y,Y,verified,
+C-我方多声明,/db/REBC,DB.REBC,,有,无,Y,Y,verified,
+C-我方多声明,/db/REBR,DB.REBR,,有,无,Y,Y,verified,
+C-我方多声明,/db/REBW,DB.REBW,,有,无,Y,Y,verified,
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/REBB,DESIGN.RC.KDS-41-20-2022.REBB,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/REBC,DESIGN.RC.KDS-41-20-2022.REBC,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/REBR,DESIGN.RC.KDS-41-20-2022.REBR,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/REBW,DESIGN.RC.KDS-41-20-2022.REBW,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/TRFT,DESIGN.RC.KDS-41-20-2022.TRFT,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/RC/KDS-41-20-2022/ULCT,DESIGN.RC.KDS-41-20-2022.ULCT,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/DESIGN/STEEL/KDS-41-30-2022/ULCT,DESIGN.STEEL.KDS-41-30-2022.ULCT,,n/a,n/a,Y,,verified,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/DOC/STAGAS,DOC.STAGAS,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/OPE/EDMP,OPE.EDMP,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/OPE/GSBG,OPE.GSBG,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/OPE/GUSTFACTOR,OPE.GUSTFACTOR,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/OPE/MEMB,OPE.MEMB,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/OPE/SSPS,OPE.SSPS,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+C-我方多声明,/OPE/STORYPROP,OPE.STORYPROP,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/POST/STEELCODECHECK,POST.STEELCODECHECK,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+B-我方少声明,/VIEW/PRECAPTURE,VIEW.PRECAPTURE,,n/a,n/a,Y,,untested,（非 /db/* 端点，/info 不作为判据）
+A-归属倒置,/DB/IEHG-GL-M1,DB.IEHG-GL-M1,HYPER_S,n/a,n/a,,Y,unverified,⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）
+A-归属倒置,/DB/IEHG-PSS-M1,DB.IEHG-PSS-M1,HYPER_S,n/a,n/a,,Y,unverified,⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）
+A-归属倒置,/DB/IEHG-TRUSS-M1,DB.IEHG-TRUSS-M1,HYPER_S,n/a,n/a,,Y,unverified,⚠️ 较弱：GET /info 在该端点的两个产品上都 404（对方明载为 /info 的三个例外之一）

@@ -1,0 +1,34 @@
+{
+ "inventory": {
+  "local_endpoint_keys": 636,
+  "local_distinct_uris": 438,
+  "sdk_coverage_endpoints": 400,
+  "sdk_info_baseline_endpoints": 305,
+  "sdk_contracts": 384,
+  "sdk_distinct_uris": 397,
+  "only_local": 53,
+  "only_sdk": 12
+ },
+ "product": {
+  "tier_A_hyper_s_inverted": 21,
+  "tier_B_under_declared": 21,
+  "tier_C_over_declared": 12,
+  "total": 54,
+  "basis": "server /info SCHEMA PRESENCE (not HTTP status)"
+ },
+ "field_diff": {
+  "pairs_compared": 400,
+  "pairs_clean": 337,
+  "pairs_diff": 50,
+  "pairs_no_local_schema": 13,
+  "fields_server_only": 349,
+  "fields_local_only": 229,
+  "type_mismatches": 17
+ },
+ "availability": {
+  "upgrade_candidates_rows": 90,
+  "upgrade_candidates_distinct_keys": 90,
+  "sdk_ledger_records": 249,
+  "sdk_endpoints_with_evidence": 397
+ }
+}

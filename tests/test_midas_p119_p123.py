@@ -586,7 +586,7 @@ def test_p122_product_availability_gaps_are_data_facts() -> None:
     assert "GEN_NX" in registry.endpoint("POST.TABLE").products
     assert registry.endpoint("POST.TABLE").availability == "untested"
     assert registry.endpoint("POST.STEELCODECHECK").products == ("GEN_NX",)
-    assert registry.endpoint("DB.POSL").products == ("GEN_NX",)
+    assert registry.endpoint("DB.POSL").products == ("CIVIL_NX", "GEN_NX")
     assert registry.has("DB.THOO") is False  # `docs/07` §6.9 提到，但数据里没有
 
 
@@ -689,10 +689,21 @@ def test_p123_destructive_guards_reject_before_any_request() -> None:
 
 
 def test_p123_solver_gate_and_disabled_endpoint() -> None:
-    """门槛 ④（`docs/07` §7.3 / §7.6）：求解器门控与 `enabled=false` 一律拒绝。"""
+    """门槛 ④（`docs/07` §7.3 / §7.6）：求解器门控与 `enabled=false` 一律拒绝。
+
+    ⚠️ **NXSDK 外部证据裁决（本批）**：Hyper-S `-M1` 是 **Civil NX 专属**求解器特性
+    （对方 `HYPER_S_ONLY` = 13 implemented + 8 stubs = **21**，live 两次确认
+    "civil GET ok, gen GET fails"；我方 `instances.yaml` 亦记 gen-local 缺 21 个 Hyper-S 变体）。
+    故本用例改为在 **`CIVIL_NX`** 上取该端点 —— 此前取 `GEN_NX` 恰好**编码了**被更正的那个错误归属。
+    """
     registry = support.registry()
     hyper = next(key for key in registry.keys() if registry.endpoint(key).solver == "HYPER_S")
-    resolved = registry.resolve(key=hyper, product="GEN_NX")
+    assert registry.endpoint(hyper).products == ("CIVIL_NX",)
+    from app.infrastructure.adapters.midas.errors import MidasCapabilityError
+
+    with pytest.raises(MidasCapabilityError):
+        registry.resolve(key=hyper, product="GEN_NX")
+    resolved = registry.resolve(key=hyper, product="CIVIL_NX")
     with pytest.raises(MidasSolverUnsupported) as solver:
         guard_solver(resolved, "")
     assert solver.value.code == "STRUCTAI-3000"

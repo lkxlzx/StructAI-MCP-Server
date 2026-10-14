@@ -1,0 +1,399 @@
+{
+ "criterion_version": 1,
+ "note": [
+  "P165-a 前置对账：把 registry 的 636 端点与**官方接口总索引**逐条对照（只读，零请求）。",
+  "来源 = E:\\\\MCP\\\\MAPI\\\\docs 的三本专用手册（各带机器可读总索引，列 = # | 接口代码 | 接口名称 | URL | 方法 | 所在章节）：",
+  "  midas Gen API 专用手册.md（881）· midas Civil NX API 专用手册.md（454）· midas Civil Designer API 专用手册.md（38）。",
+  "⚠️ 抽取的两个坑（已处理）：① 名称列**自带方括号**（如 [新项目[NEW]New Project](#…)）；",
+  "② 若干行（章节 =「英文数据手册（未编入索引）」）的 **URL 列是 —**，真正的 URI 写在名称列里。",
+  "生成器 = .tmp_analysis/p107_reconcile2.py（已归档到 docs/nxsdk_review/scripts/）。",
+  "⚠️ 本文件**不**参与任何 --check 闸门：它是**输入型证据**（供 D6/D7 裁决用），不是可复算的判定点。"
+ ],
+ "source_manuals": {
+  "Gen": 881,
+  "CivilNX": 454,
+  "CivilDesigner": 38
+ },
+ "manual_distinct_urls": 465,
+ "ours_endpoints": 636,
+ "ours_uris": 438,
+ "counts": {
+  "both": 435,
+  "manual_only": 30,
+  "ours_only": 3
+ },
+ "manual_only": {
+  "DB/BREV": [
+   {
+    "product": "Gen",
+    "code": "BREV",
+    "name": "Bearing Evaluation",
+    "url": "db/BREV",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/BRPR": [
+   {
+    "product": "Gen",
+    "code": "BRPR",
+    "name": "Bearing Property",
+    "url": "db/BRPR",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/BSED": [
+   {
+    "product": "Gen",
+    "code": "BSED",
+    "name": "Seismic Perform. Code",
+    "url": "db/BSED",
+    "methods": "GET / PUT / DELETE"
+   }
+  ],
+  "DB/EVGP": [
+   {
+    "product": "Gen",
+    "code": "EVGP",
+    "name": "Evaluation",
+    "url": "db/EVGP",
+    "methods": "GET / POST / PUT / DELETE"
+   },
+   {
+    "product": "Gen",
+    "code": "EVGP",
+    "name": "[EVGP]Evaluation Group",
+    "url": "db/EVGP",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/EVPM": [
+   {
+    "product": "Gen",
+    "code": "EVPM",
+    "name": "Evaluation Parameters",
+    "url": "db/EVPM",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/MPCC": [
+   {
+    "product": "Gen",
+    "code": "MPCC",
+    "name": "Moment Curvatrue",
+    "url": "db/MPCC",
+    "methods": "GET / POST / PUT / DELETE"
+   },
+   {
+    "product": "Gen",
+    "code": "MPCC",
+    "name": "[MPCC]Moment Curvatrue Curve",
+    "url": "db/MPCC",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/SBRI": [
+   {
+    "product": "Gen",
+    "code": "SBRI",
+    "name": "BRIDGE INFORMATION",
+    "url": "db/SBRI",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DB/SUPL": [
+   {
+    "product": "Gen",
+    "code": "SUPL",
+    "name": "Support Length Property",
+    "url": "db/SUPL",
+    "methods": "GET / POST / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DIDP": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DIDP : Design Position",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DIDP",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DIDP-VBEAM": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DIDP-VBEAM : Design Position for Virtual Beam",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DIDP-VBEAM",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DIOP": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DIOP : Output Position",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DIOP",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DIOP-VBEAM": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DIOP-VBEAM : Output Position for Virtual Beam",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DIOP-VBEAM",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DPSC": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DPSC : Design Code Option",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DPSC",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/DSPSC": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/DSPSC : Design Code",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/DSPSC",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/INFS": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/INFS : Interface shear",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/INFS",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/INFS-VBEAM": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/INFS-VBEAM : Interface shear",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/INFS-VBEAM",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/MATD": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/MATD : Modify Material",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/MATD",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/MEMB": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/MEMB : PSC Segment Assignment",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/MEMB",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/MEMB-VBEAM": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/MEMB-VBEAM : PSC Segment Assignment",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/MEMB-VBEAM",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/PSC-ANAL": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/PSC-ANAL : Perform Design",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/PSC-ANAL",
+    "methods": "POST"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/RPSC": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/RPSC : Logitudinal Rebar-Reinforcements",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/RPSC",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/SECF": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/SECF : Logitudinal Rebar-Stiffness",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/SECF",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/SLCT": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/SLCT : Serviceability Load Combination Type",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/SLCT",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/PSC/AASHTO-LRFD24/TABLE": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check Combined Shear and Torsion Strength",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check Flexure Strength",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check Shear Strength",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check crack width at service loads",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check stress for cross section at a construction stage",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST / GET / DELETE / PUT"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check stress for cross section at service loads",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Check tensile stress for Prestressing tendons",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Design Forces",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Principal stress at a construction stage",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Principal stress at a construction stage",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Principal stress at service loads",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   },
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/PSC/AASHTO-LRFD24/TABLE : Principal stress at service loads (excluding torsional shear stress)",
+    "url": "DESIGN/PSC/AASHTO-LRFD24/TABLE",
+    "methods": "POST"
+   }
+  ],
+  "DESIGN/SECT": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "DESIGN/SECT : Section for Design",
+    "url": "DESIGN/SECT",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "DESIGN/STEEL/KDS-41-30-2022/OCHECK": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "Steel Optimal Design",
+    "url": "DESIGN/STEEL/KDS-41-30-2022/OCHECK",
+    "methods": "POST"
+   }
+  ],
+  "RATING/PSC/AASHTO-LRFR19/DFRC": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "RATING/PSC/AASHTO-LRFR19/DFRC : Define Rating Case",
+    "url": "RATING/PSC/AASHTO-LRFR19/DFRC",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "RATING/PSC/AASHTO-LRFR19/PFRO": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "RATING/PSC/AASHTO-LRFR19/PFRO : Position for Rating Output",
+    "url": "RATING/PSC/AASHTO-LRFR19/PFRO",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "RATING/PSC/AASHTO-LRFR19/PFRO-VBEAM": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "RATING/PSC/AASHTO-LRFR19/PFRO-VBEAM : Position for Rating Output",
+    "url": "RATING/PSC/AASHTO-LRFR19/PFRO-VBEAM",
+    "methods": "POST / GET / PUT / DELETE"
+   }
+  ],
+  "RATING/PSC/AASHTO-LRFR19/RPSC-ANAL": [
+   {
+    "product": "Gen",
+    "code": "",
+    "name": "RATING/PSC/AASHTO-LRFR19/RPSC-ANAL : Perform Rating",
+    "url": "RATING/PSC/AASHTO-LRFR19/RPSC-ANAL",
+    "methods": "POST"
+   }
+  ]
+ },
+ "ours_only": {
+  "DB/KFAC": [
+   "DB.KFAC"
+  ],
+  "DB/ULCT": [
+   "DB.ULCT"
+  ],
+  "OPE/STORYPROP": [
+   "OPE.STORYPROP"
+  ]
+ }
+}

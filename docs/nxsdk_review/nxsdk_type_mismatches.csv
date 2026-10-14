@@ -1,0 +1,18 @@
+﻿route,product,registry_key,path,ours,server,server_description,our_description,schema,sdk_contract_type,sdk_contract_provenance,verdict
+/db/EPSE,GEN_NX,DB.EPSE,LOADING_AREA_GROUP,integer,string,Load Area Group Name,Load Area Group,schema/products/gen_nx/db/EPSE.json,integer,manual,⏸ 不改（契约支持我方）
+/db/EPST,GEN_NX,DB.EPST,LOADING_AREA_GROUP,integer,string,Load Area Group Name,Load Area Group,schema/products/gen_nx/db/EPST.json,integer,manual,⏸ 不改（契约支持我方）
+/db/FIBR,GEN_NX,DB.FIBR,FIMP_COLOR[].B,integer,number,Blue,Blue,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIBR,GEN_NX,DB.FIBR,FIMP_COLOR[].G,integer,number,Green,Green,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIBR,GEN_NX,DB.FIBR,FIMP_COLOR[].R,integer,number,Red,Red,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIBR,CIVIL_NX,DB.FIBR,FIMP_COLOR[].B,integer,number,Blue,Blue,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIBR,CIVIL_NX,DB.FIBR,FIMP_COLOR[].G,integer,number,Green,Green,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIBR,CIVIL_NX,DB.FIBR,FIMP_COLOR[].R,integer,number,Red,Red,schema/common/db/FIBR.json,(契约无此字段),,🟡 待我方复测
+/db/FIMP,GEN_NX,DB.FIMP,CONC.JP_H14.EARTHQUAKE_TYPE,number,integer,Earthquake Type,EarthquakeType,schema/common/db/FIMP.json,(契约无此字段),,🟡 待我方复测
+/db/FIMP,CIVIL_NX,DB.FIMP,CONC.JP_H14.EARTHQUAKE_TYPE,number,integer,Earthquake Type,EarthquakeType,schema/common/db/FIMP.json,(契约无此字段),,🟡 待我方复测
+/db/NLLP,GEN_NX,DB.NLLP,SEIS_TYPE,integer,string,Seismic Control Devices Type,SeismicControlDevicesType,schema/common/db/NLLP.json,(契约无此字段),,🟡 待我方复测
+/db/NLLP,CIVIL_NX,DB.NLLP,SEIS_TYPE,integer,string,Seismic Control Devices Type,SeismicControlDevicesType,schema/common/db/NLLP.json,(契约无此字段),,🟡 待我方复测
+/db/POGD-M1,CIVIL_NX,DB.POGD-M1,ITER_CTRL.LINE_SEARCH.LINE_SEARCH_OPT,string,integer,"Line Search Option (AUTO:0, USER:1)",Enable Line Search / Auto·User / Max Line Search Iter / Tol,schema/products/gen_nx/db/POGD-M1.json,(契约无此字段),,🟡 待我方复测
+/db/RPSC,GEN_NX,DB.RPSC,SBAR_ITEMS[].LBAR_INC_FC,number,boolean,Include Flange/Cantilever,IncludeFlange/Cantilever,schema/common/db/RPSC.json,integer,manual,⏸ 不改（三方差歧）
+/db/RPSC,CIVIL_NX,DB.RPSC,SBAR_ITEMS[].LBAR_INC_FC,number,boolean,Include Flange/Cantilever,IncludeFlange/Cantilever,schema/common/db/RPSC.json,integer,manual,⏸ 不改（三方差歧）
+/db/TDME,GEN_NX,DB.TDME,PZ,integer,number,P-z,P-z,schema/common/db/TDME.json,(契约无此字段),,🟡 待我方复测
+/db/TDME,CIVIL_NX,DB.TDME,PZ,integer,number,P-z,P-z,schema/common/db/TDME.json,(契约无此字段),,🟡 待我方复测

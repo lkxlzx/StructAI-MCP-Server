@@ -121,24 +121,24 @@ EXPECTED_BOUNDARY_VERDICT = "assign_node_keyed_items,assign_node_keyed_items_no_
 
 EXPECTED_FIELD_GAP = {
     "template_endpoints": 71,
-    "with_transformer": 15,
-    "without_transformer": 56,
+    "with_transformer": 17,
+    "without_transformer": 54,
     "field_set_gap": 3,
     "value_gap": 2,
-    "no_canonical_model": 56,
-    "covered": 10,
+    "no_canonical_model": 54,
+    "covered": 12,
 }
 """⚠️ **P157 同步（有实测依据）**：**D2 = A 落地**后接口层的 `CONSTRAINT` 由 **6** 位变 **7** 位，
 与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`
 （取值缺口 **3 → 2**、已覆盖 **5 → 6**；字段集缺口仍 **2**、模板端点仍 **71 = 10 + 61**）。
 依据 = `registry/live/{interface_path_probe,canonical_field_gap}.json`（`--recon` 复算）。"""
-EXPECTED_GAP_TOTAL = 510
-EXPECTED_GAP_NOT_IN_CONTRACT = 264
+EXPECTED_GAP_TOTAL = 489
+EXPECTED_GAP_NOT_IN_CONTRACT = 243
 EXPECTED_GAP_NO_READBACK = 246
 EXPECTED_CLASSIFICATION_ADOPTION = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 213,
+    "needs_product_decision": 192,
 }
 EXPECTED_WRITE_PATH_TOTAL = 633
 EXPECTED_MODEL_WRITE_TOTAL = 434
