@@ -2111,3 +2111,84 @@ P168 的 **9** 项留缺里 **5** 项在本批**收口**（**A** 组 3 项 + **B
 （各自默认预演 / `--probe` 真机 / `--check` 离线自洽）·
 证据 `registry/live/{parts_disposition,post_text,lcom_dgncode,load_case_comb}_probe.json` ·
 勘误 `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **§1.6b**（**E-01** / **E-02** / **E-03**）。
+
+---
+
+### 8.24 P170：P169 的**不可判别 3 项**⇒ **可判别化**（**R163**）
+
+#### 8.24.1 一句话结论
+
+P169 判为「**不可判别**」的 **3** 个 `PARTS` 端点（本模型无该表数据 ⇒ 基线就是**空块**），
+本批**建了一个带相应结果的自建模型** ⇒ 重跑**同一份**探针（**判据已就位**）⇒ **6 / 6** 个端点**可判别**。
+⚠️ **最大产出不是「又收口 3 项」，而是发现 P169 的「需要什么」写错了一处**：
+
+> P169 写 `RESULTANT_FORCES` 「需**板 / 实体**单元」—— **不准确**。
+> 手册 `db/VSEC`（虚拟截面）+ `db/VBEM`（虚拟梁）表明该表由**虚拟梁**驱动
+> ⇒ 缺的是**虚拟截面定义**，**不是**板单元。本批**两样都建**（板网格 + 虚拟截面）以一次消除疑点。
+
+#### 8.24.2 可判别化：模型与判据
+
+| 项 | 值 |
+| --- | --- |
+| 模型 | `.tmp_p164c/p170-discriminator.mgbx`（**新建**；`.gitignore` 内） |
+| 构成 | **37** 节点 / **25** 单元（**24** 板 + **1** 梁）· 厚度 `VALUE 0.1` · H 截面 · **虚拟截面 ×2** · **虚拟梁 ×1** · 边界 **6** · 工况 `DL` + 自重 + 柱顶荷载 |
+| 钢结构设计 | `DSTL → DCO → DCTL → MEMB → LCOM-STEEL → CODE-ANAL`（**逐字照** `operations.py` 的 `DESIGN.STEEL`，**R141**） |
+| **判据（铁律 ⓪）** | **结果表数据行数** —— `RESULTANT_FORCES` **4** · `RESULTANT_FORCESVBM` **24** · `STEELMEMBERDESIGNFORCES` **5** |
+| 生成器 | `registry/tools/build_parts_discriminator_p170.py`（默认预演 / `--build` 真机 / `--check` 离线自洽） |
+| 证据 | `registry/live/parts_discriminator_p170.json`（建模 + 设计链 + 行数 + 哨兵） |
+
+#### 8.24.3 逐取值实测（证据 = `registry/live/parts_disposition_probe_p170.json`）
+
+| 端点 | 基线 | **有效**（真的过滤） | **无效**（空块，与伪取值 `PartZ` **同形**） |
+| --- | ---: | --- | --- |
+| `POST.TABLE.RESULTANT_FORCES` | 4 | `PartI` / `PartJ` | — |
+| `POST.TABLE.RESULTANT_FORCESVBM` | 24 | `PartI` / `PartJ` | — |
+| `DESIGN.STEEL.KDS-41-30-2022.TABLE` | 5 | `PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` | ⚠️ **`All`** |
+| `POST.TABLE.BEAMFORCE` | 10 | `PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` | `Part1` |
+| `POST.TABLE.BEAMFORCEVBM` | 70 | 同上 | `Part1` |
+| `POST.TABLE.THISBEAMFORCE` | 2 | `PartI` / `PartJ` | `Part1/4` / `Part2/4` / `Part3/4`（该表**没有**这些部位） |
+
+⚠️ **`All` 是 `DESIGN.STEEL.…TABLE` 的 `PARTS.default`**，实测**空块** ⇒ **E-05**。
+⚠️ **`Part1` 仍是「留着」的**（**只增不减**：未断言它「非法」，只是**没有证据**支持它）。
+
+#### 8.24.4 顺带实测的**三条**原生事实（勘误 §1.6c）
+
+| 编号 | 内容 | 性质 |
+| --- | --- | --- |
+| **E-04** | `db/ELEM` 的 **`STYPE: 0` 对 `PLATE` 非法**（⇒ 整批 `400` 回滚，**一个板都建不出来**）；**梁**单元带 `STYPE: 0` **正常** | **按类型受限的字段**（手册**未**提） |
+| **E-05** | `DESIGN.STEEL.KDS-41-30-2022.TABLE` 的 `PARTS.default = ['All']` 实测**空块** | **声明的 `default` 错**（与 **E-02** **同族、结论相反**） |
+| **E-06** | `DESIGN.STEEL.DSTL` 的 `PUT` ⇒ `400 Wrong Field`（**已知**，Civil 上同样） | **不**阻塞设计链（`DCO` 的体自带 `DGNCODE`）⇒ **如实记录**，**不**改 `app/**` |
+
+#### 8.24.5 计数与台账（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** |
+| 台账（`check_spec_enums.py` 的 `DISPOSITIONS`） | **17 → 19** 项（**收口 11 → 14** · **留缺 7 → 3**） |
+| 普查标志「拦住手册自己的示例」 | **1 → 1**（余 `DESIGN.STEEL.…TABLE` 的 `All` —— **E-05**，待**产品侧**澄清） |
+| 枚举约束总数 / 端点 / Schema 文件 | **不变**（754 / 636 / 625） |
+| 生成器 `sync_parts_enum.py` | **合并两份证据**（纯梁 + 可判别模型）· **修一处判据 v2 的漏洞**（见 8.24.6） |
+
+#### 8.24.6 本批修掉的一个**判据 v2 的漏洞**（**R151 的镜像**）
+
+`sync_parts_enum.py` 原先的规则是「端点**可判别** ⇒ 来源①（手册示例体）**全量**入枚举」。
+本批**实测**发现该规则会**误收**：`DESIGN.STEEL.…TABLE` 的示例体取值是 **`All`**，
+而 `All` **实测无效**（空块）⇒ 原规则会把**实测无效**的取值写进枚举 = **按示例体硬凑**
+（正是 **R151** 要防的，只是方向相反）。
+⇒ **修正**：可判别时来源①必须与**实测有效**取交集。⚠️ 修正后**零差异**（`All` 当时**未**落盘）。
+
+#### 8.24.7 仍未闭环（**如实留缺 3 项**，全部是**产品 / 数据侧**）
+
+| 项 | 为什么**不**在本批收口 |
+| --- | --- |
+| `OPE.LCOM-GEN::DGNCODE` | **不可判别**：本 build 对**任何**取值都 `Wrong Field`（**形状**不符）⇒ 需**产品侧**给出请求形状 |
+| `OPE.LINEBMLD::TYPE` | **口径不清**：`TYPE` 是「荷载类型枚举」还是「类型编号」？ |
+| `OPE.GSBG::BRDG_GROUP` | **是否受控词表**未知（`BG_LEFT` / `BG_RIGHT`） |
+
+⚠️ 这 **3** 个端点**都不在**任何 OperationPlan 的生产路径上（`operations.py` 里 0 处）。
+
+**可执行判定** = `tests/test_midas_parts_decidable_p170.py`（**13** 项）·
+生成器 `registry/tools/build_parts_discriminator_p170.py` ·
+探针 `registry/tools/probe_parts_disposition_p169.py --project .tmp_p164c/p170-discriminator.mgbx --evidence registry/live/parts_disposition_probe_p170.json --probe` ·
+证据 `registry/live/{parts_discriminator,parts_disposition_probe}_p170.json` ·
+勘误 `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **§1.6c**（**E-04** / **E-05** / **E-06**）。

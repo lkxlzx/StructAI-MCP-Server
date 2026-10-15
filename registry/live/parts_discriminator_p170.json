@@ -1,0 +1,167 @@
+{
+ "phase": "discriminator",
+ "instance_alias": "gen-local",
+ "probed_at": "2026-10-15",
+ "project": ".tmp_p164c/p170-discriminator.mgbx",
+ "model": [
+  {
+   "label": "单位 M/KN",
+   "uri": "/db/unit",
+   "status": 200,
+   "readback": null,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "材料 STEEL（手册 db/MATL 示例）",
+   "uri": "/db/matl",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "厚度 VALUE 0.1（手册 db/THIK 示例）",
+   "uri": "/db/thik",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "截面 H（手册 db/SECT 示例取值逐字）",
+   "uri": "/db/sect",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "节点 37 个",
+   "uri": "/db/node",
+   "status": 201,
+   "readback": 37,
+   "expected": 37,
+   "ok": true
+  },
+  {
+   "label": "单元 25 个（24 板 + 1 梁）",
+   "uri": "/db/elem",
+   "status": 201,
+   "readback": 25,
+   "expected": 25,
+   "ok": true
+  },
+  {
+   "label": "边界 6 个",
+   "uri": "/db/cons",
+   "status": 201,
+   "readback": 6,
+   "expected": 6,
+   "ok": true
+  },
+  {
+   "label": "工况 DL",
+   "uri": "/db/stld",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "自重 FV=[0,0,-1]",
+   "uri": "/db/bodf",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "柱顶节点荷载（节点 37）",
+   "uri": "/db/cnld",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "虚拟截面 1（板带 y∈[1,2]）",
+   "uri": "/db/vsec",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "虚拟截面 2（板带 y∈[2,3]）",
+   "uri": "/db/vsec",
+   "status": 201,
+   "readback": 2,
+   "expected": 1,
+   "ok": true
+  },
+  {
+   "label": "虚拟梁 1 = VSEC1 + VSEC2",
+   "uri": "/db/vbem",
+   "status": 201,
+   "readback": 1,
+   "expected": 1,
+   "ok": true
+  }
+ ],
+ "design": [
+  {
+   "label": "① 设计规范 DSTL",
+   "uri": "/DESIGN/STEEL/DSTL",
+   "status": 400,
+   "ok": false
+  },
+  {
+   "label": "② 设计选项 DCO",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "③ 框架控制 DCTL",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "④ 构件指派 MEMB",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "⑤ 荷载组合 LCOM-STEEL",
+   "uri": "/DB/LCOM-STEEL",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "⑥ 设计执行 CODE-ANAL",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+   "status": 200,
+   "ok": true
+  }
+ ],
+ "table_rows": {
+  "RESULTANT_FORCES": 4,
+  "RESULTANT_FORCESVBM": 24,
+  "BEAMFORCE": 10,
+  "STEELMEMBERDESIGNFORCES": 5
+ },
+ "sentinel": {
+  "NODE": 37,
+  "ELEM": 25,
+  "MATL": 1,
+  "SECT": 1,
+  "THIK": 1,
+  "VSEC": 2,
+  "VBEM": 1
+ },
+ "verdict": "PASSED",
+ "note": "A 组：建一个**可判别**的模型（板网格 + 虚拟截面/虚拟梁 + 钢结构设计结果）⇒ 让 P169 判为「不可判别」的 **3** 个 `PARTS` 端点能被裁决。判据 = **效果**（`POST.TABLE` 的**数据行数** > 0），**不是**状态码。⚠️ **E-04**：`db/ELEM` 的 `STYPE: 0` 对 `PLATE` 非法（整批 `400` 回滚）；⚠️ **E-05**：`DESIGN.STEEL.KDS-41-30-2022.TABLE` 的 `PARTS` 声明含 `All`，实测**空块**；⚠️ **E-06**：`DESIGN.STEEL.DSTL` 实测 `400 Wrong Field`（**已知**：Civil 上同样如此），**不**阻塞设计链 —— `DCO` 的体**自带** `DGNCODE` ⇒ 设计**真的**出结果。"
+}

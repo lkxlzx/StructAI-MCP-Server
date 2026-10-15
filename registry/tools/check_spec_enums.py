@@ -196,25 +196,25 @@ _PARTS_CLOSED: Final[Disposition] = Disposition(
 )
 """`PARTS` 的「声明 vs 示例」冲突（**P169 真机裁决后收口**；见 `sync_parts_enum.py`）。"""
 
-_PARTS_UNDECIDABLE: Final[Disposition] = Disposition(
-    status="left_open",
-    ruling="R162",
+_PARTS_DECIDED_P170: Final[Disposition] = Disposition(
+    status="closed",
+    ruling="R163",
     reason=(
-        "**拦住手册自己的示例** / **来源太窄**，但 **P169 真机裁决**判定为**不可判别**："
-        "本模型（自建混凝土简支梁）**没有**该表的数据 ⇒ **不带** `PARTS` 的**基线**就是**空块**"
-        "⇒ 无法区分「取值无效」与「模型无数据」。"
-        "⚠️ **不**按示例体硬凑（**R151** 的教训）⇒ **不**收口，**如实留缺**。"
+        "**P169 判为不可判别**（本模型无该表数据 ⇒ 基线就是空块），**P170 可判别化**："
+        "建了一个**带相应结果**的自建模型（`registry/tools/build_parts_discriminator_p170.py`；"
+        "**板网格 + 虚拟截面/虚拟梁**供 `RESULTANT_FORCES`；**钢结构设计**供 `DESIGN.STEEL.…TABLE`）"
+        "⇒ 重跑 `registry/tools/probe_parts_disposition_p169.py --probe` "
+        "（证据 = `registry/live/parts_disposition_probe_p170.json`）⇒ **6 / 6** 个端点**可判别**。"
+        "⚠️ **P170 更正 P169 的「需要什么」**：`RESULTANT_FORCES` **不是**要**板 / 实体**单元，"
+        "而是要**虚拟截面**（手册 `db/VSEC` + `db/VBEM`）—— 本批**两样都建**以一次消除疑点。"
+        "实测：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；"
+        "`Part1` ⇒ **空块**（与伪取值 `PartZ` **同形**）⇒ 上游声明是**笔误**；"
+        "⚠️ `DESIGN.STEEL.…TABLE` 的 `PARTS.default = ['All']` 实测**空块** ⇒ 声明可疑（**E-05**）。"
+        "来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。"
     ),
-    ask=(
-        "需要一个**有该表数据**的模型（`RESULTANT_FORCES` 需**板 / 实体**单元；"
-        "`DESIGN.STEEL.KDS-41-30-2022.TABLE` 需**钢结构设计**结果）⇒ 重跑 "
-        "`python registry/tools/probe_parts_disposition_p169.py --probe` 即可裁决。"
-        "⚠️ 本批**已登记勘误**（`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`）："
-        "`Part1` 与同一份手册**规格表**的 `Part I` 矛盾 ⇒ 上游声明可疑，"
-        "但**未**在这 3 个端点上取得直接证据（不可判别）。"
-    ),
+    generator="registry/tools/sync_parts_enum.py",
 )
-"""`PARTS` 冲突里**不可判别**的 3 个端点（模型无数据 ⇒ **如实留缺** + 写明恢复条件）。"""
+"""`PARTS` 冲突里 P169 **不可判别**、P170 **可判别化**的 3 个端点（**R163** 收口）。"""
 
 
 DISPOSITIONS: Final[dict[str, Disposition]] = {
@@ -318,9 +318,9 @@ DISPOSITIONS: Final[dict[str, Disposition]] = {
     "POST.TABLE.BEAMFORCE::PARTS": _PARTS_CLOSED,
     "POST.TABLE.BEAMFORCEVBM::PARTS": _PARTS_CLOSED,
     "POST.TABLE.THISBEAMFORCE::PARTS": _PARTS_CLOSED,
-    "POST.TABLE.RESULTANT_FORCES::PARTS": _PARTS_UNDECIDABLE,
-    "POST.TABLE.RESULTANT_FORCESVBM::PARTS": _PARTS_UNDECIDABLE,
-    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": _PARTS_UNDECIDABLE,
+    "POST.TABLE.RESULTANT_FORCES::PARTS": _PARTS_DECIDED_P170,
+    "POST.TABLE.RESULTANT_FORCESVBM::PARTS": _PARTS_DECIDED_P170,
+    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": _PARTS_DECIDED_P170,
 }
 """标志项 → 处置。⚠️ `--check` 断言**每一个**标志项都在此表里（缺口**不许静默**）。"""
 

@@ -55,7 +55,14 @@ REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 """仓库根目录（`registry/tools/` 的上两级）。"""
 
 EVIDENCE: Final[pathlib.Path] = REPO / "registry" / "live" / "parts_disposition_probe.json"
-"""证据落点（**不含**凭据、**不含**响应原文；只留结构形态、状态码、行数与首行样本）。"""
+"""证据落点（**不含**凭据、**不含**响应原文；只留结构形态、状态码、行数与首行样本）。
+
+⚠️ **P170**：本探针在**不同模型**上跑会得到**不同**的裁决（`PARTS` 的「有效取值」**随模型**变）——
+`--evidence` 可把**别的模型**的结果写到**另一个**文件，**不**覆盖 P169 的证据。
+"""
+
+EVIDENCE_OVERRIDE: pathlib.Path | None = None
+"""`--evidence` 的落点（`None` ⇒ 用 `EVIDENCE`）。"""
 
 DEFAULT_PROJECT: Final[str] = ".tmp_p164c/p164c-concrete.mgbx"
 """自建项目（**只碰它**；它**已有分析结果** —— 判据的前提）。"""
@@ -539,9 +546,10 @@ def run_probe(repo: pathlib.Path, project: str) -> int:
             "模型无数据的端点 ⇒ **不可判别**，**如实留缺**（**不**猜、**不**算通过）。"
         ),
     }
-    EVIDENCE.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    destination = EVIDENCE_OVERRIDE or EVIDENCE
+    destination.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"⇒ 判定：{'✅ PASSED' if passed else '❌ FAILED'}")
-    print(f"wrote {EVIDENCE.relative_to(REPO)}")
+    print(f"wrote {destination.relative_to(REPO)}")
     return 0 if passed else 1
 
 
@@ -626,7 +634,15 @@ def main() -> int:
     parser.add_argument("--project", default=DEFAULT_PROJECT, help="自建项目（相对仓库根）")
     parser.add_argument("--probe", action="store_true", help="真发请求（默认只预演）")
     parser.add_argument("--check", action="store_true", help="离线自洽断言（零请求）")
+    parser.add_argument(
+        "--evidence",
+        default="",
+        help="证据落点（相对仓库根；默认 registry/live/parts_disposition_probe.json）",
+    )
     args = parser.parse_args()
+    global EVIDENCE_OVERRIDE  # noqa: PLW0603 - 单次运行的落点覆盖（`--check` 不受影响）
+    if args.evidence:
+        EVIDENCE_OVERRIDE = (REPO / args.evidence).resolve()
     if args.check:
         return check_offline(REPO)
 

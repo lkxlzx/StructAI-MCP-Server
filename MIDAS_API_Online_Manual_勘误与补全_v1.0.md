@@ -222,6 +222,22 @@ CIVIL_NX 产品级只读探针（`registry/live/civil_product_probe.json`，**�
 ⚠️ **E-01 的影响面比看起来大**：按**旧** Schema 发的 `TABLE_TYPE` 请求**全部**会被原生回
 `400 Wrong Field` —— 也就是说 `POST.TEXT` 这个端点**在收口前根本用不了**。
 
+#### 1.6c 枚举取值「同形」类（**P170 实测登记**）
+
+> 来源 = **我方实例实测**（`gen-local`，自建**可判别**模型 `.tmp_p164c/p170-discriminator.mgbx`，
+> 板网格 35 节点 / 24 板单元 + 1 钢柱 + 虚拟截面 ×2 + 虚拟梁 ×1 + 钢结构设计结果）；
+> 证据 = `registry/live/{parts_discriminator,parts_disposition_probe}_p170.json`。
+> 判据 = **真的过滤**（有数据行 ∧ **少于**基线）—— **不**是状态码（**铁律 ⓪**）。
+
+| 编号 | 端点 | 手册**声明** | 我方**实测** | 裁决 |
+| --- | --- | --- | --- | --- |
+| **E-04** | `/db/ELEM` 的 `STYPE`（**板**单元） | 手册**板示例**给 `NODE` 补零到 **8** 项、**未**提 `STYPE` | `STYPE: 0` + `TYPE: "PLATE"` ⇒ `400 发现错误，将数据 单元 输入给了单元号 N`（**整批回滚**，一个板都建不出来）；**去掉** `STYPE`（或给 `1` / `3`）⇒ `201` ∧ **真的建出**。⚠️ **梁**单元带 `STYPE: 0` **正常** | **`STYPE` 对 `PLATE` 是「按类型受限」的字段**：`0` 非法 ⇒ 我方 Schema **不**声明它（`additionalProperties` 不拦未声明字段，故**不**收紧闸门） |
+| **E-05** | `/DESIGN/STEEL/KDS-41-30-2022/TABLE` 的 `PARTS` | `default: ["All"]` | `All` ⇒ **空块**（与**伪**取值 `PartZ` **同形**）；`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**（5 → 1 行） | **`default` 可疑**（与 **E-02** 同族：声明的取值实测**不过滤**）。⚠️ **不**收口 `All`、**也****不**删它（**只增不减**）；登记待**产品侧**澄清 |
+| **E-06** | `/DESIGN/STEEL/DSTL` 的请求体 | 手册方法 `GET, PUT, DELETE` | `PUT {"Assign": {"DGNCODE": "KDS 41 30 : 2022"}}` ⇒ **`400 Wrong Field`**。⚠️ **不**阻塞设计链：`DCO` 的体**自带** `DGNCODE` ⇒ 设计**真的**跑出结果（`STEELMEMBERDESIGNFORCES` **5** 行） | **已知**（`docs/nxsdk_review/evidence/02_实测发现_中文摘要.md` 记 Civil 上同样如此）⇒ 本批**如实记录**，**不**改 `app/**` |
+
+⚠️ **E-05 是 E-02 的**镜像**但结论相反**：`E-02` 的 `Part1` 是**声明错**（示例体 `PartI` 对）；
+`E-05` 的 `All` 是**声明的 `default` 错** —— 两条都说明「**声明的取值也可能不判别任何东西**」。
+
 ---
 
 ### 1.7 示例不可运行类

@@ -56,8 +56,17 @@ MANUAL_FILENAMES: Final[tuple[str, ...]] = (
 )
 """上游手册（与 `check_spec_enums.py` 的**同一**口径）。"""
 
-PROBE_FILENAME: Final[str] = "parts_disposition_probe.json"
-"""真机裁决证据（来源③；**不含**凭据 / 响应原文）。"""
+PROBE_FILENAMES: Final[tuple[str, ...]] = (
+    "parts_disposition_probe.json",
+    "parts_disposition_probe_p170.json",
+)
+"""真机裁决证据（来源③；**不含**凭据 / 响应原文）。
+
+⚠️ **P170**：`PARTS` 的「有效取值」**随模型**变（同一个端点在不同模型上会过滤出**不同**的
+部位集合）⇒ **同一份探针**在**两个模型**上各留一份证据：
+① `.tmp_p164c/p164c-concrete.mgbx`（**纯梁**）—— P169 的原始证据；
+② `.tmp_p164c/p170-discriminator.mgbx`（**板网格 + 虚拟截面 + 钢结构设计**）—— P170 的可判别化证据。
+**合并口径**：**任一**证据判为**可判别** ⇒ 该端点**可判别**（取**并集**的实测有效取值）。"""
 
 PARTS_DESCRIPTION: Final[str] = (
     "输出部位（PARTS）。取值 = **三个可复算来源的并集**：① 上游手册**本端点**文章的示例体"
@@ -134,7 +143,7 @@ def manual_parts(repo: pathlib.Path, key: str) -> list[str]:
 
 
 def probe_values(repo: pathlib.Path, key: str) -> list[str]:
-    """来源②：真机裁决证据里**实测有效**的取值（**没有**证据 ⇒ 空）。
+    """来源③：真机裁决证据里**实测有效**的取值（**没有**证据 ⇒ 空）。
 
     ⚠️ **门槛**：只有 `verdict.decidable`（基线**有**数据行）的端点才算 ——
     取值本身必须 `measured[value].valid`（**有**数据行 ∧ **少于**基线 = **真的过滤**）。
@@ -143,19 +152,24 @@ def probe_values(repo: pathlib.Path, key: str) -> list[str]:
     ⚠️ **候选集合 = 手册示例体取值 ∪ 已落盘声明取值**（探针**逐条**实测）⇒
     声明里**被证伪**的取值（`Part1` ⇒ 空块）**不**入来源、但**仍**留在枚举里
     （**只增不减** —— 未断言它「非法」，只是**没有证据**支持它）。
+
+    ⚠️ **P170 起合并多份证据**（见 `PROBE_FILENAMES`）：逐份读，**任一**判为**可判别**即
+    该端点可判别，实测有效取值取**并集**（同一个端点在不同模型上过滤出的部位集合不同）。
     """
-    path = repo / "registry" / "live" / PROBE_FILENAME
-    if not path.is_file():
-        return []
-    document = json.loads(path.read_text(encoding="utf-8"))
-    for row in document.get("targets") or []:
-        if str(row.get("endpoint") or "") != key:
+    valid: set[str] = set()
+    for filename in PROBE_FILENAMES:
+        path = repo / "registry" / "live" / filename
+        if not path.is_file():
             continue
-        if not (row.get("verdict") or {}).get("decidable"):
-            return []
-        measured = row.get("measured") or {}
-        return sorted(str(value) for value, item in measured.items() if item.get("valid"))
-    return []
+        document = json.loads(path.read_text(encoding="utf-8"))
+        for row in document.get("targets") or []:
+            if str(row.get("endpoint") or "") != key:
+                continue
+            if not (row.get("verdict") or {}).get("decidable"):
+                continue
+            measured = row.get("measured") or {}
+            valid.update(str(value) for value, item in measured.items() if item.get("valid"))
+    return sorted(valid)
 
 
 def manifest_entries(repo: pathlib.Path) -> list[dict[str, Any]]:
@@ -218,6 +232,12 @@ def targets(repo: pathlib.Path) -> list[dict[str, Any]]:
             continue
         probed = probe_values(repo, key)
         manual = manual_parts(repo, key) if probed else []
+        # ⚠️ **P170 修正（判据 v2 的一致性）**：端点**可判别**时，来源①（手册示例体）必须与
+        # **实测有效**取交集 —— 否则会把**实测无效**的示例体取值（`DESIGN.STEEL.…` 的 `All`
+        # ⇒ 空块，与伪取值**同形**）当成收口来源写进枚举（= **按示例体硬凑**，**R151** 的镜像事故）。
+        if probed:
+            valid = set(probed)
+            manual = [value for value in manual if value in valid]
         expected = sorted(set(disk) | set(manual) | set(probed))
         found.append(
             {

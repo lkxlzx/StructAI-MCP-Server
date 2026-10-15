@@ -27,7 +27,7 @@
     "registry/live/introspect_field_diff.json"
    ],
    "role": "弱来源（示例体 / 规格表 / 上游文档 / 自省；**只**用于分档 untraceable）",
-   "tokens": 30603
+   "tokens": 30614
   },
   "note": "「手册声明」**不**包含示例体取值（**R151** 的教训：**不**按手册**示例体**硬凑）；示例体只作弱来源。"
  },
@@ -12498,10 +12498,11 @@
  "dispositions": [
   {
    "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS",
-   "status": "left_open",
-   "ruling": "R162",
-   "reason": "**拦住手册自己的示例** / **来源太窄**，但 **P169 真机裁决**判定为**不可判别**：本模型（自建混凝土简支梁）**没有**该表的数据 ⇒ **不带** `PARTS` 的**基线**就是**空块**⇒ 无法区分「取值无效」与「模型无数据」。⚠️ **不**按示例体硬凑（**R151** 的教训）⇒ **不**收口，**如实留缺**。",
-   "ask": "需要一个**有该表数据**的模型（`RESULTANT_FORCES` 需**板 / 实体**单元；`DESIGN.STEEL.KDS-41-30-2022.TABLE` 需**钢结构设计**结果）⇒ 重跑 `python registry/tools/probe_parts_disposition_p169.py --probe` 即可裁决。⚠️ 本批**已登记勘误**（`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`）：`Part1` 与同一份手册**规格表**的 `Part I` 矛盾 ⇒ 上游声明可疑，但**未**在这 3 个端点上取得直接证据（不可判别）。"
+   "status": "closed",
+   "ruling": "R163",
+   "reason": "**P169 判为不可判别**（本模型无该表数据 ⇒ 基线就是空块），**P170 可判别化**：建了一个**带相应结果**的自建模型（`registry/tools/build_parts_discriminator_p170.py`；**板网格 + 虚拟截面/虚拟梁**供 `RESULTANT_FORCES`；**钢结构设计**供 `DESIGN.STEEL.…TABLE`）⇒ 重跑 `registry/tools/probe_parts_disposition_p169.py --probe` （证据 = `registry/live/parts_disposition_probe_p170.json`）⇒ **6 / 6** 个端点**可判别**。⚠️ **P170 更正 P169 的「需要什么」**：`RESULTANT_FORCES` **不是**要**板 / 实体**单元，而是要**虚拟截面**（手册 `db/VSEC` + `db/VBEM`）—— 本批**两样都建**以一次消除疑点。实测：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；`Part1` ⇒ **空块**（与伪取值 `PartZ` **同形**）⇒ 上游声明是**笔误**；⚠️ `DESIGN.STEEL.…TABLE` 的 `PARTS.default = ['All']` 实测**空块** ⇒ 声明可疑（**E-05**）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "OPE.GSBG::BRDG_GROUP",
@@ -12594,6 +12595,22 @@
    "ruling": "R161",
    "reason": "**来源太窄**：本端点的**登记表 token**（`registry/manifest.json` 的 `table_type`）**不在**它自己的 `TABLE_TYPE.enum` 里 ⇒ 用**登记表的 token** 调用会被 `spec_guard` 在**发请求之前**拦住（`STRUCTAI-1200`，**零请求**）。⚠️ 手册的**同一篇文章**的**示例体**用的**正是**登记表的 token ⇒ 两处独立证据一致。来源 = 登记表 token ∪ 已落盘枚举（**只增不减**）。",
    "generator": "registry/tools/sync_table_type_variant_enum.py",
+   "generator_agrees": true
+  },
+  {
+   "key": "POST.TABLE.RESULTANT_FORCES::PARTS",
+   "status": "closed",
+   "ruling": "R163",
+   "reason": "**P169 判为不可判别**（本模型无该表数据 ⇒ 基线就是空块），**P170 可判别化**：建了一个**带相应结果**的自建模型（`registry/tools/build_parts_discriminator_p170.py`；**板网格 + 虚拟截面/虚拟梁**供 `RESULTANT_FORCES`；**钢结构设计**供 `DESIGN.STEEL.…TABLE`）⇒ 重跑 `registry/tools/probe_parts_disposition_p169.py --probe` （证据 = `registry/live/parts_disposition_probe_p170.json`）⇒ **6 / 6** 个端点**可判别**。⚠️ **P170 更正 P169 的「需要什么」**：`RESULTANT_FORCES` **不是**要**板 / 实体**单元，而是要**虚拟截面**（手册 `db/VSEC` + `db/VBEM`）—— 本批**两样都建**以一次消除疑点。实测：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；`Part1` ⇒ **空块**（与伪取值 `PartZ` **同形**）⇒ 上游声明是**笔误**；⚠️ `DESIGN.STEEL.…TABLE` 的 `PARTS.default = ['All']` 实测**空块** ⇒ 声明可疑（**E-05**）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
+   "generator_agrees": true
+  },
+  {
+   "key": "POST.TABLE.RESULTANT_FORCESVBM::PARTS",
+   "status": "closed",
+   "ruling": "R163",
+   "reason": "**P169 判为不可判别**（本模型无该表数据 ⇒ 基线就是空块），**P170 可判别化**：建了一个**带相应结果**的自建模型（`registry/tools/build_parts_discriminator_p170.py`；**板网格 + 虚拟截面/虚拟梁**供 `RESULTANT_FORCES`；**钢结构设计**供 `DESIGN.STEEL.…TABLE`）⇒ 重跑 `registry/tools/probe_parts_disposition_p169.py --probe` （证据 = `registry/live/parts_disposition_probe_p170.json`）⇒ **6 / 6** 个端点**可判别**。⚠️ **P170 更正 P169 的「需要什么」**：`RESULTANT_FORCES` **不是**要**板 / 实体**单元，而是要**虚拟截面**（手册 `db/VSEC` + `db/VBEM`）—— 本批**两样都建**以一次消除疑点。实测：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；`Part1` ⇒ **空块**（与伪取值 `PartZ` **同形**）⇒ 上游声明是**笔误**；⚠️ `DESIGN.STEEL.…TABLE` 的 `PARTS.default = ['All']` 实测**空块** ⇒ 声明可疑（**E-05**）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
    "generator_agrees": true
   },
   {

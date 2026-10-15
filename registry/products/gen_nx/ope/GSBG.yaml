@@ -1,3 +1,8 @@
+# ⚠️ **P170 / R163：`BRDG_GROUP` 的枚举**如实留缺**（**产品 / 数据侧**澄清）。
+# 现状：`BRDG_GROUP` 只有 `BG_LEFT` / `BG_RIGHT`（**2** 个取值 / **2** 篇文章）⇒ 普查标志「缺枚举候选」。
+# 待澄清：`BRDG_GROUP` 是否是**受控词表**？（若是 ⇒ 按手册声明补 `enum`；若否 ⇒ 写清它是**自由引用名**。）
+# ⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）
+# ⇒ 我方**无权威来源**，**不**由示例体推断（**R151**）。
 key: OPE.GSBG
 namespace: OPE
 uri: /OPE/GSBG
