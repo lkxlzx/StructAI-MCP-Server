@@ -1,0 +1,254 @@
+{
+ "phase": "persistence",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p171-src-persist.mgbx",
+ "model": [
+  {
+   "label": "单位 M/KN",
+   "uri": "/db/unit",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "材料 STEEL（手册 db/MATL 示例）",
+   "uri": "/db/matl",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "截面 H（手册 db/SECT 示例取值逐字）",
+   "uri": "/db/sect",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "节点 2 个",
+   "uri": "/db/node",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "梁单元 1 个",
+   "uri": "/db/elem",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "工况 DL",
+   "uri": "/db/stld",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "自重 FV=[0,0,-1]",
+   "uri": "/db/bodf",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "反应谱函数 RS_func（手册 db/SPFC 示例）",
+   "uri": "/db/spfc",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "反应谱工况 ('RX', 'RY')（手册 db/SPLC 示例形状；`(RS)` 前的名字）",
+   "uri": "/db/splc",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "结构组 SG_01（`db/GRUP`；施工阶段激活它）",
+   "uri": "/db/grup",
+   "status": 201,
+   "ok": true
+  },
+  {
+   "label": "施工阶段 CS01（`db/STAG`；激活结构组 SG_01）",
+   "uri": "/db/stag",
+   "status": 201,
+   "ok": true
+  }
+ ],
+ "baseline": {
+  "status": 200,
+  "count": 0,
+  "ids": []
+ },
+ "declared_row": {
+  "code": "KDS 41 SRC : 2022",
+  "status": 200,
+  "band": "other",
+  "auth_error": false,
+  "message": ""
+ },
+ "example_row": null,
+ "manual_row": null,
+ "fake_row": {
+  "code": "NONSENSE-CODE",
+  "status": 400,
+  "band": "value_rejected",
+  "auth_error": false,
+  "message": "{\"error\":{\"message\":\"Unknown Error\"}}"
+ },
+ "created": [
+  "1",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "2",
+  "20",
+  "21",
+  "22",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9"
+ ],
+ "removed": [
+  "1",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "2",
+  "20",
+  "21",
+  "22",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9"
+ ],
+ "after_cleanup": {
+  "status": 200,
+  "count": 0,
+  "ids": []
+ },
+ "fake_gate": {
+  "code": "NONSENSE-CODE",
+  "raised": true,
+  "problems": [
+   "DGNCODE='NONSENSE-CODE' 不在说明书允许值 ['AIK-SRC2K', 'KDS 41 SRC : 2022'] 内"
+  ]
+ },
+ "prerequisites": {
+  "note": "⚠️ **本批实测的关键发现**：`POST /OPE/LCOM-SRC` **不是**「给码就落库」——它需要模型里有**规范要求的前置对象**。逐步逼出来的证据链（**每步的原生文案**）：① 最小模型（无反应谱）⇒ `400 Set_DefaultLoadComb failed; check CheckLcom history (e.g. duplicate LCOM names, name length, stage gate).`；② 手册**完整示例体**（带 `RS_SCALE_FACTOR`）⇒ 文案**换了**：`RS_SCALE_FACTOR row 0: spectrum load case not found: RX(RS)` ⇒ **形状是对的**（原生**读到了**该字段并去查前置对象）；③ 建了反应谱函数（`db/SPFC`）+ 反应谱工况（`db/SPLC`，名 `RX` / `RY`）⇒ 错误文案**退回** ①（`… stage gate`）⇒ 反应谱那一步**已满足**；④ 建了结构组（`db/GRUP`）+ 施工阶段（`db/STAG`，激活该组）⇒ **`200`** ∧ `GET /DB/LCOM-SRC` **22 行** ⇒ **真的落库**。",
+  "rs_function": "RS_func",
+  "rs_cases": [
+   "RX",
+   "RY"
+  ],
+  "stage_name": "CS01",
+  "stage_group": "SG_01"
+ },
+ "generator": {
+  "generator": "registry/tools/sync_lcom_src_dgncode_enum.py",
+  "on_disk": [
+   "AIK-SRC2K",
+   "KDS 41 SRC : 2022"
+  ],
+  "expected": [
+   "AIK-SRC2K",
+   "KDS 41 SRC : 2022"
+  ],
+  "applied": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/LCOM-GEN",
+   "/DB/LCOM-SRC"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/LCOM-GEN": {
+    "status": 200,
+    "count": 0
+   },
+   "/DB/LCOM-SRC": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/LCOM-GEN": {
+    "status": 200,
+    "count": 0
+   },
+   "/DB/LCOM-SRC": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：`POST /OPE/LCOM-SRC` 之后 `GET /DB/LCOM-SRC` 的**行数**是否**大于**基线（= **真的落库**）。**状态码不判别任何东西**（P169 的教训）。**全新模型**（`DOC.NEW` + `SAVEAS`）是判据的一部分 —— 本仓既有 SDK 实测（`docs/nxsdk_review/nxsdk_availability_upgrade.csv`）记该端点在**全新模型**上**真的生成了 2 个组合**，而在**同一模型的重复调用**上回 `Set_DefaultLoadComb failed`（外部记录标为「未对账」）⇒ 本工具**一次**调用以复现「第一次」这一前提。⚠️ 阴性对照 = 伪码（核心闸门**零请求** + 行数不变）。"
+}

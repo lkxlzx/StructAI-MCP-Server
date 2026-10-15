@@ -359,7 +359,12 @@ def test_p169_the_census_ledger_is_complete_and_generator_checked() -> None:
 
 
 def test_p169_the_three_new_closures_are_registered_as_r162() -> None:
-    """门槛（**裁决号**）：本批的**新**收口项都挂 **R162**（`R161` 的项保持不动）。"""
+    """门槛（**裁决号**）：本批的**新**收口项**曾**挂 **R162**（`R161` 的项保持不动）。
+
+    ⚠️ **P171 / R164 更新**：`OPE.LCOM-SRC::DGNCODE` 的裁决号已被**后续批次**推进
+    （`R162` → **`R164`**：收口依据由「取值档位」升级为「**落库**」）⇒ 它**不再**钉 `R162`；
+    其余 **5** 项仍钉 `R162`（**历史裁决号不因后续批次而改**）。
+    """
     dispositions = {item["key"]: item for item in _json(AUDIT)["dispositions"]}
     for key in (
         "POST.TABLE.BEAMFORCE::PARTS",
@@ -367,10 +372,11 @@ def test_p169_the_three_new_closures_are_registered_as_r162() -> None:
         "POST.TABLE.THISBEAMFORCE::PARTS",
         "POST.TEXT::TEXT_TYPE",
         "POST.TEXT::TABLE_TYPE",
-        "OPE.LCOM-SRC::DGNCODE",
     ):
         assert dispositions[key]["status"] == "closed", key
         assert dispositions[key]["ruling"] == "R162", key
+    # P171 已把它的依据升级为「落库」（R164）⇒ 只断言**仍收口**，裁决号由 P171 的判定钉住。
+    assert dispositions["OPE.LCOM-SRC::DGNCODE"]["status"] == "closed"
     for key in ("VIEW.RESULTGRAPHIC::CURRENT_MODE", "POST.TABLE.FIBR_EVENTSTEP::TABLE_TYPE"):
         assert dispositions[key]["ruling"] == "R161", f"{key} 的裁决号**不得**被改动"
 

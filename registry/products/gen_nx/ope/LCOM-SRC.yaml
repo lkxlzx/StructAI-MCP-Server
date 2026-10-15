@@ -1,11 +1,18 @@
-# ✅ **P169 / R162：`DGNCODE` 枚举收口**（真机**写路径**裁决，用户已授权）。
-# 证据 = `registry/live/lcom_dgncode_probe.json`：`POST /OPE/LCOM-SRC` 的答复分**三档** ——
-#   · `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**
-#     （业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**）
-#   · **伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**
+# ✅ **P171 / R164：`DGNCODE` 收口依据由「档位」升级为「落库」**（真机**写路径**，用户已授权）。
+# ① **P169 / R162 的档位裁决**（证据 = `registry/live/lcom_dgncode_probe.json`）：
+#    `POST /OPE/LCOM-SRC` 的答复分**三档** ——
+#      · `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**
+#        （业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**）
+#      · **伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**
+# ② **P171 / R164 的落库裁决**（证据 = `registry/live/lcom_src_persistence_probe.json`）：
+#    在**全新**自建模型上补齐**规范要求的前置对象** —— 反应谱函数（`db/SPFC`）+
+#    反应谱工况（`db/SPLC`，名 `RX`/`RY`）+ 结构组（`db/GRUP`）+ 施工阶段（`db/STAG`）
+#    ⇒ `POST /OPE/LCOM-SRC` **`200`** ∧ `GET /DB/LCOM-SRC` **22 行**（基线 **0**）
+#    ⇒ **真的落库**（**铁律 ⓪** = 效果，不是状态码）。
+#    ⚠️ **本批更正 P169 的一条「恢复条件」**：原先写「本自建模型无该规范所需的**荷载条件**」——
+#    **不准确**；实测缺的是**反应谱 + 施工阶段**（原生文案逐步点名：
+#    `RS_SCALE_FACTOR row 0: spectrum load case not found: RX(RS)` → `… stage gate`）。
 # 生成器 = `registry/tools/sync_lcom_src_dgncode_enum.py`；**只增不减**。
-# ⚠️ 本自建模型无该规范所需的荷载条件 ⇒ 原生**未**真的建出组合（`GET /DB/LCOM-SRC` 仍空）；
-# 判据是「**取值档位**」而不是「落库成功」（后者需要**完整**的规范荷载模型）。
 key: "OPE.LCOM-SRC"
 namespace: OPE
 uri: "/OPE/LCOM-SRC"

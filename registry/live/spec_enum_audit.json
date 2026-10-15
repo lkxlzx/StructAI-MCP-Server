@@ -12521,8 +12521,8 @@
   {
    "key": "OPE.LCOM-SRC::DGNCODE",
    "status": "closed",
-   "ruling": "R162",
-   "reason": "**拦住手册自己的示例**：`OPE.LCOM-SRC` 的文章示例用 `DGNCODE='AIK-SRC2K'`，而枚举只有 `['KDS 41 SRC : 2022']`（**同一 URI 的另一篇**文章的 `json_schema` 声明）。**P169 真机裁决**（**用户已授权**一次**写路径**测量，证据 = `registry/live/lcom_dgncode_probe.json`）：`POST /OPE/LCOM-SRC` 的答复分**三档** —— `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**（业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**），而**伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**。来源 = 已落盘 ∪ 实测**合法**（**只增不减**）。",
+   "ruling": "R164",
+   "reason": "**拦住手册自己的示例**：`OPE.LCOM-SRC` 的文章示例用 `DGNCODE='AIK-SRC2K'`，而枚举只有 `['KDS 41 SRC : 2022']`（**同一 URI 的另一篇**文章的 `json_schema` 声明）。**P169 真机裁决**（**用户已授权**一次**写路径**测量，证据 = `registry/live/lcom_dgncode_probe.json`）：`POST /OPE/LCOM-SRC` 的答复分**三档** —— `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**（业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**），而**伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**。⚠️ **P171 / R164 把收口依据从「档位」升级为「落库」**：P169 只证到「取值**通过**了规范校验」，**不是**「组合**真的**建出来了」（跑完 `GET /DB/LCOM-SRC` 仍是**空块**）。**本批**（**用户已授权**一次**写路径**测量，证据 = `registry/live/lcom_src_persistence_probe.json`）：在**全新**自建模型上补齐**规范要求的前置对象**（反应谱函数 `db/SPFC` + 反应谱工况 `db/SPLC`（名 `RX`/`RY`）+ 结构组 `db/GRUP` + 施工阶段 `db/STAG`）⇒ `POST /OPE/LCOM-SRC` **`200`** ∧ `GET /DB/LCOM-SRC` **22 行**（基线 **0**）⇒ **真的落库** ⇒ 收口依据**硬**到「效果」这一层（**铁律 ⓪**）。⚠️ **本批同时更正 P169 的一条「恢复条件」**：P169 写「本模型无该规范所需的荷载条件」—— **不准确**；实测缺的是**反应谱 + 施工阶段**（原生文案逐步点名：`RS_SCALE_FACTOR row 0: spectrum load case not found: RX(RS)` → `… stage gate`）。来源 = 已落盘 ∪ 实测**合法**（**只增不减**）。",
    "generator": "registry/tools/sync_lcom_src_dgncode_enum.py",
    "generator_agrees": true
   },
