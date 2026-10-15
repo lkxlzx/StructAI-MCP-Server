@@ -1,8 +1,16 @@
-# ⚠️ **P170 / R163：`BRDG_GROUP` 的枚举**如实留缺**（**产品 / 数据侧**澄清）。
-# 现状：`BRDG_GROUP` 只有 `BG_LEFT` / `BG_RIGHT`（**2** 个取值 / **2** 篇文章）⇒ 普查标志「缺枚举候选」。
-# 待澄清：`BRDG_GROUP` 是否是**受控词表**？（若是 ⇒ 按手册声明补 `enum`；若否 ⇒ 写清它是**自由引用名**。）
-# ⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）
-# ⇒ 我方**无权威来源**，**不**由示例体推断（**R151**）。
+# ✅ **P171 / R164：`BRDG_GROUP` 已澄清为「不是受控词表」** ⇒ 此处**没有** `enum` 是**正确**的。
+# 证据（本仓可读，**零**请求）：① 对应 Schema（`registry/schema/products/gen_nx/ope/GSBG.json`）
+#   的 `Argument.BRDG_GROUP` 只声明 `{"type": "string"}`，且该体是 `additionalProperties: false`
+#   + `if/then/not` 的**结构约束**（`BATCH=true` 时**禁止** `BRDG_GROUP`；`BATCH=false` 时**要求**它）
+#   ⇒ 它是**单个引用名**，**不**是取值域；
+# ② **本仓既有实测证据**（`docs/nxsdk_review/evidence/02_实测发现_中文摘要.md` §D-19 +
+#   `docs/nxsdk_review/nxsdk_availability_upgrade.csv` 的 `/OPE/GSBG` 行）：**真实 Civil NX 会话**上
+#   传**自建** `StructureGroup` 名（如 `Girder_All`）与模型**既有**的 `SG1` 分组名**都被接受**
+#   ⇒ 取值随模型而定（= 模型里的 `/db/GRUP` 组名）。
+# ⚠️ **不**硬凑 `[BG_LEFT, BG_RIGHT]`（示例体里的 2 个取值）：那会把**合法**的 `Girder_All` / `SG1`
+#   这类**真实**取值在**发请求之前**拦掉（**R151** 的形态，方向相反）。
+# ⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）⇒ 我方**无**第二来源。
+# 恢复条件：**无需恢复**；若上游手册日后改声明为受控词表 ⇒ 重跑 `python registry/tools/check_spec_enums.py`。
 key: OPE.GSBG
 namespace: OPE
 uri: /OPE/GSBG

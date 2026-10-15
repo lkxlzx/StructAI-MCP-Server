@@ -264,39 +264,80 @@ DISPOSITIONS: Final[dict[str, Disposition]] = {
     ),
     "OPE.LINEBMLD::TYPE": Disposition(
         status="left_open",
-        ruling="R161",
+        ruling="R164",
         reason=(
-            "**缺枚举候选**（`TYPE` 在示例体里有 **11** 个取值：`CONLOAD` / `UNILOAD` / `CURVED` …）。"
-            "⚠️ `OPE.LINEBMLD` **不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处），"
-            "且示例体的取值集合混了**编号**（`'0'` / `'1'`）与**枚举名** ⇒ 口径不清。"
+            "**口径已澄清（P171 / R164）—— 不再是「枚举 vs 编号」**：原先记的「示例体混了编号"
+            "`'0'` / `'1'`」是**普查的取值表口径错**（递归收集把**同名不同义**的嵌套字段并了进来）。"
+            "**判据修正**（`check_spec_enums.py`）：候选取值**只**取**包装键体下第一层**的叶子。"
+            "**修正后** `TYPE` = **9** 个取值，**全部**是枚举名（`CONLOAD` / `CONMOMENT` / `UNILOAD` / "
+            "`UNIMOMENT` / `TRALOAD` / `TRAMOMENT` / `UNIPRESSURE` / `TRAPRESSURE` / `CURVED`）；"
+            "`'0'` / `'1'` 来自 `Argument.LOAD.TYPE`（Distance Type，**Integer**）与 "
+            "`Argument.ECCEN.TYPE`（Centroid/Offset，**Integer**）—— 同名不同义。"
+            "**上游手册佐证（本仓可读）**：`MIDAS_API_Online_Manual_数据_v1.0.json#243` 的**规格表**"
+            "逐行给出三处 `TYPE` 的**类型列** —— 第 **3** 行 `\"TYPE\"` = **String** / Required 且"
+            "取值表**恰好就是上面那 9 个**（`Load Type`），第 **(2)** / **(3)** 行 = **Integer**。"
+            "⇒ `Argument.TYPE` 是**字符串枚举**（口径已定），**仍**留缺的唯一理由是**枚举不许硬凑**："
+            "该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）⇒ 我方**无**"
+            "「软件实测」这一第二来源（`json_schema` 只声明 `{\"type\": \"string\"}`，**无** `enum`）。"
         ),
-        ask="向数据侧问：`OPE.LINEBMLD` 的 `TYPE` 到底是「荷载类型枚举」还是「类型编号」？（需一次手册/产品侧澄清，**不**由示例体推断。）",
+        ask=(
+            "向**数据侧**问一件事（**唯一**）：`Argument.TYPE` 的 9 个取值是否就是**完整**的荷载类型"
+            "词表（本 build 是否还接受该表以外的字符串）？—— 是 ⇒ 按 9 个落 `enum`（来源 = 手册规格表 "
+            "+ 示例体，**可复算**）；否 ⇒ 给出权威表。⚠️ **恢复条件**：产品侧确认**完整表** "
+            "**或** `OPE.LINEBMLD` 进入某条 OperationPlan 的生产路径（届时可用真机裁决补齐）。"
+        ),
     ),
     "OPE.GSBG::BRDG_GROUP": Disposition(
         status="left_open",
-        ruling="R161",
+        ruling="R164",
         reason=(
-            "**缺枚举候选**（`BRDG_GROUP` = `BG_LEFT` / `BG_RIGHT`，**2** 个取值 / 2 篇文章）。"
-            "⚠️ `OPE.GSBG` **不在任何 OperationPlan 的生产路径上**（0 处）。"
+            "**已澄清为「不是受控词表」（P171 / R164）** —— 见下**证据**；**仍**留缺的原因变了："
+            "**不是**「不知道是不是词表」，而是「**自由引用名** ⇒ 结构性**不可能**有 `enum`」。"
+            "**证据（本仓可读，**零**请求）**：① `registry/schema/products/gen_nx/ope/GSBG.json` 的 "
+            "`Argument.BRDG_GROUP` 只声明 `{\"type\": \"string\"}`，**且**该体是 "
+            "`additionalProperties: false` + `if/then/not` 的**结构约束**（`BATCH=true` 时"
+            "**禁止** `BRDG_GROUP`；`BATCH=false` 时**要求**它）⇒ 它是**单个引用名**，"
+            "**不**是取值域；② **本仓既有实测证据**（`docs/nxsdk_review/evidence/02_实测发现_中文摘要.md` "
+            "§D-19 + `docs/nxsdk_review/nxsdk_availability_upgrade.csv` 的 `/OPE/GSBG` 行）："
+            "在**真实 Civil NX 会话**上，`BRDG_GROUP` 传**自建** `StructureGroup` 名（如 `Girder_All`）"
+            "越过「组不存在」错误、传模型**既有的** `SG1` 分组名也被接受 ⇒ **取值随模型而定**。"
+            "⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（0 处）⇒ 我方**无**第二来源。"
         ),
-        ask="向数据侧问：`BRDG_GROUP` 是否是**受控词表**（若是，补 `enum`；若否，写清它是自由引用名）。",
+        ask=(
+            "**无需**向产品侧问「是不是词表」（**已裁决：不是**）。留缺的**唯一**含义 = "
+            "**如实登记「此处没有 `enum` 是**正确**的**」—— 判据 = ① 上游 `json_schema` 声明 `string` "
+            "（无 `enum`）；② 本仓实测证据证明取值 = 模型里的 `/db/GRUP` 组名 ⇒ 若硬凑 "
+            "`[BG_LEFT, BG_RIGHT]`，会把**合法**的 `Girder_All` / `SG1` 这类**真实**取值在"
+            "**发请求之前**拦掉（**R151** 的形态，方向相反）。⚠️ **恢复条件**：无需恢复；"
+            "若上游手册日后改声明为受控词表 ⇒ 重跑 `python registry/tools/check_spec_enums.py`。"
+        ),
     ),
     "OPE.LCOM-GEN::DGNCODE": Disposition(
         status="left_open",
-        ruling="R162",
+        ruling="R164",
         reason=(
-            "**缺枚举候选**（`DGNCODE` = `AIK-SRC2K` / `KDS 41 20 : 2022`）。"
-            "**P169 真机裁决**判定为**不可判别**：本 build 对 `POST /OPE/LCOM-GEN` 的"
-            "**任何**取值都回 `400 Wrong Field`（**形状 / 键错**，与取值**无关**）—— "
-            "**连手册声明的合法值**也一样 ⇒ 无法区分「取值无效」与「本 build 不支持该形状」。"
-            "⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）。"
+            "**「形状不明」已由本仓可读证据判定为「我方 Schema 错」**（P171 / R164）。"
+            "**机械事实**：本 build 对 `POST /OPE/LCOM-GEN` 的**任何**取值都回 `400 Wrong Field`"
+            "（`registry/live/lcom_dgncode_probe.json`，P169 真机）—— **连手册声明的合法值**也一样。"
+            "**新证据（**零**请求，本仓可读）**：手册**自己的** `json_schema`（`MIDAS_API_Online_Manual_"
+            "数据_v1.0.json#253`）与我们**已落盘**的 Schema（`registry/schema/products/gen_nx/ope/"
+            "LCOM-GEN.json`）**逐字节同形**（同一份 `oneOf` 三分支、同一句 "
+            "`Body structure is selected by CODE_SELECTION.`）⇒ **不**存在「手册扁平 vs 我方 `oneOf`」"
+            "的形状分歧 —— 那份 `oneOf` 就是**上游**的声明。⚠️ 而 `Wrong Field` 在**同族**端点上的"
+            "**唯一**已知成因是**键名错**（**E-02**：`POST.TEXT` 的 `TABLE_TYPE` 任何取值都回 "
+            "`Wrong Field`，实测契约键是 `TEXT_TYPE`）。⇒ 疑点**收窄为一处**：`OPTION` 这个键名"
+            "（手册**另一族** `OPE.LCOM-{CONC,STEEL,SRC}` 的 `json_schema` 也用 `OPTION`，"
+            "**不构成**独立佐证）。⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（0 处）。"
         ),
         ask=(
-            "需要**产品侧**澄清两件事：① 本 build 的 `POST /OPE/LCOM-GEN` 请求**形状**"
-            "（手册示例体是**扁平**的 `Argument.OPTION/DGNCODE`，我们的 Schema 是 `oneOf` 三分支）；"
-            "② `DGNCODE` 的取值表是否按「规范 × 产品」收口（本批**未**动它的枚举）。"
-            "恢复条件：产品侧给出形状或一个**可写**的 `OPE.LCOM-GEN` 调用样例 ⇒ 重跑 "
-            "`python registry/tools/probe_lcom_dgncode_p169.py --probe`。"
+            "向**产品侧**问**一个**二选一（**是 / 否**即可，无需给样例）：本 build 的 "
+            "`POST /OPE/LCOM-GEN` 的请求体里，选择操作的那个键是叫 **`OPTION`** 吗？"
+            "**是** ⇒ 形状分歧排除，剩下的唯一可能是本 build **未实现**该端点 ⇒ 登记为"
+            "**产品缺陷 / 不支持**（与 **R154** 的 `BD-ANAL` 同档），**不**再当「待澄清」。"
+            "**否** ⇒ 给出正确的键名 ⇒ 我方 Schema 登记勘误。"
+            "⚠️ **恢复条件**：产品侧答「是」或「否」**任一**（本批已把问题**收窄到一次是非问答**，"
+            "不再要求「一个可写样例」）；届时重跑 "
+            "`python registry/tools/probe_lcom_dgncode_p169.py --probe` 复核。"
         ),
     ),
     "OPE.LCOM-SRC::DGNCODE": Disposition(
@@ -472,8 +513,10 @@ def manual_sources(repo: pathlib.Path) -> dict[str, Any]:
     Returns:
         含 `declared`（**字段名** → 取值，供来源分类）、`declared_articles`（字段名 → 文章 id 集合）、
         `declared_shapes` / `shape_articles`（**形状路径** → 取值 / 文章 id，供「来源太窄」的
-        同 URI 词汇）、`uri_shapes`（uri → 形状路径集合）、`uri_examples`（`(uri, 字段)` → 取值）、
-        `uri_articles`（uri → 文章 id 集合）、`uri_titles`、`uri_argument_fields`、`weak_tokens`。
+        同 URI 词汇）、`uri_shapes`（uri → 形状路径集合）、`uri_examples`（`(uri, 字段)` → 取值，
+        **递归**；只进弱来源）、`uri_direct_examples`（`(uri, 字段)` → 取值，**包装键体下第一层**；
+        标志 ② 的取值表）、`uri_articles`（uri → 文章 id 集合）、`uri_titles`、
+        `uri_argument_fields`、`weak_tokens`。
     """
     declared: dict[str, set[str]] = {}
     declared_articles: dict[str, set[str]] = {}
@@ -482,6 +525,7 @@ def manual_sources(repo: pathlib.Path) -> dict[str, Any]:
     uri_shapes: dict[tuple[str, str], set[str]] = {}
     uri_shape_articles: dict[tuple[str, str], set[str]] = {}
     uri_examples: dict[tuple[str, str], set[str]] = {}
+    uri_direct_examples: dict[tuple[str, str], set[str]] = {}
     uri_articles: dict[str, set[str]] = {}
     uri_titles: dict[str, set[str]] = {}
     uri_argument_fields: dict[str, set[str]] = {}
@@ -524,6 +568,17 @@ def manual_sources(repo: pathlib.Path) -> dict[str, Any]:
                 for field, values in found.items():
                     uri_examples.setdefault((uri, field), set()).update(values)
                     weak_tokens.update(values)
+                # **直接子键**（**P171 / R164** 的判据修正）：只有**包装键体下第一层**的
+                # 叶子取值才是**该字段自己的**取值表 —— `_walk_example` 是**递归**的，
+                # 会把**同名但不同义**的嵌套字段（`LOAD.TYPE` / `ECCEN.TYPE`）并进来。
+                if isinstance(parsed, dict):
+                    bodies = [
+                        body for body in parsed.values() if isinstance(body, dict)
+                    ]
+                    for body in bodies:
+                        for field, value in body.items():
+                            if isinstance(value, (str, int, float, bool)):
+                                uri_direct_examples.setdefault((uri, field), set()).add(_norm(value))
                 if isinstance(parsed, dict) and isinstance(parsed.get("Argument"), dict):
                     uri_argument_fields.setdefault(uri, set()).update(parsed["Argument"])
             for row in entry.get("specifications") or []:
@@ -543,6 +598,7 @@ def manual_sources(repo: pathlib.Path) -> dict[str, Any]:
         "uri_shapes": uri_shapes,
         "uri_shape_articles": uri_shape_articles,
         "uri_examples": uri_examples,
+        "uri_direct_examples": uri_direct_examples,
         "uri_articles": uri_articles,
         "uri_titles": uri_titles,
         "uri_argument_fields": uri_argument_fields,
@@ -1042,8 +1098,14 @@ def build(repo: pathlib.Path) -> dict[str, Any]:
                 value_sets.setdefault(_digest(unknown), unknown)
 
     # ---- 标志 ②：缺枚举（非法取值抓不到）----
+    # ⚠️ **取值表的口径（P171 / R164 的判据修正）**：候选取值**只**取**包装键体下第一层**的叶子
+    # （`uri_direct_examples`）—— `uri_examples` 是**递归**的，会把**同名不同义**的嵌套字段
+    # （`Argument.TYPE`（荷载类型枚举）与 `Argument.LOAD.TYPE` / `Argument.ECCEN.TYPE`
+    # （都是 `integer` 的**编号**））并成一张表 ⇒ 取值集合**混了枚举名与编号**
+    # （`OPE.LINEBMLD::TYPE` 的 11 个取值就是这么来的）。`uri_examples` 仍作**弱来源**。
     missing: list[dict[str, Any]] = []
     excluded: list[dict[str, Any]] = []
+    nested_only: list[dict[str, Any]] = []
     for uri, fields in sorted(manual["uri_argument_fields"].items()):
         articles = manual["uri_articles"].get(uri, set())
         if len(articles) < 2 or not by_uri.get(uri):
@@ -1051,8 +1113,23 @@ def build(repo: pathlib.Path) -> dict[str, Any]:
         for field in sorted(fields):
             if (uri, field) in fields_with_enum:
                 continue
-            values = sorted(manual["uri_examples"].get((uri, field), set()))
+            recursive = sorted(manual["uri_examples"].get((uri, field), set()))
+            values = sorted(manual["uri_direct_examples"].get((uri, field), set()))
             if len(values) < 2:
+                # 取值**全部**来自嵌套同名字段（或不足 2 个）⇒ **不是**该字段的选择子
+                # ⇒ **如实**另立一档（**不**进 `missing`、**不**静默丢弃）。
+                if len(recursive) >= 2:
+                    nested_only.append(
+                        {
+                            "uri": uri,
+                            "field": field,
+                            "endpoints": sorted(by_uri[uri]),
+                            "articles": len(articles),
+                            "recursive_values": recursive,
+                            "direct_values": values,
+                            "excluded_by": "nested_same_name_only",
+                        }
+                    )
                 continue
             ratio = len(values) / len(articles)
             record = {
@@ -1072,6 +1149,7 @@ def build(repo: pathlib.Path) -> dict[str, Any]:
                 missing.append(record)
     missing.sort(key=lambda item: (-item["value_count"], item["uri"], item["field"]))
     excluded.sort(key=lambda item: (item["uri"], item["field"]))
+    nested_only.sort(key=lambda item: (item["uri"], item["field"]))
 
     guard: dict[str, Any]
     example_blocked: list[dict[str, Any]] = []
@@ -1155,6 +1233,7 @@ def build(repo: pathlib.Path) -> dict[str, Any]:
                 "unexplained": len(unexplained),
                 "example_blocked": len(example_blocked),
                 "missing_enum_excluded": len(excluded),
+                "missing_enum_nested_only": len(nested_only),
             },
             "distinct_value_sets": len(value_sets),
             "guard": (
@@ -1188,6 +1267,7 @@ def build(repo: pathlib.Path) -> dict[str, Any]:
             "unexplained": unexplained,
             "example_blocked": example_blocked,
             "missing_enum_excluded": excluded,
+            "missing_enum_nested_only": nested_only,
         },
         "dispositions": dispositions,
     }
@@ -1251,7 +1331,8 @@ def print_summary(document: dict[str, Any]) -> None:
         f"缺枚举（非法取值抓不到）**{flags['missing_enum']}** · "
         f"真·无法追溯 **{flags['unexplained']}** · "
         f"**拦住手册自己的示例 {flags['example_blocked']}** · "
-        f"（缺枚举候选里被机械规则排除 {flags['missing_enum_excluded']}）"
+        f"（缺枚举候选里被机械规则排除 {flags['missing_enum_excluded']} · "
+        f"取值只来自嵌套同名子字段 {flags['missing_enum_nested_only']}）"
     )
     guard = document.get("guard") or {}
     if guard.get("available"):

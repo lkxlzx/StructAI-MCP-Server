@@ -278,13 +278,20 @@ def test_p169_the_dgncode_guard_passes_measured_and_blocks_fake() -> None:
 
 
 def test_p169_the_undecidable_endpoint_is_left_open() -> None:
-    """门槛（**不猜**）：`OPE.LCOM-GEN` 的 `DGNCODE` 在台账里是 `left_open` + 写明恢复条件。"""
+    """门槛（**不猜**）：`OPE.LCOM-GEN` 的 `DGNCODE` 在台账里是 `left_open` + 写明恢复条件。
+
+    ⚠️ **P171 / R164 更新**：P169 的裁决号 `R162` 已被本批的**问题收窄**取代（`R164`）——
+    仍**留缺**（`left_open`），但问题从「请求形状不明」收窄为「**一次是非问答**」（`OPTION` 键名）。
+    """
     dispositions = {item["key"]: item for item in _json(AUDIT)["dispositions"]}
     item = dispositions["OPE.LCOM-GEN::DGNCODE"]
     assert item["status"] == "left_open", item
-    assert item["ruling"] == "R162"
-    assert "不可判别" in item["reason"] or "不可判别" in item.get("ask", "")
-    assert item.get("ask"), "留缺必须写明「向谁问什么」"
+    assert item["ruling"] == "R164"
+    assert "形状不明" in item["reason"], item["reason"]
+    ask = item.get("ask", "")
+    assert ask, "留缺必须写明「向谁问什么」"
+    assert "OPTION" in ask, ask
+    assert "是非" in ask, ask
 
 
 # ===== 4. D 组：`LOAD_CASE_COMB` =====

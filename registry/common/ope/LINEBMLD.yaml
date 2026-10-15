@@ -1,9 +1,18 @@
-# ⚠️ **P170 / R163：`TYPE` 的枚举**如实留缺**（**产品 / 数据侧**澄清）。
-# 现状：示例体里 `TYPE` 有 **11** 个取值（`CONLOAD` / `UNILOAD` / `CURVED` …），
-# 但集合**混了编号**（`'0'` / `'1'`）与**枚举名** ⇒ **口径不清**。
-# 待澄清：`TYPE` 到底是「**荷载类型枚举**」还是「**类型编号**」？
-# ⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）
-# ⇒ 我方**无权威来源**，**不**由示例体推断（**R151**）。
+# ✅ **P171 / R164：口径已澄清 —— `Argument.TYPE` 是「荷载类型枚举」（String），不是编号。**
+# 原先记的「混了编号 `'0'` / `'1'`」= **普查的取值表口径错**（递归收集把**同名不同义**的嵌套字段
+# 并了进来）。**判据修正**（`registry/tools/check_spec_enums.py`）：候选取值**只**取
+# **包装键体下第一层**的叶子。修正后 `TYPE` = **9** 个取值，**全部**是枚举名：
+#   CONLOAD / CONMOMENT / UNILOAD / UNIMOMENT / TRALOAD / TRAMOMENT / UNIPRESSURE / TRAPRESSURE / CURVED
+# `'0'` / `'1'` 来自 `Argument.LOAD.TYPE`（Distance Type，**Integer**）与
+# `Argument.ECCEN.TYPE`（Centroid/Offset，**Integer**）—— 同名不同义。
+# **上游手册佐证（本仓可读）**：`MIDAS_API_Online_Manual_数据_v1.0.json#243` 的**规格表**逐行给出
+# 三处 `TYPE` 的**类型列**：第 **3** 行 `"TYPE"` = **String** / Required（取值表 = 上面那 9 个，
+# 标题 `Load Type`）；第 **(2)** / **(3)** 行 = **Integer**（Centroid/Offset · Distance Type）。
+# ⚠️ **仍**留缺的唯一理由 = **枚举不许硬凑**：`json_schema` 只声明 `{"type": "string"}`（**无** `enum`），
+#   且该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）⇒ 我方**无**
+#   「软件实测」这一第二来源（对比 `OPE.LCOM-SRC`：那里有 P169 的真机档位裁决）。
+# 恢复条件：产品侧确认那 9 个就是**完整**词表 ⇒ 落 `enum`（来源 = 手册规格表 + 示例体，**可复算**）；
+#   **或** `OPE.LINEBMLD` 进入某条 OperationPlan 的生产路径（届时可真机裁决补齐）。
 key: OPE.LINEBMLD
 namespace: OPE
 uri: /OPE/LINEBMLD

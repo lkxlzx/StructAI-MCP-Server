@@ -2164,7 +2164,7 @@ P169 判为「**不可判别**」的 **3** 个 `PARTS` 端点（本模型无该�
 | 项 | 变化 |
 | --- | --- |
 | **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** |
-| 台账（`check_spec_enums.py` 的 `DISPOSITIONS`） | **17 → 19** 项（**收口 11 → 14** · **留缺 7 → 3**） |
+| 台账（`check_spec_enums.py` 的 `DISPOSITIONS`） | **17 → 19** 项（**收口 11 → 16** · **留缺 7 → 3**）⚠️ **口径更正（P171 / R164）**：P169 / P170 的文档写「收口 11 → 14」，而台账实际是 **16 / 3**（`git show 61f6f63` 可复算）—— 那 **+2** 是 **R161 的变体 `TABLE_TYPE`** 里 `POST.TABLE.FIBR_ELASTREMAIN` / `REACTIONLSURFACESPRING` 两条（P168 之后新进台账，P169 / P170 **漏计**）⇒ **不**改任何处置本身 |
 | 普查标志「拦住手册自己的示例」 | **1 → 1**（余 `DESIGN.STEEL.…TABLE` 的 `All` —— **E-05**，待**产品侧**澄清） |
 | 枚举约束总数 / 端点 / Schema 文件 | **不变**（754 / 636 / 625） |
 | 生成器 `sync_parts_enum.py` | **合并两份证据**（纯梁 + 可判别模型）· **修一处判据 v2 的漏洞**（见 8.24.6） |
@@ -2192,3 +2192,58 @@ P169 判为「**不可判别**」的 **3** 个 `PARTS` 端点（本模型无该�
 探针 `registry/tools/probe_parts_disposition_p169.py --project .tmp_p164c/p170-discriminator.mgbx --evidence registry/live/parts_disposition_probe_p170.json --probe` ·
 证据 `registry/live/{parts_discriminator,parts_disposition_probe}_p170.json` ·
 勘误 `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **§1.6c**（**E-04** / **E-05** / **E-06**）。
+
+---
+
+### 8.25 P171：P170 的**留缺 3 项**（**全部**产品 / 数据侧）逐条推到底 ⇒ **R164**
+
+> **本批**零请求**（**不**碰真机）：这 **3** 个端点**都**不在**任何** OperationPlan 的生产路径上
+> （`operations.py` 里 0 处）⇒ 只用**本仓可读**证据（手册 / 已落盘 Schema / 本仓既有实测摘要）。
+> ⚠️ **留缺仍 3 · 收口仍 16**（本批**不**改收口数）—— 价值在**澄清**、**判据修正**与**问题收窄**。
+
+#### 8.25.1 本批**修掉**的一个**普查判据漏洞**（取值表的口径）
+
+`registry/tools/check_spec_enums.py` 的 `manual_sources()` 原先用**递归**的 `_walk_example()`
+收集示例体取值 ⇒ **同名不同义**的嵌套字段会被并成**一张**表。
+
+| 字段 | 父键 | 类型 | 角色 |
+| --- | --- | --- | --- |
+| `TYPE` | `Argument` | **String** | **荷载类型枚举**（`CONLOAD` / `UNILOAD` / … **9** 个） |
+| `TYPE` | `Argument.LOAD` | **Integer** | Distance Type（`0` = Relative / `1` = Absolute） |
+| `TYPE` | `Argument.ECCEN` | **Integer** | Centroid（`0`）/ Offset（`1`） |
+
+⇒ 旧口径把 `'0'` / `'1'` 并进 `Argument.TYPE`（**11** 个取值）⇒ 台账误报「**混了编号**」。
+**修正** = 候选取值**只**取**包装键体下第一层**的叶子（新增 `uri_direct_examples`）；
+**递归**口径的 `uri_examples` **保留**作**弱来源**（`untraceable` 分档不受影响）；
+取值**只**来自嵌套同名子字段的 ⇒ 进**新增**的 `missing_enum_nested_only` 一档（**不**静默丢弃）。
+
+⚠️ **上游佐证**（`MIDAS_API_Online_Manual_数据_v1.0.json#243` 的**规格表**逐行给出**类型列**）：
+第 **3** 行 `"TYPE"` = **String** / Required（`Load Type`，取值表 = 那 **9** 个）；
+第 **(2)** / **(3)** 行 = **Integer**（Centroid/Offset · Distance Type）。
+
+#### 8.25.2 三项的裁决（**结论**）
+
+| 项 | 裁决 | 依据（**本仓可读，零请求**） |
+| --- | --- | --- |
+| `OPE.LINEBMLD::TYPE` | **口径澄清** = 「**荷载类型枚举**（String），**不是**编号」；**仍**留缺（**枚举不许硬凑**） | 判据修正后 = **9** 个枚举名；上游**规格表**的类型列（String + `Load Type`）；`json_schema` 只声明 `{"type": "string"}`（**无** `enum`）且该端点**无**生产路径 ⇒ 我方**无**「软件实测」这一第二来源 |
+| `OPE.GSBG::BRDG_GROUP` | **裁决** = 「**不是**受控词表」⇒ 此处**没有** `enum` 是**正确**的 | ① 对应 Schema 只声明 `{"type": "string"}`，且该体是 `additionalProperties: false` + `if/then/not` 的**结构约束**（`BATCH=true` **禁止**它；`BATCH=false` **要求**它）⇒ 它是**单个引用名**；② 本仓既有实测（`docs/nxsdk_review/evidence/02_实测发现_中文摘要.md` **§D-19** + `nxsdk_availability_upgrade.csv` 的 `/OPE/GSBG` 行）：**真实 Civil NX 会话**上**自建** `StructureGroup` 名（`Girder_All`）与模型**既有**的 `SG1` 分组名**都被接受** ⇒ 取值随模型而定（= `/db/GRUP` 组名） |
+| `OPE.LCOM-GEN::DGNCODE` | **收窄** = 「形状不明」**不**成立 ⇒ 恢复条件改为**一次是非问答**（`OPTION` 键名对不对） | 手册**自己的** `json_schema`（`MIDAS_API_Online_Manual_数据_v1.0.json#253`）与我们**已落盘**的 Schema **逐字节同形**（同一份 `oneOf` 三分支、同一句 `Body structure is selected by CODE_SELECTION.`）⇒ **不**存在「手册扁平 vs 我方 `oneOf`」的分歧；⚠️ `Wrong Field` 在**同族**端点上的**唯一**已知成因是**键名错**（**E-02**：`POST.TEXT` 的 `TABLE_TYPE` ⇒ 实测契约键是 `TEXT_TYPE`） |
+
+⚠️ **`BRDG_GROUP` 的反向风险（写进 YAML 的注释）**：硬凑 `[BG_LEFT, BG_RIGHT]`（示例体里的
+**2** 个取值）会把**合法**的 `Girder_All` / `SG1` 这类**真实**取值在**发请求之前**拦掉
+—— 那是 **R151** 的形态，只是**方向相反**。
+
+#### 8.25.3 计数与台账（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** |
+| 台账（`check_spec_enums.py` 的 `DISPOSITIONS`） | **19** 项**不变**（**收口 16** · **留缺 3**）；**3** 项 `ruling` `R161`/`R162` → **R164** |
+| 普查标志「缺枚举」 | **3 → 3**（`ope/linebmld::TYPE` 的取值 **11 → 9**，去掉 `'0'`/`'1'`） |
+| 普查标志「取值只来自嵌套同名子字段」 | **新增**（机械结果为 **0**） |
+| 枚举约束总数 / 端点 / Schema 文件 | **不变**（754 / 636 / 625） |
+| 端点 YAML | **3** 份的**头部注释**重写（**只**动注释；`sync_manifest.py` 预演 **0** 差异） |
+
+**可执行判定** = `tests/test_midas_product_side_clarification_p171.py`（**14** 项）·
+普查 `python registry/tools/check_spec_enums.py --check` ·
+报告 `docs/reports/P171_产品侧3项澄清_R164_v1.0.md` · 裁决 `docs/07` §16.1 **R164**。
