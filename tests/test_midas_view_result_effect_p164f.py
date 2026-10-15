@@ -127,12 +127,19 @@ def test_p164f_the_default_run_is_a_dry_run() -> None:
 
 
 def test_p164f_the_endpoint_yaml_records_the_measured_effect() -> None:
-    """门槛：端点 YAML 写明**效果判据 FAILED** 与「不空转假设」的对照要求。"""
+    """门槛：端点 YAML 写明**效果判据 FAILED** 与「不空转假设」的对照要求。
+
+    ⚠️ **P166 / R159 更新（只改现状声称、不篡改历史）**：P164-f 当时 `availability` 保持
+    `untested`（本文件原文断言）；**P166 找到成因与纯 API 路径** ⇒ 收口为 `verified`。
+    P164-f 的实测记录（**32023** 字节 / 阳性对照 **38869 vs 32023** / 「静默空转」）
+    **必须原样保留** —— 那是历史事实，也是 R159 的出发点。
+    """
     text = ENDPOINT_YAML.read_text(encoding="utf-8")
     assert "P164-f" in text, "必须留 P164-f 的记录"
     assert "静默空转" in text or "空转" in text, "必须写明实测结论"
     assert "阳性对照" in text, "必须写明方法学要求（否则结论不可信）"
-    assert "availability: untested" in text, "**不**收口 ⇒ availability 不动"
+    assert "availability: verified" in text, "P166 / R159 已收口 ⇒ availability 升为 verified"
+    assert "P166" in text and "R159" in text, "收口必须可回溯到批次 / 裁决编号"
 
 
 def test_p164f_the_ruling_and_the_ledger_register_it() -> None:

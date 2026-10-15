@@ -33,6 +33,17 @@ product_overrides:
 #   · `FIGURE_NAME`：**只能**引用**已存在**的图形名 —— 任意标签 ⇒ **`400`**「It's not found Figure Name」
 #   · `ACTIVE` / `ANGLE` / `DISPLAY` / `RESULT_GRAPHIC` / `STAGE_NAME` 手册示例里都有，本批**实测**可用
 # ⚠️ **只升不降**（同 §4 口径）。
+#
+# ✅ **P166 / R159：`SET_MODE` 是「纯 API 进结果视图（post）」的那个开关**（真机实测）
+#   · `SET_MODE: "post"` ⇒ 切到**结果视图**（**粘性**：后续不带 `SET_MODE` 的 `CAPTURE`
+#     仍在该模式下，直到再发一次 `"pre"`）；`"pre"` ⇒ 切回**前处理视图**。
+#   · **前提**：项目**确有分析结果** —— 无结果时 `SET_MODE: "post"` ⇒ **`400`**
+#     `"Post Mode is not available"`（P160d 实测）。
+#   · `Argument.RESULT_GRAPHIC` = **一次性覆盖**（只作用于本次 `CAPTURE`）；
+#     与之**独立**的 `POST /VIEW/RESULTGRAPHIC` 写的是**持久**结果图形。
+#   · **结果图形只在 post 模式下渲染**，且**必须**带 `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true`
+#     —— 缺它则原生**照样回 `200`** 但**什么都不画**（**R159** 定案：这正是 R157 的成因）。
+#   ⇒ 手册示例 `Capture #1`（`SET_MODE: "post"` + `RESULT_GRAPHIC`）**是**一条可用的纯 API 路径。
 availability: verified
 verified_on: [gen-local]
 table_type: null

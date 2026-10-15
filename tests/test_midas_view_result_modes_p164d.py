@@ -174,12 +174,19 @@ def test_p164d_the_request_schema_does_not_declare_current_mode() -> None:
 
 
 def test_p164d_the_endpoint_yaml_records_the_corrected_cause() -> None:
-    """门槛：端点 YAML 头部写明**更正后的成因**与恢复条件（**不**改 `availability`）。"""
+    """门槛：端点 YAML 头部写明**更正后的成因**与恢复条件。
+
+    ⚠️ **P166 / R159 更新（只改现状声称、不篡改历史）**：本批之前该端点 `availability`
+    保持 `untested`（P164-d 的原文断言）；**P166 找到纯 API 进结果视图（post）的路径**
+    ⇒ 收口为 `verified`。R155 的成因记录（`CURRENT_MODE` / **36** 个取值 / `displacement`）
+    **必须原样保留** —— 那是历史事实。
+    """
     text = ENDPOINT_YAML.read_text(encoding="utf-8")
     assert "CURRENT_MODE" in text, "必须写明变体选择子"
     assert "36" in text, "必须写明取值表规模"
     assert "displacement" in text, "必须写明被拒取值"
-    assert "availability: untested" in text, "本批**不**升级 availability"
+    assert "availability: verified" in text, "P166 / R159 已收口 ⇒ availability 升为 verified"
+    assert "P166" in text and "R159" in text, "收口必须可回溯到批次 / 裁决编号"
 
 
 def test_p164d_the_ruling_table_registers_r155() -> None:

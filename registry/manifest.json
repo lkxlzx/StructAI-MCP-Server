@@ -30578,8 +30578,10 @@
       "examples": 16,
       "execution_mode": "FAST",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",

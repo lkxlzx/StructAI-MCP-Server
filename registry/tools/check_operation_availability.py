@@ -7,6 +7,11 @@
 `concrete:*` 需 `BD/CD/BRD/WD-ANAL`（**原生崩溃护栏**）；`src:*` 需 `SRC.{BC,CC}-ANAL`（同））。
 ⇒ 真实值是 **61 / 71**。**手写的指标必然漂** ⇒ 把它变成**可执行判定**（本工具 + `--check`）。
 
+**P166 / R159 更新**：`VIEW.RESULTGRAPHIC` 的**纯 API 进结果视图（post）路径**已实测找到
+（成因 = 原请求体缺 `TYPE_OF_DISPLAY`）⇒ 该端点 `untested → verified` ⇒ 它挡住的
+**6** 个 `VIEW.*` Operation **解锁** ⇒ 主指标 **61 → 67**（被挡 **10 → 4**、挡点端点 **15 → 14**）。
+证据 = `registry/live/view_result_post_probe.json`；判定 = `tests/test_midas_view_result_post_p166.py`。
+
 口径（**显式**，缺一不可）
 --------------------------
 1. 遍历 `OPERATION_PLANS` 的**全部 71** 个 Operation。
@@ -37,22 +42,22 @@ REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PRODUCT: Final[str] = "GEN_NX"
 """主指标按 **GEN NX** 算（与 `README.md` §1.1 同口径）。"""
 
-EXPECTED_AVAILABLE: Final[int] = 61
-"""**已裁定**的可用数（`docs/07` §16.1 **R158**）。改动它 = 改主指标 ⇒ 必须同时改文档。"""
+EXPECTED_AVAILABLE: Final[int] = 67
+"""**已裁定**的可用数（`docs/07` §16.1 **R158** 定 61；**R159**（P166）收口 `VIEW.RESULTGRAPHIC`
+⇒ **+6** ⇒ **67**）。改动它 = 改主指标 ⇒ 必须同时改文档。"""
 
 EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
     "DESIGN.CODE_CHECK",
     "DESIGN.CONCRETE",
     "DESIGN.SRC",
     "RESULT.ANALYSIS.SUMMARY",
-    "VIEW.DEFORMED_MODEL",
-    "VIEW.DISPLACEMENT",
-    "VIEW.FORCE",
-    "VIEW.MODE_SHAPE",
-    "VIEW.REACTION",
-    "VIEW.STRESS",
 )
-"""**已裁定**的被挡 Operation（**10** 个；顺序无关）。"""
+"""**已裁定**的被挡 Operation（**4** 个；顺序无关）。
+
+⚠️ **P166 / R159**：`VIEW.{DEFORMED_MODEL,DISPLACEMENT,FORCE,MODE_SHAPE,REACTION,STRESS}`
+（**6** 个）**已解锁** —— 它们的唯一挡点 `VIEW.RESULTGRAPHIC` 由 `untested` 收口为 `verified`
+（依据 = 效果判据 **PASSED**：`registry/live/view_result_post_probe.json`）。
+"""
 
 
 def _load() -> tuple[Any, Any, Any]:

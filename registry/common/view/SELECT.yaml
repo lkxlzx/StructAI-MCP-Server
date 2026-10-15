@@ -1,3 +1,10 @@
+# ⚠️ **P166 / R159（离线结论，**零请求**）：本端点**不是**「激活 / 选择结果视图」的入口。**
+# 手册（`MIDAS_API_Online_Manual_数据_v1.0.json` 的 `view/SELECT` 条目）只有
+# `Input URI` / `Active Methods` / **`Response Examples`** 三节：**无请求体**（`methods: [GET]`）、
+# **无 `specifications`**，唯一的响应示例是
+# `{"SELECT": {"NODE_LIST": [67, …], "ELEM_LIST": [92, …]}}`
+# ⇒ 它是**读**「当前被选中的节点 / 单元编号表」的查询，**不**切换任何模式。
+# 想进**结果视图（post）**要用 `VIEW.CAPTURE` 的 `Argument.SET_MODE`（见 `CAPTURE.yaml` 的 R159 段）。
 key: VIEW.SELECT
 namespace: VIEW
 uri: /VIEW/SELECT

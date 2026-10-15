@@ -22,6 +22,12 @@ P164-e 已证明：**表内** `CURRENT_MODE` ⇒ `200`（不再报 `second query
 
 ⚠️ 只发 `VIEW.*`（**视图类**：不改模型、不落库）；jpg 落 `.tmp_p164c/view_effect/`（`.gitignore` 内），
 证据里**只记字节数与 sha256**，**不**记图片内容。
+
+⚠️ **P166 / R159（本文件的定位）**：本文件与 `registry/live/view_result_effect_probe.json` 是
+**P164-f 的历史记录** —— 当时的请求体**只有** `CURRENT_MODE` + `LOAD_CASE_COMB`，
+**缺 `TYPE_OF_DISPLAY`** ⇒ 原生**静默 `200`**。P166 找到成因（`TYPE_OF_DISPLAY.<子块>.OPT_CHECK`
+才是结果图形的开关）并**收口** `availability` ⇒ **新测量一律用
+`registry/tools/probe_view_result_post.py`**；本工具**只**用于复算那份历史证据。
 """
 
 from __future__ import annotations
@@ -108,6 +114,12 @@ def check_offline() -> int:
     print(
         f"✅ 离线自洽：阳性对照通过（仪器有效）· 换取值**未**改变画面 · "
         f"同取值可复现 ⇒ `VIEW.RESULTGRAPHIC` 的 `200` = **静默空转**（**不**收口）"
+    )
+    print(
+        "⚠️ **P166 / R159 已定案**：那次「静默空转」的**成因** = 请求体**缺 `TYPE_OF_DISPLAY`** —— "
+        "`TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true` 才是把结果图形打开的开关。"
+        "补上它之后效果判据 **PASSED** ⇒ `availability` 已收口为 `verified`；"
+        "本文件与 `view_result_effect_probe.json` 是 **P164-f 的历史记录**（当时是对的），原样保留。"
     )
     return 0
 

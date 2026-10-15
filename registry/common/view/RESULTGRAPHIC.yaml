@@ -40,6 +40,36 @@
 # ② 或由 **MIDAS 侧**澄清 `RESULTGRAPHIC` 的生效前提。
 # 证据 = `registry/live/view_result_effect_probe.json`（生成器
 # `registry/tools/probe_view_result_effect.py`，默认预演 / `--probe` 真机 / `--check` 离线自洽）。
+#
+# ✅ **P166 / R159：纯 API 路径**找到了** —— R157 的「静默空转」成因已定 ⇒ **收口**
+# **成因（R157 的答案）**：P164-f 的请求体**只有** `CURRENT_MODE` + `LOAD_CASE_COMB`，
+# **缺** `TYPE_OF_DISPLAY` —— 而 `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true` 才是
+# **真正把结果图形打开**的那个开关。没有它，原生**照样回 `200`** 但**什么都不画**
+# （与 **R119 / R128 / R145 / R146** 同族的「静默 `200`」）。
+#
+# **纯 API 进结果视图（post）的路径（手册自己的写法，实测成立）**：
+#   · `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE`（`"pre"` / `"post"`）**切换视图模式**（粘性）；
+#   · 结果图形由 `POST /VIEW/RESULTGRAPHIC`（**持久**）或 `CAPTURE` 的
+#     `Argument.RESULT_GRAPHIC`（**一次性覆盖**）配置，且**只在 post 模式下渲染**。
+#   ⇒ `SET_MODE: "post"` + `TYPE_OF_DISPLAY` 打开 ⇒ 截图里**真的**出现图例 / 云图 / 变形 /
+#     工况名（`ST: DL`），与 pre 模式的模型视图**判然不同**。
+#
+# **效果判据（铁律 ⓪）= `PASSED`**（2026-10-15，`gen-local`，自建混凝土简支梁，工况 `DL`）：
+#   · ① 基线**可复现**（同设置连拍两次 ⇒ **0** 字节差异 = 噪声地板）
+#   · ② 改前 / 改后：`33438` → **`81236`** 字节（**2.4×**）
+#   · ③ 换 `CURRENT_MODE`（`DisplacementContour` → `DeformedShape`）：`81236` → **`84494`**
+#   · ④ 同取值复现：`81236`（与 ② 逐字节相同）
+#   · ⑤ 图形关掉 ⇒ **`33438`**（回到基线）
+#   · ⑥ `SET_MODE: "pre"` ⇒ 结果**画不出来**（`32457`，与结果视图判然不同）
+#   · ⑦ **阳性对照**：`VIEW.DISPLAY` 的 `ELEMENT.ELEM_NUMBER` 开/关 ⇒ **`40211` vs `33438`**
+#   ⇒ **7 / 7** 满足 ⇒ `availability` **收口为 `verified`**（**只升不降**，同 §4 口径）。
+#
+# ⚠️ **本批只改「现状声称」**：R155 / R157 的**历史记录原样保留**（它们在当时都是对的）。
+# 证据 = `registry/live/view_result_post_probe.json`（生成器
+# `registry/tools/probe_view_result_post.py`，默认预演 / `--probe` 真机 / `--check` 离线自洽）；
+# 判定 = `tests/test_midas_view_result_post_p166.py`；裁决 = `docs/07` §16.1 **R159**。
+# ⚠️ **数据侧缺口仍在**（R155 记录、**本批不修**）：请求 Schema 的 `Argument` **只**声明
+# `TYPE_OF_DISPLAY` ⇒ `spec_guard` **没有** `CURRENT_MODE` 的枚举可查。
 key: VIEW.RESULTGRAPHIC
 namespace: VIEW
 uri: /VIEW/RESULTGRAPHIC
@@ -54,7 +84,8 @@ schema_ref:
   source: help_center
 parser: generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Type of Display
 risk:

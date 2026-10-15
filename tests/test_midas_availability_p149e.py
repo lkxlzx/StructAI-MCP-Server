@@ -76,9 +76,13 @@ EXPECTED_REFUSED = 23
 EXPECTED_ROWS = 84
 EXPECTED_PARTIAL = 61
 EXPECTED_FAILED = 23
-EXPECTED_VERIFIED_TOTAL = 509
+EXPECTED_VERIFIED_TOTAL = 510
+"""全库 `availability == verified`（P149-E 收口后 **509**；**P166 / R159** 再 +1 =
+`VIEW.RESULTGRAPHIC` —— 依据 = 效果判据 `PASSED`，见 `docs/07` §16.1 **R159**）。"""
 EXPECTED_RESPONSE_BLOCKS = 317
-NO_GET = 103
+NO_GET = 102
+"""`availability != verified` 且**没有 `GET`** 的端点数（P149-E 时 **103**；
+**P166 / R159** 把 `VIEW.RESULTGRAPHIC` 收口为 `verified` ⇒ **102**）。"""
 DISABLED = 1
 
 

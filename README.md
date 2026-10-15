@@ -49,7 +49,7 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 
 字段与用法见 [`registry/README.md`](registry/README.md)。
 
-**实测验证状态**（`availability`）：`verified` **509** · `unverified` **23** · `untested` **104**。
+**实测验证状态**（`availability`）：`verified` **510** · `unverified` **23** · `untested` **103**。
 
 ### 1.1 主指标：**接口层端到端**（`docs/07` §15.6.3）
 
@@ -61,7 +61,7 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
 | 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
 | 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
-| 🔴 主指标 | **生产路径可用 Operation** | **`61 / 71`**（缺口 = **15** 个端点 → **10** 个 Operation） |
+| 🔴 主指标 | **生产路径可用 Operation** | **`67 / 71`**（缺口 = **14** 个端点 → **4** 个 Operation） |
 | 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / 633` |
 | ⚪ 账本 | 映射缺口 / 留缺账本 | `489` / `178`（**只登记，不驱动优先级**） |
 
@@ -73,7 +73,16 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 旧值 `62 / 71`（「6 个端点 → 9 个 Operation」）**是错的**：它把 `DESIGN.CODE_CHECK`
 > 算成可用，而该 Operation 的 **7 条路由全部被挡**（`steel` 的末步
 > `POST.STEELCODECHECK` 仍是 `PARTIAL`；`concrete:*` / `src:*` 需**原生崩溃护栏**拦住的
-> `*-ANAL`）。⇒ 真实值 **61 / 71**、挡点端点 **15** 个。**手写的指标必然漂。**
+> `*-ANAL`）。⇒ R158 的真实值 = `61 / 71`、挡点端点 **15** 个。**手写的指标必然漂。**
+
+> ✅ **R159（P166 收口）**：**单点最大杠杆** `VIEW.RESULTGRAPHIC` 已收口 ——
+> 找到**纯 API 进结果视图（post）**的路径（成因 = 原请求体**缺 `TYPE_OF_DISPLAY`**；
+> `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true` 才是把结果图形打开的开关），
+> 效果判据 **7 / 7 PASSED**（`33438` → **`81236`** 字节；换 `CURRENT_MODE` → `84494`；
+> 阳性对照 `40211` vs `33438`）⇒ `untested → verified` ⇒ 它挡住的 **6** 个 `VIEW.*`
+> Operation **解锁** ⇒ 主指标 `61 / 71` → **`67 / 71`**（被挡 **10 → 4** · 挡点端点 **15 → 14**）。
+> 证据 = [`registry/live/view_result_post_probe.json`](registry/live/view_result_post_probe.json)；
+> 生成器 = [`registry/tools/probe_view_result_post.py`](registry/tools/probe_view_result_post.py)（可 `--check` 离线复算）。
 
 ---
 
@@ -151,23 +160,31 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ⚠️ 本节按 **`docs/07` §15.6.3 的指标层级**写：**主指标 = 接口层端到端 / 生产路径可用 Operation**；
 > `availability` 计数与缺口账本属**次指标 / 账本**，**不**驱动优先级。
 
-### 5.1 🔴 主指标上的剩余缺口：**15 个端点 → 10 个 Operation**（收口即 `71 / 71`）
+### 5.1 🔴 主指标上的剩余缺口：**14 个端点 → 4 个 Operation**（收口即 `71 / 71`）
 
 > ⚠️ **R158 更正**：本节旧值写「**6** 个端点 → **9** 个 Operation」（`62 / 71`），
 > **漏了** `DESIGN.CODE_CHECK` 与 `POST.STEELCODECHECK`，且只列了 BD/BC 两个变体、
-> 没算 CD/BRD/WD/CC。⇒ 现值 = **61 / 71**，**逐条**由
+> 没算 CD/BRD/WD/CC。⇒ R158 的真实值 = `61 / 71`。
+> ✅ **R159 收口**：**单点最大杠杆 `VIEW.RESULTGRAPHIC` 已解锁 6 个 Operation**
+> ⇒ 现值 = **`67 / 71`**，**逐条**由
 > `python registry/tools/check_operation_availability.py` 复算。
 
 | 端点 | 挡住 | 谁**能**修 | 状态 |
 | --- | ---: | --- | --- |
-| **`VIEW.RESULTGRAPHIC`** | **6** | **我方** | 多变体端点（手册 **36** 个 `CURRENT_MODE`）；P164-f 真机实测：**表内**取值 ⇒ `200`，**但画面没变** ⇒ **静默空转** ⇒ **留缺**（**R157**）；恢复条件 = 找到**纯 API** 进结果视图（post）的路径 |
 | `DESIGN.RC.KDS-41-20-2022.{BD,CD,BRD,WD}-ANAL` + `{BD,CD,BRD,WD}-TABLE`（**8**） | 2 | **MIDAS 侧** | `BD-ANAL` **实测四次**打崩 `GenNX.exe`（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）⇒ **原生崩溃护栏**（**R154**） |
 | `DESIGN.SRC.AIK-SRC2K.{BC,CC}-ANAL` + `{BC,CC}-TABLE`（**4**） | 2 | **MIDAS 侧** | 同族推定 ⇒ **原生崩溃护栏**（**R154**） |
 | `POST.STEELCODECHECK` | 1 | **我方** | `PARTIAL`（**R152**：单独收口**不解锁** —— `DESIGN.CODE_CHECK` 还需上面 12 个端点） |
 | `POST.TABLE` | 1 | **数据侧裁决** | `spec_guard` 的 `TABLE_TYPE` 枚举**不全**（**R151**） |
 
+> ✅ **已收口（R159，2026-10-15）**：~~`VIEW.RESULTGRAPHIC`（挡 6）~~ ——
+> 纯 API 进结果视图（post）的路径 = `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE: "post"`
+> （**粘性**切换视图模式）+ `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true`（**结果图形的开关**）；
+> 结果图形也可由独立的 `POST /VIEW/RESULTGRAPHIC`（**持久**）配置。
+> ⚠️ **R157 的「静默 `200`」成因** = 请求体**缺 `TYPE_OF_DISPLAY`** —— 不是原生空转。
+
 ⚠️ 上表端点**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
-⚠️ **单点最大杠杆 = `VIEW.RESULTGRAPHIC`**（**6 / 10** 个被挡 Operation，且**唯一**完全在我方手上的大项）。
+⚠️ **剩余 4 个被挡 Operation 里，3 个（12 个 `*-ANAL` / `*-TABLE` 端点）不在我方手上**
+（`R154` 的恢复条件 = MIDAS 侧修 `wg_db.dll`）。
 
 ### 5.2 🟡 次指标：数据侧可达性上限与 Schema 覆盖
 
@@ -176,7 +193,7 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
   `OPE.{CPCREATE,CPEXPORT,CPUPDATEMODEL,CPUPDATERESULT,PROJECTSTATUS,SECTPROP,STORYPROP}` · `VIEW.SELECT`。
   ⚠️ 其中 `DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 属**无请求体**端点
   （`docs/07` §16 R5 的裁决），**不**建 Schema 文件是**如实留缺**，不是遗漏。
-- **`availability` 分档**：`untested` 的 **104** 个里，绝大多数在现有实例上**结构性不可达**
+- **`availability` 分档**：`untested` 的 **103** 个里，绝大多数在现有实例上**结构性不可达**
   （`-M1` 家族 21 个 · `unavailable_on: gen-local` · CIVIL_DESIGNER 独有而 `designer-cloud` 宕机）
   ⇒ `docs/07` §15.6.2 的 **P4** 已明确**降级**，不再消耗批次预算。
 
@@ -184,9 +201,10 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 
 - `DOC.CLOSEALL`、`DOC.EXIT` 等**不可回滚**操作**明确未测**。
 - 云端中继存在**间歇性掉线**（`client does not exist`），客户端已用 `CLIENT_NOT_CONNECTED` 区分。
-- 已实测的**静默失败**形态（**铁律 ⓪** 的由来）：原生**返回 `200` 却什么都不做**至少 **6** 次
+- 已实测的**静默失败**形态（**铁律 ⓪** 的由来）：原生**返回 `200` 却什么都不做**至少 **7** 次
   （`R128` `ITEMS` 外层键无效 · `R145` `DOC.NEW` 忽略路径 · `R146` `DOC.SAVE` 不写盘 ·
-  P160c 事故 A `SAVEAS` 体被拆 · P164-c 的 `DELETE` 响应体**回显删除前状态**）。
+  P160c 事故 A `SAVEAS` 体被拆 · P164-c 的 `DELETE` 响应体**回显删除前状态** ·
+  **R159** `VIEW.RESULTGRAPHIC` 缺 `TYPE_OF_DISPLAY` 时静默不画结果）。
   ⇒ **判据必须是「再读的效果」，不能是状态码。**
 
 详见 `docs/07` §15.6（指标层级）· `docs/08` §3（批次状态）· `registry/README.md`（字段与口径）。

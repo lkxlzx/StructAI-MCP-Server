@@ -1,0 +1,288 @@
+{
+ "tool": "registry/tools/probe_view_result_post.py",
+ "endpoint": "VIEW.RESULTGRAPHIC",
+ "path": "/VIEW/RESULTGRAPHIC",
+ "instance": "gen-local",
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "load_case": "DL",
+ "mode_a": "DisplacementContour",
+ "mode_b": "DeformedShape",
+ "mode_table": "registry/live/view_result_modes.json",
+ "graphic_block": {
+  "CURRENT_MODE": "DisplacementContour",
+  "LOAD_CASE_COMB": {
+   "TYPE": "ST",
+   "NAME": "DL"
+  },
+  "TYPE_OF_DISPLAY": {
+   "CONTOUR": {
+    "OPT_CHECK": true,
+    "NUM_OF_COLOR": 6,
+    "COLOR_TYPE": "rgb"
+   },
+   "DEFORM": {
+    "OPT_CHECK": true
+   },
+   "VALUES": {
+    "OPT_CHECK": true
+   },
+   "LEGEND": {
+    "OPT_CHECK": true
+   }
+  }
+ },
+ "graphic_off_block": {
+  "CURRENT_MODE": "DisplacementContour",
+  "LOAD_CASE_COMB": {
+   "TYPE": "ST",
+   "NAME": "DL"
+  },
+  "TYPE_OF_DISPLAY": {
+   "CONTOUR": {
+    "OPT_CHECK": false
+   },
+   "DEFORM": {
+    "OPT_CHECK": false
+   },
+   "VALUES": {
+    "OPT_CHECK": false
+   },
+   "LEGEND": {
+    "OPT_CHECK": false
+   }
+  }
+ },
+ "steps": [
+  {
+   "tag": "① 图形全关（基线）",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": false
+  },
+  {
+   "tag": "01_baseline",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 33438,
+   "sha256": "2e0296e8258d7556151d61955d3f3a992b1a7e14fd8dc09b02f78f8445d9f5ff"
+  },
+  {
+   "tag": "① 图形全关（基线重复）",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": false
+  },
+  {
+   "tag": "02_baseline_repeat",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 33438,
+   "sha256": "2e0296e8258d7556151d61955d3f3a992b1a7e14fd8dc09b02f78f8445d9f5ff"
+  },
+  {
+   "tag": "② RESULTGRAPHIC(DisplacementContour)",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": true
+  },
+  {
+   "tag": "03_after_graphic_a",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 81236,
+   "sha256": "88fd9b48f2eca5db9e4c6baf924ef6fddefa3d7071d6e7d837e6c6f4467425e9"
+  },
+  {
+   "tag": "③ RESULTGRAPHIC(DeformedShape)",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DeformedShape",
+   "type_of_display_on": true
+  },
+  {
+   "tag": "04_after_graphic_b",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 84494,
+   "sha256": "174e64557e9d8521c5fd34de61c1db2c4dfa29b7cfa2d4c6bd3a09b07b6e8fcb"
+  },
+  {
+   "tag": "④ RESULTGRAPHIC(DisplacementContour) 复现",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": true
+  },
+  {
+   "tag": "05_after_graphic_a_replay",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 81236,
+   "sha256": "88fd9b48f2eca5db9e4c6baf924ef6fddefa3d7071d6e7d837e6c6f4467425e9"
+  },
+  {
+   "tag": "⑤ 图形全关（回基线）",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": false
+  },
+  {
+   "tag": "06_graphic_off_again",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 33438,
+   "sha256": "2e0296e8258d7556151d61955d3f3a992b1a7e14fd8dc09b02f78f8445d9f5ff"
+  },
+  {
+   "tag": "⑥ RESULTGRAPHIC(DisplacementContour) 后走 pre 模式",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": true
+  },
+  {
+   "tag": "07_pre_mode_with_graphic",
+   "capture_argument": {
+    "SET_MODE": "pre"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 32457,
+   "sha256": "b9bc3c72f639c1b039536f69846841b6848dc8a0a2535f8c9d7669a70e27e601"
+  },
+  {
+   "tag": "⑦ 阳性对照 图形全关（P1）",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": false
+  },
+  {
+   "tag": "08_control_P1",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 40211,
+   "sha256": "a269dd6886bcbc397ddcea13a165cb757bc6813a8ef5a727f70f964bc14b8de7",
+   "elem_number": true,
+   "display_status": 200
+  },
+  {
+   "tag": "⑦ 阳性对照 图形全关（P2）",
+   "endpoint": "VIEW.RESULTGRAPHIC",
+   "status": 200,
+   "current_mode": "DisplacementContour",
+   "type_of_display_on": false
+  },
+  {
+   "tag": "08_control_P2",
+   "capture_argument": {
+    "SET_MODE": "post"
+   },
+   "status": 200,
+   "exists": true,
+   "bytes": 33438,
+   "sha256": "2e0296e8258d7556151d61955d3f3a992b1a7e14fd8dc09b02f78f8445d9f5ff",
+   "elem_number": false,
+   "display_status": 200
+  }
+ ],
+ "control": {
+  "what": "VIEW.DISPLAY 的 ELEMENT.ELEM_NUMBER 开/关（R148 的先例）",
+  "rows": [
+   {
+    "tag": "08_control_P1",
+    "capture_argument": {
+     "SET_MODE": "post"
+    },
+    "status": 200,
+    "exists": true,
+    "bytes": 40211,
+    "sha256": "a269dd6886bcbc397ddcea13a165cb757bc6813a8ef5a727f70f964bc14b8de7",
+    "elem_number": true,
+    "display_status": 200
+   },
+   {
+    "tag": "08_control_P2",
+    "capture_argument": {
+     "SET_MODE": "post"
+    },
+    "status": 200,
+    "exists": true,
+    "bytes": 33438,
+    "sha256": "2e0296e8258d7556151d61955d3f3a992b1a7e14fd8dc09b02f78f8445d9f5ff",
+    "elem_number": false,
+    "display_status": 200
+   }
+  ],
+  "instrument_works": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": 21,
+   "/DB/ELEM": 20,
+   "/DB/MATL": 1,
+   "/DB/SECT": 1,
+   "/DB/STLD": 2,
+   "/DB/CNLD": 0
+  },
+  "after": {
+   "/DB/NODE": 21,
+   "/DB/ELEM": 20,
+   "/DB/MATL": 1,
+   "/DB/SECT": 1,
+   "/DB/STLD": 2,
+   "/DB/CNLD": 0
+  },
+  "unchanged": true
+ },
+ "effect": {
+  "baseline_is_deterministic": true,
+  "graphic_changes_the_picture": true,
+  "mode_change_changes_the_picture": true,
+  "same_graphic_reproducible": true,
+  "turning_the_graphic_off_restores_the_baseline": true,
+  "pre_mode_does_not_render_the_result": true,
+  "instrument_works": true,
+  "verdict": "PASSED"
+ },
+ "finding": {
+  "root_cause_of_r157": "R157 的「静默 200 / 画面没变」成因 = 请求体**缺 `TYPE_OF_DISPLAY`** —— `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true` 才是把结果图形打开的开关；只发 `CURRENT_MODE` + `LOAD_CASE_COMB` 时原生照样回 `200` 但什么都不画。",
+  "pure_api_path_into_post_view": "`POST /VIEW/CAPTURE` 的 `Argument.SET_MODE`（`pre` / `post`）**切换视图模式**（粘性）；结果图形由 `POST /VIEW/RESULTGRAPHIC`（**持久**）或 `CAPTURE` 的 `Argument.RESULT_GRAPHIC`（**一次性覆盖**）配置，且**只在 post 模式下渲染**。",
+  "corrected_recovery_condition_of_r157": "已找到 ⇒ R157 的恢复条件①满足；R157 的留缺结论由 **R159** 取代。"
+ },
+ "note": "铁律 ⓪：视图类端点的判据 = 改前/改后**截图字节**。阳性对照（⑦）区分「原生静默空转」与「截图拍不到结果图形」；基线重复（①）把**渲染噪声地板**变成实测值（本批实测 = 0 字节差异）。⚠️ ⑥ 的判据是「pre 模式**画不出**结果」（与结果视图不同），**不是**「与基线逐字节相同」—— pre 模式下的模型视图与 post 模式下的模型视图**不**逐字节相同（视图状态差异），但两者都远小于结果视图（≈33 KB vs ≈81 KB）。⚠️ 本工具**只**产出证据 —— `availability` 的收口**由人裁决**（见 R159）。"
+}

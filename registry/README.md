@@ -1795,3 +1795,65 @@ Fault offset         : 0x2d97e5c        ← 四次实测**完全相同**
 **可执行判定** = `tests/test_midas_native_crash_guard_p164c.py`（**30** 项）·
 `tests/test_midas_view_result_modes_p164d.py`（**10** 项）·
 `tests/test_midas_view_result_modes_probe_p164e.py`（**6** 项）。
+
+⚠️ **P166 / R159 已收口（见 §8.20）** —— 本节 §8.19.5 的「不**收口**」是**当时的**结论，
+**原样保留**（历史记录）；`VIEW.RESULTGRAPHIC` 的 `availability` 现为 **`verified`**。
+
+---
+
+### 8.20 P166：`VIEW.RESULTGRAPHIC` 的**纯 API 进结果视图（post）路径** —— **R157 的成因已定 ⇒ 收口**
+
+> 事故 / 悬案驱动（**不是**手册勘误）。完整报告 =
+> `docs/reports/P166_结果视图post纯API路径_R159_v1.0.md`；裁决 = `docs/07` §16.1 **R159**。
+
+#### 8.20.1 一句话结论
+
+**R157 的「静默 `200` / 画面没变」有答案了**：P164-f 的请求体**只有**
+`CURRENT_MODE` + `LOAD_CASE_COMB`，**缺 `TYPE_OF_DISPLAY`** ——
+而 **`TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true` 才是真正把结果图形打开的那个开关**。
+补上它之后 `VIEW.RESULTGRAPHIC` 的**效果判据 7 / 7 通过** ⇒ **`untested → verified`**。
+
+#### 8.20.2 纯 API 进结果视图（post）的路径（**手册自己的写法**，实测成立）
+
+| 机制 | 语义（实测） |
+| --- | --- |
+| `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE`（`"pre"` / `"post"`） | **切换视图模式**，**粘性**（后续不带 `SET_MODE` 的 `CAPTURE` 仍在该模式下，直到再发 `"pre"`）；**前提** = 项目**确有分析结果**（无结果 ⇒ **`400`** `"Post Mode is not available"`，P160d 实测） |
+| `POST /VIEW/RESULTGRAPHIC` | 写**持久**结果图形（`CURRENT_MODE` + `LOAD_CASE_COMB` + **`TYPE_OF_DISPLAY`**） |
+| `POST /VIEW/CAPTURE` 的 `Argument.RESULT_GRAPHIC` | **一次性覆盖**（只作用于本次 `CAPTURE`）—— 手册 `Capture #1` 示例的形状 |
+| 渲染条件 | 结果图形**只在 post 模式下渲染**；且**必须**有 `TYPE_OF_DISPLAY.<子块>.OPT_CHECK = true`，否则原生**照样回 `200`** 但**什么都不画** |
+
+#### 8.20.3 效果判据（**铁律 ⓪**）= `PASSED`（2026-10-15，`gen-local`，自建混凝土简支梁，工况 `DL`）
+
+| 步 | 动作 | 截图字节 | 结论 |
+| --- | --- | ---: | --- |
+| ① | 图形全关 → `CAPTURE(SET_MODE=post)` ×**2** | **33438** / **33438** | **噪声地板 = 0**（渲染确定） |
+| ② | `RESULTGRAPHIC(DisplacementContour)` → `CAPTURE(post)` | **81236** | **改前 ≠ 改后**（**2.4×**） |
+| ③ | `RESULTGRAPHIC(DeformedShape)` → `CAPTURE(post)` | **84494** | **换取值 ⇒ 画面真的换** |
+| ④ | `RESULTGRAPHIC(DisplacementContour)` → `CAPTURE(post)` | **81236** | **同取值可复现**（与 ② 逐字节相同） |
+| ⑤ | 图形全关 → `CAPTURE(post)` | **33438** | **回到基线** |
+| ⑥ | `RESULTGRAPHIC(...)` → `CAPTURE(**pre**)` | **32457** | **pre 模式画不出结果** |
+| ⑦ | **阳性对照**：`DISPLAY(ELEM_NUMBER)` 开 / 关 → `CAPTURE(post)` | **40211** / **33438** | **仪器有效** |
+
+⇒ **7 / 7** 满足 ⇒ `availability` **收口为 `verified`**（**只升不降**，同 §4 口径）。
+
+#### 8.20.4 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| `availability` 三档 | `verified` **509 → 510** · `untested` **104 → 103** · `unverified` **23（不变）** |
+| **生产路径可用 Operation**（`docs/07` §15.6.3 的主指标） | **`61 / 71` → `67 / 71`**（被挡 **10 → 4** · 挡点端点 **15 → 14**） |
+| 端点 / Schema 文件 | **不变**（636 / 625） |
+| 映射缺口（`product_key = GEN_NX`） | **不变**（489） |
+| 数据侧缺口（**如实保留**） | 请求 Schema 的 `Argument` **只**声明 `TYPE_OF_DISPLAY` ⇒ `spec_guard` **没有** `CURRENT_MODE` 的枚举可查（**R155**，本批**不**修） |
+
+#### 8.20.5 顺带的两条**离线**结论（**零请求**）
+
+* **`VIEW.SELECT` 不是「激活 / 选择结果视图」的入口**：手册条目只有
+  `Input URI` / `Active Methods` / **`Response Examples`** 三节（**无请求体**、**无 `specifications`**），
+  唯一响应示例是 `{"SELECT": {"NODE_LIST": [...], "ELEM_LIST": [...]}}` ⇒ 它是**读**当前选中编号表的查询。
+* **`VIEW.DISPLAY` 与 post / result 无关**：它是**模型显示**（节点 / 单元 / 属性 / 边界 / 荷载 …）；
+  结果方向的字段**只**在 `VIEW.RESULTGRAPHIC` 与 `VIEW.CAPTURE.RESULT_GRAPHIC` 里。
+
+**可执行判定** = `tests/test_midas_view_result_post_p166.py`（**14** 项）·
+工具 `registry/tools/probe_view_result_post.py`（默认预演 / `--probe` 真机 / `--check` 离线自洽）·
+证据 `registry/live/view_result_post_probe.json`（**只记字节数与 sha256**，不记图片内容）。
