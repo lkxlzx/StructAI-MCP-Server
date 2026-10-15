@@ -76,13 +76,15 @@ EXPECTED_REFUSED = 23
 EXPECTED_ROWS = 84
 EXPECTED_PARTIAL = 61
 EXPECTED_FAILED = 23
-EXPECTED_VERIFIED_TOTAL = 510
+EXPECTED_VERIFIED_TOTAL = 511
 """全库 `availability == verified`（P149-E 收口后 **509**；**P166 / R159** 再 +1 =
-`VIEW.RESULTGRAPHIC` —— 依据 = 效果判据 `PASSED`，见 `docs/07` §16.1 **R159**）。"""
+`VIEW.RESULTGRAPHIC` —— 依据 = 效果判据 `PASSED`，见 `docs/07` §16.1 **R159**；
+**P167 / R160** 再 +1 = `POST.TABLE` —— 依据 = 效果判据 `PASSED`，见 **R160**）。"""
 EXPECTED_RESPONSE_BLOCKS = 317
-NO_GET = 102
+NO_GET = 101
 """`availability != verified` 且**没有 `GET`** 的端点数（P149-E 时 **103**；
-**P166 / R159** 把 `VIEW.RESULTGRAPHIC` 收口为 `verified` ⇒ **102**）。"""
+**P166 / R159** 把 `VIEW.RESULTGRAPHIC` 收口为 `verified` ⇒ **102**；
+**P167 / R160** 把 `POST.TABLE` 收口为 `verified` ⇒ **101**）。"""
 DISABLED = 1
 
 

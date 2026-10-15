@@ -242,15 +242,19 @@ def test_p166_the_sibling_view_endpoints_record_the_finding() -> None:
 
 
 def test_p166_the_main_indicator_is_backfilled() -> None:
-    """门槛（**主指标回填**）：`61 / 71` → **`67 / 71`**，`VIEW.RESULTGRAPHIC` 不再是挡点。"""
+    """门槛（**主指标回填**）：`61 / 71` → `67 / 71`（**R159**），`VIEW.RESULTGRAPHIC` 不再是挡点。
+
+    ⚠️ **P167 / R160** 再把 `POST.TABLE` 收口 ⇒ 现值 **`68 / 71`**（被挡 **3** · 挡点端点 **13**）。
+    本用例的判据是「**R159 的收益仍在**」，故按**现值**断言并逐条核 R159 的那 6 个 Operation。
+    """
     spec = importlib.util.spec_from_file_location("check_operation_availability", AVAILABILITY_TOOL)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     document: dict[str, Any] = module.compute()
-    assert document["available"] == 67, document["available"]
-    assert document["blocked"] == 4, document["blocked"]
-    assert document["blocker_endpoint_count"] == 14, sorted(document["blocker_endpoints"])
+    assert document["available"] == 68, document["available"]
+    assert document["blocked"] == 3, document["blocked"]
+    assert document["blocker_endpoint_count"] == 13, sorted(document["blocker_endpoints"])
     assert "VIEW.RESULTGRAPHIC" not in document["blocker_endpoints"], document["blocker_endpoints"]
     for name in (
         "VIEW.DEFORMED_MODEL",

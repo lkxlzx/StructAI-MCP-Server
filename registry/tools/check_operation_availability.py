@@ -12,6 +12,12 @@
 **6** 个 `VIEW.*` Operation **解锁** ⇒ 主指标 **61 → 67**（被挡 **10 → 4**、挡点端点 **15 → 14**）。
 证据 = `registry/live/view_result_post_probe.json`；判定 = `tests/test_midas_view_result_post_p166.py`。
 
+**P167 / R160 更新**：`POST.TABLE` 的 `TABLE_TYPE` 枚举收口（来源换成「登记表 ∪ 手册声明」
+两个**可复算**来源的并集，**225** 个取值；生成器 = `registry/tools/sync_table_type_enum.py`）
+⇒ 该端点 `untested → verified` ⇒ 它挡住的 **1** 个 Operation（`RESULT.ANALYSIS.SUMMARY`，
+**通用取表入口**）**解锁** ⇒ 主指标 **67 → 68**（被挡 **4 → 3**、挡点端点 **14 → 13**）。
+证据 = `registry/live/post_table_enum_probe.json`；判定 = `tests/test_midas_post_table_enum_p167.py`。
+
 口径（**显式**，缺一不可）
 --------------------------
 1. 遍历 `OPERATION_PLANS` 的**全部 71** 个 Operation。
@@ -42,21 +48,31 @@ REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PRODUCT: Final[str] = "GEN_NX"
 """主指标按 **GEN NX** 算（与 `README.md` §1.1 同口径）。"""
 
-EXPECTED_AVAILABLE: Final[int] = 67
+EXPECTED_AVAILABLE: Final[int] = 68
 """**已裁定**的可用数（`docs/07` §16.1 **R158** 定 61；**R159**（P166）收口 `VIEW.RESULTGRAPHIC`
-⇒ **+6** ⇒ **67**）。改动它 = 改主指标 ⇒ 必须同时改文档。"""
+⇒ **+6** = 67；**R160**（P167）收口 `POST.TABLE` ⇒ **+1** = **68**）。
+改动它 = 改主指标 ⇒ 必须同时改文档。"""
 
 EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
     "DESIGN.CODE_CHECK",
     "DESIGN.CONCRETE",
     "DESIGN.SRC",
-    "RESULT.ANALYSIS.SUMMARY",
 )
-"""**已裁定**的被挡 Operation（**4** 个；顺序无关）。
+"""**已裁定**的被挡 Operation（**3** 个；顺序无关）。
 
 ⚠️ **P166 / R159**：`VIEW.{DEFORMED_MODEL,DISPLACEMENT,FORCE,MODE_SHAPE,REACTION,STRESS}`
 （**6** 个）**已解锁** —— 它们的唯一挡点 `VIEW.RESULTGRAPHIC` 由 `untested` 收口为 `verified`
 （依据 = 效果判据 **PASSED**：`registry/live/view_result_post_probe.json`）。
+
+⚠️ **P167 / R160**：`RESULT.ANALYSIS.SUMMARY` **已解锁** —— 它的唯一挡点 `POST.TABLE` 由
+`untested` 收口为 `verified`（依据 = 效果判据 **PASSED**：核心规范化结果 `data.result.rows`
+= **63** 行 ∧ 伪 token **零请求**仍被拦：`registry/live/post_table_enum_probe.json`）。
+
+⚠️ 剩下 **3** 个的被挡端点 **13** 个，**分两组**（`tests/test_midas_operation_availability_p165b.py`
+逐条钉住）：**6** 个 `*-ANAL` = **实测崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154** ⇒ **MIDAS 侧**修
+`wg_db.dll`）；**6** 个 `*-TABLE` = `availability: untested`（要**先有设计结果** ⇒ 依赖那 6 个 `*-ANAL`）
++ **1** 个 `POST.STEELCODECHECK` = `availability: untested`（我方**可**收口，但 **R152**：
+单独收口**不**解锁任何 Operation）。
 """
 
 

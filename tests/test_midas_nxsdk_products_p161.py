@@ -118,13 +118,14 @@ TIER_B_ABSENT_ON_CIVIL: tuple[str, ...] = (
 TIER_B_DEFERRED_KEYS: tuple[str, ...] = TIER_B_PRESENT_ON_CIVIL + TIER_B_ABSENT_ON_CIVIL
 """B 级 21 条的全体（13 个 `/db/*` + 8 个非 `/db/*`）。"""
 
-AVAILABILITY_TOTALS = {"verified": 510, "unverified": 23, "untested": 103}
+AVAILABILITY_TOTALS = {"verified": 511, "unverified": 23, "untested": 102}
 """CIVIL_NX 探针把 **6** 个 `OPE.*` / `VIEW.*` 由 `untested` 收口为 `verified`
 （`200` ∧ 空表 ⇒ `PARTIAL` ⇒ `verified`，与 P149-E 同一口径）⇒ `verified` 503 → **509**、
 `untested` 110 → **104**；`unverified` **不变**（`-M1` 族仍从未验证成功过）。
 **P166 / R159**：`VIEW.RESULTGRAPHIC` 由 `untested` 收口为 `verified`（依据 = 效果判据
-`PASSED`：`registry/live/view_result_post_probe.json`）
-⇒ `verified` **510** · `untested` **103**。"""
+`PASSED`：`registry/live/view_result_post_probe.json`）⇒ `verified` **510** · `untested` **103**。
+**P167 / R160**：`POST.TABLE` 由 `untested` 收口为 `verified`（依据 = 效果判据 `PASSED`：
+`registry/live/post_table_enum_probe.json`）⇒ `verified` **511** · `untested` **102**。"""
 
 
 def _manifest() -> dict:

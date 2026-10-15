@@ -1,0 +1,691 @@
+{
+ "tool": "registry/tools/probe_post_table_enum.py",
+ "endpoint": "POST.TABLE",
+ "operation": "RESULT.ANALYSIS.SUMMARY",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "product": "GEN NX",
+  "probed_at": "2026-10-15"
+ },
+ "enum": {
+  "source_tool": "registry/tools/sync_table_type_enum.py",
+  "registered": 194,
+  "manual": 121,
+  "union": 225,
+  "registered_only": 104,
+  "manual_only": 31,
+  "historical_enum": [
+   "WEIGHT_IRREGULARITY_X",
+   "WEIGHT_IRREGULARITY_Y"
+  ],
+  "superset_of_historical": true,
+  "token_registered": true,
+  "fake_token_absent": true,
+  "enum": [
+   "AXISYMMETRICFG",
+   "AXISYMMETRICFL",
+   "AXISYMMETRICSG",
+   "AXISYMMETRICSL",
+   "BEAMDESIGNFORCES",
+   "BEAMFORCE",
+   "BEAMFORCESTP",
+   "BEAMFORCEVBM",
+   "BEAMSTRESS",
+   "BEAMSTRESS7DOF",
+   "BEAMSTRESS7DOFPSC",
+   "BEAMSTRESSDETAIL",
+   "BEAMSTRESSPSC",
+   "BEAMSTRESSVBM",
+   "BRACEDESIGNFORCES",
+   "BUCKLINGMODE",
+   "CABLECONFIG",
+   "CABLEEFFIENCY",
+   "CABLEFORCE",
+   "CAPACITY_IRREGULARITY",
+   "COLDFORMEDSTEELMEMBERDESIGNFORCES",
+   "COLUMNDESIGNFORCES",
+   "COMPSECTBEAMFORCE",
+   "COMPSECTBEAMSTRESS",
+   "CONCURRENT_JOINT_FORCE",
+   "CRITERIA_FOR_REGULARITY_IN_PLAN",
+   "DISPLACEMENTG",
+   "DISPLACEMENTL",
+   "EFFECTIVE_LENGTH_BEAM",
+   "EFFECTIVE_LENGTH_PLATE",
+   "EFFECTIVE_LENGTH_TRUSS",
+   "EIGENVALUEMODE",
+   "ELASTICLINK",
+   "ELASTICLINKVBM",
+   "ELEMENTWEIGHT",
+   "ELEM_PROP_EACH_STAGE",
+   "EQUILIBRIUM_ELEM_FORCE",
+   "FIBR_ELASTREMAIN",
+   "FIBR_EVENTSTEP",
+   "FIBR_MAXCONTRACT",
+   "FIBR_MEANCOMPCONTRACT",
+   "FIBR_YILEDSTRENGTH",
+   "GENERAL_LINK_DEFORM",
+   "GENERAL_LINK_FORCE",
+   "GENERAL_LINK_FORCEVBM",
+   "HEAT_HYDR_DISPLACEMENT",
+   "HEAT_HYDR_PIPE_NODE_TEMP",
+   "HEAT_HYDR_STRESS_G",
+   "HEAT_HYDR_STRESS_L",
+   "HEAT_HYDR_TEMPERATURE",
+   "HEAT_HYDR_TENS_STRESS",
+   "IEHG_BEAM_SUM_DX",
+   "IEHG_BEAM_SUM_DY",
+   "IEHG_BEAM_SUM_DZ",
+   "IEHG_BEAM_SUM_RY",
+   "IEHG_BEAM_SUM_RZ",
+   "IEHG_DEFORM_DIST",
+   "IEHG_DEFORM_LUMPED",
+   "IEHG_DEFORM_SPRING",
+   "IEHG_DEFORM_TRUSS",
+   "IEHG_DEFORM_WALL",
+   "IEHG_DUCT_D1_DIST",
+   "IEHG_DUCT_D1_LUMPED",
+   "IEHG_DUCT_D1_SPRING",
+   "IEHG_DUCT_D1_TRUSS",
+   "IEHG_DUCT_D1_WALL",
+   "IEHG_DUCT_D2_DIST",
+   "IEHG_DUCT_D2_LUMPED",
+   "IEHG_DUCT_D2_SPRING",
+   "IEHG_DUCT_D2_TRUSS",
+   "IEHG_DUCT_D2_WALL",
+   "IEHG_ELEM_ROT_BEAM",
+   "IEHG_ELEM_ROT_WALL",
+   "IEHG_EVENT_TIME_DIST",
+   "IEHG_EVENT_TIME_LUMPED",
+   "IEHG_EVENT_TIME_SPRING",
+   "IEHG_EVENT_TIME_TRUSS",
+   "IEHG_EVENT_TIME_WALL",
+   "IEHG_FORCE_DIST",
+   "IEHG_FORCE_LUMPED",
+   "IEHG_FORCE_SPRING",
+   "IEHG_FORCE_TRUSS",
+   "IEHG_FORCE_WALL",
+   "IEHG_GL_LINK_SUM_DX",
+   "IEHG_GL_LINK_SUM_DY",
+   "IEHG_GL_LINK_SUM_DZ",
+   "IEHG_GL_LINK_SUM_RX",
+   "IEHG_GL_LINK_SUM_RY",
+   "IEHG_GL_LINK_SUM_RZ",
+   "IEHG_TRUSS_SUM_DX",
+   "INITIAL_ELEM_FORCE",
+   "LACK_OF_FIT_FORCE_BEAM",
+   "LACK_OF_FIT_FORCE_PLATE",
+   "LACK_OF_FIT_FORCE_TRUSS",
+   "LOAD_SUMMARY_X",
+   "LOAD_SUMMARY_Y",
+   "LOAD_SUMMARY_Z",
+   "MASS_SUMMARY_X",
+   "MASS_SUMMARY_Y",
+   "MASS_SUMMARY_Z",
+   "MATERIAL",
+   "NODALBODYFORCE",
+   "OVERTURNING_MOMENT",
+   "PARTICIPATIONVECTORMODE",
+   "PLANESTRAINFG",
+   "PLANESTRAINFL",
+   "PLANESTRAINSG",
+   "PLANESTRAINSL",
+   "PLANESTRESSFG",
+   "PLANESTRESSFL",
+   "PLANESTRESSSG",
+   "PLANESTRESSSL",
+   "PLATEFORCEG",
+   "PLATEFORCEL",
+   "PLATEFORCEUG",
+   "PLATEFORCEUGVBM",
+   "PLATEFORCEUL",
+   "PLATEFORCEULVBM",
+   "PLATEFORCEWA",
+   "PLATESTRAINPG",
+   "PLATESTRAINPL",
+   "PLATESTRAINTG",
+   "PLATESTRAINTL",
+   "PLATESTRESSG",
+   "PLATESTRESSL",
+   "PO_BEAMFORCE",
+   "PO_BEAMSTRESS",
+   "PO_DISP",
+   "PO_ELINKDEFORM",
+   "PO_ELINKFORCE",
+   "PO_GLINKDEFORM",
+   "PO_GLINKFORCE",
+   "PO_TRUSSFORCE",
+   "PO_TRUSSSTRESS",
+   "PO_WALLFORCE",
+   "REACTIONG",
+   "REACTIONL",
+   "REACTIONLSURFACESPRING",
+   "REACTIONSURFACESPRING",
+   "RESULTANT_FORCES",
+   "RESULTANT_FORCESVBM",
+   "RS_NODAL_ACCEL",
+   "RS_NODAL_INERTIA",
+   "SECTIONALL",
+   "SECT_PROP_LAST_STAGE",
+   "SELF_CONST_BEAM_FORCE",
+   "SELF_CONST_BEAM_STRESS",
+   "SOLIDFG",
+   "SOLIDFL",
+   "SOLIDSG",
+   "SOLIDSL",
+   "SOLID_GLOB_PLAST_STRAIN",
+   "SOLID_GLOB_TOTAL_STRAIN",
+   "SOLID_LOCA_PLAST_STRAIN",
+   "SOLID_LOCA_TOTAL_STRAIN",
+   "SRCBEAMDESIGNFORCES",
+   "SRCCOLUMNDESIGNFORCES",
+   "STEELMEMBERDESIGNFORCES",
+   "STIFFNESS_IRREGULARITY_X",
+   "STIFFNESS_IRREGULARITY_Y",
+   "STORY_AXIAL_FORCE_SUM",
+   "STORY_DISPLACEMENT_COMB",
+   "STORY_DISPLACEMENT_X",
+   "STORY_DISPLACEMENT_Y",
+   "STORY_DRIFT_COMB",
+   "STORY_DRIFT_X",
+   "STORY_DRIFT_Y",
+   "STORY_ECNTRICITY",
+   "STORY_MODE_SHAPE",
+   "STORY_SHEAR_FORCE_COEFFICIENT",
+   "STORY_SHEAR_FORCE_RATIO",
+   "STORY_SHEAR_FOR_RS",
+   "STORY_STABILITY_COEFFICIENT_X",
+   "STORY_STABILITY_COEFFICIENT_Y",
+   "SUPPORTS",
+   "TABLE",
+   "THISABSOLUTEACCEL",
+   "THISBEAMFORCE",
+   "THISDISPLACEMENT",
+   "THISGLINKDEFORMATION",
+   "THISGLINKFORCE",
+   "THISRELATIVEACCEL",
+   "THISTRUSSFORCE",
+   "THISVELOCITY",
+   "TH_ACCEL",
+   "TH_BEAMFORCE",
+   "TH_BEAMSTRESS",
+   "TH_DISP",
+   "TH_GLINKDEFORM",
+   "TH_GLINKFORCE",
+   "TH_PLANESTRESS",
+   "TH_PLANE_STRAIN_FORCE",
+   "TH_PLANE_STRAIN_STRESS",
+   "TH_PLANE_STRESS_FORCE",
+   "TH_PLATEFORCE",
+   "TH_PLATESTRESS",
+   "TH_PLATE_UNIT_FORCE",
+   "TH_SOLIDFORCE",
+   "TH_SOLIDSTRESS",
+   "TH_TRUSSFORCE",
+   "TH_TRUSSSTRESS",
+   "TH_VELOCITY",
+   "TH_WALLFORCE",
+   "TNDN_APPROX_LOSS_FORCE",
+   "TNDN_APPROX_LOSS_STRESS",
+   "TNDN_ARRANGEMENT",
+   "TNDN_COORDINATES",
+   "TNDN_ELONGATION",
+   "TNDN_LOSS_FORCE",
+   "TNDN_LOSS_STRESS",
+   "TNDN_STRS_LIMIT_CHECK",
+   "TNDN_WEIGHT_GROUP",
+   "TNDN_WEIGHT_PROFILE",
+   "TNDN_WEIGHT_PROPERTY",
+   "TORSIONAL_AMPLIFICATION_FACTOR_X",
+   "TORSIONAL_AMPLIFICATION_FACTOR_Y",
+   "TORSIONAL_IRREGULARITY_X",
+   "TORSIONAL_IRREGULARITY_Y",
+   "TRUSSFORCE",
+   "TRUSSSTRESS",
+   "ULTIMATE_STORY_SHEAR_FORCE_CHECK",
+   "WALLDESIGNFORCES",
+   "WALL_FORCE_MOMENT",
+   "WEIGHT_IRREGULARITY_X",
+   "WEIGHT_IRREGULARITY_Y"
+  ]
+ },
+ "effect": {
+  "phase": "contract_test",
+  "allow_unverified": true,
+  "native": {
+   "positive": {
+    "token": "DISPLACEMENTG",
+    "status": 200,
+    "envelope_key": "empty",
+    "head_columns": 9,
+    "head_names": [
+     "Index",
+     "Node",
+     "Load",
+     "DX",
+     "DY",
+     "DZ",
+     "RX",
+     "RY",
+     "RZ"
+    ],
+    "data_rows": 63
+   },
+   "negative": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "status": 400,
+    "envelope_key": "error",
+    "head_columns": 0,
+    "head_names": [],
+    "data_rows": 0
+   }
+  },
+  "positive": {
+   "tool": "engineering_result",
+   "operation": "RESULT.ANALYSIS.SUMMARY",
+   "endpoint": "POST.TABLE",
+   "endpoints": [
+    "POST.TABLE"
+   ],
+   "method": "POST",
+   "uri": "/POST/TABLE",
+   "status": "PASSED",
+   "http": 200,
+   "intent": "result",
+   "recon": {
+    "uri": "/POST/TABLE",
+    "allow": [
+     "POST"
+    ],
+    "get_status": 405,
+    "read_root": "",
+    "read_root_present": false,
+    "method_allowed": true
+   },
+   "steps": [
+    {
+     "endpoint": "POST.TABLE",
+     "method": "POST",
+     "intent": "result",
+     "status": 200,
+     "read_root": "",
+     "block": "n/a",
+     "native_size": 0
+    }
+   ],
+   "readback": {
+    "intent": "result",
+    "count": 63,
+    "keys": []
+   },
+   "error": {},
+   "requests": [
+    {
+     "method": "POST",
+     "path": "/gen/POST/TABLE",
+     "body": {
+      "Argument": {
+       "TABLE_TYPE": "DISPLACEMENTG"
+      }
+     },
+     "status": 200,
+     "shape": {
+      "empty": {
+       "kind": "mapping",
+       "size": 4
+      }
+     },
+     "shape_raw_length": 5490
+    }
+   ],
+   "detail": "",
+   "allow_unverified": true,
+   "parameters": {
+    "table_type": "DISPLACEMENTG"
+   }
+  },
+  "positive_ok": true,
+  "negative_control": {
+   "tool": "engineering_result",
+   "operation": "RESULT.ANALYSIS.SUMMARY",
+   "endpoint": "POST.TABLE",
+   "endpoints": [
+    "POST.TABLE"
+   ],
+   "method": "POST",
+   "uri": "/POST/TABLE",
+   "status": "FAILED",
+   "http": 0,
+   "intent": "result",
+   "recon": {
+    "uri": "/POST/TABLE",
+    "allow": [
+     "POST"
+    ],
+    "get_status": 405,
+    "read_root": "",
+    "read_root_present": false,
+    "method_allowed": true
+   },
+   "steps": [
+    {
+     "endpoint": "POST.TABLE",
+     "method": "POST",
+     "intent": "result",
+     "status": 0,
+     "read_root": "",
+     "block": "n/a",
+     "native_size": 0
+    }
+   ],
+   "readback": {
+    "intent": "result",
+    "count": 0,
+    "keys": []
+   },
+   "error": {
+    "code": "STRUCTAI-1200",
+    "reason": "task_not_completed",
+    "stage": "execution",
+    "task_code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "native_stage": "midas_adapter",
+    "native_endpoint": "POST.TABLE"
+   },
+   "requests": [],
+   "detail": "no_interface_request:STRUCTAI-1200",
+   "allow_unverified": true,
+   "parameters": {
+    "table_type": "NOT_A_REAL_TABLE_XYZ"
+   }
+  },
+  "negative_control_ok": true,
+  "sentinel": {
+   "keys": [
+    "/DB/NODE",
+    "/DB/ELEM",
+    "/DB/MATL",
+    "/DB/SECT",
+    "/DB/STLD",
+    "/DB/CNLD"
+   ],
+   "before": {
+    "/DB/NODE": {
+     "status": 200,
+     "count": 21
+    },
+    "/DB/ELEM": {
+     "status": 200,
+     "count": 20
+    },
+    "/DB/MATL": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/SECT": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/STLD": {
+     "status": 200,
+     "count": 2
+    },
+    "/DB/CNLD": {
+     "status": 200,
+     "count": 0
+    }
+   },
+   "after": {
+    "/DB/NODE": {
+     "status": 200,
+     "count": 21
+    },
+    "/DB/ELEM": {
+     "status": 200,
+     "count": 20
+    },
+    "/DB/MATL": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/SECT": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/STLD": {
+     "status": 200,
+     "count": 2
+    },
+    "/DB/CNLD": {
+     "status": 200,
+     "count": 0
+    }
+   },
+   "unchanged": true
+  },
+  "project": ".tmp_p164c/p164c-concrete.mgbx",
+  "project_opened_by_probe": false,
+  "verdict": "PASSED",
+  "note": "判据 = **效果**（铁律 ⓪）：核心规范化结果 `data.result.rows` **非空** ∧ 原生 `200`；阴性对照 = 伪 token **零请求**被 `spec_guard` 拦（R140 的保护未丢）。**Contract-Test 口径**：`allow_unverified=True`（`availability` 收口**前**测效果）。"
+ },
+ "production": {
+  "phase": "production",
+  "allow_unverified": false,
+  "native": {
+   "positive": {
+    "token": "DISPLACEMENTG",
+    "status": 200,
+    "envelope_key": "empty",
+    "head_columns": 9,
+    "head_names": [
+     "Index",
+     "Node",
+     "Load",
+     "DX",
+     "DY",
+     "DZ",
+     "RX",
+     "RY",
+     "RZ"
+    ],
+    "data_rows": 63
+   },
+   "negative": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "status": 400,
+    "envelope_key": "error",
+    "head_columns": 0,
+    "head_names": [],
+    "data_rows": 0
+   }
+  },
+  "positive": {
+   "tool": "engineering_result",
+   "operation": "RESULT.ANALYSIS.SUMMARY",
+   "endpoint": "POST.TABLE",
+   "endpoints": [
+    "POST.TABLE"
+   ],
+   "method": "POST",
+   "uri": "/POST/TABLE",
+   "status": "PASSED",
+   "http": 200,
+   "intent": "result",
+   "recon": {
+    "uri": "/POST/TABLE",
+    "allow": [
+     "POST"
+    ],
+    "get_status": 405,
+    "read_root": "",
+    "read_root_present": false,
+    "method_allowed": true
+   },
+   "steps": [
+    {
+     "endpoint": "POST.TABLE",
+     "method": "POST",
+     "intent": "result",
+     "status": 200,
+     "read_root": "",
+     "block": "n/a",
+     "native_size": 0
+    }
+   ],
+   "readback": {
+    "intent": "result",
+    "count": 63,
+    "keys": []
+   },
+   "error": {},
+   "requests": [
+    {
+     "method": "POST",
+     "path": "/gen/POST/TABLE",
+     "body": {
+      "Argument": {
+       "TABLE_TYPE": "DISPLACEMENTG"
+      }
+     },
+     "status": 200,
+     "shape": {
+      "empty": {
+       "kind": "mapping",
+       "size": 4
+      }
+     },
+     "shape_raw_length": 5490
+    }
+   ],
+   "detail": "",
+   "allow_unverified": false,
+   "parameters": {
+    "table_type": "DISPLACEMENTG"
+   }
+  },
+  "positive_ok": true,
+  "negative_control": {
+   "tool": "engineering_result",
+   "operation": "RESULT.ANALYSIS.SUMMARY",
+   "endpoint": "POST.TABLE",
+   "endpoints": [
+    "POST.TABLE"
+   ],
+   "method": "POST",
+   "uri": "/POST/TABLE",
+   "status": "FAILED",
+   "http": 0,
+   "intent": "result",
+   "recon": {
+    "uri": "/POST/TABLE",
+    "allow": [
+     "POST"
+    ],
+    "get_status": 405,
+    "read_root": "",
+    "read_root_present": false,
+    "method_allowed": true
+   },
+   "steps": [
+    {
+     "endpoint": "POST.TABLE",
+     "method": "POST",
+     "intent": "result",
+     "status": 0,
+     "read_root": "",
+     "block": "n/a",
+     "native_size": 0
+    }
+   ],
+   "readback": {
+    "intent": "result",
+    "count": 0,
+    "keys": []
+   },
+   "error": {
+    "code": "STRUCTAI-1200",
+    "reason": "task_not_completed",
+    "stage": "execution",
+    "task_code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "native_stage": "midas_adapter",
+    "native_endpoint": "POST.TABLE"
+   },
+   "requests": [],
+   "detail": "no_interface_request:STRUCTAI-1200",
+   "allow_unverified": false,
+   "parameters": {
+    "table_type": "NOT_A_REAL_TABLE_XYZ"
+   }
+  },
+  "negative_control_ok": true,
+  "sentinel": {
+   "keys": [
+    "/DB/NODE",
+    "/DB/ELEM",
+    "/DB/MATL",
+    "/DB/SECT",
+    "/DB/STLD",
+    "/DB/CNLD"
+   ],
+   "before": {
+    "/DB/NODE": {
+     "status": 200,
+     "count": 21
+    },
+    "/DB/ELEM": {
+     "status": 200,
+     "count": 20
+    },
+    "/DB/MATL": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/SECT": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/STLD": {
+     "status": 200,
+     "count": 2
+    },
+    "/DB/CNLD": {
+     "status": 200,
+     "count": 0
+    }
+   },
+   "after": {
+    "/DB/NODE": {
+     "status": 200,
+     "count": 21
+    },
+    "/DB/ELEM": {
+     "status": 200,
+     "count": 20
+    },
+    "/DB/MATL": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/SECT": {
+     "status": 200,
+     "count": 1
+    },
+    "/DB/STLD": {
+     "status": 200,
+     "count": 2
+    },
+    "/DB/CNLD": {
+     "status": 200,
+     "count": 0
+    }
+   },
+   "unchanged": true
+  },
+  "project": ".tmp_p164c/p164c-concrete.mgbx",
+  "project_opened_by_probe": false,
+  "verdict": "PASSED",
+  "note": "判据 = **效果**（铁律 ⓪）：核心规范化结果 `data.result.rows` **非空** ∧ 原生 `200`；阴性对照 = 伪 token **零请求**被 `spec_guard` 拦（R140 的保护未丢）。**生产口径**：`allow_unverified=False`（**无**任何旁路）。"
+ }
+}

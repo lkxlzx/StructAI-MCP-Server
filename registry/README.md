@@ -1857,3 +1857,65 @@ Fault offset         : 0x2d97e5c        ← 四次实测**完全相同**
 **可执行判定** = `tests/test_midas_view_result_post_p166.py`（**14** 项）·
 工具 `registry/tools/probe_view_result_post.py`（默认预演 / `--probe` 真机 / `--check` 离线自洽）·
 证据 `registry/live/view_result_post_probe.json`（**只记字节数与 sha256**，不记图片内容）。
+
+### 8.21 P167：`POST.TABLE` 的 `TABLE_TYPE` **枚举收口**（**R151 的恢复条件①**）⇒ **R160**
+
+> 留缺驱动（**不是**手册勘误）。完整报告 = `docs/reports/P167_POST_TABLE枚举收口_R160_v1.0.md`；
+> 裁决 = `docs/07` §16.1 **R160**；上游留缺 = **R151**（P160e-a）。
+
+#### 8.21.1 一句话结论
+
+拦住 `RESULT.ANALYSIS.SUMMARY` 的**不是**原生，而是核心自己的 `spec_guard`（**R140**）
+手里那份**只有 2 个取值**的 `TABLE_TYPE` 枚举（`WEIGHT_IRREGULARITY_X` / `_Y`，
+来自 help center **一篇文章**的 `json_schema`）。枚举来源换成**两个可复算来源的并集**
+⇒ `POST.TABLE` 的 `availability: untested → verified` ⇒ 解锁 **1** 个 Operation。
+
+#### 8.21.2 枚举口径（**可复算**；生成器 = `registry/tools/sync_table_type_enum.py`）
+
+| 来源 | 判据（**机械扫描**，无人工取值） | 规模 |
+| --- | --- | ---: |
+| ① **登记表** | `registry/manifest.json` 里 key 以 `POST.TABLE.` 开头且 `table_type` **非空**的端点 ⇒ 取其 `table_type` | **194** |
+| ② **手册声明** | `MIDAS_API_Online_Manual_数据_v1.0.json` 里**所有**条目 `json_schema` 的 `TABLE_TYPE.enum`（扫描口径与 `sync_request_schemas.table_type_tokens()` **逐字相同**） | **121** |
+| **并集** | 落进 `registry/schema/common/post/TABLE.json` 的 `Argument.TABLE_TYPE.enum` | **225** |
+
+* ⚠️ **只取①会丢掉 `WEIGHT_IRREGULARITY_Y`**（手册声明但**没有**登记成独立端点）⇒ 那是把闸门
+  **收紧**，与 R151 的教训（枚举**可能不全**）**反向** ⇒ 故取**并集**。
+* ⚠️ **枚举只增不减**：`--write` 时若机械结果丢掉了已落盘的任何取值，工具**拒绝写入**
+  （确需收紧要显式 `--allow-shrink`）。
+* ⚠️ **R140 的保护照旧**：伪 token（两个来源都不在）仍被 `spec_guard` 拦在**发请求之前**（**零请求**）；
+  `app/**` **一行未改**（枚举是**数据**，不是 Core 常量）。
+
+#### 8.21.3 效果判据（**铁律 ⓪**）= `PASSED`（2026-10-15，`gen-local`，自建混凝土简支梁）
+
+| 相 | 实测 |
+| --- | --- |
+| **原生阳性** | `POST /POST/TABLE {TABLE_TYPE: "DISPLACEMENTG"}` ⇒ **`200`** · 信封 `"empty"` · `HEAD` **9** 列 · `DATA` **63** 行 |
+| **核心阳性**（`engineering_result` / `RESULT.ANALYSIS.SUMMARY`） | `success=true` · 规范化结果 `data.result.rows` = **63** 行 · 原生请求 `POST /POST/TABLE` ⇒ `200` |
+| **核心阴性** | 伪 token `NOT_A_REAL_TABLE_XYZ` ⇒ `STRUCTAI-1200 value_not_in_spec_enum`（`native_stage = midas_adapter`）∧ **零请求** |
+| **原生阴性** | 伪 token ⇒ **`400`** |
+| **零残留** | 跑前 / 跑后 **6** 个模型哨兵**逐项一致**（取报表**不**写模型） |
+
+⚠️ **两个口径都测**：Contract-Test 口径（`allow_unverified=True`，收口**前**测效果）与
+**生产口径**（`allow_unverified=False`，收口**后**再跑一次）**都** `PASSED`。
+
+#### 8.21.4 顺带实测的两条事实（登记备查）
+
+* **原生对 `TABLE_TYPE` 的取值大小写不敏感**（`displacementg` ⇒ 同样 `200` / **63** 行），
+  而 `spec_guard` 按手册声明的**大写**取值判定 ⇒ 小写会在**核心**被拦（`STRUCTAI-1200`，**零请求**）。
+* **手册声明但未登记**的 token 原生仍可能拒（`TH_DISP` ⇒ **`400`**）—— 那是**取值不适用**，
+  **不是**崩溃风险（R140 的事故是**弹窗 / 访问违例**；这里回的是**干净的 `400`**）。
+
+#### 8.21.5 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| `availability` 三档 | `verified` **510 → 511** · `untested` **103 → 102** · `unverified` **23（不变）** |
+| **生产路径可用 Operation**（`docs/07` §15.6.3 的主指标） | **`67 / 71` → `68 / 71`**（被挡 **4 → 3** · 挡点端点 **14 → 13**） |
+| 端点 / Schema 文件 | **不变**（636 / 625） |
+| 剩余 **3** 个被挡 Operation / **13** 个挡点端点 | **6** 个 `*-ANAL` = **实测崩溃族**（**R154** ⇒ **MIDAS 侧**）；**6** 个 `*-TABLE` = `untested`（要**先有设计结果** ⇒ 依赖那 6 个）+ **1** 个 `POST.STEELCODECHECK`（**R152**：我方**可**收口但**不**解锁） |
+
+**可执行判定** = `tests/test_midas_post_table_enum_p167.py`（**19** 项）·
+工具 `registry/tools/probe_post_table_enum.py`（默认预演 / `--probe` 真机 /
+`--probe --production` 生产口径 / `--check` 离线自洽）·
+枚举生成器 `registry/tools/sync_table_type_enum.py`（`--write` / `--check`）·
+证据 `registry/live/post_table_enum_probe.json`（**不含**凭据 / 响应原文）。

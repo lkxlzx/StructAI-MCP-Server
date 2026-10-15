@@ -23,7 +23,10 @@ P152 把**接口层**的「添加 / 删除 / 编辑」三条**写**路径经**�
    `STRUCTAI-3000` + **`registry_mapping_not_verified`**
    （⚠️ **P157 / R129 同步**：P153 时成因是 `endpoint_not_available_for_product`，因为
    `POST.TABLE` 的 `products` **不含** `GEN_NX`；R129 的数据更正落地后**产品闸门已通过**，
-   现在的闸门是 `availability: untested`）。
+   当时的闸门是 `availability: untested`）。
+   ⚠️ **P167 / R160 同步**：`availability` 已由 `untested` 收口为 `verified`
+   （依据 = 效果判据 `PASSED`）⇒ **闸门已完全打开**；**本证据行是 P153 的时点记录，原样保留**
+   （它当时的结论是对的，且它测的是**空**项目 —— 取报表在空项目上**必然**失败）。
 5. **R126 裁决输入证据包**（`registry/live/canonical_field_gap.json`）：**71** 个模板端点
    逐条字段差集（有 Transformer **10** / 无 **61**）；**字段集缺口 4**
    （`DB.BMLD` / `DB.MATL` / `DB.PRES` / `DB.SECT`）+ **取值缺口 2**（`DB.CONS` / `DB.ELEM`）；
@@ -385,14 +388,19 @@ def test_p153_every_failed_row_carries_its_native_cause() -> None:
 
 
 def test_p153_the_generic_table_entry_is_blocked_by_its_verification_status() -> None:
-    """门槛（⚠️ **P157 / R129 同步，有实测依据**）：通用入口 `POST.TABLE` 的闸门**已前移一位**。
+    """门槛（⚠️ **P157 / R129 + P167 / R160 同步，有实测依据**）：通用入口 `POST.TABLE` 的闸门
+    **已前移一位**，且**现已完全打开**。
 
     P153 / P154 时 `products` **不含** `GEN_NX` ⇒ 解析层拒绝
     （`endpoint_not_available_for_product`）。
     **R129 的数据更正已落地**（`registry/common/post/TABLE.yaml` 的 `products` 补 `GEN_NX`，
-    `sync_manifest` 复算差异 **1 → 0**）⇒ **产品闸门已通过**；现在的成因是
+    `sync_manifest` 复算差异 **1 → 0**）⇒ **产品闸门已通过**；当时的成因是
     `availability: untested` ⇒ **`registry_mapping_not_verified`**（`docs/07` §6.11）。
     ⚠️ 判定**未**放宽：仍是 `FAILED` + **零** transport 调用（**不**发请求）+ 原生原因**逐条**留证。
+    ⚠️ **本证据行（`interface_read_probe.json`）是 P153 的时点记录 ⇒ 原样保留**
+    （当时的结论是对的）。**P167 / R160** 已把 `availability` 收口为 `verified`
+    （依据 = 效果判据 `PASSED`：`registry/live/post_table_enum_probe.json`）⇒ 本用例只核
+    「证据行仍是那一条时点记录」+「数据侧**现在**是 `verified`」。
     """
     row = _read_row(SUMMARY_OPERATION)
     assert row["status"] == "FAILED", row
@@ -404,7 +412,9 @@ def test_p153_the_generic_table_entry_is_blocked_by_its_verification_status() ->
     # ⚠️ **R129 已落地**：`products` **现在**含 `GEN_NX`（产品闸门不再是成因）
     entry = _manifest_entry("POST.TABLE")
     assert "GEN_NX" in [str(item) for item in entry["products"]], entry
-    assert str(entry["availability"]) == "untested", entry
+    # ⚠️ **R160 已落地**：`availability` 由 `untested` 收口为 `verified`（闸门**已打开**）
+    assert str(entry["availability"]) == "verified", entry
+    assert [str(item) for item in entry["verified_on"]] == ["gen-local"], entry
 
 
 # ===== 4. 凭据 / 响应原文（判定 8）=====

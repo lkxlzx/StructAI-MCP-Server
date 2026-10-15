@@ -61,10 +61,11 @@ INSTANCE_ALIAS = "gen-local"
 EXPECTED_PROBED = 49
 """本次只读 L4 实测的端点数。"""
 
-EXPECTED_VERIFIED_TOTAL = 510
+EXPECTED_VERIFIED_TOTAL = 511
 """全库 `availability == verified` 的端点数（P149-B2 的 247 + P149-C 的 49 +
 **P149-D** 取报表判据实测收口的 **185** + **P149-E** 只读补测收口的 **12** +
-**P166** 效果判据收口的 **1** = `VIEW.RESULTGRAPHIC`，见 `docs/07` §16.1 **R159**）。"""
+**P166** 效果判据收口的 **1** = `VIEW.RESULTGRAPHIC`，见 `docs/07` §16.1 **R159** +
+**P167** 效果判据收口的 **1** = `POST.TABLE`，见 **R160**）。"""
 
 EXPECTED_PASSED: tuple[str, ...] = (
     "DESIGN.RC.KDS-41-20-2022.WMAK",

@@ -581,10 +581,13 @@ def test_p122_product_availability_gaps_are_data_facts() -> None:
     （⇒ `RESULT.ANALYSIS.SUMMARY` 在 GEN NX 上被**解析期**拒绝）；P154 只读核实该路由**存在**
     （立 **R129**），**P157 按用户裁决把 `products` 补上 `GEN_NX`** ⇒ 本用例的该条断言
     **反转**（`GEN_NX` **在** `products` 里）。⚠️ 判定**未**放宽：仍逐条钉住数据事实。
+    ⚠️ **P167 / R160 同步（有实测依据）**：`POST.TABLE` 的 `availability` 由 `untested`
+    收口为 **`verified`**（依据 = 效果判据 `PASSED`：`registry/live/post_table_enum_probe.json`）
+    ⇒ 本用例的 `availability` 断言**再次反转**（现值 = `verified`）。
     """
     registry = support.registry()
     assert "GEN_NX" in registry.endpoint("POST.TABLE").products
-    assert registry.endpoint("POST.TABLE").availability == "untested"
+    assert registry.endpoint("POST.TABLE").availability == "verified"
     assert registry.endpoint("POST.STEELCODECHECK").products == ("GEN_NX",)
     assert registry.endpoint("DB.POSL").products == ("CIVIL_NX", "GEN_NX")
     assert registry.has("DB.THOO") is False  # `docs/07` §6.9 提到，但数据里没有

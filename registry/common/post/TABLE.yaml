@@ -1,3 +1,44 @@
+# ⚠️ **R151（P160e-a 留缺）**：`RESULT.ANALYSIS.SUMMARY`（走 `POST /POST/TABLE`）在生产路径上
+# **一个请求都发不出去** —— 核心自己的 `spec_guard`（**R140**，防弹窗 / 防崩溃）在**发请求之前**
+# 回 `STRUCTAI-1200 value_not_in_spec_enum`。成因**不是**原生：真机实测
+# `POST /POST/TABLE {"Argument": {"TABLE_TYPE": "DISPLACEMENTG"}}` ⇒ **`200`** 且
+# `HEAD` **9** 列 / `DATA` **63** 行（自建混凝土简支梁的位移结果）。
+# 拦住它的是 `registry/schema/common/post/TABLE.json` 里**只有 2 个取值**的 `TABLE_TYPE.enum`
+# （来自 help center **一篇文章**的 `json_schema`）⇒ 枚举来源**太窄**。
+#
+# ✅ **P167 / R160：数据侧裁决 —— 枚举的来源换成两个可复算来源的并集** ⇒ **收口**
+# 生成器 = `registry/tools/sync_table_type_enum.py`（`--check` 断言「已落盘 == 机械结果」）：
+#   · ① **登记表** = `registry/manifest.json` 里已登记的 `POST.TABLE.*` 端点的 `table_type`（**194**）；
+#   · ② **手册声明** = `MIDAS_API_Online_Manual_数据_v1.0.json` 的全部 `json_schema` 里
+#     `TABLE_TYPE.enum`（**121**）；
+#   · 并集 = **225** ⇒ **严格包含**旧枚举（`WEIGHT_IRREGULARITY_X` / `_Y` 一个不丢）。
+# ⚠️ **为什么取并集**：只取①会**丢掉** `WEIGHT_IRREGULARITY_Y`（手册声明但**没有**登记成独立
+# 端点）⇒ 那是把闸门**收紧**，与 R151 的教训（枚举**可能不全**）**反向**。
+# ⚠️ **R140 的保护照旧**：伪 token（两个来源都不在）仍被 `spec_guard` 拦在**发请求之前**（**零请求**）。
+#
+# **效果判据（铁律 ⓪）= `PASSED`**（2026-10-15，`gen-local`，自建混凝土简支梁 21 节点 / 20 单元 /
+# 工况 `DL` / **有分析结果**）：
+#   · **原生阳性**：`POST /POST/TABLE {TABLE_TYPE: "DISPLACEMENTG"}` ⇒ **`200`** ·
+#     信封 `"empty"` · `HEAD` **9** 列 · `DATA` **63** 行（**真有数据行**）
+#   · **核心阳性**（`engineering_result` / `RESULT.ANALYSIS.SUMMARY`）：`success=true` ·
+#     规范化结果 `data.result.rows` = **63** 行 · 原生请求 `POST /POST/TABLE` ⇒ `200`
+#   · **核心阴性**（伪 token `NOT_A_REAL_TABLE_XYZ`）：`STRUCTAI-1200 value_not_in_spec_enum`
+#     （`native_stage = midas_adapter`）∧ **零请求** —— R140 的保护**未丢**
+#   · **原生阴性**：伪 token ⇒ **`400`**
+#   · **零残留**：跑前 / 跑后 **6** 个模型哨兵**逐项一致**（取报表**不**写模型）
+#   ⇒ `availability` **收口为 `verified`**（**只升不降**，同 §4 口径）。
+#
+# ⚠️ **两个口径都测了**：Contract-Test 口径（`allow_unverified=True`，收口**前**测效果）
+# 与**生产口径**（`allow_unverified=False`，收口**后**再跑一次）**都** `PASSED`。
+# ⚠️ **顺带实测的两条事实**（登记进本文件，供后续复用）：① 原生对 `TABLE_TYPE` 的取值
+# **大小写不敏感**（`displacementg` ⇒ 同样 `200` / 63 行），而 `spec_guard` 按手册声明的
+# **大写**取值判定 ⇒ 小写会在**核心**被拦（`STRUCTAI-1200`，**零请求**）；
+# ② **手册声明但未登记**的 token 原生仍可能拒（`TH_DISP` ⇒ `400`）—— 那是**取值不适用**，
+# **不是**崩溃风险（R140 的事故是**弹窗 / 访问违例**，这里回的是**干净的 `400`**）。
+#
+# 证据 = `registry/live/post_table_enum_probe.json`（生成器
+# `registry/tools/probe_post_table_enum.py`，默认预演 / `--probe` 真机 / `--check` 离线自洽）；
+# 判定 = `tests/test_midas_post_table_enum_p167.py`；裁决 = `docs/07` §16.1 **R160**。
 key: POST.TABLE
 namespace: POST
 uri: /POST/TABLE
@@ -24,7 +65,8 @@ product_overrides:
       write: none
       shape: flat
       body_kind: object
-availability: untested
+availability: verified
+verified_on: ["gen-local"]
 table_type: null
 title: Story Mass Summary Table
 risk:
