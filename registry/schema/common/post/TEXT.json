@@ -10,15 +10,6 @@
         "Argument": {
           "type": "object",
           "properties": {
-            "TABLE_TYPE": {
-              "type": "string",
-              "description": "ResultTableType",
-              "enum": [
-                "TH_DISP",
-                "TH_VELOCITY",
-                "TH_ACCEL"
-              ]
-            },
             "EXPORT_PATH": {
               "type": "string",
               "description": "ResultTableSavePath"
@@ -123,6 +114,41 @@
             "ANR_NODE": {
               "type": "integer",
               "description": "ReferencePoint-Method2"
+            },
+            "TEXT_TYPE": {
+              "type": "string",
+              "enum": [
+                "PO_BEAMFORCE",
+                "PO_BEAMSTRESS",
+                "PO_DISP",
+                "PO_ELINKDEFORM",
+                "PO_ELINKFORCE",
+                "PO_GLINKDEFORM",
+                "PO_GLINKFORCE",
+                "PO_TRUSSFORCE",
+                "PO_TRUSSSTRESS",
+                "PO_WALLFORCE",
+                "TH_ACCEL",
+                "TH_BEAMFORCE",
+                "TH_BEAMSTRESS",
+                "TH_DISP",
+                "TH_GLINKDEFORM",
+                "TH_GLINKFORCE",
+                "TH_PLANESTRESS",
+                "TH_PLANE_STRAIN_FORCE",
+                "TH_PLANE_STRAIN_STRESS",
+                "TH_PLANE_STRESS_FORCE",
+                "TH_PLATEFORCE",
+                "TH_PLATESTRESS",
+                "TH_PLATE_UNIT_FORCE",
+                "TH_SOLIDFORCE",
+                "TH_SOLIDSTRESS",
+                "TH_TRUSSFORCE",
+                "TH_TRUSSSTRESS",
+                "TH_VELOCITY",
+                "TH_WALLFORCE"
+              ],
+              "description": "文本导出类型（`TEXT_TYPE`，**变体选择子**）。⚠️ **P169 真机裁决**：契约键是 `TEXT_TYPE`（手册**示例体** 29/29 都用它；合法值原生 `200` 并**真的产出文件**、伪值 ⇒ `400 second query is wrong`），而 `TABLE_TYPE`（手册 `json_schema` 与**我们的旧 Schema**）**任何**取值都回 `400 Wrong Field`（**键**错）⇒ 上游 `json_schema` 是**笔误**，已登记勘误。取值 = **两个可复算来源的并集**：① 同一 URI（`post/TEXT`）的**全部**文章 `json_schema` 里声明的取值（**29** 个）；② 已落盘枚举（**只增不减**）。由 `registry/tools/sync_post_text_enum.py` 机械派生（`--check` 断言已落盘 == 机械结果）；依据 = `docs/07` §16.1 R162。"
             }
           }
         }

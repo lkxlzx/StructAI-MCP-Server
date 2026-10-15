@@ -1,3 +1,11 @@
+# ✅ **P169 / R162：`DGNCODE` 枚举收口**（真机**写路径**裁决，用户已授权）。
+# 证据 = `registry/live/lcom_dgncode_probe.json`：`POST /OPE/LCOM-SRC` 的答复分**三档** ——
+#   · `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**
+#     （业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**）
+#   · **伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**
+# 生成器 = `registry/tools/sync_lcom_src_dgncode_enum.py`；**只增不减**。
+# ⚠️ 本自建模型无该规范所需的荷载条件 ⇒ 原生**未**真的建出组合（`GET /DB/LCOM-SRC` 仍空）；
+# 判据是「**取值档位**」而不是「落库成功」（后者需要**完整**的规范荷载模型）。
 key: "OPE.LCOM-SRC"
 namespace: OPE
 uri: "/OPE/LCOM-SRC"

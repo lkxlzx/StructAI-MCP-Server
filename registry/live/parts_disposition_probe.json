@@ -1,0 +1,846 @@
+{
+ "phase": "disposition",
+ "criterion_version": 2,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "targets": [
+  {
+   "endpoint": "POST.TABLE.BEAMFORCE",
+   "token": "BEAMFORCE",
+   "declared_enum": [
+    "Part1",
+    "Part1/4",
+    "Part2/4",
+    "Part3/4",
+    "PartJ"
+   ],
+   "example_value": "PartI",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "empty",
+    "head_columns": 10,
+    "data_rows": 300,
+    "first_row": "[\"1\", \"1\", \"DL\", \"I[1]\", \"0.00\", \"0.00\", \"-94.14\", \"0.00\", \"0.00\", \"0.00\"]",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "PartI": {
+     "status": 200,
+     "data_rows": 60,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"I[1]\", \"0.00\", \"0.00\", \"-94.14\", \"0.00\", \"0.00\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part1": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part1/4": {
+     "status": 200,
+     "data_rows": 60,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"1/4\", \"0.00\", \"0.00\", \"-91.79\", \"0.00\", \"11.62\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part2/4": {
+     "status": 200,
+     "data_rows": 60,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"2/4\", \"0.00\", \"0.00\", \"-89.44\", \"0.00\", \"22.95\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part3/4": {
+     "status": 200,
+     "data_rows": 60,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"3/4\", \"0.00\", \"0.00\", \"-87.08\", \"0.00\", \"33.98\", \"0.00\"]",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": 60,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"J[2]\", \"0.00\", \"0.00\", \"-84.73\", \"0.00\", \"44.72\", \"0.00\"]",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": true,
+    "reason": "",
+    "baseline_rows": 300,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "PartI"
+    ],
+    "raised": false,
+    "code": "",
+    "native_reason": "",
+    "problems": []
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartI', 'PartJ'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.BEAMFORCEVBM",
+   "token": "BEAMFORCEVBM",
+   "declared_enum": [
+    "Part1",
+    "Part1/4",
+    "Part2/4",
+    "Part3/4",
+    "PartJ"
+   ],
+   "example_value": "PartI",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "empty",
+    "head_columns": 11,
+    "data_rows": 2100,
+    "first_row": "[\"1\", \"1\", \"DL\", \"I[1]\", \"Axial\", \"0.00\", \"0.00\", \"-94.14\", \"0.00\", \"0.00\", \"0.00\"]",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "PartI": {
+     "status": 200,
+     "data_rows": 420,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"I[1]\", \"Axial\", \"0.00\", \"0.00\", \"-94.14\", \"0.00\", \"0.00\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part1": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part1/4": {
+     "status": 200,
+     "data_rows": 420,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"1/4\", \"Axial\", \"0.00\", \"0.00\", \"-91.79\", \"0.00\", \"11.62\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part2/4": {
+     "status": 200,
+     "data_rows": 420,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"2/4\", \"Axial\", \"0.00\", \"0.00\", \"-89.44\", \"0.00\", \"22.95\", \"0.00\"]",
+     "auth_error": false
+    },
+    "Part3/4": {
+     "status": 200,
+     "data_rows": 420,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"3/4\", \"Axial\", \"0.00\", \"0.00\", \"-87.08\", \"0.00\", \"33.98\", \"0.00\"]",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": 420,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"DL\", \"J[2]\", \"Axial\", \"0.00\", \"0.00\", \"-84.73\", \"0.00\", \"44.72\", \"0.00\"]",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": true,
+    "reason": "",
+    "baseline_rows": 2100,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "PartI"
+    ],
+    "raised": false,
+    "code": "",
+    "native_reason": "",
+    "problems": []
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartI', 'PartJ'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.THISBEAMFORCE",
+   "token": "THISBEAMFORCE",
+   "declared_enum": [
+    "PartI",
+    "Part1/4",
+    "Part2/4",
+    "Part3/4",
+    "PartJ"
+   ],
+   "example_value": "PartI",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "empty",
+    "head_columns": 16,
+    "data_rows": 40,
+    "first_row": "[\"1\", \"1\", \"Comb1\", \"I\", \"0.00\", \"0.0000\", \"0.00\", \"0.0000\", \"-337.97\", \"0.0000\", \"0.00\", ",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "PartI": {
+     "status": 200,
+     "data_rows": 20,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"Comb1\", \"I\", \"0.00\", \"0.0000\", \"0.00\", \"0.0000\", \"-337.97\", \"0.0000\", \"0.00\", ",
+     "auth_error": false
+    },
+    "Part1/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part2/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part3/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": 20,
+     "empty_block": false,
+     "filters": true,
+     "valid": true,
+     "first_row": "[\"1\", \"1\", \"Comb1\", \"J\", \"0.00\", \"0.0000\", \"0.00\", \"0.0000\", \"-304.18\", \"0.0000\", \"0.00\", ",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": true,
+    "reason": "",
+    "baseline_rows": 40,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "PartI"
+    ],
+    "raised": false,
+    "code": "",
+    "native_reason": "",
+    "problems": []
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['PartI', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.RESULTANT_FORCES",
+   "token": "RESULTANT_FORCES",
+   "declared_enum": [
+    "PartI",
+    "PartJ"
+   ],
+   "example_value": "PartI",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "PartI": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": false,
+    "reason": "基线（**不带** `PARTS`）就是空块 ⇒ 本模型**没有**该表的数据 ⇒ **不可判别**",
+    "baseline_rows": null,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "PartI"
+    ],
+    "raised": false,
+    "code": "",
+    "native_reason": "",
+    "problems": []
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['PartI', 'PartJ'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.RESULTANT_FORCESVBM",
+   "token": "RESULTANT_FORCESVBM",
+   "declared_enum": [
+    "PartI",
+    "PartJ"
+   ],
+   "example_value": "PartI",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "PartI": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": false,
+    "reason": "基线（**不带** `PARTS`）就是空块 ⇒ 本模型**没有**该表的数据 ⇒ **不可判别**",
+    "baseline_rows": null,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "PartI"
+    ],
+    "raised": false,
+    "code": "",
+    "native_reason": "",
+    "problems": []
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['PartI', 'PartJ'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
+   "token": "STEELMEMBERDESIGNFORCES",
+   "declared_enum": [
+    "PartI",
+    "Part1/4",
+    "Part2/4",
+    "Part3/4",
+    "PartJ"
+   ],
+   "example_value": "All",
+   "suspect_value": "Part1",
+   "native_baseline": {
+    "parts": null,
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "measured": {
+    "All": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "PartI": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part1/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part2/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "Part3/4": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    },
+    "PartJ": {
+     "status": 200,
+     "data_rows": null,
+     "empty_block": true,
+     "filters": false,
+     "valid": false,
+     "first_row": "",
+     "auth_error": false
+    }
+   },
+   "native_fake": {
+    "parts": [
+     "PartZ"
+    ],
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": null,
+    "first_row": "",
+    "native_error": "",
+    "auth_error": false
+   },
+   "verdict": {
+    "decidable": false,
+    "reason": "基线（**不带** `PARTS`）就是空块 ⇒ 本模型**没有**该表的数据 ⇒ **不可判别**",
+    "baseline_rows": null,
+    "fake_empty": true
+   },
+   "guard_example": {
+    "values": [
+     "All"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='All' 不在说明书允许值 ['PartI', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
+    ]
+   },
+   "guard_fake": {
+    "values": [
+     "PartZ"
+    ],
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "PARTS[0]='PartZ' 不在说明书允许值 ['PartI', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
+    ]
+   }
+  }
+ ],
+ "decided_endpoints": [
+  "POST.TABLE.BEAMFORCE",
+  "POST.TABLE.BEAMFORCEVBM",
+  "POST.TABLE.THISBEAMFORCE"
+ ],
+ "undecidable_endpoints": [
+  "POST.TABLE.RESULTANT_FORCES",
+  "POST.TABLE.RESULTANT_FORCESVBM",
+  "DESIGN.STEEL.KDS-41-30-2022.TABLE"
+ ],
+ "example_value_filters": true,
+ "suspect_value_same_as_fake": true,
+ "fake_value_empty": true,
+ "generator": {
+  "generator": "registry/tools/sync_parts_enum.py",
+  "targets": [
+   {
+    "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
+    "file": "schema/design/steel/KDS-41-30-2022/TABLE.json",
+    "on_disk": [
+     "PartI",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartJ"
+    ],
+    "manual": [],
+    "probed": [],
+    "expected": [
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ]
+   },
+   {
+    "key": "POST.TABLE.BEAMFORCE",
+    "file": "schema/common/post/TABLE/BEAMFORCE.json",
+    "on_disk": [
+     "Part1",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ],
+    "manual": [
+     "PartI",
+     "PartJ"
+    ],
+    "probed": [],
+    "expected": [
+     "Part1",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ]
+   },
+   {
+    "key": "POST.TABLE.BEAMFORCEVBM",
+    "file": "schema/common/post/TABLE/BEAMFORCEVBM.json",
+    "on_disk": [
+     "Part1",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ],
+    "manual": [
+     "PartI",
+     "PartJ"
+    ],
+    "probed": [],
+    "expected": [
+     "Part1",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ]
+   },
+   {
+    "key": "POST.TABLE.RESULTANT_FORCES",
+    "file": "schema/common/post/TABLE/RESULTANT_FORCES.json",
+    "on_disk": [
+     "PartI",
+     "PartJ"
+    ],
+    "manual": [],
+    "probed": [],
+    "expected": [
+     "PartI",
+     "PartJ"
+    ]
+   },
+   {
+    "key": "POST.TABLE.RESULTANT_FORCESVBM",
+    "file": "schema/common/post/TABLE/RESULTANT_FORCESVBM.json",
+    "on_disk": [
+     "PartI",
+     "PartJ"
+    ],
+    "manual": [],
+    "probed": [],
+    "expected": [
+     "PartI",
+     "PartJ"
+    ]
+   },
+   {
+    "key": "POST.TABLE.THISBEAMFORCE",
+    "file": "schema/common/post/TABLE/THISBEAMFORCE.json",
+    "on_disk": [
+     "PartI",
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartJ"
+    ],
+    "manual": [
+     "PartI",
+     "PartJ"
+    ],
+    "probed": [],
+    "expected": [
+     "Part1/4",
+     "Part2/4",
+     "Part3/4",
+     "PartI",
+     "PartJ"
+    ]
+   }
+  ],
+  "applied": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：**原生对任何 `PARTS` 取值都回 `200`** ⇒ 状态码不判别；v2 判据 = **真的过滤** —— 示例体取值（`PartI`）⇒ 有数据行且**少于**基线；被疑取值（`Part1`）与**伪**取值（`PartZ`）**同形**（空块）⇒ `Part1` 是上游**笔误**；模型无数据的端点 ⇒ **不可判别**，**如实留缺**（**不**猜、**不**算通过）。"
+}

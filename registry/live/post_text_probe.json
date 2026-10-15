@@ -1,0 +1,585 @@
+{
+ "phase": "disposition",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "authorized_export_dir": ".tmp_p164c\\p169_text",
+ "key_disposition": {
+  "true_key": "TEXT_TYPE",
+  "false_key": "TABLE_TYPE",
+  "verdict": true,
+  "rows": [
+   {
+    "request_key": "TEXT_TYPE",
+    "value": "TH_DISP",
+    "status": 200,
+    "file_written": true,
+    "file_bytes": 5,
+    "auth_error": false,
+    "wrong_field": false,
+    "second_query": false,
+    "native_error": "",
+    "fake": {
+     "request_key": "TEXT_TYPE",
+     "value": "NOT_A_REAL_TEXT_XYZ",
+     "status": 400,
+     "file_written": false,
+     "file_bytes": 0,
+     "auth_error": false,
+     "wrong_field": false,
+     "second_query": true,
+     "native_error": "{\"error\":{\"message\":\"MIDAS GEN NX second query is wrong\"}}"
+    }
+   },
+   {
+    "request_key": "TABLE_TYPE",
+    "value": "TH_DISP",
+    "status": 400,
+    "file_written": false,
+    "file_bytes": 0,
+    "auth_error": false,
+    "wrong_field": true,
+    "second_query": false,
+    "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}",
+    "fake": {
+     "request_key": "TABLE_TYPE",
+     "value": "NOT_A_REAL_TEXT_XYZ",
+     "status": 400,
+     "file_written": false,
+     "file_bytes": 0,
+     "auth_error": false,
+     "wrong_field": true,
+     "second_query": false,
+     "native_error": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    }
+   }
+  ]
+ },
+ "declared_types": [
+  "PO_BEAMFORCE",
+  "PO_BEAMSTRESS",
+  "PO_DISP",
+  "PO_ELINKDEFORM",
+  "PO_ELINKFORCE",
+  "PO_GLINKDEFORM",
+  "PO_GLINKFORCE",
+  "PO_TRUSSFORCE",
+  "PO_TRUSSSTRESS",
+  "PO_WALLFORCE",
+  "TH_ACCEL",
+  "TH_BEAMFORCE",
+  "TH_BEAMSTRESS",
+  "TH_DISP",
+  "TH_GLINKDEFORM",
+  "TH_GLINKFORCE",
+  "TH_PLANESTRESS",
+  "TH_PLANE_STRAIN_FORCE",
+  "TH_PLANE_STRAIN_STRESS",
+  "TH_PLANE_STRESS_FORCE",
+  "TH_PLATEFORCE",
+  "TH_PLATESTRESS",
+  "TH_PLATE_UNIT_FORCE",
+  "TH_SOLIDFORCE",
+  "TH_SOLIDSTRESS",
+  "TH_TRUSSFORCE",
+  "TH_TRUSSSTRESS",
+  "TH_VELOCITY",
+  "TH_WALLFORCE"
+ ],
+ "accepted_types": [
+  "PO_BEAMFORCE",
+  "PO_BEAMSTRESS",
+  "PO_DISP",
+  "PO_ELINKDEFORM",
+  "PO_ELINKFORCE",
+  "PO_GLINKDEFORM",
+  "PO_GLINKFORCE",
+  "PO_TRUSSFORCE",
+  "PO_TRUSSSTRESS",
+  "PO_WALLFORCE",
+  "TH_ACCEL",
+  "TH_BEAMFORCE",
+  "TH_BEAMSTRESS",
+  "TH_DISP",
+  "TH_GLINKDEFORM",
+  "TH_GLINKFORCE",
+  "TH_PLANESTRESS",
+  "TH_PLANE_STRAIN_FORCE",
+  "TH_PLANE_STRAIN_STRESS",
+  "TH_PLANE_STRESS_FORCE",
+  "TH_PLATEFORCE",
+  "TH_PLATESTRESS",
+  "TH_PLATE_UNIT_FORCE",
+  "TH_SOLIDFORCE",
+  "TH_SOLIDSTRESS",
+  "TH_TRUSSFORCE",
+  "TH_TRUSSSTRESS",
+  "TH_VELOCITY",
+  "TH_WALLFORCE"
+ ],
+ "rejected_types": [],
+ "rows": [
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_BEAMFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_BEAMSTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_DISP",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_ELINKDEFORM",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_ELINKFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_GLINKDEFORM",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_GLINKFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_TRUSSFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_TRUSSSTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "PO_WALLFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_ACCEL",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_BEAMFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_BEAMSTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_DISP",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_GLINKDEFORM",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_GLINKFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLANESTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLANE_STRAIN_FORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLANE_STRAIN_STRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLANE_STRESS_FORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLATEFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLATESTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_PLATE_UNIT_FORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_SOLIDFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_SOLIDSTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_TRUSSFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_TRUSSSTRESS",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_VELOCITY",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  },
+  {
+   "request_key": "TEXT_TYPE",
+   "value": "TH_WALLFORCE",
+   "status": 200,
+   "file_written": true,
+   "file_bytes": 5,
+   "auth_error": false,
+   "wrong_field": false,
+   "second_query": false,
+   "native_error": ""
+  }
+ ],
+ "generator": {
+  "generator": "registry/tools/sync_post_text_enum.py",
+  "declared": 29,
+  "on_disk": [],
+  "expected": [
+   "PO_BEAMFORCE",
+   "PO_BEAMSTRESS",
+   "PO_DISP",
+   "PO_ELINKDEFORM",
+   "PO_ELINKFORCE",
+   "PO_GLINKDEFORM",
+   "PO_GLINKFORCE",
+   "PO_TRUSSFORCE",
+   "PO_TRUSSSTRESS",
+   "PO_WALLFORCE",
+   "TH_ACCEL",
+   "TH_BEAMFORCE",
+   "TH_BEAMSTRESS",
+   "TH_DISP",
+   "TH_GLINKDEFORM",
+   "TH_GLINKFORCE",
+   "TH_PLANESTRESS",
+   "TH_PLANE_STRAIN_FORCE",
+   "TH_PLANE_STRAIN_STRESS",
+   "TH_PLANE_STRESS_FORCE",
+   "TH_PLATEFORCE",
+   "TH_PLATESTRESS",
+   "TH_PLATE_UNIT_FORCE",
+   "TH_SOLIDFORCE",
+   "TH_SOLIDSTRESS",
+   "TH_TRUSSFORCE",
+   "TH_TRUSSSTRESS",
+   "TH_VELOCITY",
+   "TH_WALLFORCE"
+  ],
+  "applied": true,
+  "key": "TEXT_TYPE"
+ },
+ "cleanup": {
+  "dir": ".tmp_p164c\\p169_text",
+  "removed": [
+   "key_text_type.txt",
+   "v_po_beamforce.txt",
+   "v_po_beamstress.txt",
+   "v_po_disp.txt",
+   "v_po_elinkdeform.txt",
+   "v_po_elinkforce.txt",
+   "v_po_glinkdeform.txt",
+   "v_po_glinkforce.txt",
+   "v_po_trussforce.txt",
+   "v_po_trussstress.txt",
+   "v_po_wallforce.txt",
+   "v_th_accel.txt",
+   "v_th_beamforce.txt",
+   "v_th_beamstress.txt",
+   "v_th_disp.txt",
+   "v_th_glinkdeform.txt",
+   "v_th_glinkforce.txt",
+   "v_th_plane_strain_force.txt",
+   "v_th_plane_strain_stress.txt",
+   "v_th_plane_stress_force.txt",
+   "v_th_planestress.txt",
+   "v_th_plate_unit_force.txt",
+   "v_th_plateforce.txt",
+   "v_th_platestress.txt",
+   "v_th_solidforce.txt",
+   "v_th_solidstress.txt",
+   "v_th_trussforce.txt",
+   "v_th_trussstress.txt",
+   "v_th_velocity.txt",
+   "v_th_wallforce.txt"
+  ],
+  "empty_after": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：请求键由**实测**裁决 —— `TEXT_TYPE` 是**真键**（合法值**真的**产出文件、伪值是**值**错 `second query is wrong`），`TABLE_TYPE` 是**键**错（`Wrong Field`，与取值无关）⇒ **与手册示例体一致、与手册 json_schema / 我们的 Schema 矛盾**（登记为上游勘误）。取值收口的来源 = 被原生**接受**的声明取值（**只增不减**）。⚠️ 副作用**只**落在授权目录，跑完**逐个删除**（零残留）。"
+}

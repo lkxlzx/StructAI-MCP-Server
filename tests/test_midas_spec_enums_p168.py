@@ -100,11 +100,18 @@ EXPECTED_CONSTRAINTS = 754
 
 EXPECTED_BY_CLASS = {
     "manifest": 101,
-    "manual": 227,
+    "manual": 225,
     "single_article": 158,
-    "untraceable": 268,
+    "untraceable": 270,
 }
-"""四个来源分类的规模（合计 **754**）。"""
+"""四个来源分类的规模（合计 **754**）。
+
+⚠️ **P169 / R162 更新（只改现状声称、不篡改历史）**：P168 当时是
+`manual 227 / untraceable 268`。**P169** 把 `POST.TEXT` 的枚举**来源**从「一篇文章的 3 个取值」
+扩到「同一 URI 12 篇文章的 **29** 个」⇒ 那 **3** 条约束的**分类**由 `manual` 变为 `untraceable`
+（29 个取值跨 **12** 篇文章、不再落进**任一**文章的声明并集）⇒ **-2 / +2**。
+⚠️ 约束**总数**（**754**）与其余两类**一字未变**。
+"""
 
 EXPECTED_BLIND_WITH_SCHEMA_JSON = 104
 """`schema_json()`（**旧口径**）下的**盲区**文件数（带枚举的 **225** 个里）。"""

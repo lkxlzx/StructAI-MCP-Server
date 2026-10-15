@@ -395,6 +395,36 @@
                 "solidstresses"
               ],
               "description": "结果图形类型（CURRENT_MODE，**变体选择子**）。取值 = **两个可复算来源的并集**：① 上游手册里 `input_uri` 末段 = `resultgraphic` 的**全部变体文章**（34 篇 / 56 条示例）的 `Argument.CURRENT_MODE`；② 已落盘枚举（**只增不减**）。由 `registry/tools/sync_result_graphic_modes.py` 机械派生（`--check` 断言已落盘 == 机械结果；并与 `registry/live/view_result_modes.json` 机械一致）；依据 = `docs/07` §16.1 R161。"
+            },
+            "LOAD_CASE_COMB": {
+              "type": "object",
+              "description": "荷载工况 / 组合选择（LOAD_CASE_COMB）。⚠️ **R155 记录的缺字段**：请求 Schema 原先**没有**声明它，而上游手册里 `input_uri` 末段 = `resultgraphic` 的**全部 66 条示例都带它**（**56** 条在 Gen NX 手册 + **10** 条在数据手册）。字段形状 = 示例体的**并集**（内键 `TYPE` / `NAME` / `STEP_INDEX` / `MINMAX` / `KEY_NODE_ELEM` / `TH_OPTION` / `OPT_MAXMIN_DIAGRAM` / `SCALE_FACTOR`）。⚠️ **不写 `required`**：内键**随变体而变**（实测 —— 模态类只有 `NAME`、水化热类只有 `STEP_INDEX`）⇒ 交集为**空**，**不**臆造必填性。⚠️ `TYPE` / `NAME` **故意不加 `enum`**：实测取值含 `ST` / `MV` / `SM` / 小写 `st` / 示例占位 `String`，且不同分析类型的取值表**未见**权威来源 ⇒ 加枚举是**收紧**闸门（须另一次显式裁决）。由 `registry/tools/sync_result_graphic_lcc.py` 机械派生（`--check` 断言已落盘 == 机械结果）；依据 = `docs/07` §16.1 R162。",
+              "properties": {
+                "KEY_NODE_ELEM": {
+                  "type": "string"
+                },
+                "MINMAX": {
+                  "type": "string"
+                },
+                "NAME": {
+                  "type": "string"
+                },
+                "OPT_MAXMIN_DIAGRAM": {
+                  "type": "string"
+                },
+                "SCALE_FACTOR": {
+                  "type": "string"
+                },
+                "STEP_INDEX": {
+                  "type": "integer"
+                },
+                "TH_OPTION": {
+                  "type": "string"
+                },
+                "TYPE": {
+                  "type": "string"
+                }
+              }
             }
           }
         }

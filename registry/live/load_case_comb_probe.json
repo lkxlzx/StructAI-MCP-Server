@@ -1,0 +1,148 @@
+{
+ "phase": "effect",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "generator": {
+  "generator": "registry/tools/sync_result_graphic_lcc.py",
+  "examples": 66,
+  "inner_keys": [
+   "KEY_NODE_ELEM",
+   "MINMAX",
+   "NAME",
+   "OPT_MAXMIN_DIAGRAM",
+   "SCALE_FACTOR",
+   "STEP_INDEX",
+   "TH_OPTION",
+   "TYPE"
+  ],
+  "applied": true
+ },
+ "guard": {
+  "raised": false,
+  "code": "",
+  "native_reason": "",
+  "problems": []
+ },
+ "schema_field_declared": true,
+ "transformer_accepts": {
+  "accepted": true,
+  "error": "",
+  "native_keys": [
+   "RESULT_GRAPHIC"
+  ]
+ },
+ "runs": {
+  "case_a": {
+   "case": "DL",
+   "graphic_status": 200,
+   "capture_status": 200,
+   "graphic_error": "",
+   "auth_error": false,
+   "shot": {
+    "name": "case_a",
+    "exists": true,
+    "bytes": 64072,
+    "sha256": "0fa169e351f1385dd18207fe8094528977a227b481d2be0550effb10009eb255"
+   }
+  },
+  "case_b": {
+   "case": "SIDL",
+   "graphic_status": 200,
+   "capture_status": 200,
+   "graphic_error": "",
+   "auth_error": false,
+   "shot": {
+    "name": "case_b",
+    "exists": true,
+    "bytes": 64367,
+    "sha256": "8d266087ec38f35fab818123ed78bec008827766b5978732aa20b5708327941b"
+   }
+  },
+  "bogus": {
+   "case": "NO_SUCH_CASE",
+   "graphic_status": 400,
+   "capture_status": 200,
+   "graphic_error": "{\"error\":{\"message\":\"MIDAS GEN NX Can not find load case.\"}}",
+   "auth_error": false,
+   "shot": {
+    "name": "bogus",
+    "exists": true,
+    "bytes": 64367,
+    "sha256": "8d266087ec38f35fab818123ed78bec008827766b5978732aa20b5708327941b"
+   }
+  }
+ },
+ "native_effect": true,
+ "picture_changes": true,
+ "bogus_rejected": true,
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：补字段**前** `load_case_comb` **进不了**原生请求（`transformer_field_not_in_schema`，字段**不在** Schema 白名单里）；补字段**后** 同一图形、**只换** `LOAD_CASE_COMB.NAME`（`DL` → `SIDL`）⇒ 两张截图**sha256 不同**（画面**真的**变）⇒ 这个字段**真的**被原生用来**选工况**；不存在的工况 ⇒ 原生 `400`。"
+}

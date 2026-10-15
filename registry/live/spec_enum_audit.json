@@ -27,7 +27,7 @@
     "registry/live/introspect_field_diff.json"
    ],
    "role": "弱来源（示例体 / 规格表 / 上游文档 / 自省；**只**用于分档 untraceable）",
-   "tokens": 30586
+   "tokens": 30603
   },
   "note": "「手册声明」**不**包含示例体取值（**R151** 的教训：**不**按手册**示例体**硬凑）；示例体只作弱来源。"
  },
@@ -40,25 +40,25 @@
   },
   "by_class": {
    "manifest": 101,
-   "manual": 227,
+   "manual": 225,
    "single_article": 158,
-   "untraceable": 268
+   "untraceable": 270
   },
   "flags": {
-   "narrow": 1,
-   "missing_enum": 4,
+   "narrow": 0,
+   "missing_enum": 3,
    "unexplained": 0,
-   "example_blocked": 5,
+   "example_blocked": 1,
    "missing_enum_excluded": 7
   },
-  "distinct_value_sets": 247,
+  "distinct_value_sets": 246,
   "guard": {
    "drillable_with_schema_json": 121,
    "drillable_with_effective_schema": 225,
    "blind_with_schema_json": 104,
    "blind_with_effective_schema": 0,
    "example_bodies_checked": 1990,
-   "example_violations": 7,
+   "example_violations": 3,
    "example_violations_case_insensitive_only": 2
   }
  },
@@ -181,14 +181,10 @@
   "examples": {
    "checked": 1990,
    "unattributed": 5,
-   "violations": 7,
+   "violations": 3,
    "violations_case_insensitive_only": 2,
-   "endpoints_with_violations": 5,
+   "endpoints_with_violations": 2,
    "top_endpoints": [
-    [
-     "POST.TABLE.BEAMFORCE",
-     2
-    ],
     [
      "VIEW.RESULTGRAPHIC",
      2
@@ -196,30 +192,9 @@
     [
      "DESIGN.STEEL.KDS-41-30-2022.TABLE",
      1
-    ],
-    [
-     "OPE.LCOM-SRC",
-     1
-    ],
-    [
-     "POST.TABLE.BEAMFORCEVBM",
-     1
     ]
    ],
    "items": [
-    {
-     "endpoint": "OPE.LCOM-SRC",
-     "file": "registry/schema/products/gen_nx/ope/LCOM-SRC.json",
-     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#519",
-     "title": "Load Combination (SRC) - AIK-SRC2K",
-     "example": "Load Combination (SRC) - AIK-SRC2K #1",
-     "wrapper": "none",
-     "problems": [
-      "Argument.DGNCODE='AIK-SRC2K' 不在说明书允许值 ['KDS 41 SRC : 2022'] 内"
-     ],
-     "problem_count": 1,
-     "case_insensitive_only": false
-    },
     {
      "endpoint": "VIEW.RESULTGRAPHIC",
      "file": "registry/schema/common/view/RESULTGRAPHIC.json",
@@ -232,45 +207,6 @@
      ],
      "problem_count": 1,
      "case_insensitive_only": true
-    },
-    {
-     "endpoint": "POST.TABLE.BEAMFORCE",
-     "file": "registry/schema/common/post/TABLE/BEAMFORCE.json",
-     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-     "title": "Beam Force - Analysis Result Table",
-     "example": "Beam Force - Analysis Result Table #1",
-     "wrapper": "Argument",
-     "problems": [
-      "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-     ],
-     "problem_count": 1,
-     "case_insensitive_only": false
-    },
-    {
-     "endpoint": "POST.TABLE.BEAMFORCE",
-     "file": "registry/schema/common/post/TABLE/BEAMFORCE.json",
-     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-     "title": "Beam Force - Analysis Result Table",
-     "example": "Beam Force - Analysis Result Table #2",
-     "wrapper": "Argument",
-     "problems": [
-      "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-     ],
-     "problem_count": 1,
-     "case_insensitive_only": false
-    },
-    {
-     "endpoint": "POST.TABLE.BEAMFORCEVBM",
-     "file": "registry/schema/common/post/TABLE/BEAMFORCEVBM.json",
-     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-     "title": "Beam Force - Analysis Result Table",
-     "example": "Beam Force - Analysis Result Table #3",
-     "wrapper": "Argument",
-     "problems": [
-      "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-     ],
-     "problem_count": 1,
-     "case_insensitive_only": false
     },
     {
      "endpoint": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
@@ -333,34 +269,6 @@
   ],
   "0539a38cac46": [
    "EQUILIBRIUM_ELEM_FORCE"
-  ],
-  "05d20c8c3fee": [
-   "PO_BEAMFORCE",
-   "PO_BEAMSTRESS",
-   "PO_DISP",
-   "PO_ELINKDEFORM",
-   "PO_ELINKFORCE",
-   "PO_GLINKDEFORM",
-   "PO_GLINKFORCE",
-   "PO_TRUSSFORCE",
-   "PO_TRUSSSTRESS",
-   "PO_WALLFORCE",
-   "TH_BEAMFORCE",
-   "TH_BEAMSTRESS",
-   "TH_GLINKDEFORM",
-   "TH_GLINKFORCE",
-   "TH_PLANESTRESS",
-   "TH_PLANE_STRAIN_FORCE",
-   "TH_PLANE_STRAIN_STRESS",
-   "TH_PLANE_STRESS_FORCE",
-   "TH_PLATEFORCE",
-   "TH_PLATESTRESS",
-   "TH_PLATE_UNIT_FORCE",
-   "TH_SOLIDFORCE",
-   "TH_SOLIDSTRESS",
-   "TH_TRUSSFORCE",
-   "TH_TRUSSSTRESS",
-   "TH_WALLFORCE"
   ],
   "07fc833d2bd4": [
    "ACCX",
@@ -599,13 +507,6 @@
   "29f506e9a0b1": [
    "Bottom",
    "Top"
-  ],
-  "2c03d320b0bf": [
-   "Part1",
-   "Part1/4",
-   "Part2/4",
-   "Part3/4",
-   "PartJ"
   ],
   "2c07b48efed7": [
    "100_30",
@@ -1306,6 +1207,14 @@
    "MZ",
    "Mb"
   ],
+  "887523a1c19f": [
+   "Part1",
+   "Part1/4",
+   "Part2/4",
+   "Part3/4",
+   "PartI",
+   "PartJ"
+  ],
   "88b7ff39d487": [
    "SD300",
    "SD400",
@@ -1464,11 +1373,6 @@
    "PartI",
    "PartJ"
   ],
-  "a0bb95af6921": [
-   "TH_ACCEL",
-   "TH_DISP",
-   "TH_VELOCITY"
-  ],
   "a1c74246da21": [
    "KS19(RC)"
   ],
@@ -1620,6 +1524,37 @@
    "4",
    "5",
    "6"
+  ],
+  "c8a2ca96e8e7": [
+   "PO_BEAMFORCE",
+   "PO_BEAMSTRESS",
+   "PO_DISP",
+   "PO_ELINKDEFORM",
+   "PO_ELINKFORCE",
+   "PO_GLINKDEFORM",
+   "PO_GLINKFORCE",
+   "PO_TRUSSFORCE",
+   "PO_TRUSSSTRESS",
+   "PO_WALLFORCE",
+   "TH_ACCEL",
+   "TH_BEAMFORCE",
+   "TH_BEAMSTRESS",
+   "TH_DISP",
+   "TH_GLINKDEFORM",
+   "TH_GLINKFORCE",
+   "TH_PLANESTRESS",
+   "TH_PLANE_STRAIN_FORCE",
+   "TH_PLANE_STRAIN_STRESS",
+   "TH_PLANE_STRESS_FORCE",
+   "TH_PLATEFORCE",
+   "TH_PLATESTRESS",
+   "TH_PLATE_UNIT_FORCE",
+   "TH_SOLIDFORCE",
+   "TH_SOLIDSTRESS",
+   "TH_TRUSSFORCE",
+   "TH_TRUSSSTRESS",
+   "TH_VELOCITY",
+   "TH_WALLFORCE"
   ],
   "cb0c1f6628f9": [
    "Buckling-Restrained Braced Frames",
@@ -1978,6 +1913,10 @@
    "My",
    "Mz"
   ],
+  "f5aeebe6d47e": [
+   "AIK-SRC2K",
+   "KDS 41 SRC : 2022"
+  ],
   "f5ef05d7432f": [
    "GLOBAL",
    "NODE"
@@ -1985,9 +1924,6 @@
   "f66fbc76828b": [
    "Buckling Restrained Braced Frames",
    "Special Plate Shear Walls"
-  ],
-  "fccf22a9060e": [
-   "KDS 41 SRC : 2022"
   ],
   "fd56f841443d": [
    "CONCURRENT_JOINT_FORCE"
@@ -2226,8 +2162,8 @@
    "kind": "enum",
    "pointer": "#/TABLE/properties/Argument/properties/PARTS/items",
    "class": "manual",
-   "value_set": "2c03d320b0bf",
-   "value_count": 5,
+   "value_set": "887523a1c19f",
+   "value_count": 6,
    "declaring_articles": 11,
    "file_source": "help_center"
   },
@@ -2278,8 +2214,8 @@
    "kind": "enum",
    "pointer": "#/TABLE/properties/Argument/properties/PARTS/items",
    "class": "manual",
-   "value_set": "2c03d320b0bf",
-   "value_count": 5,
+   "value_set": "887523a1c19f",
+   "value_count": 6,
    "declaring_articles": 11,
    "file_source": "help_center"
   },
@@ -4730,19 +4666,6 @@
   {
    "file": "registry/schema/common/post/TEXT.json",
    "endpoint": "POST.TEXT",
-   "field": "TABLE_TYPE",
-   "shape": "Argument.TABLE_TYPE",
-   "kind": "enum",
-   "pointer": "#/TEXT/properties/Argument/properties/TABLE_TYPE",
-   "class": "manual",
-   "value_set": "a0bb95af6921",
-   "value_count": 3,
-   "declaring_articles": 58,
-   "file_source": "help_center"
-  },
-  {
-   "file": "registry/schema/common/post/TEXT.json",
-   "endpoint": "POST.TEXT",
    "field": "FORMAT",
    "shape": "Argument.STYLES.FORMAT",
    "kind": "enum",
@@ -4764,6 +4687,19 @@
    "value_set": "b7218bb41227",
    "value_count": 2,
    "declaring_articles": 2,
+   "file_source": "help_center"
+  },
+  {
+   "file": "registry/schema/common/post/TEXT.json",
+   "endpoint": "POST.TEXT",
+   "field": "TEXT_TYPE",
+   "shape": "Argument.TEXT_TYPE",
+   "kind": "enum",
+   "pointer": "#/TEXT/properties/Argument/properties/TEXT_TYPE",
+   "class": "untraceable",
+   "value_set": "c8a2ca96e8e7",
+   "value_count": 29,
+   "declaring_articles": 0,
    "file_source": "help_center"
   },
   {
@@ -11390,9 +11326,9 @@
    "shape": "Argument.DGNCODE",
    "kind": "enum",
    "pointer": "#/properties/Argument/properties/DGNCODE",
-   "class": "manual",
-   "value_set": "fccf22a9060e",
-   "value_count": 1,
+   "class": "untraceable",
+   "value_set": "f5aeebe6d47e",
+   "value_count": 2,
    "declaring_articles": 3,
    "file_source": "help_center"
   },
@@ -11814,73 +11750,8 @@
   }
  ],
  "flags": {
-  "narrow": [
-   {
-    "key": "POST.TEXT::TABLE_TYPE",
-    "file": "registry/schema/common/post/TEXT.json",
-    "endpoint": "POST.TEXT",
-    "field": "TABLE_TYPE",
-    "shape": "Argument.TABLE_TYPE",
-    "pointer": "#/TEXT/properties/Argument/properties/TABLE_TYPE",
-    "value_count": 3,
-    "own_token": "",
-    "missing_count": 26,
-    "missing_sample": [
-     "PO_BEAMFORCE",
-     "PO_BEAMSTRESS",
-     "PO_DISP",
-     "PO_ELINKDEFORM",
-     "PO_ELINKFORCE",
-     "PO_GLINKDEFORM",
-     "PO_GLINKFORCE",
-     "PO_TRUSSFORCE"
-    ],
-    "missing_value_set": "05d20c8c3fee",
-    "source_of_own": "同 URI 同形状的手册声明"
-   }
-  ],
+  "narrow": [],
   "missing_enum": [
-   {
-    "uri": "post/text",
-    "field": "TEXT_TYPE",
-    "endpoints": [
-     "POST.TEXT"
-    ],
-    "articles": 20,
-    "value_count": 29,
-    "ratio": 1.45,
-    "values": [
-     "PO_BEAMFORCE",
-     "PO_BEAMSTRESS",
-     "PO_DISP",
-     "PO_ELINKDEFORM",
-     "PO_ELINKFORCE",
-     "PO_GLINKDEFORM",
-     "PO_GLINKFORCE",
-     "PO_TRUSSFORCE",
-     "PO_TRUSSSTRESS",
-     "PO_WALLFORCE",
-     "TH_ACCEL",
-     "TH_BEAMFORCE",
-     "TH_BEAMSTRESS",
-     "TH_DISP",
-     "TH_GLINKDEFORM",
-     "TH_GLINKFORCE",
-     "TH_PLANESTRESS",
-     "TH_PLANE_STRAIN_FORCE",
-     "TH_PLANE_STRAIN_STRESS",
-     "TH_PLANE_STRESS_FORCE",
-     "TH_PLATEFORCE",
-     "TH_PLATESTRESS",
-     "TH_PLATE_UNIT_FORCE",
-     "TH_SOLIDFORCE",
-     "TH_SOLIDSTRESS",
-     "TH_TRUSSFORCE",
-     "TH_TRUSSSTRESS",
-     "TH_VELOCITY",
-     "TH_WALLFORCE"
-    ]
-   },
    {
     "uri": "ope/linebmld",
     "field": "TYPE",
@@ -11935,54 +11806,6 @@
   ],
   "unexplained": [],
   "example_blocked": [
-   {
-    "key": "OPE.LCOM-SRC::DGNCODE",
-    "endpoint": "OPE.LCOM-SRC",
-    "file": "registry/schema/products/gen_nx/ope/LCOM-SRC.json",
-    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#519",
-    "title": "Load Combination (SRC) - AIK-SRC2K",
-    "example": "Load Combination (SRC) - AIK-SRC2K #1",
-    "problems": [
-     "Argument.DGNCODE='AIK-SRC2K' 不在说明书允许值 ['KDS 41 SRC : 2022'] 内"
-    ],
-    "problem_count": 1
-   },
-   {
-    "key": "POST.TABLE.BEAMFORCE::PARTS",
-    "endpoint": "POST.TABLE.BEAMFORCE",
-    "file": "registry/schema/common/post/TABLE/BEAMFORCE.json",
-    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-    "title": "Beam Force - Analysis Result Table",
-    "example": "Beam Force - Analysis Result Table #1",
-    "problems": [
-     "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-    ],
-    "problem_count": 1
-   },
-   {
-    "key": "POST.TABLE.BEAMFORCE::PARTS",
-    "endpoint": "POST.TABLE.BEAMFORCE",
-    "file": "registry/schema/common/post/TABLE/BEAMFORCE.json",
-    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-    "title": "Beam Force - Analysis Result Table",
-    "example": "Beam Force - Analysis Result Table #2",
-    "problems": [
-     "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-    ],
-    "problem_count": 1
-   },
-   {
-    "key": "POST.TABLE.BEAMFORCEVBM::PARTS",
-    "endpoint": "POST.TABLE.BEAMFORCEVBM",
-    "file": "registry/schema/common/post/TABLE/BEAMFORCEVBM.json",
-    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#578",
-    "title": "Beam Force - Analysis Result Table",
-    "example": "Beam Force - Analysis Result Table #3",
-    "problems": [
-     "PARTS[0]='PartI' 不在说明书允许值 ['Part1', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
-    ],
-    "problem_count": 1
-   },
    {
     "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS",
     "endpoint": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
@@ -12676,9 +12499,9 @@
   {
    "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS",
    "status": "left_open",
-   "ruling": "R161",
-   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1/…/PartJ` / `Part*`，示例用 `PartI` / `All`）。⚠️ 手册的 `json_schema` **声明**与**示例体**不一致 ⇒ **不**按示例体硬凑（**R151** 的教训），需一次**真机裁决**。",
-   "ask": "需一次**真机**（只读取报表，零残留）裁决：`POST /POST/TABLE {\"Argument\": {\"TABLE_TYPE\": \"<本端点的 token>\", \"PARTS\": [\"PartI\"]}}` 原生是否 `200`。是 ⇒ 枚举**确实**太窄（按实测收口）；否 ⇒ 手册示例体是**笔误**（保持枚举，登记勘误）。"
+   "ruling": "R162",
+   "reason": "**拦住手册自己的示例** / **来源太窄**，但 **P169 真机裁决**判定为**不可判别**：本模型（自建混凝土简支梁）**没有**该表的数据 ⇒ **不带** `PARTS` 的**基线**就是**空块**⇒ 无法区分「取值无效」与「模型无数据」。⚠️ **不**按示例体硬凑（**R151** 的教训）⇒ **不**收口，**如实留缺**。",
+   "ask": "需要一个**有该表数据**的模型（`RESULTANT_FORCES` 需**板 / 实体**单元；`DESIGN.STEEL.KDS-41-30-2022.TABLE` 需**钢结构设计**结果）⇒ 重跑 `python registry/tools/probe_parts_disposition_p169.py --probe` 即可裁决。⚠️ 本批**已登记勘误**（`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`）：`Part1` 与同一份手册**规格表**的 `Part I` 矛盾 ⇒ 上游声明可疑，但**未**在这 3 个端点上取得直接证据（不可判别）。"
   },
   {
    "key": "OPE.GSBG::BRDG_GROUP",
@@ -12690,16 +12513,17 @@
   {
    "key": "OPE.LCOM-GEN::DGNCODE",
    "status": "left_open",
-   "ruling": "R161",
-   "reason": "**缺枚举候选**（`DGNCODE` = `AIK-SRC2K` / `KDS 41 20 : 2022`）。⚠️ `OPE.LCOM-GEN` **不在任何 OperationPlan 的生产路径上**（0 处）；且它属于**写**路径（创建荷载组合）⇒ 效果判据会**改模型**。",
-   "ask": "向数据侧问：`DGNCODE` 的取值表是否要按「规范 × 产品」收口（需一次**设计规范清单**的权威来源）。"
+   "ruling": "R162",
+   "reason": "**缺枚举候选**（`DGNCODE` = `AIK-SRC2K` / `KDS 41 20 : 2022`）。**P169 真机裁决**判定为**不可判别**：本 build 对 `POST /OPE/LCOM-GEN` 的**任何**取值都回 `400 Wrong Field`（**形状 / 键错**，与取值**无关**）—— **连手册声明的合法值**也一样 ⇒ 无法区分「取值无效」与「本 build 不支持该形状」。⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）。",
+   "ask": "需要**产品侧**澄清两件事：① 本 build 的 `POST /OPE/LCOM-GEN` 请求**形状**（手册示例体是**扁平**的 `Argument.OPTION/DGNCODE`，我们的 Schema 是 `oneOf` 三分支）；② `DGNCODE` 的取值表是否按「规范 × 产品」收口（本批**未**动它的枚举）。恢复条件：产品侧给出形状或一个**可写**的 `OPE.LCOM-GEN` 调用样例 ⇒ 重跑 `python registry/tools/probe_lcom_dgncode_p169.py --probe`。"
   },
   {
    "key": "OPE.LCOM-SRC::DGNCODE",
-   "status": "left_open",
-   "ruling": "R161",
-   "reason": "**拦住手册自己的示例**：`OPE.LCOM-SRC` 的文章示例用 `DGNCODE='AIK-SRC2K'`，而枚举只有 `['KDS 41 SRC : 2022']` ⇒ 同一 URI 下**两套规范**的取值。⚠️ `OPE.LCOM-SRC` **不在任何 OperationPlan 的生产路径上**（0 处）。",
-   "ask": "与 `OPE.LCOM-GEN::DGNCODE` 同一问题：设计规范取值表的**权威来源**（登记表 / 手册声明 / 产品清单）。"
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**拦住手册自己的示例**：`OPE.LCOM-SRC` 的文章示例用 `DGNCODE='AIK-SRC2K'`，而枚举只有 `['KDS 41 SRC : 2022']`（**同一 URI 的另一篇**文章的 `json_schema` 声明）。**P169 真机裁决**（**用户已授权**一次**写路径**测量，证据 = `registry/live/lcom_dgncode_probe.json`）：`POST /OPE/LCOM-SRC` 的答复分**三档** —— `KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）**同档**（业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**），而**伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**。来源 = 已落盘 ∪ 实测**合法**（**只增不减**）。",
+   "generator": "registry/tools/sync_lcom_src_dgncode_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "OPE.LINEBMLD::TYPE",
@@ -12710,17 +12534,19 @@
   },
   {
    "key": "POST.TABLE.BEAMFORCE::PARTS",
-   "status": "left_open",
-   "ruling": "R161",
-   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1/…/PartJ` / `Part*`，示例用 `PartI` / `All`）。⚠️ 手册的 `json_schema` **声明**与**示例体**不一致 ⇒ **不**按示例体硬凑（**R151** 的教训），需一次**真机裁决**。",
-   "ask": "需一次**真机**（只读取报表，零残留）裁决：`POST /POST/TABLE {\"Argument\": {\"TABLE_TYPE\": \"<本端点的 token>\", \"PARTS\": [\"PartI\"]}}` 原生是否 `200`。是 ⇒ 枚举**确实**太窄（按实测收口）；否 ⇒ 手册示例体是**笔误**（保持枚举，登记勘误）。"
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1`（数字 1），示例用 `PartI`（罗马数字 I））。**P169 真机裁决**（`registry/live/parts_disposition_probe.json`）：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **有数据行且少于基线**（真的过滤）；`Part1` ⇒ **空块**（与**伪**取值 `PartZ` **同形**）⇒ 上游**声明是笔误**（同一份手册的**规格表**写 `Part I`，佐证）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "POST.TABLE.BEAMFORCEVBM::PARTS",
-   "status": "left_open",
-   "ruling": "R161",
-   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1/…/PartJ` / `Part*`，示例用 `PartI` / `All`）。⚠️ 手册的 `json_schema` **声明**与**示例体**不一致 ⇒ **不**按示例体硬凑（**R151** 的教训），需一次**真机裁决**。",
-   "ask": "需一次**真机**（只读取报表，零残留）裁决：`POST /POST/TABLE {\"Argument\": {\"TABLE_TYPE\": \"<本端点的 token>\", \"PARTS\": [\"PartI\"]}}` 原生是否 `200`。是 ⇒ 枚举**确实**太窄（按实测收口）；否 ⇒ 手册示例体是**笔误**（保持枚举，登记勘误）。"
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1`（数字 1），示例用 `PartI`（罗马数字 I））。**P169 真机裁决**（`registry/live/parts_disposition_probe.json`）：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **有数据行且少于基线**（真的过滤）；`Part1` ⇒ **空块**（与**伪**取值 `PartZ` **同形**）⇒ 上游**声明是笔误**（同一份手册的**规格表**写 `Part I`，佐证）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "POST.TABLE.FIBR_ELASTREMAIN::TABLE_TYPE",
@@ -12771,18 +12597,28 @@
    "generator_agrees": true
   },
   {
+   "key": "POST.TABLE.THISBEAMFORCE::PARTS",
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的**示例体**互相矛盾（声明 `Part1`（数字 1），示例用 `PartI`（罗马数字 I））。**P169 真机裁决**（`registry/live/parts_disposition_probe.json`）：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **有数据行且少于基线**（真的过滤）；`Part1` ⇒ **空块**（与**伪**取值 `PartZ` **同形**）⇒ 上游**声明是笔误**（同一份手册的**规格表**写 `Part I`，佐证）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_parts_enum.py",
+   "generator_agrees": true
+  },
+  {
    "key": "POST.TEXT::TABLE_TYPE",
-   "status": "left_open",
-   "ruling": "R161",
-   "reason": "**来源太窄**（本端点是 `post/text` 这个 URI 的**唯一** Schema 文件）：枚举只有 **3** 个取值（`TH_DISP` / `TH_VELOCITY` / `TH_ACCEL`，来自**一篇文章**），而同一 URI 的 **10** 篇文章在 `json_schema` 里声明了 **27** 个（含 `PO_*`）⇒ 收口的来源**可复算**。⚠️ 但**效果判据要真机发 `POST /POST/TEXT`** —— 该端点**必须带 `EXPORT_PATH`**（不带 ⇒ 与 **R143** 同族的**弹窗**风险；带上 ⇒ 在实例磁盘**落文件**）⇒ 本批**不**碰（**不**用「枚举对得上」冒充效果）。",
-   "ask": "需要用户**显式授权**一次真机测量：在 `gen-local` 上发 `POST /POST/TEXT`（写一个文本输出文件），或指定一个**允许落盘**的目录；另需裁决请求键到底用 `TABLE_TYPE`（手册 `json_schema` 与我们的 Schema）还是 `TEXT_TYPE`（手册**示例体**）—— 两者矛盾。"
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**来源太窄** + **请求键错误**（本端点是 `post/text` 这个 URI 的**唯一** Schema 文件）：枚举只有 **3** 个取值（来自**一篇文章**），而同一 URI 的 **12** 篇文章在 `json_schema` 里声明了 **29** 个 ⇒ 收口来源可复算。⚠️ **P169 真机裁决**（用户已授权）另外裁定：契约键是 **`TEXT_TYPE`**（手册**示例体** 29/29 都用它；合法值原生 `200` 并**真的产出文件**、伪值 ⇒ `400 second query is wrong`），而 `TABLE_TYPE` **任何**取值都回 `400 Wrong Field`（**键**错）⇒ 上游 `json_schema` 与**我们的旧 Schema** 都是**笔误**，已登记勘误。⇒ 收口 = **键重命名**（`TABLE_TYPE` → `TEXT_TYPE`）+ 枚举并集（**只增不减**）。",
+   "generator": "registry/tools/sync_post_text_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "POST.TEXT::TEXT_TYPE",
-   "status": "left_open",
-   "ruling": "R161",
-   "reason": "**缺枚举候选**（示例体用 `TEXT_TYPE`，29 个取值），但**手册声明**（`json_schema`）与我们的 Schema 都用 `TABLE_TYPE` ⇒ 按「**声明 > 示例**」的口径，**契约键 = `TABLE_TYPE`**；`TEXT_TYPE` 是手册**示例体**的写法差异 ⇒ **不**按示例体硬凑（**R151** 的教训）。",
-   "ask": "见 `POST.TEXT::TABLE_TYPE`：一次真机测量即可同时裁决「哪个键 + 哪些取值」。"
+   "status": "closed",
+   "ruling": "R162",
+   "reason": "**缺枚举候选**（示例体用 `TEXT_TYPE`，29 个取值）—— **P169 真机裁决**已裁定`TEXT_TYPE` 就是**契约键**（见 `POST.TEXT::TABLE_TYPE`）⇒ 枚举挂在它下面，来源 = 手册声明并集 ∪ 已落盘（**只增不减**）。",
+   "generator": "registry/tools/sync_post_text_enum.py",
+   "generator_agrees": true
   },
   {
    "key": "VIEW.RESULTGRAPHIC::CURRENT_MODE",

@@ -1,3 +1,13 @@
+# ✅ **P169 / R162：数据侧裁决 —— 请求键由 `TABLE_TYPE` 更正为 `TEXT_TYPE` + 枚举收口**
+# 真机裁决（用户已授权；证据 = `registry/live/post_text_probe.json`）：
+#   · `TEXT_TYPE` = **真键** ⇒ 合法值 **`200`** ∧ **真的产出文件**；伪值 ⇒ `400 second query is wrong`（**值**错）
+#   · `TABLE_TYPE` = **键**错 ⇒ **任何**取值都 `400 Wrong Field` ⇒ 按**旧** Schema 发的请求**全部**失败
+#     （即：本端点在收口**前**根本用不了）—— 手册的 `json_schema`（12 篇）与**我们的旧 Schema** 都是笔误
+#   · 取值收口：同一 URI 的 12 篇文章声明 **29** 个（`TH_*` 20 + `PO_*` 9）⇒ 逐条实测**全部**被原生接受
+# 生成器 = `registry/tools/sync_post_text_enum.py`（`--check` 断言「已落盘 == 机械结果」；**只增不减**）；
+# 勘误 = `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` §1.6b **E-01**。
+# ⚠️ `STEP` 是**实测必需**字段（缺它一律 `400 Wrong Field`）—— 本批**未**给 Schema 加 `required`
+# （加 `required` 是**收紧**，须单独裁决）；**副作用**：`POST /POST/TEXT` 会落文件（`EXPORT_PATH` 必需）。
 key: POST.TEXT
 namespace: POST
 uri: /POST/TEXT

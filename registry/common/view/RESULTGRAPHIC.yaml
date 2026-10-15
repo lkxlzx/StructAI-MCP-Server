@@ -1,3 +1,10 @@
+# ✅ **P169 / R162：`LOAD_CASE_COMB` 缺字段已补**（**R155** 记录 → 收口）。
+# 真机真效果（证据 = `registry/live/load_case_comb_probe.json`）：同一图形、**只换**
+# `LOAD_CASE_COMB.NAME`（`DL` → `SIDL`）⇒ 两张截图 **sha256 不同**（画面**真的**变）；
+# 不存在的工况 ⇒ 原生 `400 Can not load case.`；核心闸门**未**误伤（无枚举的字段不校验）。
+# 生成器 = `registry/tools/sync_result_graphic_lcc.py`；勘误 = 勘误文件 §1.6b **E-03**。
+# ⚠️ `TYPE` / `NAME` **故意不加 `enum`**（实测取值含 `ST`/`MV`/`SM`/小写 `st`/示例占位 `String`）
+# —— 加枚举是**收紧**闸门，须单独裁决。
 # ⚠️ **P160d（**未**收口 —— 如实留缺）**：`POST /gen/VIEW/RESULTGRAPHIC` → **`400`**
 # `{"error":{"message":"MIDAS GEN NX second query is wrong"}}`
 # 取值 = `CURRENT_MODE: "displacement"` + `LOAD_CASE_COMB: {TYPE: "ST", NAME: "CASE1"}`，

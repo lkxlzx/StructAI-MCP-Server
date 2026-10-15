@@ -181,22 +181,40 @@ _VARIANT_TABLE_TYPE: Final[Disposition] = Disposition(
 )
 """变体端点的 `TABLE_TYPE` 收口（**同一处置**，逐条登记 key；见生成器）。"""
 
-_PARTS_CONFLICT: Final[Disposition] = Disposition(
-    status="left_open",
-    ruling="R161",
+_PARTS_CLOSED: Final[Disposition] = Disposition(
+    status="closed",
+    ruling="R162",
     reason=(
         "**拦住手册自己的示例** / **来源太窄**：`PARTS`（输出部位）的枚举与手册**同一篇文章**的"
-        "**示例体**互相矛盾（声明 `Part1/…/PartJ` / `Part*`，示例用 `PartI` / `All`）。"
-        "⚠️ 手册的 `json_schema` **声明**与**示例体**不一致 ⇒ **不**按示例体硬凑"
-        "（**R151** 的教训），需一次**真机裁决**。"
+        "**示例体**互相矛盾（声明 `Part1`（数字 1），示例用 `PartI`（罗马数字 I））。"
+        "**P169 真机裁决**（`registry/live/parts_disposition_probe.json`）："
+        "`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **有数据行且少于基线**（真的过滤）；"
+        "`Part1` ⇒ **空块**（与**伪**取值 `PartZ` **同形**）⇒ 上游**声明是笔误**"
+        "（同一份手册的**规格表**写 `Part I`，佐证）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。"
+    ),
+    generator="registry/tools/sync_parts_enum.py",
+)
+"""`PARTS` 的「声明 vs 示例」冲突（**P169 真机裁决后收口**；见 `sync_parts_enum.py`）。"""
+
+_PARTS_UNDECIDABLE: Final[Disposition] = Disposition(
+    status="left_open",
+    ruling="R162",
+    reason=(
+        "**拦住手册自己的示例** / **来源太窄**，但 **P169 真机裁决**判定为**不可判别**："
+        "本模型（自建混凝土简支梁）**没有**该表的数据 ⇒ **不带** `PARTS` 的**基线**就是**空块**"
+        "⇒ 无法区分「取值无效」与「模型无数据」。"
+        "⚠️ **不**按示例体硬凑（**R151** 的教训）⇒ **不**收口，**如实留缺**。"
     ),
     ask=(
-        "需一次**真机**（只读取报表，零残留）裁决：`POST /POST/TABLE "
-        '{"Argument": {"TABLE_TYPE": "<本端点的 token>", "PARTS": ["PartI"]}}` 原生是否 `200`。'
-        "是 ⇒ 枚举**确实**太窄（按实测收口）；否 ⇒ 手册示例体是**笔误**（保持枚举，登记勘误）。"
+        "需要一个**有该表数据**的模型（`RESULTANT_FORCES` 需**板 / 实体**单元；"
+        "`DESIGN.STEEL.KDS-41-30-2022.TABLE` 需**钢结构设计**结果）⇒ 重跑 "
+        "`python registry/tools/probe_parts_disposition_p169.py --probe` 即可裁决。"
+        "⚠️ 本批**已登记勘误**（`MIDAS_API_Online_Manual_勘误与补全_v1.0.md`）："
+        "`Part1` 与同一份手册**规格表**的 `Part I` 矛盾 ⇒ 上游声明可疑，"
+        "但**未**在这 3 个端点上取得直接证据（不可判别）。"
     ),
 )
-"""`PARTS` 的「声明 vs 示例」冲突（**如实留缺**，见 `ask`）。"""
+"""`PARTS` 冲突里**不可判别**的 3 个端点（模型无数据 ⇒ **如实留缺** + 写明恢复条件）。"""
 
 
 DISPOSITIONS: Final[dict[str, Disposition]] = {
@@ -221,32 +239,28 @@ DISPOSITIONS: Final[dict[str, Disposition]] = {
     "POST.TABLE.REACTIONLSURFACESPRING::TABLE_TYPE": _VARIANT_TABLE_TYPE,
     # ---- 如实留缺（**不**按手册示例体硬凑 —— R151 的教训）----
     "POST.TEXT::TABLE_TYPE": Disposition(
-        status="left_open",
-        ruling="R161",
+        status="closed",
+        ruling="R162",
         reason=(
-            "**来源太窄**（本端点是 `post/text` 这个 URI 的**唯一** Schema 文件）：枚举只有 "
-            "**3** 个取值（`TH_DISP` / `TH_VELOCITY` / `TH_ACCEL`，来自**一篇文章**），而同一 URI 的 "
-            "**10** 篇文章在 `json_schema` 里声明了 **27** 个（含 `PO_*`）⇒ 收口的来源**可复算**。"
-            "⚠️ 但**效果判据要真机发 `POST /POST/TEXT`** —— 该端点**必须带 `EXPORT_PATH`**"
-            "（不带 ⇒ 与 **R143** 同族的**弹窗**风险；带上 ⇒ 在实例磁盘**落文件**）⇒ "
-            "本批**不**碰（**不**用「枚举对得上」冒充效果）。"
+            "**来源太窄** + **请求键错误**（本端点是 `post/text` 这个 URI 的**唯一** Schema 文件）："
+            "枚举只有 **3** 个取值（来自**一篇文章**），而同一 URI 的 **12** 篇文章在 `json_schema` 里"
+            "声明了 **29** 个 ⇒ 收口来源可复算。⚠️ **P169 真机裁决**（用户已授权）另外裁定："
+            "契约键是 **`TEXT_TYPE`**（手册**示例体** 29/29 都用它；合法值原生 `200` 并**真的产出文件**、"
+            "伪值 ⇒ `400 second query is wrong`），而 `TABLE_TYPE` **任何**取值都回 `400 Wrong Field`"
+            "（**键**错）⇒ 上游 `json_schema` 与**我们的旧 Schema** 都是**笔误**，已登记勘误。"
+            "⇒ 收口 = **键重命名**（`TABLE_TYPE` → `TEXT_TYPE`）+ 枚举并集（**只增不减**）。"
         ),
-        ask=(
-            "需要用户**显式授权**一次真机测量：在 `gen-local` 上发 `POST /POST/TEXT`"
-            "（写一个文本输出文件），或指定一个**允许落盘**的目录；"
-            "另需裁决请求键到底用 `TABLE_TYPE`（手册 `json_schema` 与我们的 Schema）还是 "
-            "`TEXT_TYPE`（手册**示例体**）—— 两者矛盾。"
-        ),
+        generator="registry/tools/sync_post_text_enum.py",
     ),
     "POST.TEXT::TEXT_TYPE": Disposition(
-        status="left_open",
-        ruling="R161",
+        status="closed",
+        ruling="R162",
         reason=(
-            "**缺枚举候选**（示例体用 `TEXT_TYPE`，29 个取值），但**手册声明**（`json_schema`）与"
-            "我们的 Schema 都用 `TABLE_TYPE` ⇒ 按「**声明 > 示例**」的口径，**契约键 = `TABLE_TYPE`**；"
-            "`TEXT_TYPE` 是手册**示例体**的写法差异 ⇒ **不**按示例体硬凑（**R151** 的教训）。"
+            "**缺枚举候选**（示例体用 `TEXT_TYPE`，29 个取值）—— **P169 真机裁决**已裁定"
+            "`TEXT_TYPE` 就是**契约键**（见 `POST.TEXT::TABLE_TYPE`）⇒ 枚举挂在它下面，"
+            "来源 = 手册声明并集 ∪ 已落盘（**只增不减**）。"
         ),
-        ask="见 `POST.TEXT::TABLE_TYPE`：一次真机测量即可同时裁决「哪个键 + 哪些取值」。",
+        generator="registry/tools/sync_post_text_enum.py",
     ),
     "OPE.LINEBMLD::TYPE": Disposition(
         status="left_open",
@@ -269,30 +283,44 @@ DISPOSITIONS: Final[dict[str, Disposition]] = {
     ),
     "OPE.LCOM-GEN::DGNCODE": Disposition(
         status="left_open",
-        ruling="R161",
+        ruling="R162",
         reason=(
             "**缺枚举候选**（`DGNCODE` = `AIK-SRC2K` / `KDS 41 20 : 2022`）。"
-            "⚠️ `OPE.LCOM-GEN` **不在任何 OperationPlan 的生产路径上**（0 处）；"
-            "且它属于**写**路径（创建荷载组合）⇒ 效果判据会**改模型**。"
+            "**P169 真机裁决**判定为**不可判别**：本 build 对 `POST /OPE/LCOM-GEN` 的"
+            "**任何**取值都回 `400 Wrong Field`（**形状 / 键错**，与取值**无关**）—— "
+            "**连手册声明的合法值**也一样 ⇒ 无法区分「取值无效」与「本 build 不支持该形状」。"
+            "⚠️ 该端点**不在任何 OperationPlan 的生产路径上**（`operations.py` 里 0 处）。"
         ),
-        ask="向数据侧问：`DGNCODE` 的取值表是否要按「规范 × 产品」收口（需一次**设计规范清单**的权威来源）。",
+        ask=(
+            "需要**产品侧**澄清两件事：① 本 build 的 `POST /OPE/LCOM-GEN` 请求**形状**"
+            "（手册示例体是**扁平**的 `Argument.OPTION/DGNCODE`，我们的 Schema 是 `oneOf` 三分支）；"
+            "② `DGNCODE` 的取值表是否按「规范 × 产品」收口（本批**未**动它的枚举）。"
+            "恢复条件：产品侧给出形状或一个**可写**的 `OPE.LCOM-GEN` 调用样例 ⇒ 重跑 "
+            "`python registry/tools/probe_lcom_dgncode_p169.py --probe`。"
+        ),
     ),
     "OPE.LCOM-SRC::DGNCODE": Disposition(
-        status="left_open",
-        ruling="R161",
+        status="closed",
+        ruling="R162",
         reason=(
             "**拦住手册自己的示例**：`OPE.LCOM-SRC` 的文章示例用 `DGNCODE='AIK-SRC2K'`，"
-            "而枚举只有 `['KDS 41 SRC : 2022']` ⇒ 同一 URI 下**两套规范**的取值。"
-            "⚠️ `OPE.LCOM-SRC` **不在任何 OperationPlan 的生产路径上**（0 处）。"
+            "而枚举只有 `['KDS 41 SRC : 2022']`（**同一 URI 的另一篇**文章的 `json_schema` 声明）。"
+            "**P169 真机裁决**（**用户已授权**一次**写路径**测量，证据 = "
+            "`registry/live/lcom_dgncode_probe.json`）：`POST /OPE/LCOM-SRC` 的答复分**三档** —— "
+            "`KDS 41 SRC : 2022`（**声明**的合法值）与 `AIK-SRC2K`（**示例体**的值）"
+            "**同档**（业务级 `Set_DefaultLoadComb failed` = 取值**通过**了规范校验、走到**下游**），"
+            "而**伪**码 `NONSENSE-CODE` ⇒ `Unknown Error`（**取值非法**）⇒ `AIK-SRC2K` **合法**。"
+            "来源 = 已落盘 ∪ 实测**合法**（**只增不减**）。"
         ),
-        ask="与 `OPE.LCOM-GEN::DGNCODE` 同一问题：设计规范取值表的**权威来源**（登记表 / 手册声明 / 产品清单）。",
+        generator="registry/tools/sync_lcom_src_dgncode_enum.py",
     ),
-    "POST.TABLE.BEAMFORCE::PARTS": _PARTS_CONFLICT,
-    "POST.TABLE.BEAMFORCEVBM::PARTS": _PARTS_CONFLICT,
-    "POST.TABLE.THISBEAMFORCE::PARTS": _PARTS_CONFLICT,
-    "POST.TABLE.RESULTANT_FORCES::PARTS": _PARTS_CONFLICT,
-    "POST.TABLE.RESULTANT_FORCESVBM::PARTS": _PARTS_CONFLICT,
-    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": _PARTS_CONFLICT,
+    # ---- `PARTS`：**P169 真机裁决** ⇒ **可判别**的 3 个收口、**不可判别**的 3 个如实留缺 ----
+    "POST.TABLE.BEAMFORCE::PARTS": _PARTS_CLOSED,
+    "POST.TABLE.BEAMFORCEVBM::PARTS": _PARTS_CLOSED,
+    "POST.TABLE.THISBEAMFORCE::PARTS": _PARTS_CLOSED,
+    "POST.TABLE.RESULTANT_FORCES::PARTS": _PARTS_UNDECIDABLE,
+    "POST.TABLE.RESULTANT_FORCESVBM::PARTS": _PARTS_UNDECIDABLE,
+    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": _PARTS_UNDECIDABLE,
 }
 """标志项 → 处置。⚠️ `--check` 断言**每一个**标志项都在此表里（缺口**不许静默**）。"""
 

@@ -116,8 +116,10 @@
                   "Part1/4",
                   "Part2/4",
                   "Part3/4",
+                  "PartI",
                   "PartJ"
-                ]
+                ],
+                "description": "输出部位（PARTS）。取值 = **三个可复算来源的并集**：① 上游手册**本端点**文章的示例体（`Argument.PARTS`）；② 已落盘枚举（**只增不减**）；③ 真机实测裁决（`registry/live/parts_disposition_probe.json` 里原生 `200` 的取值）。由 `registry/tools/sync_parts_enum.py` 机械派生（`--check` 断言已落盘 == 机械结果）；依据 = `docs/07` §16.1 R162。"
               }
             },
             "OPT_CS": {

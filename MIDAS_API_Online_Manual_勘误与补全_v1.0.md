@@ -208,6 +208,22 @@ CIVIL_NX 产品级只读探针（`registry/live/civil_product_probe.json`，**�
 | **MD-52** | `/ope/MEMB` 请求示例 | 同一文章 id、同一 `updated_at` | **两个 locale 给不同请求示例，`ko` 那个是错的** | `OPE.MEMB` · `untested` | 🟡 以 `en-us` 为准 |
 | **MD-55** | `/db/TDMF` Creep 示例 | 示例 | 示例**在两个产品上都被拒**；`/info` 另有**未文档化**的 `ELAST` | `DB.TDMF` · `verified` | 🟡 补 `ELAST` + 修示例 |
 
+### 1.6b 声明与示例互相矛盾类（**P169 实测登记**）
+
+> 来源 = **我方实例实测**（`gen-local`，自建混凝土简支梁），证据见 `registry/live/` 下的探针文件；
+> 与 §1.7（外部证据）**不同**：本节每一条都有**可复算**的真机判据。
+
+| 编号 | 端点 | 手册**声明**（`json_schema`） | 手册**示例体** | 我方**实测** | 裁决 |
+| --- | --- | --- | --- | --- | --- |
+| **E-01** | `/post/TEXT` 的请求键 | `TABLE_TYPE`（**12** 篇文章**全部**如此） | `TEXT_TYPE`（**29 / 29** 条示例） | `TEXT_TYPE` + `STEP` ⇒ **`200`** ∧ **真的产出文件**；伪值 ⇒ `400 second query is wrong`（**值**错）。`TABLE_TYPE` ⇒ **任何**取值都 `400 Wrong Field`（**键**错） | **示例体对、声明错** ⇒ 我方 Schema 已按实测**重命名**为 `TEXT_TYPE`（`docs/07` §16.1 **R162**） |
+| **E-02** | `/post/TABLE` 的 `PARTS` 取值 | `Part1`（数字 **1**；`BEAMFORCE` / `BEAMFORCEVBM`） | `PartI`（罗马数字 **I**） | `PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **有数据行且少于基线**（**真的过滤**）；`Part1` ⇒ **空块**（与**伪**值 `PartZ` **同形**） | **示例体对、声明错**（同一份手册的**规格表**也写 `Part I`，佐证是转写笔误）⇒ 枚举已按实测**收口** |
+| **E-03** | `/view/RESULTGRAPHIC` 的 `LOAD_CASE_COMB` | **未声明**（`Argument` 只有 `TYPE_OF_DISPLAY`） | **66 / 66** 条示例**都带它** | 换 `LOAD_CASE_COMB.NAME`（`DL` → `SIDL`）⇒ 截图 **sha256 不同**（画面**真的**变）；不存在的工况 ⇒ `400 Can not find load case.` | **示例体对、声明漏**（**缺字段**）⇒ 我方 Schema 已**补字段**（**R155** 记录 → **R162** 收口） |
+
+⚠️ **E-01 的影响面比看起来大**：按**旧** Schema 发的 `TABLE_TYPE` 请求**全部**会被原生回
+`400 Wrong Field` —— 也就是说 `POST.TEXT` 这个端点**在收口前根本用不了**。
+
+---
+
 ### 1.7 示例不可运行类
 
 | MD | 端点 | 手册主张 | 实测结论 | 我方键 / 现状 | 建议 |

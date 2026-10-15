@@ -1,0 +1,209 @@
+{
+ "phase": "disposition",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "rows": [
+  {
+   "key": "OPE.LCOM-SRC",
+   "evidence": "`MIDAS_API_Online_Manual_Gen_NX_v1.0.json#519`（示例体用 `AIK-SRC2K`）",
+   "declared_rows": [
+    {
+     "code": "KDS 41 SRC : 2022",
+     "status": 400,
+     "band": "business",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Set_DefaultLoadComb failed; check CheckLcom history (e.g. duplicate LCOM names, name length, stage "
+    }
+   ],
+   "pending_rows": [
+    {
+     "code": "AIK-SRC2K",
+     "status": 400,
+     "band": "business",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Set_DefaultLoadComb failed; check CheckLcom history (e.g. duplicate LCOM names, name length, stage "
+    }
+   ],
+   "fake_row": {
+    "code": "NONSENSE-CODE",
+    "status": 400,
+    "band": "value_rejected",
+    "auth_error": false,
+    "message": "{\"error\":{\"message\":\"Unknown Error\"}}"
+   },
+   "created": [],
+   "removed": [],
+   "state_before": {
+    "status": 200,
+    "ids": []
+   },
+   "state_after_cleanup": {
+    "status": 200,
+    "ids": []
+   }
+  },
+  {
+   "key": "OPE.LCOM-GEN",
+   "evidence": "`MIDAS_API_Online_Manual_Gen_NX_v1.0.json#515`（示例体用 `AIK-SRC2K`）",
+   "declared_rows": [
+    {
+     "code": "KDS 41 20 : 2022",
+     "status": 400,
+     "band": "shape_mismatch",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+     "code": "KDS 41 30 : 2022",
+     "status": 400,
+     "band": "shape_mismatch",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    },
+    {
+     "code": "KDS 41 SRC : 2022",
+     "status": 400,
+     "band": "shape_mismatch",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    }
+   ],
+   "pending_rows": [
+    {
+     "code": "AIK-SRC2K",
+     "status": 400,
+     "band": "shape_mismatch",
+     "auth_error": false,
+     "message": "{\"error\":{\"message\":\"Wrong Field\"}}"
+    }
+   ],
+   "fake_row": {
+    "code": "NONSENSE-CODE",
+    "status": 400,
+    "band": "shape_mismatch",
+    "auth_error": false,
+    "message": "{\"error\":{\"message\":\"Wrong Field\"}}"
+   },
+   "created": [],
+   "removed": [],
+   "state_before": {
+    "status": 200,
+    "ids": [
+     "1"
+    ]
+   },
+   "state_after_cleanup": {
+    "status": 200,
+    "ids": [
+     "1"
+    ]
+   }
+  }
+ ],
+ "verdicts": {
+  "OPE.LCOM-SRC": {
+   "decidable": true,
+   "declared_bands": [
+    "business"
+   ],
+   "pending_bands": [
+    "business"
+   ],
+   "fake_band": "value_rejected",
+   "pending_legitimate": true,
+   "reason": ""
+  },
+  "OPE.LCOM-GEN": {
+   "decidable": false,
+   "declared_bands": [
+    "shape_mismatch"
+   ],
+   "pending_bands": [
+    "shape_mismatch"
+   ],
+   "fake_band": "shape_mismatch",
+   "pending_legitimate": false,
+   "reason": "本 build 对**所有**取值都回 `wrong field`（形状 / 键错）⇒ **不可判别**"
+  }
+ },
+ "generator": {
+  "generator": "registry/tools/sync_lcom_src_dgncode_enum.py",
+  "on_disk": [
+   "KDS 41 SRC : 2022"
+  ],
+  "expected": [
+   "KDS 41 SRC : 2022"
+  ],
+  "applied": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：`POST /OPE/LCOM-*` 的答复分**三档** —— **业务级**（`Set_DefaultLoadComb failed`：取值**通过**了规范校验、走到**下游**）· **取值非法**（`Unknown Error`）· **形状 / 键错**（`Wrong Field`，与取值无关）。待裁决候选与**声明**的合法候选**同档** ∧ 伪取值**不同档** ⇒ 该候选**合法**。⚠️ 本 build 对 `OPE.LCOM-GEN` **任何**取值都回 `Wrong Field` ⇒ **不可判别**（如实留缺）。"
+}

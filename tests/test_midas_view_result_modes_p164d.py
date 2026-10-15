@@ -188,7 +188,10 @@ def test_p164d_the_request_schema_now_declares_current_mode() -> None:
     document = json.loads(SCHEMA.read_text(encoding="utf-8"))
     argument = document["schema"]["RESULTGRAPHIC"]["properties"]["Argument"]
     properties = argument.get("properties", {})
-    assert sorted(properties) == ["CURRENT_MODE", "TYPE_OF_DISPLAY"], argument
+    # ⚠️ **P169 / R162 更新（只改现状声称、不篡改历史）**：`LOAD_CASE_COMB` 是 **R155** 记录的
+    # **缺字段**（上游 **66 / 66** 条示例都带它），**P169** 已按示例体并集**补上**
+    # （生成器 `sync_result_graphic_lcc.py`）⇒ 本断言随之把「**只**有两个键」改成「**三个**键」。
+    assert sorted(properties) == ["CURRENT_MODE", "LOAD_CASE_COMB", "TYPE_OF_DISPLAY"], argument
     node = properties["CURRENT_MODE"]
     assert node["type"] == "string", node
     assert node["enum"] == _sync_tool().expected_enum(REPO_ROOT), "枚举必须 == 生成器的机械结果"

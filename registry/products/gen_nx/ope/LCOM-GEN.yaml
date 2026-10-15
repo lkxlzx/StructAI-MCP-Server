@@ -1,3 +1,9 @@
+# ⚠️ **P169 / R162：`DGNCODE` 的枚举**如实留缺**（**不可判别**）。
+# 真机实测（证据 = `registry/live/lcom_dgncode_probe.json`）：本 build 对 `POST /OPE/LCOM-GEN` 的
+# **任何**取值都回 `400 Wrong Field`（**形状 / 键错**，与取值**无关**）—— **连手册声明的合法值**
+# 也一样 ⇒ 无法区分「取值无效」与「本 build 不支持该形状」。
+# 恢复条件：产品侧给出该端点的**请求形状**或一个**可写**的调用样例 ⇒ 重跑
+# `python registry/tools/probe_lcom_dgncode_p169.py --probe`。
 key: "OPE.LCOM-GEN"
 namespace: OPE
 uri: "/OPE/LCOM-GEN"
