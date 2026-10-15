@@ -61,12 +61,19 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
 | 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
 | 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
-| 🔴 主指标 | **生产路径可用 Operation** | **`62 / 71`**（缺口 = **6** 个端点 → 9 个 Operation） |
+| 🔴 主指标 | **生产路径可用 Operation** | **`61 / 71`**（缺口 = **15** 个端点 → **10** 个 Operation） |
 | 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / 633` |
 | ⚪ 账本 | 映射缺口 / 留缺账本 | `489` / `178`（**只登记，不驱动优先级**） |
 
 证据 = `registry/live/{interface_path_probe,interface_read_probe,flagship_chain_probe}.json`；
 生成器 = `registry/tools/probe_interface_paths.py` / `probe_flagship_chain.py`（均可 `--check` 离线复算）。
+
+> ⚠️ **R158（P165-b 更正）**：主指标**不再手写** —— 它由
+> `python registry/tools/check_operation_availability.py --check` **可执行复算**。
+> 旧值 `62 / 71`（「6 个端点 → 9 个 Operation」）**是错的**：它把 `DESIGN.CODE_CHECK`
+> 算成可用，而该 Operation 的 **7 条路由全部被挡**（`steel` 的末步
+> `POST.STEELCODECHECK` 仍是 `PARTIAL`；`concrete:*` / `src:*` 需**原生崩溃护栏**拦住的
+> `*-ANAL`）。⇒ 真实值 **61 / 71**、挡点端点 **15** 个。**手写的指标必然漂。**
 
 ---
 
@@ -144,16 +151,23 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ⚠️ 本节按 **`docs/07` §15.6.3 的指标层级**写：**主指标 = 接口层端到端 / 生产路径可用 Operation**；
 > `availability` 计数与缺口账本属**次指标 / 账本**，**不**驱动优先级。
 
-### 5.1 🔴 主指标上的剩余缺口：**6 个端点 → 9 个 Operation**（收口即 `71 / 71`）
+### 5.1 🔴 主指标上的剩余缺口：**15 个端点 → 10 个 Operation**（收口即 `71 / 71`）
 
-| 端点 | 挡住 | 状态 |
-| --- | ---: | --- |
-| **`VIEW.RESULTGRAPHIC`** | **6** | 多变体端点（Civil NX 手册里 **20+** 篇各自带 Schema）；P160d 实测 `400 second query is wrong` ⇒ **留缺** |
-| `DESIGN.RC.KDS-41-20-2022.BD-ANAL` + `BD-TABLE` | 1 | 需**混凝土**模型（`DESIGN.CONCRETE` 真机链） |
-| `DESIGN.SRC.AIK-SRC2K.BC-ANAL` + `BC-TABLE` | 1 | 需 **SRC** 模型（`DESIGN.SRC` 真机链） |
-| `POST.TABLE` | 1 | 需真机 `POST` + 读回结果表 |
+> ⚠️ **R158 更正**：本节旧值写「**6** 个端点 → **9** 个 Operation」（`62 / 71`），
+> **漏了** `DESIGN.CODE_CHECK` 与 `POST.STEELCODECHECK`，且只列了 BD/BC 两个变体、
+> 没算 CD/BRD/WD/CC。⇒ 现值 = **61 / 71**，**逐条**由
+> `python registry/tools/check_operation_availability.py` 复算。
 
-⚠️ 这 6 个**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
+| 端点 | 挡住 | 谁**能**修 | 状态 |
+| --- | ---: | --- | --- |
+| **`VIEW.RESULTGRAPHIC`** | **6** | **我方** | 多变体端点（手册 **36** 个 `CURRENT_MODE`）；P164-f 真机实测：**表内**取值 ⇒ `200`，**但画面没变** ⇒ **静默空转** ⇒ **留缺**（**R157**）；恢复条件 = 找到**纯 API** 进结果视图（post）的路径 |
+| `DESIGN.RC.KDS-41-20-2022.{BD,CD,BRD,WD}-ANAL` + `{BD,CD,BRD,WD}-TABLE`（**8**） | 2 | **MIDAS 侧** | `BD-ANAL` **实测四次**打崩 `GenNX.exe`（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）⇒ **原生崩溃护栏**（**R154**） |
+| `DESIGN.SRC.AIK-SRC2K.{BC,CC}-ANAL` + `{BC,CC}-TABLE`（**4**） | 2 | **MIDAS 侧** | 同族推定 ⇒ **原生崩溃护栏**（**R154**） |
+| `POST.STEELCODECHECK` | 1 | **我方** | `PARTIAL`（**R152**：单独收口**不解锁** —— `DESIGN.CODE_CHECK` 还需上面 12 个端点） |
+| `POST.TABLE` | 1 | **数据侧裁决** | `spec_guard` 的 `TABLE_TYPE` 枚举**不全**（**R151**） |
+
+⚠️ 上表端点**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
+⚠️ **单点最大杠杆 = `VIEW.RESULTGRAPHIC`**（**6 / 10** 个被挡 Operation，且**唯一**完全在我方手上的大项）。
 
 ### 5.2 🟡 次指标：数据侧可达性上限与 Schema 覆盖
 
