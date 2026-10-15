@@ -18,10 +18,11 @@
             },
             "TABLE_TYPE": {
               "type": "string",
-              "description": "ResultTableType",
+              "description": "结果表类型（TABLE_TYPE）。取值 = **两个可复算来源的并集**：① `registry/manifest.json` 里**本端点**的 `table_type`（登记表）；② 已落盘枚举（**只增不减**）。由 `registry/tools/sync_table_type_variant_enum.py` 机械派生（`--check` 断言已落盘 == 机械结果）；依据 = `docs/07` §16.1 R161。",
               "enum": [
                 "REACTIONG",
                 "REACTIONL",
+                "REACTIONLSURFACESPRING",
                 "REACTIONSURFACESPRING"
               ]
             },

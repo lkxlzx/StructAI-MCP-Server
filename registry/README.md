@@ -1919,3 +1919,93 @@ Fault offset         : 0x2d97e5c        ← 四次实测**完全相同**
 `--probe --production` 生产口径 / `--check` 离线自洽）·
 枚举生成器 `registry/tools/sync_table_type_enum.py`（`--write` / `--check`）·
 证据 `registry/live/post_table_enum_probe.json`（**不含**凭据 / 响应原文）。
+
+---
+
+### 8.22 P168：`spec_guard` 的枚举**来源普查** ⇒ **盲区归零** + 两处枚举收口 ⇒ **R161**
+
+> 普查驱动（**不是**手册勘误）。完整报告 = `docs/reports/P168_枚举来源普查_R161_v1.0.md`；
+> 裁决 = `docs/07` §16.1 **R161**；上游留缺 = **R151**（枚举太窄）· **R155**（缺枚举）。
+
+#### 8.22.1 一句话结论
+
+普查发现：`spec_guard`（**R140**）对 **104 / 225** 个「带枚举约束」的 Schema 文件
+**一个字段都不检查** —— 因为 `registry/schema/**` 的文件有**两种根形态**，而闸门的
+下钻约定 `schema["properties"][包装键]` 只认其中一种：
+
+| 根形态 | 文件数 | `schema["properties"]` | 闸门 |
+| --- | ---: | --- | --- |
+| `{"properties": {"Argument": …}}` | **228** | **非空** | ✅ 可下钻 |
+| `{<包装键>: {"properties": …}}`（**根键 = 包装键**） | **393** | **缺失** | 🛑 **盲** |
+
+修法 = **核心 1 行**（**用户已授权**）：`adapter._build` 由 `registry.schema_json(key)`
+改用 `registry.effective_schema(key)`（= **P09** 的 `unwrap_schema()`；
+`request_schema_fields()` **一直**用它）⇒ **225 / 225** 可下钻（**104** 由盲变可见，
+已可见的 **121** 个**零回归**）。
+
+⚠️ **可见性是放大器**：恢复后，**窄枚举立刻变成「拦住合法调用」的事故**（**R151** 的镜像）
+⇒ 本批**同时**收口了 **7** 项（**先补枚举、再恢复可见性**）。
+
+#### 8.22.2 普查口径（**可复算**；工具 = `registry/tools/check_spec_enums.py`，**零请求**）
+
+`registry/schema/**` 的**每一个**枚举约束（`enum` **639** + `oneOf[].const` **115** = **754** 条，
+覆盖 **625** 个文件）逐条分类**来源**：
+
+| 分类 | 判据 | 规模 |
+| --- | --- | ---: |
+| **`manifest`（登记表）** | 取值 ⊆ `registry/manifest.json` 的登记词汇（key 段 · `table_type` · Schema 文件名 · `uri` 末段） | **101** |
+| **`manual`（手册声明）** | 取值 ⊆ 上游手册**全部**条目 `json_schema` 里**同名字段**的 `enum` / `oneOf[].const` 并集，且文章 **≥ 2** 篇 | **227** |
+| **`single_article`（单篇文章）** | 同上但只有 **1** 篇 ⇒ ⚠️ **来源太窄**（**R151** 的形态） | **158** |
+| **`untraceable`（无法追溯）** | 既不在登记表、也不在手册声明里 | **268** |
+
+* ⚠️ 「手册声明」**只**取 `json_schema` 的 `enum` / `oneOf[].const`，**不**含**示例体**取值
+  （**R151** 的教训：**不**按手册**示例体**硬凑）；示例体 / 规格表 / 上游文档 / 自省证据只作**弱来源**
+  （本批**真·无法追溯** = **0**）。
+* **三个可执行标志**：**来源太窄**（会拦住合法调用）**1** · **缺枚举**（非法取值抓不到）**4** ·
+  **拦住手册自己的示例**（**R151** 的直接签名）**5**（**4** 个端点）。
+  判定 = 把上游手册的 **1990** 条示例体喂给**收口后**的 guard（`effective_schema` + `wrapper`，
+  **与 `adapter._build` 逐字同一调用**）⇒ **13** 条违例（**2** 条仅大小写差异）。
+* ⚠️ **三类假阳性**（都写进了工具，**不**靠人肉记）：JSON Schema **结构键**（`items`）·
+  **同名不同义**（同一文件里两处 `VALUE_TYPE`）· **条件收窄分支**（`allOf[i].if` 里的枚举）。
+  首轮跑出的 **94** 条「来源太窄」复核后**只有 7 条**是真的。
+
+#### 8.22.3 两处收口（**数据侧**）
+
+| 收口 | 生成器 | 来源 | 结果 |
+| --- | --- | --- | --- |
+| **`VIEW.RESULTGRAPHIC` 的 `CURRENT_MODE`**（**缺枚举**，**R155** 留缺） | `sync_result_graphic_modes.py` | 上游**两份**手册里 `input_uri` 末段 = `resultgraphic` 的**全部变体文章**的示例体（**34** 篇 / **56** 条示例）∪ 已落盘（**只增不减**） | **36** 个取值（**与 R155 的取证物机械一致**） |
+| **6 个变体端点的 `TABLE_TYPE`**（**来源太窄**） | `sync_table_type_variant_enum.py` | **登记表**的 `table_type` ∪ 已落盘（**只增不减**） | `FIBR_*` ×5 + `REACTIONLSURFACESPRING`（**只**碰这 **6** 个文件） |
+
+* ⚠️ `sync_table_type_variant_enum.py` **不碰** `common/post/TABLE.json`（**R160** 的工具拥有它），
+  也**不碰**「**没有**枚举」的 **18** 个规格表派生文件（给它们**新增**枚举是**收紧**闸门 ⇒ 另一件事）。
+* ⚠️ **R140 的保护照旧**：伪 token **仍**被拦在**发请求之前**（零请求）。
+
+#### 8.22.4 效果判据（**铁律 ⓪**）= `PASSED`（2026-10-15，`gen-local`，自建混凝土简支梁）
+
+| 相 | 实测 |
+| --- | --- |
+| **变体 `TABLE_TYPE`（原生）** | **6 / 6** 个登记 token ⇒ **`200`**（本模型无该数据 ⇒ 空块 `{}`）；**伪** token ⇒ **`400`** |
+| **变体 `TABLE_TYPE`（核心闸门）** | **6 / 6**：登记 token **放行** · 伪 token ⇒ `STRUCTAI-1200 value_not_in_spec_enum`（**零请求**） |
+| **端到端（可见性 + 收口② 的联合判据）** | `RESULT.NODE.DISPLACEMENT`（**不**传 `table_type`）⇒ `success` · 原生 **`200`** · **63** 行（⇒ 这条路径**真的**走了**变体文件**的枚举） |
+| **`CURRENT_MODE`（核心阳性）** | 合法取值经 `VIEW.DISPLACEMENT` ⇒ `POST /VIEW/RESULTGRAPHIC` **`200`** ∧ `POST /VIEW/CAPTURE` **`200`** |
+| **`CURRENT_MODE`（核心阴性）** | `displacement`（**不在** 36 个里）⇒ `STRUCTAI-1200` ∧ **零请求**（**R140 首次覆盖本端点**） |
+| **`CURRENT_MODE`（原生真效果）** | 三张截图 **32023 → 79969 → 83282** 字节 ⇒ **两两不同** |
+| **零残留** | 跑前 / 跑后 **6** 个模型哨兵**逐项一致** |
+
+#### 8.22.5 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| `availability` 三档 | **不变**（`verified` 511 · `untested` 102 · `unverified` 23） |
+| **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** —— 本批的价值在**防事故**（R140 的目的），**不**在抬主指标 |
+| 端点 / Schema 文件 | **不变**（636 / 625） |
+| `spec_guard` 可见性 | **盲区 `104 → 0`**（可下钻 **121 → 225**，**104** 个由盲变可见、**121** 个零回归） |
+| 枚举约束总数 | **753 → 754**（`CURRENT_MODE` 新增 **1** 条 `enum`） |
+| 收口 / 留缺 | **收口 7** 项（`CURRENT_MODE` + **6** 个变体 token）· **如实留缺 9** 项（台账逐条写明「向谁问什么」） |
+
+**可执行判定** = `tests/test_midas_spec_enums_p168.py`（**23** 项）·
+工具 `registry/tools/check_spec_enums.py`（默认预演 / `--write` / `--check`）·
+生成器 `registry/tools/sync_result_graphic_modes.py` · `registry/tools/sync_table_type_variant_enum.py`
+（各自 `--write` / `--check`）· 探针 `registry/tools/probe_spec_enums_p168.py`
+（默认预演 / `--probe` 真机 / `--check` 离线自洽）·
+证据 `registry/live/spec_enum_audit.json`（普查）· `registry/live/spec_enum_probe.json`（真机）。

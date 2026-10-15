@@ -201,19 +201,25 @@ def test_p167_the_generator_refuses_to_shrink_the_enum(tmp_path: pathlib.Path) -
 def test_p167_the_spec_guard_is_unchanged_and_carries_no_midas_table_token() -> None:
     """门槛（**架构红线**）：枚举是**数据**，不是 Core 里的常量 ——
     ① `spec_guard.py` **不**含任何 MIDAS 取值 / 字段名；
-    ② `adapter.py` 的闸门**只**从 `registry.schema_json(...)` 取 Schema（**不**硬编码取值列表）；
+    ② `adapter.py` 的闸门**只**从**数据侧 Schema** 取枚举（**不**硬编码取值列表）；
     ③ 全 `app/**` **不**出现 `TABLE_TYPE` 的枚举取值（`WEIGHT_IRREGULARITY_*` / 伪 token）。
 
     ⚠️ `adapter.py` 里**可以**出现 `DISPLACEMENTG` —— 那是**结果行解析器**的表键
     （`_RESULT_ROW_TRANSFORMERS`，与请求枚举无关）；本用例**只**管请求侧的枚举来源。
+
+    ⚠️ **P168 / R161 更新（只改现状声称）**：闸门取 Schema 的**口径**由
+    `registry.schema_json(...)`（**原样、含包装根键**）改为 `registry.effective_schema(...)`
+    （**剥离包装根键**，P09 的口径）—— 前者对 **393 / 625** 个「根键 = 包装键」的文件
+    会让闸门**一个字段都不检查**（**盲区 104 / 225**）。**红线不变**：枚举仍然**只**来自
+    **数据侧 Schema**（`registry/**`），Core 里**没有**任何取值列表。
     """
     guard = SPEC_GUARD.read_text(encoding="utf-8")
     for value in (TOKEN, FAKE_TOKEN, "WEIGHT_IRREGULARITY_X", "TABLE_TYPE"):
         assert value not in guard, f"spec_guard 里出现了 MIDAS 取值 / 字段名 {value}"
     adapter = ADAPTER.read_text(encoding="utf-8")
     assert "guard_spec_values(" in adapter, "闸门仍接在 `build_request()` 之前"
-    assert "registry.schema_json(resolved.definition.key)" in adapter, (
-        "闸门必须从**数据侧 Schema** 取枚举（不得在 Core 里硬编码取值列表）"
+    assert "registry.effective_schema(resolved.definition.key)" in adapter, (
+        "闸门必须从**数据侧 Schema** 取枚举（不得在 Core 里硬编码取值列表；R161 起用生效 Schema）"
     )
     offenders: list[str] = []
     for path in sorted((REPO_ROOT / "app").rglob("*.py")):

@@ -65,6 +65,19 @@ def _load_tool() -> Any:
     return module
 
 
+SYNC_TOOL = REPO_ROOT / "registry" / "tools" / "sync_result_graphic_modes.py"
+"""**R161** 的收口生成器（**只**拥有 `CURRENT_MODE` 的 `enum` / `description`）。"""
+
+
+def _sync_tool() -> Any:
+    """按路径装载收口生成器（`registry/tools` 不是包）。"""
+    spec = importlib.util.spec_from_file_location("sync_result_graphic_modes", SYNC_TOOL)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def _evidence() -> dict[str, Any]:
     return json.loads(EVIDENCE.read_text(encoding="utf-8"))
 
@@ -161,16 +174,26 @@ def test_p164d_two_modes_never_carry_type_of_display() -> None:
 # ===== 2. 数据侧缺口：Schema 覆盖不到变体选择子 =====
 
 
-def test_p164d_the_request_schema_does_not_declare_current_mode() -> None:
-    """门槛（**缺口**）：Schema 的 `Argument` **只**声明 `TYPE_OF_DISPLAY`。
+def test_p164d_the_request_schema_now_declares_current_mode() -> None:
+    """门槛（**缺口 → 已收口**）：Schema 的 `Argument` 现在**同时**声明 `TYPE_OF_DISPLAY`
+    与 `CURRENT_MODE`。
 
-    ⇒ `spec_guard`（**R140**）**没有**枚举可查 ⇒ 非法 `CURRENT_MODE` 一路发到原生
-    ⇒ 这正是 R150 的 `400` 能发生的原因。⚠️ **本批只登记、不修**。
+    ⚠️ **P168 / R161 更新（只改现状声称、不篡改历史）**：P164-d 当时如实登记「`Argument`
+    **只**声明 `TYPE_OF_DISPLAY` ⇒ `spec_guard` 没有 `CURRENT_MODE` 的枚举可查」
+    —— 那是**当时的事实**；**R161** 补上了 `CURRENT_MODE` 的枚举（来源 = 手册 **34** 篇变体文章
+    / **56** 条示例的并集，**36** 个取值），故本用例改为断言**收口后**的状态。
+    ⚠️ 取值表**不**在本用例里硬编码 —— 一律与生成器 `sync_result_graphic_modes.py` 的
+    机械结果**逐条**比对（否则又是一处「手写的指标必然漂」）。
     """
     document = json.loads(SCHEMA.read_text(encoding="utf-8"))
     argument = document["schema"]["RESULTGRAPHIC"]["properties"]["Argument"]
-    assert list(argument.get("properties", {})) == ["TYPE_OF_DISPLAY"], argument
-    assert "CURRENT_MODE" not in SCHEMA.read_text(encoding="utf-8")
+    properties = argument.get("properties", {})
+    assert sorted(properties) == ["CURRENT_MODE", "TYPE_OF_DISPLAY"], argument
+    node = properties["CURRENT_MODE"]
+    assert node["type"] == "string", node
+    assert node["enum"] == _sync_tool().expected_enum(REPO_ROOT), "枚举必须 == 生成器的机械结果"
+    assert "displacement" not in node["enum"], "非法取值（R150 实测被拒）**不得**进枚举"
+    assert len(node["enum"]) >= 36, node["enum"]
 
 
 def test_p164d_the_endpoint_yaml_records_the_corrected_cause() -> None:

@@ -1,0 +1,496 @@
+{
+ "phase": "effect",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "product": "GEN NX",
+  "probed_at": "2026-10-15"
+ },
+ "project": ".tmp_p164c/p164c-concrete.mgbx",
+ "project_opened_by_probe": false,
+ "closure": {
+  "current_mode": {
+   "generator": "registry/tools/sync_result_graphic_modes.py",
+   "values": 36,
+   "manual": 36,
+   "evidence": 36,
+   "agrees_with_evidence": true,
+   "applied": true,
+   "illegal_absent": true,
+   "mode_a_present": true,
+   "mode_b_present": true
+  },
+  "variant_table_type": {
+   "generator": "registry/tools/sync_table_type_variant_enum.py",
+   "endpoints": [
+    "POST.TABLE.FIBR_ELASTREMAIN",
+    "POST.TABLE.FIBR_EVENTSTEP",
+    "POST.TABLE.FIBR_MAXCONTRACT",
+    "POST.TABLE.FIBR_MEANCOMPCONTRACT",
+    "POST.TABLE.FIBR_YILEDSTRENGTH",
+    "POST.TABLE.REACTIONLSURFACESPRING"
+   ],
+   "applied": true,
+   "enums": {
+    "POST.TABLE.FIBR_ELASTREMAIN": [
+     "FIBR_ELASTREMAIN",
+     "THISBEAMFORCE"
+    ],
+    "POST.TABLE.FIBR_EVENTSTEP": [
+     "FIBR_EVENTSTEP",
+     "THISBEAMFORCE"
+    ],
+    "POST.TABLE.FIBR_MAXCONTRACT": [
+     "FIBR_MAXCONTRACT",
+     "THISBEAMFORCE"
+    ],
+    "POST.TABLE.FIBR_MEANCOMPCONTRACT": [
+     "FIBR_MEANCOMPCONTRACT",
+     "THISBEAMFORCE"
+    ],
+    "POST.TABLE.FIBR_YILEDSTRENGTH": [
+     "FIBR_YILEDSTRENGTH",
+     "THISBEAMFORCE"
+    ],
+    "POST.TABLE.REACTIONLSURFACESPRING": [
+     "REACTIONG",
+     "REACTIONL",
+     "REACTIONLSURFACESPRING",
+     "REACTIONSURFACESPRING"
+    ]
+   }
+  },
+  "guard_visibility": {
+   "files_with_constraints": 225,
+   "drillable_with_schema_json": 121,
+   "drillable_with_effective_schema": 225,
+   "blind_with_schema_json": 104,
+   "blind_with_effective_schema": 0
+  },
+  "adapter_binding": {
+   "file": "app/infrastructure/adapters/midas/adapter.py",
+   "guard_calls": 1,
+   "first_argument": "registry.effective_schema",
+   "uses_effective_schema": true
+  }
+ },
+ "variant_table_type": [
+  {
+   "endpoint": "POST.TABLE.FIBR_ELASTREMAIN",
+   "token": "FIBR_ELASTREMAIN",
+   "native": {
+    "endpoint": "POST.TABLE.FIBR_ELASTREMAIN",
+    "token": "FIBR_ELASTREMAIN",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['FIBR_ELASTREMAIN', 'THISBEAMFORCE'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.FIBR_EVENTSTEP",
+   "token": "FIBR_EVENTSTEP",
+   "native": {
+    "endpoint": "POST.TABLE.FIBR_EVENTSTEP",
+    "token": "FIBR_EVENTSTEP",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['FIBR_EVENTSTEP', 'THISBEAMFORCE'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.FIBR_MAXCONTRACT",
+   "token": "FIBR_MAXCONTRACT",
+   "native": {
+    "endpoint": "POST.TABLE.FIBR_MAXCONTRACT",
+    "token": "FIBR_MAXCONTRACT",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['FIBR_MAXCONTRACT', 'THISBEAMFORCE'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.FIBR_MEANCOMPCONTRACT",
+   "token": "FIBR_MEANCOMPCONTRACT",
+   "native": {
+    "endpoint": "POST.TABLE.FIBR_MEANCOMPCONTRACT",
+    "token": "FIBR_MEANCOMPCONTRACT",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['FIBR_MEANCOMPCONTRACT', 'THISBEAMFORCE'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.FIBR_YILEDSTRENGTH",
+   "token": "FIBR_YILEDSTRENGTH",
+   "native": {
+    "endpoint": "POST.TABLE.FIBR_YILEDSTRENGTH",
+    "token": "FIBR_YILEDSTRENGTH",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['FIBR_YILEDSTRENGTH', 'THISBEAMFORCE'] 内"
+    ]
+   }
+  },
+  {
+   "endpoint": "POST.TABLE.REACTIONLSURFACESPRING",
+   "token": "REACTIONLSURFACESPRING",
+   "native": {
+    "endpoint": "POST.TABLE.REACTIONLSURFACESPRING",
+    "token": "REACTIONLSURFACESPRING",
+    "attempts": 1,
+    "status": 200,
+    "envelope_key": "",
+    "head_columns": 0,
+    "data_rows": 0,
+    "native_error": "",
+    "auth_error": false
+   },
+   "guard_allows_registered_token": true,
+   "guard_blocks_fake_token": true,
+   "guard_fake": {
+    "token": "NOT_A_REAL_TABLE_XYZ",
+    "raised": true,
+    "code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "problems": [
+     "TABLE_TYPE='NOT_A_REAL_TABLE_XYZ' 不在说明书允许值 ['REACTIONG', 'REACTIONL', 'REACTIONLSURFACESPRING', 'REACTIONSURFACESPRING'] 内"
+    ]
+   }
+  }
+ ],
+ "variant_native_accepted": true,
+ "core": {
+  "variant_result": {
+   "tag": "RESULT.NODE.DISPLACEMENT",
+   "operation": "RESULT.NODE.DISPLACEMENT",
+   "success": true,
+   "error": {},
+   "task": {},
+   "readback": {
+    "intent": "result",
+    "count": 63,
+    "keys": []
+   },
+   "requests": [
+    {
+     "method": "POST",
+     "path": "/gen/POST/TABLE",
+     "status": 200,
+     "body_keys": [
+      "Argument"
+     ],
+     "current_mode": null,
+     "table_type": "DISPLACEMENTG"
+    }
+   ]
+  },
+  "variant_result_ok": true,
+  "fake_token": {
+   "tag": "RESULT.ANALYSIS.SUMMARY 伪 token",
+   "operation": "RESULT.ANALYSIS.SUMMARY",
+   "success": false,
+   "error": {
+    "code": "STRUCTAI-1200",
+    "reason": "task_not_completed",
+    "stage": "execution",
+    "task_code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "native_stage": "midas_adapter",
+    "native_endpoint": "POST.TABLE"
+   },
+   "task": {},
+   "readback": {
+    "intent": "result",
+    "count": 0,
+    "keys": []
+   },
+   "requests": []
+  },
+  "fake_token_ok": true,
+  "views": {
+   "基线（图形全关）": {
+    "tag": "基线（图形全关）",
+    "operation": "VIEW.DISPLACEMENT",
+    "success": true,
+    "error": {},
+    "task": {},
+    "readback": {
+     "intent": "result",
+     "count": 0,
+     "keys": []
+    },
+    "requests": [
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/RESULTGRAPHIC",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": "DisplacementContour",
+      "table_type": null
+     },
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/CAPTURE",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": null,
+      "table_type": null
+     }
+    ],
+    "shot": {
+     "name": "base",
+     "exists": true,
+     "bytes": 32023,
+     "sha256": "1c2f38a857071c80c27de1688877e7e795cf1753dee77f96721dd3c9bd1369b6"
+    }
+   },
+   "打开 DisplacementContour": {
+    "tag": "打开 DisplacementContour",
+    "operation": "VIEW.DISPLACEMENT",
+    "success": true,
+    "error": {},
+    "task": {},
+    "readback": {
+     "intent": "result",
+     "count": 0,
+     "keys": []
+    },
+    "requests": [
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/RESULTGRAPHIC",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": "DisplacementContour",
+      "table_type": null
+     },
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/CAPTURE",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": null,
+      "table_type": null
+     }
+    ],
+    "shot": {
+     "name": "mode_a",
+     "exists": true,
+     "bytes": 79969,
+     "sha256": "38d2059549ae17cb3822f59b9bc6ef425de4c4fb243290e3a521a308c6cac829"
+    }
+   },
+   "换 DeformedShape": {
+    "tag": "换 DeformedShape",
+    "operation": "VIEW.DISPLACEMENT",
+    "success": true,
+    "error": {},
+    "task": {},
+    "readback": {
+     "intent": "result",
+     "count": 0,
+     "keys": []
+    },
+    "requests": [
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/RESULTGRAPHIC",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": "DeformedShape",
+      "table_type": null
+     },
+     {
+      "method": "POST",
+      "path": "/gen/VIEW/CAPTURE",
+      "status": 200,
+      "body_keys": [
+       "Argument"
+      ],
+      "current_mode": null,
+      "table_type": null
+     }
+    ],
+    "shot": {
+     "name": "mode_b",
+     "exists": true,
+     "bytes": 83282,
+     "sha256": "d2c1544457fd5e7366226b6abb926ca8a67fa1263e7d541450791596ba700feb"
+    }
+   }
+  },
+  "picture_changes": true,
+  "legal_mode_sent": true,
+  "illegal_mode": {
+   "tag": "非法 CURRENT_MODE",
+   "operation": "VIEW.DISPLACEMENT",
+   "success": false,
+   "error": {
+    "code": "STRUCTAI-1200",
+    "reason": "task_not_completed",
+    "stage": "execution",
+    "task_code": "STRUCTAI-1200",
+    "native_reason": "value_not_in_spec_enum",
+    "native_stage": "midas_adapter",
+    "native_endpoint": "VIEW.RESULTGRAPHIC"
+   },
+   "task": {},
+   "readback": {
+    "intent": "result",
+    "count": 0,
+    "keys": []
+   },
+   "requests": []
+  },
+  "illegal_mode_blocked": true
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/CNLD"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 21
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 20
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/CNLD": {
+    "status": 200,
+    "count": 0
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "判据 = **效果**（铁律 ⓪）：① 6 个变体端点的**登记 token** 经核心闸门**放行**、**伪** token **零请求**被拦；② `RESULT.NODE.DISPLACEMENT`（**不**传 `table_type`）经 MCP Tool 契约取到**真数据行** ⇒ **可见性修复后**这条路径**真的**走了变体文件的枚举；③ `CURRENT_MODE` 的**合法**取值经 `VIEW.DISPLACEMENT` **真的**发出去且三张截图**两两不同**（原生真效果）；④ **非法**取值（`displacement`）**零请求**被 `spec_guard` 拦（**R140** 的保护**首次**覆盖 `VIEW.RESULTGRAPHIC`）。"
+}

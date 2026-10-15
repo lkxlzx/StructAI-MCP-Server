@@ -708,11 +708,22 @@ class MidasAdapter(BaseAdapter):
 
         ⚠️ **R140**：**先**做说明书枚举预检（`spec_guard`）—— 非法枚举原生**不**校验，
         会一路走到 UI 层并**弹窗 / 崩溃**（实测事故），故必须拦在**我们这一侧**。
+
+        ⚠️ **P168 / R161（普查驱动，**用户已授权**）**：这里传的是 `effective_schema()`，
+        **不**是 `schema_json()`。`registry/schema/**` 的文件有两种根形态：
+        `{"properties": {<包装键>: …}}`（**228** 个）与 `{<包装键>: {"properties": …}}`
+        （**393** 个，其中 **104** 个带枚举约束）。`spec_guard` 的下钻约定是
+        `schema["properties"][包装键]` ⇒ 对**后一种**形态 `root` 为空、**一个字段都不检查**
+        （**盲区**：`VIEW.RESULTGRAPHIC`、**全部 194 个 `POST.TABLE.*` 变体**、`DB.PRES` /
+        `DB.MVHL` / `OPE.USLC` …）⇒ R140 的保护在这些端点上**只是名义上的**。
+        `effective_schema()` = P09 就有的 `unwrap_schema()`（剥掉包装根键，
+        `request_schema_fields()` 一直用它）⇒ 两种形态**都**可下钻
+        （实测 **225 / 225**，其中 **104** 个由盲变可见，已可见的 **121** 个**零回归**）。
         """
         client = self._require_client()
         registry = self._require_registry()
         guard_spec_values(
-            registry.schema_json(resolved.definition.key),
+            registry.effective_schema(resolved.definition.key),
             body,
             endpoint=resolved.definition.key,
             wrapper=wrapper,

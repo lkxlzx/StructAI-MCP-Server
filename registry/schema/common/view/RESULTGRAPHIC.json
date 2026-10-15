@@ -353,6 +353,48 @@
                   }
                 }
               }
+            },
+            "CURRENT_MODE": {
+              "type": "string",
+              "enum": [
+                "AxisymmetricStresses",
+                "BeamDiagrams",
+                "BeamForces/Moments",
+                "BeamStresses",
+                "BeamStresses(Equivalent)",
+                "BeamStresses(PSC)",
+                "BeamStressesDiagram",
+                "BeamStressesDiagram(Equivalent)",
+                "Buckling Mode Shapes",
+                "DeformedShape",
+                "DisplacementContour",
+                "HY_ALLOWABLETENSILESTRESS",
+                "HY_CRACKRATIO",
+                "HY_DISPLACEMENTS",
+                "HY_STRESS",
+                "HY_TEMPERATURE",
+                "MVLTRC_BeamForces/Moments",
+                "MVLTRC_BeamStresses",
+                "MVLTRC_Displacements",
+                "MVLTRC_PlateForces/Moments",
+                "MVLTRC_Reactions",
+                "MVLTRC_TrussForces",
+                "Plane-Stress/PlateStresses",
+                "PlaneStrainStresses",
+                "PlateCuttingLineDiagram",
+                "PlateForces/Moments",
+                "ReactionForces/Moments",
+                "Resultant Force Diagram",
+                "SoilPressure",
+                "SolidStresses",
+                "TrussForces",
+                "TrussStresses",
+                "VibrationModeShapes",
+                "beamdiagrams",
+                "reactionforces/moments",
+                "solidstresses"
+              ],
+              "description": "结果图形类型（CURRENT_MODE，**变体选择子**）。取值 = **两个可复算来源的并集**：① 上游手册里 `input_uri` 末段 = `resultgraphic` 的**全部变体文章**（34 篇 / 56 条示例）的 `Argument.CURRENT_MODE`；② 已落盘枚举（**只增不减**）。由 `registry/tools/sync_result_graphic_modes.py` 机械派生（`--check` 断言已落盘 == 机械结果；并与 `registry/live/view_result_modes.json` 机械一致）；依据 = `docs/07` §16.1 R161。"
             }
           }
         }

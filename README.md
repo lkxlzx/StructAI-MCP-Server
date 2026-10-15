@@ -102,6 +102,26 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 生成器 = [`registry/tools/probe_post_table_enum.py`](registry/tools/probe_post_table_enum.py)（可 `--check` 离线复算）；
 > 枚举生成器 = [`registry/tools/sync_table_type_enum.py`](registry/tools/sync_table_type_enum.py)（`--check` 断言「已落盘 == 机械结果」）。
 
+> ✅ **R161（P168 收口）**：**枚举**来源普查**抓到一件比「某个枚举太窄」严重得多的事** ——
+> `spec_guard`（**R140**）对 **104 / 225** 个「带枚举约束」的 Schema 文件**一个字段都不检查**
+> （`registry/schema/**` 有 **393 / 625** 个文件的**根键就是包装键**，而闸门的下钻约定是
+> `schema["properties"][包装键]`）⇒ **盲区**。
+> 修法 = **核心 1 行**（**用户已授权**）：`adapter._build` 的 `spec_guard` 由
+> `registry.schema_json(key)` 改用 **`registry.effective_schema(key)`**（P09 的 `unwrap_schema()`）
+> ⇒ 可下钻 **121 → 225**（**盲区 `104 → 0`**，已可见的 **121** 个**零回归**）。
+> ⚠️ **可见性是放大器**：恢复后**窄枚举立刻变成「拦住合法调用」的事故** ⇒ 同批**先补枚举**：
+> **①** `VIEW.RESULTGRAPHIC` 的 `CURRENT_MODE`（**R155** 留缺的**缺枚举**）补 **36** 个取值；
+> **②** **6** 个变体端点的 `TABLE_TYPE`（**来源太窄**）追加**登记表的 token**。
+> 效果判据 **PASSED**（**6 / 6** 个登记 token 原生 **`200`**；`RESULT.NODE.DISPLACEMENT` 经生产路径
+> 取到 **63** 行 ⇒ **真的**走了变体文件的枚举；合法 `CURRENT_MODE` 真的发出去且三张截图
+> **32023 → 79969 → 83282** 字节**两两不同**；**非法** `CURRENT_MODE` **零请求**被拦）。
+> ⚠️ **主指标 `68 / 71` 不变** —— 本批的价值在**防事故**（R140 的目的），**不**在抬主指标。
+> 证据 = [`registry/live/spec_enum_audit.json`](registry/live/spec_enum_audit.json)（普查）·
+> [`registry/live/spec_enum_probe.json`](registry/live/spec_enum_probe.json)（真机）；
+> 工具 = [`registry/tools/check_spec_enums.py`](registry/tools/check_spec_enums.py)（四分类 + 三标志 + 台账，`--check` 零请求）·
+> 生成器 = [`registry/tools/sync_result_graphic_modes.py`](registry/tools/sync_result_graphic_modes.py) ·
+> [`registry/tools/sync_table_type_variant_enum.py`](registry/tools/sync_table_type_variant_enum.py)。
+
 ---
 
 ## 2. 文档
@@ -209,6 +229,15 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > `HEAD` **9** 列 · `DATA` **63** 行；经 MCP Tool 契约（**生产口径，无旁路**）规范化结果
 > `rows` = **63**；伪 token 仍**零请求**被拦（**R140 的保护未丢**）。
 > 证据 = [`registry/live/post_table_enum_probe.json`](registry/live/post_table_enum_probe.json)。
+
+> ⚠️ **R161（P168，2026-10-15）—— 主指标不变，但**闸门的覆盖面**变了**：
+> 普查发现 `spec_guard` 对 **104 / 225** 个带枚举的 Schema 文件**一个字段都不检查**
+> （**盲区**：文件根键就是包装键 ⇒ 下钻约定取不到）；核心 1 行改用 `effective_schema()`
+> 后 **盲区归零**（`104 → 0`，零回归）。⚠️ **可见性恢复 ⇒ 窄枚举立刻会拦住合法调用**
+> ⇒ 同批先补枚举（`CURRENT_MODE` **36** 个取值 + **6** 个变体 token），
+> 效果判据 `PASSED`。**本节的主指标数字不受影响**（`68 / 71`）—— 本批的价值在**防事故**。
+> 细节 = [`registry/README.md`](registry/README.md) §8.22 · `docs/07` §16.1 **R161**；
+> 证据 = [`registry/live/spec_enum_audit.json`](registry/live/spec_enum_audit.json)。
 
 ⚠️ 上表端点**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
 ⚠️ **剩余 3 个被挡 Operation 的 13 个挡点端点分两组**（**逐条**由
