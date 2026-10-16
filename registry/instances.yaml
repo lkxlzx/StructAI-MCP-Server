@@ -6,6 +6,12 @@ instances:
   - alias: gen-local
     product: GEN_NX
     base_url: http://localhost:3030/gen
+    probe_host_warning: >-
+      ⚠️ 探活**必须**用主机的 `localhost` / `[::1]`（= 本文件的 base_url），
+      **不**要用 IPv4 `127.0.0.1`：本实例**只**监听 `::1`（netstat 实测
+      `TCP [::1]:3030 LISTENING`）⇒ 用 `127.0.0.1` 会拿到 `ConnectionRefused`，
+      从而把**可达**的实例误判为「未运行」。此误判已**三次**发生
+      （P138 自我更正 · P139 记为已知坑 · P172/P173 又踩，见 R167）。
     profile: NX_FAMILY
     tested_at: "2026-05-07"
     loaded_project: portrait_truss_80m
@@ -27,7 +33,8 @@ instances:
     routed_ok: 29
     routed_empty: 179
     not_found: 7
-    note: 未知 URI 返回 404（可靠）；空表返回 200 + {"message": ""}。缺 DB.SDHY/SDIS/THRS/UFTR/UTBL 与 2 个 DESIGN.*.MATD。
+    note: >-
+      未知 URI 返回 404（可靠）；空表返回 200 + {"message": ""}。缺 DB.SDHY/SDIS/THRS/UFTR/UTBL 与 2 个 DESIGN.*.MATD。
       ⚠️ 2026-10-14 的产品级只读探针（49 条：21 条 B 级候选 + 全部 21 条 Hyper-S -M1 + 三组对照）
       结论：**21 条 Hyper-S `-M1` 在本实例上全部 404**（与外部证据「Hyper-S 是 Civil NX 专属」冲突，
       见 registry/README.md §8.17.3）；B 级 21 条中 18 条存在、3 条不存在（DB.POSP / DOC.STAGAS /

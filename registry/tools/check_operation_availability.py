@@ -513,6 +513,11 @@ def main() -> int:
         print("    ⇒ `*-TABLE` 要**先有设计结果**，而那结果只能由崩溃族的 `*-ANAL` 产出 ⇒ "
               "**不是**独立的一格代价")
         print(f"✅ **我方**唯一不依赖 `*-ANAL` 的可自己拿下的一格：{', '.join(table['ours'])}")
+        print()
+        print("⚠️ 探活提示（**R167**）：`gen-local` **只**监听 **`::1`** ⇒ 必须用 "
+              "`localhost` / `[::1]`，**不**要用 IPv4 `127.0.0.1`（否则**必然**假阴性）。")
+        print("   本工具**零请求**；实例矩阵见 `registry/instances.yaml` 的 "
+              "`gen-local.probe_host_warning`。")
         return 0
     if args.benefit:
         table = benefit_mapping()

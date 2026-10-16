@@ -6,8 +6,13 @@ P172（**R165**）把**收益**算准了（收口 `POST.STEELCODECHECK` ⇒ **+1
 **收益 > 0 ≠ 能马上做**。⇒ 本批把「**卡在谁**」机械化（`gate_attribution()` + `--attribution`），
 **不**新增手写表、**不**改任何裁定数字、**不**发任何请求。
 
-⚠️ **本批零请求**（`gen-local` 实例**不可达**：TCP `127.0.0.1:3030` 本轮实测 **timeout**；
-P172 实测 **refused**）⇒ `availability` **一行未改** ⇒ **主指标仍 `68 / 71`**。
+⚠️ **本批零请求**。⚠️ **R167 更正（P174）**：当初的理由「实例不可达」是**错的** ——
+`gen-local` **只**监听 **`::1`**（`netstat`：`TCP [::1]:3030 LISTENING`），
+而本批用的是 **IPv4 `127.0.0.1`** ⇒ 必然假阴性。用主机名（`instances.yaml` 的
+`base_url` = `http://localhost:3030/gen`）只读 `GET /DB/NODE` ⇒ **`200`**。
+⇒ ⚠️ 零请求**仍然成立**（本批**确实**只做离线复算），但**理由**改了：
+**不是**「实例不可达」，而是「归因是**纯本仓可读**的计算，本轮**不**需要真机」。
+⚠️ 本批的**结论**只依赖本仓可读证据 ⇒ **不**受此更正影响。
 
 本文件钉住的判据
 ----------------
@@ -347,8 +352,51 @@ def test_p173_the_crash_family_guard_wording_is_not_downgraded() -> None:
 def test_p173_the_batch_ran_no_probes() -> None:
     """门槛（**零请求**）：本批**没有**新增任何 `*_probe.json`。
 
-    ⚠️ 本批**必须**零请求：实例**不可达**（TCP `127.0.0.1:3030` **timeout**）
-    ⇒ 真机测量**不**具备条件 ⇒ 只做**离线**复算。
+    ⚠️ **R167 更正（P174）**：原先写的「因为实例不可达」**是错的**（IPv4-only 探针假阴性，
+    实例**只**监听 `::1` ⇒ 见 `registry/instances.yaml` 的 `probe_host_warning`）。
+    本批零请求**仍然成立**，但**理由**是「归因是纯本仓可读的计算，本轮**不需要**真机」。
     """
     probes = sorted(path.name for path in LIVE.glob("*probe*.json"))
     assert not any("p173" in name for name in probes), probes
+
+
+# ===== 8. R167：探活**必须**用主机名（IPv6），**不**用 IPv4 =====
+
+
+def test_r167_the_instance_matrix_warns_against_ipv4_probing() -> None:
+    """门槛（**R167**，**结构性防复发**）：`instances.yaml` 的 `gen-local` **必须**带
+    `probe_host_warning`，且 `base_url` 用主机名而**非** `127.0.0.1`。
+
+    ⚠️ 本用例**不**做任何网络访问（CI 可能没有实例）—— 它只断言**警告还在**。
+    ⚠️ 为什么写在这里：同一个坑已**三次**（P138 自我更正 · P139 记为已知坑 · P172/P173 复发），
+    且**前两次都写进了文档仍复发** ⇒ 把警告放进**机器可读**的实例矩阵，并由用例钉住。
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    import yaml  # noqa: PLC0415
+
+    matrix = yaml.safe_load((REPO_ROOT / "registry" / "instances.yaml").read_text(encoding="utf-8"))
+    entries = {item["alias"]: item for item in matrix["instances"]}
+    gen = entries["gen-local"]
+    assert gen["base_url"] == "http://localhost:3030/gen", gen["base_url"]
+    assert "127.0.0.1" not in gen["base_url"], "base_url 不得是 IPv4 回环"
+    warning = gen.get("probe_host_warning", "")
+    assert warning, "gen-local 必须带 probe_host_warning（R167）"
+    assert "127.0.0.1" in warning and "::1" in warning, warning
+    assert "R167" in warning, "警告必须可回溯到 R167"
+
+
+def test_r167_no_doc_claims_the_instance_is_unreachable() -> None:
+    """门槛（**R167**）：**现状**文档里**不再**把「实例不可达（`127.0.0.1`）」当**前提**。
+
+    ⚠️ 历史记录（P138 报告、P172/P173 的行）**保留原文**（时点记录不篡改）——
+    判据是「**入口/入口前提**不得再教人用 `127.0.0.1` 探活」。
+    """
+    docs = DOCS_07.read_text(encoding="utf-8")
+    prompt = (REPO_ROOT / "docs" / "08_会话交接与续接提示词_v1.0.md").read_text(encoding="utf-8")
+    assert "R167" in docs, "docs/07 必须登记 R167"
+    # ⚠️ **不**得再出现「用 127.0.0.1 探活」这种**指引**（`localhost` / `[::1]` 才对）
+    assert "第一步 = 探活：`127.0.0.1:3030` 是否可连" not in prompt, "提示词仍在教 IPv4 探活"
+    assert "TCP `127.0.0.1:3030` 本轮 **timeout**，P172 为 **refused**）。" not in docs, (
+        "docs/07 的入口仍把 IPv4 假阴性当现状"
+    )
+    assert "[::1]" in prompt or "localhost" in prompt, "提示词必须给出正确探活主机"

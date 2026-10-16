@@ -2310,6 +2310,11 @@ P169 跑完 `GET /DB/LCOM-SRC` 仍是**空块** ⇒ 收口依据**只到档位**
 > `GenNX.exe` 进程在但**不**监听 API 端口）⇒ 只用**本仓可读**证据（`OPERATION_PLANS` +
 > `registry` 的 `verification_status`），**不**发任何请求、**不**改 `availability`。
 
+> 🛑 **R167 更正（P174）—— 上面那句「实例不可达」是**错的**（IPv4-only 探针的误判）**：
+> 实例**只**监听 `::1` ⇒ 必须用 `localhost`（见 `registry/instances.yaml` 的
+> `gen-local.probe_host_warning`）。实测只读 `GET /DB/NODE` ⇒ **`200`**。
+> 详见 §8.28 顶部的 **R167** 更正块。
+
 #### 8.27.1 被审的声称（`docs/reports/P160e-a` §1 的「分组收益」表）
 
 | 端点 | 收益（原记录） | 理由 |
@@ -2402,6 +2407,17 @@ R152 那句「还需 12 个 RC/SRC 端点」把 **OR** 读成了 **AND**（那 1
 > **本批零请求**（`gen-local` 实例**不可达**：TCP `127.0.0.1:3030` 本轮实测 **timeout**；
 > P172 实测 **refused**）⇒ 只用**本仓可读**证据（`OPERATION_PLANS` + `registry` 的
 > `verification_status` + `NATIVE_CRASH_ENDPOINTS`），**不**发任何请求、**不**改 `availability`。
+
+> 🛑 **R167 更正（P174）—— 上面那句「实例不可达」是**错的**，成因是**探针**，不是实例**：
+> `gen-local` **只**监听 **`::1`**（`netstat` 实测 `TCP [::1]:3030 LISTENING`），
+> 而上面两批用的是 **IPv4 `127.0.0.1`** —— 那是**另一个地址**，必然 `ConnectionRefused`。
+> 用主机名（`registry/instances.yaml` 里**本来**就写着 `http://localhost:3030/gen`）实测：
+> 只读 `GET /DB/NODE` / `DB/GRUP` / `DB/ELEM` ⇒ **全部 `200`**（有载荷）。
+> ⇒ 「不可达」**不**成立；P172 / P173 的**零请求是误判驱动的**，**不是**实例真的开着却不能用。
+> ⚠️ 本节的**结论**（收益映射 / 归因 / 反事实）**只**依赖**本仓可读**证据 ⇒ **不**受此更正影响；
+> 受影响的**只有**「为什么零请求」这一条**理由**，以及「下一批该走哪个分支」这个**决策前提**。
+> ⚠️ **同一个坑已第三次踩**（P138 自我更正 · P139 记为已知坑 · P172/P173 复发）⇒
+> 已把警告**写进** `registry/instances.yaml` 的 `gen-local`（`probe_host_warning`）。
 
 #### 8.28.1 本批要回答的问题
 
