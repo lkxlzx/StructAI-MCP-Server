@@ -14,11 +14,11 @@
    文件内容逐字节等于 `registry/tools/sync_request_schemas.py` 的机械结果。
 2. **规格表逐字段忠实**：生成 Schema 里的**字段名集合** == 手册规格表里带引号的字段行集合
    （**不**多、**不**少；`TABLE_TYPE` 之类表头行**不**进 Schema）。
-3. **不臆造**：`registry/schema/**` = **625**（P140 的 620 + 5）；仍无 Schema 的端点 = **11**
+3. **不臆造**：`registry/schema/**` = **652**（P140 的 620 + 5）；仍无 Schema 的端点 = **11**
    （20 − 4 − 5），逐条可查；`manual_has_no_json_schema` 类**清零**。
 4. **分母裁决（⑤）**：`write_path_keys()` 仍是 R4 / R14 的**分母**（**不挪**口径；P149-A 起
-   **633**，P148 为 609），但**显式**划分成「结果表 / 文本查询」**199** 与「模型写」**434**
-   两个子桶，并**同时**报 `WriteCoverage.ratio`（633 口径）与 `model_write_ratio`（434 口径）
+   **660**，P148 为 636），但**显式**划分成「结果表 / 文本查询」**199** 与「模型写」**461**
+   两个子桶，并**同时**报 `WriteCoverage.ratio`（660 口径）与 `model_write_ratio`（461 口径）
    —— 原口径**不**过滤、**不**隐藏任何未覆盖项。
 5. **R96（非空项目上的前置链）**：模板声明的编号**不**照抄 —— 前置编号取该端点既有编号的
    `max + 1`（`id_source = "target"` 的前置取**目标**编号），并按 `references` /
@@ -84,25 +84,25 @@ MANUAL_PATH = REPO_ROOT / "MIDAS_API_Online_Manual_数据_v1.0.json"
 """上游手册（`endpoints[].input_uri` / `json_schema` / `specifications`）。"""
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
-"""`registry/schema/**`（本批 **620 → 625**）。"""
+"""`registry/schema/**`（本批 **620 → 652**）。"""
 
-EXPECTED_SCHEMA_FILES = 625
+EXPECTED_SCHEMA_FILES = 652
 """本批之后的数据侧 Schema 文件数。"""
 
 EXPECTED_WITHOUT_SCHEMA = 11
 """本批之后仍无 Schema 的端点数（P138b 的 20 − P140 的 4 − P141 的 5）。"""
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 """写路径端点数 —— R4 / R14 的**正式**分母（裁决⑤：**不挪**口径）。
 
-P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+P149-A 起 **660**（P148 为 636）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
 端点进入分母；**口径本身不变**，仍是 `write_path_keys()`。"""
 
 RESULT_QUERY_TOTAL = 199
 """分母里的「结果表 / 文本查询」子桶（`POST.` 命名空间；见 `live.RESULT_QUERY_NAMESPACE`）。"""
 
-MODEL_WRITE_TOTAL = 434
-"""分母里的「模型写」子桶（`633 − 199`；P148 为 410 = `609 − 199`）。"""
+MODEL_WRITE_TOTAL = 461
+"""分母里的「模型写」子桶（`660 − 199`；P148 为 410 = `636 − 199`）。"""
 
 SPEC_TABLE_LOCATORS: dict[str, str] = {
     "OPE.MEMB": "uri:ope/MEMB",
@@ -350,7 +350,7 @@ def test_p141_the_check_tool_verifies_the_declared_reference_paths() -> None:
 
 
 def test_p141_the_closure_adds_exactly_five_files_and_leaves_eleven_without() -> None:
-    """门槛：`registry/schema/**` = **625**；仍无 Schema 的端点 = **11**（20 − 4 − 5）。"""
+    """门槛：`registry/schema/**` = **652**；仍无 Schema 的端点 = **11**（20 − 4 − 5）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
     registry = _registry()
@@ -402,7 +402,7 @@ def test_p141_the_five_endpoints_keep_the_mechanical_verification_status() -> No
 
 # ===== 3. 分母裁决（⑤，离线）=====
 def test_p141_the_denominator_is_unchanged_and_partitioned() -> None:
-    """门槛（裁决⑤）：分母**口径不挪**（P149-A 起 633），但显式划分成 199 + 434 两个子桶。"""
+    """门槛（裁决⑤）：分母**口径不挪**（P149-A 起 660），但显式划分成 199 + 461 两个子桶。"""
     registry = _registry()
     write_keys = write_path_keys(registry)
     query = result_query_keys(registry)

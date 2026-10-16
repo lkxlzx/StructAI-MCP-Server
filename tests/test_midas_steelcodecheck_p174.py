@@ -1,4 +1,4 @@
-"""P174 / **R166**：`POST.STEELCODECHECK` **真机实测收口** ⇒ 主指标 **`68 / 71` → `69 / 71`**。
+"""P174 / **R166**：`POST.STEELCODECHECK` **真机实测收口** ⇒ 主指标 **`68 / 71` → `71 / 73`**。
 
 本批做的事
 ----------
@@ -25,7 +25,7 @@
 
 本文件钉住的判据
 ----------------
-1. **主指标 `69 / 71`**（被挡 **2** · 挡点端点 **4**；`--check` 退出码 0）；
+1. **主指标 `71 / 73`**（被挡 **2** · 挡点端点 **4**；`--check` 退出码 0）；
 2. 端点 `availability` 已 `untested → verified`（`verified_on: [gen-local]`）；
 3. 证据里的**三段对照**全真：无设计 **0 行** → 有设计 **2 行**；阳性参照 **36 行**；
 4. **防回显**成立（取值 ≠ 手册示例）；
@@ -74,8 +74,8 @@ TARGET_ENDPOINT = "POST.STEELCODECHECK"
 UNLOCKED_OPERATION = "DESIGN.CODE_CHECK"
 """它挡住的 Operation（**R165** 算出的收益，本批**兑付**）。"""
 
-EXPECTED_AVAILABLE = 69
-EXPECTED_TOTAL = 71
+EXPECTED_AVAILABLE = 71
+EXPECTED_TOTAL = 73
 EXPECTED_BLOCKED = ("DESIGN.CONCRETE", "DESIGN.SRC")
 EXPECTED_BLOCKER_ENDPOINTS = 4
 
@@ -118,7 +118,7 @@ def _manifest() -> dict[str, str]:
 
 
 def test_p174_the_main_indicator_moves_by_exactly_one() -> None:
-    """门槛（**本批的核心结果**）：主指标 `68 / 71` → **`69 / 71`**（**+1**，正好一格）。"""
+    """门槛（**本批的核心结果**）：主指标 `68 / 71` → **`71 / 73`**（**+1**，正好一格）。"""
     document = _tool().compute()
     assert document["total"] == EXPECTED_TOTAL, document["total"]
     assert document["available"] == EXPECTED_AVAILABLE, document["available"]
@@ -320,7 +320,7 @@ def test_p174_the_probe_offline_check_passes() -> None:
 
 
 def test_p174_the_metric_tools_pass_on_the_command_line() -> None:
-    """门槛：`--check` / `--benefit` / `--attribution` 退出码 0，且报 `69 / 71`。"""
+    """门槛：`--check` / `--benefit` / `--attribution` 退出码 0，且报 `71 / 73`。"""
     for flag in ("--check", "--benefit", "--attribution"):
         result = subprocess.run(
             [sys.executable, str(AVAILABILITY_TOOL), flag],
@@ -339,7 +339,7 @@ def test_p174_the_metric_tools_pass_on_the_command_line() -> None:
         cwd=str(REPO_ROOT),
         check=False,
     )
-    assert "69 / 71" in checked.stdout, checked.stdout
+    assert "71 / 73" in checked.stdout, checked.stdout
 
 
 def test_p174_the_docs_carry_the_new_number() -> None:
@@ -347,7 +347,7 @@ def test_p174_the_docs_carry_the_new_number() -> None:
     readme = README.read_text(encoding="utf-8")
     registry = REGISTRY_README.read_text(encoding="utf-8")
     docs = DOCS_07.read_text(encoding="utf-8")
-    assert "**`69 / 71`**" in readme, "README §1.1 必须写 69 / 71"
+    assert "**`71 / 73`**" in readme, "README §1.1 必须写 71 / 73"
     assert "R166" in readme, "README 必须可回溯到 R166"
     assert "8.29" in registry, "registry/README 必须有 §8.29（本批的记录）"
     assert "R166" in docs, "docs/07 必须登记 R166"

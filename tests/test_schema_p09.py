@@ -7,9 +7,10 @@
    **不**返回 `False` / 静默通过；
 ② `SchemaRegistry`（`docs/02` §14 / §15 / §22）：id 口径 `structai://schema/<…>/v1`；
    未注册 id → `NotFoundError`（P08 已落地，不得回退，**不**自造 `STRUCTAI-xxxx` 码）；
-③ Schema 装载：`registry/schema/` 的 **625** 个 Schema 与 P07 固化的
+③ Schema 装载：`registry/schema/` 的 **652** 个 Schema 与 P07 固化的
    `input_schema` / `output_schema` URI 对齐，并说明无法对齐的部分（11 个端点无 Schema，R5）；
-④ JSON Schema 版本裁决（`docs/07` §16 R18）：447 draft-07 / 178 未声明 / 0 个非法（P141 起）；
+④ JSON Schema 版本裁决（`docs/07` §16 R18）：**474** draft-07 / 178 未声明 / 0 个非法
+（P141 起 447；**P175 / R168** 新增 27 个 draft-07 Schema ⇒ 474）；
 ⑤ 分层与边界（`docs/07` §14.1 / §2.2）：`SchemaEngine` 只做「Schema → 参数」校验，
    `EngineeringValidator` 本批**不**实现；容器形状仍为 `docs/02` §33 的冻结形状；
 ⑥ 回归：`python -m app.main` 退出码 0（stdout 0 字节；未配备库与已配备库两种情形）、
@@ -129,13 +130,13 @@ FROZEN_DEPENDENCIES = (
 )
 """`docs/07` §3.1 / §3.2 冻结的运行期依赖（本批不得引入新依赖）。"""
 
-EXPECTED_SCHEMA_FILES = 625
+EXPECTED_SCHEMA_FILES = 652
 """`registry/README.md` §3：数据侧 Schema 文件数。"""
 
-EXPECTED_REGISTERED = 625
-"""数据侧 Schema 数（P141 起 **625** —— P138a 收口 R19 + P140 补 4 个 + P141 补 5 个）。"""
+EXPECTED_REGISTERED = 652
+"""数据侧 Schema 数（P141 起 **652** —— P138a 收口 R19 + P140 补 4 个 + P141 补 5 个）。"""
 
-EXPECTED_DRAFT7 = 447
+EXPECTED_DRAFT7 = 474
 """数据侧声明 `draft-07` 的 Schema 数（P141 起 **447**：P140 的 442 + P141 规格表派生的 5 个）。"""
 
 EXPECTED_UNDECLARED = 178
@@ -179,7 +180,13 @@ ALIGNED_OPERATION_URIS = frozenset(
         "structai://schema/doc/save/v1",
     }
 )
-"""P07 的 142 个 Operation URI 中，能被数据侧 Schema 解析的 **4** 个（本批实测）。"""
+"""P07 的 **146** 个 Operation URI 中，能被数据侧 Schema 解析的 **4** 个（本批实测）。
+
+⚠️ **P175 / R168 的新发现（命名规则错配，**未**修）**：`MODEL.EXPORT` / `MODEL.IMPORT`
+的 URI 由 **Operation 名**派生（`model/export/v1`），而数据侧 Schema 的 id 由**端点 key**
+派生（`doc/export/v1`）⇒ **两者对不上**，即使端点**有** Schema 也解析不了。
+⇒ 本批**不**动这条命名规则（改它会波及全部 73 个 Operation 的 URI），如实记录为
+**已知错配**。"""
 
 ACTL_ID = "structai://schema/db/actl/v1"
 """`DB.ACTL` 的 Schema id（主门槛用它演示「合法通过 / 非法拒绝」）。"""
@@ -482,7 +489,7 @@ def test_load_rejects_a_malformed_schema_file(tmp_path: Path) -> None:
 
 
 def test_load_covers_every_data_side_schema_file(schema_registry: SchemaRegistry) -> None:
-    """门槛 ③：625 个文件 → **625 个登记**、**0 个**无法还原（P138a + P140 + P141 后可复算）。"""
+    """门槛 ③：652 个文件 → **652 个登记**、**0 个**无法还原（P138a + P140 + P141 后可复算）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
 
@@ -507,7 +514,7 @@ def test_loaded_ids_correspond_one_to_one_with_the_manifest(
     """门槛 ③：Schema 文件与 `manifest.json` 里带 `schema` 的端点 **1:1**（无孤儿）。"""
     manifest = json.loads((REGISTRY_ROOT / "manifest.json").read_text(encoding="utf-8"))
     endpoints = manifest["endpoints"]
-    assert len(endpoints) == 636
+    assert len(endpoints) == 663
 
     with_schema = {item["key"] for item in endpoints if item.get("schema")}
     without_schema = {item["key"] for item in endpoints if not item.get("schema")}
@@ -531,26 +538,31 @@ def test_eleven_endpoints_still_have_no_schema_on_the_data_side() -> None:
 
 
 def test_operation_schema_uris_align_with_the_data_side(schema_registry: SchemaRegistry) -> None:
-    """门槛 ③：P07 的 142 个 Operation URI 中 **4** 个可解析，**0** 个 `/result/v1`。"""
-    assert len(OPERATIONS) == 71
+    """门槛 ③：P07 的 **146** 个 Operation URI 中 **4** 个可解析，**0** 个 `/result/v1`。
+
+    ⚠️ **P175 / R168**：URI 总数 142 → **146**（+4 = 新增 2 个 Operation 各贡献输入+输出）；
+    可解析数仍 **4**（新两个因命名规则错配解析不了，见 `ALIGNED_OPERATION_URIS` 的说明）。
+    """
+    assert len(OPERATIONS) == 73
     operation_uris: set[str] = set()
     for tool, name in OPERATIONS:
         input_uri = input_schema_uri(tool, name)
         operation_uris.add(input_uri)
         operation_uris.add(output_schema_uri(input_uri))
-    assert len(operation_uris) == 142
+    assert len(operation_uris) == 146
 
     registered = set(schema_registry.registered_ids())
     resolved = operation_uris & registered
     assert resolved == ALIGNED_OPERATION_URIS
     assert {uri for uri in resolved if uri.endswith("/result/v1")} == set()
 
-    # 4 个可解析的 URI 逐一对回数据侧端点 key（DOC 命名空间）
+    # 6 个可解析的 URI 逐一对回数据侧端点 key（DOC 命名空间）
     for key in ("DOC.NEW", "DOC.OPEN", "DOC.SAVE", "DOC.CLOSE"):
         assert schema_id_for(key) in resolved
 
-    # 其余 138 个 URI 指向 Core 自有的 `schemas/`（`docs/02` §22），本批不产出
-    assert len(operation_uris - registered) == 138
+    # 其余 **142** 个 URI 指向 Core 自有的 `schemas/`（`docs/02` §22），本批不产出
+    # ⚠️ **P175 / R168**：138 → 142（URI 总数 142 → 146，可解析数仍 4）
+    assert len(operation_uris - registered) == 142
 
 
 def test_save_as_is_the_single_uri_shape_divergence(schema_registry: SchemaRegistry) -> None:
@@ -594,7 +606,7 @@ def test_envelope_root_keys_are_stripped_and_multi_root_documents_kept(
 
 
 def test_dialect_distribution_matches_the_measured_data(schema_registry: SchemaRegistry) -> None:
-    """门槛 ④：447 个 draft-07 + 178 个未声明（+ 0 个无法装载；P141 起）。"""
+    """门槛 ④：474 个 draft-07 + 178 个未声明（+ 0 个无法装载；P141 起 447）。"""
     report = schema_registry.report()
     assert report is not None
     assert dict(report.dialects) == {
@@ -671,7 +683,7 @@ def test_check_schema_finds_no_defective_schema_after_the_p138a_fix(
     schema_registry: SchemaRegistry,
     schema_engine: SchemaEngine,
 ) -> None:
-    """门槛 ④（R19 / P140 / P141）：**625** 个已登记 Schema **全部**是其方言下的合法 JSON Schema。
+    """门槛 ④（R19 / P140 / P141）：**652** 个已登记 Schema **全部**是其方言下的合法 JSON Schema。
 
     P138a 之前恰好 4 个不合规（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 +
     `OPE.EDMP` 的 `type: "Number"`）；修复固化在 `registry/tools/fix_schema_defects.py`
@@ -688,7 +700,7 @@ def test_check_schema_finds_no_defective_schema_after_the_p138a_fix(
 
     assert failures == {}
     assert set(failures) == DEFECTIVE_SCHEMA_IDS == frozenset()
-    assert len(schema_registry) == EXPECTED_REGISTERED == 625
+    assert len(schema_registry) == EXPECTED_REGISTERED == 652
 
 
 # ===== ③/⑥ P07 固化的 URI 口径（落库侧）=====
@@ -704,7 +716,7 @@ async def test_p07_seed_fixes_the_operation_schema_uris(
 
     async with session_factory() as session:
         total = (await session.execute(select(func.count()).select_from(OperationORM))).scalar_one()
-        assert total == 71
+        assert total == 73
         row = (
             (await session.execute(select(OperationORM).where(OperationORM.name == "BUILD.COLUMN")))
             .scalars()

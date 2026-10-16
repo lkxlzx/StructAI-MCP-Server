@@ -68,7 +68,7 @@ TOOL_NAMES_SPEC: tuple[str, ...] = (
 """`docs/02` §53 / §74 的 **9** 个 Tool（顺序逐条照抄）。"""
 
 TOOL_OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
-    ("engineering_doc", 6),
+    ("engineering_doc", 8),
     ("engineering_model_query", 8),
     ("engineering_model_assign", 10),
     ("engineering_model_delete", 7),

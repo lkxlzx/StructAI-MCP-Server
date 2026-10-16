@@ -6,7 +6,8 @@
 **只读**的机械来源 `schema_ref.introspect`（`info/db/<CODE>`，`registry/README.md` §4 / §2.3）。
 两者逐字段比对即可机械量化「数据侧只转录了子集」——本文件的**可执行判定**：
 
-1. **目标集 244 逐条可复算**（`targets()`）：全部「`schema_ref.introspect` 非空」的端点；
+1. **目标集 244 逐条可复算**（P175 / R168 新增的 27 张表**不在**该快照里）
+   （`targets()`）：全部「`schema_ref.introspect` 非空」的端点；
    工具**只发 `GET`**（源码里**没有** `.post(` / `.put(` / `.delete(` 调用）。
 2. **证据诚实**：**244** 行；`verdict` = **199** `PASSED` + **45** `FAILED`（全部 `404`）；
    `aborted` 为空；`criterion_version` = **1**；实例 = `gen-local` / `GEN_NX` / `2026-10-11`。
@@ -24,7 +25,7 @@
 7. **留缺端点未被改动**：`DB.KFAC` / `DB.SSEIS` / `DB.SWIND` 的 Schema 文件相对 `HEAD`
    **一字未改**（`git diff --quiet`）。
 8. **不引入非法 Schema 片段**：**只**搬进合法片段（`type` 合法 + 数组带 `items`）；
-   `registry/schema/**` 仍 **625** 个合法对象、**没有**任何 `multi object`。
+   `registry/schema/**` 仍 **652** 个合法对象、**没有**任何 `multi object`。
 9. **判定未放宽**：`check_write_templates` 仍 **71 / 71** 非空判、**0** 未知字段、**0** 不可判
    body；
    且新增字段让 **3** 个父节点由「裸 `object` ⇒ **不判**」变成**可判**（判定在该处**变强**）。
@@ -60,6 +61,8 @@ PROBED_AT = "2026-10-11"
 CRITERION_VERSION = 1
 
 EXPECTED_TARGETS = 244
+EXPECTED_P175_ADDED = 27
+"""P175 / R168 新登记的 27 张表（均声明 `schema_ref.introspect`）。"""
 """有 `schema_ref.introspect` 的端点（**全部**只读扫描；不按可用性过滤）。"""
 
 EXPECTED_PASSED = 199
@@ -151,7 +154,7 @@ EXPECTED_NEWLY_JUDGED_PARENTS = {
 }
 """补字段后由「裸 `object` ⇒ **不判**」变成**可判**的父节点（判定在该处**变强**）。"""
 
-EXPECTED_SCHEMA_FILES = 625
+EXPECTED_SCHEMA_FILES = 652
 EXPECTED_TEMPLATES = 71
 EXPECTED_BODIES = 115
 
@@ -236,13 +239,21 @@ def _fields_unchanged_since_head(path: Path, fields: tuple[str, ...]) -> bool:
 
 
 def test_p150_the_target_set_is_every_endpoint_with_a_registered_introspect_source() -> None:
-    """门槛（判定 1）：目标集 = **244**，逐条可复算；工具**只发 `GET`**。"""
+    """门槛（判定 1）：目标集逐条可复算；工具**只发 `GET`**。
+
+    ⚠️ **P175 / R168（事实变更）**：目标集由 **244 → 271** —— 新增的 27 张表
+    （「导出可见但未登记」，字段取自实例自省）**都**声明了 `schema_ref.introspect`
+    ⇒ 按本工具的定义（目标集 = 所有声明了自省来源的端点）**必然**进目标集。
+    ⚠️ 既有证据 `introspect_field_diff.json` 是 **P150 的快照**（244 行）⇒ 它是目标集的
+    **子集**；那 27 张**尚未**进该证据（要跑一次 `--probe` 才能补上，本批未做）。
+    """
     tool = _tool()
     keys = tool.target_keys(REPO_ROOT)
-    assert len(keys) == EXPECTED_TARGETS
+    assert len(keys) == EXPECTED_TARGETS + EXPECTED_P175_ADDED
     assert keys == sorted(keys)
     # 目标集**不**按可用性 / 产品过滤：本工具是**只读**的（`--probe` 零副作用）
-    assert set(keys) == set(_evidence()["endpoints"])
+    # ⚠️ 旧证据是**子集**（见上）⇒ 断言「包含」而非「相等」。
+    assert set(_evidence()["endpoints"]) <= set(keys)
     manifest = _manifest()
     import yaml  # noqa: PLC0415 - 仓库既有依赖
 
@@ -392,7 +403,7 @@ def test_p150_the_reverse_gap_is_recorded_and_untouched() -> None:
 
 
 def test_p150_no_invalid_schema_fragment_was_imported() -> None:
-    """门槛（判定 8）：**只**搬进合法片段；`registry/schema/**` 仍 **625** 个合法对象、
+    """门槛（判定 8）：**只**搬进合法片段；`registry/schema/**` 仍 **652** 个合法对象、
     **没有**任何 `multi object`；自省里那 **4** 处非法 `type` **如实**记在证据里。
     """
     tool = _tool()

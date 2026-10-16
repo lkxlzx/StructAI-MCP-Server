@@ -1,0 +1,90 @@
+{
+ "key": "DB.BLDC",
+ "uri": "DB/BLDC",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "bBASE_LEVEL": {
+     "description": " Consider Ground Level",
+     "type": "boolean"
+    },
+    "BASE_LEVEL": {
+     "description": " Ground Level",
+     "type": "number"
+    },
+    "bBEDROCK_LEVEL": {
+     "description": " Consider Underground Seismic Loads",
+     "type": "boolean"
+    },
+    "BEDROCK_LEVEL": {
+     "description": " Bedrock Level",
+     "type": "number"
+    },
+    "bINCLUDE_BASE_MASS": {
+     "description": " Consider Mass below Ground Level for Eigenvalue Analysis",
+     "type": "boolean"
+    },
+    "bSTORY_SHEAR_RATIO": {
+     "description": " Seismic Accidental Eccentricity X-Dir",
+     "type": "boolean"
+    },
+    "bCONSIDER_WIND_SEIS_FOR_FLEX": {
+     "description": " Consider Wind and Seismic Loads for Flexible Floors",
+     "type": "boolean"
+    },
+    "bSTORY_CENTER": {
+     "description": " Consider Story Shear Force Ratio",
+     "type": "boolean"
+    },
+    "USE_OPTION": {
+     "description": " Use Mass / Use Axial Force / Use Shear Force",
+     "type": "string"
+    },
+    "BLDC_CASE_ITEMS": {
+     "description": " Building Control Cases",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "LCNAME": {
+        "description": " Load Case",
+        "type": "string"
+       },
+       "SCALE_FACTOR": {
+        "description": " Scale Factor",
+        "type": "number"
+       }
+      }
+     }
+    },
+    "SEIS_LCNAME_X": {
+     "description": " Seismic Load Case X-Dir",
+     "type": "string"
+    },
+    "SEIS_LCNAME_Y": {
+     "description": " Seismic Load Case Y-Dir",
+     "type": "string"
+    },
+    "STSF_LCNAME_X": {
+     "description": " Story Stiffness Center Load Case X-Dir",
+     "type": "string"
+    },
+    "STSF_LCNAME_Y": {
+     "description": " Story Stiffness Center Load Case Y-Dir",
+     "type": "string"
+    },
+    "bSTORY_RESPONSE_THRS": {
+     "description": " Consider Story Response of Time History Results",
+     "type": "boolean"
+    },
+    "STORY_CENTER_METHOD": {
+     "description": " Story Center Method(Story Center / Story Average)",
+     "type": "string"
+    }
+   }
+  }
+ }
+}

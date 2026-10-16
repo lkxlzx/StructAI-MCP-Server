@@ -34,8 +34,8 @@ P152 把**接口层**的「添加 / 删除 / 编辑」三条**写**路径经**�
 6. **映射缺口分类**（`registry/live/interface_mapping_classification.json`）：缺口
    **517 = 271 + 246** 不变；**271** 个「契约外」分桶 = **0** 已有 canonical 模型 +
    **51** 有手册示例 + **220** 需产品裁决。
-7. **不变量**：数据侧写路径分母**不变**（`write_path_coverage(registry, [])` = `0 / 633`、
-   `model_write_ratio` = `0 / 434`）；P152 的写路径子桶（**13** = 4 + 9）与缺口
+7. **不变量**：数据侧写路径分母**不变**（`write_path_coverage(registry, [])` = `0 / 660`、
+   `model_write_ratio` = `0 / 461`）；P152 的写路径子桶（**13** = 4 + 9）与缺口
    （**517** = 271 + 246）**一行未变**；读路径判据**不**并入任何覆盖率分子。
 8. **凭据绝不入证据**；**成功**响应**不留原文**（读路径只留结构形态 `kind` / `size`）。
 9. **实例门控**：缺 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY` 时，真实接口层用例如实 `skip`
@@ -137,21 +137,21 @@ EXPECTED_WRITE_COUNTS = {"PASSED": 13}
 """⚠️ **P157 同步（有实测依据）**：P153 时是 `4 / 9`；P154 落地 **R126 裁决 A′** 后重测
 ⇒ `11 / 2`；**P157 落地 D2 = A**（`BoundaryTransformer` 加第 **7** 个自由度 `rw` ⇒ `CONSTRAINT`
 输出 **7** 位）后重测 ⇒ **`13 / 0`**。断言**未**放宽，只同步数字。"""
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
+EXPECTED_GAP_TOTAL = 514
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
 
 EXPECTED_CLASSIFICATION = {
-    "gap_total": 489,
-    "gap_not_in_contract": 243,
-    "gap_no_readback": 246,
+    "gap_total": 514,
+    "gap_not_in_contract": 270,
+    "gap_no_readback": 244,
 }
 """**271** 个「契约外」的分类清单的顶层钉住计数。"""
 
 EXPECTED_ADOPTION_COUNTS = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 192,
+    "needs_product_decision": 219,
 }
 """**271** 个「契约外」的三分类（**离线可复算**）。"""
 
@@ -199,8 +199,8 @@ VALUE_GAP_ENDPOINTS = ("DB.ELEM", "DB.MATL")
 ⚠️ **P157 同步（有实测依据）**：`DB.CONS` 的取值缺口（`CONSTRAINT` 6 位 vs 模板 7 位）
 **已由 D2 = A 关闭** ⇒ 移出（`covered`）。"""
 
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
 
 
 def _load(path: Path, name: str) -> Any:
@@ -307,7 +307,7 @@ def test_p153_every_read_row_matches_the_operation_plan() -> None:
     """门槛：`{tool, operation, endpoints, method, intent, uri}` 逐行等于编排 + manifest。"""
     tool = _probe()
     plans = tool.operation_plans(REPO_ROOT)
-    assert len(plans) == 71
+    assert len(plans) == 73
     for row in _read_rows():
         operation = str(row["operation"])
         plan = plans[operation]
@@ -606,15 +606,21 @@ def test_p153_the_classification_buckets_by_namespace_capability_and_tool() -> N
     """门槛：按命名空间 / 能力码 / Tool 归属分桶（逐条可复核）。"""
     document = json.loads(CLASSIFICATION.read_text(encoding="utf-8"))
     buckets = document["buckets"]
-    assert buckets["by_namespace"] == {"DB": 172, "DESIGN": 68, "OPE": 3}
-    assert buckets["by_capability"] == {"DELETE": 158, "DESIGN": 68, "MODEL": 175, "OPERATION": 3}
-    assert buckets["by_tool_map"] == {"assign": 242, "delete": 158, "query": 243}
+    # ⚠️ **P175 / R168**：`DB` 172 → 199（+27 = 新登记的「导出可见但未登记」表）
+    assert buckets["by_namespace"] == {"DB": 199, "DESIGN": 68, "OPE": 3}
+    # ⚠️ **P175 / R168**：`MODEL` 175 → 202（+27，新表的能力码都是 `MODEL`）
+    assert buckets["by_capability"] == {"DELETE": 158, "DESIGN": 68, "MODEL": 202, "OPERATION": 3}
+    # ⚠️ **P175 / R168**：`assign` 242 → 269（+27，新表都归 `assign` 桶）
+    assert buckets["by_tool_map"] == {"assign": 269, "delete": 158, "query": 270}
     assert buckets["by_readiness"] == {
         "manual_example_ready": 51,
         "no_request_schema": 1,
-        "schema_only": 191,
+        # ⚠️ **P175 / R168**：191 → 218（+27，新表有 Schema 但**无**手册示例）
+        "schema_only": 218,
     }
-    assert buckets["by_availability"] == {"verified": 243}
+    # ⚠️ **P175 / R168**：新登记的 27 张表是 `untested`（字段取自自省，
+    #    但**方法集未逐表实测**）⇒ 如实出现在本桶里（`verified` 243 + `untested` 27 = 270）。
+    assert buckets["by_availability"] == {"verified": 243, "untested": 27}
     # 分桶之和自洽：命名空间 = 契约外条数
     assert sum(buckets["by_namespace"].values()) == EXPECTED_GAP_NOT_IN_CONTRACT
     assert sum(buckets["by_adoption"].values()) == EXPECTED_GAP_NOT_IN_CONTRACT

@@ -6,10 +6,10 @@
     "midas Civil Designer - API (wolai, zh)"
   ],
   "counts": {
-    "keys": 636,
-    "schemas": 625,
+    "keys": 663,
+    "schemas": 652,
     "buckets": {
-      "common": 370,
+      "common": 397,
       "design": 125,
       "products/civil_designer": 24,
       "products/civil_nx": 17,
@@ -18690,10 +18690,12 @@
       "title_zh_official": null,
       "spec_rows": 1,
       "examples": 1,
-      "execution_mode": "FAST",
+      "execution_mode": "ASYNC",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -18830,10 +18832,12 @@
       "title_zh_official": null,
       "spec_rows": 1,
       "examples": 1,
-      "execution_mode": "FAST",
+      "execution_mode": "ASYNC",
       "solver": "",
-      "availability": "untested",
-      "verified_on": [],
+      "availability": "verified",
+      "verified_on": [
+        "gen-local"
+      ],
       "unavailable_on": [],
       "enabled": true,
       "disable_reason": "",
@@ -30654,6 +30658,1248 @@
       "provenance": [
         "help_center",
         "repo_midas_api"
+      ]
+    },
+    {
+      "key": "DB.ARPR",
+      "namespace": "DB",
+      "uri": "/DB/ARPR",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/ARPR.yaml",
+      "schema": "schema/common/db/ARPR.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "ARPR"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.BLDC",
+      "namespace": "DB",
+      "uri": "/DB/BLDC",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/BLDC.yaml",
+      "schema": "schema/common/db/BLDC.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "BLDC"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.CMFT",
+      "namespace": "DB",
+      "uri": "/DB/CMFT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/CMFT.yaml",
+      "schema": "schema/common/db/CMFT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "CMFT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.DMAS",
+      "namespace": "DB",
+      "uri": "/DB/DMAS",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/DMAS.yaml",
+      "schema": "schema/common/db/DMAS.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "DMAS"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.EARE",
+      "namespace": "DB",
+      "uri": "/DB/EARE",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/EARE.yaml",
+      "schema": "schema/common/db/EARE.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "EARE"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.ESQW",
+      "namespace": "DB",
+      "uri": "/DB/ESQW",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/ESQW.yaml",
+      "schema": "schema/common/db/ESQW.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "ESQW"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.FIBW",
+      "namespace": "DB",
+      "uri": "/DB/FIBW",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/FIBW.yaml",
+      "schema": "schema/common/db/FIBW.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "FIBW"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.IEHP",
+      "namespace": "DB",
+      "uri": "/DB/IEHP",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/IEHP.yaml",
+      "schema": "schema/common/db/IEHP.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "IEHP"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.IPCR",
+      "namespace": "DB",
+      "uri": "/DB/IPCR",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/IPCR.yaml",
+      "schema": "schema/common/db/IPCR.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "IPCR"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.IPDT",
+      "namespace": "DB",
+      "uri": "/DB/IPDT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/IPDT.yaml",
+      "schema": "schema/common/db/IPDT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "IPDT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.LCOM-CFSTEEL",
+      "namespace": "DB",
+      "uri": "/DB/LCOM-CFSTEEL",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/LCOM-CFSTEEL.yaml",
+      "schema": "schema/common/db/LCOM-CFSTEEL.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "LCOM-CFSTEEL"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.LCOM-FDN",
+      "namespace": "DB",
+      "uri": "/DB/LCOM-FDN",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/LCOM-FDN.yaml",
+      "schema": "schema/common/db/LCOM-FDN.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "LCOM-FDN"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.LCOM-LINEAR",
+      "namespace": "DB",
+      "uri": "/DB/LCOM-LINEAR",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/LCOM-LINEAR.yaml",
+      "schema": "schema/common/db/LCOM-LINEAR.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "LCOM-LINEAR"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.MDGN",
+      "namespace": "DB",
+      "uri": "/DB/MDGN",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/MDGN.yaml",
+      "schema": "schema/common/db/MDGN.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "MDGN"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.MRFT",
+      "namespace": "DB",
+      "uri": "/DB/MRFT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/MRFT.yaml",
+      "schema": "schema/common/db/MRFT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "MRFT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.MTCS",
+      "namespace": "DB",
+      "uri": "/DB/MTCS",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/MTCS.yaml",
+      "schema": "schema/common/db/MTCS.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "MTCS"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.MVLDJP",
+      "namespace": "DB",
+      "uri": "/DB/MVLDJP",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/MVLDJP.yaml",
+      "schema": "schema/common/db/MVLDJP.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "MVLDJP"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.PHGT",
+      "namespace": "DB",
+      "uri": "/DB/PHGT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/PHGT.yaml",
+      "schema": "schema/common/db/PHGT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "PHGT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.RISS",
+      "namespace": "DB",
+      "uri": "/DB/RISS",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/RISS.yaml",
+      "schema": "schema/common/db/RISS.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "RISS"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.SBCT",
+      "namespace": "DB",
+      "uri": "/DB/SBCT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/SBCT.yaml",
+      "schema": "schema/common/db/SBCT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "SBCT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.SEIS",
+      "namespace": "DB",
+      "uri": "/DB/SEIS",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/SEIS.yaml",
+      "schema": "schema/common/db/SEIS.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "SEIS"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.STDG",
+      "namespace": "DB",
+      "uri": "/DB/STDG",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/STDG.yaml",
+      "schema": "schema/common/db/STDG.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "STDG"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.TRFT",
+      "namespace": "DB",
+      "uri": "/DB/TRFT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/TRFT.yaml",
+      "schema": "schema/common/db/TRFT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "TRFT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.UFIG",
+      "namespace": "DB",
+      "uri": "/DB/UFIG",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/UFIG.yaml",
+      "schema": "schema/common/db/UFIG.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "UFIG"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.WIND",
+      "namespace": "DB",
+      "uri": "/DB/WIND",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/WIND.yaml",
+      "schema": "schema/common/db/WIND.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "WIND"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.WNAT",
+      "namespace": "DB",
+      "uri": "/DB/WNAT",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/WNAT.yaml",
+      "schema": "schema/common/db/WNAT.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "WNAT"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
+      ]
+    },
+    {
+      "key": "DB.WSSF",
+      "namespace": "DB",
+      "uri": "/DB/WSSF",
+      "methods": "POST, GET, PUT, DELETE",
+      "products": [
+        "GEN_NX",
+        "CIVIL_NX"
+      ],
+      "definition": "common/db/WSSF.yaml",
+      "schema": "schema/common/db/WSSF.json",
+      "schema_source": "instance_introspect",
+      "table_type": "",
+      "title": "",
+      "title_zh": "",
+      "title_zh_official": null,
+      "spec_rows": 0,
+      "examples": 0,
+      "execution_mode": "FAST",
+      "solver": "",
+      "availability": "untested",
+      "verified_on": [],
+      "unavailable_on": [],
+      "enabled": true,
+      "disable_reason": "",
+      "path_key_supported": true,
+      "params_ref": "",
+      "schema_shape": "",
+      "wrapper": {
+        "write": "Assign",
+        "read_root": "WSSF"
+      },
+      "risk": {
+        "level": "low",
+        "destructive": false,
+        "retry": {
+          "GET": true,
+          "POST": "conditional",
+          "PUT": "conditional"
+        }
+      },
+      "product_overrides": {},
+      "provenance": [
+        "instance_introspect"
       ]
     }
   ]

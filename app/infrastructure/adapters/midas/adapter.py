@@ -1091,8 +1091,15 @@ VIEW_ARGUMENT_CHANNELS: Final[dict[str, str]] = {
 `VIEW.CAPTURE` 要**canonical 键**（有白名单转换器）⇒ **不**能共用一份 `arguments`。
 """
 
-DOC_PATH_OPERATIONS: Final[frozenset[str]] = frozenset({"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS"})
-"""**必须带项目路径**的 DOC 文件操作（`docs/07` §16.1 **R143**）。
+DOC_PATH_OPERATIONS: Final[frozenset[str]] = frozenset(
+    {"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS", "DOC.EXPORT", "DOC.IMPORT"}
+)
+"""**必须带项目路径**的 DOC 文件操作（`docs/07` §16.1 **R143**；P175/R168 扩入两个导出导入端点）。
+
+⚠️ **P175 为何把 `DOC.EXPORT` / `DOC.IMPORT` 也纳入**：二者的 `Argument` **就是文件路径**
+（手册示例 `{"Argument": "C:/MIDAS/FSM.json"}`），与 `OPEN` / `SAVEAS` **同形**
+⇒ 缺路径同样会弹「另存为」模态窗口挂起 API（R143 的那类事故）。实测确认二者体取
+**路径字符串**（见 `registry/live/model_doc_probe.json`）。
 
 ⚠️ **用户给出的产品规则**：**保存 / 另存必须带项目路径**，否则 MIDAS 会弹出「另存为」
 **模态窗口** ⇒ **挂起 API、阻塞链路**（P160b 实测：一次无路径的 `DOC.SAVE` 弹了窗，

@@ -1,0 +1,74 @@
+{
+ "key": "DB.LCOM-CFSTEEL",
+ "uri": "DB/LCOM-CFSTEEL",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NO": {
+     "description": " NO",
+     "type": "integer"
+    },
+    "NAME": {
+     "description": " Combination Name",
+     "type": "string"
+    },
+    "ACTIVE": {
+     "description": " Active Type",
+     "type": "string"
+    },
+    "bES": {
+     "description": " E (Concrete design only)",
+     "type": "boolean"
+    },
+    "bCB": {
+     "description": " (ReadOnly)min max cb type",
+     "type": "boolean"
+    },
+    "iTYPE": {
+     "description": " Sum. method",
+     "type": "integer"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "iSERV_TYPE": {
+     "description": " EC Serv Type",
+     "type": "integer"
+    },
+    "nLCOMTYPE": {
+     "description": " EC Lcom Type",
+     "type": "integer"
+    },
+    "nSEISTYPE": {
+     "description": " EC Seis Type",
+     "type": "integer"
+    },
+    "vCOMB": {
+     "description": " Combination List",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "ANAL": {
+        "description": " Analysis Type",
+        "type": "string"
+       },
+       "LCNAME": {
+        "description": " Load Case Name",
+        "type": "string"
+       },
+       "FACTOR": {
+        "description": " Factor",
+        "type": "number"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

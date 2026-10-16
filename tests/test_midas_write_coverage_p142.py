@@ -23,9 +23,9 @@ P157 / R136 起 −6）。
 5. **数据侧模板 + 前置链**：`DB.FBLD` 的 body **原样**等于手册示例（零 `adjustments`），
    前置链 = 两条 `DB.STLD`（`DC` / `DW`，即手册示例 `ITEM[].LCNAME` 引用的工况名）。
 6. **离线三步链**：前置**先建**、目标后建、读回、**逆序**清理；只碰自建编号；跑完**零残留**。
-7. **口径不变**：分母仍 `write_path_keys()` —— P149-A 起 **633**（`write_only` **306** ·
-   `result_query` **199** · `model_write` **434**；P148 为 609 / 368 / 199 / 410，方法集按只读
-   `OPTIONS` 实测修正后重算）；分子 = L5 `PASSED` 去重 key，P142 本批真实实测 = **11 / 609**
+7. **口径不变**：分母仍 `write_path_keys()` —— P149-A 起 **660**（`write_only` **306** ·
+   `result_query` **199** · `model_write` **461**；P148 为 636 / 368 / 199 / 410，方法集按只读
+   `OPTIONS` 实测修正后重算）；分子 = L5 `PASSED` 去重 key，P142 本批真实实测 = **11 / 636**
    （`model_write_ratio` = **11 / 410**）。
 8. **契约内不再有「仅缺 Transformer」的写端点**：`operations.py` 声明的写步骤里，
    凡是三步链适用的端点**全部**已在候选集内（故加模板**不可能**再增加分子）。
@@ -73,10 +73,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 `DB.FBLD` 后仍必须 0 错）。"""
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 """写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径）。
 
-P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+P149-A 起 **660**（P148 为 636）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
 端点进入分母。"""
 
 WRITE_ONLY_TOTAL = 306
@@ -85,7 +85,7 @@ WRITE_ONLY_TOTAL = 306
 RESULT_QUERY_TOTAL = 199
 """分母里的「结果表 / 文本查询」子桶（`POST.` 命名空间）。"""
 
-MODEL_WRITE_TOTAL = 434
+MODEL_WRITE_TOTAL = 461
 """分母里的「模型写」子桶（P141 裁决⑤：**同时**报两个比率；P148 为 410）。"""
 
 FLOOR_LOAD_KEY = "DB.FBLD"
@@ -279,8 +279,8 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
 BLOCKED_BY_UNREGISTERED_TRANSFORMER: dict[str, int] = {
-    "GEN_NX": 474,
-    "CIVIL_NX": 452,
+    "GEN_NX": 501,
+    "CIVIL_NX": 479,
     "CIVIL_DESIGNER": 31,
 }
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
@@ -683,8 +683,8 @@ async def test_p142_the_fbld_chain_creates_reads_back_and_deletes_only_its_own_i
 
 
 def test_p142_the_denominator_and_sub_buckets_are_unchanged() -> None:
-    """门槛：分母仍 `write_path_keys()` —— P149-A 起 633（306 / 199 / 434；P148 为
-    609 / 368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**），P149-C 起 **72**。"""
+    """门槛：分母仍 `write_path_keys()` —— P149-A 起 660（306 / 199 / 461；P148 为
+    636 / 368 / 199 / 410）；分子 = L5 `PASSED` 去重 key（**数据驱动**），P149-C 起 **72**。"""
     registry = _registry()
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
     assert len(write_only_keys(registry)) == WRITE_ONLY_TOTAL

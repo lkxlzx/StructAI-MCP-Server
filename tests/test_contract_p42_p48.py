@@ -349,7 +349,7 @@ async def test_the_nine_tools_partition_the_seventy_one_operations(
     registry = runtime.operation_registry
     assert registry is not None
     definitions = await registry.list()
-    assert len(definitions) == 71
+    assert len(definitions) == 73
     counts: dict[str, int] = {name: 0 for name in support.TOOL_NAMES_SPEC}
     for definition in definitions:
         assert definition.tool in counts, definition.name
@@ -373,7 +373,7 @@ async def test_every_operation_definition_has_the_twelve_frozen_fields(
     assert registry is not None
     definitions = await registry.list()
     assert set(OPERATION_PROFILES) == {definition.name for definition in definitions}
-    assert len(OPERATION_PROFILES) == 71
+    assert len(OPERATION_PROFILES) == 73
     for definition in definitions:
         assert isinstance(definition.risk_level, RiskLevel), definition.name
         assert isinstance(definition.execution_mode, ExecutionMode), definition.name
@@ -573,7 +573,7 @@ async def test_operation_registry_returns_the_complete_build_column_definition(
     assert definition.rollback_supported is True
     assert definition.dry_run_supported is True
     assert definition.recovery_policy == "STATE_RECONCILE"
-    assert len(registry.names()) == 71
+    assert len(registry.names()) == 73
     await engine.dispose()
 
 

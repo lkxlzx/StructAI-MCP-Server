@@ -25,12 +25,24 @@ SAVE_AS = EndpointStep(key="DOC.SAVEAS", method="POST", intent="write_doc", tran
 NEW = EndpointStep(key="DOC.NEW", method="POST", intent="write_doc", transformer=None)
 
 
-def test_p160b_r143_the_path_requiring_operations_are_exactly_three() -> None:
-    """门槛：需要项目路径的恰好是 `OPEN` / `SAVE` / `SAVEAS` 三个。"""
-    assert DOC_PATH_OPERATIONS == frozenset({"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS"})
+def test_p160b_r143_the_path_requiring_operations_are_exactly_five() -> None:
+    """门槛：需要项目路径的**恰好**是这五个（`docs/07` §16.1 **R143** + P175 扩入两个）。
+
+    ⚠️ **事实变更（P175 / R168）**：原断言为「恰好三个」（`OPEN` / `SAVE` / `SAVEAS`）。
+    `DOC.EXPORT` / `DOC.IMPORT` 的 `Argument` **就是文件路径**（与 `OPEN` / `SAVEAS` 同形）
+    ⇒ 缺路径同样会弹「另存为」模态窗口挂起 API ⇒ **必须**同受 R143 守卫。
+    R143 的**安全语义**（缺路径 ⇒ 零请求被拦）逐条保留，见下方用例。
+    """
+    assert DOC_PATH_OPERATIONS == frozenset(
+        {"DOC.OPEN", "DOC.SAVE", "DOC.SAVEAS", "DOC.EXPORT", "DOC.IMPORT"}
+    )
 
 
-@pytest.mark.parametrize("step", [OPEN, SAVE, SAVE_AS])
+EXPORT = EndpointStep(key="DOC.EXPORT", method="POST", intent="write_doc", transformer=None)
+IMPORT = EndpointStep(key="DOC.IMPORT", method="POST", intent="write_doc", transformer=None)
+
+
+@pytest.mark.parametrize("step", [OPEN, SAVE, SAVE_AS, EXPORT, IMPORT])
 def test_p160b_r143_a_missing_project_path_is_refused_before_any_request(
     step: EndpointStep,
 ) -> None:

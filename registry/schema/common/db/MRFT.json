@@ -1,0 +1,17 @@
+{
+ "key": "DB.MRFT",
+ "uri": "DB/MRFT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "FACTOR": {
+     "description": " Moment Reduction Factor",
+     "type": "number"
+    }
+   }
+  }
+ }
+}

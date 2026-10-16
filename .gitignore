@@ -54,3 +54,12 @@ data/
 
 # ⚠️ **P164-c**：混凝土 / SRC 设计链真机实测的临时项目目录（真机实测用；**不**进仓库）
 .tmp_p164c/
+
+# ⚠️ **P175**：模型样本导出/转换实测的临时目录（`Gen Verification` 样本的**副本**与导出 JSON）
+.tmp_p175/
+
+# ⚠️ **P176**：探针 / 测试跑出来的**临时 sqlite 库**目录（**不**进仓库）——
+#    `p152-interface-*` 来自 `registry/tools/probe_interface_paths.py` 的进程内装配；
+#    `pytest-of-*` 是 pytest 的 `tmp_path` 根（`--basetemp` 未指定时的默认位置）。
+p152-interface-*/
+pytest-of-*/

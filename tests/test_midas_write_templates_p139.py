@@ -2,12 +2,12 @@
 
 权威来源
 --------
-- `docs/07` §16 **R4 / R14**（写路径实测覆盖：分母恒为 **633** —— P149-A 起，只读 `OPTIONS` 实测
-  修正方法集后由 609 上修；分子只统计真实 L5 `PASSED`）。
+- `docs/07` §16 **R4 / R14**（写路径实测覆盖：分母恒为 **660** —— P149-A 起，只读 `OPTIONS` 实测
+  修正方法集后由 636 上修；分子只统计真实 L5 `PASSED`）。
 - `docs/07` §16 **R5 / R87**（20 个无 Schema 端点；7 项 AND 的判定点）。
 - `docs/reports/P138_数据侧缺陷收口与L5空项目闸门_v1.0.md` §4.3 / §8（P138c 实测：10 个候选里
   `DB.NODE` `PASSED`、其余 **9** 个 `400 software_api_error`）。
-  P139 本批实测：**10 / 10** `PASSED`、写路径覆盖 **10 / 609**（见 `docs/reports/P139_*.md`）。
+  P139 本批实测：**10 / 10** `PASSED`、写路径覆盖 **10 / 636**（见 `docs/reports/P139_*.md`）。
 
 本文件的**可执行判定**（不含任何真实请求）
 ------------------------------------------
@@ -79,8 +79,8 @@ CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
 """`registry/schema/**`（R5 裁决 B：**不**为无请求体端点新增文件）。"""
-EXPECTED_SCHEMA_FILES = 625
-"""Schema 文件数（P141 起 **625**；R5 裁决 B 本身仍**不**为无请求体端点新增文件）。"""
+EXPECTED_SCHEMA_FILES = 652
+"""Schema 文件数（P141 起 **652**；R5 裁决 B 本身仍**不**为无请求体端点新增文件）。"""
 
 TEMPLATE_KEYS = (
     "DB.BMLD",

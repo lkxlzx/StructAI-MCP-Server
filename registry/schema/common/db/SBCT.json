@@ -1,0 +1,117 @@
+{
+ "key": "DB.SBCT",
+ "uri": "DB/SBCT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NUM_ITR": {
+     "description": " Number of Iterations",
+     "type": "integer"
+    },
+    "CONV_TOL": {
+     "description": " Convergence Tolerance",
+     "type": "number"
+    },
+    "ANAL_METHOD_TYPE": {
+     "description": " Analysis Method",
+     "type": "string"
+    },
+    "GROUP_NAME": {
+     "description": " Node Group to be Updated",
+     "type": "string"
+    },
+    "CABLE_GROUP_SUB_NAME": {
+     "description": " Cable Group to be Updated",
+     "type": "string"
+    },
+    "SAG_GROUP_NAME": {
+     "description": " Sag Point Group",
+     "type": "string"
+    },
+    "OPT_CONS_HOR": {
+     "description": " Enable/Disable Constant Horizontal Force of Cable",
+     "type": "boolean"
+    },
+    "CONS_HOR": {
+     "description": " Constant Horizontal Force of Cable",
+     "type": "object",
+     "properties": {
+      "CABLE_GROUP_NAME": {
+       "description": " Main Cable Group",
+       "type": "string"
+      },
+      "HOR_FORCE": {
+       "description": " Horizontal Force",
+       "type": "number"
+      }
+     }
+    },
+    "OPT_HANGER": {
+     "description": " Enable/Disable Define Girder Z-Displacement Condition",
+     "type": "boolean"
+    },
+    "HANGER": {
+     "description": " Define Girder Z-Displacement Condition",
+     "type": "object",
+     "properties": {
+      "HANGER_GROUP_NAME": {
+       "description": " Hanger Group",
+       "type": "string"
+      },
+      "HANGER_Z_DISP": {
+       "description": " Define Girder Data",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "GIRDER_GROUP_NAME": {
+          "description": " Girder Group",
+          "type": "string"
+         },
+         "DISP_TYPE": {
+          "description": " Target Displacement",
+          "type": "string"
+         },
+         "ARR_NODE_KEY": {
+          "description": " Array of Node key",
+          "type": "array",
+          "items": {
+           "type": "integer"
+          }
+         },
+         "ARR_Z_DISP": {
+          "description": " Array of Z Displacement",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "SBCT_BASE": {
+     "description": " Load Cases to be Considered",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "LOAD_CASE_NAME": {
+        "description": " Load Case",
+        "type": "string"
+       },
+       "SCALE_FACTOR": {
+        "description": " Scale Factor",
+        "type": "number"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

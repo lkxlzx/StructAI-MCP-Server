@@ -1,0 +1,3155 @@
+{
+ "key": "DB.WIND",
+ "uri": "DB/WIND",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "WIND_CODE": {
+     "description": " Wind Load Code Name",
+     "type": "string"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "SCALE_FACTOR_X": {
+     "description": " Scale Factor : X",
+     "type": "number"
+    },
+    "SCALE_FACTOR_Y": {
+     "description": " Scale Factor : Y",
+     "type": "number"
+    },
+    "SCALE_FACTOR_R": {
+     "description": " Scale Factor : R",
+     "type": "number"
+    },
+    "WIND_ECCEN_X": {
+     "description": " Wind Eccentricity Direction : X-Dir",
+     "type": "integer"
+    },
+    "WIND_ECCEN_Y": {
+     "description": " Wind Eccentricity Direction : Y-Dir",
+     "type": "integer"
+    },
+    "KS92": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "PRES_COEF": {
+       "description": " Pressure Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "JP87": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PRES_REDUCT_FACTOR": {
+       "description": " Pressure Rediction Factor",
+       "type": "number"
+      },
+      "PRES_COEF": {
+       "description": " Pressure Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "UBC97": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "PRES_COEF": {
+       "description": " Pressure Coefficient",
+       "type": "number"
+      },
+      "OPT_PROJECTED_AREA": {
+       "description": " Use Projected Area Method",
+       "type": "boolean"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      }
+     }
+    },
+    "ANSI82": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor (I)",
+       "type": "number"
+      },
+      "WINWARD_COEF": {
+       "description": " Winward Coefficient",
+       "type": "number"
+      },
+      "LEWARD_COEF": {
+       "description": " Leward Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "KS2000": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor (I)",
+       "type": "number"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      },
+      "OPT_INCLUDE_TOPOGRAPHY": {
+       "description": " Include Topographic Effects Boolean",
+       "type": "boolean"
+      },
+      "KZT": {
+       "description": " Kzt",
+       "type": "number"
+      },
+      "H_KZT": {
+       "description": " Vertical Range For Kzt",
+       "type": "number"
+      },
+      "STRUCTURE_TYPE": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "OPT_USE_FORCE_COEF": {
+       "description": " Load Evaluation Using Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "IBC2000": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "ROOF_HEIGHT": {
+       "description": " Roof Height",
+       "type": "number"
+      },
+      "WIND_DIRECTION_FACTOR": {
+       "description": " Pressure Coefficient",
+       "type": "number"
+      },
+      "STRUCTURE_TYPE": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "HILL_SHAPE": {
+       "description": " Hill Shape",
+       "type": "string"
+      },
+      "BLDG_LOCATION": {
+       "description": " Building Location",
+       "type": "string"
+      },
+      "HILL_HEIGHT": {
+       "description": " Hill Height",
+       "type": "number"
+      },
+      "HILL_LENGTH": {
+       "description": " Hill Length",
+       "type": "number"
+      },
+      "HILL_DISTANCE": {
+       "description": " Hill Distance",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC": {
+       "description": " Auto Calc Boolean",
+       "type": "boolean"
+      },
+      "KEY_WNAT": {
+       "description": " Wnat Key",
+       "type": "integer"
+      }
+     }
+    },
+    "EURO1992": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "ROUGH_CATEGORY": {
+       "description": " Rough Category",
+       "type": "integer"
+      },
+      "REF_WIND_SPEED": {
+       "description": " Ref Wind Speed",
+       "type": "number"
+      },
+      "WINDWARD_COEF": {
+       "description": " Windward Coefficient",
+       "type": "number"
+      },
+      "LEEWARD_COEF": {
+       "description": " Leeward Coefficient",
+       "type": "number"
+      },
+      "FRICTION_COEF": {
+       "description": " Rfiction Coefficient",
+       "type": "number"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "TOPOGRAPHY_COEF": {
+       "description": " Topography Coefficient",
+       "type": "number"
+      },
+      "TOPOGRAPHY_RANGE": {
+       "description": " Topography Range",
+       "type": "number"
+      },
+      "HILL_DISTANCE": {
+       "description": " Hill Distance",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "GUST_FACTOR": {
+       "description": " Gust Factor",
+       "type": "number"
+      }
+     }
+    },
+    "BS6399_1997": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "SITE_CATEGORY": {
+       "description": " Site Category",
+       "type": "string"
+      },
+      "BLDG_TYPE_FACTOR": {
+       "description": " Building Type Factor",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      },
+      "BLDG_SEPERATION": {
+       "description": " Building Seperation",
+       "type": "number"
+      },
+      "FRICTION_COEF": {
+       "description": " Friction Coefficient",
+       "type": "number"
+      },
+      "SEA_DISTANCE": {
+       "description": " Sea Distance",
+       "type": "number"
+      },
+      "TOWN_DISTANCE": {
+       "description": " Town Distance",
+       "type": "number"
+      },
+      "ALTITUDE_FACTOR": {
+       "description": " Altitude Factor",
+       "type": "number"
+      },
+      "DIRECTIONAL_FACTOR": {
+       "description": " Directional Factor",
+       "type": "number"
+      },
+      "SEASONAL_FACTOR": {
+       "description": " Seasonal Factor",
+       "type": "number"
+      },
+      "PROBABILITY_FACTOR": {
+       "description": " Probability Factor",
+       "type": "number"
+      },
+      "TOPOGRAPHIC_FACTOR": {
+       "description": " Topographic Factor",
+       "type": "number"
+      }
+     }
+    },
+    "CH2002": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "ROUGH_CATEGORY": {
+       "description": " Rough Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "MODIFY_FACTOR": {
+       "description": " Modify Factor",
+       "type": "number"
+      },
+      "WINDWARD_COEF": {
+       "description": " Windward Coefficient",
+       "type": "number"
+      },
+      "LEEWARD_COEF": {
+       "description": " Leeward Coefficient",
+       "type": "number"
+      },
+      "PULSE_MAGNIFY_METHOD": {
+       "description": " Pulse Magnify Method (0:Automatic Calculation, 1:User Defined)",
+       "type": "integer"
+      },
+      "STRUCTURAL_MATL": {
+       "description": " Structural Material",
+       "type": "string"
+      },
+      "DAMPING_RATIO": {
+       "description": " Damping Ratio",
+       "type": "number"
+      },
+      "PERIOD_X": {
+       "description": " Fundamental Period in x direction",
+       "type": "number"
+      },
+      "PERIOD_Y": {
+       "description": " Fundamental Period in y direction",
+       "type": "number"
+      },
+      "PULSE_MAGNIFY_FACTOR_X": {
+       "description": " Pulse Magnify Factor : X",
+       "type": "number"
+      },
+      "PULSE_MAGNIFY_FACTOR_Y": {
+       "description": " Pulse Magnify Factor : Y",
+       "type": "number"
+      }
+     }
+    },
+    "JPN2000": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      }
+     }
+    },
+    "NBC1995": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "BLDG_HEIGHT": {
+       "description": " Building Height",
+       "type": "number"
+      },
+      "GUST_FACTOR": {
+       "description": " Gust Factor",
+       "type": "number"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "HILL_SHAPE": {
+       "description": " Hill Shape",
+       "type": "string"
+      },
+      "BLDG_LOCATION": {
+       "description": " Building Location",
+       "type": "string"
+      },
+      "HILL_HEIGHT": {
+       "description": " Hill Height",
+       "type": "number"
+      },
+      "HILL_LENGTH": {
+       "description": " Hill Length",
+       "type": "number"
+      },
+      "HILL_DISTANCE": {
+       "description": " Hill Distance",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "IS1987": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "TERRAIN_CATEGORY": {
+       "description": " Terrain Category",
+       "type": "integer"
+      },
+      "BLDG_CLASS": {
+       "description": " Building Class",
+       "type": "string"
+      },
+      "FRICTION_COEF": {
+       "description": " Friction Coefficient",
+       "type": "number"
+      },
+      "GUST_FACTOR": {
+       "description": " Gust Factor",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC_RISK": {
+       "description": " Use Auto Calc Risk",
+       "type": "boolean"
+      },
+      "STRUCTURE_CLASS": {
+       "description": " Structure Class",
+       "type": "string"
+      },
+      "RISK_COEF": {
+       "description": " Risk Coef",
+       "type": "number"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "TOPOGRAPHIC_FACTOR": {
+       "description": " Topographic Factor",
+       "type": "number"
+      },
+      "TOPOGRAPHY_RANGE": {
+       "description": " Topography Range",
+       "type": "number"
+      }
+     }
+    },
+    "TAIWAN1986": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "SITE_CATEGORY": {
+       "description": " Site Category",
+       "type": "string"
+      },
+      "SHAPE_FACTOR": {
+       "description": " Shape Factor",
+       "type": "number"
+      }
+     }
+    },
+    "JP2004": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BLDG_HEIGHT": {
+       "description": " Building Height",
+       "type": "number"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "ENV_FACTOR": {
+       "description": " Environment Factor",
+       "type": "number"
+      },
+      "MEAN_WIND_SPEED": {
+       "description": " Mean Wind Speed",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "integer"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "bTOPOGRAPHY_X": {
+       "description": " Include topography effect : X",
+       "type": "boolean"
+      },
+      "HILL_SHAPE_X": {
+       "description": " Hill Shape : X",
+       "type": "integer"
+      },
+      "HILL_HEIGHT_X": {
+       "description": " Hill Height : X",
+       "type": "number"
+      },
+      "HILL_LENGTH_X": {
+       "description": " Hill Length : X",
+       "type": "number"
+      },
+      "BLDG_DISTANCE_X": {
+       "description": " Building Distance : X",
+       "type": "number"
+      },
+      "bTOPOGRAPHY_Y": {
+       "description": " Include topography effect : Y",
+       "type": "boolean"
+      },
+      "HILL_SHAPE_Y": {
+       "description": " Hill Shape : Y",
+       "type": "integer"
+      },
+      "HILL_HEIGHT_Y": {
+       "description": " Hill Height : Y",
+       "type": "number"
+      },
+      "HILL_LENGTH_Y": {
+       "description": " Hill Length : Y",
+       "type": "number"
+      },
+      "BLDG_DISTANCE_Y": {
+       "description": " Building Distance : Y",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF_X": {
+       "description": " Force Coefficient : X",
+       "type": "number"
+      },
+      "FORCE_COEF_Y": {
+       "description": " Force Coefficient : Y",
+       "type": "number"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "BREADTH_X": {
+       "description": " Breadth : X",
+       "type": "number"
+      },
+      "BREADTH_Y": {
+       "description": " Breadth : Y",
+       "type": "number"
+      },
+      "DAMPING_X": {
+       "description": " Damping : X",
+       "type": "number"
+      },
+      "DAMPING_Y": {
+       "description": " Damping : Y",
+       "type": "number"
+      },
+      "DAMPING_R": {
+       "description": " Damping : R",
+       "type": "number"
+      },
+      "FREQUENCY_X": {
+       "description": " Frequency : X",
+       "type": "number"
+      },
+      "FREQUENCY_Y": {
+       "description": " Frequency : Y",
+       "type": "number"
+      },
+      "FREQUENCY_R": {
+       "description": " Frequency : R",
+       "type": "number"
+      },
+      "MODE_FACTOR_X": {
+       "description": " Mode Factor : X",
+       "type": "number"
+      },
+      "MODE_FACTOR_Y": {
+       "description": " Mode Factor : Y",
+       "type": "number"
+      },
+      "MODE_FACTOR_R": {
+       "description": " Mode Factor : R",
+       "type": "number"
+      },
+      "LOAD_FACTOR_X": {
+       "description": " Load Factor : X",
+       "type": "number"
+      },
+      "LOAD_FACTOR_Y": {
+       "description": " Load Factor : Y",
+       "type": "number"
+      },
+      "LOAD_FACTOR_R": {
+       "description": " Load Factor : R",
+       "type": "number"
+      },
+      "WIND_DIRECTION": {
+       "description": " Wind Direction",
+       "type": "integer"
+      },
+      "COMB_TYPE": {
+       "description": " Comb Type",
+       "type": "integer"
+      }
+     }
+    },
+    "EURO2005": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "TERRAIN": {
+       "description": " Terrain",
+       "type": "integer"
+      },
+      "CFR": {
+       "description": " CFR",
+       "type": "number"
+      },
+      "VB": {
+       "description": " VB",
+       "type": "number"
+      },
+      "C_DIR": {
+       "description": " C Dir",
+       "type": "number"
+      },
+      "C_SEASON": {
+       "description": " C Season",
+       "type": "number"
+      },
+      "KL": {
+       "description": " KL",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "CPE_METHOD": {
+       "description": " CPE Method",
+       "type": "integer"
+      },
+      "CPE_10": {
+       "description": " CPE 10",
+       "type": "number"
+      },
+      "CPE_01": {
+       "description": " CPE 01",
+       "type": "number"
+      },
+      "CPE_LEE": {
+       "description": " CPE Lee",
+       "type": "number"
+      },
+      "LACK_METHOD": {
+       "description": " Lack Method",
+       "type": "integer"
+      },
+      "LACK_FACTOR": {
+       "description": " Lack Factor",
+       "type": "number"
+      },
+      "CS_Cd": {
+       "description": " CS Cd",
+       "type": "number"
+      },
+      "CS_B": {
+       "description": " CS b",
+       "type": "number"
+      },
+      "CS_D": {
+       "description": " CS D",
+       "type": "number"
+      },
+      "CS_N1": {
+       "description": " CS N1",
+       "type": "number"
+      },
+      "CS_Dt": {
+       "description": " CS Dt",
+       "type": "number"
+      },
+      "bOROGRAPHY": {
+       "description": " Orography Boolean",
+       "type": "boolean"
+      },
+      "ORO_TYPE": {
+       "description": " Orography Type",
+       "type": "number"
+      },
+      "BLDG_LOC": {
+       "description": " Building Location",
+       "type": "number"
+      },
+      "ORO_H": {
+       "description": " H (Orography)",
+       "type": "number"
+      },
+      "ORO_Lu": {
+       "description": " Lu (Orography)",
+       "type": "number"
+      },
+      "ORO_Ld": {
+       "description": " Ld (Orography)",
+       "type": "number"
+      },
+      "ORO_X": {
+       "description": " X (Orography)",
+       "type": "number"
+      },
+      "bNEIGHBOR": {
+       "description": " Neighbor Boolean",
+       "type": "boolean"
+      },
+      "NEI_Ha": {
+       "description": " HA (Neighbor)",
+       "type": "number"
+      },
+      "NEI_X": {
+       "description": " X (Neighbor)",
+       "type": "number"
+      },
+      "NEI_Dl": {
+       "description": " Dl (Neighbor)",
+       "type": "number"
+      },
+      "NEI_Hh": {
+       "description": " Hh (Neighbor)",
+       "type": "number"
+      },
+      "bDISPLACE": {
+       "description": " DIsplace Boolean",
+       "type": "boolean"
+      },
+      "DIS_Ha": {
+       "description": " Ha (Displace)",
+       "type": "number"
+      },
+      "DIS_X": {
+       "description": " X  (Displace)",
+       "type": "number"
+      }
+     }
+    },
+    "KBC2009": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "ROOF_HEIGHT": {
+       "description": " Roof Height",
+       "type": "number"
+      },
+      "TOPOGRAPHIC_EFFECT": {
+       "description": " Topographic Effect",
+       "type": "number"
+      },
+      "KZT": {
+       "description": " KZT",
+       "type": "number"
+      },
+      "VZT": {
+       "description": " VZT",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC": {
+       "description": " Auto Calc Boolean",
+       "type": "boolean"
+      },
+      "KEY_WNAT": {
+       "description": " Wnat Key",
+       "type": "integer"
+      }
+     }
+    },
+    "IBC2009": {
+     "description": " IBC2009(ASCE7-05)",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "CNET_WINDWARD": {
+       "description": " Windward (Cnet)",
+       "type": "number"
+      },
+      "CNET_LEEWARD": {
+       "description": " Leeward (Cnet)",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "ROOF_HEIGHT": {
+       "description": " Roof Height",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC": {
+       "description": " Auto Calc Boolean",
+       "type": "boolean"
+      },
+      "KEY_WNAT": {
+       "description": " Wnat Key",
+       "type": "integer"
+      }
+     }
+    },
+    "IBC2012": {
+     "description": " IBC2012(ASCE7-10)",
+     "type": "object",
+     "properties": {
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "CNET_WINDWARD": {
+       "description": " Windward (Cnet)",
+       "type": "number"
+      },
+      "CNET_LEEWARD": {
+       "description": " Leeward (Cnet)",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "ROOF_HEIGHT": {
+       "description": " Roof Height",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC": {
+       "description": " Auto Calc Boolean",
+       "type": "boolean"
+      },
+      "KEY_WNAT": {
+       "description": " Wnat Key",
+       "type": "integer"
+      }
+     }
+    },
+    "CH2012": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "ROUGH_CATEGORY": {
+       "description": " Rough Category",
+       "type": "string"
+      },
+      "BASIC_WIND_PRES": {
+       "description": " Basic Wind Pressure",
+       "type": "number"
+      },
+      "MODIFY_FACTOR": {
+       "description": " Modify Factor",
+       "type": "number"
+      },
+      "WINDWARD_COEF_X": {
+       "description": " Windward Coefficient : X",
+       "type": "number"
+      },
+      "WINDWARD_COEF_Y": {
+       "description": " Windward Coefficient : Y",
+       "type": "number"
+      },
+      "LEEWARD_COEF_X": {
+       "description": " Leeward Coefficient : X",
+       "type": "number"
+      },
+      "LEEWARD_COEF_Y": {
+       "description": " Leeward Coefficient : Y",
+       "type": "number"
+      },
+      "DAMPING_RATIO": {
+       "description": " Damping Ratio",
+       "type": "number"
+      },
+      "STRUCT_METHOD": {
+       "description": " Struct Method (0 : Table / 1 : Calculation)",
+       "type": "integer"
+      },
+      "PARTITION_COEF": {
+       "description": " Partition Coefficient",
+       "type": "number"
+      },
+      "WINDSHIELD": {
+       "description": " Windshield",
+       "type": "number"
+      },
+      "PERIOD_X": {
+       "description": " Period : X",
+       "type": "number"
+      },
+      "PERIOD_Y": {
+       "description": " Period : Y",
+       "type": "number"
+      },
+      "ALONG_VIBRATION": {
+       "description": " Consider Along-wind Vibration",
+       "type": "boolean"
+      },
+      "bCROSS_VIBRATION": {
+       "description": " Consider Cross-wind Vibration",
+       "type": "boolean"
+      },
+      "bCROSS": {
+       "description": " Cross Boolean",
+       "type": "boolean"
+      },
+      "SECT_TYPE": {
+       "description": " Section Type",
+       "type": "integer"
+      },
+      "CROSS_PERIOD_X": {
+       "description": " Cross Period : X",
+       "type": "number"
+      },
+      "CROSS_PERIOD_Y": {
+       "description": " Cross Period : Y",
+       "type": "number"
+      },
+      "bTORSION": {
+       "description": " Torsion Boolean",
+       "type": "boolean"
+      },
+      "TORSION_PERIOD": {
+       "description": " Torsion Ratio",
+       "type": "number"
+      },
+      "bWIND_COMPORT": {
+       "description": " Wind Comfort",
+       "type": "boolean"
+      },
+      "CHECK_WIND_PRES": {
+       "description": " Check Wind Pressure",
+       "type": "number"
+      },
+      "CHECK_DAMPING_RATIO": {
+       "description": " Check Damping Ratio",
+       "type": "number"
+      }
+     }
+    },
+    "NSR2010": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "ROOF_HEIGHT": {
+       "description": " Roof Height",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bAUTO_CALC": {
+       "description": " Auto Calc Boolean",
+       "type": "boolean"
+      },
+      "KEY_WNAT": {
+       "description": " Wnat Key",
+       "type": "integer"
+      }
+     }
+    },
+    "KDS19_KBC16": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "INPUT_METHOD": {
+       "description": " Input Method",
+       "type": "integer"
+      },
+      "SIMPLE": {
+       "description": " Simplified Method",
+       "type": "object",
+       "properties": {
+        "BASIC_WIND_SPEED": {
+         "description": " Basic Wind Speed",
+         "type": "number"
+        },
+        "ROOF_HEIGHT": {
+         "description": " Roof Height",
+         "type": "number"
+        },
+        "SIMPLE_CE": {
+         "description": " Ce",
+         "type": "number"
+        }
+       }
+      },
+      "GENERAL": {
+       "description": " General Method",
+       "type": "object",
+       "properties": {
+        "EXP_CATEGORY": {
+         "description": " Exposure Category",
+         "type": "string"
+        },
+        "BASIC_WIND_SPEED": {
+         "description": " Basic Wind Speed",
+         "type": "number"
+        },
+        "IMPORTANCE_FACTOR": {
+         "description": " Importance Factor",
+         "type": "number"
+        },
+        "ROOF_HEIGHT": {
+         "description": " Roof Height",
+         "type": "number"
+        },
+        "TOPOGRAPHIC_EFFECT": {
+         "description": " Topographic Effect",
+         "type": "number"
+        },
+        "KZT": {
+         "description": " KZT",
+         "type": "number"
+        },
+        "VZT": {
+         "description": " VZT",
+         "type": "number"
+        },
+        "RIGIDITY": {
+         "description": " Structure Type (Rigid/Flexible)",
+         "type": "string"
+        },
+        "GUST_FACTOR_X": {
+         "description": " Gust Factor : Gx",
+         "type": "number"
+        },
+        "GUST_FACTOR_Y": {
+         "description": " Gust Factor : Gy",
+         "type": "number"
+        },
+        "bUSE_FORCE_COEF": {
+         "description": " Use Force Coefficient",
+         "type": "boolean"
+        },
+        "FORCE_COEF": {
+         "description": " Force Coefficient",
+         "type": "number"
+        },
+        "bAUTO_CALC": {
+         "description": " Auto Calc Boolean",
+         "type": "boolean"
+        },
+        "KEY_WNAT": {
+         "description": " Wnat Key",
+         "type": "integer"
+        },
+        "WNAT_STRUCT_TYPE": {
+         "description": " Wmat Struct Type",
+         "type": "integer"
+        },
+        "BUILDING_TYPE": {
+         "description": " Building Type",
+         "type": "integer"
+        },
+        "bACROSS_WIND": {
+         "description": " Across Wind Boolean",
+         "type": "boolean"
+        },
+        "bTORSIONAL_WIND": {
+         "description": " Torsional Wind Boolean",
+         "type": "boolean"
+        },
+        "bWIND_RESPONSE": {
+         "description": " Wind Response Boolean",
+         "type": "number"
+        },
+        "BL_X": {
+         "description": " Breadth : X",
+         "type": "number"
+        },
+        "BL_Y": {
+         "description": " Breadth : Y",
+         "type": "number"
+        },
+        "NO_X": {
+         "description": " Natural Frequency : X",
+         "type": "number"
+        },
+        "NO_Y": {
+         "description": " Natural Frequency : Y",
+         "type": "number"
+        },
+        "NO_T": {
+         "description": " Torsional Natural Frequency",
+         "type": "number"
+        },
+        "MX1ST": {
+         "description": " 1st Vibration Generalized Mass : X",
+         "type": "number"
+        },
+        "MY1ST": {
+         "description": " 1st Vibration Generalized Mass : Y",
+         "type": "number"
+        },
+        "MT1ST": {
+         "description": " Generalized inertial Moment",
+         "type": "number"
+        },
+        "DAMPING_RATIO": {
+         "description": " Damping Ratio",
+         "type": "number"
+        },
+        "WA_LCNAME": {
+         "description": " WA : Load Case Name",
+         "type": "string"
+        },
+        "WT_LCNAME": {
+         "description": " WT : Load Case Name",
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "KDS2021": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "INPUT_METHOD": {
+       "description": " Input Method",
+       "type": "integer"
+      },
+      "SIMPLE": {
+       "description": " Simplified Method",
+       "type": "object",
+       "properties": {
+        "BASIC_WIND_SPEED": {
+         "description": " Basic Wind Speed",
+         "type": "number"
+        },
+        "ROOF_HEIGHT": {
+         "description": " Roof Height",
+         "type": "number"
+        },
+        "SIMPLE_CE": {
+         "description": " Ce",
+         "type": "number"
+        }
+       }
+      },
+      "GENERAL": {
+       "description": " General Method",
+       "type": "object",
+       "properties": {
+        "bVORTEX_SHEDDING": {
+         "description": " Vortex Shedding Boolean",
+         "type": "boolean"
+        },
+        "VORTEX_AVERAGE_ROOF": {
+         "description": " Vortex Average Roof",
+         "type": "number"
+        },
+        "VORTEX_DM": {
+         "description": " Vortex DM",
+         "type": "number"
+        },
+        "VORTEX_DB": {
+         "description": " Vortex DB",
+         "type": "number"
+        },
+        "VORTEX_N": {
+         "description": " Vortex N",
+         "type": "number"
+        },
+        "VORTEX_MASS": {
+         "description": " Vortex Mass",
+         "type": "number"
+        },
+        "VORTEX_DAMP": {
+         "description": " Vortex Damp",
+         "type": "number"
+        },
+        "EXP_CATEGORY": {
+         "description": " Exposure Category",
+         "type": "string"
+        },
+        "BASIC_WIND_SPEED": {
+         "description": " Basic Wind Speed",
+         "type": "number"
+        },
+        "IMPORTANCE_FACTOR": {
+         "description": " Importance Factor",
+         "type": "number"
+        },
+        "ROOF_HEIGHT": {
+         "description": " Roof Height",
+         "type": "number"
+        },
+        "TOPOGRAPHIC_EFFECT": {
+         "description": " Topographic Effect",
+         "type": "number"
+        },
+        "KZT": {
+         "description": " KZT",
+         "type": "number"
+        },
+        "VZT": {
+         "description": " VZT",
+         "type": "number"
+        },
+        "RIGIDITY": {
+         "description": " Structure Type (Rigid/Flexible)",
+         "type": "string"
+        },
+        "GUST_FACTOR_X": {
+         "description": " Gust Factor : Gx",
+         "type": "number"
+        },
+        "GUST_FACTOR_Y": {
+         "description": " Gust Factor : Gy",
+         "type": "number"
+        },
+        "bUSE_FORCE_COEF": {
+         "description": " Use Force Coefficient",
+         "type": "boolean"
+        },
+        "FORCE_COEF": {
+         "description": " Force Coefficient",
+         "type": "number"
+        },
+        "bAUTO_CALC": {
+         "description": " Auto Calc Boolean",
+         "type": "boolean"
+        },
+        "KEY_WNAT": {
+         "description": " Wnat Key",
+         "type": "integer"
+        },
+        "WNAT_STRUCT_TYPE": {
+         "description": " Wmat Struct Type",
+         "type": "integer"
+        },
+        "BUILDING_TYPE": {
+         "description": " Building Type",
+         "type": "integer"
+        },
+        "bACROSS_WIND": {
+         "description": " Across Wind Boolean",
+         "type": "boolean"
+        },
+        "bTORSIONAL_WIND": {
+         "description": " Torsional Wind Boolean",
+         "type": "boolean"
+        },
+        "bWIND_RESPONSE": {
+         "description": " Wind Response Boolean",
+         "type": "number"
+        },
+        "BL_X": {
+         "description": " Breadth : X",
+         "type": "number"
+        },
+        "BL_Y": {
+         "description": " Breadth : Y",
+         "type": "number"
+        },
+        "NO_X": {
+         "description": " Natural Frequency : X",
+         "type": "number"
+        },
+        "NO_Y": {
+         "description": " Natural Frequency : Y",
+         "type": "number"
+        },
+        "NO_T": {
+         "description": " Torsional Natural Frequency",
+         "type": "number"
+        },
+        "MX1ST": {
+         "description": " 1st Vibration Generalized Mass : X",
+         "type": "number"
+        },
+        "MY1ST": {
+         "description": " 1st Vibration Generalized Mass : Y",
+         "type": "number"
+        },
+        "MT1ST": {
+         "description": " Generalized inertial Moment",
+         "type": "number"
+        },
+        "DAMPING_RATIO": {
+         "description": " Damping Ratio",
+         "type": "number"
+        },
+        "WA_LCNAME": {
+         "description": " WA : Load Case Name",
+         "type": "string"
+        },
+        "WT_LCNAME": {
+         "description": " WT : Load Case Name",
+         "type": "string"
+        },
+        "DIST_FACTOR_X": {
+         "description": " Dist Factor : X",
+         "type": "number"
+        },
+        "DIST_FACTOR_Y": {
+         "description": " Dist Factor : Y",
+         "type": "number"
+        },
+        "bL_SHAPE_BUILDING": {
+         "description": " L Shape Building Boolean",
+         "type": "number"
+        },
+        "AM_FACTOR_ALONG": {
+         "description": " Am Factors : Along",
+         "type": "array",
+         "items": {
+          "type": "number"
+         }
+        },
+        "AM_FACTOR_ACROSS": {
+         "description": " Am Factors : Across",
+         "type": "array",
+         "items": {
+          "type": "number"
+         }
+        },
+        "AM_FACTOR_TORSIONAL": {
+         "description": " Am Factors : Torsional",
+         "type": "array",
+         "items": {
+          "type": "number"
+         }
+        },
+        "TOTAL_MASS": {
+         "description": " Total Mass",
+         "type": "number"
+        },
+        "VIBRATION_MODE": {
+         "description": " Vibration Mode",
+         "type": "number"
+        }
+       }
+      }
+     }
+    },
+    "IS875_2015": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "PROCEDURE": {
+       "description": " Procedure",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "TERRAIN_CATEGORY": {
+       "description": " Terrain Category",
+       "type": "integer"
+      },
+      "bAUTO_CALC_RISK_COEF": {
+       "description": " Use Auto Calc Risk Coefficient",
+       "type": "boolean"
+      },
+      "STRUCTURE_CLASS": {
+       "description": " Structure Class",
+       "type": "string"
+      },
+      "RISK_COEF": {
+       "description": " Risk Coef",
+       "type": "number"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "TOPOGRAPHIC_FACTOR": {
+       "description": " Topographic Factor",
+       "type": "number"
+      },
+      "TOPOGRAPHY_RANGE": {
+       "description": " Topography Range",
+       "type": "number"
+      },
+      "BLDG_CLASS": {
+       "description": " Building Class",
+       "type": "string"
+      },
+      "FRICTION_COEF": {
+       "description": " Friction Coefficient",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "bINCL_CYCL_REG_EFF": {
+       "description": " Include Cyclonnic Reg Effects",
+       "type": "boolean"
+      },
+      "K4_FACTOR": {
+       "description": " k4 Factor",
+       "type": "number"
+      },
+      "KD_FACTOR": {
+       "description": " kd Factor",
+       "type": "number"
+      },
+      "KC_FACTOR": {
+       "description": " kc Factor",
+       "type": "number"
+      },
+      "GUST_PARAMS": {
+       "description": " Gust Effect Parameters",
+       "type": "object",
+       "properties": {
+        "PROCEDURE": {
+         "description": " Procedure",
+         "type": "integer"
+        },
+        "STEEL_TYPE": {
+         "description": " Steel Type",
+         "type": "integer"
+        },
+        "BETA": {
+         "description": " Beta",
+         "type": "number"
+        },
+        "ALONG_WIND_PERIOD": {
+         "description": " Along Wind Period sec",
+         "type": "number"
+        },
+        "ACROSS_WIND_PERIOD": {
+         "description": " Across Wind Period sec",
+         "type": "number"
+        },
+        "MODE_SHAPE_FACTOR": {
+         "description": " Mode Shape Factor",
+         "type": "number"
+        },
+        "CFS": {
+         "description": " Cfs",
+         "type": "number"
+        },
+        "MC": {
+         "description": " Mc",
+         "type": "integer"
+        }
+       }
+      }
+     }
+    },
+    "CH2019": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "ROUGH_CATEGORY": {
+       "description": " Rough Category",
+       "type": "string"
+      },
+      "BASIC_WIND_PRES": {
+       "description": " Basic Wind Pressure",
+       "type": "number"
+      },
+      "MODIFY_FACTOR": {
+       "description": " Modify Factor",
+       "type": "number"
+      },
+      "WINDWARD_COEF_X": {
+       "description": " Windward Coefficient : X",
+       "type": "number"
+      },
+      "WINDWARD_COEF_Y": {
+       "description": " Windward Coefficient : Y",
+       "type": "number"
+      },
+      "LEEWARD_COEF_X": {
+       "description": " Leeward Coefficient : X",
+       "type": "number"
+      },
+      "LEEWARD_COEF_Y": {
+       "description": " Leeward Coefficient : Y",
+       "type": "number"
+      },
+      "DAMPING_RATIO": {
+       "description": " Damping Ratio",
+       "type": "number"
+      },
+      "STRUCT_METHOD": {
+       "description": " Struct Method (0 : Table / 1 : Calculation)",
+       "type": "integer"
+      },
+      "PARTITION_COEF": {
+       "description": " Partition Coefficient",
+       "type": "number"
+      },
+      "WINDSHIELD": {
+       "description": " Windshield",
+       "type": "number"
+      },
+      "PERIOD_X": {
+       "description": " Period : X",
+       "type": "number"
+      },
+      "PERIOD_Y": {
+       "description": " Period : Y",
+       "type": "number"
+      },
+      "ALONG_VIBRATION": {
+       "description": " Consider Along-wind Vibration",
+       "type": "boolean"
+      },
+      "bCROSS_VIBRATION": {
+       "description": " Consider Cross-wind Vibration",
+       "type": "boolean"
+      },
+      "bCROSS": {
+       "description": " Cross Boolean",
+       "type": "boolean"
+      },
+      "SECT_TYPE": {
+       "description": " Section Type",
+       "type": "integer"
+      },
+      "CROSS_PERIOD_X": {
+       "description": " Cross Period : X",
+       "type": "number"
+      },
+      "CROSS_PERIOD_Y": {
+       "description": " Cross Period : Y",
+       "type": "number"
+      },
+      "bTORSION": {
+       "description": " Torsion Boolean",
+       "type": "boolean"
+      },
+      "TORSION_PERIOD": {
+       "description": " Torsion Ratio",
+       "type": "number"
+      },
+      "bWIND_COMPORT": {
+       "description": " Wind Comfort",
+       "type": "boolean"
+      },
+      "CHECK_WIND_PRES": {
+       "description": " Check Wind Pressure",
+       "type": "number"
+      },
+      "CHECK_DAMPING_RATIO": {
+       "description": " Check Damping Ratio",
+       "type": "number"
+      },
+      "WIND_DIRECTION_COE": {
+       "description": " Wind Direction Coe",
+       "type": "number"
+      }
+     }
+    },
+    "DPT2007": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "INPUT_METHOD": {
+       "description": " Input Method",
+       "type": "integer"
+      },
+      "WIND_ZONE": {
+       "description": " Wind Zone",
+       "type": "integer"
+      },
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "integer"
+      },
+      "IMPORTANCE_FACTOR": {
+       "description": " Importance Factor",
+       "type": "number"
+      },
+      "bTOPOGRAPHY": {
+       "description": " Include topography effect",
+       "type": "boolean"
+      },
+      "BLDG_LOCATION": {
+       "description": " Building Location",
+       "type": "number"
+      },
+      "HILL_SHAPE": {
+       "description": " Hill Shape",
+       "type": "integer"
+      },
+      "HILL_HEIGHT": {
+       "description": " Hill Height",
+       "type": "number"
+      },
+      "HILL_LENGTH": {
+       "description": " Hill Length",
+       "type": "number"
+      },
+      "BLDG_DISTANCE": {
+       "description": " Building Distance",
+       "type": "number"
+      },
+      "BREADTH_X": {
+       "description": " Breadth : X",
+       "type": "number"
+      },
+      "BREADTH_Y": {
+       "description": " Breadth : Y",
+       "type": "number"
+      },
+      "FREQUENCY_X": {
+       "description": " Frequency : X",
+       "type": "number"
+      },
+      "FREQUENCY_Y": {
+       "description": " Frequency : Y",
+       "type": "number"
+      },
+      "DAMPING_X": {
+       "description": " Damping : X",
+       "type": "number"
+      },
+      "DAMPING_Y": {
+       "description": " Damping : Y",
+       "type": "number"
+      },
+      "STRUCTURE_GUST_FACTOR_X": {
+       "description": " Structure Gust Factor : X",
+       "type": "number"
+      },
+      "STRUCTURE_GUST_FACTOR_Y": {
+       "description": " Structure Gust Factor : Y",
+       "type": "number"
+      },
+      "bACROSS_WIND": {
+       "description": " Across Wind Boolean",
+       "type": "boolean"
+      },
+      "bTORSIONAL_WIND": {
+       "description": " Torsional Wind Boolean",
+       "type": "boolean"
+      },
+      "VIBR_FREQ_PARAMS": {
+       "description": " Vibration Frequency Params",
+       "type": "array",
+       "items": {
+        "type": "number"
+       }
+      },
+      "VIBR_DAMP_PARAMS": {
+       "description": " Vibration Damping Params",
+       "type": "array",
+       "items": {
+        "type": "number"
+       }
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      }
+     }
+    },
+    "ASCE7_16": {
+     "description": " ASCE7(2016)",
+     "type": "object",
+     "properties": {
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_X": {
+       "description": " Ground Elevation Factor : X",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_Y": {
+       "description": " Ground Elevation Factor : Y",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "ASCE7_22": {
+     "description": " ASCE7(2022)",
+     "type": "object",
+     "properties": {
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_X": {
+       "description": " Ground Elevation Factor : X",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_Y": {
+       "description": " Ground Elevation Factor : Y",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "NSCP2024": {
+     "description": " NSCP 2024",
+     "type": "object",
+     "properties": {
+      "BASIC_WIND_SPEED": {
+       "description": " Basic Wind Speed",
+       "type": "number"
+      },
+      "EXP_CATEGORY": {
+       "description": " Exposure Category",
+       "type": "string"
+      },
+      "MEAN_ROOF_HEIGHT": {
+       "description": " Mean Roof Height",
+       "type": "number"
+      },
+      "TOPOGRAPHY_ITEMS": {
+       "description": " ",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "bTOPOGRAPHY": {
+          "description": " Include topography effect",
+          "type": "boolean"
+         },
+         "HILL_SHAPE": {
+          "description": " Hill Shape",
+          "type": "string"
+         },
+         "BLDG_LOCATION": {
+          "description": " Building Location",
+          "type": "string"
+         },
+         "HILL_HEIGHT": {
+          "description": " Hill Height",
+          "type": "number"
+         },
+         "HILL_LENGTH": {
+          "description": " Hill Length",
+          "type": "number"
+         },
+         "HILL_DISTANCE": {
+          "description": " Hill Distance",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ECCEN_X": {
+       "description": " Eccen : X",
+       "type": "string"
+      },
+      "ECCEN_Y": {
+       "description": " Eccen : Y",
+       "type": "string"
+      },
+      "DIRECTION_FACTOR_X": {
+       "description": " Direction Factor : X",
+       "type": "number"
+      },
+      "DIRECTION_FACTOR_Y": {
+       "description": " Direction Factor : Y",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_X": {
+       "description": " Ground Elevation Factor : X",
+       "type": "number"
+      },
+      "GROUND_ELEV_FACTOR_Y": {
+       "description": " Ground Elevation Factor : Y",
+       "type": "number"
+      },
+      "RIGIDITY": {
+       "description": " Structure Type (Rigid/Flexible)",
+       "type": "string"
+      },
+      "GUST_FACTOR_X": {
+       "description": " Gust Factor : Gx",
+       "type": "number"
+      },
+      "GUST_FACTOR_Y": {
+       "description": " Gust Factor : Gy",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      }
+     }
+    },
+    "SI2023": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "TERRAIN": {
+       "description": " Terrain",
+       "type": "integer"
+      },
+      "CFR": {
+       "description": " CFR",
+       "type": "number"
+      },
+      "VB": {
+       "description": " VB",
+       "type": "number"
+      },
+      "C_DIR": {
+       "description": " C Dir",
+       "type": "number"
+      },
+      "C_SEASON": {
+       "description": " C Season",
+       "type": "number"
+      },
+      "KL": {
+       "description": " KL",
+       "type": "number"
+      },
+      "bUSE_FORCE_COEF": {
+       "description": " Use Force Coefficient",
+       "type": "boolean"
+      },
+      "FORCE_COEF": {
+       "description": " Force Coefficient",
+       "type": "number"
+      },
+      "CPE_METHOD": {
+       "description": " CPE Method",
+       "type": "integer"
+      },
+      "CPE_10": {
+       "description": " CPE 10",
+       "type": "number"
+      },
+      "CPE_01": {
+       "description": " CPE 01",
+       "type": "number"
+      },
+      "CPE_LEE": {
+       "description": " CPE Lee",
+       "type": "number"
+      },
+      "LACK_METHOD": {
+       "description": " Lack Method",
+       "type": "integer"
+      },
+      "LACK_FACTOR": {
+       "description": " Lack Factor",
+       "type": "number"
+      },
+      "CS_Cd": {
+       "description": " CS Cd",
+       "type": "number"
+      },
+      "CS_B": {
+       "description": " CS b",
+       "type": "number"
+      },
+      "CS_D": {
+       "description": " CS D",
+       "type": "number"
+      },
+      "CS_N1": {
+       "description": " CS N1",
+       "type": "number"
+      },
+      "CS_Dt": {
+       "description": " CS Dt",
+       "type": "number"
+      },
+      "bOROGRAPHY": {
+       "description": " Orography Boolean",
+       "type": "boolean"
+      },
+      "ORO_TYPE": {
+       "description": " Orography Type",
+       "type": "number"
+      },
+      "BLDG_LOC": {
+       "description": " Building Location",
+       "type": "number"
+      },
+      "ORO_H": {
+       "description": " H (Orography)",
+       "type": "number"
+      },
+      "ORO_Lu": {
+       "description": " Lu (Orography)",
+       "type": "number"
+      },
+      "ORO_Ld": {
+       "description": " Ld (Orography)",
+       "type": "number"
+      },
+      "ORO_X": {
+       "description": " X (Orography)",
+       "type": "number"
+      },
+      "bNEIGHBOR": {
+       "description": " Neighbor Boolean",
+       "type": "boolean"
+      },
+      "NEI_Ha": {
+       "description": " HA (Neighbor)",
+       "type": "number"
+      },
+      "NEI_X": {
+       "description": " X (Neighbor)",
+       "type": "number"
+      },
+      "NEI_Dl": {
+       "description": " Dl (Neighbor)",
+       "type": "number"
+      },
+      "NEI_Hh": {
+       "description": " Hh (Neighbor)",
+       "type": "number"
+      },
+      "bDISPLACE": {
+       "description": " DIsplace Boolean",
+       "type": "boolean"
+      },
+      "DIS_Ha": {
+       "description": " Ha (Displace)",
+       "type": "number"
+      },
+      "DIS_X": {
+       "description": " X  (Displace)",
+       "type": "number"
+      }
+     }
+    },
+    "USER": {
+     "description": " ",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "STORY_NAME": {
+        "description": " Story Name",
+        "type": "string"
+       },
+       "ELIV": {
+        "description": " ELIV",
+        "type": "number"
+       },
+       "LOAD_H": {
+        "description": " LOAD_H",
+        "type": "number"
+       },
+       "LOAD_BX": {
+        "description": " LOAD_BX",
+        "type": "number"
+       },
+       "LOAD_BY": {
+        "description": " LOAD_BY",
+        "type": "number"
+       },
+       "PRESS_X": {
+        "description": " PRESS_X",
+        "type": "number"
+       },
+       "PRESS_Y": {
+        "description": " PRESS_X",
+        "type": "number"
+       }
+      }
+     }
+    },
+    "ADDITIONS": {
+     "description": " ",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "STORY_NAME": {
+        "description": " Story Name",
+        "type": "string"
+       },
+       "ALONG_X": {
+        "description": " Along : X",
+        "type": "number"
+       },
+       "ALONG_Y": {
+        "description": " Along : Y",
+        "type": "number"
+       },
+       "ACROSS_X": {
+        "description": " Across : X",
+        "type": "number"
+       },
+       "ACROSS_Y": {
+        "description": " Across : Y",
+        "type": "number"
+       },
+       "TORSIONAL_RZ_X": {
+        "description": " Torsional R / Torsional Rz(x)",
+        "type": "number"
+       },
+       "TORSIONAL_RZ_Y": {
+        "description": " Torsional Rz(y)",
+        "type": "number"
+       },
+       "bSUPPORT_ACROSS_WIND": {
+        "description": " Support Across Wind",
+        "type": "boolean"
+       }
+      }
+     }
+    },
+    "PROFILE": {
+     "description": " Profile",
+     "type": "object",
+     "properties": {
+      "ALONG_X_PROFILE": {
+       "description": " Along X-Dir. Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ALONG_Y_PROFILE": {
+       "description": " Along Y-Dir. Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ALONG_SRSS_PROFILE": {
+       "description": " Along SRSS Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ACROSS_X_PROFILE": {
+       "description": " Across X-Dir. Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ACROSS_Y_PROFILE": {
+       "description": " Across Y-Dir. Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "ACROSS_SRSS_PROFILE": {
+       "description": " Across SRSS Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "TORSIONAL_X_PROFILE": {
+       "description": " Torsional TX Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "TORSIONAL_Y_PROFILE": {
+       "description": " Torsional TY Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "TORSIONAL_SUM_PROFILE": {
+       "description": " Torsional Sum. Profile",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "STORY_NAME": {
+          "description": " Story Name",
+          "type": "string"
+         },
+         "STORY_LEVEL": {
+          "description": " Story Level",
+          "type": "number"
+         },
+         "PRESSURE": {
+          "description": " Pressure",
+          "type": "number"
+         },
+         "LOADED_H": {
+          "description": " Loaded H",
+          "type": "number"
+         },
+         "LOADED_B": {
+          "description": " Loaded B",
+          "type": "number"
+         },
+         "GUST_FACTOR": {
+          "description": " Gust Factor",
+          "type": "number"
+         },
+         "WIND_FORCE": {
+          "description": " Wind Force",
+          "type": "number"
+         },
+         "ADDED_FORCE": {
+          "description": " Added Force",
+          "type": "number"
+         },
+         "STORY_FORCE": {
+          "description": " Story Force",
+          "type": "number"
+         },
+         "STORY_SHEAR": {
+          "description": " Story Shear",
+          "type": "number"
+         },
+         "OVERTURN_MOMENT": {
+          "description": " Overturning Moment",
+          "type": "number"
+         },
+         "MAX_DISP": {
+          "description": " Max. Displacement",
+          "type": "number"
+         },
+         "MAX_ACC": {
+          "description": " Max. Acceleration",
+          "type": "number"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -63,10 +63,10 @@ DEV_DOC_PATH = REPO_ROOT / "MIDAS_API_开发文档_v1.0.md"
 """开发文档（`/OPE/BMLD` 章节里有**完整** JSON Schema，来源《midas Civil NX - API 用户手册》）。"""
 
 SCHEMA_ROOT = REPO_ROOT / "registry" / "schema"
-"""`registry/schema/**`（P140 起 **616 → 620**；P141 再 → **625**）。"""
+"""`registry/schema/**`（P140 起 **616 → 620**；P141 再 → **652**）。"""
 
-EXPECTED_SCHEMA_FILES = 625
-"""本批之后的数据侧 Schema 文件数（P141 起 **625**）。"""
+EXPECTED_SCHEMA_FILES = 652
+"""本批之后的数据侧 Schema 文件数（P141 起 **652**）。"""
 
 EXPECTED_WITHOUT_SCHEMA = 11
 """本批之后仍无 Schema 的端点数（P138b 的 20 − P140 的 4 − P141 的 5）。"""
@@ -250,7 +250,7 @@ def test_p140_ope_bmld_is_not_the_same_operation_as_db_bmld() -> None:
 
 
 def test_p140_the_closure_adds_exactly_four_files_and_leaves_eleven_without() -> None:
-    """门槛：`registry/schema/**` = **625**；仍无 Schema 的端点 = **11**（20 − 4 − 5，P141 起）。"""
+    """门槛：`registry/schema/**` = **652**；仍无 Schema 的端点 = **11**（20 − 4 − 5，P141 起）。"""
     files = sorted(SCHEMA_ROOT.rglob("*.json"))
     assert len(files) == EXPECTED_SCHEMA_FILES
     registry = _registry()

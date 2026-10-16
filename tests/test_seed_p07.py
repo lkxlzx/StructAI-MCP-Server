@@ -162,6 +162,9 @@ DOC_CAPABILITIES: tuple[str, ...] = (
     "DOCUMENT.SAVE_AS",
     "DOCUMENT.CLOSE",
     "DOCUMENT.INFO",
+    # P175 / R168：模型 ↔ JSON 官方通道（两个端点各自独立成码，同 `SAVE_AS` 口径）
+    "DOCUMENT.EXPORT",
+    "DOCUMENT.IMPORT",
     "ANALYSIS.STATIC",
     "ANALYSIS.MODAL",
     "ANALYSIS.SEISMIC",
@@ -185,7 +188,17 @@ DOC_CAPABILITIES: tuple[str, ...] = (
 
 
 DOC_OPERATIONS: dict[str, tuple[str, ...]] = {
-    "engineering_doc": ("NEW", "OPEN", "SAVE", "SAVE_AS", "CLOSE", "INFO"),
+    "engineering_doc": (
+        "NEW",
+        "OPEN",
+        "SAVE",
+        "SAVE_AS",
+        "CLOSE",
+        "INFO",
+        # P175 / R168：模型 ↔ JSON 官方通道
+        "MODEL.EXPORT",
+        "MODEL.IMPORT",
+    ),
     "engineering_model_query": (
         "MODEL.QUERY",
         "MODEL.NODE.QUERY",
@@ -271,8 +284,8 @@ DOC_OPERATIONS: dict[str, tuple[str, ...]] = {
 }
 """`docs/02` §69 / `docs/07` §5.1：Operation 全量 69 条（含 2026-10-05 新增 `DESIGN.SRC`）。"""
 
-DOC_OPERATION_COUNT: int = 71
-DOC_CAPABILITY_COUNT: int = 42
+DOC_OPERATION_COUNT: int = 73
+DOC_CAPABILITY_COUNT: int = 44
 
 
 async def _count(session_factory: SessionFactory, model: type[Any]) -> int:
@@ -518,14 +531,14 @@ async def test_seed_creates_capabilities_and_operations(
 
     # Capability：与 docs/02 §70 ＋ docs/07 §5.6 的**规范原文副本**逐条一致（41 条）
     assert {capability.code for capability in capabilities} == set(DOC_CAPABILITIES)
-    assert len(capabilities) == DOC_CAPABILITY_COUNT == 42
+    assert len(capabilities) == DOC_CAPABILITY_COUNT == 44
     assert await _count(session_factory, CapabilityORM) == DOC_CAPABILITY_COUNT
     # P03 的类型化视图（app.domain.enums.Capability）也必须与规范副本一致
     assert {capability.value for capability in Capability} == set(DOC_CAPABILITIES)
 
     # Operation：69 条，与 docs/02 §69 的**规范原文副本**逐条一致（名称 + Tool）
     expected_operations = {(tool, name) for tool, names in DOC_OPERATIONS.items() for name in names}
-    assert len(expected_operations) == DOC_OPERATION_COUNT == 71
+    assert len(expected_operations) == DOC_OPERATION_COUNT == 73
     assert {(operation.tool, operation.name) for operation in operations} == expected_operations
     assert await _count(session_factory, OperationORM) == DOC_OPERATION_COUNT
     # seed.py 的常量也必须与规范副本一致（否则「常量改错」会静默通过）

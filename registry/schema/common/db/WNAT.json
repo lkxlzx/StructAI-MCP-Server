@@ -1,0 +1,64 @@
+{
+ "key": "DB.WNAT",
+ "uri": "DB/WNAT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "WNAT_ITEMS": {
+     "description": " WNAT Items",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "STORY_NAME": {
+        "description": " Story Name",
+        "type": "string"
+       },
+       "STRUCT_TYPE": {
+        "description": " Structure Type",
+        "type": "number"
+       },
+       "SUB_TYPE1": {
+        "description": " Sub Type1 (See Documents)",
+        "type": "number"
+       },
+       "SUB_TYPE2": {
+        "description": " Sub Type2 (See Documents)",
+        "type": "number"
+       },
+       "SUB_TYPE3": {
+        "description": " Sub Type3 (See Documents)",
+        "type": "number"
+       },
+       "X_DIR": {
+        "description": " X Direction Array",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "Y_DIR": {
+        "description": " Y Direction Array",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "HEIGHT": {
+        "description": " Height",
+        "type": "number"
+       },
+       "AREA": {
+        "description": " Area",
+        "type": "number"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

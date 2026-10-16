@@ -312,6 +312,11 @@ class Capability(StrEnum):
     DOCUMENT_SAVE_AS = "DOCUMENT.SAVE_AS"
     DOCUMENT_CLOSE = "DOCUMENT.CLOSE"
     DOCUMENT_INFO = "DOCUMENT.INFO"
+    # ⚠️ **P175 / R168**：模型 ↔ JSON 的**官方**通道（`DOC.EXPORT` / `DOC.IMPORT`）——
+    # 与 `NEW`/`SAVE`/`SAVE_AS` **正交**（那两个改**项目文件**，这两个做**模型 ↔ JSON 转写**）
+    # ⇒ 按 **P159 / R133 的同一裁决口径**单列一族（词表 42 → **44**），不借既有码。
+    DOCUMENT_EXPORT = "DOCUMENT.EXPORT"
+    DOCUMENT_IMPORT = "DOCUMENT.IMPORT"
 
     # --- 分析 ---
     ANALYSIS_STATIC = "ANALYSIS.STATIC"

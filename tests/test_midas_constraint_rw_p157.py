@@ -35,7 +35,7 @@
 4. **解析 7 位**：7 位逐位解析；6 位 ⇒ 第 7 位 `None`（**不**猜成 `False`）。
 5. **实测 13 / 13**：接口层写路径**全部** `PASSED`（零残留、未中止、哨兵前后一致）。
 6. **取值缺口关闭**：R126 证据包的 `DB.CONS` 由 `value_gap` 移入 `covered`（取值缺口 3 → 2）。
-7. **不变量**：`write_path_coverage()` = `0 / 633` · 缺口 `517` = `271` + `246` ·
+7. **不变量**：`write_path_coverage()` = `0 / 660` · 缺口 `517` = `271` + `246` ·
    分类 `271` = `0` + `51` + `220` · 读路径子桶 `15` = `2` + `7` + `6` ·
    R118 子桶 `71` = `42` + `23` + `6`。
 8. **R130（本批**新发现**，如实留缺）**：`ITEMS` 形态端点的**读回**把外层 `ITEMS` 包装体
@@ -104,18 +104,24 @@ EXPECTED_FIELD_GAP = {
     "no_canonical_model": 54,
     "covered": 12,
 }
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
+EXPECTED_GAP_TOTAL = 514
+"""⚠️ **P175 / R168**：`DOC.EXPORT` / `DOC.IMPORT` 真机实测收口为 `verified` ⇒ 计数 **+2**
+（两个端点由「未映射」变为「已映射」⇒ 缺口总数 **-2**）。
+
+探针 = `registry/tools/probe_model_doc_p175.py --probe`；
+证据 = `registry/live/model_doc_probe.json`。
+"""
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
 EXPECTED_ADOPTION = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 192,
+    "needs_product_decision": 219,
 }
 EXPECTED_READ_COUNTS = {"PASSED": 2, "PARTIAL": 7, "FAILED": 6}
 EXPECTED_PUT_EDIT_COUNTS = {"PASSED": 42, "LEFT_OUT": 23, "FAILED": 6}
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
 
 
 def _load(path: Path, name: str) -> Any:

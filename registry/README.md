@@ -145,7 +145,8 @@ P138c 实测暴露：`write_probe.derive_body()` 从 Schema 机械派生的零�
 P145 为 29 / 29、P144 为 18 / 18、P143 为 11 / 11、P139 为 10 / 10、P138c 为 1 / 10）；
 CIVIL NX **62** 个候选（P149-A 为 49；P147 实测 39 / 39、P145 实测 25 / 25、P143 实测 11 / 11，
 云端 `201`，**不**增加分子 —— 覆盖率按 **registry key** 去重）；
-`live.write_path_coverage()` = **`72 / 633`**。
+`live.write_path_coverage()` = **`72 / 660`**。
+⚠️ **P176 / R168**：分母 **633 → 660**（+27 = 补登的「导出可见但未登记」表；分子**不变** —— 新表**未**实测）。
 ⚠️ **R106（P149-D）另立判据，不改本口径**：`POST.*` 的 **197** 个端点**没有** `GET` / `read_root`
 ⇒ 三步链**结构上不适用**；它们的结论由**取报表判据**给出（`registry/README.md` §8.13 / §8.12 ⑭）：
 `PASSED` **15**（`availability: verified` + `response` 块）· `PARTIAL` **172** · `FAILED` **8** ·
@@ -2586,3 +2587,122 @@ P172（§8.27）把**收益**算准了（收口 `POST.STEELCODECHECK` ⇒ **+1**
 `registry/tools/probe_steelcodecheck_p174.py`（`--check` 零请求）·
 `python registry/tools/check_operation_availability.py --check` / `--benefit` / `--attribution` ·
 裁决 `docs/07` §16.1 **R166**。
+
+
+---
+
+### 8.30 P176：模型 ↔ JSON 的**官方通道**收口 + **参数化转换层** + Registry **盲区归零**（⇒ **R168**）
+
+> **本批有副作用**（真机）——只碰自建 `.tmp_p175/` 内的样本**副本**与产出物；
+> 样本原目录 `D:\Program\MIDAS\MIDAS GEN NX\Gen Verification` **只读**；
+> 收尾用 `GET /db/PJCF` 核对 `FILE_NAME` ≠ `无标题`（**R144**：实例**不**得停在无路径项目上）。
+> ⚠️ **本批一次都不发 `DOC.NEW`** —— 它会让项目变无路径 ⇒ 原生**自动保存**弹「另存为」
+> 并**挂起 API**（P160c 事故 B；核心拦不住，触发者是原生定时器）。
+
+#### 8.30.1 为什么需要它
+
+用户要「**模型 → JSON → 经 MCP 发到迈达斯**」。样本目录 156 个文件**全是** `.mgbx` 二进制
+（magic `MGNX` · 固定 **118** 槽位目录 · 槽位内为**无文档**的变长记录；tag 名与端点名对应，
+如 `NODE`/`ELEM`/`MATL`/`SECT`/`CONS`/`UNIT`/`PJCF`）⇒ 逆向代价极高（200+ 实体族逐个试错）。
+
+⚠️ **转机**：Registry 里**早有** `DOC.EXPORT`（官方标题即 *Export to Json*）/ `DOC.IMPORT`，
+但二者**一直** `untested` ⇒ **先收口，再谈转换层**。
+
+#### 8.30.2 判据（**铁律 ⓪**：效果，不是状态码）
+
+| 端点 | 「效果」的落点 | 实测 |
+| --- | --- | --- |
+| `DOC.EXPORT` | 目标文件**真的落盘** ∧ 可解析 ∧ 逐表与**同刻读回**同形 | 4 712 字节 · `DBG` **218** 张表（空表 204）· **10/10** 哨兵同形 |
+| `DOC.IMPORT` | 模型表**行数真的变了** ∧ 新编号**按写入值读回** | `NODE` **3 → 5** · `9001` 的 `X = 100`、`9002` 的 `X = 200` |
+| `DOC.IMPORT`（**阴性**） | 只含空表的 JSON ⇒ 行数**不动** | `200` ∧ 行数差 **`{}`** |
+
+⚠️ **两个相位的状态码都是 `200`** ⇒ 状态码**不判别**任何东西（这正是铁律 ⓪ 的意义）。
+
+#### 8.30.3 **经 MCP** 的端到端（另一份证据，**不**可互替）
+
+`probe_model_doc_p175.py` 走**裸 HTTP**，证明**端点可用**；`probe_model_doc_e2e_p175.py`
+走 **MCP 契约**（Tool → OperationPlan → Adapter → 原生），证明**在编排/护栏/权限/Schema 之下可用**。
+
+```
+① MODEL.EXPORT  → 落盘 4 712 字节 · DBG 218 张表
+② 往返          → 218 表 / 0 字段差异（无损）
+③ 参数化改动    → 节点 1 的 X 0.0 → 123.5
+   读回         → X = 123.5 ⇒ 生效=True
+```
+
+**③ 是「参数化建模」的定义性判据** —— 经 MCP 改的坐标，**真的**写进 MIDAS 并**按写入值读回**。
+
+#### 8.30.4 四个**反直觉**的实测结论
+
+1. ⚠️ **执行模式登记错了** —— `EXPORT` 登记 `FAST`（**30 s** 预算），实测 **47.8 s**
+   （64 KB 样本）⇒ **必然**超时（首轮端到端就死在这里，错误码 `STRUCTAI-2300`
+   `request_timed_out`）。原先的 `FAST` 是**未实测时的默认值** ⇒ 改 **`ASYNC`**（120 s）。
+   ⚠️ 小模型上 4.2 s ⇒ **不能**用「小样本的耗时」推全模型。
+2. ⚠️ **`DOC.IMPORT` 是合并语义** —— 只含空表的 JSON **不**清空已有行。
+   曾据此设计「建空基线项目」的阳性对照 ⇒ 得到**恒空**基线 = **无效对照**
+   （`SAVEAS` 只换路径、**不**换模型 ⇒ 「另存出一个空项目」**不成立**）。
+3. ⚠️ **`DOC.SAVEAS` 只换路径、不换模型**（同上，是结论 2 的成因）。
+4. ⚠️ **导出覆盖面 ≠ 端点登记表** —— 导出 **218** 张 vs 登记 **244** 个 `DB.*` 端点：
+   导出独有 **27** · 登记独有 **53**（多为 `-M1` 变体与纯 UI 设置类）⇒ 二者**相交不可互推**。
+
+#### 8.30.5 Registry **盲区归零**：27 张「导出可见但未登记」的表
+
+那 27 张（`MDGN`/`WIND`/`SEIS`/`WNAT`/`ARPR`/`RISS`/`PHGT`/`LCOM-FDN`…）**真的存在**
+（实操导出到过），但 Registry 里**没有定义**。⚠️ **离线三条路全不通**（`--check` 可复算）：
+
+| 来源 | 命中 |
+| --- | --- |
+| 上游手册 | **0 / 27**（两处同名命中经查是 `DESIGN.*.CMFT` 这类**同名不同义**） |
+| 仓库既有实例证据 | **0 / 27**（`SWIND` 含 `WIND` 这类**子串误报**） |
+| `DOC.EXPORT` 里 | **全是空表** ⇒ 连一个字段名都拿不到 |
+
+⇒ 字段**只能**从实例自省 `GET /info/db/<CODE>` 取（**27 / 27 全部拿到**，带官方英文描述，
+如 `MDGN.CONC_CODE` = *Concrete Rebar Material Code*）⇒ **逐字**转录为 YAML + Schema
+（`schema_source: instance_introspect`，与 `DB.CPSETTINGS` / `DB.ULCT` 两个先例**同口径**）。
+⚠️ **`--check` 断言**「Schema 字段 == 自省原文」（防臆造）。
+
+⚠️ **两处如实留缺**（**不**声称超出证据的东西）：
+
+* 这 27 张的**方法集未逐表实测** —— 自省只声明**请求体形状**，**不**声明方法
+  ⇒ YAML 用 `DB.*` 的常规值，`availability` 留 **`untested`**，头部注释写明；
+* 它们**未**映射到任何 Operation ⇒ 映射缺口如实 **487 → 514**（**不**粉饰）。
+
+#### 8.30.6 一处**已知错配**（本批**未**修，如实记录）
+
+`MODEL.EXPORT` 的 schema URI 由 **Operation 名**派生（`structai://schema/model/export/v1`），
+而数据侧 Schema id 由**端点 key** 派生（`structai://schema/doc/export/v1`）⇒ **对不上**，
+即使端点**有** Schema 也解析不了。改它会波及**全部 73** 个 Operation 的 URI ⇒ **不**在本批范围。
+
+#### 8.30.7 踩坑留痕（**诊断法则**）
+
+探针把路径写成**点号**形态（`/DOC.OPEN` 而非 `/DOC/OPEN`）⇒ 原生回 `404` 且
+**`error.message` 为空** ⇒ 一度被误读成「产品行为」，并据此写出**错误**的
+「必须先 `CLOSE`」结论（后已更正）。
+
+> ⚠️ **`404` + 空 `message` 先怀疑自己的路径拼写**，再怀疑原生状态机。
+
+⚠️ 另一处：`_Stack` **没有** `clear()` 方法、`TemporaryDirectory` 在 Windows 上会因 sqlite
+仍被占用而抛 `PermissionError`（**掩盖**主流程结果）⇒ 用 `ignore_cleanup_errors=True`。
+
+#### 8.30.8 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **`69 / 71` → `71 / 73`**（分子分母**各 +2**） |
+| 被挡 Operation / 挡点端点 | **不变**（**2** / **4**） |
+| Operation 总数 | **71 → 73**（`MODEL.EXPORT` / `MODEL.IMPORT`） |
+| `Capability` 词表 | **42 → 44**（`DOCUMENT.EXPORT` / `DOCUMENT.IMPORT`，按 **P159/R133** 同一裁决口径） |
+| manifest 条目 | **636 → 663** |
+| Schema 文件 | **625 → 652** |
+| DB 端点 | **244 → 271** |
+| **导出独有（盲区）** | **27 → 0** |
+| 映射缺口 | **487 → 514**（新表**未**映射，如实） |
+| 可写端点 | **556 → 583** |
+| `availability` 三档 | `verified` **+2** · `untested` **+27** |
+| draft-07 Schema | **447 → 474** |
+
+**可执行判定** = `registry/tools/probe_model_doc_p175.py --check`（端点可用性）·
+`registry/tools/probe_model_doc_e2e_p175.py --check`（**经 MCP** 端到端）·
+`registry/tools/sync_export_only_tables_p175.py --check`（27 张表的字段 == 自省原文）·
+`registry/tools/check_operation_availability.py --check`（**71 / 73**）·
+`pytest -q`（**1547 passed / 0 failed**）· 裁决 `docs/07` §16.1 **R168**。

@@ -1,0 +1,41 @@
+{
+ "key": "DB.IPDT",
+ "uri": "DB/IPDT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "STORYNAME": {
+     "description": " Story Name",
+     "type": "string"
+    },
+    "HEIGHT": {
+     "description": " Height",
+     "type": "number"
+    },
+    "COLX": {
+     "description": " Column Number X",
+     "type": "number"
+    },
+    "COLY": {
+     "description": " Column Number Y",
+     "type": "number"
+    },
+    "USERCOEFF": {
+     "description": " UserCoeff Boolean",
+     "type": "boolean"
+    },
+    "USERCOEFFX": {
+     "description": " UserCoeffX",
+     "type": "number"
+    },
+    "USERCOEFFY": {
+     "description": " UserCoeffY",
+     "type": "number"
+    }
+   }
+  }
+ }
+}

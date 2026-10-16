@@ -12,7 +12,21 @@ schema_ref:
   source: help_center
 parser: generic
 products: [CIVIL_NX, GEN_NX]
-availability: untested
+# ⚠️ **P175 实测收口**（`registry/README.md` §4 口径 —— `availability` = **实测可用性**，**只升不降**）：
+# 依据 = 探针 `registry/tools/probe_model_doc_p175.py --probe`，证据 `registry/live/model_doc_probe.json`。
+# **判据（铁律 ⓪：效果，不是状态码）**：
+#   · `DOC.EXPORT` = 目标文件**真的落盘**（4 708 字节）∧ 可解析 ∧ `DBG` **218** 张表
+#     ∧ 10 项主干哨兵**逐表与同刻读回同形**；
+#   · `DOC.IMPORT` = 导入**合成增量**（节点 9001/9002）后 `DB.NODE` 行数 **3 → 5** ∧
+#     新编号**按写入值读回**（X = 100 / 200）；阴性 = 只含空表的 JSON ⇒ 行数**不动**。
+# ⚠️ **两个实测事实（供后续复用，别踩）**：
+#   ① `DOC.IMPORT` 是**合并**语义 —— 只含空表的 JSON **不**清空已有行（所以不能拿它当「清空」用）；
+#   ② `DOC.SAVEAS` **只换路径、不换模型** ⇒ 「另存出一个空项目」**不成立**。
+# ⚠️ **`DOC.EXPORT` 的覆盖面 ≠ 端点登记表**：导出 **218** 张表 vs 登记 **244** 个 `DB.*` 端点
+#   ⇒ 导出独有 **27**（`MDGN`/`WIND`/`SEIS`/`WNAT` 等）、登记独有 **53**（多为 `-M1` 变体）
+#   ⇒ 二者**相交**，**不可互推**。
+availability: verified
+verified_on: [gen-local]
 table_type: null
 title: Export to Json
 risk:
@@ -23,9 +37,13 @@ risk:
 runtime:
   requires_project: true
   requires_analysis: false
+# ⚠️ **P175 / R168 实测**：本端点是**全模型**操作（写/读**整份** `DBG`），
+# 实测 **47.8 s**（样本 `Eigen-01`，64 KB）⇒ **远超** `FAST` 的 30 s 预算。
+# ⇒ 登记改为 `ASYNC`（`EXECUTION_MODE_BUDGETS` 给 120 s）。
+# ⚠️ 原先登记 `FAST` 是**未实测时的默认值**；这条是**真机实测驱动的更正**。
 execution:
-  mode: FAST
-  timeout_ms: 30000
+  mode: ASYNC
+  timeout_ms: 120000
   retryable: false
   idempotent: false
 capability: [PROJECT]

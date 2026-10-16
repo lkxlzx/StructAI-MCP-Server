@@ -1,0 +1,819 @@
+{
+ "note": [
+  "P175 · `DOC.EXPORT` / `DOC.IMPORT` 可用性收口（`registry/README.md` §4 口径，**只升不降**）。",
+  "**判据（铁律 ⓪）**：EXPORT = 文件真的落盘 ∧ 可解析 ∧ 与同刻读回逐表同形；IMPORT = 模型表的**行数真的变了**（状态码不判别任何东西）。",
+  "**阳性对照** = 在**独立空基线项目**上导入样本 JSON ⇒ 行数**上升**（**不**在样本项目上就地做 —— 那会让基线 == 导入内容，是无**效**对照，P175 首轮教训）；**阴性对照** = 只含空表的 JSON ⇒ 行数**不动**。",
+  "⚠️ **本探针一次都不发 `DOC.NEW`**（R144：无路径项目 ⇒ 原生自动保存弹「另存为」并挂起 API）；第 0 步先 `DOC.SAVE_AS` 备份现场（顺带确立路径），收尾用 `GET /db/PJCF` 核对 `FILE_NAME` ≠ `无标题`。",
+  "**副作用受控**：只碰 `.tmp_p175/` 内的样本**副本**与产出物；样本原目录 `Gen Verification` **只读**。"
+ ],
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "product": "GEN NX",
+  "base_url": "http://localhost:3030/gen"
+ },
+ "sample": {
+  "source": "D:\\Program\\MIDAS\\MIDAS GEN NX\\Gen Verification\\Eigen-01.mgbx",
+  "copy": ".tmp_p175\\p175-sample.mgbx",
+  "source_untouched": true
+ },
+ "session": {
+  "backup": ".tmp_p175\\p175-session-backup.mgbx",
+  "restored_file_name": "p175-session-backup",
+  "has_project_path": true,
+  "post_restore_counts": {
+   "UNIT": 1,
+   "STYP": 1,
+   "NODE": 3,
+   "ELEM": 2,
+   "MATL": 1,
+   "SECT": 1,
+   "CONS": 3,
+   "ACTL": 1,
+   "EIGV": 1,
+   "NMAS": 2
+  }
+ },
+ "endpoints": {
+  "DOC.EXPORT": {
+   "status": 200,
+   "criterion": "file written ∧ parseable ∧ table-wise identical to same-moment reads",
+   "file_written": true,
+   "file_size": 4708,
+   "table_count": 218,
+   "empty_table_count": 204,
+   "tables": {
+    "ACTL": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "ARPR": {
+     "rows": 0
+    },
+    "BCCT": {
+     "rows": 0
+    },
+    "BLDC": {
+     "rows": 0
+    },
+    "BMLD": {
+     "rows": 0
+    },
+    "BNGR": {
+     "rows": 0
+    },
+    "BODF": {
+     "rows": 0
+    },
+    "BTMP": {
+     "rows": 0
+    },
+    "BUCK": {
+     "rows": 0
+    },
+    "CCFC": {
+     "rows": 0
+    },
+    "CGLP": {
+     "rows": 0
+    },
+    "CLDR": {
+     "rows": 0
+    },
+    "CLWP": {
+     "rows": 0
+    },
+    "CMFT": {
+     "rows": 0
+    },
+    "CNLD": {
+     "rows": 0
+    },
+    "CONS": {
+     "rows": 3,
+     "live_rows": 3,
+     "shape_identical": true
+    },
+    "CO_F": {
+     "rows": 0
+    },
+    "CO_M": {
+     "rows": 1
+    },
+    "CO_S": {
+     "rows": 1
+    },
+    "CO_T": {
+     "rows": 0
+    },
+    "CRPC": {
+     "rows": 0
+    },
+    "CSCS": {
+     "rows": 0
+    },
+    "CUTL": {
+     "rows": 0
+    },
+    "DCON": {
+     "rows": 0
+    },
+    "DMAS": {
+     "rows": 0
+    },
+    "DOEL": {
+     "rows": 0
+    },
+    "DRLS": {
+     "rows": 0
+    },
+    "DSTL": {
+     "rows": 0
+    },
+    "EARE": {
+     "rows": 0
+    },
+    "EDMP": {
+     "rows": 0
+    },
+    "EFCT": {
+     "rows": 0
+    },
+    "EIGV": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "ELEM": {
+     "rows": 2,
+     "live_rows": 2,
+     "shape_identical": true
+    },
+    "ELNK": {
+     "rows": 0
+    },
+    "EPMT": {
+     "rows": 0
+    },
+    "EPSE": {
+     "rows": 0
+    },
+    "EPST": {
+     "rows": 0
+    },
+    "ESQW": {
+     "rows": 0
+    },
+    "ETFC": {
+     "rows": 0
+    },
+    "ETMP": {
+     "rows": 0
+    },
+    "EXLD": {
+     "rows": 0
+    },
+    "FBLA": {
+     "rows": 0
+    },
+    "FBLD": {
+     "rows": 0
+    },
+    "FIBR": {
+     "rows": 0
+    },
+    "FIBW": {
+     "rows": 0
+    },
+    "FIMP": {
+     "rows": 0
+    },
+    "FMLD": {
+     "rows": 0
+    },
+    "FRLS": {
+     "rows": 0
+    },
+    "GALD": {
+     "rows": 0
+    },
+    "GRDP": {
+     "rows": 0
+    },
+    "GRUP": {
+     "rows": 0
+    },
+    "GSPR": {
+     "rows": 0
+    },
+    "GSTP": {
+     "rows": 0
+    },
+    "GTMP": {
+     "rows": 0
+    },
+    "HAHS": {
+     "rows": 0
+    },
+    "HECB": {
+     "rows": 0
+    },
+    "HHCT": {
+     "rows": 0
+    },
+    "HHND": {
+     "rows": 0
+    },
+    "HPCE": {
+     "rows": 0
+    },
+    "HSFC": {
+     "rows": 0
+    },
+    "HSPT": {
+     "rows": 0
+    },
+    "HSTG": {
+     "rows": 0
+    },
+    "IEHC": {
+     "rows": 0
+    },
+    "IEHG": {
+     "rows": 0
+    },
+    "IEHP": {
+     "rows": 0
+    },
+    "IELC": {
+     "rows": 0
+    },
+    "IEPI": {
+     "rows": 0
+    },
+    "IFGS": {
+     "rows": 0
+    },
+    "IMFM": {
+     "rows": 0
+    },
+    "IMPF": {
+     "rows": 0
+    },
+    "INMF": {
+     "rows": 0
+    },
+    "IPCR": {
+     "rows": 0
+    },
+    "IPDT": {
+     "rows": 0
+    },
+    "KFAC": {
+     "rows": 0
+    },
+    "LCOM-CFSTEEL": {
+     "rows": 0
+    },
+    "LCOM-CONC": {
+     "rows": 0
+    },
+    "LCOM-FDN": {
+     "rows": 0
+    },
+    "LCOM-GEN": {
+     "rows": 0
+    },
+    "LCOM-LINEAR": {
+     "rows": 0
+    },
+    "LCOM-SEISMIC": {
+     "rows": 0
+    },
+    "LCOM-SRC": {
+     "rows": 0
+    },
+    "LCOM-STEEL": {
+     "rows": 0
+    },
+    "LCOM-STLCOMP": {
+     "rows": 0
+    },
+    "LDGR": {
+     "rows": 0
+    },
+    "LDSQ": {
+     "rows": 0
+    },
+    "LLAN": {
+     "rows": 0
+    },
+    "LLANCH": {
+     "rows": 0
+    },
+    "LLANID": {
+     "rows": 0
+    },
+    "LLANOP": {
+     "rows": 0
+    },
+    "LLANTR": {
+     "rows": 0
+    },
+    "LTOM": {
+     "rows": 0
+    },
+    "MADO": {
+     "rows": 0
+    },
+    "MATD": {
+     "rows": 0
+    },
+    "MATL": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "MCON": {
+     "rows": 0
+    },
+    "MDGN": {
+     "rows": 1
+    },
+    "MEMB": {
+     "rows": 0
+    },
+    "MLFC": {
+     "rows": 0
+    },
+    "MLSP": {
+     "rows": 0
+    },
+    "MLSR": {
+     "rows": 0
+    },
+    "MRFT": {
+     "rows": 0
+    },
+    "MTCS": {
+     "rows": 0
+    },
+    "MVCD": {
+     "rows": 0
+    },
+    "MVCT": {
+     "rows": 0
+    },
+    "MVCTBS": {
+     "rows": 0
+    },
+    "MVCTCH": {
+     "rows": 0
+    },
+    "MVCTID": {
+     "rows": 0
+    },
+    "MVCTTR": {
+     "rows": 0
+    },
+    "MVHC": {
+     "rows": 0
+    },
+    "MVHL": {
+     "rows": 0
+    },
+    "MVHLTR": {
+     "rows": 0
+    },
+    "MVLD": {
+     "rows": 0
+    },
+    "MVLDBS": {
+     "rows": 0
+    },
+    "MVLDCH": {
+     "rows": 0
+    },
+    "MVLDEU": {
+     "rows": 0
+    },
+    "MVLDID": {
+     "rows": 0
+    },
+    "MVLDJP": {
+     "rows": 0
+    },
+    "MVLDPL": {
+     "rows": 0
+    },
+    "MVLDTR": {
+     "rows": 0
+    },
+    "NBOF": {
+     "rows": 0
+    },
+    "NLCT": {
+     "rows": 0
+    },
+    "NLLP": {
+     "rows": 0
+    },
+    "NLNK": {
+     "rows": 0
+    },
+    "NMAS": {
+     "rows": 2,
+     "live_rows": 2,
+     "shape_identical": true
+    },
+    "NODE": {
+     "rows": 3,
+     "live_rows": 3,
+     "shape_identical": true
+    },
+    "NPLN": {
+     "rows": 0
+    },
+    "NSPR": {
+     "rows": 0
+    },
+    "NTMP": {
+     "rows": 0
+    },
+    "NUCS": {
+     "rows": 0
+    },
+    "OFFS": {
+     "rows": 0
+    },
+    "PDEL": {
+     "rows": 0
+    },
+    "PHGE": {
+     "rows": 0
+    },
+    "PHGT": {
+     "rows": 0
+    },
+    "PJCF": {
+     "rows": 1
+    },
+    "PNLA": {
+     "rows": 0
+    },
+    "PNLD": {
+     "rows": 0
+    },
+    "POGD": {
+     "rows": 0
+    },
+    "POLC": {
+     "rows": 0
+    },
+    "POSL": {
+     "rows": 0
+    },
+    "POSP": {
+     "rows": 0
+    },
+    "PRES": {
+     "rows": 0
+    },
+    "PRLS": {
+     "rows": 0
+    },
+    "PRST": {
+     "rows": 0
+    },
+    "PSLT": {
+     "rows": 0
+    },
+    "PSSF": {
+     "rows": 0
+    },
+    "PTNS": {
+     "rows": 0
+    },
+    "PZEF": {
+     "rows": 0
+    },
+    "REBB": {
+     "rows": 0
+    },
+    "REBC": {
+     "rows": 0
+    },
+    "REBR": {
+     "rows": 0
+    },
+    "REBW": {
+     "rows": 0
+    },
+    "RIGD": {
+     "rows": 0
+    },
+    "RISS": {
+     "rows": 0
+    },
+    "RPSC": {
+     "rows": 0
+    },
+    "SBCT": {
+     "rows": 0
+    },
+    "SBDO": {
+     "rows": 0
+    },
+    "SDHY": {
+     "rows": 0
+    },
+    "SDIS": {
+     "rows": 0
+    },
+    "SDSP": {
+     "rows": 0
+    },
+    "SDST": {
+     "rows": 0
+    },
+    "SDVE": {
+     "rows": 0
+    },
+    "SDVI": {
+     "rows": 0
+    },
+    "SECF": {
+     "rows": 0
+    },
+    "SECT": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "SEIS": {
+     "rows": 0
+    },
+    "SINF": {
+     "rows": 0
+    },
+    "SKEW": {
+     "rows": 0
+    },
+    "SLAN": {
+     "rows": 0
+    },
+    "SLANCH": {
+     "rows": 0
+    },
+    "SLANOP": {
+     "rows": 0
+    },
+    "SMCT": {
+     "rows": 0
+    },
+    "SMLC": {
+     "rows": 0
+    },
+    "SMPT": {
+     "rows": 0
+    },
+    "SPFC": {
+     "rows": 0
+    },
+    "SPLC": {
+     "rows": 0
+    },
+    "SSPS": {
+     "rows": 0
+    },
+    "STAG": {
+     "rows": 0
+    },
+    "STBK": {
+     "rows": 0
+    },
+    "STCT": {
+     "rows": 0
+    },
+    "STDG": {
+     "rows": 0
+    },
+    "STLD": {
+     "rows": 0
+    },
+    "STMP": {
+     "rows": 0
+    },
+    "STOR": {
+     "rows": 0
+    },
+    "STYP": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "TDCS": {
+     "rows": 0
+    },
+    "TDGR": {
+     "rows": 0
+    },
+    "TDME": {
+     "rows": 0
+    },
+    "TDMF": {
+     "rows": 0
+    },
+    "TDMT": {
+     "rows": 0
+    },
+    "TDNA": {
+     "rows": 0
+    },
+    "TDNT": {
+     "rows": 0
+    },
+    "TDPL": {
+     "rows": 0
+    },
+    "THFC": {
+     "rows": 0
+    },
+    "THGA": {
+     "rows": 0
+    },
+    "THGC": {
+     "rows": 0
+    },
+    "THIK": {
+     "rows": 0
+    },
+    "THIS": {
+     "rows": 0
+    },
+    "THMS": {
+     "rows": 0
+    },
+    "THNL": {
+     "rows": 0
+    },
+    "THRE": {
+     "rows": 0
+    },
+    "THRG": {
+     "rows": 0
+    },
+    "THRI": {
+     "rows": 0
+    },
+    "THRS": {
+     "rows": 0
+    },
+    "THSL": {
+     "rows": 0
+    },
+    "TMAT": {
+     "rows": 0
+    },
+    "TMLD": {
+     "rows": 0
+    },
+    "TRFT": {
+     "rows": 0
+    },
+    "TSGR": {
+     "rows": 0
+    },
+    "UFIG": {
+     "rows": 0
+    },
+    "ULCT": {
+     "rows": 0
+    },
+    "ULFC": {
+     "rows": 0
+    },
+    "UNIT": {
+     "rows": 1,
+     "live_rows": 1,
+     "shape_identical": true
+    },
+    "VBEM": {
+     "rows": 0
+    },
+    "VSEC": {
+     "rows": 0
+    },
+    "WIND": {
+     "rows": 0
+    },
+    "WMAK": {
+     "rows": 0
+    },
+    "WNAT": {
+     "rows": 0
+    },
+    "WSSF": {
+     "rows": 0
+    }
+   },
+   "sentinel_shape_identical": [
+    "ACTL",
+    "CONS",
+    "EIGV",
+    "ELEM",
+    "MATL",
+    "NMAS",
+    "NODE",
+    "SECT",
+    "STYP",
+    "UNIT"
+   ],
+   "verdict": "PASSED"
+  },
+  "DOC.IMPORT": {
+   "criterion": "row-count rises AND the new ids read back with the exact values written (status code is NOT discriminating)",
+   "design": "阳性对照 = 导入**与基线编号不重叠**的合成增量（`SYNTHETIC_NODE_IDS`）；**不**用「另存出的空项目」当基线 —— `DOC.SAVEAS` 只换路径、**不**换模型，那样得到的基线并不空（P175 实测教训）",
+   "positive": {
+    "status": 200,
+    "baseline": {
+     "UNIT": 1,
+     "STYP": 1,
+     "NODE": 3,
+     "ELEM": 2,
+     "MATL": 1,
+     "SECT": 1,
+     "CONS": 3,
+     "ACTL": 1,
+     "EIGV": 1,
+     "NMAS": 2
+    },
+    "after": {
+     "UNIT": 1,
+     "STYP": 1,
+     "NODE": 5,
+     "ELEM": 2,
+     "MATL": 1,
+     "SECT": 1,
+     "CONS": 3,
+     "ACTL": 1,
+     "EIGV": 1,
+     "NMAS": 2
+    },
+    "delta": {
+     "NODE": [
+      3,
+      5
+     ]
+    },
+    "written": {
+     "9001": {
+      "X": 100.0,
+      "Y": 0.0,
+      "Z": 0.0
+     },
+     "9002": {
+      "X": 200.0,
+      "Y": 0.0,
+      "Z": 0.0
+     }
+    },
+    "read_back": {
+     "9001": {
+      "X": 100,
+      "Y": 0,
+      "Z": 0
+     },
+     "9002": {
+      "X": 200,
+      "Y": 0,
+      "Z": 0
+     }
+    },
+    "ok": true
+   },
+   "negative_control": {
+    "status": 200,
+    "source": "empty-tables-only JSON",
+    "after": {
+     "UNIT": 1,
+     "STYP": 1,
+     "NODE": 5,
+     "ELEM": 2,
+     "MATL": 1,
+     "SECT": 1,
+     "CONS": 3,
+     "ACTL": 1,
+     "EIGV": 1,
+     "NMAS": 2
+    },
+    "delta": {},
+    "ok": true
+   },
+   "semantics_finding": "`DOC.IMPORT` 是**合并**语义：只含空表的 JSON **不**清空已有行（阴性对照后行数不变 ⇒ 实测确证）",
+   "verdict": "PASSED"
+  }
+ },
+ "verdict": "PASSED"
+}

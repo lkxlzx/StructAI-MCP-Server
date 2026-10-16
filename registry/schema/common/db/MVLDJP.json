@@ -1,0 +1,220 @@
+{
+ "key": "DB.MVLDJP",
+ "uri": "DB/MVLDJP",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "LCNAME": {
+     "description": " Moving Load Case Name",
+     "type": "string"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "LL_TYPE": {
+     "description": " Live Load Type Name",
+     "type": "string"
+    },
+    "OPT_IMPACT_COEFF": {
+     "description": " Impact Coeff Option",
+     "type": "boolean"
+    },
+    "BRIDGE_TYPE": {
+     "description": " Bridge Type",
+     "type": "string"
+    },
+    "OPT_APPLY_IMPACT_FACTOR": {
+     "description": " Apply Impact Factor",
+     "type": "boolean"
+    },
+    "COEFF_NUMERATOR": {
+     "description": " Coeff Numerator",
+     "type": "integer"
+    },
+    "COEFF_DENOMINATOR": {
+     "description": " Coeff Deniminator",
+     "type": "integer"
+    },
+    "LLOAD": {
+     "description": " L-Load",
+     "type": "object",
+     "properties": {
+      "SUB_MAIN_RATIO": {
+       "description": " Length/Breadth Ratio",
+       "type": "number"
+      },
+      "P1_LENGTH": {
+       "description": " P1 Load Length",
+       "type": "number"
+      },
+      "P1_METHOD": {
+       "description": " P1 Load Method",
+       "type": "string"
+      },
+      "UNIFORM_LOAD_MOVEMENT": {
+       "description": " Movement of Uniform  Load",
+       "type": "number"
+      },
+      "MOMENT_CALC_LOAD": {
+       "description": " Loads for Moment",
+       "type": "number"
+      },
+      "SHEAR_CALC_LOAD": {
+       "description": " Loads for Shear",
+       "type": "number"
+      },
+      "P2": {
+       "description": " P2 Load & Crowded Load",
+       "type": "object",
+       "properties": {
+        "L1": {
+         "description": " L1",
+         "type": "number"
+        },
+        "L2": {
+         "description": " L2",
+         "type": "number"
+        },
+        "P2L1": {
+         "description": " L <= L1 (P2 Load)",
+         "type": "number"
+        },
+        "P2L1L2_1": {
+         "description": " L1 <= L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "P2L1L2_2": {
+         "description": " L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "P2L2": {
+         "description": " L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "CrowdL1": {
+         "description": " L <= L1 (Crowded)",
+         "type": "number"
+        },
+        "CrowdL1L2_1": {
+         "description": " L1 <= L <= L2 (Crowded, First)",
+         "type": "number"
+        },
+        "CrowdL1L2_2": {
+         "description": " L1 <= L <= L2 (Crowded, Second)",
+         "type": "number"
+        },
+        "CrowdL2": {
+         "description": " L1 <= L2 (Crowded)",
+         "type": "number"
+        }
+       }
+      }
+     }
+    },
+    "MLOAD": {
+     "description": " Point Group Load",
+     "type": "object",
+     "properties": {
+      "SUB_MAIN_RATIO": {
+       "description": " Length/Breadth Ratio",
+       "type": "number"
+      },
+      "OPT_LOADING": {
+       "description": " Loading on this region",
+       "type": "boolean"
+      },
+      "MOVING_DISTANCE": {
+       "description": " Movement of Load",
+       "type": "number"
+      },
+      "TOTAL_LENGTH": {
+       "description": " Total Length",
+       "type": "number"
+      },
+      "P2": {
+       "description": " P2 Load & Crowded Load",
+       "type": "object",
+       "properties": {
+        "L1": {
+         "description": " L1",
+         "type": "number"
+        },
+        "L2": {
+         "description": " L2",
+         "type": "number"
+        },
+        "P2L1": {
+         "description": " L <= L1 (P2 Load)",
+         "type": "number"
+        },
+        "P2L1L2_1": {
+         "description": " L1 <= L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "P2L1L2_2": {
+         "description": " L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "P2L2": {
+         "description": " L <= L2 (P2 Load)",
+         "type": "number"
+        },
+        "CrowdL1": {
+         "description": " L <= L1 (Crowded)",
+         "type": "number"
+        },
+        "CrowdL1L2_1": {
+         "description": " L1 <= L <= L2 (Crowded, First)",
+         "type": "number"
+        },
+        "CrowdL1L2_2": {
+         "description": " L1 <= L <= L2 (Crowded, Second)",
+         "type": "number"
+        },
+        "CrowdL2": {
+         "description": " L1 <= L2 (Crowded)",
+         "type": "number"
+        }
+       }
+      },
+      "LOAD_NUM_ITEMS": {
+       "description": " Load Num",
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "M_LOCATION": {
+          "description": " Location",
+          "type": "number"
+         },
+         "LOAD_VALUE": {
+          "description": " Load Value",
+          "type": "number"
+         }
+        }
+       }
+      }
+     }
+    },
+    "TLOAD": {
+     "description": " T-Load",
+     "type": "object",
+     "properties": {
+      "LOAD_STIFFNESS": {
+       "description": " Load Strength",
+       "type": "number"
+      },
+      "OPT_EXTRA_COEFF": {
+       "description": " Apply Additional Factor",
+       "type": "boolean"
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -241,7 +241,7 @@ TWENTY_FOUR_TABLES_SPEC: tuple[str, ...] = (
 """`docs/07` §4.3 的 24 张表（本批**不得改表**）。"""
 
 TOOL_OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
-    ("engineering_doc", 6),
+    ("engineering_doc", 8),
     ("engineering_model_query", 8),
     ("engineering_model_assign", 10),
     ("engineering_model_delete", 7),
@@ -251,7 +251,10 @@ TOOL_OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
     ("engineering_design", 6),
     ("engineering_analysis", 7),
 )
-"""`docs/07` §5.1 的每 Tool Operation 数（6+8+8+7+14+7+6+6+7 = **69**）。"""
+"""`docs/07` §5.1 的每 Tool Operation 数（8+8+10+7+14+7+6+6+7 = **73**）。
+
+⚠️ **P175 / R168**：`engineering_doc` 6 → 8（+`MODEL.EXPORT` / `MODEL.IMPORT`）。
+"""
 
 TOOL_CALL_MATRIX_SPEC: tuple[tuple[str, str, str], ...] = (
     ("engineering_model_query", "MODEL.NODE.QUERY", "SYNC"),
@@ -755,7 +758,7 @@ def test_the_nine_tools_partition_the_seventy_one_operations(
         for definition in definitions:
             assert definition.tool in counts, definition.name
             counts[definition.tool] += 1
-        assert len(definitions) == 71
+        assert len(definitions) == 73
         assert tuple(sorted(counts.items())) == tuple(sorted(TOOL_OPERATION_COUNTS_SPEC)), counts
         # 每个 Tool 的验收样例必须真的属于该 Tool（`docs/02` §82 的 Tool ↔ Operation 一致）。
         for tool, operation, mode in TOOL_CALL_MATRIX_SPEC:

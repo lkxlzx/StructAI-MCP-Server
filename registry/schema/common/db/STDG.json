@@ -1,0 +1,21 @@
+{
+ "key": "DB.STDG",
+ "uri": "DB/STDG",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "STORY_NAME": {
+     "description": " Story Name",
+     "type": "string"
+    },
+    "GROUP_NAME": {
+     "description": " Boundary Group Name",
+     "type": "string"
+    }
+   }
+  }
+ }
+}

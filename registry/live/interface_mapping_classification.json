@@ -7,46 +7,47 @@
     "生成器 = `registry/tools/classify_mapping_gap.py --recon`（**零请求**）。"
   ],
   "criterion_version": 1,
-  "gap_total": 489,
-  "gap_not_in_contract": 243,
-  "gap_no_readback": 246,
-  "mapped_endpoints": 68,
-  "write_capable_endpoints": 556,
-  "three_step_endpoints": 280,
+  "gap_total": 514,
+  "gap_not_in_contract": 270,
+  "gap_no_readback": 244,
+  "mapped_endpoints": 70,
+  "write_capable_endpoints": 583,
+  "three_step_endpoints": 307,
   "buckets": {
     "by_namespace": {
-      "DB": 172,
+      "DB": 199,
       "DESIGN": 68,
       "OPE": 3
     },
     "by_capability": {
       "DELETE": 158,
       "DESIGN": 68,
-      "MODEL": 175,
+      "MODEL": 202,
       "OPERATION": 3
     },
     "by_tool_map": {
-      "assign": 242,
+      "assign": 269,
       "delete": 158,
-      "query": 243
+      "query": 270
     },
     "by_adoption": {
       "adoptable_with_manual_example": 51,
-      "needs_product_decision": 192
+      "needs_product_decision": 219
     },
     "by_readiness": {
       "manual_example_ready": 51,
       "no_request_schema": 1,
-      "schema_only": 191
+      "schema_only": 218
     },
     "by_availability": {
+      "untested": 27,
       "verified": 243
     }
   },
   "adoption_counts": {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 192
+    "needs_product_decision": 219
   },
   "adoptable": [],
   "adoptable_with_manual_example": [
@@ -1349,6 +1350,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.ARPR",
+      "uri": "/DB/ARPR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ARPR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "namespace": "DB",
@@ -1365,6 +1389,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.BLDC",
+      "uri": "/DB/BLDC",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BLDC",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -1488,6 +1535,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.CMFT",
+      "uri": "/DB/CMFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -1662,6 +1732,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.DMAS",
+      "uri": "/DB/DMAS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DMAS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.DOEL",
       "uri": "/DB/DOEL",
       "namespace": "DB",
@@ -1703,6 +1796,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.EARE",
+      "uri": "/DB/EARE",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EARE",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -1812,6 +1928,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.ESQW",
+      "uri": "/DB/ESQW",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ESQW",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.ESSF",
       "uri": "/DB/ESSF",
       "namespace": "DB",
@@ -1903,6 +2042,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.FIBW",
+      "uri": "/DB/FIBW",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FIBW",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -2237,6 +2399,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.IEHP",
+      "uri": "/DB/IEHP",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHP",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "namespace": "DB",
@@ -2376,6 +2561,121 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.IPCR",
+      "uri": "/DB/IPCR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPCR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.IPDT",
+      "uri": "/DB/IPDT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPDT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-CFSTEEL",
+      "uri": "/DB/LCOM-CFSTEEL",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-CFSTEEL",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-FDN",
+      "uri": "/DB/LCOM-FDN",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-FDN",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-LINEAR",
+      "uri": "/DB/LCOM-LINEAR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-LINEAR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -2633,6 +2933,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.MDGN",
+      "uri": "/DB/MDGN",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MDGN",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.MEMB",
       "uri": "/DB/MEMB",
       "namespace": "DB",
@@ -2699,6 +3022,52 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.MRFT",
+      "uri": "/DB/MRFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MRFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.MTCS",
+      "uri": "/DB/MTCS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MTCS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -2899,6 +3268,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.MVLDJP",
+      "uri": "/DB/MVLDJP",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDJP",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -3149,6 +3541,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.PHGT",
+      "uri": "/DB/PHGT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PHGT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -3448,6 +3863,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.RISS",
+      "uri": "/DB/RISS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "RISS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.RPSC",
       "uri": "/DB/RPSC",
       "namespace": "DB",
@@ -3464,6 +3902,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.SBCT",
+      "uri": "/DB/SBCT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SBCT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -3539,6 +4000,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.SEIS",
+      "uri": "/DB/SEIS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SEIS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -3864,6 +4348,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.STDG",
+      "uri": "/DB/STDG",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STDG",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -4248,6 +4755,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.TRFT",
+      "uri": "/DB/TRFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TRFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.TSGR",
       "uri": "/DB/TSGR",
       "namespace": "DB",
@@ -4264,6 +4794,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.UFIG",
+      "uri": "/DB/UFIG",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "UFIG",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -4339,6 +4892,75 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.WIND",
+      "uri": "/DB/WIND",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WIND",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.WNAT",
+      "uri": "/DB/WNAT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WNAT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.WSSF",
+      "uri": "/DB/WSSF",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WSSF",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -5987,6 +6609,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.ARPR",
+      "uri": "/DB/ARPR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ARPR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "namespace": "DB",
@@ -6003,6 +6648,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.BLDC",
+      "uri": "/DB/BLDC",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BLDC",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -6174,6 +6842,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.CMFT",
+      "uri": "/DB/CMFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -6423,6 +7114,29 @@
       "readiness": "manual_example_ready"
     },
     {
+      "key": "DB.DMAS",
+      "uri": "/DB/DMAS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DMAS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.DOEL",
       "uri": "/DB/DOEL",
       "namespace": "DB",
@@ -6496,6 +7210,29 @@
       "has_manual_example": true,
       "adoption": "adoptable_with_manual_example",
       "readiness": "manual_example_ready"
+    },
+    {
+      "key": "DB.EARE",
+      "uri": "/DB/EARE",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EARE",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
     },
     {
       "key": "DB.EDMP",
@@ -6648,6 +7385,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.ESQW",
+      "uri": "/DB/ESQW",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ESQW",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.ESSF",
       "uri": "/DB/ESSF",
       "namespace": "DB",
@@ -6789,6 +7549,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.FIBW",
+      "uri": "/DB/FIBW",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FIBW",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -7248,6 +8031,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.IEHP",
+      "uri": "/DB/IEHP",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHP",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "namespace": "DB",
@@ -7387,6 +8193,121 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.IPCR",
+      "uri": "/DB/IPCR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPCR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.IPDT",
+      "uri": "/DB/IPDT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPDT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-CFSTEEL",
+      "uri": "/DB/LCOM-CFSTEEL",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-CFSTEEL",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-FDN",
+      "uri": "/DB/LCOM-FDN",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-FDN",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.LCOM-LINEAR",
+      "uri": "/DB/LCOM-LINEAR",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-LINEAR",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -7744,6 +8665,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.MDGN",
+      "uri": "/DB/MDGN",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MDGN",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.MEMB",
       "uri": "/DB/MEMB",
       "namespace": "DB",
@@ -7835,6 +8779,52 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.MRFT",
+      "uri": "/DB/MRFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MRFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.MTCS",
+      "uri": "/DB/MTCS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MTCS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -8194,6 +9184,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.MVLDJP",
+      "uri": "/DB/MVLDJP",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDJP",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.MVLDPL",
       "uri": "/DB/MVLDPL",
       "namespace": "DB",
@@ -8510,6 +9523,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.PHGT",
+      "uri": "/DB/PHGT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PHGT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -8934,6 +9970,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.RISS",
+      "uri": "/DB/RISS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "RISS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.RPSC",
       "uri": "/DB/RPSC",
       "namespace": "DB",
@@ -8950,6 +10009,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.SBCT",
+      "uri": "/DB/SBCT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SBCT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -9150,6 +10232,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.SEIS",
+      "uri": "/DB/SEIS",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SEIS",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -9525,6 +10630,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.STDG",
+      "uri": "/DB/STDG",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STDG",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -10084,6 +11212,29 @@
       "readiness": "schema_only"
     },
     {
+      "key": "DB.TRFT",
+      "uri": "/DB/TRFT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TRFT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.TSGR",
       "uri": "/DB/TSGR",
       "namespace": "DB",
@@ -10100,6 +11251,29 @@
         "query": "midas_db_query",
         "assign": "midas_db_assign",
         "delete": "midas_db_delete"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.UFIG",
+      "uri": "/DB/UFIG",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "UFIG",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
       },
       "transformers": [],
       "has_transformer": false,
@@ -10209,6 +11383,29 @@
       "readiness": "manual_example_ready"
     },
     {
+      "key": "DB.WIND",
+      "uri": "/DB/WIND",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WIND",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
       "key": "DB.WMAK",
       "uri": "/DB/WMAK",
       "namespace": "DB",
@@ -10232,6 +11429,52 @@
       "has_manual_example": true,
       "adoption": "adoptable_with_manual_example",
       "readiness": "manual_example_ready"
+    },
+    {
+      "key": "DB.WNAT",
+      "uri": "/DB/WNAT",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WNAT",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
+    },
+    {
+      "key": "DB.WSSF",
+      "uri": "/DB/WSSF",
+      "namespace": "DB",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WSSF",
+      "availability": "untested",
+      "table_type": "",
+      "risk_level": "low",
+      "capability": [
+        "MODEL"
+      ],
+      "tool_map": {
+        "query": "midas_db_query",
+        "assign": "midas_db_assign"
+      },
+      "transformers": [],
+      "has_transformer": false,
+      "has_request_schema": true,
+      "has_manual_example": false,
+      "adoption": "needs_product_decision",
+      "readiness": "schema_only"
     },
     {
       "key": "DESIGN.RC.KDS-41-20-2022.BEMW",

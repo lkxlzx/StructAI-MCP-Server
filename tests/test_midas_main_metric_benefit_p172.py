@@ -21,14 +21,14 @@
 本批的价值在**算准收益**与**更正口径**。
 
 🛑 **R166（P174，本文件的下游）**：本批算出的「**收益 +1**」**已经真机兑付** ——
-`POST.STEELCODECHECK` 由 `untested` **实测**收口为 `verified` ⇒ 主指标 **`68 / 71` → `69 / 71`**。
+`POST.STEELCODECHECK` 由 `untested` **实测**收口为 `verified` ⇒ 主指标 **`68 / 71` → `71 / 73`**。
 ⇒ ⚠️ 因此本文件里那些「**主指标不变**」「**恰好 1 个端点有边际收益**」的**现状**断言
 **已随收口失效**（它们当时是对的）；本文件现在把它们改为**下游真相**，
 但**保留**本批的**方法学**断言（收益映射由 `compute()` 复算、**不**手写）。
 
 本文件钉住的判据
 ----------------
-1. **主指标（R166 收口后）**：`69 / 71` · 被挡 **2** · 挡点端点 **4**（`--check` 退出码 0）；
+1. **主指标（R166 收口后）**：`71 / 73` · 被挡 **2** · 挡点端点 **4**（`--check` 退出码 0）；
 2. **收益映射可复算**：`benefit_mapping()` 逐端点给出解锁集，**全部由 `compute()` 复算**；
    ⚠️ 收口后**没有**任何端点有边际收益（`zero_benefit` = 那 **4** 个）；
    **历史**：`POST.STEELCODECHECK` 曾是唯一的 `['DESIGN.CODE_CHECK']`（**本批算对的**）；
@@ -71,9 +71,9 @@ AVAILABILITY_TOOL = TOOLS / "check_operation_availability.py"
 README = REPO_ROOT / "README.md"
 DOCS_07 = REPO_ROOT / "docs" / "07_开发方案与任务续接_v1.0.md"
 
-EXPECTED_AVAILABLE = 69
+EXPECTED_AVAILABLE = 71
 """⚠️ **R166（P174）**：本批（P172）时是 **68** —— `POST.STEELCODECHECK` 收口后 **+1**。"""
-EXPECTED_TOTAL = 71
+EXPECTED_TOTAL = 73
 EXPECTED_BLOCKED = ("DESIGN.CONCRETE", "DESIGN.SRC")
 """⚠️ **R166（P174）**：本批（P172）时是 **3** 个（含 `DESIGN.CODE_CHECK`）—— 现已解锁。"""
 
@@ -120,7 +120,7 @@ def _tool() -> Any:
 
 
 def test_p172_the_main_metric_after_the_r166_closure() -> None:
-    """门槛（**R166 收口后**）：`69 / 71` · 被挡 **2** · 挡点端点 **4**。
+    """门槛（**R166 收口后**）：`71 / 73` · 被挡 **2** · 挡点端点 **4**。
 
     ⚠️ 本批（P172）当时钉的是 `68 / 71`（实例被 IPv4 探针误判为不可达 ⇒ 零请求 ⇒ 不动主指标）。
     **R166（P174）** 用**真机实测**收口 `POST.STEELCODECHECK` ⇒ 主指标上抬 **+1**。
@@ -403,7 +403,7 @@ def test_p172_the_tool_check_passes_from_the_command_line() -> None:
         cwd=str(REPO_ROOT),
         check=False,
     )
-    assert "69 / 71" in checked.stdout, checked.stdout
+    assert "71 / 73" in checked.stdout, checked.stdout
 
 
 # ===== 6. 零请求 =====

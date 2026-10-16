@@ -245,7 +245,7 @@ def test_p166_the_main_indicator_is_backfilled() -> None:
     """门槛（**主指标回填**）：`61 / 71` → `67 / 71`（**R159**），`VIEW.RESULTGRAPHIC` 不再是挡点。
 
     ⚠️ **P167 / R160** 再把 `POST.TABLE` 收口 ⇒ **`68 / 71`**（被挡 **3** · 挡点端点 **13**）；
-    ⚠️ **P174 / R166** 再收口 `POST.STEELCODECHECK` ⇒ **`69 / 71`**（被挡 **2** · 挡点 **4**）。
+    ⚠️ **P174 / R166** 再收口 `POST.STEELCODECHECK` ⇒ **`71 / 73`**（被挡 **2** · 挡点 **4**）。
     本用例的判据是「**R159 的收益仍在**」，故按**现值**断言并逐条核 R159 的那 6 个 Operation。
     """
     spec = importlib.util.spec_from_file_location("check_operation_availability", AVAILABILITY_TOOL)
@@ -253,7 +253,7 @@ def test_p166_the_main_indicator_is_backfilled() -> None:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     document: dict[str, Any] = module.compute()
-    assert document["available"] == 69, document["available"]
+    assert document["available"] == 71, document["available"]
     assert document["blocked"] == 2, document["blocked"]
     assert document["blocker_endpoint_count"] == 4, sorted(document["blocker_endpoints"])
     assert "VIEW.RESULTGRAPHIC" not in document["blocker_endpoints"], document["blocker_endpoints"]

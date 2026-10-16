@@ -19,8 +19,8 @@
    `wrapper.write`（`Assign` / `none`）—— **不**臆造、**不**硬编码。
 4. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板的 `body`（包装为 `{"Assign": {"<实分配编号>": body}}`），跑完**零残留**。
-5. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，P148 为 609）；分子 = L5 `PASSED`
-   去重 key（本批 **18 / 609**，`model_write_ratio` **18 / 410**；CIVIL NX **17** 个候选 ——
+5. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **660**，P148 为 636）；分子 = L5 `PASSED`
+   去重 key（本批 **18 / 636**，`model_write_ratio` **18 / 410**；CIVIL NX **17** 个候选 ——
    `DB.DSTL` 的产品集只有 `GEN_NX`）。
 6. **如实留缺（R101）**：`DB.ACTL` / `DB.CLWP` / `DB.EDMP` 三个端点**没有**模板 ——
    前两个是「手册示例与本 build 自省字段集不一致」（模板机制只能改值、不能改名），
@@ -42,7 +42,7 @@ from app.infrastructure.adapters.midas.write_probe import (
     transformer_name_for,
 )
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
     "DB.LCOM-CONC",
     "DB.LCOM-GEN",
@@ -63,9 +63,9 @@ def _measured(keys: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(key for key in keys if key not in UNMEASURED_LCOM_KEYS)
 
 
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **660**，P148 为 636）。"""
 
-MODEL_WRITE_TOTAL = 434
+MODEL_WRITE_TOTAL = 461
 """分母里的「模型写」子桶（P141 裁决⑤；P148 为 410）。"""
 
 TEMPLATE_ONLY_KEYS = (
@@ -244,7 +244,7 @@ P149-C：+2 真实 L5 `PASSED`）。"""
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 479, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -404,8 +404,8 @@ async def test_p144_the_seven_template_only_endpoints_run_the_chain_offline() ->
 # ===== 3. 口径（判定 5）=====
 
 
-def test_p144_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；72 / 633（`model_write_ratio` 72 / 434）。
+def test_p144_coverage_counts_thirty_six_of_636() -> None:
+    """门槛：分子 = L5 `PASSED` 去重 key；72 / 660（`model_write_ratio` 72 / 461）。
     P149-B2 续跑起（分块补测 67 条 → 再 +9 真实 L5 `PASSED`）；P149-C 再 +2（`WMAK` / `DSRC`）。"""
     registry = _registry()
     keys = _measured(CANDIDATES_BY_PRODUCT["GEN_NX"])

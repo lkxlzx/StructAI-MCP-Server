@@ -57,7 +57,7 @@ REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PRODUCT: Final[str] = "GEN_NX"
 """主指标按 **GEN NX** 算（与 `README.md` §1.1 同口径）。"""
 
-EXPECTED_AVAILABLE: Final[int] = 69
+EXPECTED_AVAILABLE: Final[int] = 71
 """**已裁定**的可用数（`docs/07` §16.1 **R158** 定 61；**R159**（P166）收口 `VIEW.RESULTGRAPHIC`
 ⇒ **+6** = 67；**R160**（P167）收口 `POST.TABLE` ⇒ **+1** = 68；**R166**（P174）
 **真机实测**收口 `POST.STEELCODECHECK` ⇒ **+1** = **69**）。
@@ -434,6 +434,9 @@ def gate_attribution() -> dict[str, Any]:
         "midas": sorted(key for key, row in rows.items() if row["side"] == "midas"),
         "above_operations": above,
         "fixing_all_crash_yields": after_crash["available"],
+        # P175 / R168: 分母**动态**取 -- 原先硬编码 `/ 71`，新增 Operation 后会输出**不存在**的
+        # 分数（实测 `71 / 71`）=> 动态取让它不会再漂。
+        "operation_total": len(plans),
         "fixing_all_crash_still_blocked": sorted(after_crash["blocked_operations"]),
     }
 
@@ -522,7 +525,7 @@ def main() -> int:
             print(f"  {name:22s} 最短代价 {row['cost']} 个端点 · 最短选项{crash}")
         print()
         print(f"⚠️ 反事实（假设**崩溃族全部修好**；纯内存仿真、**零请求**）"
-              f"⇒ 主指标仍 `{table['fixing_all_crash_yields']} / 71`"
+              f"⇒ 主指标仍 `{table['fixing_all_crash_yields']} / {table['operation_total']}`"
               f"（被挡 {len(table['fixing_all_crash_still_blocked'])} 个："
               f"{', '.join(table['fixing_all_crash_still_blocked'])}）")
         print("    ⇒ `*-TABLE` 要**先有设计结果**，而那结果只能由崩溃族的 `*-ANAL` 产出 ⇒ "

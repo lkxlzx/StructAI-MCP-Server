@@ -77,6 +77,9 @@ CAPABILITY_ENDPOINTS: Final[dict[str, tuple[str, ...]]] = {
     Capability.DOCUMENT_SAVE_AS.value: ("DOC.SAVEAS",),
     Capability.DOCUMENT_CLOSE.value: ("DOC.CLOSE",),
     Capability.DOCUMENT_INFO.value: ("OPE.PROJECTSTATUS",),
+    # ⚠️ **P175 / R168**：模型 ↔ JSON 官方通道（两个端点各自独立成码，同 `SAVE_AS` 的口径）。
+    Capability.DOCUMENT_EXPORT.value: ("DOC.EXPORT",),
+    Capability.DOCUMENT_IMPORT.value: ("DOC.IMPORT",),
     Capability.ANALYSIS_STATIC.value: ("DOC.ANAL",),
     Capability.ANALYSIS_MODAL.value: ("DOC.ANAL", "DB.EIGV"),
     Capability.ANALYSIS_SEISMIC.value: ("DOC.ANAL", "DB.POSL"),

@@ -20,7 +20,7 @@
 **R166（P174）**：`POST.STEELCODECHECK` **真机实测**收口（判据 = **效果**：无设计结果 **0 行**
 → 有设计结果 **2 行** ∧ 取值**不**等于手册 schema 示例）⇒ 它挡住的 **1** 个 Operation
 （`DESIGN.CODE_CHECK`，钢铁路由）**解锁**
-⇒ **69 / 71**（被挡 **2** · 挡点端点 **4**）。
+⇒ **71 / 73**（被挡 **2** · 挡点端点 **4**）。
 ⚠️ 节标题 `P165b` 是**时点记录**（不改）；本文件的**裁定值**随每个收口批次上抬。
 
 **手写的指标必然漂** ⇒ 本文件把**裁定值**钉住 —— 改主指标必须同时改
@@ -48,8 +48,8 @@ README = REPO_ROOT / "README.md"
 DOCS_07 = REPO_ROOT / "docs" / "07_开发方案与任务续接_v1.0.md"
 """裁决表（§16.1）。"""
 
-EXPECTED_AVAILABLE = 69
-EXPECTED_TOTAL = 71
+EXPECTED_AVAILABLE = 71
+EXPECTED_TOTAL = 73
 EXPECTED_BLOCKER_ENDPOINTS = 4
 EXPECTED_BLOCKED = (
     "DESIGN.CONCRETE",
@@ -85,7 +85,7 @@ def _load_tool() -> Any:
 
 
 def test_p165b_the_main_indicator_matches_the_ruling() -> None:
-    """门槛（**主指标**）：生产路径可用 Operation = **69 / 71**（**R166** 收口后）。"""
+    """门槛（**主指标**）：生产路径可用 Operation = **71 / 73**（**R166** 收口后）。"""
     document = _load_tool().compute()
     assert document["total"] == EXPECTED_TOTAL, document["total"]
     assert document["available"] == EXPECTED_AVAILABLE, document["available"]
@@ -209,7 +209,7 @@ def test_p165b_the_offline_check_passes() -> None:
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "69 / 71" in result.stdout, result.stdout
+    assert "71 / 73" in result.stdout, result.stdout
 
 
 def test_p165b_the_readme_and_the_ruling_carry_the_corrected_number() -> None:
@@ -224,7 +224,7 @@ def test_p165b_the_readme_and_the_ruling_carry_the_corrected_number() -> None:
     assert "**`61 / 71`**" not in readme, "README 仍把 61/71 当成现状（R159 后应为 67/71）"
     assert "**`67 / 71`**" not in readme, "README 仍把 67/71 当成现状（R160 后应为 68/71）"
     # ⚠️ **R166**：`68 / 71` 现在也是**历史值** ⇒ 不得再作**现状声称**（但必须保留便于对照）
-    assert "**`69 / 71`**" in readme, "README 必须写明更正后的 69/71"
+    assert "**`71 / 73`**" in readme, "README 必须写明更正后的 71/73"
     assert "`62 / 71`" in readme, "更正说明里应保留旧值 62，便于对照"
     assert "`61 / 71`" in readme, "更正说明里应保留旧值 61，便于对照"
     assert "`67 / 71`" in readme, "更正说明里应保留旧值 67，便于对照"

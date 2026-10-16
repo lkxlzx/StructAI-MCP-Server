@@ -1,0 +1,17 @@
+{
+ "key": "DB.TRFT",
+ "uri": "DB/TRFT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "FACTOR": {
+     "description": " Torsion Reduction Factor",
+     "type": "number"
+    }
+   }
+  }
+ }
+}

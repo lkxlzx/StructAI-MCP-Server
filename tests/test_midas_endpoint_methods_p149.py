@@ -9,14 +9,15 @@
 
 本文件的**可执行判定**
 --------------------
-1. **证据完整**：证据文件覆盖 **636** 个端点；`live_methods` 为空（本 build 路由不存在）**72** 个。
+1. **证据完整**：证据文件覆盖 **636** 个端点（P175 新表**不在**该快照里）；
+   `live_methods` 为空（本 build 路由不存在）**72** 个。
 2. **复算一致**：`sync_endpoint_methods.py --check` 退出码 0（已落盘 == 机械结果，无待写回项）。
 3. **只增不减已归零**：对每个 `live_methods` 非空的端点，`registry.methods ⊆ live_methods`
    （即 registry **不再**少声明任何方法）；且 `live_methods` 里的 `HEAD` 一律已剔除。
 4. **404 端点未被改动**：`live_methods` 为空的 72 个端点仍保留 registry 里的方法集
    （**不**因为一次探测而清零）。
-5. **新基线**：`write_path_keys()` = **633**（原 609）· `write_only_keys()` = **306**（原 368）·
-   `result_query_keys()` = **199**（不变）· `model_write_keys()` = **434**（原 410）。
+5. **新基线**：`write_path_keys()` = **660**（原 636）· `write_only_keys()` = **306**（原 368）·
+   `result_query_keys()` = **199**（不变）· `model_write_keys()` = **461**（原 410）。
 6. **候选集与阻塞数**：GEN NX **72** / CIVIL NX **62** / CD **0**；blocked **501 / 438 / 31**。
    （P149-C：49 个 `availability: untested` 端点经只读 L4 收口后解锁写路径 ⇒ +2 L5 `PASSED`。）
 7. **`DB.SWIND`** 由「无方法」进入写路径分母（四方法齐全）。
@@ -56,13 +57,13 @@ EVIDENCE_TOTAL = 636
 ROUTE_ABSENT_TOTAL = 72
 """本 build 上路由不存在的端点数（`OPTIONS` 无 `Allow` 且 `HEAD` 404）。"""
 
-WRITE_PATH_TOTAL = 633
-"""写路径分母（P149-A 起；P148 为 609 —— 原被漏算 24 个写路径端点）。"""
+WRITE_PATH_TOTAL = 660
+"""写路径分母（P149-A 起；P148 为 636 —— 原被漏算 24 个写路径端点）。"""
 
 WRITE_ONLY_TOTAL = 306
 """分母里「连 `GET` 都没有」的部分（P148 为 368）。"""
 
-MODEL_WRITE_TOTAL = 434
+MODEL_WRITE_TOTAL = 461
 """分母里的「模型写」子桶（P148 为 410）。"""
 
 RESULT_QUERY_TOTAL = 199
@@ -75,7 +76,7 @@ CANDIDATES_BY_PRODUCT: dict[str, int] = {"GEN_NX": 78, "CIVIL_NX": 74, "CIVIL_DE
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 479, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数（P149-C 起）。"""
 
 SWIND_KEY = "DB.SWIND"
@@ -128,7 +129,10 @@ def _candidates(registry, product: str) -> tuple[int, int]:
 
 
 def test_p149a_the_evidence_covers_every_endpoint() -> None:
-    """门槛：证据文件覆盖 636 个端点；`live_methods` 为空的（本 build 路由不存在）**72** 个。"""
+    """门槛：证据文件覆盖 636 个端点（**证据快照的行数**，非 manifest 条目数 ——
+    P175 / R168 新增的 27 张表**不在**这份 2026-10-11 的快照里）；
+    `live_methods` 为空的（本 build 路由不存在）**72** 个。
+    """
     document = _evidence()
     endpoints = document["endpoints"]
     assert isinstance(endpoints, dict)
@@ -192,7 +196,7 @@ def test_p149a_absent_routes_keep_their_declared_methods() -> None:
 
 
 def test_p149a_the_denominator_and_sub_buckets_are_recounted() -> None:
-    """门槛：分母 **633**（`write_only` 306 · `result_query` 199 · `model_write` 434）。"""
+    """门槛：分母 **660**（`write_only` 306 · `result_query` 199 · `model_write` 461）。"""
     registry = _registry()
     assert len(write_path_keys(registry)) == WRITE_PATH_TOTAL
     assert len(write_only_keys(registry)) == WRITE_ONLY_TOTAL

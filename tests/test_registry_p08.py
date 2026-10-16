@@ -9,7 +9,7 @@
 ③ `CapabilityRegistry`：`capabilities` 表 41 条可查询；`operation_capabilities` 由本批落库；
 ④ `SchemaRegistry`：`register` / `get`；未注册 id → `NotFoundError`（且**不**新增错误码）；
 ⑤ `SoftwareRegistry`：`get_instance` / `get_product` / `get_version` / `list_instances`；
-⑥ API Registry：九字段；636 端点 / 625 Schema 可装载；取值只能来自数据文件；
+⑥ API Registry：九字段；663 端点 / 652 Schema 可装载；取值只能来自数据文件；
 ⑦ 失败即不就绪：Registry 校验失败 → `InternalError` 且容器**不**进入 READY；
 ⑧ 未配备的库不阻断启动（`python -m app.main` 回归门槛）；
 ⑨ 质量：由 `ruff` / `mypy` 覆盖（本文件不重复）；
@@ -99,7 +99,17 @@ SessionFactory = async_sessionmaker[AsyncSession]
 # ===== 规范原文副本（`docs/07` §5.1 / §5.4 / §6.10；`docs/02` §45 / §69–§70 / §86–§87）=====
 
 DOC_TOOL_OPERATIONS: dict[str, tuple[str, ...]] = {
-    "engineering_doc": ("NEW", "OPEN", "SAVE", "SAVE_AS", "CLOSE", "INFO"),
+    "engineering_doc": (
+        "NEW",
+        "OPEN",
+        "SAVE",
+        "SAVE_AS",
+        "CLOSE",
+        "INFO",
+        # P175 / R168：模型 ↔ JSON 官方通道
+        "MODEL.EXPORT",
+        "MODEL.IMPORT",
+    ),
     "engineering_model_query": (
         "MODEL.QUERY",
         "MODEL.NODE.QUERY",
@@ -253,6 +263,9 @@ DOC_CAPABILITY_CODES: tuple[str, ...] = (
     "DOCUMENT.SAVE_AS",
     "DOCUMENT.CLOSE",
     "DOCUMENT.INFO",
+    # P175 / R168：模型 ↔ JSON 官方通道（两个端点各自独立成码，同 `SAVE_AS` 口径）
+    "DOCUMENT.EXPORT",
+    "DOCUMENT.IMPORT",
     "ANALYSIS.STATIC",
     "ANALYSIS.MODAL",
     "ANALYSIS.SEISMIC",
@@ -418,8 +431,8 @@ async def test_gate_all_69_operations_are_resolvable(
     assert registry is not None
 
     expected = {name for names in DOC_TOOL_OPERATIONS.values() for name in names}
-    assert len(expected) == OPERATION_COUNT == 71
-    assert len(registry) == 71
+    assert len(expected) == OPERATION_COUNT == 73
+    assert len(registry) == 73
     assert registry.names() == tuple(sorted(expected))
 
     for name in sorted(expected):
@@ -504,14 +517,14 @@ async def test_six_fields_come_from_the_operations_table(
 def test_profiles_cover_all_operations_and_are_anchored() -> None:
     """门槛 ②：69 条补齐映射齐全；每条都能指回具体章节；取值都来自 P03 冻结枚举。"""
     expected = {name for names in DOC_TOOL_OPERATIONS.values() for name in names}
-    assert len(OPERATION_PROFILES) == OPERATION_COUNT == 71
+    assert len(OPERATION_PROFILES) == OPERATION_COUNT == 73
     assert set(OPERATION_PROFILES) == expected
     assert set(OPERATION_CAPABILITIES) == expected
 
     capability_codes = {code.value for code in Capability}
     permission_codes = {code.value for code in PermissionCode}
     assert capability_codes == set(DOC_CAPABILITY_CODES)
-    assert len(capability_codes) == 42
+    assert len(capability_codes) == 44
 
     for name, profile in OPERATION_PROFILES.items():
         assert profile.anchor, name
@@ -606,7 +619,7 @@ async def test_capability_registry_exposes_the_42_capabilities(
     """门槛 ③：`capabilities` 表 41 条可查询，取值与 `docs/02` §70 一致。"""
     registry = await CapabilityRegistry.load(seeded_engine, seeded_factory)
     assert registry is not None
-    assert len(registry) == 42
+    assert len(registry) == 44
 
     listed = await registry.list()
     assert [item.code for item in listed] == sorted(DOC_CAPABILITY_CODES)
@@ -646,22 +659,22 @@ async def test_operation_capabilities_are_persisted_and_idempotent(
     expected_pairs = {
         (name, code) for name, codes in OPERATION_CAPABILITIES.items() for code in codes
     }
-    assert len(expected_pairs) == 88
+    assert len(expected_pairs) == 90
 
     async with seeded_factory() as session:
         async with UnitOfWork(session):
             report = await sync_operation_capabilities(session)
-    assert report.created == 88
+    assert report.created == 90
     assert report.existing == 0
-    assert report.total == 88
-    assert "created 88 row(s)" in report.summary()
+    assert report.total == 90
+    assert "created 90 row(s)" in report.summary()
 
     async with seeded_factory() as session:
         async with UnitOfWork(session):
             second = await sync_operation_capabilities(session)
     assert second.created == 0
-    assert second.existing == 88
-    assert await _count(seeded_factory, OperationCapabilityORM) == 88
+    assert second.existing == 90
+    assert await _count(seeded_factory, OperationCapabilityORM) == 90
 
     # 落库内容 == 静态映射（逐对核对，含 id → 业务键的还原）
     async with seeded_factory() as session:
@@ -696,7 +709,7 @@ async def test_operation_capabilities_are_persisted_and_idempotent(
         "MODEL.ELEMENT.WRITE",
     )
     assert "BUILD.COLUMN" in registry.operations_for("MODEL.NODE.WRITE")
-    assert registry.summary()["relations"] == 88
+    assert registry.summary()["relations"] == 90
 
 
 async def test_operation_capabilities_sync_keeps_the_transaction_boundary(
@@ -821,22 +834,22 @@ async def test_software_registry_reads_the_mock_software_chain(
 # ===== ⑥ API Registry（`docs/02` §23；数据源 = `registry/`）=====
 
 
-def test_api_registry_loads_636_endpoints_and_625_schemas() -> None:
-    """门槛 ⑥：`registry/` 是唯一数据源；636 端点 / 625 Schema 可装载（P141 起）。"""
+def test_api_registry_loads_663_endpoints_and_652_schemas() -> None:
+    """门槛 ⑥：`registry/` 是唯一数据源；663 端点 / 652 Schema 可装载（P141 起）。"""
     registry = ApiRegistry.load(REPO_ROOT / "registry")
 
     keys = registry.endpoint_keys()
-    assert len(keys) == 636
-    assert len(set(keys)) == 636
+    assert len(keys) == 663
+    assert len(set(keys)) == 663
 
     schemas = registry.request_schemas()
-    assert len(schemas) == 625
+    assert len(schemas) == 652
     for relative in schemas:
         assert (REPO_ROOT / "registry" / relative).is_file(), relative
 
     summary = registry.summary()
-    assert summary["endpoints"] == 636
-    assert summary["schemas"] == 625
+    assert summary["endpoints"] == 663
+    assert summary["schemas"] == 652
     assert summary["products"] == ["CIVIL_DESIGNER", "CIVIL_NX", "GEN_NX"]
     assert summary["disabled"] == ["DB.SWIND"]
 
@@ -925,9 +938,9 @@ async def test_container_startup_assembles_the_registry(
         assert container.started is True
         registry = container.operation_registry
         assert registry is not None
-        assert len(registry) == 71
+        assert len(registry) == 73
         assert await registry.get("BUILD.COLUMN") is not None
-        assert registry.summary()["operations"] == 71
+        assert registry.summary()["operations"] == 73
     finally:
         await container.shutdown()
 
@@ -1080,7 +1093,7 @@ def test_operation_registry_cli_persists_and_is_idempotent(
     monkeypatch.setattr(operation_registry_module, "settings", Settings(database_url=database_url))
 
     assert operation_registry_module.main([]) == 0
-    assert "created 88 row(s)" in capsys.readouterr().out
+    assert "created 90 row(s)" in capsys.readouterr().out
 
     assert operation_registry_module.main([]) == 0
     assert "created 0 row(s)" in capsys.readouterr().out

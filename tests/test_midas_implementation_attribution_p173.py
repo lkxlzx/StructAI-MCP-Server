@@ -52,9 +52,9 @@ README = REPO_ROOT / "README.md"
 REGISTRY_README = REPO_ROOT / "registry" / "README.md"
 DOCS_07 = REPO_ROOT / "docs" / "07_开发方案与任务续接_v1.0.md"
 
-EXPECTED_AVAILABLE = 69
+EXPECTED_AVAILABLE = 71
 """⚠️ **R166（P174）**：本批（P173）时是 **68** —— `POST.STEELCODECHECK` 收口后 **+1**。"""
-EXPECTED_TOTAL = 71
+EXPECTED_TOTAL = 73
 EXPECTED_BLOCKED = ("DESIGN.CONCRETE", "DESIGN.SRC")
 """⚠️ **R166（P174）**：本批（P173）时是 **3** 个（含 `DESIGN.CODE_CHECK`）—— 现已解锁。"""
 
@@ -196,7 +196,7 @@ def test_p173_fixing_the_whole_crash_family_moves_nothing() -> None:
     `*-TABLE` 的设计结果只能由（刚被假设修好的）`*-ANAL` **产出**（仍须一次**授权测量**）。
     ⇒ 「卡在 MIDAS 侧」是**结构**性的，**不**是「多收口几个端点就能绕开」。
     ⚠️ **R166（P174）**：收口前「仍 `68 / 71`、挡点端点 13 → 7」；收口后是
-    「仍 `69 / 71`、挡点端点 4 → 2」—— **结论不变**，数字随收口上抬。
+    「仍 `71 / 73`、挡点端点 4 → 2」—— **结论不变**，数字随收口上抬。
     """
     tool = _tool()
     sys.path.insert(0, str(REPO_ROOT))
@@ -301,7 +301,7 @@ def test_p173_the_steel_route_was_the_only_anal_free_path() -> None:
 
 
 def test_p173_the_main_metric_and_benefit_are_consistent() -> None:
-    """门槛：`--check` 退出码 0 且输出 `69 / 71`（**R166 收口后**）。
+    """门槛：`--check` 退出码 0 且输出 `71 / 73`（**R166 收口后**）。
 
     ⚠️ 本批（P173）当时是「**只加视图，不改裁定**」+ `68 / 71`。
     **R166（P174）** 用真机实测收口 ⇒ 裁定值**确实**改了（`EXPECTED_AVAILABLE` 68 → 69 等）
@@ -325,7 +325,7 @@ def test_p173_the_main_metric_and_benefit_are_consistent() -> None:
         cwd=str(REPO_ROOT),
         check=False,
     )
-    assert "69 / 71" in checked.stdout, checked.stdout
+    assert "71 / 73" in checked.stdout, checked.stdout
 
 
 def test_p173_the_attribution_cli_reports_both_sides() -> None:
@@ -345,7 +345,7 @@ def test_p173_the_attribution_cli_reports_both_sides() -> None:
     assert result.returncode == 0, result.stderr
     assert "我方" in result.stdout
     assert "MIDAS 侧" in result.stdout
-    assert "69 / 71" in result.stdout, "反事实必须报出主指标"
+    assert "71 / 73" in result.stdout, "反事实必须报出主指标"
     assert "已全部收口" in result.stdout, "`ours` 为空时必须以「已全部收口」如实报出"
 
 

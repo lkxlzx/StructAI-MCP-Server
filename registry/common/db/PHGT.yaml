@@ -1,0 +1,55 @@
+# ⚠️ **P175 / R168**：本表**导出可见但此前未登记** —— `DOC.EXPORT` 实测的 `DBG` 里有它
+# （218 张表中的一张），而 Registry 里没有定义 ⇒ 本次**补登**。
+#
+# **字段来源 = 实例自省**（`GET /info/db/{code}`），**逐字**转录（`schema_source:
+# instance_introspect`，与 `DB.CPSETTINGS` / `DB.ULCT` 两个先例同口径）。
+# ⚠️ **为何不能靠离线推断**（`probe_export_only_tables_p175.py --check` 可复算）：
+#   ① 上游手册 **0 / 27** 有对应端点（两处同名命中经查是 `DESIGN.*.CMFT` 这类**同名不同义**）；
+#   ② 仓库既有实例证据 **0 / 27**（可能的命中全是**子串误报**，如 `SWIND` 含 `WIND`）；
+#   ③ `DOC.EXPORT` 里这些表**全是空表** ⇒ 连一个字段名都拿不到。
+#
+# ⚠️ **方法集未逐表实测**：自省只声明**请求体形状**，不声明方法 ⇒ 这里用 `DB.*` 的常规值，
+# 并如实把 `availability` 留在 `untested`（**不**声称可用；收口需另一次实测）。
+key: DB.PHGT
+namespace: DB
+uri: /DB/PHGT
+methods: [POST, GET, PUT, DELETE]
+tool_map:
+  query: midas_db_query
+  assign: midas_db_assign
+wrapper:
+  write: Assign
+  read_root: PHGT
+schema_ref:
+  local: schema/common/db/PHGT.json
+  introspect: info/db/PHGT
+  source: instance_introspect
+parser: db_generic
+products: [GEN_NX, CIVIL_NX]
+availability: untested
+table_type: null
+title: null
+risk:
+  level: low
+  destructive: false
+  retry:
+    GET: true
+    POST: conditional
+    PUT: conditional
+runtime:
+  requires_project: true
+  requires_analysis: false
+execution:
+  mode: FAST
+  timeout_ms: 30000
+  retryable: true
+  idempotent: false
+capability: [MODEL]
+source:
+  url: null
+  retrieved_at: null
+  provenance: [instance_introspect]
+stats:
+  spec_rows: 0
+  examples: 0
+  has_response_head: false

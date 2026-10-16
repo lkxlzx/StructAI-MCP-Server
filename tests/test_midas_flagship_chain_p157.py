@@ -42,7 +42,7 @@
 3. **阶段 B 的 ② 未通过**，成因是 `DB.CNLD` 的 `Not Found Key`（工况不存在）。
 4. **R131 / R132 是结构事实**：离线**可复算**（不依赖证据文件）。
 5. **零残留 + 哨兵一致**（项目未被弄脏）。
-6. **不变量**：`write_path_coverage()` = `0 / 633` · 缺口 `517` = `271` + `246` ·
+6. **不变量**：`write_path_coverage()` = `0 / 660` · 缺口 `514` = `270` + `244` ·
    分类 `271` = `0` + `51` + `220` · 写路径子桶 `13` = `13` · 读路径子桶 `15` = `2` + `7` + `6`。
 """
 
@@ -124,11 +124,11 @@ SENTINEL_ENDPOINTS = (
 
 EXPECTED_WRITE_COUNTS = {"PASSED": 13}
 EXPECTED_READ_COUNTS = {"PASSED": 2, "PARTIAL": 7, "FAILED": 6}
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_GAP_TOTAL = 514
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
 
 
 def _load(path: Path, name: str) -> Any:

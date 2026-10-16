@@ -27,7 +27,7 @@ P155 修好**形状**（外层**编号键**）后，P156 重跑接口层：仍 `
 2. **形状已修**：4 个变体**全部**用编号键控形状（`{"Assign": {"<节点编号>": {"ITEMS": […]}}}`）。
 3. **接口层当前只能产出 6 位**（`BoundaryTransformer` 的字段表里**没有** `rw`）⇒ 这是
    **契约缺口**，**不**在端点 / 护栏 / 形状。
-4. **不变量**：`write_path_coverage()` = `0 / 633` · 缺口 `517` = `271` + `246` · R118 子桶未动。
+4. **不变量**：`write_path_coverage()` = `0 / 660` · 缺口 `514` = `270` + `244` · R118 子桶未动。
 
 ⚠️ **P157 更新（D2 = A 已落地）**
 --------------------------------
@@ -86,11 +86,11 @@ P156 时该值是 **6**（`BOUNDARY_FLAGS` 恰好 6 个、`rw` **不**臆造）�
 `registry/live/interface_path_probe.json` 的 `DB.CONS` 添加 / 删除**都** `PASSED`）。
 """
 
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
+EXPECTED_GAP_TOTAL = 514
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
 
 
 def _load(path: Path, name: str) -> Any:

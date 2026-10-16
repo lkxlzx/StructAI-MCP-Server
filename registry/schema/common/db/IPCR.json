@@ -1,0 +1,71 @@
+{
+ "key": "DB.IPCR",
+ "uri": "DB/IPCR",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NAME": {
+     "description": " Name",
+     "type": "string"
+    },
+    "IMPNAME": {
+     "description": " ImpLCaseName",
+     "type": "string"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "LCNAME": {
+     "description": " LoadCase Name",
+     "type": "string"
+    },
+    "ANALTYPE": {
+     "description": " Analysis Type",
+     "type": "string"
+    },
+    "DIR": {
+     "description": " Direction",
+     "type": "integer"
+    },
+    "MINMAX": {
+     "description": " MinMax (ALL/MIN/MAX)",
+     "type": "string"
+    },
+    "NATIONAL_CODE": {
+     "description": " National Code (0:Global /1: China)",
+     "type": "integer"
+    },
+    "CH_DATA": {
+     "description": " ",
+     "type": "object",
+     "properties": {
+      "bELEM": {
+       "description": " ",
+       "type": "boolean"
+      },
+      "bAUTOCALK": {
+       "description": " ",
+       "type": "boolean"
+      },
+      "dK": {
+       "description": " ",
+       "type": "number"
+      },
+      "bAUTOE0L": {
+       "description": " ",
+       "type": "boolean"
+      },
+      "dE0L": {
+       "description": " ",
+       "type": "number"
+      }
+     }
+    }
+   }
+  }
+ }
+}

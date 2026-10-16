@@ -182,7 +182,7 @@ async def _import_twice(tmp_path: Path) -> tuple[dict[str, Any], dict[str, Any]]
 
 
 async def test_p120_import_is_idempotent_and_covers_every_endpoint(tmp_path: Path) -> None:
-    """门槛 ②（`docs/07` §12 P120 / §7.2）：636 端点逐条落库；连跑两次第二次 0 新增。"""
+    """门槛 ②（`docs/07` §12 P120 / §7.2）：663 端点逐条落库；连跑两次第二次 0 新增。"""
     first, second = await _import_twice(tmp_path)
     assert set(first["totals"]) == {
         name for name in IMPORT_TABLES if name != "midas_api_verifications"
@@ -195,7 +195,7 @@ async def test_p120_import_is_idempotent_and_covers_every_endpoint(tmp_path: Pat
         keys = await session.scalar(
             select(func.count(func.distinct(MidasApiEndpointORM.operation)))
         )
-        assert keys == 636
+        assert keys == 663
         rows = (
             (
                 await session.execute(
@@ -233,7 +233,9 @@ def test_p120_availability_maps_to_verification_status_per_docs_07_section_7_2()
     registry = support.registry()
     assert registry.endpoint("DB.SWIND").verification_status == "DEPRECATED"
     assert registry.endpoint("DB.NODE").verification_status == "VERIFIED"
-    assert registry.endpoint("DOC.EXPORT").verification_status == "PARTIAL"
+    # ⚠️ **P175 / R168**：原样本是 `DOC.EXPORT` —— 它已**真机实测**收口为 `verified`
+    # ⇒ 换成**仍**未实测的端点（崩溃族成员，最稳定）作「PARTIAL 样本」。
+    assert registry.endpoint("DESIGN.RC.KDS-41-20-2022.BD-ANAL").verification_status == ("PARTIAL")
 
 
 async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
@@ -247,13 +249,13 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
     await engine.dispose()
     # P137a 起两个方向各占一行；P138a 起请求方向 **616**（原 `DB.MBTP` 的坏串已从上游重建）；
     # P140 的 R5 补齐再 +4（手册 json_schema ×2 / 规格表 ×1 / 开发文档 ×1）；
-    # P141 再 +5（手册**同 URI** 条目的规格表）→ 请求 **625**；其中 2 个同时获得 response 块
+    # P141 再 +5（手册**同 URI** 条目的规格表）→ 请求 **652**；其中 2 个同时获得 response 块
     # → 响应 **288 + 2 = 290**；合计 **915**（逐条更新，**不**放宽）
     # （P149-C：49 个 `DESIGN.*` / `DB.REBB` 等经只读 L4 实测收口 availability ⇒ +49）
     # （P149-D：**R106** 取报表判据实测的 15 个 `POST.TABLE.*` 追加 response 块 ⇒ +15
     # → 响应 **305**、合计 **930**）
-    # （P149-E：只读 L4 补测收口 12 个 `DESIGN.*` ⇒ 响应 **317**、合计 **942**）
-    assert report.totals["midas_api_schemas"] == 625 + 317
+    # （P149-E：只读 L4 补测收口 12 个 `DESIGN.*` ⇒ 响应 **317**、合计 **969**）
+    assert report.totals["midas_api_schemas"] == 652 + 317
 
     from app.infrastructure.adapters.midas.models import MidasApiSchemaORM
 
@@ -293,10 +295,10 @@ async def test_p120_schema_is_registered_verbatim(tmp_path: Path) -> None:
 
 
 def test_p120_every_schema_file_loads_after_the_p138a_p140_p141_fixes() -> None:
-    """`docs/07` §16 R19 / R5 收口：625 个文件**全部**可装载（P141 起：616 + 4 + 5）。"""
+    """`docs/07` §16 R19 / R5 收口：652 个文件**全部**可装载（P141 起：616 + 4 + 5）。"""
     registry = support.registry()
     keys = [key for key in registry.keys() if registry.schema_json(key) is not None]
-    assert len(keys) == 625
+    assert len(keys) == 652
     # P138a：坏串已按上游手册重建为**对象**（不再 `None`）
     assert registry.schema_json("DB.MBTP") == {
         "TABLE": {
@@ -531,8 +533,8 @@ def test_p121_invalid_inputs_fail_loudly_instead_of_inventing() -> None:
 
 
 def test_p122_operation_counts_match_docs_07_section_5_1() -> None:
-    """门槛 ③（`docs/07` §5.1 / §6.10）：9 Tool / **69** Operation 逐 Tool 计数一致。"""
-    assert len(OPERATION_PLANS) == 71
+    """门槛 ③（`docs/07` §5.1 / §6.10）：9 Tool / **73** Operation 逐 Tool 计数一致。"""
+    assert len(OPERATION_PLANS) == 73
     for tool, expected in support.OPERATION_COUNTS_SPEC:
         assert len(plans_for_tool(tool)) == expected, tool
 
@@ -721,7 +723,8 @@ def test_p123_solver_gate_and_disabled_endpoint() -> None:
 
 def test_p123_unverified_endpoint_is_refused_unless_contract_mode() -> None:
     """门槛 ④（`docs/04` §130 / `docs/07` §7.2）：`!= VERIFIED` → 拒绝（除 Contract 模式）。"""
-    partial = _resolved("DOC.EXPORT", method="POST")
+    # ⚠️ **P175 / R168**：原样本 `DOC.EXPORT` 已实测收口 ⇒ 换仍 untested 的端点。
+    partial = _resolved("DESIGN.RC.KDS-41-20-2022.BD-ANAL", method="POST")
     assert partial.verification_status == "PARTIAL"
     with pytest.raises(RegistryMappingNotVerified) as refused:
         guard_verified(partial, operation="NEW", allow_unverified=False)

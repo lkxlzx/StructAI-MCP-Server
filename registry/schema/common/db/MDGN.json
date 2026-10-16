@@ -1,0 +1,79 @@
+{
+ "key": "DB.MDGN",
+ "uri": "DB/MDGN",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "CONC_CODE": {
+     "description": " Concrete Rebar Material Code",
+     "type": "string"
+    },
+    "CONC_MDB": {
+     "description": " Concrete Rebar Material DB",
+     "type": "string"
+    },
+    "SRC_CODE": {
+     "description": " SRC Rebar Material Code",
+     "type": "string"
+    },
+    "SRC_MDB": {
+     "description": " SRC Rebar Material DB",
+     "type": "string"
+    },
+    "vMATL": {
+     "description": " Rebar Material List",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "MATLNAME": {
+        "description": " Rebar Material Name",
+        "type": "string"
+       },
+       "ELAST": {
+        "description": " Modulus of elasticity(F/L^2)",
+        "type": "number"
+       },
+       "DENSIDY": {
+        "description": " Weight density(F/L^3)",
+        "type": "number"
+       },
+       "FY": {
+        "description": " Yield Tensile Strength(F/L^2)",
+        "type": "number"
+       }
+      }
+     }
+    },
+    "vDIA": {
+     "description": " Rebar Size List",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "DIANAME": {
+        "description": " Rebar Size Name",
+        "type": "string"
+       },
+       "DIA": {
+        "description": " Dia.(L)",
+        "type": "number"
+       },
+       "AREA": {
+        "description": " AREA(L^2)",
+        "type": "number"
+       },
+       "UNITWEIGHT": {
+        "description": " Unit Weigh(F/L)",
+        "type": "number"
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

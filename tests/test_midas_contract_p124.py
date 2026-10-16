@@ -108,7 +108,7 @@ def test_p124_l1_static_registry_layer() -> None:
                 conflicts.append(f"{plan.operation}:{step.key}:{step.method}")
             if step.transformer is not None:
                 assert step.transformer in TRANSFORMER_REGISTRY
-    assert len(OPERATION_PLANS) == 71
+    assert len(OPERATION_PLANS) == 73
     assert conflicts == list(KNOWN_METHOD_CONFLICTS)
     # 方法集里**没有**的方法必须在**解析期**明确失败（不是静默用一个别的方法顶替）。
     # P149-A 更正：`DB.GRUP` 现已实测支持 `DELETE`（冲突消失），故用仍**无** `DELETE`
@@ -238,22 +238,25 @@ async def test_p124_l1_to_l3_records_never_promote_verification_status(tmp_path:
     async with factory() as session:
         await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
-    before = await _status_of(factory, "DOC.EXPORT")
+    # ⚠️ **P175 / R168**：原样本 `DOC.EXPORT` 已实测收口 ⇒ 换**崩溃族成员**
+    # （被 R154 的崩溃护栏钉住，结构上不会先收口）。
+    pending = "DESIGN.RC.KDS-41-20-2022.BD-ANAL"
+    before = await _status_of(factory, pending)
     assert before == "PARTIAL"
 
-    await _record_verifications(factory, key="DOC.EXPORT", levels=CONTRACT_LEVELS_CI)
-    await _record_verifications(factory, key="DOC.EXPORT", levels=CONTRACT_LEVELS_CI)  # 幂等
+    await _record_verifications(factory, key=pending, levels=CONTRACT_LEVELS_CI)
+    await _record_verifications(factory, key=pending, levels=CONTRACT_LEVELS_CI)  # 幂等
     async with factory() as session:
         count = await session.scalar(select(func.count()).select_from(MidasApiVerificationORM))
         levels = sorted(
             row[0]
             for row in await session.execute(
                 select(MidasApiVerificationORM.contract_level).where(
-                    MidasApiVerificationORM.endpoint_key == "DOC.EXPORT"
+                    MidasApiVerificationORM.endpoint_key == pending
                 )
             )
         )
-    after = await _status_of(factory, "DOC.EXPORT")
+    after = await _status_of(factory, pending)
     await engine.dispose()
     assert count == len(CONTRACT_LEVELS_CI)
     assert levels == list(CONTRACT_LEVELS_CI)

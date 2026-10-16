@@ -1223,7 +1223,7 @@ def test_capability_vocabulary_comes_only_from_the_seeded_table(
             resolver = CapabilityResolver(registry, build_resource_store(session))
             operations = await _operation_registry_list(session)
 
-            assert len(resolver.known) == 42
+            assert len(resolver.known) == 44
             assert resolver.known == frozenset(registry.codes())
             assert resolver.unknown_codes(operations) == ()
             for operation in operations:

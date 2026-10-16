@@ -1,0 +1,47 @@
+{
+ "note": [
+  "P175 · **模型 → JSON → 经 MCP 发到 MIDAS** 的端到端判据（`docs/07` §16.1 **R168**）。",
+  "⚠️ 与 `model_doc_probe.json` **不可互替**：那个证明**端点可用**（裸 HTTP），",
+  "   本证据证明**经 MCP 契约**可用（Tool → OperationPlan → Adapter → 原生）。",
+  "**判据（铁律 ⓪：效果，不是状态码）**：① 导出**真的落盘**；② `model_document` 往返**无损**；",
+  "   ③ **参数化改动真的生效**（改一个坐标，导入后**按改后的值读回**） —— 这是「参数化建模」的定义性判据；④ 收尾项目**有路径**（R144）。",
+  "⚠️ 改动取值 `123.5` **不在**样本里（`0.0` 是原值）⇒ 读回它 = **防回显**（R157）。",
+  "**副作用受控**：只碰 `.tmp_p175/` 内的样本**副本**；样本原目录**只读**。"
+ ],
+ "criterion_version": 1,
+ "tool": "engineering_doc",
+ "operations": {
+  "export": "MODEL.EXPORT",
+  "import": "MODEL.IMPORT"
+ },
+ "export": {
+  "file_written": true,
+  "file_size": 4712,
+  "table_count": 218,
+  "canonical_tables": 7
+ },
+ "roundtrip": {
+  "tables_in": 218,
+  "tables_out": 218,
+  "field_differences": 0,
+  "lossless": true
+ },
+ "parametric_edit": {
+  "table": "NODE",
+  "node_id": 1,
+  "before": 0.0,
+  "written": 123.5,
+  "read_back": 123.5,
+  "applied": true
+ },
+ "session": {
+  "backup": "p175-e2e-session-backup.mgbx",
+  "restored_file_name": "p175-e2e-session-backup",
+  "has_project_path": true
+ },
+ "sample": {
+  "source": "D:\\Program\\MIDAS\\MIDAS GEN NX\\Gen Verification\\Eigen-01.mgbx",
+  "source_untouched": true
+ },
+ "verdict": "PASSED"
+}

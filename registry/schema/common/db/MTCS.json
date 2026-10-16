@@ -1,0 +1,53 @@
+{
+ "key": "DB.MTCS",
+ "uri": "DB/MTCS",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NAME": {
+     "description": " Name",
+     "type": "string"
+    },
+    "ORIGINX": {
+     "description": " Origin X",
+     "type": "number"
+    },
+    "ORIGINY": {
+     "description": " Origin Y",
+     "type": "number"
+    },
+    "ORIGINZ": {
+     "description": " Origin Z",
+     "type": "number"
+    },
+    "P1X": {
+     "description": " P1X",
+     "type": "number"
+    },
+    "P1Y": {
+     "description": " P1Y",
+     "type": "number"
+    },
+    "P1Z": {
+     "description": " P1Z",
+     "type": "number"
+    },
+    "P2X": {
+     "description": " P2X",
+     "type": "number"
+    },
+    "P2Y": {
+     "description": " P2Y",
+     "type": "number"
+    },
+    "P2Z": {
+     "description": " P2Z",
+     "type": "number"
+    }
+   }
+  }
+ }
+}

@@ -138,7 +138,7 @@ __all__ = [
 
 logger = logging.getLogger("structai.registry")
 
-OPERATION_COUNT: Final[int] = 71
+OPERATION_COUNT: Final[int] = 73
 """Operation 总数（`docs/07` §5.1：6+**10**+8+7+14+7+6+6+7 = **71**；`docs/02` §69）。
 
 ⚠️ **P157 / R136（用户裁决 = B）**：原为 **69**（`engineering_model_assign` = 8）；
@@ -206,7 +206,7 @@ def _profile(
 
 
 def _build_profiles() -> dict[str, OperationProfile]:
-    """构造 70 条补齐映射（`docs/07` §5.1 · §5.4 · §5.5 · §6.1–§6.10；`docs/02` §31 · §45 · §86–§87）。"""
+    """构造 73 条补齐映射（`docs/07` §5.1 · §5.4 · §5.5 · §6.1–§6.10；`docs/02` §31 · §45 · §86–§87）。"""
     profiles: dict[str, OperationProfile] = {}
 
     def add(
@@ -256,6 +256,21 @@ def _build_profiles() -> dict[str, OperationProfile]:
             (Capability.DOCUMENT_SAVE,),
             (Capability.DOCUMENT_SAVE_AS,),
             (Capability.DOCUMENT_CLOSE,),
+        ),
+        permissions=(PermissionCode.DOCUMENT_WRITE,),
+        transactional=False,
+        dry_run_supported=False,
+        recovery_policy=RECOVERY_STATE_RECONCILE,
+        anchor=doc_anchor,
+    )
+    # ⚠️ **P175 / R168**：模型 ↔ JSON 的官方通道（`DOC.EXPORT` / `DOC.IMPORT`）。
+    # 与 `SAVE`/`SAVE_AS` 同族：**改项目文件**（走 R143 的路径守卫）⇒ 同权限 / 同恢复口径。
+    # ⚠️ 二者**不**互逆（`IMPORT` 是**合并**语义，不清空已有行 —— 真机实测）⇒ 各自独立成 Operation。
+    add(
+        ("MODEL.EXPORT", "MODEL.IMPORT"),
+        (
+            (Capability.DOCUMENT_EXPORT,),
+            (Capability.DOCUMENT_IMPORT,),
         ),
         permissions=(PermissionCode.DOCUMENT_WRITE,),
         transactional=False,

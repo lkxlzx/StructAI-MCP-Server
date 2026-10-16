@@ -299,13 +299,15 @@ SEED_ORDER: Final[tuple[str, ...]] = (
 _SCHEMA_URI_PREFIX: Final[str] = "structai://schema/"
 
 OPERATIONS: Final[tuple[tuple[str, str], ...]] = (
-    # `engineering_doc`（6）
+    # `engineering_doc`（8）—— P175 / R168 新增模型 ↔ JSON 两个
     ("engineering_doc", "NEW"),
     ("engineering_doc", "OPEN"),
     ("engineering_doc", "SAVE"),
     ("engineering_doc", "SAVE_AS"),
     ("engineering_doc", "CLOSE"),
     ("engineering_doc", "INFO"),
+    ("engineering_doc", "MODEL.EXPORT"),
+    ("engineering_doc", "MODEL.IMPORT"),
     # `engineering_model_query`（8）
     ("engineering_model_query", "MODEL.QUERY"),
     ("engineering_model_query", "MODEL.NODE.QUERY"),
@@ -704,7 +706,7 @@ class _Seeder:
     # ===== Operation =====
 
     async def _seed_operations(self) -> None:
-        """Operation 69 条（`docs/02` §69；`docs/07` §5.1）。
+        """Operation **73** 条（`docs/02` §69；`docs/07` §5.1；P175 / R168 +2）。
 
         `risk_level` / `execution_mode` 取 `TOOL_PROFILES`（Tool 总表），
         `input_schema` / `output_schema` 取 `docs/02` §14 的 Schema URI 口径。

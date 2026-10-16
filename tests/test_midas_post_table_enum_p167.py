@@ -83,8 +83,8 @@ EXPECTED_DATA_ROWS = 63
 
 EXPECTED_HEAD_COLUMNS = 9
 
-AVAILABILITY_TOTALS = {"verified": 512, "unverified": 23, "untested": 101}
-NO_GET = 100
+AVAILABILITY_TOTALS = {"verified": 514, "unverified": 23, "untested": 126}
+NO_GET = 98
 """`availability != verified` 且**没有 `GET`** 的端点数（R160 收口 `POST.TABLE` 后 **101**；
 **P174 / R166** 收口 `POST.STEELCODECHECK` 后 **100**）。"""
 
@@ -210,7 +210,7 @@ def test_p167_the_spec_guard_is_unchanged_and_carries_no_midas_table_token() -> 
 
     ⚠️ **P168 / R161 更新（只改现状声称）**：闸门取 Schema 的**口径**由
     `registry.schema_json(...)`（**原样、含包装根键**）改为 `registry.effective_schema(...)`
-    （**剥离包装根键**，P09 的口径）—— 前者对 **393 / 625** 个「根键 = 包装键」的文件
+    （**剥离包装根键**，P09 的口径）—— 前者对 **393 / 652** 个「根键 = 包装键」的文件
     会让闸门**一个字段都不检查**（**盲区 104 / 225**）。**红线不变**：枚举仍然**只**来自
     **数据侧 Schema**（`registry/**`），Core 里**没有**任何取值列表。
     """
@@ -392,13 +392,13 @@ def test_p167_the_schema_description_names_the_source() -> None:
 def test_p167_the_main_indicator_is_backfilled() -> None:
     """门槛（**主指标回填**）：`67 / 71` → **`68 / 71`**；`POST.TABLE` 不再是挡点。
 
-    ⚠️ **R166（P174）**：主指标现为 **`69 / 71`**（`POST.STEELCODECHECK` 已收口）。
+    ⚠️ **R166（P174）**：主指标现为 **`71 / 73`**（`POST.STEELCODECHECK` 已收口）。
     本用例钉的是**本批的增量**（`POST.TABLE` 不再是挡点）⇒ 断言按**当前**值写，
     并**额外**确认本批的 `ENDPOINT` / `OPERATION` 仍成立。
     """
     module = _load(AVAILABILITY_TOOL, "check_operation_availability_p167")
     document: dict[str, Any] = module.compute()
-    assert document["available"] == 69, document["available"]
+    assert document["available"] == 71, document["available"]
     assert document["blocked"] == 2, document["blocked"]
     assert document["blocker_endpoint_count"] == 4, sorted(document["blocker_endpoints"])
     assert ENDPOINT not in document["blocker_endpoints"], document["blocker_endpoints"]
@@ -407,7 +407,7 @@ def test_p167_the_main_indicator_is_backfilled() -> None:
 
 
 def test_p167_the_availability_totals_match() -> None:
-    """门槛：`availability` 三档 = `verified` 512 · `unverified` 23 · `untested` 101。"""
+    """门槛：`availability` 三档 = `verified` 514 · `unverified` 23 · `untested` 126。"""
     endpoints = _manifest()["endpoints"]
     totals: dict[str, int] = {}
     for item in endpoints:

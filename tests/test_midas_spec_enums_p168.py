@@ -7,7 +7,7 @@
    并给出三个可执行标志：**来源太窄**（会拦住合法调用）、**缺枚举**（非法取值抓不到）、
    **拦住手册自己的示例**（**R151** 的**直接签名**）。
 2. **可见性修复**（**R161** 的核心 1 行，**用户已授权**）：`adapter._build` 原先传
-   `registry.schema_json(key)`（**原样、含包装根键**）⇒ 对 **393 / 625** 个「根键 = 包装键」的文件，
+   `registry.schema_json(key)`（**原样、含包装根键**）⇒ 对 **393 / 652** 个「根键 = 包装键」的文件，
    `spec_guard` 的 `schema["properties"][包装键]` 下钻**取不到** ⇒ **一个字段都不检查**
    （**盲区 104 / 225 个带枚举的文件**）。改用 `registry.effective_schema(key)`（P09 的
    `unwrap_schema()`，`request_schema_fields()` 一直用它）⇒ **225 / 225** 可下钻、
@@ -99,9 +99,12 @@ EXPECTED_CONSTRAINTS = 754
 """枚举约束总数（**R161** 收口后：`enum` **639** + `oneOf.const` **115**）。"""
 
 EXPECTED_BY_CLASS = {
-    "manifest": 101,
+    # ⚠️ **P175 / R168（事实变更）**：`manifest` 101 → **102**、`single_article` 158 → **157**
+    # —— 新增的 27 张表带进 1 条枚举约束，其来源被归为「登记表」（原先那条算「单篇文章」）。
+    # 合计仍 **754**（本批**未**新增枚举约束）。
+    "manifest": 102,
     "manual": 225,
-    "single_article": 158,
+    "single_article": 157,
     "untraceable": 270,
 }
 """四个来源分类的规模（合计 **754**）。

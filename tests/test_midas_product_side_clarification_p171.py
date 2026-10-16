@@ -263,7 +263,7 @@ def test_p171_the_yaml_edits_do_not_move_the_manifest(monkeypatch: Any, capsys: 
     monkeypatch.setattr("sys.argv", ["sync_manifest.py", "--repo", str(REPO_ROOT)])
     assert tool.main() == 0
     output = capsys.readouterr().out
-    assert "manifest 条目数 = 636" in output, output
+    assert "manifest 条目数 = 663" in output, output
     assert "字段差异总数 = 0" in output, output
 
 
@@ -292,13 +292,13 @@ def test_p171_the_main_metric_is_consistent() -> None:
     """门槛：`--check` 自洽（本批价值在**澄清**与**判据修正**，**不**在主指标）。
 
     ⚠️ 本批（P171）时是「**主指标不变**」+ `68 / 71`。
-    **R166（P174）** 用真机实测收口 `POST.STEELCODECHECK` ⇒ 主指标为 **`69 / 71`**。
+    **R166（P174）** 用真机实测收口 `POST.STEELCODECHECK` ⇒ 主指标为 **`71 / 73`**。
     ⇒ 本用例改为钉**当前**值 + `--check` 自洽（**不**再声称「不变」—— 那已不是事实）。
     """
     tool = _load(AVAILABILITY_TOOL, "check_operation_availability_p171")
     document = tool.compute()
-    assert document["available"] == 69
-    assert document["total"] == 71
+    assert document["available"] == 71
+    assert document["total"] == 73
     assert document["blocked"] == 2
     assert document["blocker_endpoint_count"] == 4
     assert tool.check() == 0

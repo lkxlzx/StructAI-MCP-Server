@@ -18,8 +18,8 @@ P153 把 R126 做成了**裁决输入**（`registry/live/canonical_field_gap.jso
    ⇒ 接口层当前产出的 `{"Assign": {"ITEMS": […]}}` **`400`**；数据侧形态
    `{"Assign": {"<节点编号>": {"ITEMS": […]}}}` **`200` 且落库**；
    外层键**不是**存在的节点编号时原生**静默 `200` 而什么都不建**（假成功陷阱）。
-5. **不变量**：`write_path_coverage()` = `0 / 633`（`model_write_ratio` `0 / 434`）· 映射缺口
-   **517** = **271** + **246** · R118 子桶与留缺账本**一行未动**；接口层判据**不**并入覆盖率分子。
+5. **不变量**：`write_path_coverage()` = `0 / 660`（`model_write_ratio` `0 / 461`）· 映射缺口
+   **514** = **270** + **244** · R118 子桶与留缺账本**一行未动**；接口层判据**不**并入覆盖率分子。
 6. **实例门控**：缺 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY` 时，真实用例如实 `skip`。
 """
 
@@ -132,16 +132,16 @@ EXPECTED_FIELD_GAP = {
 与手册模板 `"1111000"` 的**长度**一致 ⇒ `DB.CONS` 从 `value_gap` 移入 `covered`
 （取值缺口 **3 → 2**、已覆盖 **5 → 6**；字段集缺口仍 **2**、模板端点仍 **71 = 10 + 61**）。
 依据 = `registry/live/{interface_path_probe,canonical_field_gap}.json`（`--recon` 复算）。"""
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
+EXPECTED_GAP_TOTAL = 514
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
 EXPECTED_CLASSIFICATION_ADOPTION = {
     "adoptable_with_existing_canonical_model": 0,
     "adoptable_with_manual_example": 51,
-    "needs_product_decision": 192,
+    "needs_product_decision": 219,
 }
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
 
 
 def _load(path: Path, name: str) -> Any:

@@ -1,0 +1,25 @@
+{
+ "key": "DB.EARE",
+ "uri": "DB/EARE",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "ELEM_KEY": {
+     "description": " Element Key",
+     "type": "integer"
+    },
+    "NODE_KEY": {
+     "description": " Node Key",
+     "type": "integer"
+    },
+    "EFF_AREA": {
+     "description": " Effective Area",
+     "type": "number"
+    }
+   }
+  }
+ }
+}

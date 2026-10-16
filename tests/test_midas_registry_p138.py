@@ -94,8 +94,8 @@ DOC_PATH = REPO_ROOT / "MIDAS_API_开发文档_v1.0.md"
 FIX_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "fix_schema_defects.py"
 """R19 收口的**唯一**实现落点（生成链归一工具）。"""
 
-EXPECTED_SCHEMA_FILES = 625
-"""`registry/schema/**` 文件数（P141 起 **625**：P138a 未增减，P140 +4，P141 +5）。"""
+EXPECTED_SCHEMA_FILES = 652
+"""`registry/schema/**` 文件数（P141 起 **652**：P138a 未增减，P140 +4，P141 +5）。"""
 
 PLACEHOLDER_FILES = (
     "design/src/AIK-SRC2K/BC-TABLE.json",
@@ -129,10 +129,10 @@ R5_ENDPOINTS = (
 )
 """`docs/07` §16 R5：数据侧**仍无** JSON Schema 的端点（P141 起 **11** 个）。"""
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 """写路径端点（`methods` 含 `POST` / `PUT` / `DELETE` / `PATCH`）= R4 / R14 的**分母**。
 
-P149-A 起 **633**（P148 为 609）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
+P149-A 起 **660**（P148 为 636）：只读 `OPTIONS` 实测修正方法集后，原先被漏算的 24 个写路径
 端点（20 个 `DESIGN.*` + `DB.SWIND` + `OPE.SECTPROP` 等）进入分母。"""
 
 WRITE_ONLY_TOTAL = 306
@@ -259,7 +259,7 @@ def _probe(
 
 
 def test_p138a_schema_registry_loads_all_616_and_check_schema_is_clean() -> None:
-    """门槛：625 个文件 → **625** 个登记、**0** 个无法还原、`check_schema` **0** 失败。"""
+    """门槛：652 个文件 → **652** 个登记、**0** 个无法还原、`check_schema` **0** 失败。"""
     from app.infrastructure.registry.schema_registry import SchemaRegistry
 
     registry = SchemaRegistry.load(REPO_ROOT / "registry")
@@ -470,7 +470,7 @@ def test_p138b_the_eleven_missing_schemas_are_classified_by_measurement() -> Non
 
 
 def test_p138b_no_schema_was_invented_for_the_r5_endpoints() -> None:
-    """R5 收口**不**臆造：Schema 文件 = **625** 个，仍无 Schema 的 **11** 个端点逐条可查。"""
+    """R5 收口**不**臆造：Schema 文件 = **652** 个，仍无 Schema 的 **11** 个端点逐条可查。"""
     assert len(sorted(SCHEMA_ROOT.rglob("*.json"))) == EXPECTED_SCHEMA_FILES
     manifest = {entry["key"]: entry for entry in _manifest_entries()}
     assert [key for key in R5_ENDPOINTS if manifest[key].get("schema")] == []
@@ -645,7 +645,7 @@ async def test_p138c_a_batch_run_records_one_four_state_outcome_per_candidate() 
 
 
 def test_p138c_r4_and_r14_share_one_executable_criterion() -> None:
-    """R4 / R14 用**同一条**可执行口径重算：分母 633（其中只写 306；P149-A 前为 609 / 368），
+    """R4 / R14 用**同一条**可执行口径重算：分母 660（其中只写 306；P149-A 前为 636 / 368），
     分子 = L5 `PASSED` 去重。"""
     registry = _registry()
     write_keys = write_path_keys(registry)
@@ -807,7 +807,7 @@ def test_p138c_candidates_are_the_probeable_set_only() -> None:
 
     P138c 的**真实批量实测**暴露：`candidate_keys()` 原先只校验「Transformer 名可派生」，
     于是 `DB.ACTL` / `DB.ACTL-M1` / `DB.BCCT` 这些**未注册** Transformer 的端点占满了前 3 个
-    名额 → 三条全记 `NO_PAYLOAD_TEMPLATE`、**零**写请求、覆盖率仍 `0 / 609`。
+    名额 → 三条全记 `NO_PAYLOAD_TEMPLATE`、**零**写请求、覆盖率仍 `0 / 636`。
 
     ⚠️ **P144（`docs/07` §16.1 R100）取代该判据**：请求体来源 = Transformer 的 canonical↔native
     映射 **或** 数据侧声明的模板（模板是**数据**，不进 Core）；并新增「**能建必须能删**」

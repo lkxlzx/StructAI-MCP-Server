@@ -1,0 +1,7198 @@
+{
+ "key": "DB.IEHP",
+ "uri": "DB/IEHP",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NAME": {
+     "description": " Name",
+     "type": "string"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "DEFINITION": {
+     "description": " Definition",
+     "type": "string"
+    },
+    "HINGE_TYPE": {
+     "description": " Hinge Type",
+     "type": "string"
+    },
+    "INTERACTION_TYPE": {
+     "description": " Interaction Type",
+     "type": "string"
+    },
+    "WALL_TYPE": {
+     "description": " Wall Type",
+     "type": "string"
+    },
+    "MATERIAL_TYPE": {
+     "description": " Material Type",
+     "type": "string"
+    },
+    "LOCATION": {
+     "description": " Location",
+     "type": "string"
+    },
+    "USEIEHCLOCATION": {
+     "description": " UseIehcLocation",
+     "type": "string"
+    },
+    "FIBER_AUTO_USER": {
+     "description": " Fiber Auto Generation / User Defined",
+     "type": "string"
+    },
+    "FIBER_KEY": {
+     "description": " Fiber Key",
+     "type": "integer"
+    },
+    "SECT_KEY": {
+     "description": " Section Key",
+     "type": "integer"
+    },
+    "USE_SHEAR_R": {
+     "description": " Use option of IEHC / User Defined",
+     "type": "integer"
+    },
+    "SHEAR_R": {
+     "description": " Shear Spring Location : r",
+     "type": "number"
+    },
+    "USE_CONS_OUTPL": {
+     "description": " Use option of IEHC / User Defined",
+     "type": "integer"
+    },
+    "CONS_OUTPL": {
+     "description": " Out-of-plane Nonlinearity of Fiber Wall Boolean",
+     "type": "boolean"
+    },
+    "EXIST_IJ_PROP": {
+     "description": " ExistIJProp",
+     "type": "array",
+     "items": {
+      "type": "boolean",
+      "maxItems": 7
+     }
+    },
+    "MULT_DATA": {
+     "description": " Multi-Linear Data",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "DISP": {
+        "description": " Disp",
+        "type": "number"
+       },
+       "FORCE": {
+        "description": " Force",
+        "type": "number"
+       }
+      }
+     }
+    },
+    "COMPONENT_DIR": {
+     "description": " Component Dir",
+     "type": "array",
+     "items": {
+      "type": "boolean",
+      "maxItems": 6
+     }
+    },
+    "HYSTERESIS_MODEL": {
+     "description": " Hysteresis Model",
+     "type": "array",
+     "items": {
+      "type": "string",
+      "maxItems": 9
+     }
+    },
+    "SECTION_NUM": {
+     "description": " Number of Section",
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "maxItems": 6
+     }
+    },
+    "HINGE_LOCATION": {
+     "description": " Hinge Location",
+     "type": "array",
+     "items": {
+      "type": "integer",
+      "maxItems": 6
+     }
+    },
+    "ALL_PROP": {
+     "description": " All Properties",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "YLDSUR": {
+        "description": " YLDSUR",
+        "type": "object",
+        "properties": {
+         "CURVEUSERAUTO": {
+          "description": " Curve User / Auto Calc.",
+          "type": "boolean"
+         },
+         "PC0": {
+          "description": " PC0",
+          "type": "number"
+         },
+         "MC0": {
+          "description": " MC0",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PC": {
+          "description": " PC",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PCB": {
+          "description": " PCB",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "MC": {
+          "description": " MC",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PY": {
+          "description": " PY",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PYB": {
+          "description": " PYB",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "MY": {
+          "description": " MY",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "YIELDSURFACE_USERAUTO": {
+          "description": " Yield Surface User / Auto Calc.",
+          "type": "boolean"
+         },
+         "P1st": {
+          "description": " P1st",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "M1st": {
+          "description": " M1st",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "P2nd": {
+          "description": " P2nd",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "M2nd": {
+          "description": " M2nd",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "Betay1st": {
+          "description": " Betay1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betay2nd": {
+          "description": " Betay2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betaz1st": {
+          "description": " Betaz1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betaz2nd": {
+          "description": " Betaz2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Gamma1st": {
+          "description": " Gamma1st",
+          "type": "number"
+         },
+         "Gamma2nd": {
+          "description": " Gamma2nd",
+          "type": "number"
+         },
+         "Alpha": {
+          "description": " Alpha",
+          "type": "number"
+         },
+         "CouplingType": {
+          "description": " CouplingType",
+          "type": "integer"
+         }
+        }
+       },
+       "KINEMA": {
+        "description": " KINEMA",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ORIGIN": {
+        "description": " ORIGIN",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "PEAK": {
+        "description": " PEAK",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "CLOUGH": {
+        "description": " CLOUGH",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         }
+        }
+       },
+       "DEGRAD": {
+        "description": " DEGRAD",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "TAKEDA": {
+        "description": " TAKEDA",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         },
+         "UNLOADSTIFFREDUFAC": {
+          "description": " UnloadStiffReduFac",
+          "type": "number"
+         },
+         "PINCHINGRULEFAC": {
+          "description": " PinchingRuleFac",
+          "type": "number"
+         }
+        }
+       },
+       "TAKTET": {
+        "description": " TAKTET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         },
+         "UNLOADSTIFFREDUFAC": {
+          "description": " UnloadStiffReduFac",
+          "type": "number"
+         }
+        }
+       },
+       "NORBIL": {
+        "description": " NORBIL",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELABIL": {
+        "description": " ELABIL",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELATRI": {
+        "description": " ELATRI",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELATET": {
+        "description": " ELATET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "LRBBIL": {
+        "description": " LRBBIL",
+        "type": "object",
+        "properties": {
+         "QD50": {
+          "description": " Qd50",
+          "type": "number"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "ALF": {
+          "description": " Alf",
+          "type": "number"
+         },
+         "RMIN": {
+          "description": " Rmin",
+          "type": "number"
+         }
+        }
+       },
+       "LRBTRI": {
+        "description": " LRBTRI",
+        "type": "object",
+        "properties": {
+         "SW": {
+          "description": " SW",
+          "type": "integer"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "AREA": {
+          "description": " dArea",
+          "type": "number"
+         },
+         "RMIN": {
+          "description": " Rmin",
+          "type": "number"
+         },
+         "RMINUPDATE": {
+          "description": " RminUpdate",
+          "type": "integer"
+         }
+        }
+       },
+       "DMPRBR": {
+        "description": " DMPRBR",
+        "type": "object",
+        "properties": {
+         "SW": {
+          "description": " SW",
+          "type": "integer"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "AREA": {
+          "description": " dArea",
+          "type": "number"
+         },
+         "GS": {
+          "description": " Gs",
+          "type": "number"
+         },
+         "HS": {
+          "description": " Hs",
+          "type": "number"
+         },
+         "US": {
+          "description": " Us",
+          "type": "number"
+         }
+        }
+       },
+       "SLIP": {
+        "description": " SLIP",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "INITGAPPOSITIVE": {
+          "description": " Initial Gap Positive",
+          "type": "number"
+         },
+         "INITGAPNEGATIVE": {
+          "description": " Initial Gap Negative",
+          "type": "number"
+         }
+        }
+       },
+       "ROHD": {
+        "description": " ROHD",
+        "type": "object",
+        "properties": {
+         "CRITICALDISPL": {
+          "description": " CriticalDispl",
+          "type": "number"
+         },
+         "MAXDAMPING": {
+          "description": " MaxDamping",
+          "type": "number"
+         }
+        }
+       },
+       "MULTLIN": {
+        "description": " MULTLIN",
+        "type": "object",
+        "properties": {
+         "nMultiType": {
+          "description": " MultiType",
+          "type": "integer"
+         },
+         "nDeformDefineType": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "dInitStiffP": {
+          "description": " InitStiffP",
+          "type": "number"
+         },
+         "dInitStiffN": {
+          "description": " InitStiffN",
+          "type": "number"
+         },
+         "dHysParam_Alpha1": {
+          "description": " HysParam_Alpha1",
+          "type": "number"
+         },
+         "dHysParam_Alpha2": {
+          "description": " HysParam_Alpha2",
+          "type": "number"
+         },
+         "dHysParam_Beta1": {
+          "description": " HysParam_Beta1",
+          "type": "number"
+         },
+         "dHysParam_Beta2": {
+          "description": " HysParam_Beta2",
+          "type": "number"
+         },
+         "dHysParam_Eta": {
+          "description": " HysParam_Eta",
+          "type": "number"
+         },
+         "nType": {
+          "description": " Type",
+          "type": "integer"
+         },
+         "dScaleF_Displ": {
+          "description": " ScaleF_Displ",
+          "type": "number"
+         },
+         "dScaleF_Force": {
+          "description": " ScaleF_Force",
+          "type": "number"
+         },
+         "DEFORMCAPACITY": {
+          "description": " DeformCapacity",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 5
+           },
+           "maxItems": 2
+          }
+         }
+        }
+       },
+       "AXIAL": {
+        "description": " AXIAL",
+        "type": "object",
+        "properties": {
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "COMPSTIFFOPT": {
+          "description": " CompStiffOPt",
+          "type": "integer"
+         },
+         "YIELDFORCE": {
+          "description": " YieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "YIELDREDUFAC": {
+          "description": " YieldReduFac",
+          "type": "number"
+         },
+         "STIFFRATIO1ST": {
+          "description": " StiffRatio1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "STIFFRATIO2ND": {
+          "description": " StiffRatio2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "DEFORMCAPACITY": {
+          "description": " DeformCapacity",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 5
+           },
+           "maxItems": 2
+          }
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         }
+        }
+       },
+       "BUCKL": {
+        "description": " BUCKL",
+        "type": "object",
+        "properties": {
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "BUCKLINGOPT": {
+          "description": " BucklingOpt",
+          "type": "integer"
+         },
+         "YIELDFORCE": {
+          "description": " YieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "STIFFRATIO1ST": {
+          "description": " StiffRatio1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "SLEDNERRATIO": {
+          "description": " SlednerRatio",
+          "type": "number"
+         },
+         "USERKFACTOR": {
+          "description": " UserKFactor",
+          "type": "boolean"
+         },
+         "KFACTOR": {
+          "description": " KFactor",
+          "type": "number"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         }
+        }
+       },
+       "FEMA": {
+        "description": " FEMA",
+        "type": "object",
+        "properties": {
+         "nYieldStrengthOpt": {
+          "description": " nYieldStrengthOpt",
+          "type": "integer"
+         },
+         "bSymmetric": {
+          "description": " bSymmetric",
+          "type": "boolean"
+         },
+         "bUserDefineRatio": {
+          "description": " bUserDefineRatio",
+          "type": "boolean"
+         },
+         "dForceMomentRatio": {
+          "description": " dForceMomentRatio",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 9
+           },
+           "maxItems": 2
+          }
+         },
+         "dYieldForce": {
+          "description": " dYieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dYieldMoment": {
+          "description": " dYieldMoment",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "bUserDefineYieldDeform": {
+          "description": " bUserDefineYieldDeform",
+          "type": "boolean"
+         },
+         "dDisplacement": {
+          "description": " dDisplacement",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dStrain": {
+          "description": " dStrain",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dRotation": {
+          "description": " dRotation",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dRotationU": {
+          "description": " dRotationU",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dIO": {
+          "description": " dIO",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dLS": {
+          "description": " dLS",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dCP": {
+          "description": " dCP",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "nClass": {
+          "description": " nClass",
+          "type": "integer"
+         },
+         "bUseShapeCurve": {
+          "description": " bUseShapeCurve",
+          "type": "boolean"
+         },
+         "nShapeCurve": {
+          "description": " nShapeCurve",
+          "type": "integer"
+         },
+         "bUseStrengthLoss": {
+          "description": " bUseStrengthLoss",
+          "type": "boolean"
+         },
+         "bStrengthLoss": {
+          "description": " bStrengthLoss",
+          "type": "boolean"
+         },
+         "nInfillStrutType": {
+          "description": " nInfillStrutType",
+          "type": "integer"
+         },
+         "bUseTotalStrLossAtE": {
+          "description": " bUseTotalStrLossAtE",
+          "type": "boolean"
+         },
+         "bTotalStrLossAtE": {
+          "description": " bTotalStrLossAtE",
+          "type": "boolean"
+         },
+         "bUseUnloadStiffnessType": {
+          "description": " bUseUnloadStiffnessType",
+          "type": "boolean"
+         },
+         "nUnloadStiffnessType": {
+          "description": " nUnloadStiffnessType",
+          "type": "integer"
+         },
+         "dExpUnloadStiff_Exp": {
+          "description": " dExpUnloadStiff_Exp",
+          "type": "number"
+         },
+         "dExpUnloadStiff_PRFact": {
+          "description": " dExpUnloadStiff_PRFact",
+          "type": "number"
+         },
+         "nInfillStiff": {
+          "description": " nInfillStiff",
+          "type": "integer"
+         },
+         "dInfillStiff_KmiRop": {
+          "description": " dInfillStiff_KmiRop",
+          "type": "number"
+         },
+         "dInfillStiff_KmsRop": {
+          "description": " dInfillStiff_KmsRop",
+          "type": "number"
+         },
+         "dInfillStiff_Hm": {
+          "description": " dInfillStiff_Hm",
+          "type": "number"
+         },
+         "dInfillStiff_ThetaM": {
+          "description": " dInfillStiff_ThetaM",
+          "type": "number"
+         },
+         "nInitStiffMethod": {
+          "description": " nInitStiffMethod",
+          "type": "integer"
+         },
+         "dInitStiffUserTheta": {
+          "description": " dInitStiffUserTheta",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserPhi": {
+          "description": " dInitStiffUserPhi",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserSprg": {
+          "description": " dInitStiffUserSprg",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserTheta_m": {
+          "description": " dInitStiffUserTheta_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserPhi_m": {
+          "description": " dInitStiffUserPhi_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserSprg_m": {
+          "description": " dInitStiffUserSprg_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "bInitStiffAssymetric": {
+          "description": " bInitStiffAssymetric",
+          "type": "boolean"
+         },
+         "nUnloadStiffOption": {
+          "description": " nUnloadStiffOption",
+          "type": "integer"
+         },
+         "bCyclicDegration": {
+          "description": " bCyclicDegration",
+          "type": "boolean"
+         },
+         "dAB_p": {
+          "description": " dAB_p",
+          "type": "number"
+         },
+         "dC_p": {
+          "description": " dC_p",
+          "type": "number"
+         },
+         "dD_p": {
+          "description": " dD_p",
+          "type": "number"
+         },
+         "dE_p": {
+          "description": " dE_p",
+          "type": "number"
+         },
+         "dAB_m": {
+          "description": " dAB_m",
+          "type": "number"
+         },
+         "dC_m": {
+          "description": " dC_m",
+          "type": "number"
+         },
+         "dD_m": {
+          "description": " dD_m",
+          "type": "number"
+         },
+         "dE_m": {
+          "description": " dE_m",
+          "type": "number"
+         },
+         "bUnloadingStiffFactor": {
+          "description": " bUnloadingStiffFactor",
+          "type": "boolean"
+         },
+         "dUnloadingStiffFactor": {
+          "description": " dUnloadingStiffFactor",
+          "type": "number"
+         }
+        }
+       },
+       "SRCTET": {
+        "description": " SRCTET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "maxItems": 8
+     }
+    },
+    "ALL_SUBPROP": {
+     "description": " All Sub Properties",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "YLDSUR": {
+        "description": " YLDSUR",
+        "type": "object",
+        "properties": {
+         "CURVEUSERAUTO": {
+          "description": " Curve User / Auto Calc.",
+          "type": "boolean"
+         },
+         "PC0": {
+          "description": " PC0",
+          "type": "number"
+         },
+         "MC0": {
+          "description": " MC0",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PC": {
+          "description": " PC",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PCB": {
+          "description": " PCB",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "MC": {
+          "description": " MC",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PY": {
+          "description": " PY",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "PYB": {
+          "description": " PYB",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "MY": {
+          "description": " MY",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "YIELDSURFACE_USERAUTO": {
+          "description": " Yield Surface User / Auto Calc.",
+          "type": "boolean"
+         },
+         "P1st": {
+          "description": " P1st",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "M1st": {
+          "description": " M1st",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "P2nd": {
+          "description": " P2nd",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "M2nd": {
+          "description": " M2nd",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 11
+           },
+           "maxItems": 2
+          }
+         },
+         "Betay1st": {
+          "description": " Betay1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betay2nd": {
+          "description": " Betay2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betaz1st": {
+          "description": " Betaz1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Betaz2nd": {
+          "description": " Betaz2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "Gamma1st": {
+          "description": " Gamma1st",
+          "type": "number"
+         },
+         "Gamma2nd": {
+          "description": " Gamma2nd",
+          "type": "number"
+         },
+         "Alpha": {
+          "description": " Alpha",
+          "type": "number"
+         },
+         "CouplingType": {
+          "description": " CouplingType",
+          "type": "integer"
+         }
+        }
+       },
+       "KINEMA": {
+        "description": " KINEMA",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ORIGIN": {
+        "description": " ORIGIN",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "PEAK": {
+        "description": " PEAK",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "CLOUGH": {
+        "description": " CLOUGH",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         }
+        }
+       },
+       "DEGRAD": {
+        "description": " DEGRAD",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "TAKEDA": {
+        "description": " TAKEDA",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         },
+         "UNLOADSTIFFREDUFAC": {
+          "description": " UnloadStiffReduFac",
+          "type": "number"
+         },
+         "PINCHINGRULEFAC": {
+          "description": " PinchingRuleFac",
+          "type": "number"
+         }
+        }
+       },
+       "TAKTET": {
+        "description": " TAKTET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         },
+         "UNLOADSTIFFREDUFAC": {
+          "description": " UnloadStiffReduFac",
+          "type": "number"
+         }
+        }
+       },
+       "NORBIL": {
+        "description": " NORBIL",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELABIL": {
+        "description": " ELABIL",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELATRI": {
+        "description": " ELATRI",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "ELATET": {
+        "description": " ELATET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         }
+        }
+       },
+       "LRBBIL": {
+        "description": " LRBBIL",
+        "type": "object",
+        "properties": {
+         "QD50": {
+          "description": " Qd50",
+          "type": "number"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "ALF": {
+          "description": " Alf",
+          "type": "number"
+         },
+         "RMIN": {
+          "description": " Rmin",
+          "type": "number"
+         }
+        }
+       },
+       "LRBTRI": {
+        "description": " LRBTRI",
+        "type": "object",
+        "properties": {
+         "SW": {
+          "description": " SW",
+          "type": "integer"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "AREA": {
+          "description": " dArea",
+          "type": "number"
+         },
+         "RMIN": {
+          "description": " Rmin",
+          "type": "number"
+         },
+         "RMINUPDATE": {
+          "description": " RminUpdate",
+          "type": "integer"
+         }
+        }
+       },
+       "DMPRBR": {
+        "description": " DMPRBR",
+        "type": "object",
+        "properties": {
+         "SW": {
+          "description": " SW",
+          "type": "integer"
+         },
+         "H": {
+          "description": " H",
+          "type": "number"
+         },
+         "AREA": {
+          "description": " dArea",
+          "type": "number"
+         },
+         "GS": {
+          "description": " Gs",
+          "type": "number"
+         },
+         "HS": {
+          "description": " Hs",
+          "type": "number"
+         },
+         "US": {
+          "description": " Us",
+          "type": "number"
+         }
+        }
+       },
+       "SLIP": {
+        "description": " SLIP",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "INITGAPPOSITIVE": {
+          "description": " Initial Gap Positive",
+          "type": "number"
+         },
+         "INITGAPNEGATIVE": {
+          "description": " Initial Gap Negative",
+          "type": "number"
+         }
+        }
+       },
+       "ROHD": {
+        "description": " ROHD",
+        "type": "object",
+        "properties": {
+         "CRITICALDISPL": {
+          "description": " CriticalDispl",
+          "type": "number"
+         },
+         "MAXDAMPING": {
+          "description": " MaxDamping",
+          "type": "number"
+         }
+        }
+       },
+       "MULTLIN": {
+        "description": " MULTLIN",
+        "type": "object",
+        "properties": {
+         "nMultiType": {
+          "description": " MultiType",
+          "type": "integer"
+         },
+         "nDeformDefineType": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "dInitStiffP": {
+          "description": " InitStiffP",
+          "type": "number"
+         },
+         "dInitStiffN": {
+          "description": " InitStiffN",
+          "type": "number"
+         },
+         "dHysParam_Alpha1": {
+          "description": " HysParam_Alpha1",
+          "type": "number"
+         },
+         "dHysParam_Alpha2": {
+          "description": " HysParam_Alpha2",
+          "type": "number"
+         },
+         "dHysParam_Beta1": {
+          "description": " HysParam_Beta1",
+          "type": "number"
+         },
+         "dHysParam_Beta2": {
+          "description": " HysParam_Beta2",
+          "type": "number"
+         },
+         "dHysParam_Eta": {
+          "description": " HysParam_Eta",
+          "type": "number"
+         },
+         "nType": {
+          "description": " Type",
+          "type": "integer"
+         },
+         "dScaleF_Displ": {
+          "description": " ScaleF_Displ",
+          "type": "number"
+         },
+         "dScaleF_Force": {
+          "description": " ScaleF_Force",
+          "type": "number"
+         },
+         "DEFORMCAPACITY": {
+          "description": " DeformCapacity",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 5
+           },
+           "maxItems": 2
+          }
+         }
+        }
+       },
+       "AXIAL": {
+        "description": " AXIAL",
+        "type": "object",
+        "properties": {
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "COMPSTIFFOPT": {
+          "description": " CompStiffOPt",
+          "type": "integer"
+         },
+         "YIELDFORCE": {
+          "description": " YieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "YIELDREDUFAC": {
+          "description": " YieldReduFac",
+          "type": "number"
+         },
+         "STIFFRATIO1ST": {
+          "description": " StiffRatio1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "STIFFRATIO2ND": {
+          "description": " StiffRatio2nd",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "DEFORMCAPACITY": {
+          "description": " DeformCapacity",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 5
+           },
+           "maxItems": 2
+          }
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         }
+        }
+       },
+       "BUCKL": {
+        "description": " BUCKL",
+        "type": "object",
+        "properties": {
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "BUCKLINGOPT": {
+          "description": " BucklingOpt",
+          "type": "integer"
+         },
+         "YIELDFORCE": {
+          "description": " YieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "STIFFRATIO1ST": {
+          "description": " StiffRatio1st",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "SLEDNERRATIO": {
+          "description": " SlednerRatio",
+          "type": "number"
+         },
+         "USERKFACTOR": {
+          "description": " UserKFactor",
+          "type": "boolean"
+         },
+         "KFACTOR": {
+          "description": " KFactor",
+          "type": "number"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         }
+        }
+       },
+       "FEMA": {
+        "description": " FEMA",
+        "type": "object",
+        "properties": {
+         "nYieldStrengthOpt": {
+          "description": " nYieldStrengthOpt",
+          "type": "integer"
+         },
+         "bSymmetric": {
+          "description": " bSymmetric",
+          "type": "boolean"
+         },
+         "bUserDefineRatio": {
+          "description": " bUserDefineRatio",
+          "type": "boolean"
+         },
+         "dForceMomentRatio": {
+          "description": " dForceMomentRatio",
+          "type": "array",
+          "items": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "maxItems": 9
+           },
+           "maxItems": 2
+          }
+         },
+         "dYieldForce": {
+          "description": " dYieldForce",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dYieldMoment": {
+          "description": " dYieldMoment",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "bUserDefineYieldDeform": {
+          "description": " bUserDefineYieldDeform",
+          "type": "boolean"
+         },
+         "dDisplacement": {
+          "description": " dDisplacement",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dStrain": {
+          "description": " dStrain",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dRotation": {
+          "description": " dRotation",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dRotationU": {
+          "description": " dRotationU",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dIO": {
+          "description": " dIO",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dLS": {
+          "description": " dLS",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "dCP": {
+          "description": " dCP",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 2
+          }
+         },
+         "nClass": {
+          "description": " nClass",
+          "type": "integer"
+         },
+         "bUseShapeCurve": {
+          "description": " bUseShapeCurve",
+          "type": "boolean"
+         },
+         "nShapeCurve": {
+          "description": " nShapeCurve",
+          "type": "integer"
+         },
+         "bUseStrengthLoss": {
+          "description": " bUseStrengthLoss",
+          "type": "boolean"
+         },
+         "bStrengthLoss": {
+          "description": " bStrengthLoss",
+          "type": "boolean"
+         },
+         "nInfillStrutType": {
+          "description": " nInfillStrutType",
+          "type": "integer"
+         },
+         "bUseTotalStrLossAtE": {
+          "description": " bUseTotalStrLossAtE",
+          "type": "boolean"
+         },
+         "bTotalStrLossAtE": {
+          "description": " bTotalStrLossAtE",
+          "type": "boolean"
+         },
+         "bUseUnloadStiffnessType": {
+          "description": " bUseUnloadStiffnessType",
+          "type": "boolean"
+         },
+         "nUnloadStiffnessType": {
+          "description": " nUnloadStiffnessType",
+          "type": "integer"
+         },
+         "dExpUnloadStiff_Exp": {
+          "description": " dExpUnloadStiff_Exp",
+          "type": "number"
+         },
+         "dExpUnloadStiff_PRFact": {
+          "description": " dExpUnloadStiff_PRFact",
+          "type": "number"
+         },
+         "nInfillStiff": {
+          "description": " nInfillStiff",
+          "type": "integer"
+         },
+         "dInfillStiff_KmiRop": {
+          "description": " dInfillStiff_KmiRop",
+          "type": "number"
+         },
+         "dInfillStiff_KmsRop": {
+          "description": " dInfillStiff_KmsRop",
+          "type": "number"
+         },
+         "dInfillStiff_Hm": {
+          "description": " dInfillStiff_Hm",
+          "type": "number"
+         },
+         "dInfillStiff_ThetaM": {
+          "description": " dInfillStiff_ThetaM",
+          "type": "number"
+         },
+         "nInitStiffMethod": {
+          "description": " nInitStiffMethod",
+          "type": "integer"
+         },
+         "dInitStiffUserTheta": {
+          "description": " dInitStiffUserTheta",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserPhi": {
+          "description": " dInitStiffUserPhi",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserSprg": {
+          "description": " dInitStiffUserSprg",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserTheta_m": {
+          "description": " dInitStiffUserTheta_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserPhi_m": {
+          "description": " dInitStiffUserPhi_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "dInitStiffUserSprg_m": {
+          "description": " dInitStiffUserSprg_m",
+          "type": "array",
+          "items": {
+           "type": "number",
+           "maxItems": 3
+          }
+         },
+         "bInitStiffAssymetric": {
+          "description": " bInitStiffAssymetric",
+          "type": "boolean"
+         },
+         "nUnloadStiffOption": {
+          "description": " nUnloadStiffOption",
+          "type": "integer"
+         },
+         "bCyclicDegration": {
+          "description": " bCyclicDegration",
+          "type": "boolean"
+         },
+         "dAB_p": {
+          "description": " dAB_p",
+          "type": "number"
+         },
+         "dC_p": {
+          "description": " dC_p",
+          "type": "number"
+         },
+         "dD_p": {
+          "description": " dD_p",
+          "type": "number"
+         },
+         "dE_p": {
+          "description": " dE_p",
+          "type": "number"
+         },
+         "dAB_m": {
+          "description": " dAB_m",
+          "type": "number"
+         },
+         "dC_m": {
+          "description": " dC_m",
+          "type": "number"
+         },
+         "dD_m": {
+          "description": " dD_m",
+          "type": "number"
+         },
+         "dE_m": {
+          "description": " dE_m",
+          "type": "number"
+         },
+         "bUnloadingStiffFactor": {
+          "description": " bUnloadingStiffFactor",
+          "type": "boolean"
+         },
+         "dUnloadingStiffFactor": {
+          "description": " dUnloadingStiffFactor",
+          "type": "number"
+         }
+        }
+       },
+       "SRCTET": {
+        "description": " SRCTET",
+        "type": "object",
+        "properties": {
+         "SYMMETRIC": {
+          "description": " Properties / Type",
+          "type": "integer"
+         },
+         "YIELDSTRENGTHOPT": {
+          "description": " YieldStrengthOpt",
+          "type": "integer"
+         },
+         "DEFORMDEFINETYPE": {
+          "description": " DeformDefineType",
+          "type": "integer"
+         },
+         "INITSTIFFTYPE": {
+          "description": " InitStiffType",
+          "type": "integer"
+         },
+         "INITSTIFFNESS": {
+          "description": " InitStiffness",
+          "type": "number"
+         },
+         "INITSTIFFNESSDIST": {
+          "description": " InitStiffnessDist",
+          "type": "number"
+         },
+         "PALPHADELTA": {
+          "description": " PAlphaDelta",
+          "type": "integer"
+         },
+         "COMPONENTPROPS": {
+          "description": " Component Properties",
+          "type": "object",
+          "properties": {
+           "CRACKFORCE": {
+            "description": " CrackForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "CRACKMOMENT": {
+            "description": " CrackMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDFORCE": {
+            "description": " YieldForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDMOMENT": {
+            "description": " YieldMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEFORCE": {
+            "description": " UltimateForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "ULTIMATEMOMENT": {
+            "description": " UltimateMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREFORCE": {
+            "description": " FractureForce",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "FRACTUREMOMENT": {
+            "description": " FractureMoment",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP1ST": {
+            "description": " YieldDisp1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN1ST": {
+            "description": " YieldRotn1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP2ND": {
+            "description": " YieldDisp2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN2ND": {
+            "description": " YieldRotn2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP3RD": {
+            "description": " YieldDisp3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN3RD": {
+            "description": " YieldRotn3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDDISP4TH": {
+            "description": " YieldDisp4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "YIELDROTN4TH": {
+            "description": " YieldRotn4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO1ST": {
+            "description": " StiffRatio1st",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO2ND": {
+            "description": " StiffRatio2nd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO3RD": {
+            "description": " StiffRatio3rd",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "STIFFRATIO4TH": {
+            "description": " StiffRatio4th",
+            "type": "array",
+            "items": {
+             "type": "number",
+             "maxItems": 2
+            }
+           },
+           "DEFORMCAPACITY": {
+            "description": " DeformCapacity",
+            "type": "array",
+            "items": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "maxItems": 5
+             },
+             "maxItems": 2
+            }
+           }
+          }
+         },
+         "UNLOADSTIFFCALCEXPO": {
+          "description": " UnloadStiffCalcExpo",
+          "type": "number"
+         }
+        }
+       }
+      },
+      "maxItems": 8
+     }
+    }
+   }
+  }
+ }
+}

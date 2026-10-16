@@ -41,15 +41,17 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 
 | 指标 | 数值 |
 | --- | --- |
-| 端点定义 | **636** |
-| JSON Schema | **625**（98.3%） |
-| 命名空间 | `DB`(244) / `POST`(199) / `DESIGN`(125) / `OPE`(34) / `DOC`(21) / `VIEW`(7) / `OPRT`(6) |
+| 端点定义 | **663** |
+| JSON Schema | **652**（98.3%） |
+| 命名空间 | `DB`(**271**) / `POST`(199) / `DESIGN`(125) / `OPE`(34) / `DOC`(21) / `VIEW`(7) / `OPRT`(6) |
 | 覆盖产品 | `GEN_NX` / `CIVIL_NX` / `CIVIL_DESIGNER` |
 | 实测实例 | 3 个（本地 GEN NX、云 CIVIL NX、云 Civil Designer） |
 
 字段与用法见 [`registry/README.md`](registry/README.md)。
 
-**实测验证状态**（`availability`）：`verified` **511** · `unverified` **23** · `untested` **102**。
+**实测验证状态**（`availability`）：`verified` **514** · `unverified` **23** · `untested` **126**。
+
+> ⚠️ **P176 / R168**：`verified` **+2**（`DOC.EXPORT` / `DOC.IMPORT` 真机收口）· `untested` **+27**（「导出可见但未登记」的表补登，**方法集未逐表实测** ⇒ 如实留在 `untested`）。
 
 ### 1.1 主指标：**接口层端到端**（`docs/07` §15.6.3）
 
@@ -61,9 +63,9 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
 | 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
 | 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
-| 🔴 主指标 | **生产路径可用 Operation** | **`69 / 71`**（缺口 = **4** 个端点 → **2** 个 Operation） |
-| 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / 633` |
-| ⚪ 账本 | 映射缺口 / 留缺账本 | `489` / `178`（**只登记，不驱动优先级**） |
+| 🔴 主指标 | **生产路径可用 Operation** | **`71 / 73`**（缺口 = **4** 个端点 → **2** 个 Operation） |
+| 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / **660**` |
+| ⚪ 账本 | 映射缺口 / 留缺账本 | `487` / `178`（**只登记，不驱动优先级**） |
 
 证据 = `registry/live/{interface_path_probe,interface_read_probe,flagship_chain_probe}.json`；
 生成器 = `registry/tools/probe_interface_paths.py` / `probe_flagship_chain.py`（均可 `--check` 离线复算）。
@@ -228,8 +230,16 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ✅ **R160 收口**：**通用取表入口 `POST.TABLE` 已解锁 `RESULT.ANALYSIS.SUMMARY`**
 > ⇒ 值 = `68 / 71`。
 > ✅ **R166 收口**：**`POST.STEELCODECHECK` 已解锁 `DESIGN.CODE_CHECK`**（钢铁路由，
-> **真机实测**；判据 = 效果）⇒ 现值 = **`69 / 71`**，**逐条**由
-> `python registry/tools/check_operation_availability.py` 复算。
+> **真机实测**；判据 = 效果）⇒ 当时现值 = **`69 / 71`**（后由 **R168** 抬到 `71 / 73`，见下），
+> **逐条**由 `python registry/tools/check_operation_availability.py` 复算。
+
+> ✅ **R168（P176 新增并收口）**：新增 `MODEL.EXPORT` / `MODEL.IMPORT` 两条 Operation
+> —— 模型 ↔ JSON 的**官方**通道。端点 `DOC.EXPORT` / `DOC.IMPORT` 由 `untested`
+> **真机实测**收口为 `verified`，**判据 = 效果**（铁律 ⓪）：导出**真的落盘**
+> （4 708 字节 ∧ `DBG` **218** 张表 ∧ 10 项哨兵**逐表与读回同形**）；
+> 导入后**新编号按写入值读回**（节点 `9001` → `X = 100`）。
+> ⇒ 主指标 **`69 / 71` → `71 / 73`**（分子分母**各 +2**；被挡仍 **2** · 挡点端点仍 **4**）。
+> 探针 = `registry/tools/probe_model_doc_p175.py` · 证据 = `registry/live/model_doc_probe.json`。
 
 | 端点 | 挡住 | 谁**能**修 | 状态 |
 | --- | ---: | --- | --- |
@@ -282,7 +292,7 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > （这正是 `DESIGN.CODE_CHECK` 最小代价 = **1** 的成因）。
 > ⇒ ~~**下一个可执行动作**仍是 `POST.STEELCODECHECK`~~ ✅ **R166（P174）已兑付** ——
 > 那次授权测量**做完了**（判据 = 效果：**0 行 → 2 行** ∧ 取值**不**等于手册示例）
-> ⇒ 主指标 **`69 / 71`**，且**我方**可拿下项**已全部收口**（`--attribution` 的 `ours` 为**空**）。
+> ⇒ 主指标 **`71 / 73`**，且**我方**可拿下项**已全部收口**（`--attribution` 的 `ours` 为**空**）。
 > 细节 = [`registry/README.md`](registry/README.md) §8.28 / §8.29 · `docs/07` §16.1 **R166**。
 
 > ✅ **已收口（R159，2026-10-15）**：~~`VIEW.RESULTGRAPHIC`（挡 6）~~ ——

@@ -33,7 +33,7 @@ ETABS_PACKAGE_DIR = APP_DIR / "infrastructure" / "adapters" / "etabs"
 # ===== 规范原文副本（**不**从被测模块导入）=====
 
 OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
-    ("engineering_doc", 6),
+    ("engineering_doc", 8),
     ("engineering_model_query", 8),
     ("engineering_model_assign", 10),
     ("engineering_model_delete", 7),
@@ -43,7 +43,11 @@ OPERATION_COUNTS_SPEC: tuple[tuple[str, int], ...] = (
     ("engineering_design", 6),
     ("engineering_analysis", 7),
 )
-"""`docs/07` §5.1 / §6.10 的每 Tool Operation 数（6+8+8+7+14+7+6+6+7 = **69**）。"""
+"""`docs/07` §5.1 / §6.10 的每 Tool Operation 数（8+8+10+7+14+7+6+6+7 = **73**）。
+
+⚠️ **P175 / R168**：`engineering_doc` **6 → 8** —— 新增 `MODEL.EXPORT` / `MODEL.IMPORT`
+（模型 ↔ JSON 的官方通道，挂 `engineering_doc`，与 `OPEN` / `SAVE_AS` 同族）。
+"""
 
 MANIFEST_SPEC: tuple[str, ...] = ("midas.civil", "MIDAS", "CIVIL NX")
 SUPPORTED_VERSIONS_SPEC: tuple[str, ...] = ("2025", "2026")

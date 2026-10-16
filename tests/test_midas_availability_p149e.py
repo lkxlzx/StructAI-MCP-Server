@@ -71,21 +71,25 @@ EXPECTED_UPGRADED = (
 """本批收口的 **12** 个端点（`200` ∧ 块为空 ⇒ `PARTIAL` ⇒ `availability: untested → verified`）。"""
 
 EXPECTED_REFUSED = 23
+EXPECTED_P175_ADDED = 27
+"""P175 / R168 新登记的「导出可见但未登记」表数（`availability: untested`）。"""
 """本批**复测**仍 `404` 的 `-M1` 家族（**R85** 仍成立；`unverified` ⇒ **只升不降** ⇒ 一行未动）。"""
 
 EXPECTED_ROWS = 84
 EXPECTED_PARTIAL = 61
 EXPECTED_FAILED = 23
-EXPECTED_VERIFIED_TOTAL = 512
+EXPECTED_VERIFIED_TOTAL = 514
 """全库 `availability == verified`（P149-E 收口后 **509**；**P166 / R159** 再 +1 =
 `VIEW.RESULTGRAPHIC` —— 依据 = 效果判据 `PASSED`，见 `docs/07` §16.1 **R159**；
-**P167 / R160** 再 +1 = `POST.TABLE`；**P174 / R166** 再 +1 = `POST.STEELCODECHECK`）。"""
+**P167 / R160** 再 +1 = `POST.TABLE`；**P174 / R166** 再 +1 = `POST.STEELCODECHECK`；
+**P175 / R168** 再 +2 = `DOC.EXPORT` / `DOC.IMPORT`）。"""
 EXPECTED_RESPONSE_BLOCKS = 317
-NO_GET = 100
+NO_GET = 98
 """`availability != verified` 且**没有 `GET`** 的端点数（P149-E 时 **103**；
 **P166 / R159** 把 `VIEW.RESULTGRAPHIC` 收口为 `verified` ⇒ **102**；
 **P167 / R160** 把 `POST.TABLE` 收口为 `verified` ⇒ **101**；
-**P174 / R166** 把 `POST.STEELCODECHECK` 收口为 `verified` ⇒ **100**）。"""
+**P174 / R166** 把 `POST.STEELCODECHECK` 收口为 `verified` ⇒ **100**；
+**P175 / R168** 把 `DOC.EXPORT` / `DOC.IMPORT` 收口为 `verified` ⇒ **98**）。"""
 DISABLED = 1
 
 
@@ -172,17 +176,29 @@ def _p149c_keys() -> set[str]:
 def test_p149e_the_probeable_target_set_is_thirty_five_by_measurement() -> None:
     """门槛（判定 1）：本批**探测了 35 个**（证据 84 − P149-C 的 49），
     收口后 `probe_targets()` 只剩 **23**（`unverified`）；「109 无 `GET` + 1 禁用」逐条可复算。
+
+    ⚠️ **P175 / R168（事实变更）**：`probe_targets()` 现为 **50** =
+    既有 `unverified` **23** + P175 新登记的 **27** 张表（`availability: untested`）。
+    那 27 张来自 `DOC.EXPORT` 实测（「导出可见但未登记」），字段取自实例自省、
+    **方法集未逐表实测** ⇒ 如实留在 `untested` ⇒ **必然**进探测目标集。
+    本用例**保留**原语义（目标集 = 未收口端点），只把数字改为复算值。
     """
     tool = _tool()
     document = _read_evidence()
     probed_this_batch = set(document["endpoints"]) - _p149c_keys()
     assert len(probed_this_batch) == EXPECTED_TARGETS
-    # 收口后剩余目标 = 那 23 个 `unverified`（**只升不降** ⇒ 仍在目标集里）
+    # 收口后剩余目标 = 23 个 `unverified`（**只升不降** ⇒ 仍在目标集里）
+    #                    + 27 个 P175 新登记的 `untested`（见上）
     remaining = tool.probe_targets(REPO_ROOT, ())
-    assert len(remaining) == EXPECTED_REFUSED
-    assert set(remaining) == {
+    assert len(remaining) == EXPECTED_REFUSED + EXPECTED_P175_ADDED
+    # ⚠️ **P175 / R168**：本证据是 **P149-E 的快照**，不含 P175 新登记的表
+    # ⇒ 旧证据的 `FAILED` 集是 `remaining` 的**子集**（那 27 张不在旧证据里）。
+    # 断言**保留**原语义（旧证据的 FAILED 端点**仍然**在目标集里 —— 即「只升不降」未被破坏）。
+    recorded_failed = {
         key for key, row in document["endpoints"].items() if row["verdict"] == "FAILED"
     }
+    assert recorded_failed <= set(remaining)
+    assert len(set(remaining) - recorded_failed) == EXPECTED_P175_ADDED
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))["endpoints"]
     no_get = 0
     disabled = 0
@@ -203,7 +219,8 @@ def test_p149e_the_probeable_target_set_is_thirty_five_by_measurement() -> None:
     assert no_get == NO_GET
     assert disabled == DISABLED
     # 收口后仍可探的 = 那 23 个 `unverified`（12 个已 `verified` ⇒ 不再出现在目标集里）
-    assert probeable == EXPECTED_REFUSED
+    #                  + 27 个 P175 / R168 新登记的 `untested`（见本文件顶部的说明）
+    assert probeable == EXPECTED_REFUSED + EXPECTED_P175_ADDED
 
 
 def test_p149e_the_evidence_is_cumulative_and_honest() -> None:

@@ -1,0 +1,97 @@
+{
+ "key": "DB.ESQW",
+ "uri": "DB/ESQW",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "LCNAME": {
+     "description": " Construction Dead Load Case",
+     "type": "string"
+    },
+    "ESQW_SEQ_LIST": {
+     "description": " Erection Sequence List",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "STEP": {
+        "description": " Step",
+        "type": "integer"
+       },
+       "ITEMS": {
+        "description": " Model Selection for Each Steps",
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "MODEL_TYPE": {
+           "description": " Model Type",
+           "type": "string"
+          },
+          "MATL_TYPE": {
+           "description": " Material Type",
+           "type": "string"
+          },
+          "MODEL_MATL": {
+           "description": " Model Material Name",
+           "type": "string"
+          },
+          "MODEL_STORY": {
+           "description": " Model Story Name",
+           "type": "string"
+          }
+         }
+        }
+       },
+       "STORY_FOR_DL": {
+        "description": " Story for Dead Load",
+        "type": "string"
+       },
+       "DURATION": {
+        "description": " Stage Duration",
+        "type": "number"
+       },
+       "AGE": {
+        "description": " Member Age",
+        "type": "number"
+       }
+      }
+     }
+    },
+    "ESQW_LC": {
+     "description": " Load Cases",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "LCNAME": {
+        "description": " Load Case",
+        "type": "string"
+       },
+       "ITEMS": {
+        "description": " Additional Load Items",
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "START_DAY": {
+           "description": " Start Day",
+           "type": "integer"
+          },
+          "STORY": {
+           "description": " Story Name",
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

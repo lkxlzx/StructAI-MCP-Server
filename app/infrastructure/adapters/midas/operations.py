@@ -17,7 +17,7 @@
 
 落地裁决（只补实现手段，不改任何映射）
 ------------------------------------
-1. **映射是数据、不是分支**：全部 69 条写在本模块的 `OPERATION_PLANS` 里
+1. **映射是数据、不是分支**：全部 73 条写在本模块的 `OPERATION_PLANS` 里
    （`docs/04` §21：**不**在 Transformer 里写 `if operation == ...`），
    执行侧只按 `plan_for()` 的结果逐步调用。
 2. **`intent` 表达「这一步在做什么」**：`read` / `write_*` / `delete` / `analyze` /
@@ -197,6 +197,22 @@ _DOC: Final[dict[str, OperationPlan]] = {
         "engineering_doc",
         steps=_steps(_read("OPE.PROJECTSTATUS")),
         note="docs/07 §6.1：无 /doc/INFO，用项目状态代替",
+    ),
+    # ⚠️ **P175 / R168**：模型 ↔ JSON 的**官方**通道（`DOC.EXPORT` / `DOC.IMPORT`）。
+    # 两步都走 `write_doc` intent ⇒ 复用既有的**项目路径守卫**（R143），
+    # 且 `transformer=None`（载荷是**文件路径**，不是 DB 行 —— 同 `_DOC` 其余成员）。
+    # canonical 化由 `model_document.py` 负责（那层**不**在本函数内编排）。
+    "MODEL.EXPORT": OperationPlan(
+        "MODEL.EXPORT",
+        "engineering_doc",
+        steps=_steps(_write("DOC.EXPORT", "write_doc", None)),
+        note='全模型导出为 JSON 文件（`{"DBG": {表: {id: 字段}}}`）；真机收口见 R168',
+    ),
+    "MODEL.IMPORT": OperationPlan(
+        "MODEL.IMPORT",
+        "engineering_doc",
+        steps=_steps(_write("DOC.IMPORT", "write_doc", None)),
+        note="把 JSON 文件**合并**进当前模型（⚠️ 非「清空后载入」；空表不删已有行）",
     ),
 }
 
@@ -821,7 +837,7 @@ OPERATION_PLANS: Final[dict[str, OperationPlan]] = {
         *_ANALYSIS.values(),
     )
 }
-"""`docs/07` §6 的全部映射（**69** 条；逐条照抄，见模块裁决 1）。"""
+"""`docs/07` §6 的全部映射（**73** 条；`docs/07` §6 原 **71** + P175/R168 新增 2 条）。"""
 
 
 def plan_for(operation: str) -> OperationPlan:

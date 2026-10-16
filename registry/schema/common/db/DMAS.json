@@ -1,0 +1,206 @@
+{
+ "key": "DB.DMAS",
+ "uri": "DB/DMAS",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "ITEMS": {
+     "description": " Items",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "ID": {
+        "description": " ID",
+        "type": "integer"
+       },
+       "MASS_TYPE": {
+        "description": " Mass Type",
+        "type": "string"
+       },
+       "START_STORY": {
+        "description": " Start Story",
+        "type": "string"
+       },
+       "END_STORY": {
+        "description": " End Story",
+        "type": "string"
+       },
+       "POINT_MASS": {
+        "description": " Point Mass",
+        "type": "object",
+        "properties": {
+         "POINT_MASS": {
+          "description": " Point Mass (Mp)",
+          "type": "number"
+         },
+         "ROTATION_MASS": {
+          "description": " Rotation Mass (Mr)",
+          "type": "number"
+         },
+         "POINT_X": {
+          "description": " Point X (Xc)",
+          "type": "number"
+         },
+         "POINT_Y": {
+          "description": " Point Y (Yc)",
+          "type": "number"
+         }
+        }
+       },
+       "LINE_MASS": {
+        "description": " Line Mass",
+        "type": "object",
+        "properties": {
+         "LINE_MASS": {
+          "description": " Line Mass (Ml)",
+          "type": "number"
+         },
+         "LENGTH": {
+          "description": " Length (D1)",
+          "type": "number"
+         },
+         "POINT_X": {
+          "description": " Point X (Xc)",
+          "type": "number"
+         },
+         "POINT_Y": {
+          "description": " Point Y (Yc)",
+          "type": "number"
+         }
+        }
+       },
+       "TRIANGLE_MASS": {
+        "description": " Triangular Area Mass",
+        "type": "object",
+        "properties": {
+         "AREA_MASS": {
+          "description": " Ma",
+          "type": "number"
+         },
+         "P1X": {
+          "description": " X1",
+          "type": "number"
+         },
+         "P1Y": {
+          "description": " Y1",
+          "type": "number"
+         },
+         "P2X": {
+          "description": " X2",
+          "type": "number"
+         },
+         "P2Y": {
+          "description": " Y2",
+          "type": "number"
+         },
+         "P3X": {
+          "description": " X3",
+          "type": "number"
+         },
+         "P3Y": {
+          "description": " Y3",
+          "type": "number"
+         }
+        }
+       },
+       "RECT_MASS": {
+        "description": " Rectangular Area Mass",
+        "type": "object",
+        "properties": {
+         "AREA_MASS": {
+          "description": " Area Mass (Ma)",
+          "type": "number"
+         },
+         "LENGTH_1": {
+          "description": " D1",
+          "type": "number"
+         },
+         "LENGTH_2": {
+          "description": " D2",
+          "type": "number"
+         },
+         "POINT_X": {
+          "description": " Point X (Xc)",
+          "type": "number"
+         },
+         "POINT_Y": {
+          "description": " Point Y (Yc)",
+          "type": "number"
+         }
+        }
+       },
+       "CIRCULAR_ARC": {
+        "description": " Circular Arc Mass",
+        "type": "object",
+        "properties": {
+         "LINE_MASS": {
+          "description": " Line Mass (Ml)",
+          "type": "number"
+         },
+         "ARC_ANGLE": {
+          "description": " Arc Angle (D1)",
+          "type": "number"
+         },
+         "ARC_RADIUS": {
+          "description": " Arc Radius (D2)",
+          "type": "number"
+         },
+         "CENTER_ANGLE": {
+          "description": " Center Angle (D3)",
+          "type": "number"
+         },
+         "POINT_X": {
+          "description": " Point X (Xc)",
+          "type": "number"
+         },
+         "POINT_Y": {
+          "description": " Point Y (Yc)",
+          "type": "number"
+         }
+        }
+       },
+       "CIRCULAR_AREA": {
+        "description": " Circular Area Mass",
+        "type": "object",
+        "properties": {
+         "AREA_MASS": {
+          "description": " Area Mass (Ma)",
+          "type": "number"
+         },
+         "ARC_ANGLE": {
+          "description": " Arc Angle (D1)",
+          "type": "number"
+         },
+         "ARC_RADIUS": {
+          "description": " Arc Radius (D2)",
+          "type": "number"
+         },
+         "ARC_WIDTH": {
+          "description": " Arc Width (D3)",
+          "type": "number"
+         },
+         "CENTER_ANGLE": {
+          "description": " Center Angle (D4)",
+          "type": "number"
+         },
+         "POINT_X": {
+          "description": " Point X (Xc)",
+          "type": "number"
+         },
+         "POINT_Y": {
+          "description": " Point Y (Yc)",
+          "type": "number"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

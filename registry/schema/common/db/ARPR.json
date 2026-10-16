@@ -1,0 +1,56 @@
+{
+ "key": "DB.ARPR",
+ "uri": "DB/ARPR",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "DIRECTION": {
+     "description": " Direction",
+     "type": "string"
+    },
+    "INNER_POINTS": {
+     "description": " Inner Point Array",
+     "type": "array",
+     "items": {
+      "type": "number",
+      "maxItems": 3
+     }
+    },
+    "VECTOR_ARRAY": {
+     "description": " Vector Array",
+     "type": "array",
+     "items": {
+      "type": "number",
+      "maxItems": 3
+     }
+    },
+    "ELEM_LISTS": {
+     "description": " Element List Array",
+     "type": "array",
+     "items": {
+      "type": "integer"
+     }
+    },
+    "bPROJECTION": {
+     "description": " Projection Boolean",
+     "type": "boolean"
+    },
+    "P": {
+     "description": " P1",
+     "type": "number"
+    },
+    "TYPE": {
+     "description": " Selection Type",
+     "type": "string"
+    },
+    "GROUP_NAME": {
+     "description": " Load Group Name",
+     "type": "string"
+    }
+   }
+  }
+ }
+}

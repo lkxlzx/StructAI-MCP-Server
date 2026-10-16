@@ -26,9 +26,9 @@
    记为 `UNVERIFIED_instance_crashed_pending_retest`，**不**写模板、**不**入候选。
 5. **离线三步链**：7 个新端点逐个跑通「创建 → 读回 → 按路径 key 删除」，发送的请求体**逐字节**
    等于数据侧模板 `body`，跑完**零残留**。
-6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **633**，`model_write` 子桶 **434**；
-   P148 为 609 / 410）；分子 = L5 `PASSED` 去重 key（P146 时 **36 / 609** / **36 / 410**；
-   P149-C 起 **72 / 633** / **72 / 434**（P148 为 58 / 609 / 58 / 410））。
+6. **口径不变**：分母仍 `write_path_keys()`（P149-A 起 **660**，`model_write` 子桶 **461**；
+   P148 为 636 / 410）；分子 = L5 `PASSED` 去重 key（P146 时 **36 / 636** / **36 / 410**；
+   P149-C 起 **72 / 660** / **72 / 461**（P148 为 58 / 636 / 58 / 410））。
 """
 
 from __future__ import annotations
@@ -56,7 +56,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECK_TOOL_PATH = REPO_ROOT / "registry" / "tools" / "check_write_templates.py"
 """模板复算工具（本批新增 7 条后仍必须 0 错）。"""
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
     "DB.LCOM-CONC",
     "DB.LCOM-GEN",
@@ -77,9 +77,9 @@ def _measured(keys: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(key for key in keys if key not in UNMEASURED_LCOM_KEYS)
 
 
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **660**，P148 为 636）。"""
 
-MODEL_WRITE_TOTAL = 434
+MODEL_WRITE_TOTAL = 461
 """分母里的「模型写」子桶（P141 裁决⑤；P148 为 410）。"""
 
 NEW_TEMPLATE_KEYS = (
@@ -280,12 +280,12 @@ CANDIDATES_BY_PRODUCT: dict[str, tuple[str, ...]] = {
     ),
     "CIVIL_DESIGNER": (),
 }
-"""三产品各自的候选集（**72 / 62 / 0**；P149-C 起；`CIVIL_DESIGNER` = 空，见 R99）。"""
+"""三产品各自的候选集（**72 / 62 / 0**；P149-C 起；`CIVIL_DESIGNER` = 空，见 R126）。"""
 
 # ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后，
 # 该端点进入 GEN_NX 的写路径分母（`write_capable_endpoints` **576 → 577**）且**未**实测
 # ⇒ GEN_NX 的 blocked **501 → 502**（`CIVIL_NX` / `CIVIL_DESIGNER` 不变）。
-BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 474, "CIVIL_NX": 452, "CIVIL_DESIGNER": 31}
+BLOCKED_TOTAL: dict[str, int] = {"GEN_NX": 501, "CIVIL_NX": 479, "CIVIL_DESIGNER": 31}
 """「有写方法 + 非危险形态，但既无 Transformer 又无数据侧模板」的端点数。
 
 P149-C 起 **501 / 438 / 31**（P149-B2 续跑 503 / 440 / 31；P149-B2 首轮 512 / 448 / 31；
@@ -520,18 +520,18 @@ async def test_p146_the_seven_chains_run_offline_with_zero_residue() -> None:
 # ===== 4. 口径（判定 6）=====
 
 
-def test_p146_coverage_counts_thirty_six_of_609() -> None:
-    """门槛：分子 = L5 `PASSED` 去重 key；72 / 633（`model_write_ratio` 72 / 434）。
+def test_p146_coverage_counts_thirty_six_of_636() -> None:
+    """门槛：分子 = L5 `PASSED` 去重 key；72 / 660（`model_write_ratio` 72 / 461）。
     P149-B2 续跑起（分块补测 67 条 → 再 +9）；P149-C 再 +2（`WMAK` / `DSRC`）。"""
     registry = _registry()
     keys = _measured(CANDIDATES_BY_PRODUCT["GEN_NX"])
     coverage = write_path_coverage(registry, [_Row(key) for key in keys])
     assert coverage.total == WRITE_PATH_TOTAL
     assert coverage.covered == len(keys) == 72
-    assert coverage.ratio == "72 / 633"
+    assert coverage.ratio == "72 / 660"
     assert coverage.model_write == MODEL_WRITE_TOTAL
     assert coverage.model_write_covered == 72
-    assert coverage.model_write_ratio == "72 / 434"
+    assert coverage.model_write_ratio == "72 / 461"
     assert set(coverage.covered_keys) == set(keys)
 
 
@@ -543,7 +543,7 @@ def test_p146_the_sub_bucket_never_hides_an_uncovered_endpoint() -> None:
     )
     assert civil.covered == len(_measured(CANDIDATES_BY_PRODUCT["CIVIL_NX"])) == 68
     assert civil.total == WRITE_PATH_TOTAL
-    assert civil.ratio == "68 / 633"
+    assert civil.ratio == "68 / 660"
 
 
 def test_p146_the_seven_new_keys_are_delivered_by_the_data_side_only() -> None:

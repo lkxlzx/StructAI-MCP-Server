@@ -208,7 +208,7 @@ def test_p127_second_software_needs_no_core_change() -> None:
     assert len(AppContainer.__dataclass_fields__) == 7
     assert BATCH_ID == "P42"  # `docs/07` §16 R82：本批**不**推进批次标记
     assert len(support.OPERATION_COUNTS_SPEC) == 9
-    assert sum(count for _tool, count in support.OPERATION_COUNTS_SPEC) == 71
+    assert sum(count for _tool, count in support.OPERATION_COUNTS_SPEC) == 73
 
     offenders: list[str] = []
     for path in support.app_module_paths():
@@ -273,7 +273,7 @@ def test_p128_capability_mapping_only_declares_the_traceable_code() -> None:
 
     vocabulary = {code.value for code in Capability}
     assert set(capability_codes()) <= vocabulary
-    assert len(vocabulary) == 42
+    assert len(vocabulary) == 44
 
 
 def test_p128_native_plans_are_derived_from_the_catalogue() -> None:

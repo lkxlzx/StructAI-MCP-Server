@@ -6,7 +6,7 @@
   "manifest": {
    "file": "registry/manifest.json",
    "role": "登记表（来源分类 ①）",
-   "vocabulary": 578
+   "vocabulary": 602
   },
   "manual_declarations": {
    "files": [
@@ -32,16 +32,16 @@
   "note": "「手册声明」**不**包含示例体取值（**R151** 的教训：**不**按手册**示例体**硬凑）；示例体只作弱来源。"
  },
  "summary": {
-  "schema_files": 625,
+  "schema_files": 652,
   "constraints": {
    "total": 754,
    "enum": 639,
    "oneOf.const": 115
   },
   "by_class": {
-   "manifest": 101,
+   "manifest": 102,
    "manual": 225,
-   "single_article": 158,
+   "single_article": 157,
    "untraceable": 270
   },
   "flags": {
@@ -8623,7 +8623,7 @@
    "shape": "Assign.BC_SELECT",
    "kind": "enum",
    "pointer": "#/properties/Assign/additionalProperties/properties/BC_SELECT/items",
-   "class": "single_article",
+   "class": "manifest",
    "value_set": "a5708173c9cb",
    "value_count": 17,
    "declaring_articles": 1,

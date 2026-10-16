@@ -1,0 +1,1401 @@
+{
+ "key": "DB.PHGT",
+ "uri": "DB/PHGT",
+ "source": "instance_introspect",
+ "schema": {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "Argument": {
+   "type": "object",
+   "properties": {
+    "NAME": {
+     "description": " Name",
+     "type": "string"
+    },
+    "DESC": {
+     "description": " Description",
+     "type": "string"
+    },
+    "ELEM_TYPE": {
+     "description": " Element Type",
+     "type": "string"
+    },
+    "bCONSIDER_HINGE_LENGTH": {
+     "description": " Consider Hinge Length",
+     "type": "boolean"
+    },
+    "DEFINITION": {
+     "description": " Definition",
+     "type": "string"
+    },
+    "INTERACTION_TYPE": {
+     "description": " Interaction Type",
+     "type": "string"
+    },
+    "INTEGRATION_POINT": {
+     "description": " Integration Point",
+     "type": "number"
+    },
+    "HINGE_LENGTH_I_ITEMS": {
+     "description": " Hinge Length : I",
+     "type": "array",
+     "items": {
+      "type": "number"
+     }
+    },
+    "HINGE_LENGTH_J_ITEMS": {
+     "description": " Hinge Length : J",
+     "type": "array",
+     "items": {
+      "type": "number"
+     }
+    },
+    "RELATIVE_LENGTH": {
+     "description": " Relative Length",
+     "type": "number"
+    },
+    "WALL_TYPE": {
+     "description": " Wall Type",
+     "type": "string"
+    },
+    "MATERIAL_TYPE": {
+     "description": " Material Type",
+     "type": "string"
+    },
+    "HINGE_TYPE": {
+     "description": " Hinge Type",
+     "type": "integer"
+    },
+    "PROP_KEY": {
+     "description": " Property Key",
+     "type": "integer"
+    },
+    "FIBER_KEY": {
+     "description": " Fiber Key",
+     "type": "integer"
+    },
+    "FIBER_AUTO_USER": {
+     "description": " Fiber Auto Generation / User Defined",
+     "type": "integer"
+    },
+    "USE_POGD_SHEAR_R": {
+     "description": " Use option of POGD / User Defined",
+     "type": "integer"
+    },
+    "SHEAR_R": {
+     "description": " Shear Spring Location : r",
+     "type": "number"
+    },
+    "USE_POGD_CONS_OUTPL": {
+     "description": " Use option of POGD / User Defined",
+     "type": "integer"
+    },
+    "CONS_OUTPL": {
+     "description": " Out-of-plane Nonlinearity of Fiber Wall Boolean",
+     "type": "boolean"
+    },
+    "AS_INTERACTION_TYPE": {
+     "description": " Axial-Shear Interaction Type of RC",
+     "type": "string"
+    },
+    "SKCV": {
+     "description": " ",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "bDOF": {
+        "description": " DOF",
+        "type": "boolean"
+       },
+       "LOC": {
+        "description": " Loc",
+        "type": "string"
+       },
+       "DISTRIBUTION": {
+        "description": " Distribution",
+        "type": "string"
+       },
+       "LENGTH_RATIO_I": {
+        "description": " Length Ratio : I",
+        "type": "number"
+       },
+       "LENGTH_RATIO_J": {
+        "description": " Length Ratio : J",
+        "type": "number"
+       },
+       "SKCV_TYPE": {
+        "description": " Skeleton Curve Type",
+        "type": "string"
+       },
+       "CALC_METHOD": {
+        "description": " Use Calc Method",
+        "type": "string"
+       },
+       "INPUT_TYPE": {
+        "description": " Input Type",
+        "type": "string"
+       },
+       "bSYMMETRIC_IJ": {
+        "description": " Symmetric IJ",
+        "type": "boolean"
+       },
+       "INIT_STIFF_METHOD": {
+        "description": " Initial Stiffness Method",
+        "type": "string"
+       },
+       "INIT_STIFF_USER_THETA": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N    N.m",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_PHI": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N  N    N.m2",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_SPRG": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N/m  N.m/rad",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_THETA_M": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N    N.m",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_SPRG_M": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N/m  N.m/rad",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "bINIT_STIFF_AS_SYMMETRIC": {
+        "description": " Initial Stiffness As Symmetric",
+        "type": "boolean"
+       },
+       "FEMA": {
+        "description": " FEMA",
+        "type": "object",
+        "properties": {
+         "INIT_STIFF_1": {
+          "description": " Initial Stiffness 1",
+          "type": "number"
+         },
+         "INIT_STIFF_2": {
+          "description": " Initial Stiffness 2",
+          "type": "number"
+         },
+         "IO": {
+          "description": " IO Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "LS": {
+          "description": " LS Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "CP": {
+          "description": " CP Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bUSER_DEFINE_RATIO": {
+          "description": " User define Ratio",
+          "type": "boolean"
+         },
+         "DEFORM_TYPE": {
+          "description": " Deform Type (D / DY , PLASITC ROT.)",
+          "type": "string"
+         },
+         "bSYMMETRIC": {
+          "description": " Symmetric",
+          "type": "boolean"
+         },
+         "bMULTI_CURVE": {
+          "description": " Multi Curve",
+          "type": "boolean"
+         },
+         "USE_SUB_COUNT": {
+          "description": " Use Sub Count",
+          "type": "integer"
+         },
+         "YIELD_FORCES": {
+          "description": " Yield Force",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bUSER_DEFINE_YIELD_DEFORM": {
+          "description": " User Define Yield Deform",
+          "type": "boolean"
+         },
+         "YIELD_DEFORMS": {
+          "description": " Yield Deform",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "YIELD_ANALYSIS_OPTION": {
+          "description": " Yield Analysis Option",
+          "type": "string"
+         },
+         "CLASS": {
+          "description": " Class",
+          "type": "integer"
+         },
+         "bUSE_SHAPE_CURVE": {
+          "description": " Use Shape of FEMA Curve",
+          "type": "boolean"
+         },
+         "SHAPE_CURVE": {
+          "description": " Shape of FEMA Curve",
+          "type": "string"
+         },
+         "bUSE_STRENGTH_LOSS": {
+          "description": " Use Strength Loss",
+          "type": "boolean"
+         },
+         "bSTRENGTH_LOSS": {
+          "description": " Strength Loss",
+          "type": "boolean"
+         },
+         "INFILL_STRUT_TYPE": {
+          "description": " Infill Strut Type",
+          "type": "string"
+         },
+         "bUSE_TOTAL_STR_LOSS_AT_E": {
+          "description": " Use Total Strength Loss at Point E.",
+          "type": "boolean"
+         },
+         "bTOTAL_STR_LOSS_AT_E": {
+          "description": " Use Shape Curve",
+          "type": "boolean"
+         },
+         "bUSE_UNLOAD_STIFFNESS_TYPE": {
+          "description": " Use Unload Stiffness Type",
+          "type": "boolean"
+         },
+         "UNLOAD_STIFFNESS_TYPE": {
+          "description": " Unload Stiffness Type",
+          "type": "string"
+         },
+         "EXP_UNLOAD_STIFF": {
+          "description": " Exponent in Unloading Stiffness Calculation",
+          "type": "number"
+         },
+         "PINCHING_RULE_FACTOR": {
+          "description": " Pinching-Rule Factor (Unloading Stiffness Parameter)",
+          "type": "number"
+         },
+         "INFILL_STIFFNESS_TYPE": {
+          "description": " Infill Stiffness Type",
+          "type": "string"
+         },
+         "KMI_ROP_IS": {
+          "description": " kmi*rop (Infill Stiffness)",
+          "type": "number"
+         },
+         "KMS_ROP_IS": {
+          "description": " kms*rop (Infill Stiffness)",
+          "type": "number"
+         },
+         "HM_IS": {
+          "description": " Hm (Infill Stiffness)",
+          "type": "number"
+         },
+         "THETA_M_IS": {
+          "description": " Theta M (Infill Stiffness)",
+          "type": "number"
+         },
+         "FORCE_MOMENT_RATIO_DISPLS": {
+          "description": " Displ Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCE_MOMENT_RATIO_FORCES": {
+          "description": " Force Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FEMA_SUB": {
+          "description": " FEMA_Sub",
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "AXIAL_FORCE": {
+             "description": " Axial Force",
+             "type": "number"
+            },
+            "IO": {
+             "description": " Immediate Occupancy(IO) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "LS": {
+             "description": " Life Sfety(LS) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "CP": {
+             "description": " Coliapse Prevention(CP) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "FORCE_MOMENT_RATIO_DISPLS": {
+             "description": " Displ Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "FORCE_MOMENT_RATIO_FORCES": {
+             "description": " Force Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "YIELD_MOMENT_ITEMS": {
+             "description": " Yield Moment Items",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "YIELD_ROTATION_ITEMS": {
+             "description": " Yield Rotation Items",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            }
+           }
+          }
+         },
+         "bINIT_STIFF_AS_SYM": {
+          "description": " Initial Stiffness As Symmetric",
+          "type": "boolean"
+         },
+         "UNLOAD_STIFF_OPTION": {
+          "description": " Unload Stiffness Option",
+          "type": "string"
+         },
+         "bCYCLIC_DEGRATION": {
+          "description": " Cyclic Degration",
+          "type": "boolean"
+         },
+         "AB_P": {
+          "description": " AB (Plus)",
+          "type": "number"
+         },
+         "AB_M": {
+          "description": " AB (Minus)",
+          "type": "number"
+         },
+         "C_P": {
+          "description": " C (Plus)",
+          "type": "number"
+         },
+         "C_M": {
+          "description": " C (Minus)",
+          "type": "number"
+         },
+         "D_P": {
+          "description": " D (Plus)",
+          "type": "number"
+         },
+         "D_M": {
+          "description": " D (Minus)",
+          "type": "number"
+         },
+         "E_P": {
+          "description": " E (Plus)",
+          "type": "number"
+         },
+         "E_M": {
+          "description": " E (Minus)",
+          "type": "number"
+         },
+         "bUSE_UNLOADING_STIFF_FACTOR": {
+          "description": " E Use Unloading Stiffness Factor",
+          "type": "number"
+         },
+         "UNLOADING_STIFF_FACTOR": {
+          "description": " Unloading Stiffness Factor",
+          "type": "number"
+         }
+        }
+       },
+       "MULTI": {
+        "description": " MULTI",
+        "type": "object",
+        "properties": {
+         "bSYM": {
+          "description": " Sym",
+          "type": "boolean"
+         },
+         "RATIO_OPTION": {
+          "description": " Ratio Option",
+          "type": "string"
+         },
+         "SLIP_TYPE": {
+          "description": " Slip Type",
+          "type": "string"
+         },
+         "DEFORMS_P": {
+          "description": " Deform (Plus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "DEFORMS_M": {
+          "description": " Deform (Minus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCES_P": {
+          "description": " Force (Plus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCES_M": {
+          "description": " Force (Minus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bAUTO_IJ_CHECK": {
+          "description": " Auto IJ Check",
+          "type": "boolean"
+         },
+         "bAUTO_SPAN": {
+          "description": " Auto Span",
+          "type": "boolean"
+         },
+         "SPAN_RATIO": {
+          "description": " Span Ratio",
+          "type": "number"
+         },
+         "INIT_STIFF": {
+          "description": " Initial Stiffness",
+          "type": "number"
+         },
+         "INIT_GAP": {
+          "description": " Initial Gap",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "SKCV_SUB": {
+     "description": " ",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "bDOF": {
+        "description": " DOF",
+        "type": "boolean"
+       },
+       "LOC": {
+        "description": " Loc",
+        "type": "string"
+       },
+       "DISTRIBUTION": {
+        "description": " Distribution",
+        "type": "string"
+       },
+       "LENGTH_RATIO_I": {
+        "description": " Length Ratio : I",
+        "type": "number"
+       },
+       "LENGTH_RATIO_J": {
+        "description": " Length Ratio : J",
+        "type": "number"
+       },
+       "SKCV_TYPE": {
+        "description": " Skeleton Curve Type",
+        "type": "string"
+       },
+       "CALC_METHOD": {
+        "description": " Use Calc Method",
+        "type": "string"
+       },
+       "INPUT_TYPE": {
+        "description": " Input Type",
+        "type": "string"
+       },
+       "bSYMMETRIC_IJ": {
+        "description": " Symmetric IJ",
+        "type": "boolean"
+       },
+       "INIT_STIFF_METHOD": {
+        "description": " Initial Stiffness Method",
+        "type": "string"
+       },
+       "INIT_STIFF_USER_THETA": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N    N.m",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_PHI": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N  N    N.m2",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_SPRG": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N/m  N.m/rad",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_THETA_M": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N    N.m",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "INIT_STIFF_USER_SPRG_M": {
+        "description": " [Fx, Fy/Fz, Mx~Mz]  N/m  N/m  N.m/rad",
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       },
+       "bINIT_STIFF_AS_SYMMETRIC": {
+        "description": " Initial Stiffness As Symmetric",
+        "type": "boolean"
+       },
+       "FEMA": {
+        "description": " FEMA",
+        "type": "object",
+        "properties": {
+         "INIT_STIFF_1": {
+          "description": " Initial Stiffness 1",
+          "type": "number"
+         },
+         "INIT_STIFF_2": {
+          "description": " Initial Stiffness 2",
+          "type": "number"
+         },
+         "IO": {
+          "description": " IO Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "LS": {
+          "description": " LS Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "CP": {
+          "description": " CP Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bUSER_DEFINE_RATIO": {
+          "description": " User define Ratio",
+          "type": "boolean"
+         },
+         "DEFORM_TYPE": {
+          "description": " Deform Type (D / DY , PLASITC ROT.)",
+          "type": "string"
+         },
+         "bSYMMETRIC": {
+          "description": " Symmetric",
+          "type": "boolean"
+         },
+         "bMULTI_CURVE": {
+          "description": " Multi Curve",
+          "type": "boolean"
+         },
+         "USE_SUB_COUNT": {
+          "description": " Use Sub Count",
+          "type": "integer"
+         },
+         "YIELD_FORCES": {
+          "description": " Yield Force",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bUSER_DEFINE_YIELD_DEFORM": {
+          "description": " User Define Yield Deform",
+          "type": "boolean"
+         },
+         "YIELD_DEFORMS": {
+          "description": " Yield Deform",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "YIELD_ANALYSIS_OPTION": {
+          "description": " Yield Analysis Option",
+          "type": "string"
+         },
+         "CLASS": {
+          "description": " Class",
+          "type": "integer"
+         },
+         "bUSE_SHAPE_CURVE": {
+          "description": " Use Shape of FEMA Curve",
+          "type": "boolean"
+         },
+         "SHAPE_CURVE": {
+          "description": " Shape of FEMA Curve",
+          "type": "string"
+         },
+         "bUSE_STRENGTH_LOSS": {
+          "description": " Use Strength Loss",
+          "type": "boolean"
+         },
+         "bSTRENGTH_LOSS": {
+          "description": " Strength Loss",
+          "type": "boolean"
+         },
+         "INFILL_STRUT_TYPE": {
+          "description": " Infill Strut Type",
+          "type": "string"
+         },
+         "bUSE_TOTAL_STR_LOSS_AT_E": {
+          "description": " Use Total Strength Loss at Point E.",
+          "type": "boolean"
+         },
+         "bTOTAL_STR_LOSS_AT_E": {
+          "description": " Use Shape Curve",
+          "type": "boolean"
+         },
+         "bUSE_UNLOAD_STIFFNESS_TYPE": {
+          "description": " Use Unload Stiffness Type",
+          "type": "boolean"
+         },
+         "UNLOAD_STIFFNESS_TYPE": {
+          "description": " Unload Stiffness Type",
+          "type": "string"
+         },
+         "EXP_UNLOAD_STIFF": {
+          "description": " Exponent in Unloading Stiffness Calculation",
+          "type": "number"
+         },
+         "PINCHING_RULE_FACTOR": {
+          "description": " Pinching-Rule Factor (Unloading Stiffness Parameter)",
+          "type": "number"
+         },
+         "INFILL_STIFFNESS_TYPE": {
+          "description": " Infill Stiffness Type",
+          "type": "string"
+         },
+         "KMI_ROP_IS": {
+          "description": " kmi*rop (Infill Stiffness)",
+          "type": "number"
+         },
+         "KMS_ROP_IS": {
+          "description": " kms*rop (Infill Stiffness)",
+          "type": "number"
+         },
+         "HM_IS": {
+          "description": " Hm (Infill Stiffness)",
+          "type": "number"
+         },
+         "THETA_M_IS": {
+          "description": " Theta M (Infill Stiffness)",
+          "type": "number"
+         },
+         "FORCE_MOMENT_RATIO_DISPLS": {
+          "description": " Displ Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCE_MOMENT_RATIO_FORCES": {
+          "description": " Force Array",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FEMA_SUB": {
+          "description": " FEMA_Sub",
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "AXIAL_FORCE": {
+             "description": " Axial Force",
+             "type": "number"
+            },
+            "IO": {
+             "description": " Immediate Occupancy(IO) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "LS": {
+             "description": " Life Sfety(LS) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "CP": {
+             "description": " Coliapse Prevention(CP) Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "FORCE_MOMENT_RATIO_DISPLS": {
+             "description": " Displ Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "FORCE_MOMENT_RATIO_FORCES": {
+             "description": " Force Array",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "YIELD_MOMENT_ITEMS": {
+             "description": " Yield Moment Items",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            },
+            "YIELD_ROTATION_ITEMS": {
+             "description": " Yield Rotation Items",
+             "type": "array",
+             "items": {
+              "type": "number"
+             }
+            }
+           }
+          }
+         },
+         "bINIT_STIFF_AS_SYM": {
+          "description": " Initial Stiffness As Symmetric",
+          "type": "boolean"
+         },
+         "UNLOAD_STIFF_OPTION": {
+          "description": " Unload Stiffness Option",
+          "type": "string"
+         },
+         "bCYCLIC_DEGRATION": {
+          "description": " Cyclic Degration",
+          "type": "boolean"
+         },
+         "AB_P": {
+          "description": " AB (Plus)",
+          "type": "number"
+         },
+         "AB_M": {
+          "description": " AB (Minus)",
+          "type": "number"
+         },
+         "C_P": {
+          "description": " C (Plus)",
+          "type": "number"
+         },
+         "C_M": {
+          "description": " C (Minus)",
+          "type": "number"
+         },
+         "D_P": {
+          "description": " D (Plus)",
+          "type": "number"
+         },
+         "D_M": {
+          "description": " D (Minus)",
+          "type": "number"
+         },
+         "E_P": {
+          "description": " E (Plus)",
+          "type": "number"
+         },
+         "E_M": {
+          "description": " E (Minus)",
+          "type": "number"
+         },
+         "bUSE_UNLOADING_STIFF_FACTOR": {
+          "description": " E Use Unloading Stiffness Factor",
+          "type": "number"
+         },
+         "UNLOADING_STIFF_FACTOR": {
+          "description": " Unloading Stiffness Factor",
+          "type": "number"
+         }
+        }
+       },
+       "MULTI": {
+        "description": " MULTI",
+        "type": "object",
+        "properties": {
+         "bSYM": {
+          "description": " Sym",
+          "type": "boolean"
+         },
+         "RATIO_OPTION": {
+          "description": " Ratio Option",
+          "type": "string"
+         },
+         "SLIP_TYPE": {
+          "description": " Slip Type",
+          "type": "string"
+         },
+         "DEFORMS_P": {
+          "description": " Deform (Plus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "DEFORMS_M": {
+          "description": " Deform (Minus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCES_P": {
+          "description": " Force (Plus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "FORCES_M": {
+          "description": " Force (Minus)",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "bAUTO_IJ_CHECK": {
+          "description": " Auto IJ Check",
+          "type": "boolean"
+         },
+         "bAUTO_SPAN": {
+          "description": " Auto Span",
+          "type": "boolean"
+         },
+         "SPAN_RATIO": {
+          "description": " Span Ratio",
+          "type": "number"
+         },
+         "INIT_STIFF": {
+          "description": " Initial Stiffness",
+          "type": "number"
+         },
+         "INIT_GAP": {
+          "description": " Initial Gap",
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "YLDS": {
+     "description": " Yield Surface",
+     "type": "object",
+     "properties": {
+      "CALC_METHOD": {
+       "description": " Calc Method",
+       "type": "string"
+      },
+      "bSYMMETRIC_IJ": {
+       "description": " Symmetric IJ",
+       "type": "boolean"
+      },
+      "PROPERTY": {
+       "description": " Yield Surface Property",
+       "type": "object",
+       "properties": {
+        "bSYMMETRIC_YZ": {
+         "description": " Symmetric Y / Z",
+         "type": "boolean"
+        },
+        "bSYMMETRIC_PM": {
+         "description": " Symmetric Plus / Minus",
+         "type": "boolean"
+        },
+        "AXIAL_FORCES": {
+         "description": " Axial Forces",
+         "type": "array",
+         "items": {
+          "type": "number"
+         }
+        },
+        "INTERPOLATION_METHOD": {
+         "description": " Interpolation Method",
+         "type": "string"
+        },
+        "ALPHA": {
+         "description": " Alpha",
+         "type": "number"
+        },
+        "bSYMMETRIC_Y": {
+         "description": " Use Symmetric Y",
+         "type": "boolean"
+        },
+        "bSYMMETRIC_Z": {
+         "description": " Use Symmetric Z",
+         "type": "boolean"
+        },
+        "PLUS_ITEM": {
+         "description": " Plus",
+         "type": "object",
+         "properties": {
+          "MOMENT_Y": {
+           "description": " Moment Y",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "bUSE_Z_DATA": {
+           "description": " Use Moment Z Data",
+           "type": "boolean"
+          },
+          "MOMENT_Z": {
+           "description": " Moment Z",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          }
+         }
+        },
+        "MINUS_ITEM": {
+         "description": " Minus",
+         "type": "object",
+         "properties": {
+          "MOMENT_Y": {
+           "description": " Moment Y",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "bUSE_Z_DATA": {
+           "description": " Use Moment Z Data",
+           "type": "boolean"
+          },
+          "MOMENT_Z": {
+           "description": " Moment Z",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          }
+         }
+        }
+       }
+      },
+      "PROPERTY_SUB": {
+       "description": " Yield Surface Property (Sub)",
+       "type": "object",
+       "properties": {
+        "bSYMMETRIC_YZ": {
+         "description": " Symmetric Y / Z",
+         "type": "boolean"
+        },
+        "bSYMMETRIC_PM": {
+         "description": " Symmetric Plus / Minus",
+         "type": "boolean"
+        },
+        "AXIAL_FORCES": {
+         "description": " Axial Forces",
+         "type": "array",
+         "items": {
+          "type": "number"
+         }
+        },
+        "INTERPOLATION_METHOD": {
+         "description": " Interpolation Method",
+         "type": "string"
+        },
+        "ALPHA": {
+         "description": " Alpha",
+         "type": "number"
+        },
+        "bSYMMETRIC_Y": {
+         "description": " Use Symmetric Y",
+         "type": "boolean"
+        },
+        "bSYMMETRIC_Z": {
+         "description": " Use Symmetric Z",
+         "type": "boolean"
+        },
+        "PLUS_ITEM": {
+         "description": " Plus",
+         "type": "object",
+         "properties": {
+          "MOMENT_Y": {
+           "description": " Moment Y",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "bUSE_Z_DATA": {
+           "description": " Use Moment Z Data",
+           "type": "boolean"
+          },
+          "MOMENT_Z": {
+           "description": " Moment Z",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          }
+         }
+        },
+        "MINUS_ITEM": {
+         "description": " Minus",
+         "type": "object",
+         "properties": {
+          "MOMENT_Y": {
+           "description": " Moment Y",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "bUSE_Z_DATA": {
+           "description": " Use Moment Z Data",
+           "type": "boolean"
+          },
+          "MOMENT_Z": {
+           "description": " Moment Z",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_1ST_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (1st Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PY": {
+           "description": " Ratio PY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MY": {
+           "description": " Ratio MY (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_PZ": {
+           "description": " Ratio PZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          },
+          "_2ND_SURFACE_RATIO_MZ": {
+           "description": " Ratio MZ (2nd Surface) [E(c), D(c), ...,O,D(t),E(t)]",
+           "type": "array",
+           "items": {
+            "type": "number"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "MSNR": {
+     "description": " Masonry",
+     "type": "object",
+     "properties": {
+      "COMP_STRENGTH": {
+       "description": " Compresspve Strength",
+       "type": "number"
+      },
+      "SHEAR_STRENGTH": {
+       "description": " Shear Strength",
+       "type": "number"
+      },
+      "BUILDING_TYPE": {
+       "description": " Building Type",
+       "type": "string"
+      },
+      "DIST_COEF_K": {
+       "description": " Vertical Stress Distribution Coefficient (k)",
+       "type": "number"
+      },
+      "FORCE_HP": {
+       "description": " Hp",
+       "type": "number"
+      },
+      "SPANDREL_TYPE": {
+       "description": " Spandrel Type (Regular / Irregular)",
+       "type": "string"
+      }
+     }
+    }
+   }
+  }
+ }
+}

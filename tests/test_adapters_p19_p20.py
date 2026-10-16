@@ -1423,12 +1423,12 @@ def test_mock_supported_operations_are_seeded_operations(seeded_engine: AsyncEng
         assert capability_registry is not None
 
         names = {item.name for item in await operation_registry.list()}
-        assert len(names) == 71
+        assert len(names) == 73
         assert set(MOCK_SUPPORTED_OPERATIONS) <= names
         assert MOCK_SUPPORTED_OPERATIONS == MockAdapter().supported_operations()
 
         codes = set(capability_registry.codes())
-        assert len(codes) == 42
+        assert len(codes) == 44
         assert set(MOCK_CAPABILITIES) <= codes
         assert "ANALYSIS.NONLINEAR" in codes
         assert "ANALYSIS.NONLINEAR" not in MOCK_CAPABILITIES
@@ -1773,7 +1773,7 @@ def test_runtime_capability_vocabulary_comes_only_from_the_seeded_table(
         )
         assert registry is not None
         codes = set(registry.codes())
-        assert len(codes) == 42
+        assert len(codes) == 44
         assert set(MOCK_CAPABILITIES) <= codes
         assert sorted(codes) == sorted({str(code) for code in registry.codes()})
 

@@ -12,12 +12,12 @@
 
 落地裁决（本文件的硬事实，不美化）
 --------------------------------
-1. **两个方向都落库**：`midas_api_schemas` 按 `schema_uri` 各占一行 —— 请求方向 **625** 行
+1. **两个方向都落库**：`midas_api_schemas` 按 `schema_uri` 各占一行 —— 请求方向 **652** 行
    （P138a 收口 R19 的 616 + P140 的 R5 补齐 4 个 + P141 的 5 个）、响应方向 **317** 行
    （`availability = verified` ∧（`GET` ∨ **R106** 取报表实测信封）+ 有 Schema 文件，
    `registry/tools/sync_response_schemas.py` 的判定；P149-C 起 241 → 290：49 个 `DESIGN.*` /
    `DB.REBB` 等经只读 L4 实测收口；P149-D 起 290 → 305：15 个 `POST.TABLE.*` 经**取报表判据**
-   实测收口；P149-E 起 305 → 317：再 **12** 个 `DESIGN.*` 经只读 L4 补测收口），合计 **942** 行；
+   实测收口；P149-E 起 305 → 317：再 **12** 个 `DESIGN.*` 经只读 L4 补测收口），合计 **969** 行；
    响应方向的 URI = `midas://<product>/<code>/response/v1`。
 2. **回填**：`midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
    指向**响应方向**的 Schema 行 id（与 `request_schema*` 同口径）；未声明 `response` 块的端点
@@ -82,8 +82,8 @@ from app.infrastructure.database.base import utcnow
 IMPORT_REGISTRY_PATH = Path("app/infrastructure/adapters/midas/import_registry.py")
 """P137a / P137b 的实现落点（唯一）。"""
 
-REQUEST_SCHEMA_ROWS = 625
-"""请求方向 Schema 行数（P141 起 **625**：P138a 收口 R19 后 616 + P140 的 4 个 + P141 的 5 个）。"""
+REQUEST_SCHEMA_ROWS = 652
+"""请求方向 Schema 行数（P141 起 **652**：P138a 收口 R19 后 616 + P140 的 4 个 + P141 的 5 个）。"""
 
 RESPONSE_SCHEMA_ROWS = 317
 """响应方向 Schema 行数 = 已实测端点（`availability = verified` ∧（`GET` ∨ **R106** 取报表实测信封）
@@ -109,7 +109,7 @@ REQUEST_SCHEMA_NOT_APPLICABLE_ROWS = 3
 （4 → 3；这是**收紧**，见 `docs/07` §16 R5 与 `tests/test_midas_registry_p138.py`）。"""
 
 TOTAL_SCHEMA_ROWS = REQUEST_SCHEMA_ROWS + RESPONSE_SCHEMA_ROWS
-"""两个方向合计 **942** 行（请求 **625** + 响应 **317**；P149-E 起，此前 930 = 625 + 305）。"""
+"""两个方向合计 **969** 行（请求 **652** + 响应 **317**；P149-E 起，此前 930 = 652 + 305）。"""
 
 SOURCE_ROWS = 11
 """`midas_api_sources` 行数（8 个 provenance 标题 ∪ 7 个 Schema `source`，含
@@ -201,7 +201,7 @@ def _imported_modules(path: Path) -> set[str]:
 
 
 async def test_p137a_schemas_are_imported_in_both_directions(tmp_path: Path) -> None:
-    """P137a：请求 **625** + 响应 **317** = **942** 行（P149-E 起；此前 930 = 625 + 305）。"""
+    """P137a：请求 **652** + 响应 **317** = **969** 行（P149-E 起；此前 930 = 652 + 305）。"""
     engine, report, factory = await _import(tmp_path)
     assert report.totals["midas_api_schemas"] == TOTAL_SCHEMA_ROWS
     request_rows = await _schema_rows(factory, direction=REQUEST_DIRECTION)
@@ -360,21 +360,21 @@ async def test_p137b_seven_and_is_reported_truthfully_without_promoting_any_stat
     engine, report, factory = await _import(tmp_path)
     assert report.seven_and is not None
     summary = report.seven_and.as_dict()
-    assert summary["endpoints"] == 636
+    assert summary["endpoints"] == 663
     assert summary["live_outcomes"] == 0, "CI 层无 L4 / L5 结论 → 第 7 项如实为假"
     assert summary["satisfied"] == {
-        "official_endpoint_confirmed": 636,
+        "official_endpoint_confirmed": 663,
         # P149-A：只读 `OPTIONS` 实测确认 `DB.SWIND` 的路由支持 `POST/GET/PUT/DELETE`
-        # （此前 R9 记「没有任何方法」）⇒ 635 → 636
-        "http_method_confirmed": 636,
+        # （此前 R9 记「没有任何方法」）⇒ 635 → 663
+        "http_method_confirmed": 663,
         "request_schema_confirmed": REQUEST_SCHEMA_ROWS + REQUEST_SCHEMA_NOT_APPLICABLE_ROWS,
         "response_schema_confirmed": RESPONSE_SCHEMA_ROWS,
-        "product_scope_confirmed": 636,
-        "version_range_confirmed": 636,
+        "product_scope_confirmed": 663,
+        "version_range_confirmed": 663,
         "live_contract_test_passed": 0,
     }
-    assert summary["missing"]["response_schema_confirmed"] == 636 - RESPONSE_SCHEMA_ROWS
-    assert summary["verdicts"] == {STATUS_VERIFIED: 0, STATUS_PARTIAL: 636}
+    assert summary["missing"]["response_schema_confirmed"] == 663 - RESPONSE_SCHEMA_ROWS
+    assert summary["verdicts"] == {STATUS_VERIFIED: 0, STATUS_PARTIAL: 663}
     assert report.as_dict()["seven_and"] == summary
 
     # 端点行的状态 = `availability` 机械映射（`docs/07` §7.2 / §16 R79），与报告无关
@@ -389,13 +389,15 @@ async def test_p137b_seven_and_is_reported_truthfully_without_promoting_any_stat
             ).all()
         )
         node = await _status_of(session, NODE_KEY)
-        partial = await _status_of(session, "DOC.EXPORT")
+        partial = await _status_of(session, "DESIGN.RC.KDS-41-20-2022.BD-ANAL")
     await engine.dispose()
     # 实测端点（7 项 AND 全满足）与未实测端点（缺 response 项）都**未**被报告改动：
     # `DOC.SAVE` 的 `availability = untested` → 仍是 `PARTIAL`（**不**升级、**不**降级）
     # ⚠️ **P158 / R139**：原样本是 `DOC.NEW`；它已被**实测**收口为 `verified`。
-    # ⚠️ **P160c**：本样本已换过两次 —— 原 `DOC.NEW`（P158 收口）→ `DOC.SAVE`
-    # （P160c 收口）→ 现 `DOC.EXPORT`（仍 `untested` + `POST` + `Argument` 包装，**同形**）。
+    # ⚠️ **P160c**：本样本已换过两次 —— `DOC.NEW`（P158 收口）→ `DOC.SAVE`（P160c 收口）。
+    # ⚠️ **P175 / R168**：**第三次**被迫换 —— `DOC.EXPORT` 也已收口 ⇒ 换成**崩溃族成员**
+    # `DESIGN.RC.KDS-41-20-2022.BD-ANAL`（被 R154 的原生崩溃护栏钉住，**结构上**不会先收口）。
+    # **教训**：别拿「随手挑一个还没测的端点」当未实测样本 —— 它会随收口失效。
     assert node == "VERIFIED" and partial == "PARTIAL"
     assert statuses["PARTIAL"] > 0 and statuses["VERIFIED"] > 0
 
@@ -436,11 +438,12 @@ async def test_p137b_ci_records_never_promote_a_verification_status(tmp_path: Pa
         after_import = await MidasRegistryImporter(support.registry()).import_all(session)
         await session.commit()
     async with factory() as session:
-        status = await _status_of(session, "DOC.EXPORT")
+        status = await _status_of(session, "DESIGN.RC.KDS-41-20-2022.BD-ANAL")
         levels = (
             (await session.execute(select(MidasApiVerificationORM.contract_level))).scalars().all()
         )
     await engine.dispose()
+    # ⚠️ **P175 / R168**：原样本 `DOC.EXPORT` 已收口 ⇒ 换成仍 untested 的端点。
     assert status == "PARTIAL"
     assert list(levels) == ["L1"]
     assert after_import.seven_and is not None and before.seven_and is not None
@@ -461,7 +464,7 @@ def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
     # P138a（R19 收口）后 `DB.MBTP` 的请求 Schema 已是合法对象 → **不再**是例外
     assert report.verdicts == {
         STATUS_VERIFIED: RESPONSE_SCHEMA_ROWS,
-        STATUS_PARTIAL: 636 - RESPONSE_SCHEMA_ROWS,
+        STATUS_PARTIAL: 663 - RESPONSE_SCHEMA_ROWS,
     }
     evidence = registry_evidence(
         registry,
@@ -477,7 +480,7 @@ def test_p137b_the_same_judgment_point_yields_verified_once_l4_passed() -> None:
     assert evidence["request_schema_confirmed"] is True
     # 报告**不**回写任何状态：端点状态仍由 `availability` 机械映射
     assert registry.endpoint("DB.MBTP").verification_status == "VERIFIED"
-    assert registry.endpoint("DOC.EXPORT").verification_status == "PARTIAL"
+    assert registry.endpoint("DESIGN.RC.KDS-41-20-2022.BD-ANAL").verification_status == "PARTIAL"
 
 
 def test_p137b_the_judgment_point_is_not_duplicated_in_the_importer() -> None:

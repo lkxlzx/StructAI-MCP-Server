@@ -3,7 +3,7 @@
 权威来源
 --------
 - `docs/07` §7.6（产品差异**先查** `product_overrides` 再回落主定义）· §16 **R4 / R14 / R97** ·
-  §16.1 **R98**（P142 的 `FLOOR_LOAD` 收口）+ **R99**（本批新增：候选集曾忽略产品级方法覆盖）。
+  §16.1 **R98**（P142 的 `FLOOR_LOAD` 收口）+ **R126**（本批新增：候选集曾忽略产品级方法覆盖）。
 - `registry/README.md` §4（`product_overrides`）/ §5 第 2–3 步（解析顺序）/ §8.7（P142 裁决）。
 - `docs/reports/P143_*.md`（本批证据）。
 
@@ -18,7 +18,7 @@
    `NO_PAYLOAD_TEMPLATE` + `detail = no_write_method_for_product`，且**零**写请求
    （与「Transformer 未注册」的 `no_transformer_for_endpoint` 区分开）。
 4. **口径不变**：覆盖率的分子是 **registry key**（去重）∩ 写路径端点，**不**按「端点 × 产品」——
-   故 `CIVIL_NX` 的 11 条 `PASSED` 行**不**改变 `11 / 633`（P149-A 起；P143 当时为 `11 / 609`）；
+   故 `CIVIL_NX` 的 11 条 `PASSED` 行**不**改变 `11 / 660`（P149-A 起；P143 当时为 `11 / 636`）；
    它们证明的是「同一批端点在第二个产品上也通」（跨产品证据），而不是新的覆盖数。
 """
 
@@ -42,7 +42,7 @@ from app.infrastructure.adapters.midas.write_probe import (
     MidasLiveWriteProbe,
 )
 
-WRITE_PATH_TOTAL = 633
+WRITE_PATH_TOTAL = 660
 UNMEASURED_LCOM_KEYS: tuple[str, ...] = (
     "DB.LCOM-CONC",
     "DB.LCOM-GEN",
@@ -63,7 +63,7 @@ def _measured(keys: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(key for key in keys if key not in UNMEASURED_LCOM_KEYS)
 
 
-"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **633**，P148 为 609）。"""
+"""写路径端点数 —— R4 / R14 的**正式**分母（**不挪**口径；P149-A 起 **660**，P148 为 636）。"""
 
 DB_CODES = (
     "DB.BMLD",

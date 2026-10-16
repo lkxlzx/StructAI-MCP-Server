@@ -18,7 +18,7 @@ P154 实测（`registry/live/boundary_shape_probe.json`）：
 3. **每个 `ITEMS` 形态端点都有原生 `ID` 字段** ⇒ 键**总是**可解析（结构不变量）。
 4. **Adapter 每条一个请求**：多个条目 ⇒ 多个请求，各自带自己的键。
 5. **探针加固（实测事故驱动）**：哨兵**不可读**（实例不可达）⇒ **零写请求** + **不覆盖**既有证据。
-6. **不变量**：`write_path_coverage()` = `0 / 633` · 缺口 `517` = `271` + `246` · R118 子桶未动。
+6. **不变量**：`write_path_coverage()` = `0 / 660` · 缺口 `517` = `271` + `246` · R118 子桶未动。
 """
 
 from __future__ import annotations
@@ -57,11 +57,11 @@ BOUNDARY_EVIDENCE = REPO_ROOT / "registry" / "live" / "boundary_shape_probe.json
 ITEMS_STYLE_KEYS = ("DB.BMLD", "DB.CNLD", "DB.CONS", "DB.PRES")
 """**全部** `Assign` + `ITEMS` 形态的写端点（R128 的适用面）。"""
 
-EXPECTED_GAP_TOTAL = 489
-EXPECTED_GAP_NOT_IN_CONTRACT = 243
-EXPECTED_GAP_NO_READBACK = 246
-EXPECTED_WRITE_PATH_TOTAL = 633
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_GAP_TOTAL = 514
+EXPECTED_GAP_NOT_IN_CONTRACT = 270
+EXPECTED_GAP_NO_READBACK = 244
+EXPECTED_WRITE_PATH_TOTAL = 660
+EXPECTED_MODEL_WRITE_TOTAL = 461
 
 
 def _load(path: Path, name: str) -> Any:
@@ -130,7 +130,7 @@ def test_p155_the_item_key_comes_from_the_native_id_field() -> None:
 
     # `DB.CONS`：**节点编号**（支承的编号就是它所在节点的编号）—— 即使条目里另有 `id`
     boundary = BoundaryTransformer(registry)
-    assert _item_key({"id": 99, "node_id": 4}, boundary, endpoint="DB.CONS") == 4
+    assert _item_key({"id": 126, "node_id": 4}, boundary, endpoint="DB.CONS") == 4
     # 荷载：`id`
     for factory in (NodalLoadTransformer, BeamLoadTransformer, PressureLoadTransformer):
         transformer = factory(registry)

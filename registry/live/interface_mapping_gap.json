@@ -12,12 +12,12 @@
     "probed_at": "2026-10-11"
   },
   "product_key": "GEN_NX",
-  "operations": 71,
-  "mapped_endpoints": 68,
-  "write_capable_endpoints": 556,
-  "three_step_endpoints": 280,
+  "operations": 73,
+  "mapped_endpoints": 70,
+  "write_capable_endpoints": 583,
+  "three_step_endpoints": 307,
   "mapped_inside_three_step": 37,
-  "gap_total": 489,
+  "gap_total": 514,
   "gap_three_step": [
     {
       "key": "DB.ACTL",
@@ -28,11 +28,27 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.ARPR",
+      "uri": "/DB/ARPR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ARPR",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.BCCT",
       "uri": "/DB/BCCT",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "BCCT",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.BLDC",
+      "uri": "/DB/BLDC",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "BLDC",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -89,6 +105,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "CLWP",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.CMFT",
+      "uri": "/DB/CMFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "CMFT",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -172,6 +196,14 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.DMAS",
+      "uri": "/DB/DMAS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "DMAS",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.DOEL",
       "uri": "/DB/DOEL",
       "methods": "DELETE,GET,POST,PUT",
@@ -193,6 +225,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "DSTL",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.EARE",
+      "uri": "/DB/EARE",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "EARE",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -244,6 +284,14 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.ESQW",
+      "uri": "/DB/ESQW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "ESQW",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.ESSF",
       "uri": "/DB/ESSF",
       "methods": "DELETE,GET,POST,PUT",
@@ -289,6 +337,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "FIBR",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.FIBW",
+      "uri": "/DB/FIBW",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "FIBW",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -436,6 +492,14 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.IEHP",
+      "uri": "/DB/IEHP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IEHP",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.IELC",
       "uri": "/DB/IELC",
       "methods": "DELETE,GET,POST,PUT",
@@ -481,6 +545,46 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "INMF",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IPCR",
+      "uri": "/DB/IPCR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPCR",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.IPDT",
+      "uri": "/DB/IPDT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "IPDT",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-CFSTEEL",
+      "uri": "/DB/LCOM-CFSTEEL",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-CFSTEEL",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-FDN",
+      "uri": "/DB/LCOM-FDN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-FDN",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.LCOM-LINEAR",
+      "uri": "/DB/LCOM-LINEAR",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "LCOM-LINEAR",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -596,6 +700,14 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.MDGN",
+      "uri": "/DB/MDGN",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MDGN",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.MEMB",
       "uri": "/DB/MEMB",
       "methods": "DELETE,GET,POST,PUT",
@@ -625,6 +737,22 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "MLSR",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MRFT",
+      "uri": "/DB/MRFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MRFT",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.MTCS",
+      "uri": "/DB/MTCS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MTCS",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -740,6 +868,14 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.MVLDJP",
+      "uri": "/DB/MVLDJP",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "MVLDJP",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.MVLDPL",
       "uri": "/DB/MVLDPL",
       "methods": "DELETE,GET,POST,PUT",
@@ -841,6 +977,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "PHGE",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.PHGT",
+      "uri": "/DB/PHGT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "PHGT",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -980,11 +1124,27 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.RISS",
+      "uri": "/DB/RISS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "RISS",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.RPSC",
       "uri": "/DB/RPSC",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "RPSC",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SBCT",
+      "uri": "/DB/SBCT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SBCT",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1049,6 +1209,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "SECF",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.SEIS",
+      "uri": "/DB/SEIS",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "SEIS",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1169,6 +1337,14 @@
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "STCT",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.STDG",
+      "uri": "/DB/STDG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "STDG",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1348,11 +1524,27 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.TRFT",
+      "uri": "/DB/TRFT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "TRFT",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.TSGR",
       "uri": "/DB/TSGR",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "TSGR",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.UFIG",
+      "uri": "/DB/UFIG",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "UFIG",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -1388,11 +1580,35 @@
       "reason": "not_in_operation_contract"
     },
     {
+      "key": "DB.WIND",
+      "uri": "/DB/WIND",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WIND",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
       "key": "DB.WMAK",
       "uri": "/DB/WMAK",
       "methods": "DELETE,GET,POST,PUT",
       "read_root": "WMAK",
       "availability": "verified",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.WNAT",
+      "uri": "/DB/WNAT",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WNAT",
+      "availability": "untested",
+      "reason": "not_in_operation_contract"
+    },
+    {
+      "key": "DB.WSSF",
+      "uri": "/DB/WSSF",
+      "methods": "DELETE,GET,POST,PUT",
+      "read_root": "WSSF",
+      "availability": "untested",
       "reason": "not_in_operation_contract"
     },
     {
@@ -2214,24 +2430,8 @@
       "reason": "no_readback_route"
     },
     {
-      "key": "DOC.EXPORT",
-      "uri": "/DOC/EXPORT",
-      "methods": "POST",
-      "read_root": "",
-      "availability": "untested",
-      "reason": "no_readback_route"
-    },
-    {
       "key": "DOC.EXPORTMXT",
       "uri": "/DOC/EXPORTMXT",
-      "methods": "POST",
-      "read_root": "",
-      "availability": "untested",
-      "reason": "no_readback_route"
-    },
-    {
-      "key": "DOC.IMPORT",
-      "uri": "/DOC/IMPORT",
       "methods": "POST",
       "read_root": "",
       "availability": "untested",
@@ -4840,6 +5040,22 @@
     "DOC.CLOSE": [
       {
         "operation": "CLOSE",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.EXPORT": [
+      {
+        "operation": "MODEL.EXPORT",
+        "tool": "engineering_doc",
+        "method": "POST",
+        "intent": "write_doc"
+      }
+    ],
+    "DOC.IMPORT": [
+      {
+        "operation": "MODEL.IMPORT",
         "tool": "engineering_doc",
         "method": "POST",
         "intent": "write_doc"

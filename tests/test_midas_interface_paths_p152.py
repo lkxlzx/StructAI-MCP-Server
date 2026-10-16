@@ -21,9 +21,9 @@ P139–P151 的写路径判据**全部**绕开 `app/`（模板 / 前置链 / 编
 4. **`FAILED` 行必须带原生成因**：`native_status` / `native_reason` 或前置创建失败的原因
    （**不**留空、**不**美化）。
 5. **映射缺口**（`registry/live/interface_mapping_gap.json`）：**离线可复算**，
-   `gap_total = 511 = 265（契约外）+ 246（无读回）`。
-6. **不变量**：数据侧写路径分母**不变**（`write_path_coverage(registry, [])` = `0 / 633`、
-   `model_write_ratio` = `0 / 434`）；接口层判据**不**并入任何数据侧覆盖率分子。
+   `gap_total = 514 = 270（契约外）+ 244（无读回）`。
+6. **不变量**：数据侧写路径分母**不变**（`write_path_coverage(registry, [])` = `0 / 660`、
+   `model_write_ratio` = `0 / 461`）；接口层判据**不**并入任何数据侧覆盖率分子。
 7. **凭据绝不入证据**；成功响应**不**留原文（只有失败响应留 `error.message` 前 200 字）。
 8. **实例门控**：缺 `MIDAS_BASE_URL` / `MIDAS_MAPI_KEY` 时，真实接口层用例如实 `skip`
    （**不**失败、**不**伪造）。
@@ -92,31 +92,32 @@ EXPECTED_ENDPOINTS = ("DB.CONS", "DB.ELEM", "DB.GRUP", "DB.MATL", "DB.NODE", "DB
 """哨兵端点集 = **全部**被触碰的端点（跑前 / 跑后只读 `GET`）。"""
 
 EXPECTED_GAP_COUNTS = {
-    "operations": 71,
-    "write_capable_endpoints": 556,
-    "three_step_endpoints": 280,
-    "mapped_endpoints": 68,
+    "operations": 73,
+    "write_capable_endpoints": 583,
+    "three_step_endpoints": 307,
+    "mapped_endpoints": 70,
     "mapped_inside_three_step": 37,
-    "gap_total": 489,
+    "gap_total": 514,
 }
 """映射缺口的钉住计数（离线复算；见 `--recon`）。
 
 ⚠️ **P157 / R129 同步（有实测依据）**：`POST.TABLE` 的 `products` 补 `GEN_NX` 后成为 GEN_NX 的
 **可写端点** ⇒ `write_capable_endpoints` **576 → 577**（`POST.TABLE` 是 `POST` 端点）。
-⚠️ **缺口总数 517 → 511**（**511 = 265 + 246**，P157 / R136）；
-`three_step_endpoints` **不变**、`mapped_endpoints` **61 → 67**（+6 个荷载组合）。
+⚠️ **缺口总数 517 → 514**（**514 = 270 + 244**，P157 / R136；P175 / R168 再 -2）；
+`three_step_endpoints` **不变**、`mapped_endpoints` **61 → 67**（+6 个荷载组合）；
+**P175 / R168** 再 **67 → 70**（+2 = `DOC.EXPORT` / `DOC.IMPORT`，另 +1 为既有修正）。
 """
 
-EXPECTED_GAP_THREE_STEP = 243
+EXPECTED_GAP_THREE_STEP = 270
 """缺口里的「契约外」条数（形态齐备但没有任何 Operation 映射到它）。"""
 
-EXPECTED_GAP_NO_READBACK = 246
+EXPECTED_GAP_NO_READBACK = 244
 """缺口里的「无读回」条数（没有 `GET` 或没有 `read_root`）。"""
 
-EXPECTED_WRITE_PATH_TOTAL = 633
-"""数据侧写路径分母（`docs/07` §16 R4 / R14 的 633；本批**不得**改动）。"""
+EXPECTED_WRITE_PATH_TOTAL = 660
+"""数据侧写路径分母（`docs/07` §16 R4 / R14 的 660；本批**不得**改动）。"""
 
-EXPECTED_MODEL_WRITE_TOTAL = 434
+EXPECTED_MODEL_WRITE_TOTAL = 461
 """`model_write` 分母（本批**不得**改动）。"""
 
 FAILED_NATIVE_MARKERS = ("Wrong Field", "Unknown Error", "约束条件输入有错误")
@@ -219,7 +220,7 @@ def test_p152_every_row_matches_the_operation_plan() -> None:
     tool = _tool()
     plans = tool.operation_plans(REPO_ROOT)
     mapped = tool.mapped_endpoints(REPO_ROOT)
-    assert len(plans) == 71
+    assert len(plans) == 73
     for row in _rows():
         endpoint = str(row["endpoint"])
         operation = str(row["operation"])
