@@ -2394,3 +2394,96 @@ R152 那句「还需 12 个 RC/SRC 端点」把 **OR** 读成了 **AND**（那 1
 **可执行判定** = `tests/test_midas_main_metric_benefit_p172.py`（**14** 项）·
 `python registry/tools/check_operation_availability.py --check`（零请求，**逐条**断言收益映射）·
 `python registry/tools/check_operation_availability.py --benefit` · 裁决 `docs/07` §16.1 **R165**。
+
+---
+
+### 8.28 P173：收益 ≠ **可实施性** —— 把「**卡在谁**」也**算**出来（⇒ **R166**）
+
+> **本批零请求**（`gen-local` 实例**不可达**：TCP `127.0.0.1:3030` 本轮实测 **timeout**；
+> P172 实测 **refused**）⇒ 只用**本仓可读**证据（`OPERATION_PLANS` + `registry` 的
+> `verification_status` + `NATIVE_CRASH_ENDPOINTS`），**不**发任何请求、**不**改 `availability`。
+
+#### 8.28.1 本批要回答的问题
+
+P172（§8.27）把**收益**算准了（收口 `POST.STEELCODECHECK` ⇒ **+1**），但**留下一个陷阱**：
+**收益 > 0 ≠ 能马上做**。⇒ 本批把「**卡在谁**」也机械化 ——
+`gate_attribution()` + `--attribution`（**不**新增手写表，**不**改任何裁定数字）。
+
+#### 8.28.2 判据（**机械**，逐条可复算）
+
+| # | 条件 | 归因 |
+| --- | --- | --- |
+| 1 | 端点在 `NATIVE_CRASH_ENDPOINTS` | **MIDAS 侧**（区分**实测** `NATIVE_CRASH_MEASURED` 与**同族推定**） |
+| 2 | 端点的**最短路线**里含 `*-ANAL` 且该 `*-ANAL` 属**崩溃族** | **MIDAS 侧** —— 该表的**数据**由那个 `*-ANAL` 产出 ⇒ 本格**不是**独立代价 |
+| 3 | 其余 | **我方** —— 前置 = 请求体来源成立 + 一次授权测量 |
+
+⚠️ 第 **2** 条的**文本证据**（**零请求**可复算）：`registry/design/rc/KDS-41-20-2022/BD-ANAL.yaml`
+的标题逐字是 `RC Beam Design **Perform**（RC 보 설계 **수행**）`，而
+`BD-TABLE.yaml` 是 `RC Beam Design **Table**（RC 보 설계 테이블）` ⇒ `-ANAL` = **执行分析并写设计结果**，
+`-TABLE` = **读**那份结果。**没有** `-ANAL` 成功跑过，就无法**产出** `-TABLE` 要读的结果。
+⇒ P165b 记的那条「6 个 `*-TABLE` 要**先有设计结果**」**不是**一个 `AND` 陈述，
+而是**同一条崩溃边的下游**。
+
+#### 8.28.3 结果（`--attribution`，**零请求**）
+
+| 端点 | 卡在谁 | 挡住 | 单独收口收益 | 最短选项大小 |
+| --- | --- | ---: | --- | ---: |
+| `DESIGN.RC.KDS-41-20-2022.BD-ANAL` | **MIDAS 侧** | 2 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.BD-TABLE` | **MIDAS 侧** | 2 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.BRD-ANAL` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.BRD-TABLE` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.CD-ANAL` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.CD-TABLE` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.WD-ANAL` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.RC.KDS-41-20-2022.WD-TABLE` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.SRC.AIK-SRC2K.BC-ANAL` | **MIDAS 侧** | 2 | （无） | 2 |
+| `DESIGN.SRC.AIK-SRC2K.BC-TABLE` | **MIDAS 侧** | 2 | （无） | 2 |
+| `DESIGN.SRC.AIK-SRC2K.CC-ANAL` | **MIDAS 侧** | 1 | （无） | 2 |
+| `DESIGN.SRC.AIK-SRC2K.CC-TABLE` | **MIDAS 侧** | 1 | （无） | 2 |
+| `POST.STEELCODECHECK` | ✅ **我方** | 1 | **`DESIGN.CODE_CHECK`** | **1** |
+
+⇒ **13** 个挡点端点里 **12** 个卡在 **MIDAS 侧**、**1** 个（`POST.STEELCODECHECK`）是**我方**的。
+
+#### 8.28.4 关键反事实（**本批的新结论**）
+
+假设**崩溃族全部修好**（`compute(pretend_verified=NATIVE_CRASH_ENDPOINTS)`，纯内存、零请求）：
+
+```text
+生产路径可用 Operation 68 / 71（被挡 3 个：DESIGN.CODE_CHECK, DESIGN.CONCRETE, DESIGN.SRC）
+```
+
+⚠️ **一格都没动。** 因为剩下的挡点是那 **6** 个 `*-TABLE` + `POST.STEELCODECHECK`，
+而 `*-TABLE` 的设计结果**只能由**（刚被假设修好的）`*-ANAL` 产出 ⇒
+**修 MIDAS 的崩溃不自动解锁任何东西** —— 崩溃族的修复只是**让第二步可能**（仍须一次**授权测量**）。
+
+⚠️ **另一条**：`--benefit` 的**每一条**路线都**至少含一个** `*-ANAL`（含 `DESIGN.SRC` 的
+最短选项 `BC-ANAL` + `BC-TABLE`，以及 `DESIGN.CODE_CHECK` 的 `concrete:*` / `src:*` 路由）
+⇒ **不碰 `*-ANAL` 就拿不下任何一格** —— 唯一例外是 `steel` 路由（`POST.STEELCODECHECK`）。
+
+#### 8.28.5 下一步该做什么（**可复算**的优先级）
+
+| 序 | 动作 | 卡在谁 | 判据（**铁律 ⓪**：效果 ≠ 状态码） | 前置 |
+| --- | --- | --- | --- | --- |
+| **1** | 收口 `POST.STEELCODECHECK` | **我方** | **读回的设计结果行数**（`GET /DESIGN/STEEL/…/CODE-TABLE`）—— **不**是状态码；**阴性对照**必须做（**R164** 的口径：基线取**阳性写入之后**） | 实例**可达** + 用户**明确授权**（有副作用）+ **请求体来源**（本仓**不成立**：手册**无** `Request Examples`） |
+| **2** | 向 MIDAS 报 `wg_db.dll` 崩溃（`BD-ANAL` 四次实测，偏移 `0x2d97e5c` 完全相同） | **MIDAS 侧** | 报单受理 / 修复版本 | **不**需我方真机操作 |
+| **3** | 崩溃族修好后，**仍须**逐格做**授权测量**收口 `*-ANAL` / `*-TABLE` | **MIDAS 侧 → 我方** | 同 **1** | 同 **1** |
+| — | 长期（**不**在生产路径上）：`OPE.LCOM-GEN::DGNCODE` 的**一次是非问答** · `OPE.LINEBMLD::TYPE` 的**枚举完整性** | **产品侧** | 答复 | — |
+| 🛑 | `DESIGN.{RC,SRC}` 的 `*-ANAL` 的**任何重跑** | —— | —— | **R154** ⇒ 默认**绝不碰** |
+
+⇒ **结论**：当前**唯一**「我方**可**自己拿下」的 **+1** 仍是 `POST.STEELCODECHECK`，
+且它的**代价**（一次授权测量）**不**因为「多收口几个端点」而下降。
+
+#### 8.28.6 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** —— 本批**零请求**，`availability` 一行未改 |
+| 挡点端点 | **13（不变）** |
+| 工具 | `check_operation_availability.py` **新增** `gate_attribution()` · `--attribution` |
+| 端点 / Schema / 枚举约束 | **不变**（636 / 625 / 754） |
+| `app/**` | **一行未改** |
+
+**可执行判定** = `tests/test_midas_implementation_attribution_p173.py` ·
+`python registry/tools/check_operation_availability.py --attribution`（**零请求**）·
+`python registry/tools/check_operation_availability.py --check`（**逐条**断言**不变**）·
+裁决 `docs/07` §16.1 **R166**。

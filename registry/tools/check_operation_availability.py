@@ -97,6 +97,13 @@ EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
 **没有** `properties` ⇒ `spec_guard` 对它**一个字段都不检查**。
 ⇒ 收口**须**一次**有副作用**的授权测量（且实例**不可达**时**连试都不该试**）。
 ⚠️ **不**按示例体硬凑（**R151**）—— 这里连示例体都**没有**。
+
+**P173 / R166 更新**：收益算准了，但**收益 ≠ 可实施性** —— 本批把「**卡在谁**」也**算**出来
+（`gate_attribution()` + `--attribution`）。机械事实：**`--benefit`** 的**每一条**路线里
+**至少含一个** `*-ANAL`（`DESIGN.SRC` 最短选项 = `BC-ANAL` + `BC-TABLE` ⇒ 也含）⇒
+**修好整个崩溃族后主指标仍 `68 / 71`**（因为 `*-TABLE` 要**先有设计结果**，
+那结果只能由崩溃族的 `*-ANAL` 产出）⇒ **唯一**不依赖 `*-ANAL` 的边是 `steel` 路由
+⇒ `POST.STEELCODECHECK` 是**我方**唯一可自己拿下的一格（代价 = 一次授权测量）。
 """
 
 EXPECTED_BENEFIT: Final[dict[str, tuple[str, ...]]] = {
@@ -320,6 +327,102 @@ def minimal_unlock_cost() -> dict[str, Any]:
     }
 
 
+def gate_attribution() -> dict[str, Any]:
+    """「**卡在谁**」：按**机械性质**给每个挡点端点标注责任方（**零请求**，R166）。
+
+    为什么需要它（**R166**）
+    -----------------------
+    `--benefit` 算清了「收口它 ⇒ 解锁谁」，但**收益 ≠ 可实施性**：`DESIGN.CONCRETE` 与
+    `DESIGN.SRC` 的**最短选项各含一个** `*-ANAL`，而那是**实测崩溃族**（R154 登记在
+    `NATIVE_CRASH_ENDPOINTS`）⇒ 谁修得动它**决定**了这格的代价。
+    ⇒ 把「谁能修」也**算**出来，**不**手写（R158 / R165 的教训）。
+
+    判据（**机械**，逐条可复算）
+    ----------------------------
+    1. 端点 ∈ `NATIVE_CRASH_ENDPOINTS` ⇒ `midas` 侧（崩溃在 `wg_db.dll`，我方**不**可规避）。
+       ⚠️ 区分 `NATIVE_CRASH_MEASURED`（**实测**）与同族推定（`conjectured`）—— **不**混为一谈。
+    2. 否则，**最短路线**（`--benefit` 的选项里**最小**的那个）里若有 `*-ANAL` ⇒ 该表的**数据**
+       只能由那个 `*-ANAL` 产出（ANAL = 执行分析并写设计结果，`registry/design/rc/…/*-ANAL.yaml` 的
+       标题逐字：`RC Beam Design **Perform**`；`BD-TABLE.yaml` = `RC Beam Design **Table**`）
+       ⇒ 卡在 `midas`（同一条崩溃边），**不是**「独立的一格代价」。
+    3. 其余 ⇒ `ours` 侧（先证明**请求体来源**成立，再**授权测量**）。
+       ⚠️ 当前**唯一**待做的我方路径 = `POST.STEELCODECHECK`（`steel` 路由**无** `*-ANAL`）。
+    ⚠️ 本函数**只**分类 —— **不**判「值不值得做」（那是裁决，见 `README.md` §8.28）。
+    """
+    plans, _registry, (_verified, crash_endpoints) = _load()
+    sys.path.insert(0, str(REPO))
+    from app.infrastructure.adapters.midas.client import (  # noqa: PLC0415
+        NATIVE_CRASH_MEASURED,
+    )
+
+    base = compute()
+    benefit = benefit_mapping()
+    cost = minimal_unlock_cost()
+    options = {
+        name: _route_options(plans[name]) for name in base["blocked_operations"]
+    }
+    rows: dict[str, dict[str, Any]] = {}
+    for endpoint in sorted(base["blocker_endpoints"]):
+        # 该端点**参与**的最短选项（收口它 + 同选项里其余的端点）—— 「代价」的正确口径
+        cheapest: frozenset[str] | None = None
+        for choices in options.values():
+            for option in choices:
+                if endpoint not in option:
+                    continue
+                if cheapest is None or len(option) < len(cheapest):
+                    cheapest = option
+        if endpoint in crash_endpoints:
+            side = "midas"
+            reason = (
+                "实测崩溃族（R154：GenNX.exe @ wg_db.dll）"
+                if endpoint in NATIVE_CRASH_MEASURED
+                else "同族推定崩溃族的成员（R154 / R153 的全查口径）"
+            )
+        elif cheapest is not None and any(step in crash_endpoints for step in cheapest):
+            side = "midas"
+            reason = (
+                "单独收口**不**解锁任何 Operation ⇒ 本格不是独立代价；"
+                "其设计结果只能由同选项内的崩溃族 `*-ANAL` 产出（R166）"
+            )
+        else:
+            side = "ours"
+            reason = "路由内**无** `*-ANAL`；前置 = 请求体来源成立 + 一次授权测量"
+        rows[endpoint] = {
+            "side": side,
+            "reason": reason,
+            "blocked_operations": [
+                name
+                for name, endpoints in base["blocked_operations"].items()
+                if endpoint in endpoints
+            ],
+            "own_benefit": benefit["endpoints"][endpoint]["unlocks"],
+            "minimal_option": sorted(cheapest) if cheapest is not None else [],
+            "minimal_option_size": len(cheapest) if cheapest is not None else 0,
+        }
+    # **唯一**不依赖崩溃族 `*-ANAL` 的边（我方独有杠杆）
+    ours = sorted(key for key, row in rows.items() if row["side"] == "ours")
+    base_document = compute()
+    # 反事实：把崩溃族**全部**修好（假设）⇒ 主指标**仍**不变 ⇒ 证明「卡在 MIDAS 侧」是**结构**性的
+    after_crash = compute(pretend_verified=crash_endpoints)
+    above = {
+        name: {
+            "cost": cost["per_operation"][name],
+            "option_has_crash": any(
+                step in crash_endpoints for option in options[name] for step in option
+            ),
+        }
+        for name in base_document["blocked_operations"]
+    }
+    return {
+        "endpoints": rows,
+        "ours": ours,
+        "midas": sorted(key for key, row in rows.items() if row["side"] == "midas"),
+        "above_operations": above,
+        "fixing_all_crash_yields": after_crash["available"],
+        "fixing_all_crash_still_blocked": sorted(after_crash["blocked_operations"]),
+    }
+
+
 def check() -> int:
     """`--check`：断言主指标与**已裁定**的值逐条一致（**零请求**）。"""
     document = compute()
@@ -369,11 +472,48 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="主指标：生产路径可用 Operation")
     parser.add_argument("--check", action="store_true", help="断言与裁定一致（零请求）")
     parser.add_argument("--benefit", action="store_true", help="逐端点收益（收口它 ⇒ 解锁谁）")
+    parser.add_argument(
+        "--attribution", action="store_true", help="逐端点「卡在谁」（我方 / MIDAS 侧 / 产品侧）"
+    )
     parser.add_argument("--json", action="store_true", help="输出结构化结果")
     parser.add_argument("--out", default="", help="把结构化结果写到该路径")
     args = parser.parse_args()
     if args.check:
         return check()
+    if args.attribution:
+        table = gate_attribution()
+        if args.json or args.out:
+            text = json.dumps(table, ensure_ascii=False, indent=1) + "\n"
+            if args.out:
+                pathlib.Path(args.out).write_text(text, encoding="utf-8")
+                print(f"wrote {args.out}")
+            else:
+                print(text)
+            return 0
+        print("=== 逐端点「卡在谁」（我方 / MIDAS 侧）—— 责任方由**机械性质**判，不手写 ===")
+        for endpoint, row in table["endpoints"].items():
+            side = "我方" if row["side"] == "ours" else "MIDAS 侧"
+            own = ", ".join(row["own_benefit"]) or "（无）"
+            print(f"  [{side:8s}] {endpoint:44s} 单独收益：{own}")
+            print(f"             理由：{row['reason']}")
+            print(
+                f"             最短选项（{row['minimal_option_size']} 个）："
+                + (", ".join(row["minimal_option"]) or "（无）")
+            )
+        print()
+        print("=== 被挡 Operation 的「上方闸门」===")
+        for name, row in table["above_operations"].items():
+            crash = "含崩溃族 `*-ANAL`" if row["option_has_crash"] else "**不**含崩溃族"
+            print(f"  {name:22s} 最短代价 {row['cost']} 个端点 · 最短选项{crash}")
+        print()
+        print(f"⚠️ 反事实（假设**崩溃族全部修好**；纯内存仿真、**零请求**）"
+              f"⇒ 主指标仍 `{table['fixing_all_crash_yields']} / 71`"
+              f"（被挡 {len(table['fixing_all_crash_still_blocked'])} 个："
+              f"{', '.join(table['fixing_all_crash_still_blocked'])}）")
+        print("    ⇒ `*-TABLE` 要**先有设计结果**，而那结果只能由崩溃族的 `*-ANAL` 产出 ⇒ "
+              "**不是**独立的一格代价")
+        print(f"✅ **我方**唯一不依赖 `*-ANAL` 的可自己拿下的一格：{', '.join(table['ours'])}")
+        return 0
     if args.benefit:
         table = benefit_mapping()
         if args.json or args.out:

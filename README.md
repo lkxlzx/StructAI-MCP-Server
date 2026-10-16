@@ -122,6 +122,11 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 生成器 = [`registry/tools/sync_result_graphic_modes.py`](registry/tools/sync_result_graphic_modes.py) ·
 > [`registry/tools/sync_table_type_variant_enum.py`](registry/tools/sync_table_type_variant_enum.py)。
 
+> ⚠️ **R166（P173）**：主指标的**缺口归因**也**不**手写 ——
+> `python registry/tools/check_operation_availability.py --attribution`（**零请求**）给出
+> 每个挡点端点**卡在谁**（**我方** / **MIDAS 侧**）：**13** 个里 **12** 个是 **MIDAS 侧**、
+> **1** 个（`POST.STEELCODECHECK`）是**我方**的。⇒ 「下一步该做什么」见 §5.1。
+
 ---
 
 ## 2. 文档
@@ -241,6 +246,21 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ③ 我们落盘的 Schema 与它**逐字节同形**且**没有** `properties` ⇒ `spec_guard` 对它
 > **一个字段都不检查**。⇒ 收口**须**一次**有副作用**的授权测量（**R151** 的教训：
 > **不**按示例体硬凑 —— 这里连示例体都**没有**）。
+
+> ⚠️ **R166（P173，2026-10-16）—— 收益 ≠ **可实施性**：上表「谁**能**修」那一列现在**算**出来**：
+> `python registry/tools/check_operation_availability.py --attribution`（**零请求**）。
+> 机械结果：**13** 个挡点端点里 **12** 个卡在 **MIDAS 侧**、**1** 个（`POST.STEELCODECHECK`）是**我方**的。
+> ⚠️ **两个反直觉的机械**事实**：
+> ① **修好整个崩溃族，主指标**一格都不动**（仍 `68 / 71`）—— 因为剩下的挡点是 **6** 个 `*-TABLE`
+> + `POST.STEELCODECHECK`，而 `*-TABLE` 要读的**设计结果**只能由崩溃族的 `*-ANAL` **产出**
+> （`-ANAL` = **执行**分析并写结果，`-TABLE` = **读**那份结果；两个端点 YAML 的标题逐字如此）
+> ⇒ 「卡在 MIDAS 侧」是**结构**性的，**不**是「多收口几个端点就能绕开」；
+> ② `--benefit` 的**每一条**路线都**至少含一个** `*-ANAL`（**含** `DESIGN.SRC` 的最短选项
+> `BC-ANAL` + `BC-TABLE`）⇒ **不**碰 `*-ANAL` 就拿不下任何一格 —— **唯一例外**是 `steel` 路由
+> （这正是 `DESIGN.CODE_CHECK` 最小代价 = **1** 的成因）。
+> ⇒ **下一个可执行动作**仍是 `POST.STEELCODECHECK`：**我方**唯一杠杆，代价 = 一次**授权测量**
+> （实例**可达** + 用户**明确同意**），判据 = **读回的设计结果行数**（铁律 ⓪，**不**是状态码）。
+> 细节 = [`registry/README.md`](registry/README.md) §8.28 · `docs/07` §16.1 **R166**。
 
 > ✅ **已收口（R159，2026-10-15）**：~~`VIEW.RESULTGRAPHIC`（挡 6）~~ ——
 > 纯 API 进结果视图（post）的路径 = `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE: "post"`
