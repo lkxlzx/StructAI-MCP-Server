@@ -18,6 +18,14 @@
 **通用取表入口**）**解锁** ⇒ 主指标 **67 → 68**（被挡 **4 → 3**、挡点端点 **14 → 13**）。
 证据 = `registry/live/post_table_enum_probe.json`；判定 = `tests/test_midas_post_table_enum_p167.py`。
 
+**P172 / R165 更新**：**收益映射本身**也曾是**手写**的（`docs/reports/P160e-a` §1），
+于是漂了 —— 它把 `POST.STEELCODECHECK` 记成「**0**（单独收口**不**解锁）」，
+理由「`DESIGN.CODE_CHECK` 还需 12 个 RC/SRC 端点」**把口径读反了**（`routes` 是**替代**
+路线 ⇒ **至少一条**全通即可）。实测收益 = **+1**（解锁 `DESIGN.CODE_CHECK`）。
+⇒ 新增 `benefit_mapping()` + `--benefit` + `EXPECTED_BENEFIT`（**逐端点**断言）。
+⚠️ **本批零请求**（实例不可达）⇒ `POST.STEELCODECHECK` 的 `availability` **不变**
+（`untested`），主指标**仍 `68 / 71`** —— 本批价值在**算准收益**与**更正口径**。
+
 口径（**显式**，缺一不可）
 --------------------------
 1. 遍历 `OPERATION_PLANS` 的**全部 71** 个 Operation。
@@ -34,6 +42,7 @@
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import pathlib
 import sys
@@ -71,8 +80,48 @@ EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
 ⚠️ 剩下 **3** 个的被挡端点 **13** 个，**分两组**（`tests/test_midas_operation_availability_p165b.py`
 逐条钉住）：**6** 个 `*-ANAL` = **实测崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154** ⇒ **MIDAS 侧**修
 `wg_db.dll`）；**6** 个 `*-TABLE` = `availability: untested`（要**先有设计结果** ⇒ 依赖那 6 个 `*-ANAL`）
-+ **1** 个 `POST.STEELCODECHECK` = `availability: untested`（我方**可**收口，但 **R152**：
-单独收口**不**解锁任何 Operation）。
++ **1** 个 `POST.STEELCODECHECK` = `availability: untested`（我方**可**收口）。
+
+⚠️ **P172 / R165 —— R152 的「单独收口**不**解锁任何 Operation」是**错的**（已更正）**：
+那句话的理由是「`DESIGN.CODE_CHECK` 还需 12 个 RC/SRC 端点」—— 它把**替代**路线
+（口径第 4 条：**至少一条**全通即可）读成了**都要**通。实测：`steel` 路由**只有**末步
+未收口 ⇒ 收口 `POST.STEELCODECHECK` ⇒ **解锁 `DESIGN.CODE_CHECK`** ⇒ 主指标 **68 → 69**
+（被挡 **3 → 2** · 挡点端点 **13 → 4**）。⚠️ 结论**不**手写 —— 由 `benefit_mapping()` 算。
+
+⚠️ **但**收益 **+1** ≠ **马上能做**（R165 的**代价**那一半，**零请求**可复算）：
+`POST.STEELCODECHECK` 的**请求体来源**在本仓**不成立** —— ① 手册条目的 `sections_present`
+**没有** `Request Examples` / `Response Examples`（它是 **13** 个挡点端点里**唯一**缺这两节的；
+对照 `POST.TABLE` / `POST.TEXT` **都**有）；② 手册的 `json_schema` 根键 = `vSECT` / `vELEM`，
+规格表描述的是 Combined Strength Ratio / Slenderness Ratio / Deflection ⇒ **结果量**
+⇒ 那份 `json_schema` 是**响应**形状；③ 我们**已落盘**的 Schema 与它**逐字节同形**且
+**没有** `properties` ⇒ `spec_guard` 对它**一个字段都不检查**。
+⇒ 收口**须**一次**有副作用**的授权测量（且实例**不可达**时**连试都不该试**）。
+⚠️ **不**按示例体硬凑（**R151**）—— 这里连示例体都**没有**。
+"""
+
+EXPECTED_BENEFIT: Final[dict[str, tuple[str, ...]]] = {
+    "POST.STEELCODECHECK": ("DESIGN.CODE_CHECK",),
+}
+"""**已裁定**的收益映射（**R165**；`--check` 逐条断言）。
+
+⚠️ **只**登记「有收益」的端点 —— 其余 **12** 个（6 个 `*-ANAL` + 6 个 `*-TABLE`）的收益
+**恰好为 0**，由 `benefit_mapping()["zero_benefit"]` 机械给出（**不**手写，
+因为手写的映射必然漂 —— R158 / R165 是同一类教训）。
+⚠️ 改动它 = 改**收益映射** ⇒ 必须同时改 `README.md` §5.1 与 `docs/07` §16.1 R165。
+"""
+
+EXPECTED_MINIMAL_COST: Final[dict[str, int]] = {
+    "DESIGN.CODE_CHECK": 1,
+    "DESIGN.CONCRETE": 2,
+    "DESIGN.SRC": 2,
+}
+"""**已裁定**的「解锁该 Operation 最少要收口几个端点」（**R165**；`--check` 逐条断言）。
+
+⚠️ 与 `EXPECTED_BLOCKED` 的「挡点**个数**」**不是**一回事：`routes` 是**替代**路线
+⇒ **花 2 个**（`BD-ANAL` + `BD-TABLE`）就解锁 `DESIGN.CONCRETE`，**顺带**也解锁
+`DESIGN.CODE_CHECK` ⇒ 解锁**全部 3 个**只要 **4** 个端点（`minimal_unlock_cost()["all_count"]`），
+**不**是 **13** 个。⚠️ 但这 **4** 个里含 `BD-ANAL`（**R154 实测崩溃端点**）⇒ **可实施性**
+卡在**产品侧**，不是「多花几个端点就能绕开」。
 """
 
 
@@ -94,11 +143,23 @@ def _load() -> tuple[Any, Any, Any]:
     )
 
 
-def compute() -> dict[str, Any]:
-    """算主指标（**纯函数**，便于测试复算）。"""
+def compute(*, pretend_verified: frozenset[str] = frozenset()) -> dict[str, Any]:
+    """算主指标（**纯函数**，便于测试复算）。
+
+    Args:
+        pretend_verified: **假设**这些端点已收口（`VERIFIED`）—— 用于算**收益映射**
+            （`benefit_mapping()`）。**只影响本次计算**，**不**改任何落盘数据。
+
+    ⚠️ **P172 / R165**：`routes` 的**替代**语义（口径第 4 条）是**逐条**判定的 ——
+    一条路由里**只剩一个**未收口端点时，收口它**就**解锁整个 Operation。
+    故「单独收口不解锁」这类结论**必须**由本函数**算**出来，**不能**手写
+    （R152 就是这么漂的：把 OR 读成了 AND）。
+    """
     plans, registry, (verified, crash_endpoints) = _load()
 
     def blocker_of(step: Any) -> str | None:
+        if step.key in pretend_verified:
+            return None
         try:
             resolved = registry.resolve(key=step.key, product=PRODUCT, method=step.method)
         except Exception:
@@ -166,6 +227,99 @@ def compute() -> dict[str, Any]:
     }
 
 
+def benefit_mapping() -> dict[str, Any]:
+    """**逐端点收益**：收口**这一个**端点 ⇒ 解锁哪些 Operation（**可执行复算**）。
+
+    为什么需要它（**R165**）
+    ------------------------
+    `docs/reports/P160e-a` 的「分组收益」是**手写**的，于是漂了：它把
+    `POST.STEELCODECHECK` 记成「**0**（单独收口**不**解锁）」，理由是
+    「`DESIGN.CODE_CHECK` 还需 12 个 RC/SRC 端点」。⚠️ 那个理由**把口径读反了**：
+    `routes` 是**替代**路线（口径第 4 条：**至少一条**全通即可）⇒ `steel` 路由
+    **只有**末步未收口 ⇒ 收口它**就**解锁 `DESIGN.CODE_CHECK`。实测 = **+1**。
+
+    ⇒ 与 R158 同一类教训：**手写的映射必然漂** ⇒ 把它变成**可执行判定**。
+    """
+    base = compute()
+    rows: dict[str, dict[str, Any]] = {}
+    for endpoint in sorted(base["blocker_endpoints"]):
+        after = compute(pretend_verified=frozenset({endpoint}))
+        rows[endpoint] = {
+            "blocks": base["blocker_endpoints"][endpoint],
+            "unlocks": sorted(
+                set(after["available_operations"]) - set(base["available_operations"])
+            ),
+        }
+    return {
+        "available": base["available"],
+        "blocked": base["blocked"],
+        "endpoints": rows,
+        "zero_benefit": sorted(key for key, row in rows.items() if not row["unlocks"]),
+    }
+
+
+def _route_options(plan: Any) -> list[frozenset[str]]:
+    """该 Operation 的**路线选项**：每个选项 = 「走这条路线时必须**全部**收口」的端点集。
+
+    ⚠️ `steps`（公共前置）**每条**路线都要走 ⇒ **并进每一个选项**；
+    `routes` 是**替代**路线 ⇒ 各是一个**独立**选项（这正是 R152 读反的地方）。
+    `resolve` 失败 / 非 `VERIFIED` 的步**全部**计入（不区分原因 —— 本函数只回答**数量**）。
+    """
+    plans, registry, (verified, crash_endpoints) = _load()
+
+    def unclosed(steps: Any) -> frozenset[str]:
+        result: set[str] = set()
+        for step in steps:
+            try:
+                resolved = registry.resolve(key=step.key, product=PRODUCT, method=step.method)
+            except Exception:
+                result.add(step.key)
+                continue
+            if resolved.verification_status != verified:
+                result.add(step.key)
+        return frozenset(result)
+
+    common = unclosed(plan.steps)
+    if not plan.routes:
+        return [common]
+    return [common | unclosed(steps) for steps in plan.routes.values()]
+
+
+def minimal_unlock_cost() -> dict[str, Any]:
+    """**最小解锁代价**：解锁每个被挡 Operation（以及**全部**）所需的**最少**端点数。
+
+    为什么需要它（**R165**）
+    ------------------------
+    `README.md` §5.1 的框架是「**13** 个挡点端点」—— 那是**当前状态**下**挡点**的**个数**，
+    **不**是「解锁要花多少个」。因为 `routes` 是**替代**路线，**花 2 个**（BD 对）就能解锁
+    `DESIGN.CONCRETE`，而那 **2** 个**顺带**也解锁 `DESIGN.CODE_CHECK` ⇒ 解锁**全部 3 个**
+    只需 **4** 个端点，**不**是 **13** 个。⚠️ 但**可实施性**是另一回事：那 **4** 个里含
+    `BD-ANAL`（**R154 实测崩溃端点**）⇒ 实际被**产品侧**卡住（见 `EXPECTED_BENEFIT` 的注）。
+    """
+    plans, _registry, _extra = _load()
+    base = compute()
+    options = {
+        name: _route_options(plans[name])
+        for name in base["blocked_operations"]
+    }
+    per_operation = {
+        name: min((len(option) for option in choices), default=0)
+        for name, choices in options.items()
+    }
+    # 全部解锁 = 每个 Operation 各选一个选项、取**并集**最小（选项数很小 ⇒ 直接穷举）
+    best: tuple[int, ...] | None = None
+    for combo in itertools.product(*options.values()):
+        union = frozenset().union(*combo)
+        size = len(union)
+        if best is None or size < best[0]:
+            best = (size, *sorted(union))
+    return {
+        "per_operation": dict(sorted(per_operation.items())),
+        "all": list(best[1:]) if best else [],
+        "all_count": best[0] if best else 0,
+    }
+
+
 def check() -> int:
     """`--check`：断言主指标与**已裁定**的值逐条一致（**零请求**）。"""
     document = compute()
@@ -179,6 +333,25 @@ def check() -> int:
     if blocked != set(EXPECTED_BLOCKED):
         problems.append(f"被挡清单与裁定不符：多 {sorted(blocked - set(EXPECTED_BLOCKED))} / "
                         f"少 {sorted(set(EXPECTED_BLOCKED) - blocked)}")
+    # **P172 / R165**：**收益映射**也必须与裁定一致 —— 它是**算**出来的，不是手写的
+    benefit = benefit_mapping()
+    for endpoint, expected in EXPECTED_BENEFIT.items():
+        actual = benefit["endpoints"].get(endpoint)
+        if actual is None:
+            problems.append(f"收益映射缺 {endpoint}（它应是被挡端点）")
+        elif actual["unlocks"] != sorted(expected):
+            problems.append(
+                f"{endpoint} 的收益 {actual['unlocks']} != 已裁定 {sorted(expected)}"
+                "（改动它必须同时改 README §5.1 与 docs/07 R165）"
+            )
+    cost = minimal_unlock_cost()
+    for name, expected in EXPECTED_MINIMAL_COST.items():
+        actual = cost["per_operation"].get(name)
+        if actual != expected:
+            problems.append(
+                f"解锁 {name} 的最小代价 {actual} != 已裁定 {expected}"
+                "（改动它必须同时改 README §5.1 与 docs/07 R165）"
+            )
     if problems:
         for item in problems:
             print(f"❌ {item}")
@@ -195,11 +368,41 @@ def main() -> int:
     """入口（默认只打印；`--json` 出结构化；`--check` 断言）。"""
     parser = argparse.ArgumentParser(description="主指标：生产路径可用 Operation")
     parser.add_argument("--check", action="store_true", help="断言与裁定一致（零请求）")
+    parser.add_argument("--benefit", action="store_true", help="逐端点收益（收口它 ⇒ 解锁谁）")
     parser.add_argument("--json", action="store_true", help="输出结构化结果")
     parser.add_argument("--out", default="", help="把结构化结果写到该路径")
     args = parser.parse_args()
     if args.check:
         return check()
+    if args.benefit:
+        table = benefit_mapping()
+        if args.json or args.out:
+            text = json.dumps(table, ensure_ascii=False, indent=1) + "\n"
+            if args.out:
+                pathlib.Path(args.out).write_text(text, encoding="utf-8")
+                print(f"wrote {args.out}")
+            else:
+                print(text)
+            return 0
+        print("=== 逐端点收益（收口**这一个** ⇒ 解锁哪些 Operation）===")
+        for endpoint, row in table["endpoints"].items():
+            unlocks = ", ".join(row["unlocks"]) or "（无）"
+            print(f"  {row['blocks']:2d} 个 Operation  {endpoint:44s} "
+                  f"⇒ {len(row['unlocks'])} 个：{unlocks}")
+        print()
+        print(f"收益**恰好为 0** 的端点（{len(table['zero_benefit'])} 个）：")
+        for endpoint in table["zero_benefit"]:
+            print(f"  {endpoint}")
+        print()
+        cost = minimal_unlock_cost()
+        print("=== 最小解锁代价（**不是**「挡点个数」）===")
+        for name, size in cost["per_operation"].items():
+            print(f"  解锁 {name:22s} 最少要收口 {size} 个端点")
+        print(f"  解锁**全部** {len(cost['per_operation'])} 个最少要收口 "
+              f"{cost['all_count']} 个：")
+        for endpoint in cost["all"]:
+            print(f"      {endpoint}")
+        return 0
     document = compute()
     if args.json or args.out:
         text = json.dumps(document, ensure_ascii=False, indent=1) + "\n"
@@ -221,6 +424,14 @@ def main() -> int:
     print("=== 挡点端点（→ 挡住几个 Operation）===")
     for endpoint, count in document["blocker_endpoints"].items():
         print(f"  {count:2d}  {endpoint}")
+    print()
+    cost = minimal_unlock_cost()
+    print("=== 最小解锁代价（`routes` 是**替代**路线 ⇒ **不是**「挡点个数」）===")
+    for name, size in cost["per_operation"].items():
+        print(f"  解锁 {name:22s} 最少要收口 {size} 个端点")
+    print(f"  解锁**全部**最少 {cost['all_count']} 个端点"
+          f"（挡点**个数** = {document['blocker_endpoint_count']} —— 两者**不是**一回事）")
+    print("  逐端点收益见 `--benefit`")
     return 0
 
 

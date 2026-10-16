@@ -213,7 +213,34 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 | --- | ---: | --- | --- |
 | `DESIGN.RC.KDS-41-20-2022.{BD,CD,BRD,WD}-ANAL` + `{BD,CD,BRD,WD}-TABLE`（**8**） | 2 | **MIDAS 侧** | `BD-ANAL` **实测四次**打崩 `GenNX.exe`（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）⇒ **原生崩溃护栏**（**R154**） |
 | `DESIGN.SRC.AIK-SRC2K.{BC,CC}-ANAL` + `{BC,CC}-TABLE`（**4**） | 2 | **MIDAS 侧** | 同族推定 ⇒ **原生崩溃护栏**（**R154**） |
-| `POST.STEELCODECHECK` | 1 | **我方** | `PARTIAL`（**R152**：单独收口**不解锁** —— `DESIGN.CODE_CHECK` 还需上面 12 个端点） |
+| `POST.STEELCODECHECK` | 1 | **我方** | `untested`。⚠️ **R165 更正 R152**：收口它**真的**解锁 `DESIGN.CODE_CHECK`（**+1**）—— R152 那句「单独收口**不**解锁」**把 `routes` 的替代语义读反了**（**至少一条**全通即可 ⇒ `steel` 路由**只有**末步未收口） |
+
+> ⚠️ **R165（P172，2026-10-15）—— 收益映射本身也曾是**手写**的，于是漂了**：
+> 上表第三行原先照抄 `docs/reports/P160e-a` §1 的「**0**（单独收口**不**解锁）」，
+> 理由是「`DESIGN.CODE_CHECK` 还需 **12** 个 RC/SRC 端点」。**实测（离线可复算）**：
+> `DESIGN.CODE_CHECK` 的 `steel` 路由 = `CODE-ANAL` → `CODE-TABLE` → `POST.STEELCODECHECK`，
+> 前 **2** 步**已** `VERIFIED` ⇒ **只有**末步挡着 ⇒ 收口它 ⇒ **解锁 `DESIGN.CODE_CHECK`**
+> （主指标 **68 → 69** · 被挡 **3 → 2** · 挡点端点 **13 → 4**）。
+> ⇒ 与 **R158** 同一类教训（那次漂的是**主指标**，这次漂的是**收益映射**）⇒
+> **把它变成可执行判定**：`python registry/tools/check_operation_availability.py --benefit`。
+>
+> ⚠️ **顺带澄清一个**口径**：**挡点**个数**（**13**）**不是**解锁**代价** ——
+> `routes` 是**替代**路线 ⇒ 解锁 `DESIGN.CODE_CHECK` 只要 **1** 个端点、
+> `DESIGN.CONCRETE` / `DESIGN.SRC` 各 **2** 个、**全部 3 个**只要 **4** 个
+> （`BD-ANAL` + `BD-TABLE` + `BC-ANAL` + `BC-TABLE`）。
+> ⚠️ **但**可实施性**卡在产品侧**：那 **4** 个里有 **2** 个 `*-ANAL` 是**崩溃族**
+> （`BD-ANAL` **实测**打崩 `GenNX.exe`，**R154**）⇒ 「多花几个端点就能绕开」**不成立**。
+> ⚠️ 另：**零边际收益 ≠ 没用** —— 6 个 `*-TABLE` 单独收口收益为 **0**，
+> 但**成组**收口（`BD-ANAL` + `BD-TABLE`）**真的**解锁 `DESIGN.CONCRETE` + `DESIGN.CODE_CHECK`。
+>
+> ⚠️ **收益 `+1` ≠ 马上能做**（**代价**那一半，**零请求**可复算）：`POST.STEELCODECHECK` 的
+> **请求体来源**在本仓**不成立** —— ① 手册条目**没有** `Request Examples` / `Response Examples`
+> 两节（它是 **13** 个挡点端点里**唯一**缺的；对照 `POST.TABLE` / `POST.TEXT` **都**有）；
+> ② 手册的 `json_schema` 根键 = `vSECT` / `vELEM`（规格表写的是 Combined Strength Ratio /
+> Slenderness Ratio / Deflection ⇒ **结果量**）⇒ 那是**响应**形状，**不**是请求形状；
+> ③ 我们落盘的 Schema 与它**逐字节同形**且**没有** `properties` ⇒ `spec_guard` 对它
+> **一个字段都不检查**。⇒ 收口**须**一次**有副作用**的授权测量（**R151** 的教训：
+> **不**按示例体硬凑 —— 这里连示例体都**没有**）。
 
 > ✅ **已收口（R159，2026-10-15）**：~~`VIEW.RESULTGRAPHIC`（挡 6）~~ ——
 > 纯 API 进结果视图（post）的路径 = `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE: "post"`
@@ -245,7 +272,13 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 **6** 个 `*-ANAL` = **实测崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154** ⇒ **MIDAS 侧**修 `wg_db.dll`）；
 **7** 个（6 个 `*-TABLE` + `POST.STEELCODECHECK`）= `availability: untested`
 （`*-TABLE` 要**先有设计结果** ⇒ 依赖上面那 6 个；`POST.STEELCODECHECK` 我方**可以**收口，
-但 **R152**：单独收口**不**解锁任何 Operation）。
+且 **R165 更正 R152**：收口它**真的**解锁 `DESIGN.CODE_CHECK` —— **+1**，**不**是 **0**）。
+
+> ⚠️ **上表「挡住」列是**挡点个数**，不是**解锁代价**（**R165** 澄清）：因为 `routes` 是
+> **替代**路线，解锁 `DESIGN.CODE_CHECK` 只要 **1** 个端点、`DESIGN.CONCRETE` / `DESIGN.SRC`
+> 各 **2** 个、**全部 3 个**只要 **4** 个。逐端点收益与最小代价由
+> `python registry/tools/check_operation_availability.py --benefit` **可执行复算**
+> （⚠️ 该脚本 `--check` 会**逐条断言**收益映射与最小代价 —— **手写的映射必然漂**）。
 
 ### 5.2 🟡 次指标：数据侧可达性上限与 Schema 覆盖
 

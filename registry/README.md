@@ -2301,3 +2301,96 @@ P169 跑完 `GET /DB/LCOM-SRC` 仍是**空块** ⇒ 收口依据**只到档位**
 **可执行判定** = `tests/test_midas_lcom_src_persistence_p171.py`（**14** 项）·
 探针 `python registry/tools/probe_lcom_src_persistence_p171.py --check`（零请求）·
 报告 `docs/reports/P171_产品侧3项澄清_R164_v1.0.md` §7 · 裁决 `docs/07` §16.1 **R164**。
+
+---
+
+### 8.27 P172：**收益映射**本身也曾是**手写**的 ⇒ 漂了 —— `POST.STEELCODECHECK` 的真实收益是 **+1**（⇒ **R165**）
+
+> **本批零请求**（`gen-local` 实例**不可达**：TCP `127.0.0.1:3030` **refused**；
+> `GenNX.exe` 进程在但**不**监听 API 端口）⇒ 只用**本仓可读**证据（`OPERATION_PLANS` +
+> `registry` 的 `verification_status`），**不**发任何请求、**不**改 `availability`。
+
+#### 8.27.1 被审的声称（`docs/reports/P160e-a` §1 的「分组收益」表）
+
+| 端点 | 收益（原记录） | 理由 |
+| --- | ---: | --- |
+| `POST.TABLE` | 1 | `RESULT.ANALYSIS.SUMMARY`（计算书入口） |
+| `POST.STEELCODECHECK` | **0** | 「单独收口**不**解锁；`DESIGN.CODE_CHECK` 还需 12 个 RC/SRC 端点」 |
+| `DESIGN.RC.*`（8） | 2 | `DESIGN.CONCRETE` + `DESIGN.CODE_CHECK` |
+| `DESIGN.SRC.*`（4） | 2 | `DESIGN.SRC` + `DESIGN.CODE_CHECK` |
+| `VIEW.RESULTGRAPHIC` | 6 | —— |
+
+⚠️ **第二行是错的**，而且错法与 **R158** **同源**。
+
+#### 8.27.2 成因（**口径读反**）
+
+`check_operation_availability.py` 的**口径第 4 条**（模块 docstring，**显式**）：
+
+> `routes` 非空 ⇒ **至少一条**路由**全部** `VERIFIED`（routes 是**替代**路线，不是都要跑）。
+
+`DESIGN.CODE_CHECK` 有 **7** 条路由，`steel` 路由的**三步**是：
+
+| 步 | 端点 | `verification_status` |
+| --- | --- | --- |
+| ① | `DESIGN.STEEL.KDS-41-30-2022.CODE-ANAL` | **`VERIFIED`** |
+| ② | `DESIGN.STEEL.KDS-41-30-2022.CODE-TABLE` | **`VERIFIED`** |
+| ③ | `POST.STEELCODECHECK` | `PARTIAL` |
+
+⇒ **只有末步**挡着 ⇒ 收口它 ⇒ `steel` 路由**全通** ⇒ `DESIGN.CODE_CHECK` **可用**。
+R152 那句「还需 12 个 RC/SRC 端点」把 **OR** 读成了 **AND**（那 12 个是**别的**路由的挡点，
+而**别的**路由**不通**并**不**妨碍 `steel` 路由通）。
+
+#### 8.27.3 更正后的收益映射（**可执行复算**）
+
+`python registry/tools/check_operation_availability.py --benefit`（**零请求**）：
+
+| 端点 | 挡住的 Operation | 单独收口 ⇒ 解锁 |
+| --- | ---: | --- |
+| `POST.STEELCODECHECK` | 1 | **`DESIGN.CODE_CHECK`**（**+1**） |
+| 其余 **12** 个（6 `*-ANAL` + 6 `*-TABLE`） | 1 ~ 2 | **（无）** |
+
+#### 8.27.4 顺带澄清的两个**口径**
+
+**① 挡点**个数**（**13**）**不是**解锁**代价**（`--benefit` 的第三节）：
+
+| 目标 | 最少要收口几个端点 |
+| --- | ---: |
+| `DESIGN.CODE_CHECK` | **1** |
+| `DESIGN.CONCRETE` | **2**（`BD-ANAL` + `BD-TABLE`） |
+| `DESIGN.SRC` | **2**（`BC-ANAL` + `BC-TABLE`） |
+| **全部 3 个** | **4**（上面两组取并集） |
+
+⚠️ **但**可实施性**卡在**产品侧**：那 **4** 个里有 **2** 个 `*-ANAL` 属**崩溃族**
+（`BD-ANAL` **实测四次**打崩 `GenNX.exe` @ `wg_db.dll`，**R154**）⇒
+「多花几个端点就能绕开」**不成立**。
+
+**② 零边际收益 ≠ 没用**：6 个 `*-TABLE` **单独**收口收益为 **0**，
+但**成组**收口（`BD-ANAL` + `BD-TABLE`）**真的**解锁 `DESIGN.CONCRETE` + `DESIGN.CODE_CHECK`
+（可用 **68 → 70**）⇒ **不**能逐个判死。
+
+#### 8.27.5 「值不值」的**代价**那一半（**零请求**可复算）
+
+收益 **+1** **不**等于「马上能做」—— `POST.STEELCODECHECK` 的**请求体来源**在本仓**不成立**：
+
+| 判据 | 实测 | 对照（**阳性**） |
+| --- | --- | --- |
+| 手册条目的 `sections_present` | `['Input URI', 'Active Methods', 'JSON Schema', 'Specifications']` —— **没有** `Request Examples` / `Response Examples`（**13** 个挡点端点里**唯一**缺的） | `POST.TABLE` / `POST.TEXT` **都**有这两节 ⇒ 「缺示例」**不是**手册的**普遍**形态（**R157 的方法学**：没有阳性对照的「缺失」不构成证据） |
+| 手册 `json_schema` 的根键 | `['vSECT', 'vELEM']`，规格表写的是 Combined Strength Ratio / Slenderness Ratio / Deflection ⇒ **结果量** ⇒ 那是**响应**形状 | `POST.TABLE` 的根键 = `['TABLE']`（**请求**） |
+| 我们落盘的 Schema | 与手册**逐字节同形** ⇒ 我们手里**同样没有**请求形状；且**没有** `properties` ⇒ `spec_guard` 对它**一个字段都不检查** | `CODE-TABLE` / `POST.TABLE` 的内层根键含 `properties` |
+
+⇒ 收口**须**一次**有副作用**的授权测量（且实例**不可达**时**连试都不该试**）。
+⚠️ **不**按示例体硬凑（**R151**）—— 这里连示例体都**没有**。
+
+#### 8.27.6 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **`68 / 71`（不变）** —— 本批**零请求**，`availability` 一行未改 |
+| 挡点端点 | **13（不变）** |
+| 工具 | `check_operation_availability.py` **新增** `--benefit` · `benefit_mapping()` · `minimal_unlock_cost()` · `compute(pretend_verified=…)` · `EXPECTED_BENEFIT` / `EXPECTED_MINIMAL_COST` |
+| 端点 / Schema / 枚举约束 | **不变**（636 / 625 / 754） |
+| `app/**` | **一行未改** |
+
+**可执行判定** = `tests/test_midas_main_metric_benefit_p172.py`（**14** 项）·
+`python registry/tools/check_operation_availability.py --check`（零请求，**逐条**断言收益映射）·
+`python registry/tools/check_operation_availability.py --benefit` · 裁决 `docs/07` §16.1 **R165**。
