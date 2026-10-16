@@ -81,9 +81,10 @@ EXPECTED_GAPS = {
 EXPECTED_NEVER_RETRY = {"POST.TABLE.FIBR_MAXCONTRACT": "R115"}
 """**永不再试**的端点（使 NX 实例**崩溃**，两次实测确认）。"""
 
-EXPECTED_VERIFIED_TOTAL = 511
+EXPECTED_VERIFIED_TOTAL = 512
 """全库 `availability == verified`（P149-C 的 296 + P149-D 收口的 185 + P149-E 补测的 12
-+ **P166 / R159** 的 1 = `VIEW.RESULTGRAPHIC` + **P167 / R160** 的 1 = `POST.TABLE`）。"""
++ **P166 / R159** 的 1 = `VIEW.RESULTGRAPHIC` + **P167 / R160** 的 1 = `POST.TABLE`
++ **P174 / R166** 的 1 = `POST.STEELCODECHECK`）。"""
 
 EXPECTED_RESPONSE_BLOCKS = 317
 """全库 `response` 块数（P149-C 的 290 + P149-D 的 15 个 `PASSED` + P149-E 的 12）。"""
@@ -275,7 +276,14 @@ def test_p149d_every_upgradable_endpoint_is_verified_and_the_rest_is_not() -> No
             assert availability != "verified", key
     assert upgradable == EXPECTED_PROBED - EXPECTED_COUNTS["FAILED"]
     for key in document["gaps"]:
-        availability, _ = tool.read_availability(files[key])
+        availability, verified_on = tool.read_availability(files[key])
+        # ⚠️ **P174 / R166**：`POST.STEELCODECHECK` 在 `gaps` 里（取报表判据**结构上不适用**
+        # —— 手册条目没有 `TABLE_TYPE`），但它已由**真机写路径测量**收口 ⇒ 判据来源换成
+        # `VERIFIED_BY_OTHER_CRITERION`（**仍**要求 verified + 实例溯源，**不**是放宽）。
+        if key in tool.VERIFIED_BY_OTHER_CRITERION:
+            assert availability == "verified", key
+            assert INSTANCE_ALIAS in verified_on, (key, verified_on)
+            continue
         assert availability != "verified", key
 
 

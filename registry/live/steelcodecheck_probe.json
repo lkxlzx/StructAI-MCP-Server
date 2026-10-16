@@ -1,0 +1,391 @@
+{
+ "phase": "steelcodecheck",
+ "criterion_version": 1,
+ "instance": {
+  "alias": "gen-local",
+  "probed_at": "2026-10-16"
+ },
+ "project": ".tmp_p164c/p174-steelcodecheck.mgbx",
+ "endpoint": "/POST/STEELCODECHECK",
+ "contract_facts": {
+  "note": "手册条目**没有**请求形状：`sections_present` 不含 `Request Examples` / `Response Examples`，`request_examples == []`；`json_schema` 的根键是 `vSECT` / `vELEM`（规格表 = Combined Strength Ratio / Slenderness Ratio / Deflection / Allowable Deflection ⇒ **结果量**）⇒ 那是**响应**形状。⚠️ 我们落盘的 Schema 与它**逐字节同形**且**没有** `properties` ⇒ `spec_guard` **一个字段都不检查** ⇒ 阴性对照**不能**靠核心闸门（**R165**）。",
+  "declared_sections": [
+   "Input URI",
+   "Active Methods",
+   "JSON Schema",
+   "Specifications"
+  ],
+  "declared_schema_roots": [
+   "vSECT",
+   "vELEM"
+  ],
+  "request_examples": []
+ },
+ "model": [
+  {
+   "label": "单位 M/KN",
+   "uri": "/DB/UNIT",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "材料 Q355（GB50017-17(S)）",
+   "uri": "/DB/MATL",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "截面 P154S1（SB）",
+   "uri": "/DB/SECT",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "节点 2 个（0,0,0）+（0,0,6）",
+   "uri": "/DB/NODE",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "梁单元 1 个",
+   "uri": "/DB/ELEM",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "柱底固定（7 位 CONSTRAINT，rw=0）",
+   "uri": "/DB/CONS",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "工况 AXIAL",
+   "uri": "/DB/STLD",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "节点荷载 FZ=-500 kN（节点 2）",
+   "uri": "/DB/CNLD",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "钢荷载组合 sLCB1（STRENGTH）",
+   "uri": "/DB/LCOM-STEEL",
+   "status": 200,
+   "ok": true
+  }
+ ],
+ "analysis": {
+  "status": 200
+ },
+ "design_chain": [
+  {
+   "label": "DSTL 规范选择",
+   "uri": "/DESIGN/STEEL/DSTL",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "DCO 设计选项",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCO",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "DCTL 构件类型",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "MEMB 构件指派（单元 1）",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+   "status": 200,
+   "ok": true
+  },
+  {
+   "label": "CODE-ANAL 执行校核（PERFORM_TYPE=ALL）",
+   "uri": "/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+   "status": 200,
+   "ok": true
+  }
+ ],
+ "positive_reference_code_table": {
+  "status": 200,
+  "roots": [
+   "Result Table"
+  ],
+  "rows": 36,
+  "message": "",
+  "auth_error": false
+ },
+ "phase_no_design": [
+  {
+   "label": "最小体 `{}`",
+   "argument_keys": [],
+   "status": 200,
+   "rows": 0,
+   "roots": [],
+   "fingerprint": [],
+   "message": "",
+   "auth_error": false,
+   "phase": "无设计结果"
+  },
+  {
+   "label": "自名 TABLE_TYPE",
+   "argument_keys": [
+    "TABLE_TYPE"
+   ],
+   "status": 200,
+   "rows": 0,
+   "roots": [],
+   "fingerprint": [],
+   "message": "",
+   "auth_error": false,
+   "phase": "无设计结果"
+  },
+  {
+   "label": "逐字照 CODE-TABLE 的体",
+   "argument_keys": [
+    "ELEMS",
+    "PRI_SORT",
+    "RESULT",
+    "TABLE_TYPE"
+   ],
+   "status": 200,
+   "rows": 0,
+   "roots": [],
+   "fingerprint": [],
+   "message": "",
+   "auth_error": false,
+   "phase": "无设计结果"
+  }
+ ],
+ "phase_with_design": [
+  {
+   "label": "最小体 `{}`",
+   "argument_keys": [],
+   "status": 200,
+   "rows": 2,
+   "roots": [
+    "vELEM",
+    "vSECT"
+   ],
+   "fingerprint": [
+    {
+     "SECT": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    },
+    {
+     "ELEM": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    }
+   ],
+   "message": "",
+   "auth_error": false,
+   "phase": "有设计结果"
+  },
+  {
+   "label": "自名 TABLE_TYPE",
+   "argument_keys": [
+    "TABLE_TYPE"
+   ],
+   "status": 200,
+   "rows": 2,
+   "roots": [
+    "vELEM",
+    "vSECT"
+   ],
+   "fingerprint": [
+    {
+     "SECT": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    },
+    {
+     "ELEM": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    }
+   ],
+   "message": "",
+   "auth_error": false,
+   "phase": "有设计结果"
+  },
+  {
+   "label": "逐字照 CODE-TABLE 的体",
+   "argument_keys": [
+    "ELEMS",
+    "PRI_SORT",
+    "RESULT",
+    "TABLE_TYPE"
+   ],
+   "status": 200,
+   "rows": 2,
+   "roots": [
+    "vELEM",
+    "vSECT"
+   ],
+   "fingerprint": [
+    {
+     "SECT": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    },
+    {
+     "ELEM": 1,
+     "RAT": 8.084595471158101,
+     "SLN": 0.10392304845413264
+    }
+   ],
+   "message": "",
+   "auth_error": false,
+   "phase": "有设计结果"
+  }
+ ],
+ "negative_control": {
+  "label": "伪 TABLE_TYPE",
+  "argument_keys": [
+   "TABLE_TYPE"
+  ],
+  "status": 200,
+  "rows": 2,
+  "roots": [
+   "vELEM",
+   "vSECT"
+  ],
+  "fingerprint": [
+   {
+    "SECT": 1,
+    "RAT": 8.084595471158101,
+    "SLN": 0.10392304845413264
+   },
+   {
+    "ELEM": 1,
+    "RAT": 8.084595471158101,
+    "SLN": 0.10392304845413264
+   }
+  ],
+  "message": "",
+  "auth_error": false,
+  "phase": "阴性（形态不可用）",
+  "verdict": "INCONCLUSIVE_BY_DESIGN",
+  "note": "⚠️ 本端点对 `Argument` **完全不敏感**（空体 / 自名 / 照 CODE-TABLE / **伪**取值 四者答复同形）⇒ 「坏取值被拦」这一**形态**的阴性对照在本端点**结构上不可用**。如实记录，**不**硬凑假对照（**R157**）。"
+ },
+ "state_control": {
+  "criterion": "同一个请求体（空体 `{}`），**没**设计结果 ⇒ 0 行；**有** ⇒ >0 行",
+  "rows_without_design": 0,
+  "rows_with_design": 2,
+  "valid": true,
+  "note": "这是本批**可用**的阴性对照：它证明输出**真的**跟着设计状态走，**不是**恒定答复（比「坏取值被拦」更贴本端点的语义 —— 本端点**不**吃 `Argument`）。"
+ },
+ "echo_control": {
+  "criterion": "结果取值**不得**等于手册 `json_schema` 的示例值 —— 否则是**静态回显**，不是计算（**R157** 的仪器有效性）",
+  "manual_sample_elem": 10,
+  "manual_sample_rat": 0.611917806624809,
+  "observed_fingerprint": [
+   {
+    "SECT": 1,
+    "RAT": 8.084595471158101,
+    "SLN": 0.10392304845413264
+   },
+   {
+    "ELEM": 1,
+    "RAT": 8.084595471158101,
+    "SLN": 0.10392304845413264
+   }
+  ],
+  "echoes_manual": false,
+  "valid": true,
+  "note": "手册示例的 `vELEM.ELEM = 10`，而本模型**没有**单元 `10`（只有单元 `1`）⇒ 响应回 `ELEM=1` ⇒ **不是**回显。这条判据是本批**最硬**的一条：它把「端点真的读了模型」与「端点回了手册样例」区分开。"
+ },
+ "effect": {
+  "criterion": "结果**行数**（vSECT + vELEM 的元素个数）—— **不**是状态码（铁律 ⓪）",
+  "rows_without_design": 0,
+  "rows_with_design": 2,
+  "best_candidate": "最小体 `{}`",
+  "roots": [
+   "vELEM",
+   "vSECT"
+  ],
+  "evidence": "① 无设计结果 ⇒ 0 行；③ 有设计结果 ⇒ >0 行 ∧ 取值**不**等于手册示例 ⇒ 端点**真的**在读本模型的设计结果（**不是**静默 `200`、**不是** schema 回显）"
+ },
+ "sentinel": {
+  "keys": [
+   "/DB/NODE",
+   "/DB/ELEM",
+   "/DB/MATL",
+   "/DB/SECT",
+   "/DB/STLD",
+   "/DB/LCOM-STEEL",
+   "/DB/CONS"
+  ],
+  "before": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/LCOM-STEEL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/CONS": {
+    "status": 200,
+    "count": 1
+   }
+  },
+  "after": {
+   "/DB/NODE": {
+    "status": 200,
+    "count": 2
+   },
+   "/DB/ELEM": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/MATL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/SECT": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/STLD": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/LCOM-STEEL": {
+    "status": 200,
+    "count": 1
+   },
+   "/DB/CONS": {
+    "status": 200,
+    "count": 1
+   }
+  },
+  "unchanged": true
+ },
+ "verdict": "PASSED",
+ "note": "⚠️ 本批**只**测形状 / 行为，**不**改任何 `availability`（收口与否由**用户裁决**）—— `app/**` 一行未改。副作用受控：**只**碰自建项目 + 只读 `GET`；照**R141** 的口径**逐字照**旗舰链的请求体，**不**臆造字段（**R151**）。"
+}

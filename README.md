@@ -61,7 +61,7 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
 | 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
 | 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
-| 🔴 主指标 | **生产路径可用 Operation** | **`68 / 71`**（缺口 = **13** 个端点 → **3** 个 Operation） |
+| 🔴 主指标 | **生产路径可用 Operation** | **`69 / 71`**（缺口 = **4** 个端点 → **2** 个 Operation） |
 | 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / 633` |
 | ⚪ 账本 | 映射缺口 / 留缺账本 | `489` / `178`（**只登记，不驱动优先级**） |
 
@@ -122,10 +122,25 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 生成器 = [`registry/tools/sync_result_graphic_modes.py`](registry/tools/sync_result_graphic_modes.py) ·
 > [`registry/tools/sync_table_type_variant_enum.py`](registry/tools/sync_table_type_variant_enum.py)。
 
-> ⚠️ **R166（P173）**：主指标的**缺口归因**也**不**手写 ——
+> ✅ **R166（P174 收口）**：`POST.STEELCODECHECK` **真机实测收口** ⇒ 它挡住的
+> **`DESIGN.CODE_CHECK`**（钢铁路由）**解锁** ⇒ 主指标 `68 / 71` → **`69 / 71`**
+> （被挡 **3 → 2** · 挡点端点 **13 → 4**）。
+> **判据 = 效果**（铁律 ⓪，**不**是状态码）：**同一个**请求体（空体 `{}`）——
+> **无设计结果**时 **0 行** · `CODE-ANAL` 跑完后 **2 行**（根键 `vSECT` / `vELEM`）
+> ⇒ 输出**真的**跟着设计状态走；**防回显**（**R157** 的仪器有效性）：取值
+> `ELEM 1 / RAT 8.0846`，而手册 `json_schema` 示例是 `ELEM 10 / RAT 0.6119`、本模型**没有**
+> 单元 `10` ⇒ **不**是 schema 回显。
+> ⚠️ **本端点对 `Argument` 完全不敏感**：空体 / 自名 `TABLE_TYPE` / **逐字照** `CODE-TABLE` /
+> **伪**取值，四者答复**逐字节同形** ⇒ 「坏取值被拦」这一形态的阴性对照**结构上不可用**
+> ⇒ 改用**状态对照**（如实记录，**不**硬凑假对照）。
+> 证据 = [`registry/live/steelcodecheck_probe.json`](registry/live/steelcodecheck_probe.json)；
+> 生成器 = [`registry/tools/probe_steelcodecheck_p174.py`](registry/tools/probe_steelcodecheck_p174.py)（可 `--check` 离线复算）。
+
+> ⚠️ **R166（P173，归因）**：主指标的**缺口归因**也**不**手写 ——
 > `python registry/tools/check_operation_availability.py --attribution`（**零请求**）给出
-> 每个挡点端点**卡在谁**（**我方** / **MIDAS 侧**）：**13** 个里 **12** 个是 **MIDAS 侧**、
-> **1** 个（`POST.STEELCODECHECK`）是**我方**的。⇒ 「下一步该做什么」见 §5.1。
+> 每个挡点端点**卡在谁**（**我方** / **MIDAS 侧**）。⚠️ 收口 `POST.STEELCODECHECK` 后，
+> **我方**的可拿下项**已全部收口** ⇒ 剩余 **4** 个挡点端点**全部**是 **MIDAS 侧**（崩溃族）。
+> ⇒ 「下一步该做什么」见 §5.1。
 
 ---
 
@@ -203,7 +218,7 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ⚠️ 本节按 **`docs/07` §15.6.3 的指标层级**写：**主指标 = 接口层端到端 / 生产路径可用 Operation**；
 > `availability` 计数与缺口账本属**次指标 / 账本**，**不**驱动优先级。
 
-### 5.1 🔴 主指标上的剩余缺口：**13 个端点 → 3 个 Operation**（收口即 `71 / 71`）
+### 5.1 🔴 主指标上的剩余缺口：**4 个端点 → 2 个 Operation**（收口即 `71 / 71`）
 
 > ⚠️ **R158 更正**：本节旧值写「**6** 个端点 → **9** 个 Operation」（`62 / 71`），
 > **漏了** `DESIGN.CODE_CHECK` 与 `POST.STEELCODECHECK`，且只列了 BD/BC 两个变体、
@@ -211,14 +226,21 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ✅ **R159 收口**：**单点最大杠杆 `VIEW.RESULTGRAPHIC` 已解锁 6 个 Operation**
 > ⇒ 值 = `67 / 71`。
 > ✅ **R160 收口**：**通用取表入口 `POST.TABLE` 已解锁 `RESULT.ANALYSIS.SUMMARY`**
-> ⇒ 现值 = **`68 / 71`**，**逐条**由
+> ⇒ 值 = `68 / 71`。
+> ✅ **R166 收口**：**`POST.STEELCODECHECK` 已解锁 `DESIGN.CODE_CHECK`**（钢铁路由，
+> **真机实测**；判据 = 效果）⇒ 现值 = **`69 / 71`**，**逐条**由
 > `python registry/tools/check_operation_availability.py` 复算。
 
 | 端点 | 挡住 | 谁**能**修 | 状态 |
 | --- | ---: | --- | --- |
-| `DESIGN.RC.KDS-41-20-2022.{BD,CD,BRD,WD}-ANAL` + `{BD,CD,BRD,WD}-TABLE`（**8**） | 2 | **MIDAS 侧** | `BD-ANAL` **实测四次**打崩 `GenNX.exe`（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）⇒ **原生崩溃护栏**（**R154**） |
-| `DESIGN.SRC.AIK-SRC2K.{BC,CC}-ANAL` + `{BC,CC}-TABLE`（**4**） | 2 | **MIDAS 侧** | 同族推定 ⇒ **原生崩溃护栏**（**R154**） |
-| `POST.STEELCODECHECK` | 1 | **我方** | `untested`。⚠️ **R165 更正 R152**：收口它**真的**解锁 `DESIGN.CODE_CHECK`（**+1**）—— R152 那句「单独收口**不**解锁」**把 `routes` 的替代语义读反了**（**至少一条**全通即可 ⇒ `steel` 路由**只有**末步未收口） |
+| `DESIGN.RC.KDS-41-20-2022.BD-ANAL` + `BD-TABLE`（**2**） | 1 | **MIDAS 侧** | `BD-ANAL` **实测四次**打崩 `GenNX.exe`（`wg_db.dll` `0xc0000005` @ `0x2d97e5c`）⇒ **原生崩溃护栏**（**R154**）；`BD-TABLE` 要读的**设计结果**只能由该 `*-ANAL` 产出（**R166**） |
+| `DESIGN.SRC.AIK-SRC2K.BC-ANAL` + `BC-TABLE`（**2**） | 1 | **MIDAS 侧** | 同族推定 ⇒ **原生崩溃护栏**（**R154**）；`BC-TABLE` 同上 |
+| ~~`POST.STEELCODECHECK`~~ | — | — | ✅ **R166 已收口**（→ `verified`）⇒ 挡点端点 **13 → 4** |
+
+> ⚠️ **R166 的关键**：**我方**不依赖崩溃族 `*-ANAL` 的可拿下项**已全部收口**
+> （`--attribution` 的 `ours` 现为**空**）⇒ 剩余 **4** 个挡点端点**全部**卡在 **MIDAS 侧**。
+> 即：`python registry/tools/check_operation_availability.py --attribution` 现在会打印
+> 「**我方**不依赖 `*-ANAL` 的可自己拿下的一格：**（已全部收口）**」。
 
 > ⚠️ **R165（P172，2026-10-15）—— 收益映射本身也曾是**手写**的，于是漂了**：
 > 上表第三行原先照抄 `docs/reports/P160e-a` §1 的「**0**（单独收口**不**解锁）」，
@@ -258,9 +280,10 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > ② `--benefit` 的**每一条**路线都**至少含一个** `*-ANAL`（**含** `DESIGN.SRC` 的最短选项
 > `BC-ANAL` + `BC-TABLE`）⇒ **不**碰 `*-ANAL` 就拿不下任何一格 —— **唯一例外**是 `steel` 路由
 > （这正是 `DESIGN.CODE_CHECK` 最小代价 = **1** 的成因）。
-> ⇒ **下一个可执行动作**仍是 `POST.STEELCODECHECK`：**我方**唯一杠杆，代价 = 一次**授权测量**
-> （实例**可达** + 用户**明确同意**），判据 = **读回的设计结果行数**（铁律 ⓪，**不**是状态码）。
-> 细节 = [`registry/README.md`](registry/README.md) §8.28 · `docs/07` §16.1 **R166**。
+> ⇒ ~~**下一个可执行动作**仍是 `POST.STEELCODECHECK`~~ ✅ **R166（P174）已兑付** ——
+> 那次授权测量**做完了**（判据 = 效果：**0 行 → 2 行** ∧ 取值**不**等于手册示例）
+> ⇒ 主指标 **`69 / 71`**，且**我方**可拿下项**已全部收口**（`--attribution` 的 `ours` 为**空**）。
+> 细节 = [`registry/README.md`](registry/README.md) §8.28 / §8.29 · `docs/07` §16.1 **R166**。
 
 > ✅ **已收口（R159，2026-10-15）**：~~`VIEW.RESULTGRAPHIC`（挡 6）~~ ——
 > 纯 API 进结果视图（post）的路径 = `POST /VIEW/CAPTURE` 的 `Argument.SET_MODE: "post"`

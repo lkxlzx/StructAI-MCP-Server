@@ -288,14 +288,19 @@ def test_p171_the_manual_and_our_schema_for_lcom_gen_are_byte_identical() -> Non
 # ===== 6. 主指标不变 =====
 
 
-def test_p171_the_main_metric_is_unchanged() -> None:
-    """门槛（**主指标不变**）：`68 / 71`（本批价值在**澄清**与**判据修正**）。"""
+def test_p171_the_main_metric_is_consistent() -> None:
+    """门槛：`--check` 自洽（本批价值在**澄清**与**判据修正**，**不**在主指标）。
+
+    ⚠️ 本批（P171）时是「**主指标不变**」+ `68 / 71`。
+    **R166（P174）** 用真机实测收口 `POST.STEELCODECHECK` ⇒ 主指标为 **`69 / 71`**。
+    ⇒ 本用例改为钉**当前**值 + `--check` 自洽（**不**再声称「不变」—— 那已不是事实）。
+    """
     tool = _load(AVAILABILITY_TOOL, "check_operation_availability_p171")
     document = tool.compute()
-    assert document["available"] == 68
+    assert document["available"] == 69
     assert document["total"] == 71
-    assert document["blocked"] == 3
-    assert document["blocker_endpoint_count"] == 13
+    assert document["blocked"] == 2
+    assert document["blocker_endpoint_count"] == 4
     assert tool.check() == 0
 
 

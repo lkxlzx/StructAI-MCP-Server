@@ -57,17 +57,23 @@ REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PRODUCT: Final[str] = "GEN_NX"
 """主指标按 **GEN NX** 算（与 `README.md` §1.1 同口径）。"""
 
-EXPECTED_AVAILABLE: Final[int] = 68
+EXPECTED_AVAILABLE: Final[int] = 69
 """**已裁定**的可用数（`docs/07` §16.1 **R158** 定 61；**R159**（P166）收口 `VIEW.RESULTGRAPHIC`
-⇒ **+6** = 67；**R160**（P167）收口 `POST.TABLE` ⇒ **+1** = **68**）。
+⇒ **+6** = 67；**R160**（P167）收口 `POST.TABLE` ⇒ **+1** = 68；**R166**（P174）
+**真机实测**收口 `POST.STEELCODECHECK` ⇒ **+1** = **69**）。
 改动它 = 改主指标 ⇒ 必须同时改文档。"""
 
 EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
-    "DESIGN.CODE_CHECK",
     "DESIGN.CONCRETE",
     "DESIGN.SRC",
 )
-"""**已裁定**的被挡 Operation（**3** 个；顺序无关）。
+"""**已裁定**的被挡 Operation（**2** 个；顺序无关）。
+
+⚠️ **R166（P174）**：`DESIGN.CODE_CHECK` **已解锁** —— `steel` 路由的末步 `POST.STEELCODECHECK`
+由 `untested` **实测**收口为 `verified`（判据 = **效果**：无设计结果 **0 行** → 有设计结果
+**2 行** ∧ 取值**不**等于手册 schema 示例 ⇒ **真的**在读本模型；
+证据 = `registry/live/steelcodecheck_probe.json`）。这是 **R165** 算出的「**我方唯一**杠杆」
+**真的兑付**。⇒ 挡点端点 **13 → 4**。
 
 ⚠️ **P166 / R159**：`VIEW.{DEFORMED_MODEL,DISPLACEMENT,FORCE,MODE_SHAPE,REACTION,STRESS}`
 （**6** 个）**已解锁** —— 它们的唯一挡点 `VIEW.RESULTGRAPHIC` 由 `untested` 收口为 `verified`
@@ -106,29 +112,27 @@ EXPECTED_BLOCKED: Final[tuple[str, ...]] = (
 ⇒ `POST.STEELCODECHECK` 是**我方**唯一可自己拿下的一格（代价 = 一次授权测量）。
 """
 
-EXPECTED_BENEFIT: Final[dict[str, tuple[str, ...]]] = {
-    "POST.STEELCODECHECK": ("DESIGN.CODE_CHECK",),
-}
+EXPECTED_BENEFIT: Final[dict[str, tuple[str, ...]]] = {}
 """**已裁定**的收益映射（**R165**；`--check` 逐条断言）。
 
-⚠️ **只**登记「有收益」的端点 —— 其余 **12** 个（6 个 `*-ANAL` + 6 个 `*-TABLE`）的收益
-**恰好为 0**，由 `benefit_mapping()["zero_benefit"]` 机械给出（**不**手写，
-因为手写的映射必然漂 —— R158 / R165 是同一类教训）。
-⚠️ 改动它 = 改**收益映射** ⇒ 必须同时改 `README.md` §5.1 与 `docs/07` §16.1 R165。
+⚠️ **R166（P174）**：`POST.STEELCODECHECK` **已收口** ⇒ 它**不再是被挡端点** ⇒ 从本表移除
+（本表**只**登记**当前仍被挡**的端点的收益）。它的收益（`DESIGN.CODE_CHECK`，**+1**）
+**已经兑付**（主指标 **68 → 69**），由 `EXPECTED_AVAILABLE` / `EXPECTED_BLOCKED` 表达。
+⚠️ 其余 **12** 个（6 个 `*-ANAL` + 6 个 `*-TABLE`）的收益**恰好为 0**，由
+`benefit_mapping()["zero_benefit"]` 机械给出（**不**手写 —— 手写的映射必然漂，R158 / R165 同源）。
+⚠️ 改动它 = 改**收益映射** ⇒ 必须同时改 `README.md` §5.1 与 `docs/07` §16.1 R165 / **R166**。
 """
 
 EXPECTED_MINIMAL_COST: Final[dict[str, int]] = {
-    "DESIGN.CODE_CHECK": 1,
     "DESIGN.CONCRETE": 2,
     "DESIGN.SRC": 2,
 }
 """**已裁定**的「解锁该 Operation 最少要收口几个端点」（**R165**；`--check` 逐条断言）。
 
-⚠️ 与 `EXPECTED_BLOCKED` 的「挡点**个数**」**不是**一回事：`routes` 是**替代**路线
-⇒ **花 2 个**（`BD-ANAL` + `BD-TABLE`）就解锁 `DESIGN.CONCRETE`，**顺带**也解锁
-`DESIGN.CODE_CHECK` ⇒ 解锁**全部 3 个**只要 **4** 个端点（`minimal_unlock_cost()["all_count"]`），
-**不**是 **13** 个。⚠️ 但这 **4** 个里含 `BD-ANAL`（**R154 实测崩溃端点**）⇒ **可实施性**
-卡在**产品侧**，不是「多花几个端点就能绕开」。
+⚠️ **R166（P174）**：`DESIGN.CODE_CHECK` **已解锁** ⇒ 从本表移除。剩下的 **2** 个里，
+`DESIGN.CONCRETE` / `DESIGN.SRC` 的**最短选项各含一个** `*-ANAL`（**R154 崩溃族**）
+⇒ **卡在 MIDAS 侧**（`--attribution` 机械给出），**不**是「多花几个端点就能绕开」。
+⚠️ 与 `EXPECTED_BLOCKED` 的「挡点**个数**」**不是**一回事（`routes` 是**替代**路线）。
 """
 
 
@@ -324,6 +328,17 @@ def minimal_unlock_cost() -> dict[str, Any]:
         "per_operation": dict(sorted(per_operation.items())),
         "all": list(best[1:]) if best else [],
         "all_count": best[0] if best else 0,
+        # ⚠️ **R166（P174）**：随被挡 Operation 减少，「最小并集」可能**不唯一**（例如只剩
+        # 2 个被挡、各有**多条**路线时）⇒ 如实报出**全部并列最小集**，避免 `min` 静默取第一个
+        # 让读者以为只有一条路。⚠️ 当前（收口后）**无并列**：`DESIGN.CONCRETE` / `DESIGN.SRC`
+        # **各只有一条**路线 ⇒ 并集被**唯一**确定（长度 **4**）。
+        "all_ties": sorted(
+            {
+                tuple(sorted(frozenset().union(*combo)))
+                for combo in itertools.product(*options.values())
+                if best is not None and len(frozenset().union(*combo)) == best[0]
+            }
+        ),
     }
 
 
@@ -512,7 +527,11 @@ def main() -> int:
               f"{', '.join(table['fixing_all_crash_still_blocked'])}）")
         print("    ⇒ `*-TABLE` 要**先有设计结果**，而那结果只能由崩溃族的 `*-ANAL` 产出 ⇒ "
               "**不是**独立的一格代价")
-        print(f"✅ **我方**唯一不依赖 `*-ANAL` 的可自己拿下的一格：{', '.join(table['ours'])}")
+        if table["ours"]:
+            print(f"✅ **我方**不依赖 `*-ANAL` 的可自己拿下的一格：{', '.join(table['ours'])}")
+        else:
+            print("✅ **我方**不依赖 `*-ANAL` 的可自己拿下的一格：**（已全部收口）** —— "
+                  "剩余挡点**全部**卡在 **MIDAS 侧**（R154 崩溃族）")
         print()
         print("⚠️ 探活提示（**R167**）：`gen-local` **只**监听 **`::1`** ⇒ 必须用 "
               "`localhost` / `[::1]`，**不**要用 IPv4 `127.0.0.1`（否则**必然**假阴性）。")

@@ -17,8 +17,14 @@
 （`RESULT.ANALYSIS.SUMMARY`，**通用取表入口**）**解锁**
 ⇒ **68 / 71**（被挡 **3** · 挡点端点 **13**）。
 
+**R166（P174）**：`POST.STEELCODECHECK` **真机实测**收口（判据 = **效果**：无设计结果 **0 行**
+→ 有设计结果 **2 行** ∧ 取值**不**等于手册 schema 示例）⇒ 它挡住的 **1** 个 Operation
+（`DESIGN.CODE_CHECK`，钢铁路由）**解锁**
+⇒ **69 / 71**（被挡 **2** · 挡点端点 **4**）。
+⚠️ 节标题 `P165b` 是**时点记录**（不改）；本文件的**裁定值**随每个收口批次上抬。
+
 **手写的指标必然漂** ⇒ 本文件把**裁定值**钉住 —— 改主指标必须同时改
-`README.md` §1.1 / §5.1 与 `docs/07` §16.1 的裁决（R158 / R159 / R160）。
+`README.md` §1.1 / §5.1 与 `docs/07` §16.1 的裁决（R158 / R159 / R160 / **R166**）。
 """
 
 from __future__ import annotations
@@ -42,16 +48,15 @@ README = REPO_ROOT / "README.md"
 DOCS_07 = REPO_ROOT / "docs" / "07_开发方案与任务续接_v1.0.md"
 """裁决表（§16.1）。"""
 
-EXPECTED_AVAILABLE = 68
+EXPECTED_AVAILABLE = 69
 EXPECTED_TOTAL = 71
-EXPECTED_BLOCKER_ENDPOINTS = 13
+EXPECTED_BLOCKER_ENDPOINTS = 4
 EXPECTED_BLOCKED = (
-    "DESIGN.CODE_CHECK",
     "DESIGN.CONCRETE",
     "DESIGN.SRC",
 )
-"""已裁定的被挡 Operation（**3** 个；R158 为 10，R159 解锁了 6 个 `VIEW.*`，
-R160 解锁了 1 个 `RESULT.ANALYSIS.SUMMARY`）。"""
+"""已裁定的被挡 Operation（**2** 个；R158 为 10，R159 解锁 6 个 `VIEW.*`，
+R160 解锁 1 个 `RESULT.ANALYSIS.SUMMARY`，**R166 解锁 1 个 `DESIGN.CODE_CHECK`**）。"""
 
 UNLOCKED_BY_R159 = (
     "VIEW.DEFORMED_MODEL",
@@ -80,7 +85,7 @@ def _load_tool() -> Any:
 
 
 def test_p165b_the_main_indicator_matches_the_ruling() -> None:
-    """门槛（**主指标**）：生产路径可用 Operation = **68 / 71**（R160 收口后）。"""
+    """门槛（**主指标**）：生产路径可用 Operation = **69 / 71**（**R166** 收口后）。"""
     document = _load_tool().compute()
     assert document["total"] == EXPECTED_TOTAL, document["total"]
     assert document["available"] == EXPECTED_AVAILABLE, document["available"]
@@ -91,8 +96,8 @@ def test_p165b_the_main_indicator_matches_the_ruling() -> None:
 
 
 def test_p165b_the_blocker_endpoint_count_matches_the_ruling() -> None:
-    """门槛：挡点端点 **13** 个（R158 为 15；R159 移除 `VIEW.RESULTGRAPHIC`；
-    R160 移除 `POST.TABLE`）。"""
+    """门槛：挡点端点 **4** 个（R158 为 15；R159 移除 `VIEW.RESULTGRAPHIC`；
+    R160 移除 `POST.TABLE`；**R166** 移除 `POST.STEELCODECHECK`）。"""
     document = _load_tool().compute()
     assert document["blocker_endpoint_count"] == EXPECTED_BLOCKER_ENDPOINTS, sorted(
         document["blocker_endpoints"]
@@ -110,13 +115,13 @@ def test_p165b_the_blocker_endpoint_count_matches_the_ruling() -> None:
 
 
 def test_p165b_the_remaining_blockers_are_split_by_recovery_condition() -> None:
-    """门槛（**R160 收口后的边界**）：剩余 **13** 个挡点端点分两组，**逐条**可归因。
+    """门槛（**R166 收口后的边界**）：剩余 **4** 个挡点端点**全部**可归因到崩溃边。
 
-    * **实测崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154**）= **6** 个 `*-ANAL`
+    * **实测 / 同族推定的崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154**）= **2** 个 `*-ANAL`
       ⇒ 恢复条件 = **MIDAS 侧**修 `wg_db.dll`；
-    * **其余 7 个**（6 个 `*-TABLE` + `POST.STEELCODECHECK`）= `availability` 未收口
-      ⇒ 6 个 `*-TABLE` 要**先有设计结果**（依赖上面那 6 个 `*-ANAL`）·
-      `POST.STEELCODECHECK` **我方可以**收口（**R152**）但**单独收口不解锁**。
+    * **其余 2 个** `*-TABLE` = `availability` 未收口，但**要先有设计结果**
+      ⇒ 那结果**只能由**同选项里的崩溃族 `*-ANAL` 产出（**R166**）⇒ 卡在**同一条**崩溃边。
+    ⚠️ **R166**：`POST.STEELCODECHECK` **已收口**（不再是挡点）。
 
     ⚠️ **不**声称「全部在崩溃族里」—— 那是**错的**（本用例就是把它钉住）。
     """
@@ -129,24 +134,22 @@ def test_p165b_the_remaining_blockers_are_split_by_recovery_condition() -> None:
     endpoints = set(document["blocker_endpoints"])
     crash = sorted(endpoints & set(NATIVE_CRASH_ENDPOINTS))
     rest = sorted(endpoints - set(NATIVE_CRASH_ENDPOINTS))
-    assert len(crash) == 6 and all(key.endswith("-ANAL") for key in crash), crash
+    assert len(crash) == 2 and all(key.endswith("-ANAL") for key in crash), crash
     assert rest == [
         "DESIGN.RC.KDS-41-20-2022.BD-TABLE",
-        "DESIGN.RC.KDS-41-20-2022.BRD-TABLE",
-        "DESIGN.RC.KDS-41-20-2022.CD-TABLE",
-        "DESIGN.RC.KDS-41-20-2022.WD-TABLE",
         "DESIGN.SRC.AIK-SRC2K.BC-TABLE",
-        "DESIGN.SRC.AIK-SRC2K.CC-TABLE",
-        "POST.STEELCODECHECK",
     ], rest
-    # 非崩溃族的那 7 个：6 个 `*-TABLE` 是 `untested`（要设计先跑起来）· 1 个是 `PARTIAL`（R152）
+    # 非崩溃族的那 2 个 `*-TABLE`：`availability` 仍是 `untested`（要设计先跑起来）
+    # ⇒ 而那「设计结果」**只能由**崩溃族 `*-ANAL` 产出（**R166**）⇒ 卡在**同一条**崩溃边。
     manifest = json.loads((REPO_ROOT / "registry" / "manifest.json").read_text(encoding="utf-8"))[
         "endpoints"
     ]
     availability = {str(row["key"]): str(row["availability"]) for row in manifest}
-    for key in rest[:6]:
+    for key in rest:
         assert availability[key] == "untested", (key, availability[key])
-    assert availability["POST.STEELCODECHECK"] == "untested", availability["POST.STEELCODECHECK"]
+    # **R166**：`POST.STEELCODECHECK` 已**实测收口** ⇒ 不再是挡点（且 `verified`）
+    assert "POST.STEELCODECHECK" not in endpoints, endpoints
+    assert availability["POST.STEELCODECHECK"] == "verified", availability["POST.STEELCODECHECK"]
 
 
 def test_p165b_the_endpoint_free_operations_are_not_counted_as_blocked() -> None:
@@ -160,11 +163,14 @@ def test_p165b_the_endpoint_free_operations_are_not_counted_as_blocked() -> None
         assert name not in document["blocked_operations"], name
 
 
-def test_p165b_every_route_of_design_code_check_is_blocked() -> None:
-    """门槛（**R158 的成因**）：`DESIGN.CODE_CHECK` 的**每一条**路由都有挡点。
+def test_p165b_only_the_steel_route_of_design_code_check_is_clean() -> None:
+    """门槛（**R158 的成因 ⇒ R166 已解**）：`DESIGN.CODE_CHECK` 现在**恰好一条**路由可用。
 
-    ⚠️ 这是「62 → 61」的**唯一**成因：README 旧值把它当成可用。
-    R159 / R160 解锁的是 `VIEW.*` 与 `RESULT.ANALYSIS.SUMMARY`，与它无关 ⇒ 这条**必须**仍然成立。
+    ⚠️ **R158 时**：**每一条**路由都有挡点（这是「62 → 61」的**唯一**成因 ——
+    README 旧值把它当成可用）。**R166（P174）**：`POST.STEELCODECHECK` **实测收口**
+    ⇒ **钢铁路由全通** ⇒ 该 Operation 解锁。
+    ⇒ 本用例**从「全部被挡」改为「恰好钢铁路由可用」** —— 是**事实变更**，**不是**放宽断言：
+    它仍然**逐条**复算每条路由，且**要求**其余 **6** 条路由**仍然**有挡点。
     """
     sys.path.insert(0, str(REPO_ROOT))
     from app.infrastructure.adapters.midas.operations import plan_for  # noqa: PLC0415
@@ -184,10 +190,12 @@ def test_p165b_every_route_of_design_code_check_is_blocked() -> None:
             for step in steps
         ):
             clean.append(name)
-    assert clean == [], f"出现了可用的路由 ⇒ 68 要重算：{clean}"
-    # 关键一条：钢铁路由的**末步** `POST.STEELCODECHECK` 仍是 `PARTIAL`
+    assert clean == ["steel"], f"应**恰好**钢铁路由可用：{clean}"
+    # **R166**：钢铁路由的末步 `POST.STEELCODECHECK` 现在**是** `VERIFIED`（本批收口）
     steel = registry.resolve(key="POST.STEELCODECHECK", product="GEN_NX")
-    assert steel.verification_status != VERIFIED, steel.verification_status
+    assert steel.verification_status == VERIFIED, steel.verification_status
+    # ⚠️ 其余 6 条路由（concrete:* / src:*）**仍**被崩溃族挡着 ⇒ 不许悄悄变可用
+    assert len(plan.routes) == 7, sorted(plan.routes)
 
 
 def test_p165b_the_offline_check_passes() -> None:
@@ -201,7 +209,7 @@ def test_p165b_the_offline_check_passes() -> None:
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "68 / 71" in result.stdout, result.stdout
+    assert "69 / 71" in result.stdout, result.stdout
 
 
 def test_p165b_the_readme_and_the_ruling_carry_the_corrected_number() -> None:
@@ -215,11 +223,14 @@ def test_p165b_the_readme_and_the_ruling_carry_the_corrected_number() -> None:
     assert "**`62 / 71`**" not in readme, "README 仍把 62/71 当成现状"
     assert "**`61 / 71`**" not in readme, "README 仍把 61/71 当成现状（R159 后应为 67/71）"
     assert "**`67 / 71`**" not in readme, "README 仍把 67/71 当成现状（R160 后应为 68/71）"
-    assert "**`68 / 71`**" in readme, "README 必须写明更正后的 68/71"
+    # ⚠️ **R166**：`68 / 71` 现在也是**历史值** ⇒ 不得再作**现状声称**（但必须保留便于对照）
+    assert "**`69 / 71`**" in readme, "README 必须写明更正后的 69/71"
     assert "`62 / 71`" in readme, "更正说明里应保留旧值 62，便于对照"
     assert "`61 / 71`" in readme, "更正说明里应保留旧值 61，便于对照"
     assert "`67 / 71`" in readme, "更正说明里应保留旧值 67，便于对照"
+    assert "`68 / 71`" in readme, "更正说明里应保留旧值 68，便于对照"
     assert "R158" in readme and "R159" in readme and "R160" in readme, "更正必须可回溯到裁决编号"
+    assert "R166" in readme, "R166 必须可回溯"
     assert "check_operation_availability.py" in readme, "README 必须指向可执行判定"
     docs = DOCS_07.read_text(encoding="utf-8")
     assert "**R158**" in docs, "R158 必须登记"

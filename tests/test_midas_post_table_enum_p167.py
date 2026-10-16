@@ -83,9 +83,10 @@ EXPECTED_DATA_ROWS = 63
 
 EXPECTED_HEAD_COLUMNS = 9
 
-AVAILABILITY_TOTALS = {"verified": 511, "unverified": 23, "untested": 102}
-NO_GET = 101
-"""`availability != verified` 且**没有 `GET`** 的端点数（R160 收口 `POST.TABLE` 后 **101**）。"""
+AVAILABILITY_TOTALS = {"verified": 512, "unverified": 23, "untested": 101}
+NO_GET = 100
+"""`availability != verified` 且**没有 `GET`** 的端点数（R160 收口 `POST.TABLE` 后 **101**；
+**P174 / R166** 收口 `POST.STEELCODECHECK` 后 **100**）。"""
 
 
 def _load(path: pathlib.Path, name: str) -> Any:
@@ -389,19 +390,24 @@ def test_p167_the_schema_description_names_the_source() -> None:
 
 
 def test_p167_the_main_indicator_is_backfilled() -> None:
-    """门槛（**主指标回填**）：`67 / 71` → **`68 / 71`**；`POST.TABLE` 不再是挡点。"""
+    """门槛（**主指标回填**）：`67 / 71` → **`68 / 71`**；`POST.TABLE` 不再是挡点。
+
+    ⚠️ **R166（P174）**：主指标现为 **`69 / 71`**（`POST.STEELCODECHECK` 已收口）。
+    本用例钉的是**本批的增量**（`POST.TABLE` 不再是挡点）⇒ 断言按**当前**值写，
+    并**额外**确认本批的 `ENDPOINT` / `OPERATION` 仍成立。
+    """
     module = _load(AVAILABILITY_TOOL, "check_operation_availability_p167")
     document: dict[str, Any] = module.compute()
-    assert document["available"] == 68, document["available"]
-    assert document["blocked"] == 3, document["blocked"]
-    assert document["blocker_endpoint_count"] == 13, sorted(document["blocker_endpoints"])
+    assert document["available"] == 69, document["available"]
+    assert document["blocked"] == 2, document["blocked"]
+    assert document["blocker_endpoint_count"] == 4, sorted(document["blocker_endpoints"])
     assert ENDPOINT not in document["blocker_endpoints"], document["blocker_endpoints"]
     assert OPERATION in document["available_operations"], OPERATION
     assert OPERATION not in document["blocked_operations"], OPERATION
 
 
 def test_p167_the_availability_totals_match() -> None:
-    """门槛：`availability` 三档 = `verified` 511 · `unverified` 23 · `untested` 102。"""
+    """门槛：`availability` 三档 = `verified` 512 · `unverified` 23 · `untested` 101。"""
     endpoints = _manifest()["endpoints"]
     totals: dict[str, int] = {}
     for item in endpoints:

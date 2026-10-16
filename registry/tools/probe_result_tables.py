@@ -215,6 +215,20 @@ NEVER_RETRY: dict[str, str] = {
 opened`）；② **单独**一条（建完最小模型 + `DOC.ANAL` 后只发这一条）复现同样的连接被拒
 （`WinError 10061`）⇒ 归因**确定**，不是累积负载。成因需 **MIDAS 侧**排查（数据侧无法从证据推出）。"""
 
+VERIFIED_BY_OTHER_CRITERION: dict[str, str] = {
+    "POST.STEELCODECHECK": "R166",
+}
+"""**不属**取报表判据目标、但已由**别处**的判据收口的端点（`docs/07` §16.1 **R166**）。
+
+⚠️ **P174（R166）实测**：`POST.STEELCODECHECK` 在 `gaps` 里是 `no_manual_entry`
+（手册条目**没有** `TABLE_TYPE` 行 / 没有可机械定位的取表示例 ⇒ 取报表判据**结构上不适用**），
+但它**不是**「留缺」—— 它已由 **P174** 的**真机写路径测量**收口
+（证据 = `registry/live/steelcodecheck_probe.json`；判据 = **效果**：无设计结果 **0 行** →
+有设计结果 **2 行**，且取值**不**等于手册 schema 示例）。
+⇒ `check()` 对这些端点**跳过**「留缺不得 `verified`」那一条（否则**一个正确的收口**会被读成不一致）。
+⚠️ **不得**把它当成「放宽」：它**仍**要求 `verified` **且** `verified_on` 含实例拼音 ——
+只是**换一个**判据来源（`R166` 而不是取报表）。"""
+
 
 class Selection(NamedTuple):
     """一个端点的**取报表请求体**定位（逐条可复算）。"""
@@ -889,7 +903,18 @@ def check(repo: Path) -> int:
         if verdict != PASSED and block is not None and block.get("source") == RESPONSE_SOURCE:
             errors.append(f"{key}: 非 PASSED 却有 l4_measured_envelope response 块")
     for key in sorted(evidence.get("gaps") or {}):
-        availability, _ = read_availability(files[key])
+        availability, verified_on = read_availability(files[key])
+        if key in VERIFIED_BY_OTHER_CRITERION:
+            # ⚠️ **P174 / R166**：这些端点**不属**取报表目标，但已由**别处**的判据收口
+            # ⇒ **仍**要求 verified + 实例溯源，只是判据来源不同（**不**是放宽）。
+            if availability != VERIFIED:
+                errors.append(
+                    f"{key}: 已由 {VERIFIED_BY_OTHER_CRITERION[key]} 收口 ⇒ 应为 verified，"
+                    f"实际 {availability!r}"
+                )
+            elif INSTANCE_ALIAS not in verified_on:
+                errors.append(f"{key}: verified_on = {verified_on}（缺 {INSTANCE_ALIAS!r}）")
+            continue
         if availability == VERIFIED:
             errors.append(f"{key}: 留缺端点不得 availability = verified")
     if errors:

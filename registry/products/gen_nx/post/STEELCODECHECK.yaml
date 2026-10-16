@@ -1,3 +1,20 @@
+# ⚠️ **P174 / R166（实测收口）**：`availability: untested → verified`（`verified_on: [gen-local]`）。
+# 证据 = `registry/live/steelcodecheck_probe.json`（判据 = **效果**，铁律 ⓪）：
+#   · **相 ①（无设计结果）**：同一个请求体（空体 `{}`）⇒ **0 行**（根键 ∅）；
+#   · **阳性参照**：`PUT` DSTL/DCO/DCTL/MEMB + `POST CODE-ANAL` ⇒ `CODE-TABLE` **36 行**；
+#   · **相 ③（有设计结果）**：同一请求体 ⇒ **2 行**（根键 `vSECT` / `vELEM`）⇒ 输出**真的**
+#     跟着**设计状态**走（**不是**静默 `200`）；
+#   · **防回显**（**R157** 的仪器有效性）：取值 = `SECT 1 / ELEM **1** / RAT **8.0846**`，
+#     而手册 `json_schema` 示例是 `ELEM **10**` / `RAT **0.6119**`、且本模型**没有**单元 `10`
+#     ⇒ **不**是 schema 回显（**真的**读了本模型）。
+# ⚠️ **本端点对 `Argument` 完全不敏感**（P174 实测）：空体 `{}` / 自名 `TABLE_TYPE` /
+#   **逐字照** `CODE-TABLE` 的体 / **伪** `TABLE_TYPE`（`NONSENSE_NOT_A_TYPE_P174`）
+#   —— 四者答复**逐字节同形** ⇒ **没有**「非法取值」能让原生拒
+#   ⇒ ⚠️ 「坏取值被拦」这一**形态**的阴性对照在本端点**结构上不可用**（如实记录，
+#   **不**硬凑假对照）；本批改用**状态对照**（无/有设计结果 ⇒ 0 行 / >0 行）。
+# ⚠️ 该端点的 Schema 来自 help_center 的**响应**示例（根键 `vSECT` / `vELEM`，**无** `properties`）
+#   ⇒ `spec_guard`（**R140**）对它**一个字段都不检查** ⇒ **不能**指望闸门拦非法调用。
+#   「只升不降」（`registry/README.md` §4）：无 `GET` 的写端点**只能**由**实测**收口。
 key: POST.STEELCODECHECK
 namespace: POST
 uri: /POST/STEELCODECHECK
@@ -12,7 +29,8 @@ schema_ref:
   source: help_center
 parser: post_table
 products: [GEN_NX]
-availability: untested
+availability: verified
+verified_on: [gen-local]
 unavailable_on: [civil-cloud]
 table_type: null
 title: Steel Code Check

@@ -52,15 +52,22 @@ README = REPO_ROOT / "README.md"
 REGISTRY_README = REPO_ROOT / "registry" / "README.md"
 DOCS_07 = REPO_ROOT / "docs" / "07_开发方案与任务续接_v1.0.md"
 
-EXPECTED_AVAILABLE = 68
+EXPECTED_AVAILABLE = 69
+"""⚠️ **R166（P174）**：本批（P173）时是 **68** —— `POST.STEELCODECHECK` 收口后 **+1**。"""
 EXPECTED_TOTAL = 71
-EXPECTED_BLOCKED = ("DESIGN.CODE_CHECK", "DESIGN.CONCRETE", "DESIGN.SRC")
+EXPECTED_BLOCKED = ("DESIGN.CONCRETE", "DESIGN.SRC")
+"""⚠️ **R166（P174）**：本批（P173）时是 **3** 个（含 `DESIGN.CODE_CHECK`）—— 现已解锁。"""
 
 OURS_ONLY = "POST.STEELCODECHECK"
-"""**我方**唯一不依赖 `*-ANAL` 的挡点端点 —— 即「**下一个可执行动作**」。"""
+"""✅ **R166（P174）已收口** —— 收口前它是「**我方**唯一杠杆」（本批归因**算对了**）。"""
 
-MIDAS_ONLY_ENDPOINTS = 12
-"""卡在 **MIDAS 侧**的挡点端点个数（**13** 个挡点端点里除 `POST.STEELCODECHECK` 外的全部）。"""
+MIDAS_ONLY_ENDPOINTS = 4
+"""卡在 **MIDAS 侧**的挡点端点个数（⚠️ 收口前是 **12**：13 个里除 `POST.STEELCODECHECK`）。
+
+⚠️ **R166（P174）**：`POST.STEELCODECHECK` 已收口 ⇒ 它**不再**是挡点端点，
+且 `DESIGN.CODE_CHECK` 解锁 ⇒ 它的 `concrete:*` / `src:*` 路线**不再计入**挡点
+⇒ 只剩 **4** 个（两条崩溃边各自的最短选项）—— **全部**在 MIDAS 侧。
+"""
 
 
 def _tool() -> Any:
@@ -82,23 +89,27 @@ def _manual() -> dict[str, Any]:
 # ===== 1. 归因是机械的 =====
 
 
-def test_p173_attribution_splits_thirteen_blockers_by_side() -> None:
-    """门槛（**核心**）：**13** 个挡点端点 = **12** 个 MIDAS 侧 + **1** 个我方。
+def test_p173_attribution_splits_the_blockers_by_side() -> None:
+    """门槛（**核心**）：**4** 个挡点端点 = **4** 个 MIDAS 侧 + **0** 个我方。
 
     ⚠️ 归因**不**手写 —— 由端点自身的机械性质（∈ 崩溃族 / 最短选项含崩溃族）判定。
+    ⚠️ **R166（P174）**：收口前是「**13** = **12** + **1**」—— 我方那一格已**兑付**，
+    现在 `ours` **为空**（本批的归因**算对了**：它指出的唯一我方杠杆正是能拿下的那个）。
     """
     table = _tool().gate_attribution()
-    assert len(table["endpoints"]) == 13, sorted(table["endpoints"])
-    assert table["ours"] == [OURS_ONLY], table["ours"]
+    assert len(table["endpoints"]) == 4, sorted(table["endpoints"])
+    assert table["ours"] == [], table["ours"]
     assert len(table["midas"]) == MIDAS_ONLY_ENDPOINTS, table["midas"]
     assert sorted(table["endpoints"]) == sorted(table["ours"] + table["midas"])
+    # ⚠️ 收口前的「我方唯一杠杆」**不再**是挡点端点（它已 `verified`）
+    assert OURS_ONLY not in table["endpoints"], table["endpoints"]
 
 
 def test_p173_ours_and_midas_are_mutually_exclusive() -> None:
     """门槛：两档**互斥**且**覆盖**（没有第三个 `side` 值）。"""
     table = _tool().gate_attribution()
     sides = {row["side"] for row in table["endpoints"].values()}
-    assert sides == {"ours", "midas"}, sides
+    assert sides == {"midas"}, sides
 
 
 def test_p173_every_crash_family_anal_is_attributed_to_midas() -> None:
@@ -109,7 +120,8 @@ def test_p173_every_crash_family_anal_is_attributed_to_midas() -> None:
     """
     table = _tool().gate_attribution()
     anals = sorted(key for key in table["endpoints"] if key.endswith("-ANAL"))
-    assert len(anals) == 6, anals
+    # ⚠️ **R166（P174）**：收口前是 **6** 个 —— `DESIGN.CODE_CHECK` 解锁后只剩**两条**崩溃边
+    assert len(anals) == 2, anals
     assert all(table["endpoints"][key]["side"] == "midas" for key in anals), anals
     assert all(not table["endpoints"][key]["own_benefit"] for key in anals), "ANAL 单独收益应为 0"
 
@@ -129,8 +141,10 @@ def test_p173_the_measured_crash_endpoint_keeps_its_distinct_reason() -> None:
     measured = "DESIGN.RC.KDS-41-20-2022.BD-ANAL"
     assert measured in NATIVE_CRASH_MEASURED
     assert "实测崩溃族" in table["endpoints"][measured]["reason"]
+    # ⚠️ **R166（P174）**：收口前同族推定的 `*-ANAL` 有 **5** 个（共 6 个）。
+    # 收口后只剩 2 个 `*-ANAL`：**实测**的 `BD-ANAL` + **同族推定**的 `BC-ANAL`
     others = [key for key in table["midas"] if key.endswith("-ANAL") and key != measured]
-    assert len(others) == 5, others
+    assert others == ["DESIGN.SRC.AIK-SRC2K.BC-ANAL"], others
     assert all("同族推定" in table["endpoints"][key]["reason"] for key in others), others
 
 
@@ -138,13 +152,17 @@ def test_p173_the_measured_crash_endpoint_keeps_its_distinct_reason() -> None:
 
 
 def test_p173_the_table_endpoints_are_downstream_of_the_crash_family() -> None:
-    """门槛：**6** 个 `*-TABLE` 的归因是「同一条崩溃边的下游」，**不**是独立的一格代价。
+    """门槛：**2** 个 `*-TABLE` 的归因是「同一条崩溃边的下游」，**不**是独立的一格代价。
 
     ⚠️ 判据 = 「**最短选项**里含崩溃族 `*-ANAL`」—— 机械可复算（穷举路线选项）。
+    ⚠️ **R166（P174）**：收口前是 **6** 个 —— `DESIGN.CODE_CHECK` 解锁后只剩**两条**崩溃边。
     """
     table = _tool().gate_attribution()
     tables = sorted(key for key in table["endpoints"] if key.endswith("-TABLE"))
-    assert len(tables) == 6, tables
+    assert tables == [
+        "DESIGN.RC.KDS-41-20-2022.BD-TABLE",
+        "DESIGN.SRC.AIK-SRC2K.BC-TABLE",
+    ], tables
     for key in tables:
         row = table["endpoints"][key]
         assert row["side"] == "midas", (key, row)
@@ -172,11 +190,13 @@ def test_p173_the_anal_yaml_says_perform_and_the_table_yaml_says_table() -> None
 
 
 def test_p173_fixing_the_whole_crash_family_moves_nothing() -> None:
-    """门槛（**本批的新结论**）：假设崩溃族**全部**修好 ⇒ 主指标**仍** `68 / 71`。
+    """门槛（**本批的新结论，收口后仍成立**）：假设崩溃族**全部**修好 ⇒ 主指标**仍**不变。
 
     ⚠️ 这是本批最容易被读错的一条：**修 MIDAS 的崩溃不自动解锁任何东西** ——
     `*-TABLE` 的设计结果只能由（刚被假设修好的）`*-ANAL` **产出**（仍须一次**授权测量**）。
     ⇒ 「卡在 MIDAS 侧」是**结构**性的，**不**是「多收口几个端点就能绕开」。
+    ⚠️ **R166（P174）**：收口前「仍 `68 / 71`、挡点端点 13 → 7」；收口后是
+    「仍 `69 / 71`、挡点端点 4 → 2」—— **结论不变**，数字随收口上抬。
     """
     tool = _tool()
     sys.path.insert(0, str(REPO_ROOT))
@@ -189,8 +209,8 @@ def test_p173_fixing_the_whole_crash_family_moves_nothing() -> None:
     assert sorted(after["blocked_operations"]) == sorted(EXPECTED_BLOCKED), sorted(
         after["blocked_operations"]
     )
-    # 但挡点端点**确实**从 13 掉到 7 ⇒ 「修了有变化，只是**还**不够」，不是仿真失灵
-    assert after["blocker_endpoint_count"] == 7, after["blocker_endpoint_count"]
+    # 但挡点端点**确实**从 4 掉到 2 ⇒ 「修了有变化，只是**还**不够」，不是仿真失灵
+    assert after["blocker_endpoint_count"] == 2, after["blocker_endpoint_count"]
 
 
 def test_p173_the_counterfactual_is_reported_by_the_tool() -> None:
@@ -201,7 +221,9 @@ def test_p173_the_counterfactual_is_reported_by_the_tool() -> None:
 
 
 def test_p173_reaching_seventy_one_needs_the_tables_too() -> None:
-    """门槛（**阳性对照**，R157 的方法学）：崩溃族 **+** 6 个 `*-TABLE` ⇒ **真的**到 `71 / 71`。
+    """门槛（**阳性对照**，R157 的方法学）：崩溃族 **+** 那 **2** 个 `*-TABLE` ⇒ **真的** `71/71`。
+
+    ⚠️ 这条**不**可省（见下）。
 
     ⚠️ 没有这条，「修好崩溃族 ⇒ 不变」可能只是**仿真失灵**（`pretend_verified` 根本没生效）。
     ⇒ 必须证明**仪器有效**：再加一组**确实**应该解锁的端点 ⇒ 数字**会**动。
@@ -214,6 +236,7 @@ def test_p173_reaching_seventy_one_needs_the_tables_too() -> None:
 
     base = tool.compute()
     tables = frozenset(key for key in base["blocker_endpoints"] if key.endswith("-TABLE"))
+    assert len(tables) == 2, sorted(tables)
     after = tool.compute(pretend_verified=NATIVE_CRASH_ENDPOINTS | tables)
     assert after["available"] == EXPECTED_TOTAL, after["available"]
     assert after["blocked_operations"] == {}, after["blocked_operations"]
@@ -235,10 +258,12 @@ def test_p173_every_route_of_every_blocked_operation_contains_an_anal() -> None:
     ]
 
 
-def test_p173_the_steel_route_is_the_only_anal_free_path() -> None:
+def test_p173_the_steel_route_was_the_only_anal_free_path() -> None:
     """门槛：`steel` 路由**无** `*-ANAL` ⇒ 收口 `POST.STEELCODECHECK` 是**我方**唯一杠杆。
 
     ⚠️ 这也是 `DESIGN.CODE_CHECK` 的最小代价 = **1** 的**成因**（**不**是巧合）。
+    ✅ **R166（P174）已兑付**：那一格已被收口 ⇒ 该路由**现在全通**
+    ⇒ 本用例改为钉「**它是唯一无 `*-ANAL` 的路由** ∧ **它已全通**」。
     """
     tool = _tool()
     plans = tool._load()[0]  # noqa: SLF001
@@ -252,22 +277,35 @@ def test_p173_the_steel_route_is_the_only_anal_free_path() -> None:
     sys.path.insert(0, str(REPO_ROOT))
     from app.infrastructure.adapters.midas.client import (  # noqa: PLC0415
         NATIVE_CRASH_ENDPOINTS,
+        NATIVE_CRASH_MEASURED,
+    )
+    from app.infrastructure.adapters.midas.registry import (  # noqa: PLC0415
+        VERIFIED,
+        MidasRegistry,
     )
 
     assert steel[0] not in NATIVE_CRASH_ENDPOINTS, "旗舰链的 CODE-ANAL 必须**不**被拦"
-    cost = tool.minimal_unlock_cost()
-    assert cost["per_operation"]["DESIGN.CODE_CHECK"] == 1, cost
-    assert _tool().gate_attribution()["endpoints"][OURS_ONLY]["minimal_option_size"] == 1
+    # ✅ **R166**：三步**全通**（末步已收口）
+    registry = MidasRegistry.load(REPO_ROOT / "registry")
+    statuses = [registry.resolve(key=key, product="GEN_NX").verification_status for key in steel]
+    assert statuses == [VERIFIED, VERIFIED, VERIFIED], statuses
+    # ⚠️ 每一条**其余**路线**仍**含一个崩溃族 `*-ANAL`（⇒ 仍卡 MIDAS 侧）
+    for name, steps in plans["DESIGN.CODE_CHECK"].routes.items():
+        if name == "steel":
+            continue
+        assert any(step.key in NATIVE_CRASH_ENDPOINTS for step in steps), name
+    assert NATIVE_CRASH_ENDPOINTS != NATIVE_CRASH_MEASURED, "崩溃族仍含同族推定成员"
 
 
-# ===== 5. 主指标与收益映射**不变** =====
+# ===== 5. 主指标与收益映射 =====
 
 
-def test_p173_the_main_metric_and_benefit_are_unchanged() -> None:
-    """门槛（**只加视图，不改裁定**）：`--check` 退出码 0 且输出 `68 / 71`。
+def test_p173_the_main_metric_and_benefit_are_consistent() -> None:
+    """门槛：`--check` 退出码 0 且输出 `69 / 71`（**R166 收口后**）。
 
-    ⚠️ 本批**不**动 `EXPECTED_AVAILABLE` / `EXPECTED_BLOCKED` / `EXPECTED_BENEFIT` /
-    `EXPECTED_MINIMAL_COST` 任一项（**只**新增只读的 `gate_attribution()`）。
+    ⚠️ 本批（P173）当时是「**只加视图，不改裁定**」+ `68 / 71`。
+    **R166（P174）** 用真机实测收口 ⇒ 裁定值**确实**改了（`EXPECTED_AVAILABLE` 68 → 69 等）
+    ⇒ 本用例改为钉**收口后**的真相（**不**再声称「裁定未动」）。
     """
     for flag in ("--check", "--benefit", "--attribution"):
         result = subprocess.run(
@@ -287,11 +325,15 @@ def test_p173_the_main_metric_and_benefit_are_unchanged() -> None:
         cwd=str(REPO_ROOT),
         check=False,
     )
-    assert "68 / 71" in checked.stdout, checked.stdout
+    assert "69 / 71" in checked.stdout, checked.stdout
 
 
 def test_p173_the_attribution_cli_reports_both_sides() -> None:
-    """门槛：`--attribution` 的输出里**同时**出现「我方」与「MIDAS 侧」与那个反事实。"""
+    """门槛：`--attribution` 的输出里出现「我方」「MIDAS 侧」与那个反事实。
+
+    ⚠️ **R166（P174）**：`ours` 现在**为空** ⇒ 输出会打印「**（已全部收口）**」
+    ⇒ 断言改为钉**那一行**（而**不是**某个具体端点名）。
+    """
     result = subprocess.run(
         [sys.executable, str(AVAILABILITY_TOOL), "--attribution"],
         capture_output=True,
@@ -303,8 +345,8 @@ def test_p173_the_attribution_cli_reports_both_sides() -> None:
     assert result.returncode == 0, result.stderr
     assert "我方" in result.stdout
     assert "MIDAS 侧" in result.stdout
-    assert "68 / 71" in result.stdout, "反事实必须报出主指标"
-    assert OURS_ONLY in result.stdout
+    assert "69 / 71" in result.stdout, "反事实必须报出主指标"
+    assert "已全部收口" in result.stdout, "`ours` 为空时必须以「已全部收口」如实报出"
 
 
 # ===== 6. 文档口径 =====
