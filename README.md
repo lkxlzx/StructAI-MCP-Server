@@ -194,6 +194,8 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | **`docs/01`–`docs/06`** | **V2 原始规范（架构 / 实现 / 9 Tools / Adapter / SDK / 验收）** |
 | **`docs/07_开发方案与任务续接_v1.0.md`** | **开发方案 + 任务续接（含 Operation → MIDAS API 映射）** |
 | **`docs/08_会话交接与续接提示词_v1.0.md`** | **会话边界硬性原则 + 交接协议 + 批次状态表 + 续接提示词（每个新会话的第一个入口）** |
+| **`docs/09_参数化模板与AI_Agent填写手册_v1.0.md`** | **官方样本 → 参数化模板 → 经 MCP 导入** 的完整链路：参数命名、模板选型、Agent 操作流程（P180） |
+| **`templates/gen_verification/`** | **156 个参数化模板**（来自 `Gen Verification` 官方样本 · 17 族）+ `index.json` |
 | **`registry/`** | **MIDAS API 唯一权威来源**（663 端点定义 + 652 JSON Schema） |
 | `docs/00_文档通读与API对照报告_v1.0.md` | V2 六份文档的通读与 API 对照结论 |
 | `docs/reports/` | 5 份逐节精读报告 |

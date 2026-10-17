@@ -1,0 +1,2249 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Static-38",
+    "family": "Static",
+    "source": ".tmp_p180/exports/Static-38.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 4,
+      "CONS": 4,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 32,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 0,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 132,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 1,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 0,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.gravity": {
+      "value": 9805.999999999998,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "load_case.1.name": {
+      "value": "q",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 200.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "user",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.29,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "nodal_load.15.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 荷载分量 FX",
+      "source": "CNLD/15/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.15.0.fy": {
+      "value": 1.5,
+      "kind": "number",
+      "description": "节点 15 荷载分量 FY",
+      "source": "CNLD/15/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.15.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 荷载分量 FZ",
+      "source": "CNLD/15/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.15.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 荷载分量 MX",
+      "source": "CNLD/15/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.15.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 荷载分量 MY",
+      "source": "CNLD/15/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.15.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 荷载分量 MZ",
+      "source": "CNLD/15/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.16.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 荷载分量 FX",
+      "source": "CNLD/16/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.16.0.fy": {
+      "value": 1.5,
+      "kind": "number",
+      "description": "节点 16 荷载分量 FY",
+      "source": "CNLD/16/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.16.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 荷载分量 FZ",
+      "source": "CNLD/16/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.16.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 荷载分量 MX",
+      "source": "CNLD/16/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.16.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 荷载分量 MY",
+      "source": "CNLD/16/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.16.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 荷载分量 MZ",
+      "source": "CNLD/16/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.3.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 荷载分量 FX",
+      "source": "CNLD/3/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.3.0.fy": {
+      "value": 1.5,
+      "kind": "number",
+      "description": "节点 3 荷载分量 FY",
+      "source": "CNLD/3/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.3.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 荷载分量 FZ",
+      "source": "CNLD/3/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.3.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 荷载分量 MX",
+      "source": "CNLD/3/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.3.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 荷载分量 MY",
+      "source": "CNLD/3/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.3.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 荷载分量 MZ",
+      "source": "CNLD/3/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.4.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 荷载分量 FX",
+      "source": "CNLD/4/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.4.0.fy": {
+      "value": 1.5,
+      "kind": "number",
+      "description": "节点 4 荷载分量 FY",
+      "source": "CNLD/4/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.4.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 荷载分量 FZ",
+      "source": "CNLD/4/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.4.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 荷载分量 MX",
+      "source": "CNLD/4/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.4.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 荷载分量 MY",
+      "source": "CNLD/4/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.4.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 荷载分量 MZ",
+      "source": "CNLD/4/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "support.45.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 45 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/45/ITEMS[0].CONSTRAINT"
+    },
+    "support.46.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 46 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/46/ITEMS[0].CONSTRAINT"
+    },
+    "support.47.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 47 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/47/ITEMS[0].CONSTRAINT"
+    },
+    "support.48.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 48 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/48/ITEMS[0].CONSTRAINT"
+    },
+    "units.dist": {
+      "value": "MM",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "KN",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "J",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 20,
+        "TOL": 0.001,
+        "ACWC": true
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {
+      "3": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "q",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.3.0.fx}",
+            "FY": "${nodal_load.3.0.fy}",
+            "FZ": "${nodal_load.3.0.fz}",
+            "MX": "${nodal_load.3.0.mx}",
+            "MY": "${nodal_load.3.0.my}",
+            "MZ": "${nodal_load.3.0.mz}"
+          }
+        ]
+      },
+      "4": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "q",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.4.0.fx}",
+            "FY": "${nodal_load.4.0.fy}",
+            "FZ": "${nodal_load.4.0.fz}",
+            "MX": "${nodal_load.4.0.mx}",
+            "MY": "${nodal_load.4.0.my}",
+            "MZ": "${nodal_load.4.0.mz}"
+          }
+        ]
+      },
+      "15": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "q",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.15.0.fx}",
+            "FY": "${nodal_load.15.0.fy}",
+            "FZ": "${nodal_load.15.0.fz}",
+            "MX": "${nodal_load.15.0.mx}",
+            "MY": "${nodal_load.15.0.my}",
+            "MZ": "${nodal_load.15.0.mz}"
+          }
+        ]
+      },
+      "16": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "q",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.16.0.fx}",
+            "FY": "${nodal_load.16.0.fy}",
+            "FZ": "${nodal_load.16.0.fz}",
+            "MX": "${nodal_load.16.0.mx}",
+            "MY": "${nodal_load.16.0.my}",
+            "MZ": "${nodal_load.16.0.mz}"
+          }
+        ]
+      }
+    },
+    "CONS": {
+      "45": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.45.constraint}"
+          }
+        ]
+      },
+      "46": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.46.constraint}"
+          }
+        ]
+      },
+      "47": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.47.constraint}"
+          }
+        ]
+      },
+      "48": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.48.constraint}"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "1": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          17,
+          1,
+          2,
+          18,
+          15,
+          3,
+          4,
+          16
+        ]
+      },
+      "2": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          19,
+          5,
+          6,
+          20,
+          17,
+          1,
+          2,
+          18
+        ]
+      },
+      "3": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          21,
+          7,
+          8,
+          22,
+          19,
+          5,
+          6,
+          20
+        ]
+      },
+      "4": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          25,
+          9,
+          10,
+          26,
+          21,
+          7,
+          8,
+          22
+        ]
+      },
+      "5": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          27,
+          11,
+          12,
+          28,
+          25,
+          9,
+          10,
+          26
+        ]
+      },
+      "6": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          29,
+          13,
+          14,
+          30,
+          27,
+          11,
+          12,
+          28
+        ]
+      },
+      "7": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          33,
+          23,
+          24,
+          34,
+          29,
+          13,
+          14,
+          30
+        ]
+      },
+      "8": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          37,
+          31,
+          32,
+          38,
+          33,
+          23,
+          24,
+          34
+        ]
+      },
+      "9": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          39,
+          35,
+          36,
+          40,
+          37,
+          31,
+          32,
+          38
+        ]
+      },
+      "10": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          43,
+          41,
+          42,
+          44,
+          39,
+          35,
+          36,
+          40
+        ]
+      },
+      "11": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          49,
+          51,
+          52,
+          50,
+          43,
+          41,
+          42,
+          44
+        ]
+      },
+      "12": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          45,
+          47,
+          48,
+          46,
+          53,
+          57,
+          58,
+          54
+        ]
+      },
+      "13": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          55,
+          61,
+          62,
+          56,
+          49,
+          51,
+          52,
+          50
+        ]
+      },
+      "14": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          53,
+          57,
+          58,
+          54,
+          59,
+          69,
+          70,
+          60
+        ]
+      },
+      "15": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          63,
+          71,
+          72,
+          64,
+          55,
+          61,
+          62,
+          56
+        ]
+      },
+      "16": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          59,
+          69,
+          70,
+          60,
+          65,
+          79,
+          80,
+          66
+        ]
+      },
+      "17": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          67,
+          83,
+          84,
+          68,
+          63,
+          71,
+          72,
+          64
+        ]
+      },
+      "18": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          65,
+          79,
+          80,
+          66,
+          73,
+          93,
+          94,
+          74
+        ]
+      },
+      "19": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          75,
+          99,
+          100,
+          76,
+          67,
+          83,
+          84,
+          68
+        ]
+      },
+      "20": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          73,
+          93,
+          94,
+          74,
+          77,
+          109,
+          110,
+          78
+        ]
+      },
+      "21": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          81,
+          111,
+          112,
+          82,
+          75,
+          99,
+          100,
+          76
+        ]
+      },
+      "22": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          77,
+          109,
+          110,
+          78,
+          85,
+          113,
+          114,
+          86
+        ]
+      },
+      "23": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          87,
+          115,
+          116,
+          88,
+          81,
+          111,
+          112,
+          82
+        ]
+      },
+      "24": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          85,
+          113,
+          114,
+          86,
+          89,
+          117,
+          118,
+          90
+        ]
+      },
+      "25": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          91,
+          119,
+          120,
+          92,
+          87,
+          115,
+          116,
+          88
+        ]
+      },
+      "26": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          89,
+          117,
+          118,
+          90,
+          97,
+          121,
+          122,
+          98
+        ]
+      },
+      "27": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          95,
+          123,
+          124,
+          96,
+          91,
+          119,
+          120,
+          92
+        ]
+      },
+      "28": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          103,
+          125,
+          126,
+          104,
+          95,
+          123,
+          124,
+          96
+        ]
+      },
+      "29": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          97,
+          121,
+          122,
+          98,
+          101,
+          127,
+          128,
+          102
+        ]
+      },
+      "30": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          105,
+          129,
+          130,
+          106,
+          103,
+          125,
+          126,
+          104
+        ]
+      },
+      "31": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          107,
+          131,
+          132,
+          108,
+          105,
+          129,
+          130,
+          106
+        ]
+      },
+      "32": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          101,
+          127,
+          128,
+          102,
+          107,
+          131,
+          132,
+          108
+        ]
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {},
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": -79.1341,
+        "Y": -11.7384,
+        "Z": -30.0
+      },
+      "2": {
+        "X": -79.1341,
+        "Y": -11.7384,
+        "Z": 0.0
+      },
+      "3": {
+        "X": -80.0,
+        "Y": 0.0,
+        "Z": -30.0
+      },
+      "4": {
+        "X": -80.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "5": {
+        "X": -76.5552,
+        "Y": -23.2228,
+        "Z": -30.0
+      },
+      "6": {
+        "X": -76.5552,
+        "Y": -23.2228,
+        "Z": 0.0
+      },
+      "7": {
+        "X": -72.3191,
+        "Y": -34.2044,
+        "Z": -30.0
+      },
+      "8": {
+        "X": -72.3191,
+        "Y": -34.2044,
+        "Z": 0.0
+      },
+      "9": {
+        "X": -66.5176,
+        "Y": -44.4456,
+        "Z": -30.0
+      },
+      "10": {
+        "X": -66.5176,
+        "Y": -44.4456,
+        "Z": 0.0
+      },
+      "11": {
+        "X": -59.2761,
+        "Y": -53.7247,
+        "Z": -30.0
+      },
+      "12": {
+        "X": -59.2761,
+        "Y": -53.7247,
+        "Z": 0.0
+      },
+      "13": {
+        "X": -50.7515,
+        "Y": -61.8408,
+        "Z": -30.0
+      },
+      "14": {
+        "X": -50.7515,
+        "Y": -61.8408,
+        "Z": 0.0
+      },
+      "15": {
+        "X": -50.0,
+        "Y": 0.0,
+        "Z": -30.0
+      },
+      "16": {
+        "X": -50.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "17": {
+        "X": -49.4588,
+        "Y": -7.33652,
+        "Z": -30.0
+      },
+      "18": {
+        "X": -49.4588,
+        "Y": -7.33652,
+        "Z": 0.0
+      },
+      "19": {
+        "X": -47.847,
+        "Y": -14.5142,
+        "Z": -30.0
+      },
+      "20": {
+        "X": -47.847,
+        "Y": -14.5142,
+        "Z": 0.0
+      },
+      "21": {
+        "X": -45.1995,
+        "Y": -21.3778,
+        "Z": -30.0
+      },
+      "22": {
+        "X": -45.1995,
+        "Y": -21.3778,
+        "Z": 0.0
+      },
+      "23": {
+        "X": -41.1282,
+        "Y": -68.6183,
+        "Z": -30.0
+      },
+      "24": {
+        "X": -41.1282,
+        "Y": -68.6183,
+        "Z": 0.0
+      },
+      "25": {
+        "X": -41.5735,
+        "Y": -27.7785,
+        "Z": -30.0
+      },
+      "26": {
+        "X": -41.5735,
+        "Y": -27.7785,
+        "Z": 0.0
+      },
+      "27": {
+        "X": -37.0476,
+        "Y": -33.5779,
+        "Z": -30.0
+      },
+      "28": {
+        "X": -37.0476,
+        "Y": -33.5779,
+        "Z": 0.0
+      },
+      "29": {
+        "X": -31.719700000000003,
+        "Y": -38.6505,
+        "Z": -30.0
+      },
+      "30": {
+        "X": -31.719700000000003,
+        "Y": -38.6505,
+        "Z": 0.0
+      },
+      "31": {
+        "X": -30.6147,
+        "Y": -73.9104,
+        "Z": -30.0
+      },
+      "32": {
+        "X": -30.6147,
+        "Y": -73.9104,
+        "Z": 0.0
+      },
+      "33": {
+        "X": -25.7051,
+        "Y": -42.8864,
+        "Z": -30.0
+      },
+      "34": {
+        "X": -25.7051,
+        "Y": -42.8864,
+        "Z": 0.0
+      },
+      "35": {
+        "X": -19.4384,
+        "Y": -77.6025,
+        "Z": -30.0
+      },
+      "36": {
+        "X": -19.4384,
+        "Y": -77.6025,
+        "Z": 0.0
+      },
+      "37": {
+        "X": -19.1342,
+        "Y": -46.194,
+        "Z": -30.0
+      },
+      "38": {
+        "X": -19.1342,
+        "Y": -46.194,
+        "Z": 0.0
+      },
+      "39": {
+        "X": -12.149,
+        "Y": -48.5016,
+        "Z": -30.0
+      },
+      "40": {
+        "X": -12.149,
+        "Y": -48.5016,
+        "Z": 0.0
+      },
+      "41": {
+        "X": -7.84137,
+        "Y": -79.6148,
+        "Z": -30.0
+      },
+      "42": {
+        "X": -7.84137,
+        "Y": -79.6148,
+        "Z": 0.0
+      },
+      "43": {
+        "X": -4.90086,
+        "Y": -49.7592,
+        "Z": -30.0
+      },
+      "44": {
+        "X": -4.90086,
+        "Y": -49.7592,
+        "Z": 0.0
+      },
+      "45": {
+        "X": 0.0,
+        "Y": 50.0,
+        "Z": -30.0
+      },
+      "46": {
+        "X": 0.0,
+        "Y": 50.0,
+        "Z": 0.0
+      },
+      "47": {
+        "X": 0.0,
+        "Y": 80.0,
+        "Z": -30.0
+      },
+      "48": {
+        "X": 0.0,
+        "Y": 80.0,
+        "Z": 0.0
+      },
+      "49": {
+        "X": 2.45338,
+        "Y": -49.9398,
+        "Z": -30.0
+      },
+      "50": {
+        "X": 2.45338,
+        "Y": -49.9398,
+        "Z": 0.0
+      },
+      "51": {
+        "X": 3.92541,
+        "Y": -79.9036,
+        "Z": -30.0
+      },
+      "52": {
+        "X": 3.92541,
+        "Y": -79.9036,
+        "Z": 0.0
+      },
+      "53": {
+        "X": 7.33652,
+        "Y": 49.4588,
+        "Z": -30.0
+      },
+      "54": {
+        "X": 7.33652,
+        "Y": 49.4588,
+        "Z": 0.0
+      },
+      "55": {
+        "X": 9.75452,
+        "Y": -49.0393,
+        "Z": -30.0
+      },
+      "56": {
+        "X": 9.75452,
+        "Y": -49.0393,
+        "Z": 0.0
+      },
+      "57": {
+        "X": 11.7384,
+        "Y": 79.1341,
+        "Z": -30.0
+      },
+      "58": {
+        "X": 11.7384,
+        "Y": 79.1341,
+        "Z": 0.0
+      },
+      "59": {
+        "X": 14.5142,
+        "Y": 47.847,
+        "Z": -30.0
+      },
+      "60": {
+        "X": 14.5142,
+        "Y": 47.847,
+        "Z": 0.0
+      },
+      "61": {
+        "X": 15.6072,
+        "Y": -78.4628,
+        "Z": -30.0
+      },
+      "62": {
+        "X": 15.6072,
+        "Y": -78.4628,
+        "Z": 0.0
+      },
+      "63": {
+        "X": 16.8445,
+        "Y": -47.0772,
+        "Z": -30.0
+      },
+      "64": {
+        "X": 16.8445,
+        "Y": -47.0772,
+        "Z": 0.0
+      },
+      "65": {
+        "X": 21.3778,
+        "Y": 45.1995,
+        "Z": -30.0
+      },
+      "66": {
+        "X": 21.3778,
+        "Y": 45.1995,
+        "Z": 0.0
+      },
+      "67": {
+        "X": 23.5698,
+        "Y": -44.0961,
+        "Z": -30.0
+      },
+      "68": {
+        "X": 23.5698,
+        "Y": -44.0961,
+        "Z": 0.0
+      },
+      "69": {
+        "X": 23.2228,
+        "Y": 76.5552,
+        "Z": -30.0
+      },
+      "70": {
+        "X": 23.2228,
+        "Y": 76.5552,
+        "Z": 0.0
+      },
+      "71": {
+        "X": 26.9512,
+        "Y": -75.3235,
+        "Z": -30.0
+      },
+      "72": {
+        "X": 26.9512,
+        "Y": -75.3235,
+        "Z": 0.0
+      },
+      "73": {
+        "X": 27.7785,
+        "Y": 41.5735,
+        "Z": -30.0
+      },
+      "74": {
+        "X": 27.7785,
+        "Y": 41.5735,
+        "Z": 0.0
+      },
+      "75": {
+        "X": 29.785,
+        "Y": -40.1604,
+        "Z": -30.0
+      },
+      "76": {
+        "X": 29.785,
+        "Y": -40.1604,
+        "Z": 0.0
+      },
+      "77": {
+        "X": 33.5779,
+        "Y": 37.0476,
+        "Z": -30.0
+      },
+      "78": {
+        "X": 33.5779,
+        "Y": 37.0476,
+        "Z": 0.0
+      },
+      "79": {
+        "X": 34.2044,
+        "Y": 72.3191,
+        "Z": -30.0
+      },
+      "80": {
+        "X": 34.2044,
+        "Y": 72.3191,
+        "Z": 0.0
+      },
+      "81": {
+        "X": 35.3553,
+        "Y": -35.3553,
+        "Z": -30.0
+      },
+      "82": {
+        "X": 35.3553,
+        "Y": -35.3553,
+        "Z": 0.0
+      },
+      "83": {
+        "X": 37.7117,
+        "Y": -70.5537,
+        "Z": -30.0
+      },
+      "84": {
+        "X": 37.7117,
+        "Y": -70.5537,
+        "Z": 0.0
+      },
+      "85": {
+        "X": 38.6505,
+        "Y": 31.719700000000003,
+        "Z": -30.0
+      },
+      "86": {
+        "X": 38.6505,
+        "Y": 31.719700000000003,
+        "Z": 0.0
+      },
+      "87": {
+        "X": 40.1604,
+        "Y": -29.785,
+        "Z": -30.0
+      },
+      "88": {
+        "X": 40.1604,
+        "Y": -29.785,
+        "Z": 0.0
+      },
+      "89": {
+        "X": 42.8864,
+        "Y": 25.7051,
+        "Z": -30.0
+      },
+      "90": {
+        "X": 42.8864,
+        "Y": 25.7051,
+        "Z": 0.0
+      },
+      "91": {
+        "X": 44.0961,
+        "Y": -23.5698,
+        "Z": -30.0
+      },
+      "92": {
+        "X": 44.0961,
+        "Y": -23.5698,
+        "Z": 0.0
+      },
+      "93": {
+        "X": 44.4456,
+        "Y": 66.5176,
+        "Z": -30.0
+      },
+      "94": {
+        "X": 44.4456,
+        "Y": 66.5176,
+        "Z": 0.0
+      },
+      "95": {
+        "X": 47.0772,
+        "Y": -16.8445,
+        "Z": -30.0
+      },
+      "96": {
+        "X": 47.0772,
+        "Y": -16.8445,
+        "Z": 0.0
+      },
+      "97": {
+        "X": 46.194,
+        "Y": 19.1342,
+        "Z": -30.0
+      },
+      "98": {
+        "X": 46.194,
+        "Y": 19.1342,
+        "Z": 0.0
+      },
+      "99": {
+        "X": 47.6559,
+        "Y": -64.2566,
+        "Z": -30.0
+      },
+      "100": {
+        "X": 47.6559,
+        "Y": -64.2566,
+        "Z": 0.0
+      },
+      "101": {
+        "X": 48.5016,
+        "Y": 12.149,
+        "Z": -30.0
+      },
+      "102": {
+        "X": 48.5016,
+        "Y": 12.149,
+        "Z": 0.0
+      },
+      "103": {
+        "X": 49.0393,
+        "Y": -9.75452,
+        "Z": -30.0
+      },
+      "104": {
+        "X": 49.0393,
+        "Y": -9.75452,
+        "Z": 0.0
+      },
+      "105": {
+        "X": 49.9398,
+        "Y": -2.45338,
+        "Z": -30.0
+      },
+      "106": {
+        "X": 49.9398,
+        "Y": -2.45338,
+        "Z": 0.0
+      },
+      "107": {
+        "X": 49.7592,
+        "Y": 4.90086,
+        "Z": -30.0
+      },
+      "108": {
+        "X": 49.7592,
+        "Y": 4.90086,
+        "Z": 0.0
+      },
+      "109": {
+        "X": 53.7247,
+        "Y": 59.2761,
+        "Z": -30.0
+      },
+      "110": {
+        "X": 53.7247,
+        "Y": 59.2761,
+        "Z": 0.0
+      },
+      "111": {
+        "X": 56.5685,
+        "Y": -56.5685,
+        "Z": -30.0
+      },
+      "112": {
+        "X": 56.5685,
+        "Y": -56.5685,
+        "Z": 0.0
+      },
+      "113": {
+        "X": 61.8408,
+        "Y": 50.7515,
+        "Z": -30.0
+      },
+      "114": {
+        "X": 61.8408,
+        "Y": 50.7515,
+        "Z": 0.0
+      },
+      "115": {
+        "X": 64.2566,
+        "Y": -47.6559,
+        "Z": -30.0
+      },
+      "116": {
+        "X": 64.2566,
+        "Y": -47.6559,
+        "Z": 0.0
+      },
+      "117": {
+        "X": 68.6183,
+        "Y": 41.1282,
+        "Z": -30.0
+      },
+      "118": {
+        "X": 68.6183,
+        "Y": 41.1282,
+        "Z": 0.0
+      },
+      "119": {
+        "X": 70.5537,
+        "Y": -37.7117,
+        "Z": -30.0
+      },
+      "120": {
+        "X": 70.5537,
+        "Y": -37.7117,
+        "Z": 0.0
+      },
+      "121": {
+        "X": 73.9104,
+        "Y": 30.6147,
+        "Z": -30.0
+      },
+      "122": {
+        "X": 73.9104,
+        "Y": 30.6147,
+        "Z": 0.0
+      },
+      "123": {
+        "X": 75.3235,
+        "Y": -26.9512,
+        "Z": -30.0
+      },
+      "124": {
+        "X": 75.3235,
+        "Y": -26.9512,
+        "Z": 0.0
+      },
+      "125": {
+        "X": 78.4628,
+        "Y": -15.6072,
+        "Z": -30.0
+      },
+      "126": {
+        "X": 78.4628,
+        "Y": -15.6072,
+        "Z": 0.0
+      },
+      "127": {
+        "X": 77.6025,
+        "Y": 19.4384,
+        "Z": -30.0
+      },
+      "128": {
+        "X": 77.6025,
+        "Y": 19.4384,
+        "Z": 0.0
+      },
+      "129": {
+        "X": 79.9036,
+        "Y": -3.92541,
+        "Z": -30.0
+      },
+      "130": {
+        "X": 79.9036,
+        "Y": -3.92541,
+        "Z": 0.0
+      },
+      "131": {
+        "X": 79.6148,
+        "Y": 7.84137,
+        "Z": -30.0
+      },
+      "132": {
+        "X": 79.6148,
+        "Y": 7.84137,
+        "Z": 0.0
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {},
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

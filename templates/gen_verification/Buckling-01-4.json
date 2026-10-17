@@ -1,0 +1,3702 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Buckling-01-4",
+    "family": "Buckling",
+    "source": ".tmp_p180/exports/Buckling-01-4.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 1,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 1,
+      "CONS": 2,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 60,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 1,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 61,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 1,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 1,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 0,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.buckling.factor.0": {
+      "value": 1.0,
+      "kind": "number",
+      "description": "屈曲工况 CASE1 的比例系数",
+      "source": "BUCK/1/ITEMS[0].FACTOR"
+    },
+    "analysis.buckling.mode_count": {
+      "value": 5,
+      "kind": "integer",
+      "description": "屈曲分析提取的模态数",
+      "source": "BUCK/1/MODE_NUM"
+    },
+    "analysis.gravity": {
+      "value": 9.806,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "combination.1.factor.0": {
+      "value": 1.0,
+      "kind": "number",
+      "description": "组合 1 中工况 CASE1 的组合系数",
+      "source": "LCOM-GEN/1/vCOMB[0].FACTOR"
+    },
+    "combination.1.name": {
+      "value": "LCOMB1",
+      "kind": "string",
+      "description": "荷载组合 1 的名称",
+      "source": "LCOM-GEN/1/NAME"
+    },
+    "load_case.1.name": {
+      "value": "CASE1",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 10000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "MAT-1",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "nodal_load.61.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 FX",
+      "source": "CNLD/61/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.61.0.fy": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 FY",
+      "source": "CNLD/61/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.61.0.fz": {
+      "value": -1.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 FZ",
+      "source": "CNLD/61/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.61.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 MX",
+      "source": "CNLD/61/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.61.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 MY",
+      "source": "CNLD/61/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.61.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 荷载分量 MZ",
+      "source": "CNLD/61/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "node.1.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 X 坐标",
+      "source": "NODE/1/X",
+      "unit": "length"
+    },
+    "node.1.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 Y 坐标",
+      "source": "NODE/1/Y",
+      "unit": "length"
+    },
+    "node.1.z": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 Z 坐标",
+      "source": "NODE/1/Z",
+      "unit": "length"
+    },
+    "node.10.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 10 的 X 坐标",
+      "source": "NODE/10/X",
+      "unit": "length"
+    },
+    "node.10.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 10 的 Y 坐标",
+      "source": "NODE/10/Y",
+      "unit": "length"
+    },
+    "node.10.z": {
+      "value": 2.25,
+      "kind": "number",
+      "description": "节点 10 的 Z 坐标",
+      "source": "NODE/10/Z",
+      "unit": "length"
+    },
+    "node.11.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 11 的 X 坐标",
+      "source": "NODE/11/X",
+      "unit": "length"
+    },
+    "node.11.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 11 的 Y 坐标",
+      "source": "NODE/11/Y",
+      "unit": "length"
+    },
+    "node.11.z": {
+      "value": 2.5,
+      "kind": "number",
+      "description": "节点 11 的 Z 坐标",
+      "source": "NODE/11/Z",
+      "unit": "length"
+    },
+    "node.12.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 12 的 X 坐标",
+      "source": "NODE/12/X",
+      "unit": "length"
+    },
+    "node.12.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 12 的 Y 坐标",
+      "source": "NODE/12/Y",
+      "unit": "length"
+    },
+    "node.12.z": {
+      "value": 2.75,
+      "kind": "number",
+      "description": "节点 12 的 Z 坐标",
+      "source": "NODE/12/Z",
+      "unit": "length"
+    },
+    "node.13.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 13 的 X 坐标",
+      "source": "NODE/13/X",
+      "unit": "length"
+    },
+    "node.13.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 13 的 Y 坐标",
+      "source": "NODE/13/Y",
+      "unit": "length"
+    },
+    "node.13.z": {
+      "value": 3.0,
+      "kind": "number",
+      "description": "节点 13 的 Z 坐标",
+      "source": "NODE/13/Z",
+      "unit": "length"
+    },
+    "node.14.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 14 的 X 坐标",
+      "source": "NODE/14/X",
+      "unit": "length"
+    },
+    "node.14.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 14 的 Y 坐标",
+      "source": "NODE/14/Y",
+      "unit": "length"
+    },
+    "node.14.z": {
+      "value": 3.25,
+      "kind": "number",
+      "description": "节点 14 的 Z 坐标",
+      "source": "NODE/14/Z",
+      "unit": "length"
+    },
+    "node.15.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 的 X 坐标",
+      "source": "NODE/15/X",
+      "unit": "length"
+    },
+    "node.15.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 15 的 Y 坐标",
+      "source": "NODE/15/Y",
+      "unit": "length"
+    },
+    "node.15.z": {
+      "value": 3.5,
+      "kind": "number",
+      "description": "节点 15 的 Z 坐标",
+      "source": "NODE/15/Z",
+      "unit": "length"
+    },
+    "node.16.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 的 X 坐标",
+      "source": "NODE/16/X",
+      "unit": "length"
+    },
+    "node.16.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 16 的 Y 坐标",
+      "source": "NODE/16/Y",
+      "unit": "length"
+    },
+    "node.16.z": {
+      "value": 3.75,
+      "kind": "number",
+      "description": "节点 16 的 Z 坐标",
+      "source": "NODE/16/Z",
+      "unit": "length"
+    },
+    "node.17.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 17 的 X 坐标",
+      "source": "NODE/17/X",
+      "unit": "length"
+    },
+    "node.17.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 17 的 Y 坐标",
+      "source": "NODE/17/Y",
+      "unit": "length"
+    },
+    "node.17.z": {
+      "value": 4.0,
+      "kind": "number",
+      "description": "节点 17 的 Z 坐标",
+      "source": "NODE/17/Z",
+      "unit": "length"
+    },
+    "node.18.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 18 的 X 坐标",
+      "source": "NODE/18/X",
+      "unit": "length"
+    },
+    "node.18.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 18 的 Y 坐标",
+      "source": "NODE/18/Y",
+      "unit": "length"
+    },
+    "node.18.z": {
+      "value": 4.25,
+      "kind": "number",
+      "description": "节点 18 的 Z 坐标",
+      "source": "NODE/18/Z",
+      "unit": "length"
+    },
+    "node.19.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 19 的 X 坐标",
+      "source": "NODE/19/X",
+      "unit": "length"
+    },
+    "node.19.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 19 的 Y 坐标",
+      "source": "NODE/19/Y",
+      "unit": "length"
+    },
+    "node.19.z": {
+      "value": 4.5,
+      "kind": "number",
+      "description": "节点 19 的 Z 坐标",
+      "source": "NODE/19/Z",
+      "unit": "length"
+    },
+    "node.2.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 2 的 X 坐标",
+      "source": "NODE/2/X",
+      "unit": "length"
+    },
+    "node.2.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 2 的 Y 坐标",
+      "source": "NODE/2/Y",
+      "unit": "length"
+    },
+    "node.2.z": {
+      "value": 0.25,
+      "kind": "number",
+      "description": "节点 2 的 Z 坐标",
+      "source": "NODE/2/Z",
+      "unit": "length"
+    },
+    "node.20.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 20 的 X 坐标",
+      "source": "NODE/20/X",
+      "unit": "length"
+    },
+    "node.20.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 20 的 Y 坐标",
+      "source": "NODE/20/Y",
+      "unit": "length"
+    },
+    "node.20.z": {
+      "value": 4.75,
+      "kind": "number",
+      "description": "节点 20 的 Z 坐标",
+      "source": "NODE/20/Z",
+      "unit": "length"
+    },
+    "node.21.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 21 的 X 坐标",
+      "source": "NODE/21/X",
+      "unit": "length"
+    },
+    "node.21.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 21 的 Y 坐标",
+      "source": "NODE/21/Y",
+      "unit": "length"
+    },
+    "node.21.z": {
+      "value": 5.0,
+      "kind": "number",
+      "description": "节点 21 的 Z 坐标",
+      "source": "NODE/21/Z",
+      "unit": "length"
+    },
+    "node.22.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 22 的 X 坐标",
+      "source": "NODE/22/X",
+      "unit": "length"
+    },
+    "node.22.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 22 的 Y 坐标",
+      "source": "NODE/22/Y",
+      "unit": "length"
+    },
+    "node.22.z": {
+      "value": 5.25,
+      "kind": "number",
+      "description": "节点 22 的 Z 坐标",
+      "source": "NODE/22/Z",
+      "unit": "length"
+    },
+    "node.23.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 23 的 X 坐标",
+      "source": "NODE/23/X",
+      "unit": "length"
+    },
+    "node.23.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 23 的 Y 坐标",
+      "source": "NODE/23/Y",
+      "unit": "length"
+    },
+    "node.23.z": {
+      "value": 5.5,
+      "kind": "number",
+      "description": "节点 23 的 Z 坐标",
+      "source": "NODE/23/Z",
+      "unit": "length"
+    },
+    "node.24.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 24 的 X 坐标",
+      "source": "NODE/24/X",
+      "unit": "length"
+    },
+    "node.24.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 24 的 Y 坐标",
+      "source": "NODE/24/Y",
+      "unit": "length"
+    },
+    "node.24.z": {
+      "value": 5.75,
+      "kind": "number",
+      "description": "节点 24 的 Z 坐标",
+      "source": "NODE/24/Z",
+      "unit": "length"
+    },
+    "node.25.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 25 的 X 坐标",
+      "source": "NODE/25/X",
+      "unit": "length"
+    },
+    "node.25.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 25 的 Y 坐标",
+      "source": "NODE/25/Y",
+      "unit": "length"
+    },
+    "node.25.z": {
+      "value": 6.0,
+      "kind": "number",
+      "description": "节点 25 的 Z 坐标",
+      "source": "NODE/25/Z",
+      "unit": "length"
+    },
+    "node.26.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 26 的 X 坐标",
+      "source": "NODE/26/X",
+      "unit": "length"
+    },
+    "node.26.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 26 的 Y 坐标",
+      "source": "NODE/26/Y",
+      "unit": "length"
+    },
+    "node.26.z": {
+      "value": 6.25,
+      "kind": "number",
+      "description": "节点 26 的 Z 坐标",
+      "source": "NODE/26/Z",
+      "unit": "length"
+    },
+    "node.27.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 27 的 X 坐标",
+      "source": "NODE/27/X",
+      "unit": "length"
+    },
+    "node.27.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 27 的 Y 坐标",
+      "source": "NODE/27/Y",
+      "unit": "length"
+    },
+    "node.27.z": {
+      "value": 6.5,
+      "kind": "number",
+      "description": "节点 27 的 Z 坐标",
+      "source": "NODE/27/Z",
+      "unit": "length"
+    },
+    "node.28.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 28 的 X 坐标",
+      "source": "NODE/28/X",
+      "unit": "length"
+    },
+    "node.28.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 28 的 Y 坐标",
+      "source": "NODE/28/Y",
+      "unit": "length"
+    },
+    "node.28.z": {
+      "value": 6.75,
+      "kind": "number",
+      "description": "节点 28 的 Z 坐标",
+      "source": "NODE/28/Z",
+      "unit": "length"
+    },
+    "node.29.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 29 的 X 坐标",
+      "source": "NODE/29/X",
+      "unit": "length"
+    },
+    "node.29.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 29 的 Y 坐标",
+      "source": "NODE/29/Y",
+      "unit": "length"
+    },
+    "node.29.z": {
+      "value": 7.0,
+      "kind": "number",
+      "description": "节点 29 的 Z 坐标",
+      "source": "NODE/29/Z",
+      "unit": "length"
+    },
+    "node.3.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 的 X 坐标",
+      "source": "NODE/3/X",
+      "unit": "length"
+    },
+    "node.3.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 的 Y 坐标",
+      "source": "NODE/3/Y",
+      "unit": "length"
+    },
+    "node.3.z": {
+      "value": 0.5,
+      "kind": "number",
+      "description": "节点 3 的 Z 坐标",
+      "source": "NODE/3/Z",
+      "unit": "length"
+    },
+    "node.30.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 30 的 X 坐标",
+      "source": "NODE/30/X",
+      "unit": "length"
+    },
+    "node.30.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 30 的 Y 坐标",
+      "source": "NODE/30/Y",
+      "unit": "length"
+    },
+    "node.30.z": {
+      "value": 7.25,
+      "kind": "number",
+      "description": "节点 30 的 Z 坐标",
+      "source": "NODE/30/Z",
+      "unit": "length"
+    },
+    "node.31.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 31 的 X 坐标",
+      "source": "NODE/31/X",
+      "unit": "length"
+    },
+    "node.31.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 31 的 Y 坐标",
+      "source": "NODE/31/Y",
+      "unit": "length"
+    },
+    "node.31.z": {
+      "value": 7.5,
+      "kind": "number",
+      "description": "节点 31 的 Z 坐标",
+      "source": "NODE/31/Z",
+      "unit": "length"
+    },
+    "node.32.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 32 的 X 坐标",
+      "source": "NODE/32/X",
+      "unit": "length"
+    },
+    "node.32.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 32 的 Y 坐标",
+      "source": "NODE/32/Y",
+      "unit": "length"
+    },
+    "node.32.z": {
+      "value": 7.75,
+      "kind": "number",
+      "description": "节点 32 的 Z 坐标",
+      "source": "NODE/32/Z",
+      "unit": "length"
+    },
+    "node.33.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 33 的 X 坐标",
+      "source": "NODE/33/X",
+      "unit": "length"
+    },
+    "node.33.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 33 的 Y 坐标",
+      "source": "NODE/33/Y",
+      "unit": "length"
+    },
+    "node.33.z": {
+      "value": 8.0,
+      "kind": "number",
+      "description": "节点 33 的 Z 坐标",
+      "source": "NODE/33/Z",
+      "unit": "length"
+    },
+    "node.34.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 34 的 X 坐标",
+      "source": "NODE/34/X",
+      "unit": "length"
+    },
+    "node.34.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 34 的 Y 坐标",
+      "source": "NODE/34/Y",
+      "unit": "length"
+    },
+    "node.34.z": {
+      "value": 8.25,
+      "kind": "number",
+      "description": "节点 34 的 Z 坐标",
+      "source": "NODE/34/Z",
+      "unit": "length"
+    },
+    "node.35.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 35 的 X 坐标",
+      "source": "NODE/35/X",
+      "unit": "length"
+    },
+    "node.35.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 35 的 Y 坐标",
+      "source": "NODE/35/Y",
+      "unit": "length"
+    },
+    "node.35.z": {
+      "value": 8.5,
+      "kind": "number",
+      "description": "节点 35 的 Z 坐标",
+      "source": "NODE/35/Z",
+      "unit": "length"
+    },
+    "node.36.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 36 的 X 坐标",
+      "source": "NODE/36/X",
+      "unit": "length"
+    },
+    "node.36.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 36 的 Y 坐标",
+      "source": "NODE/36/Y",
+      "unit": "length"
+    },
+    "node.36.z": {
+      "value": 8.75,
+      "kind": "number",
+      "description": "节点 36 的 Z 坐标",
+      "source": "NODE/36/Z",
+      "unit": "length"
+    },
+    "node.37.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 37 的 X 坐标",
+      "source": "NODE/37/X",
+      "unit": "length"
+    },
+    "node.37.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 37 的 Y 坐标",
+      "source": "NODE/37/Y",
+      "unit": "length"
+    },
+    "node.37.z": {
+      "value": 9.0,
+      "kind": "number",
+      "description": "节点 37 的 Z 坐标",
+      "source": "NODE/37/Z",
+      "unit": "length"
+    },
+    "node.38.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 38 的 X 坐标",
+      "source": "NODE/38/X",
+      "unit": "length"
+    },
+    "node.38.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 38 的 Y 坐标",
+      "source": "NODE/38/Y",
+      "unit": "length"
+    },
+    "node.38.z": {
+      "value": 9.25,
+      "kind": "number",
+      "description": "节点 38 的 Z 坐标",
+      "source": "NODE/38/Z",
+      "unit": "length"
+    },
+    "node.39.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 39 的 X 坐标",
+      "source": "NODE/39/X",
+      "unit": "length"
+    },
+    "node.39.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 39 的 Y 坐标",
+      "source": "NODE/39/Y",
+      "unit": "length"
+    },
+    "node.39.z": {
+      "value": 9.5,
+      "kind": "number",
+      "description": "节点 39 的 Z 坐标",
+      "source": "NODE/39/Z",
+      "unit": "length"
+    },
+    "node.4.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 的 X 坐标",
+      "source": "NODE/4/X",
+      "unit": "length"
+    },
+    "node.4.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 的 Y 坐标",
+      "source": "NODE/4/Y",
+      "unit": "length"
+    },
+    "node.4.z": {
+      "value": 0.75,
+      "kind": "number",
+      "description": "节点 4 的 Z 坐标",
+      "source": "NODE/4/Z",
+      "unit": "length"
+    },
+    "node.40.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 40 的 X 坐标",
+      "source": "NODE/40/X",
+      "unit": "length"
+    },
+    "node.40.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 40 的 Y 坐标",
+      "source": "NODE/40/Y",
+      "unit": "length"
+    },
+    "node.40.z": {
+      "value": 9.75,
+      "kind": "number",
+      "description": "节点 40 的 Z 坐标",
+      "source": "NODE/40/Z",
+      "unit": "length"
+    },
+    "node.41.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 41 的 X 坐标",
+      "source": "NODE/41/X",
+      "unit": "length"
+    },
+    "node.41.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 41 的 Y 坐标",
+      "source": "NODE/41/Y",
+      "unit": "length"
+    },
+    "node.41.z": {
+      "value": 10.0,
+      "kind": "number",
+      "description": "节点 41 的 Z 坐标",
+      "source": "NODE/41/Z",
+      "unit": "length"
+    },
+    "node.42.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 42 的 X 坐标",
+      "source": "NODE/42/X",
+      "unit": "length"
+    },
+    "node.42.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 42 的 Y 坐标",
+      "source": "NODE/42/Y",
+      "unit": "length"
+    },
+    "node.42.z": {
+      "value": 10.25,
+      "kind": "number",
+      "description": "节点 42 的 Z 坐标",
+      "source": "NODE/42/Z",
+      "unit": "length"
+    },
+    "node.43.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 43 的 X 坐标",
+      "source": "NODE/43/X",
+      "unit": "length"
+    },
+    "node.43.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 43 的 Y 坐标",
+      "source": "NODE/43/Y",
+      "unit": "length"
+    },
+    "node.43.z": {
+      "value": 10.5,
+      "kind": "number",
+      "description": "节点 43 的 Z 坐标",
+      "source": "NODE/43/Z",
+      "unit": "length"
+    },
+    "node.44.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 44 的 X 坐标",
+      "source": "NODE/44/X",
+      "unit": "length"
+    },
+    "node.44.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 44 的 Y 坐标",
+      "source": "NODE/44/Y",
+      "unit": "length"
+    },
+    "node.44.z": {
+      "value": 10.75,
+      "kind": "number",
+      "description": "节点 44 的 Z 坐标",
+      "source": "NODE/44/Z",
+      "unit": "length"
+    },
+    "node.45.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 45 的 X 坐标",
+      "source": "NODE/45/X",
+      "unit": "length"
+    },
+    "node.45.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 45 的 Y 坐标",
+      "source": "NODE/45/Y",
+      "unit": "length"
+    },
+    "node.45.z": {
+      "value": 11.0,
+      "kind": "number",
+      "description": "节点 45 的 Z 坐标",
+      "source": "NODE/45/Z",
+      "unit": "length"
+    },
+    "node.46.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 46 的 X 坐标",
+      "source": "NODE/46/X",
+      "unit": "length"
+    },
+    "node.46.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 46 的 Y 坐标",
+      "source": "NODE/46/Y",
+      "unit": "length"
+    },
+    "node.46.z": {
+      "value": 11.25,
+      "kind": "number",
+      "description": "节点 46 的 Z 坐标",
+      "source": "NODE/46/Z",
+      "unit": "length"
+    },
+    "node.47.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 47 的 X 坐标",
+      "source": "NODE/47/X",
+      "unit": "length"
+    },
+    "node.47.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 47 的 Y 坐标",
+      "source": "NODE/47/Y",
+      "unit": "length"
+    },
+    "node.47.z": {
+      "value": 11.5,
+      "kind": "number",
+      "description": "节点 47 的 Z 坐标",
+      "source": "NODE/47/Z",
+      "unit": "length"
+    },
+    "node.48.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 48 的 X 坐标",
+      "source": "NODE/48/X",
+      "unit": "length"
+    },
+    "node.48.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 48 的 Y 坐标",
+      "source": "NODE/48/Y",
+      "unit": "length"
+    },
+    "node.48.z": {
+      "value": 11.75,
+      "kind": "number",
+      "description": "节点 48 的 Z 坐标",
+      "source": "NODE/48/Z",
+      "unit": "length"
+    },
+    "node.49.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 49 的 X 坐标",
+      "source": "NODE/49/X",
+      "unit": "length"
+    },
+    "node.49.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 49 的 Y 坐标",
+      "source": "NODE/49/Y",
+      "unit": "length"
+    },
+    "node.49.z": {
+      "value": 12.0,
+      "kind": "number",
+      "description": "节点 49 的 Z 坐标",
+      "source": "NODE/49/Z",
+      "unit": "length"
+    },
+    "node.5.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 5 的 X 坐标",
+      "source": "NODE/5/X",
+      "unit": "length"
+    },
+    "node.5.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 5 的 Y 坐标",
+      "source": "NODE/5/Y",
+      "unit": "length"
+    },
+    "node.5.z": {
+      "value": 1.0,
+      "kind": "number",
+      "description": "节点 5 的 Z 坐标",
+      "source": "NODE/5/Z",
+      "unit": "length"
+    },
+    "node.50.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 50 的 X 坐标",
+      "source": "NODE/50/X",
+      "unit": "length"
+    },
+    "node.50.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 50 的 Y 坐标",
+      "source": "NODE/50/Y",
+      "unit": "length"
+    },
+    "node.50.z": {
+      "value": 12.25,
+      "kind": "number",
+      "description": "节点 50 的 Z 坐标",
+      "source": "NODE/50/Z",
+      "unit": "length"
+    },
+    "node.51.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 51 的 X 坐标",
+      "source": "NODE/51/X",
+      "unit": "length"
+    },
+    "node.51.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 51 的 Y 坐标",
+      "source": "NODE/51/Y",
+      "unit": "length"
+    },
+    "node.51.z": {
+      "value": 12.5,
+      "kind": "number",
+      "description": "节点 51 的 Z 坐标",
+      "source": "NODE/51/Z",
+      "unit": "length"
+    },
+    "node.52.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 52 的 X 坐标",
+      "source": "NODE/52/X",
+      "unit": "length"
+    },
+    "node.52.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 52 的 Y 坐标",
+      "source": "NODE/52/Y",
+      "unit": "length"
+    },
+    "node.52.z": {
+      "value": 12.75,
+      "kind": "number",
+      "description": "节点 52 的 Z 坐标",
+      "source": "NODE/52/Z",
+      "unit": "length"
+    },
+    "node.53.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 53 的 X 坐标",
+      "source": "NODE/53/X",
+      "unit": "length"
+    },
+    "node.53.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 53 的 Y 坐标",
+      "source": "NODE/53/Y",
+      "unit": "length"
+    },
+    "node.53.z": {
+      "value": 13.0,
+      "kind": "number",
+      "description": "节点 53 的 Z 坐标",
+      "source": "NODE/53/Z",
+      "unit": "length"
+    },
+    "node.54.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 54 的 X 坐标",
+      "source": "NODE/54/X",
+      "unit": "length"
+    },
+    "node.54.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 54 的 Y 坐标",
+      "source": "NODE/54/Y",
+      "unit": "length"
+    },
+    "node.54.z": {
+      "value": 13.25,
+      "kind": "number",
+      "description": "节点 54 的 Z 坐标",
+      "source": "NODE/54/Z",
+      "unit": "length"
+    },
+    "node.55.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 55 的 X 坐标",
+      "source": "NODE/55/X",
+      "unit": "length"
+    },
+    "node.55.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 55 的 Y 坐标",
+      "source": "NODE/55/Y",
+      "unit": "length"
+    },
+    "node.55.z": {
+      "value": 13.5,
+      "kind": "number",
+      "description": "节点 55 的 Z 坐标",
+      "source": "NODE/55/Z",
+      "unit": "length"
+    },
+    "node.56.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 56 的 X 坐标",
+      "source": "NODE/56/X",
+      "unit": "length"
+    },
+    "node.56.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 56 的 Y 坐标",
+      "source": "NODE/56/Y",
+      "unit": "length"
+    },
+    "node.56.z": {
+      "value": 13.75,
+      "kind": "number",
+      "description": "节点 56 的 Z 坐标",
+      "source": "NODE/56/Z",
+      "unit": "length"
+    },
+    "node.57.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 57 的 X 坐标",
+      "source": "NODE/57/X",
+      "unit": "length"
+    },
+    "node.57.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 57 的 Y 坐标",
+      "source": "NODE/57/Y",
+      "unit": "length"
+    },
+    "node.57.z": {
+      "value": 14.0,
+      "kind": "number",
+      "description": "节点 57 的 Z 坐标",
+      "source": "NODE/57/Z",
+      "unit": "length"
+    },
+    "node.58.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 58 的 X 坐标",
+      "source": "NODE/58/X",
+      "unit": "length"
+    },
+    "node.58.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 58 的 Y 坐标",
+      "source": "NODE/58/Y",
+      "unit": "length"
+    },
+    "node.58.z": {
+      "value": 14.25,
+      "kind": "number",
+      "description": "节点 58 的 Z 坐标",
+      "source": "NODE/58/Z",
+      "unit": "length"
+    },
+    "node.59.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 59 的 X 坐标",
+      "source": "NODE/59/X",
+      "unit": "length"
+    },
+    "node.59.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 59 的 Y 坐标",
+      "source": "NODE/59/Y",
+      "unit": "length"
+    },
+    "node.59.z": {
+      "value": 14.5,
+      "kind": "number",
+      "description": "节点 59 的 Z 坐标",
+      "source": "NODE/59/Z",
+      "unit": "length"
+    },
+    "node.6.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 6 的 X 坐标",
+      "source": "NODE/6/X",
+      "unit": "length"
+    },
+    "node.6.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 6 的 Y 坐标",
+      "source": "NODE/6/Y",
+      "unit": "length"
+    },
+    "node.6.z": {
+      "value": 1.25,
+      "kind": "number",
+      "description": "节点 6 的 Z 坐标",
+      "source": "NODE/6/Z",
+      "unit": "length"
+    },
+    "node.60.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 60 的 X 坐标",
+      "source": "NODE/60/X",
+      "unit": "length"
+    },
+    "node.60.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 60 的 Y 坐标",
+      "source": "NODE/60/Y",
+      "unit": "length"
+    },
+    "node.60.z": {
+      "value": 14.75,
+      "kind": "number",
+      "description": "节点 60 的 Z 坐标",
+      "source": "NODE/60/Z",
+      "unit": "length"
+    },
+    "node.61.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 的 X 坐标",
+      "source": "NODE/61/X",
+      "unit": "length"
+    },
+    "node.61.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 61 的 Y 坐标",
+      "source": "NODE/61/Y",
+      "unit": "length"
+    },
+    "node.61.z": {
+      "value": 15.0,
+      "kind": "number",
+      "description": "节点 61 的 Z 坐标",
+      "source": "NODE/61/Z",
+      "unit": "length"
+    },
+    "node.7.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 7 的 X 坐标",
+      "source": "NODE/7/X",
+      "unit": "length"
+    },
+    "node.7.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 7 的 Y 坐标",
+      "source": "NODE/7/Y",
+      "unit": "length"
+    },
+    "node.7.z": {
+      "value": 1.5,
+      "kind": "number",
+      "description": "节点 7 的 Z 坐标",
+      "source": "NODE/7/Z",
+      "unit": "length"
+    },
+    "node.8.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 8 的 X 坐标",
+      "source": "NODE/8/X",
+      "unit": "length"
+    },
+    "node.8.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 8 的 Y 坐标",
+      "source": "NODE/8/Y",
+      "unit": "length"
+    },
+    "node.8.z": {
+      "value": 1.75,
+      "kind": "number",
+      "description": "节点 8 的 Z 坐标",
+      "source": "NODE/8/Z",
+      "unit": "length"
+    },
+    "node.9.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 9 的 X 坐标",
+      "source": "NODE/9/X",
+      "unit": "length"
+    },
+    "node.9.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 9 的 Y 坐标",
+      "source": "NODE/9/Y",
+      "unit": "length"
+    },
+    "node.9.z": {
+      "value": 2.0,
+      "kind": "number",
+      "description": "节点 9 的 Z 坐标",
+      "source": "NODE/9/Z",
+      "unit": "length"
+    },
+    "section.1.name": {
+      "value": "SR",
+      "kind": "string",
+      "description": "截面名称",
+      "source": "SECT/1/SECT_NAME"
+    },
+    "section.1.shape": {
+      "value": "SB",
+      "kind": "string",
+      "description": "截面形状代码（H / B / SB / P / SR …）",
+      "source": "SECT/1/SECT_BEFORE.SHAPE"
+    },
+    "section.1.vsize.0": {
+      "value": 0.25,
+      "kind": "number",
+      "description": "截面尺寸 h（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[0]",
+      "unit": "length"
+    },
+    "section.1.vsize.1": {
+      "value": 1.0,
+      "kind": "number",
+      "description": "截面尺寸 b（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[1]",
+      "unit": "length"
+    },
+    "section.1.vsize.2": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim2（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[2]",
+      "unit": "length"
+    },
+    "section.1.vsize.3": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim3（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[3]",
+      "unit": "length"
+    },
+    "section.1.vsize.4": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim4（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[4]",
+      "unit": "length"
+    },
+    "section.1.vsize.5": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim5（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[5]",
+      "unit": "length"
+    },
+    "section.1.vsize.6": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim6（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[6]",
+      "unit": "length"
+    },
+    "section.1.vsize.7": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "截面尺寸 dim7（SHAPE=SB）",
+      "source": "SECT/1/SECT_BEFORE.SECT_I.vSIZE[7]",
+      "unit": "length"
+    },
+    "support.1.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 1 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/1/ITEMS[0].CONSTRAINT"
+    },
+    "support.61.constraint": {
+      "value": "1101010",
+      "kind": "string",
+      "description": "节点 61 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/61/ITEMS[0].CONSTRAINT"
+    },
+    "units.dist": {
+      "value": "M",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "TONF",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "KCAL",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 10,
+        "TOL": 0.001,
+        "ACWC": false
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {
+      "1": {
+        "MODE_NUM": "${analysis.buckling.mode_count}",
+        "OPT_POSITIVE": false,
+        "OPT_CONSIDER_AXIAL_ONLY": false,
+        "LOAD_FACTOR_FROM": 0.0,
+        "LOAD_FACTOR_TO": 0.0,
+        "OPT_STURM_SEQ": false,
+        "ITEMS": [
+          {
+            "LCNAME": "CASE1",
+            "FACTOR": "${analysis.buckling.factor.0}",
+            "LOAD_TYPE": 0
+          }
+        ]
+      }
+    },
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {
+      "61": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "CASE1",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.61.0.fx}",
+            "FY": "${nodal_load.61.0.fy}",
+            "FZ": "${nodal_load.61.0.fz}",
+            "MX": "${nodal_load.61.0.mx}",
+            "MY": "${nodal_load.61.0.my}",
+            "MZ": "${nodal_load.61.0.mz}"
+          }
+        ]
+      }
+    },
+    "CONS": {
+      "1": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.1.constraint}"
+          }
+        ]
+      },
+      "61": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.61.constraint}"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "1": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "2": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          2,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "3": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          3,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "4": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          4,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "5": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          5,
+          6,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "6": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "7": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          7,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "8": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          8,
+          9,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "9": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          9,
+          10,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "10": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          10,
+          11,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "11": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          11,
+          12,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "12": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          12,
+          13,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "13": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          13,
+          14,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "14": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          14,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "15": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          15,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "16": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          16,
+          17,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "17": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          17,
+          18,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "18": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          18,
+          19,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "19": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          19,
+          20,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "20": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          20,
+          21,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "21": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          21,
+          22,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "22": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          22,
+          23,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "23": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          23,
+          24,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "24": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          24,
+          25,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "25": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          25,
+          26,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "26": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          26,
+          27,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "27": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          27,
+          28,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "28": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          28,
+          29,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "29": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          29,
+          30,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "30": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          30,
+          31,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "31": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          31,
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "32": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          32,
+          33,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "33": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          33,
+          34,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "34": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          34,
+          35,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "35": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          35,
+          36,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "36": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          36,
+          37,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "37": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          37,
+          38,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "38": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          38,
+          39,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "39": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          39,
+          40,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "40": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          40,
+          41,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "41": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          41,
+          42,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "42": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          42,
+          43,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "43": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          43,
+          44,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "44": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          44,
+          45,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "45": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          45,
+          46,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "46": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          46,
+          47,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "47": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          47,
+          48,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "48": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          48,
+          49,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "49": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          49,
+          50,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "50": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          50,
+          51,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "51": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          51,
+          52,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "52": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          52,
+          53,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "53": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          53,
+          54,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "54": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          54,
+          55,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "55": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          55,
+          56,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "56": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          56,
+          57,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "57": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          57,
+          58,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "58": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          58,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "59": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          59,
+          60,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      },
+      "60": {
+        "TYPE": "BEAM",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          60,
+          61,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 0
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {
+      "1": {
+        "NO": 1,
+        "NAME": "${combination.1.name}",
+        "ACTIVE": "ACTIVE",
+        "bCB": false,
+        "iTYPE": 0,
+        "DESC": "",
+        "vCOMB": [
+          {
+            "ANAL": "ST",
+            "LCNAME": "CASE1",
+            "FACTOR": "${combination.1.factor.0}"
+          }
+        ]
+      }
+    },
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": "${node.1.x}",
+        "Y": "${node.1.y}",
+        "Z": "${node.1.z}"
+      },
+      "2": {
+        "X": "${node.2.x}",
+        "Y": "${node.2.y}",
+        "Z": "${node.2.z}"
+      },
+      "3": {
+        "X": "${node.3.x}",
+        "Y": "${node.3.y}",
+        "Z": "${node.3.z}"
+      },
+      "4": {
+        "X": "${node.4.x}",
+        "Y": "${node.4.y}",
+        "Z": "${node.4.z}"
+      },
+      "5": {
+        "X": "${node.5.x}",
+        "Y": "${node.5.y}",
+        "Z": "${node.5.z}"
+      },
+      "6": {
+        "X": "${node.6.x}",
+        "Y": "${node.6.y}",
+        "Z": "${node.6.z}"
+      },
+      "7": {
+        "X": "${node.7.x}",
+        "Y": "${node.7.y}",
+        "Z": "${node.7.z}"
+      },
+      "8": {
+        "X": "${node.8.x}",
+        "Y": "${node.8.y}",
+        "Z": "${node.8.z}"
+      },
+      "9": {
+        "X": "${node.9.x}",
+        "Y": "${node.9.y}",
+        "Z": "${node.9.z}"
+      },
+      "10": {
+        "X": "${node.10.x}",
+        "Y": "${node.10.y}",
+        "Z": "${node.10.z}"
+      },
+      "11": {
+        "X": "${node.11.x}",
+        "Y": "${node.11.y}",
+        "Z": "${node.11.z}"
+      },
+      "12": {
+        "X": "${node.12.x}",
+        "Y": "${node.12.y}",
+        "Z": "${node.12.z}"
+      },
+      "13": {
+        "X": "${node.13.x}",
+        "Y": "${node.13.y}",
+        "Z": "${node.13.z}"
+      },
+      "14": {
+        "X": "${node.14.x}",
+        "Y": "${node.14.y}",
+        "Z": "${node.14.z}"
+      },
+      "15": {
+        "X": "${node.15.x}",
+        "Y": "${node.15.y}",
+        "Z": "${node.15.z}"
+      },
+      "16": {
+        "X": "${node.16.x}",
+        "Y": "${node.16.y}",
+        "Z": "${node.16.z}"
+      },
+      "17": {
+        "X": "${node.17.x}",
+        "Y": "${node.17.y}",
+        "Z": "${node.17.z}"
+      },
+      "18": {
+        "X": "${node.18.x}",
+        "Y": "${node.18.y}",
+        "Z": "${node.18.z}"
+      },
+      "19": {
+        "X": "${node.19.x}",
+        "Y": "${node.19.y}",
+        "Z": "${node.19.z}"
+      },
+      "20": {
+        "X": "${node.20.x}",
+        "Y": "${node.20.y}",
+        "Z": "${node.20.z}"
+      },
+      "21": {
+        "X": "${node.21.x}",
+        "Y": "${node.21.y}",
+        "Z": "${node.21.z}"
+      },
+      "22": {
+        "X": "${node.22.x}",
+        "Y": "${node.22.y}",
+        "Z": "${node.22.z}"
+      },
+      "23": {
+        "X": "${node.23.x}",
+        "Y": "${node.23.y}",
+        "Z": "${node.23.z}"
+      },
+      "24": {
+        "X": "${node.24.x}",
+        "Y": "${node.24.y}",
+        "Z": "${node.24.z}"
+      },
+      "25": {
+        "X": "${node.25.x}",
+        "Y": "${node.25.y}",
+        "Z": "${node.25.z}"
+      },
+      "26": {
+        "X": "${node.26.x}",
+        "Y": "${node.26.y}",
+        "Z": "${node.26.z}"
+      },
+      "27": {
+        "X": "${node.27.x}",
+        "Y": "${node.27.y}",
+        "Z": "${node.27.z}"
+      },
+      "28": {
+        "X": "${node.28.x}",
+        "Y": "${node.28.y}",
+        "Z": "${node.28.z}"
+      },
+      "29": {
+        "X": "${node.29.x}",
+        "Y": "${node.29.y}",
+        "Z": "${node.29.z}"
+      },
+      "30": {
+        "X": "${node.30.x}",
+        "Y": "${node.30.y}",
+        "Z": "${node.30.z}"
+      },
+      "31": {
+        "X": "${node.31.x}",
+        "Y": "${node.31.y}",
+        "Z": "${node.31.z}"
+      },
+      "32": {
+        "X": "${node.32.x}",
+        "Y": "${node.32.y}",
+        "Z": "${node.32.z}"
+      },
+      "33": {
+        "X": "${node.33.x}",
+        "Y": "${node.33.y}",
+        "Z": "${node.33.z}"
+      },
+      "34": {
+        "X": "${node.34.x}",
+        "Y": "${node.34.y}",
+        "Z": "${node.34.z}"
+      },
+      "35": {
+        "X": "${node.35.x}",
+        "Y": "${node.35.y}",
+        "Z": "${node.35.z}"
+      },
+      "36": {
+        "X": "${node.36.x}",
+        "Y": "${node.36.y}",
+        "Z": "${node.36.z}"
+      },
+      "37": {
+        "X": "${node.37.x}",
+        "Y": "${node.37.y}",
+        "Z": "${node.37.z}"
+      },
+      "38": {
+        "X": "${node.38.x}",
+        "Y": "${node.38.y}",
+        "Z": "${node.38.z}"
+      },
+      "39": {
+        "X": "${node.39.x}",
+        "Y": "${node.39.y}",
+        "Z": "${node.39.z}"
+      },
+      "40": {
+        "X": "${node.40.x}",
+        "Y": "${node.40.y}",
+        "Z": "${node.40.z}"
+      },
+      "41": {
+        "X": "${node.41.x}",
+        "Y": "${node.41.y}",
+        "Z": "${node.41.z}"
+      },
+      "42": {
+        "X": "${node.42.x}",
+        "Y": "${node.42.y}",
+        "Z": "${node.42.z}"
+      },
+      "43": {
+        "X": "${node.43.x}",
+        "Y": "${node.43.y}",
+        "Z": "${node.43.z}"
+      },
+      "44": {
+        "X": "${node.44.x}",
+        "Y": "${node.44.y}",
+        "Z": "${node.44.z}"
+      },
+      "45": {
+        "X": "${node.45.x}",
+        "Y": "${node.45.y}",
+        "Z": "${node.45.z}"
+      },
+      "46": {
+        "X": "${node.46.x}",
+        "Y": "${node.46.y}",
+        "Z": "${node.46.z}"
+      },
+      "47": {
+        "X": "${node.47.x}",
+        "Y": "${node.47.y}",
+        "Z": "${node.47.z}"
+      },
+      "48": {
+        "X": "${node.48.x}",
+        "Y": "${node.48.y}",
+        "Z": "${node.48.z}"
+      },
+      "49": {
+        "X": "${node.49.x}",
+        "Y": "${node.49.y}",
+        "Z": "${node.49.z}"
+      },
+      "50": {
+        "X": "${node.50.x}",
+        "Y": "${node.50.y}",
+        "Z": "${node.50.z}"
+      },
+      "51": {
+        "X": "${node.51.x}",
+        "Y": "${node.51.y}",
+        "Z": "${node.51.z}"
+      },
+      "52": {
+        "X": "${node.52.x}",
+        "Y": "${node.52.y}",
+        "Z": "${node.52.z}"
+      },
+      "53": {
+        "X": "${node.53.x}",
+        "Y": "${node.53.y}",
+        "Z": "${node.53.z}"
+      },
+      "54": {
+        "X": "${node.54.x}",
+        "Y": "${node.54.y}",
+        "Z": "${node.54.z}"
+      },
+      "55": {
+        "X": "${node.55.x}",
+        "Y": "${node.55.y}",
+        "Z": "${node.55.z}"
+      },
+      "56": {
+        "X": "${node.56.x}",
+        "Y": "${node.56.y}",
+        "Z": "${node.56.z}"
+      },
+      "57": {
+        "X": "${node.57.x}",
+        "Y": "${node.57.y}",
+        "Z": "${node.57.z}"
+      },
+      "58": {
+        "X": "${node.58.x}",
+        "Y": "${node.58.y}",
+        "Z": "${node.58.z}"
+      },
+      "59": {
+        "X": "${node.59.x}",
+        "Y": "${node.59.y}",
+        "Z": "${node.59.z}"
+      },
+      "60": {
+        "X": "${node.60.x}",
+        "Y": "${node.60.y}",
+        "Z": "${node.60.z}"
+      },
+      "61": {
+        "X": "${node.61.x}",
+        "Y": "${node.61.y}",
+        "Z": "${node.61.z}"
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {
+      "1": {
+        "SECTTYPE": "VALUE",
+        "SECT_NAME": "${section.1.name}",
+        "SECT_BEFORE": {
+          "OFFSET_PT": "CC",
+          "OFFSET_CENTER": 0,
+          "USER_OFFSET_REF": 0,
+          "HORZ_OFFSET_OPT": 0,
+          "USERDEF_OFFSET_YI": 0.0,
+          "VERT_OFFSET_OPT": 0,
+          "USERDEF_OFFSET_ZI": 0.0,
+          "USE_SHEAR_DEFORM": true,
+          "USE_WARPING_EFFECT": false,
+          "SHAPE": "${section.1.shape}",
+          "SECT_I": {
+            "vSIZE": [
+              "${section.1.vsize.0}",
+              "${section.1.vsize.1}",
+              "${section.1.vsize.2}",
+              "${section.1.vsize.3}",
+              "${section.1.vsize.4}",
+              "${section.1.vsize.5}",
+              "${section.1.vsize.6}",
+              "${section.1.vsize.7}"
+            ],
+            "PERIIN": 0.0,
+            "PERIOUT": 2.5,
+            "BUILT_FLAG": 1,
+            "STIFF": {
+              "AREA": 0.25,
+              "ASY": 0.2083333333333,
+              "ASZ": 0.2083333333333,
+              "RXX": 0.004388287862142,
+              "RYY": 0.001302083333333,
+              "RZZ": 0.02083333333333,
+              "CYP": 0.5,
+              "CYM": 0.5,
+              "CZP": 0.125,
+              "CZM": 0.125,
+              "QYB": 0.0078125,
+              "QZB": 0.125,
+              "Y": [
+                -0.5,
+                0.5,
+                0.5,
+                -0.5
+              ],
+              "Z": [
+                0.125,
+                0.125,
+                -0.125,
+                -0.125
+              ]
+            },
+            "DESIGN": {
+              "YBAR": 0.0,
+              "ZBAR": 0.0,
+              "ZYY": 0.0,
+              "ZZZ": 0.0
+            }
+          }
+        }
+      }
+    },
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 1,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {},
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

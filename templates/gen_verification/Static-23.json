@@ -1,0 +1,4541 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Static-23",
+    "family": "Static",
+    "source": ".tmp_p180/exports/Static-23.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 1,
+      "CONS": 37,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 144,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 1,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 169,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 1,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 1,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.gravity": {
+      "value": 386.06299212598424,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "combination.1.factor.0": {
+      "value": 1.0,
+      "kind": "number",
+      "description": "组合 1 中工况 CASE1 的组合系数",
+      "source": "LCOM-GEN/1/vCOMB[0].FACTOR"
+    },
+    "combination.1.name": {
+      "value": "LCOMB1",
+      "kind": "string",
+      "description": "荷载组合 1 的名称",
+      "source": "LCOM-GEN/1/NAME"
+    },
+    "load_case.1.name": {
+      "value": "CASE1",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 3000000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "MAT-1",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.3,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "nodal_load.157.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 157 荷载分量 FX",
+      "source": "CNLD/157/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.157.0.fy": {
+      "value": 0.25,
+      "kind": "number",
+      "description": "节点 157 荷载分量 FY",
+      "source": "CNLD/157/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.157.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 157 荷载分量 FZ",
+      "source": "CNLD/157/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.157.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 157 荷载分量 MX",
+      "source": "CNLD/157/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.157.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 157 荷载分量 MY",
+      "source": "CNLD/157/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.157.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 157 荷载分量 MZ",
+      "source": "CNLD/157/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "units.dist": {
+      "value": "IN",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "LBF",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "BTU",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 10,
+        "TOL": 0.001,
+        "ACWC": false
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {
+      "157": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "CASE1",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.157.0.fx}",
+            "FY": "${nodal_load.157.0.fy}",
+            "FZ": "${nodal_load.157.0.fz}",
+            "MX": "${nodal_load.157.0.mx}",
+            "MY": "${nodal_load.157.0.my}",
+            "MZ": "${nodal_load.157.0.mz}"
+          }
+        ]
+      }
+    },
+    "CONS": {
+      "1": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "13": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "14": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "26": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "27": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "39": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "40": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "52": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "53": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "65": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "66": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "78": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "79": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "91": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "92": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "104": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "105": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "117": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "118": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "130": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "131": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "143": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "144": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1000110"
+          }
+        ]
+      },
+      "156": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0101010"
+          }
+        ]
+      },
+      "157": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1011110"
+          }
+        ]
+      },
+      "158": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "159": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "160": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "161": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "162": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "163": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "164": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "165": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "166": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "167": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "168": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0011100"
+          }
+        ]
+      },
+      "169": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0111110"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "1": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          1,
+          2,
+          15,
+          14,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "2": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          2,
+          3,
+          16,
+          15,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "3": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          3,
+          4,
+          17,
+          16,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "4": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          4,
+          5,
+          18,
+          17,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "5": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          5,
+          6,
+          19,
+          18,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "6": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          6,
+          7,
+          20,
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "7": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          7,
+          8,
+          21,
+          20,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "8": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          8,
+          9,
+          22,
+          21,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "9": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          9,
+          10,
+          23,
+          22,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "10": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          10,
+          11,
+          24,
+          23,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "11": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          11,
+          12,
+          25,
+          24,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "12": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          12,
+          13,
+          26,
+          25,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "13": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          14,
+          15,
+          28,
+          27,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "14": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          15,
+          16,
+          29,
+          28,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "15": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          16,
+          17,
+          30,
+          29,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "16": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          17,
+          18,
+          31,
+          30,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "17": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          18,
+          19,
+          32,
+          31,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "18": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          19,
+          20,
+          33,
+          32,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "19": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          20,
+          21,
+          34,
+          33,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "20": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          21,
+          22,
+          35,
+          34,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "21": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          22,
+          23,
+          36,
+          35,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "22": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          23,
+          24,
+          37,
+          36,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "23": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          24,
+          25,
+          38,
+          37,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "24": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          25,
+          26,
+          39,
+          38,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "25": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          27,
+          28,
+          41,
+          40,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "26": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          28,
+          29,
+          42,
+          41,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "27": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          29,
+          30,
+          43,
+          42,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "28": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          30,
+          31,
+          44,
+          43,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "29": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          31,
+          32,
+          45,
+          44,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "30": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          32,
+          33,
+          46,
+          45,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "31": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          33,
+          34,
+          47,
+          46,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "32": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          34,
+          35,
+          48,
+          47,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "33": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          35,
+          36,
+          49,
+          48,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "34": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          36,
+          37,
+          50,
+          49,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "35": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          37,
+          38,
+          51,
+          50,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "36": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          38,
+          39,
+          52,
+          51,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "37": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          40,
+          41,
+          54,
+          53,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "38": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          41,
+          42,
+          55,
+          54,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "39": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          42,
+          43,
+          56,
+          55,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "40": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          43,
+          44,
+          57,
+          56,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "41": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          44,
+          45,
+          58,
+          57,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "42": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          45,
+          46,
+          59,
+          58,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "43": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          46,
+          47,
+          60,
+          59,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "44": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          47,
+          48,
+          61,
+          60,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "45": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          48,
+          49,
+          62,
+          61,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "46": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          49,
+          50,
+          63,
+          62,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "47": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          50,
+          51,
+          64,
+          63,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "48": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          51,
+          52,
+          65,
+          64,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "49": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          53,
+          54,
+          67,
+          66,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "50": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          54,
+          55,
+          68,
+          67,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "51": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          55,
+          56,
+          69,
+          68,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "52": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          56,
+          57,
+          70,
+          69,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "53": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          57,
+          58,
+          71,
+          70,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "54": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          58,
+          59,
+          72,
+          71,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "55": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          59,
+          60,
+          73,
+          72,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "56": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          60,
+          61,
+          74,
+          73,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "57": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          61,
+          62,
+          75,
+          74,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "58": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          62,
+          63,
+          76,
+          75,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "59": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          63,
+          64,
+          77,
+          76,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "60": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          64,
+          65,
+          78,
+          77,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "61": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          66,
+          67,
+          80,
+          79,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "62": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          67,
+          68,
+          81,
+          80,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "63": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          68,
+          69,
+          82,
+          81,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "64": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          69,
+          70,
+          83,
+          82,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "65": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          70,
+          71,
+          84,
+          83,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "66": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          71,
+          72,
+          85,
+          84,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "67": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          72,
+          73,
+          86,
+          85,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "68": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          73,
+          74,
+          87,
+          86,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "69": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          74,
+          75,
+          88,
+          87,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "70": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          75,
+          76,
+          89,
+          88,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "71": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          76,
+          77,
+          90,
+          89,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "72": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          77,
+          78,
+          91,
+          90,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "73": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          79,
+          80,
+          93,
+          92,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "74": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          80,
+          81,
+          94,
+          93,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "75": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          81,
+          82,
+          95,
+          94,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "76": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          82,
+          83,
+          96,
+          95,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "77": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          83,
+          84,
+          97,
+          96,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "78": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          84,
+          85,
+          98,
+          97,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "79": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          85,
+          86,
+          99,
+          98,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "80": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          86,
+          87,
+          100,
+          99,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "81": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          87,
+          88,
+          101,
+          100,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "82": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          88,
+          89,
+          102,
+          101,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "83": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          89,
+          90,
+          103,
+          102,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "84": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          90,
+          91,
+          104,
+          103,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "85": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          92,
+          93,
+          106,
+          105,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "86": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          93,
+          94,
+          107,
+          106,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "87": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          94,
+          95,
+          108,
+          107,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "88": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          95,
+          96,
+          109,
+          108,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "89": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          96,
+          97,
+          110,
+          109,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "90": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          97,
+          98,
+          111,
+          110,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "91": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          98,
+          99,
+          112,
+          111,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "92": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          99,
+          100,
+          113,
+          112,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "93": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          100,
+          101,
+          114,
+          113,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "94": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          101,
+          102,
+          115,
+          114,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "95": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          102,
+          103,
+          116,
+          115,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "96": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          103,
+          104,
+          117,
+          116,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "97": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          105,
+          106,
+          119,
+          118,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "98": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          106,
+          107,
+          120,
+          119,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "99": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          107,
+          108,
+          121,
+          120,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "100": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          108,
+          109,
+          122,
+          121,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "101": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          109,
+          110,
+          123,
+          122,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "102": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          110,
+          111,
+          124,
+          123,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "103": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          111,
+          112,
+          125,
+          124,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "104": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          112,
+          113,
+          126,
+          125,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "105": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          113,
+          114,
+          127,
+          126,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "106": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          114,
+          115,
+          128,
+          127,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "107": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          115,
+          116,
+          129,
+          128,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "108": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          116,
+          117,
+          130,
+          129,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "109": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          118,
+          119,
+          132,
+          131,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "110": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          119,
+          120,
+          133,
+          132,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "111": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          120,
+          121,
+          134,
+          133,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "112": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          121,
+          122,
+          135,
+          134,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "113": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          122,
+          123,
+          136,
+          135,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "114": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          123,
+          124,
+          137,
+          136,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "115": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          124,
+          125,
+          138,
+          137,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "116": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          125,
+          126,
+          139,
+          138,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "117": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          126,
+          127,
+          140,
+          139,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "118": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          127,
+          128,
+          141,
+          140,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "119": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          128,
+          129,
+          142,
+          141,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "120": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          129,
+          130,
+          143,
+          142,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "121": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          131,
+          132,
+          145,
+          144,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "122": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          132,
+          133,
+          146,
+          145,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "123": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          133,
+          134,
+          147,
+          146,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "124": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          134,
+          135,
+          148,
+          147,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "125": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          135,
+          136,
+          149,
+          148,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "126": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          136,
+          137,
+          150,
+          149,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "127": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          137,
+          138,
+          151,
+          150,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "128": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          138,
+          139,
+          152,
+          151,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "129": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          139,
+          140,
+          153,
+          152,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "130": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          140,
+          141,
+          154,
+          153,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "131": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          141,
+          142,
+          155,
+          154,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "132": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          142,
+          143,
+          156,
+          155,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "133": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          144,
+          145,
+          158,
+          157,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "134": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          145,
+          146,
+          159,
+          158,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "135": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          146,
+          147,
+          160,
+          159,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "136": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          147,
+          148,
+          161,
+          160,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "137": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          148,
+          149,
+          162,
+          161,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "138": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          149,
+          150,
+          163,
+          162,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "139": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          150,
+          151,
+          164,
+          163,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "140": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          151,
+          152,
+          165,
+          164,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "141": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          152,
+          153,
+          166,
+          165,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "142": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          153,
+          154,
+          167,
+          166,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "143": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          154,
+          155,
+          168,
+          167,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      },
+      "144": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          155,
+          156,
+          169,
+          168,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 2
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {
+      "1": {
+        "NO": 1,
+        "NAME": "${combination.1.name}",
+        "ACTIVE": "ACTIVE",
+        "bCB": false,
+        "iTYPE": 0,
+        "DESC": "",
+        "vCOMB": [
+          {
+            "ANAL": "ST",
+            "LCNAME": "CASE1",
+            "FACTOR": "${combination.1.factor.0}"
+          }
+        ]
+      }
+    },
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 300.0
+      },
+      "2": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 300.0
+      },
+      "3": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 300.0
+      },
+      "4": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 300.0
+      },
+      "5": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 300.0
+      },
+      "6": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 300.0
+      },
+      "7": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 300.0
+      },
+      "8": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 300.0
+      },
+      "9": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 300.0
+      },
+      "10": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 300.0
+      },
+      "11": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 300.0
+      },
+      "12": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 300.0
+      },
+      "13": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 300.0
+      },
+      "14": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 275.0
+      },
+      "15": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 275.0
+      },
+      "16": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 275.0
+      },
+      "17": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 275.0
+      },
+      "18": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 275.0
+      },
+      "19": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 275.0
+      },
+      "20": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 275.0
+      },
+      "21": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 275.0
+      },
+      "22": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 275.0
+      },
+      "23": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 275.0
+      },
+      "24": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 275.0
+      },
+      "25": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 275.0
+      },
+      "26": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 275.0
+      },
+      "27": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 250.0
+      },
+      "28": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 250.0
+      },
+      "29": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 250.0
+      },
+      "30": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 250.0
+      },
+      "31": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 250.0
+      },
+      "32": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 250.0
+      },
+      "33": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 250.0
+      },
+      "34": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 250.0
+      },
+      "35": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 250.0
+      },
+      "36": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 250.0
+      },
+      "37": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 250.0
+      },
+      "38": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 250.0
+      },
+      "39": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 250.0
+      },
+      "40": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 225.0
+      },
+      "41": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 225.0
+      },
+      "42": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 225.0
+      },
+      "43": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 225.0
+      },
+      "44": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 225.0
+      },
+      "45": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 225.0
+      },
+      "46": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 225.0
+      },
+      "47": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 225.0
+      },
+      "48": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 225.0
+      },
+      "49": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 225.0
+      },
+      "50": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 225.0
+      },
+      "51": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 225.0
+      },
+      "52": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 225.0
+      },
+      "53": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 200.0
+      },
+      "54": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 200.0
+      },
+      "55": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 200.0
+      },
+      "56": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 200.0
+      },
+      "57": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 200.0
+      },
+      "58": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 200.0
+      },
+      "59": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 200.0
+      },
+      "60": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 200.0
+      },
+      "61": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 200.0
+      },
+      "62": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 200.0
+      },
+      "63": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 200.0
+      },
+      "64": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 200.0
+      },
+      "65": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 200.0
+      },
+      "66": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 174.99999999999997
+      },
+      "67": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 174.99999999999997
+      },
+      "68": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 174.99999999999997
+      },
+      "69": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 174.99999999999997
+      },
+      "70": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 174.99999999999997
+      },
+      "71": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 174.99999999999997
+      },
+      "72": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 174.99999999999997
+      },
+      "73": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 174.99999999999997
+      },
+      "74": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 174.99999999999997
+      },
+      "75": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 174.99999999999997
+      },
+      "76": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 174.99999999999997
+      },
+      "77": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 174.99999999999997
+      },
+      "78": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 174.99999999999997
+      },
+      "79": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 150.0
+      },
+      "80": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 150.0
+      },
+      "81": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 150.0
+      },
+      "82": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 150.0
+      },
+      "83": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 150.0
+      },
+      "84": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 150.0
+      },
+      "85": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 150.0
+      },
+      "86": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 150.0
+      },
+      "87": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 150.0
+      },
+      "88": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 150.0
+      },
+      "89": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 150.0
+      },
+      "90": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 150.0
+      },
+      "91": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 150.0
+      },
+      "92": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 125.0
+      },
+      "93": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 125.0
+      },
+      "94": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 125.0
+      },
+      "95": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 125.0
+      },
+      "96": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 125.0
+      },
+      "97": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 125.0
+      },
+      "98": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 125.0
+      },
+      "99": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 125.0
+      },
+      "100": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 125.0
+      },
+      "101": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 125.0
+      },
+      "102": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 125.0
+      },
+      "103": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 125.0
+      },
+      "104": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 125.0
+      },
+      "105": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 100.0
+      },
+      "106": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 100.0
+      },
+      "107": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 100.0
+      },
+      "108": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 100.0
+      },
+      "109": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 100.0
+      },
+      "110": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 100.0
+      },
+      "111": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 100.0
+      },
+      "112": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 100.0
+      },
+      "113": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 100.0
+      },
+      "114": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 100.0
+      },
+      "115": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 100.0
+      },
+      "116": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 100.0
+      },
+      "117": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 100.0
+      },
+      "118": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 75.0
+      },
+      "119": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 75.0
+      },
+      "120": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 75.0
+      },
+      "121": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 75.0
+      },
+      "122": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 75.0
+      },
+      "123": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 75.0
+      },
+      "124": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 75.0
+      },
+      "125": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 75.0
+      },
+      "126": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 75.0
+      },
+      "127": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 75.0
+      },
+      "128": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 75.0
+      },
+      "129": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 75.0
+      },
+      "130": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 75.0
+      },
+      "131": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 50.0
+      },
+      "132": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 50.0
+      },
+      "133": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 50.0
+      },
+      "134": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 50.0
+      },
+      "135": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 50.0
+      },
+      "136": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 50.0
+      },
+      "137": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 50.0
+      },
+      "138": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 50.0
+      },
+      "139": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 50.0
+      },
+      "140": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 50.0
+      },
+      "141": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 50.0
+      },
+      "142": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 50.0
+      },
+      "143": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 50.0
+      },
+      "144": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 25.0
+      },
+      "145": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 25.0
+      },
+      "146": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 25.0
+      },
+      "147": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 25.0
+      },
+      "148": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 25.0
+      },
+      "149": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 25.0
+      },
+      "150": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 25.0
+      },
+      "151": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 25.0
+      },
+      "152": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 25.0
+      },
+      "153": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 25.0
+      },
+      "154": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 25.0
+      },
+      "155": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 25.0
+      },
+      "156": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 25.0
+      },
+      "157": {
+        "X": 0.0,
+        "Y": 300.0,
+        "Z": 0.0
+      },
+      "158": {
+        "X": 39.1579,
+        "Y": 297.434,
+        "Z": 0.0
+      },
+      "159": {
+        "X": 77.6457,
+        "Y": 289.778,
+        "Z": 0.0
+      },
+      "160": {
+        "X": 114.805,
+        "Y": 277.164,
+        "Z": 0.0
+      },
+      "161": {
+        "X": 150.0,
+        "Y": 259.808,
+        "Z": 0.0
+      },
+      "162": {
+        "X": 182.628,
+        "Y": 238.006,
+        "Z": 0.0
+      },
+      "163": {
+        "X": 212.13200000000003,
+        "Y": 212.13200000000003,
+        "Z": 0.0
+      },
+      "164": {
+        "X": 238.006,
+        "Y": 182.628,
+        "Z": 0.0
+      },
+      "165": {
+        "X": 259.808,
+        "Y": 150.0,
+        "Z": 0.0
+      },
+      "166": {
+        "X": 277.164,
+        "Y": 114.805,
+        "Z": 0.0
+      },
+      "167": {
+        "X": 289.778,
+        "Y": 77.6457,
+        "Z": 0.0
+      },
+      "168": {
+        "X": 297.434,
+        "Y": 39.1579,
+        "Z": 0.0
+      },
+      "169": {
+        "X": 300.0,
+        "Y": 0.0,
+        "Z": 0.0
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {
+      "1": {
+        "NAME": "1",
+        "TYPE": "VALUE",
+        "bINOUT": false,
+        "T_IN": 2.9999999999999996,
+        "T_OUT": 0.0,
+        "O_VALUE": 0.5
+      }
+    },
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

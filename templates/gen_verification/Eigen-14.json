@@ -1,0 +1,4257 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Eigen-14",
+    "family": "Eigen",
+    "source": ".tmp_p180/exports/Eigen-14.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 0,
+      "CONS": 32,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 1,
+      "ELEM": 128,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 0,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 243,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 0,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 0,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.eigen.frequency_count": {
+      "value": 15,
+      "kind": "integer",
+      "description": "提取的特征值 / 频率数量",
+      "source": "EIGV/1/iFREQ"
+    },
+    "analysis.eigen.iterations": {
+      "value": 20,
+      "kind": "integer",
+      "description": "迭代次数上限",
+      "source": "EIGV/1/iITER"
+    },
+    "analysis.eigen.tolerance": {
+      "value": 1e-06,
+      "kind": "number",
+      "description": "收敛容差",
+      "source": "EIGV/1/TOL"
+    },
+    "analysis.gravity": {
+      "value": 9.806,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "material.1.density": {
+      "value": 8.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 20394000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "mat1",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.3,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "STEEL",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "units.dist": {
+      "value": "M",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "TONF",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "KCAL",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 20,
+        "TOL": 0.001,
+        "ACWC": true
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {},
+    "CONS": {
+      "1": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1110000"
+          }
+        ]
+      },
+      "2": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "3": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "4": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "5": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "6": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "7": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "8": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "9": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1110000"
+          }
+        ]
+      },
+      "10": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "18": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "19": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "27": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "28": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "36": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "37": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "45": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "46": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "54": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "55": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "63": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "64": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "72": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "73": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1110000"
+          }
+        ]
+      },
+      "74": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "75": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "76": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "77": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "78": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "79": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "80": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "0010000"
+          }
+        ]
+      },
+      "81": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "1110000"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {
+      "1": {
+        "TYPE": "EIGEN",
+        "iFREQ": "${analysis.eigen.frequency_count}",
+        "iITER": "${analysis.eigen.iterations}",
+        "iDIM": 0,
+        "TOL": "${analysis.eigen.tolerance}"
+      }
+    },
+    "ELEM": {
+      "1": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          1,
+          2,
+          11,
+          10,
+          82,
+          83,
+          92,
+          91
+        ]
+      },
+      "2": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          2,
+          3,
+          12,
+          11,
+          83,
+          84,
+          93,
+          92
+        ]
+      },
+      "3": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          3,
+          4,
+          13,
+          12,
+          84,
+          85,
+          94,
+          93
+        ]
+      },
+      "4": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          4,
+          5,
+          14,
+          13,
+          85,
+          86,
+          95,
+          94
+        ]
+      },
+      "5": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          5,
+          6,
+          15,
+          14,
+          86,
+          87,
+          96,
+          95
+        ]
+      },
+      "6": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          6,
+          7,
+          16,
+          15,
+          87,
+          88,
+          97,
+          96
+        ]
+      },
+      "7": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          7,
+          8,
+          17,
+          16,
+          88,
+          89,
+          98,
+          97
+        ]
+      },
+      "8": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          8,
+          9,
+          18,
+          17,
+          89,
+          90,
+          99,
+          98
+        ]
+      },
+      "9": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          10,
+          11,
+          20,
+          19,
+          91,
+          92,
+          101,
+          100
+        ]
+      },
+      "10": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          11,
+          12,
+          21,
+          20,
+          92,
+          93,
+          102,
+          101
+        ]
+      },
+      "11": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          12,
+          13,
+          22,
+          21,
+          93,
+          94,
+          103,
+          102
+        ]
+      },
+      "12": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          13,
+          14,
+          23,
+          22,
+          94,
+          95,
+          104,
+          103
+        ]
+      },
+      "13": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          14,
+          15,
+          24,
+          23,
+          95,
+          96,
+          105,
+          104
+        ]
+      },
+      "14": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          15,
+          16,
+          25,
+          24,
+          96,
+          97,
+          106,
+          105
+        ]
+      },
+      "15": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          16,
+          17,
+          26,
+          25,
+          97,
+          98,
+          107,
+          106
+        ]
+      },
+      "16": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          17,
+          18,
+          27,
+          26,
+          98,
+          99,
+          108,
+          107
+        ]
+      },
+      "17": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          19,
+          20,
+          29,
+          28,
+          100,
+          101,
+          110,
+          109
+        ]
+      },
+      "18": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          20,
+          21,
+          30,
+          29,
+          101,
+          102,
+          111,
+          110
+        ]
+      },
+      "19": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          21,
+          22,
+          31,
+          30,
+          102,
+          103,
+          112,
+          111
+        ]
+      },
+      "20": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          22,
+          23,
+          32,
+          31,
+          103,
+          104,
+          113,
+          112
+        ]
+      },
+      "21": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          23,
+          24,
+          33,
+          32,
+          104,
+          105,
+          114,
+          113
+        ]
+      },
+      "22": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          24,
+          25,
+          34,
+          33,
+          105,
+          106,
+          115,
+          114
+        ]
+      },
+      "23": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          25,
+          26,
+          35,
+          34,
+          106,
+          107,
+          116,
+          115
+        ]
+      },
+      "24": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          26,
+          27,
+          36,
+          35,
+          107,
+          108,
+          117,
+          116
+        ]
+      },
+      "25": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          28,
+          29,
+          38,
+          37,
+          109,
+          110,
+          119,
+          118
+        ]
+      },
+      "26": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          29,
+          30,
+          39,
+          38,
+          110,
+          111,
+          120,
+          119
+        ]
+      },
+      "27": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          30,
+          31,
+          40,
+          39,
+          111,
+          112,
+          121,
+          120
+        ]
+      },
+      "28": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          31,
+          32,
+          41,
+          40,
+          112,
+          113,
+          122,
+          121
+        ]
+      },
+      "29": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          32,
+          33,
+          42,
+          41,
+          113,
+          114,
+          123,
+          122
+        ]
+      },
+      "30": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          33,
+          34,
+          43,
+          42,
+          114,
+          115,
+          124,
+          123
+        ]
+      },
+      "31": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          34,
+          35,
+          44,
+          43,
+          115,
+          116,
+          125,
+          124
+        ]
+      },
+      "32": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          35,
+          36,
+          45,
+          44,
+          116,
+          117,
+          126,
+          125
+        ]
+      },
+      "33": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          37,
+          38,
+          47,
+          46,
+          118,
+          119,
+          128,
+          127
+        ]
+      },
+      "34": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          38,
+          39,
+          48,
+          47,
+          119,
+          120,
+          129,
+          128
+        ]
+      },
+      "35": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          39,
+          40,
+          49,
+          48,
+          120,
+          121,
+          130,
+          129
+        ]
+      },
+      "36": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          40,
+          41,
+          50,
+          49,
+          121,
+          122,
+          131,
+          130
+        ]
+      },
+      "37": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          41,
+          42,
+          51,
+          50,
+          122,
+          123,
+          132,
+          131
+        ]
+      },
+      "38": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          42,
+          43,
+          52,
+          51,
+          123,
+          124,
+          133,
+          132
+        ]
+      },
+      "39": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          43,
+          44,
+          53,
+          52,
+          124,
+          125,
+          134,
+          133
+        ]
+      },
+      "40": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          44,
+          45,
+          54,
+          53,
+          125,
+          126,
+          135,
+          134
+        ]
+      },
+      "41": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          46,
+          47,
+          56,
+          55,
+          127,
+          128,
+          137,
+          136
+        ]
+      },
+      "42": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          47,
+          48,
+          57,
+          56,
+          128,
+          129,
+          138,
+          137
+        ]
+      },
+      "43": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          48,
+          49,
+          58,
+          57,
+          129,
+          130,
+          139,
+          138
+        ]
+      },
+      "44": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          49,
+          50,
+          59,
+          58,
+          130,
+          131,
+          140,
+          139
+        ]
+      },
+      "45": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          50,
+          51,
+          60,
+          59,
+          131,
+          132,
+          141,
+          140
+        ]
+      },
+      "46": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          51,
+          52,
+          61,
+          60,
+          132,
+          133,
+          142,
+          141
+        ]
+      },
+      "47": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          52,
+          53,
+          62,
+          61,
+          133,
+          134,
+          143,
+          142
+        ]
+      },
+      "48": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          53,
+          54,
+          63,
+          62,
+          134,
+          135,
+          144,
+          143
+        ]
+      },
+      "49": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          55,
+          56,
+          65,
+          64,
+          136,
+          137,
+          146,
+          145
+        ]
+      },
+      "50": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          56,
+          57,
+          66,
+          65,
+          137,
+          138,
+          147,
+          146
+        ]
+      },
+      "51": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          57,
+          58,
+          67,
+          66,
+          138,
+          139,
+          148,
+          147
+        ]
+      },
+      "52": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          58,
+          59,
+          68,
+          67,
+          139,
+          140,
+          149,
+          148
+        ]
+      },
+      "53": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          59,
+          60,
+          69,
+          68,
+          140,
+          141,
+          150,
+          149
+        ]
+      },
+      "54": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          60,
+          61,
+          70,
+          69,
+          141,
+          142,
+          151,
+          150
+        ]
+      },
+      "55": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          61,
+          62,
+          71,
+          70,
+          142,
+          143,
+          152,
+          151
+        ]
+      },
+      "56": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          62,
+          63,
+          72,
+          71,
+          143,
+          144,
+          153,
+          152
+        ]
+      },
+      "57": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          64,
+          65,
+          74,
+          73,
+          145,
+          146,
+          155,
+          154
+        ]
+      },
+      "58": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          65,
+          66,
+          75,
+          74,
+          146,
+          147,
+          156,
+          155
+        ]
+      },
+      "59": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          66,
+          67,
+          76,
+          75,
+          147,
+          148,
+          157,
+          156
+        ]
+      },
+      "60": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          67,
+          68,
+          77,
+          76,
+          148,
+          149,
+          158,
+          157
+        ]
+      },
+      "61": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          68,
+          69,
+          78,
+          77,
+          149,
+          150,
+          159,
+          158
+        ]
+      },
+      "62": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          69,
+          70,
+          79,
+          78,
+          150,
+          151,
+          160,
+          159
+        ]
+      },
+      "63": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          70,
+          71,
+          80,
+          79,
+          151,
+          152,
+          161,
+          160
+        ]
+      },
+      "64": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          71,
+          72,
+          81,
+          80,
+          152,
+          153,
+          162,
+          161
+        ]
+      },
+      "65": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          82,
+          83,
+          92,
+          91,
+          163,
+          164,
+          173,
+          172
+        ]
+      },
+      "66": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          83,
+          84,
+          93,
+          92,
+          164,
+          165,
+          174,
+          173
+        ]
+      },
+      "67": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          84,
+          85,
+          94,
+          93,
+          165,
+          166,
+          175,
+          174
+        ]
+      },
+      "68": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          85,
+          86,
+          95,
+          94,
+          166,
+          167,
+          176,
+          175
+        ]
+      },
+      "69": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          86,
+          87,
+          96,
+          95,
+          167,
+          168,
+          177,
+          176
+        ]
+      },
+      "70": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          87,
+          88,
+          97,
+          96,
+          168,
+          169,
+          178,
+          177
+        ]
+      },
+      "71": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          88,
+          89,
+          98,
+          97,
+          169,
+          170,
+          179,
+          178
+        ]
+      },
+      "72": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          89,
+          90,
+          99,
+          98,
+          170,
+          171,
+          180,
+          179
+        ]
+      },
+      "73": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          91,
+          92,
+          101,
+          100,
+          172,
+          173,
+          182,
+          181
+        ]
+      },
+      "74": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          92,
+          93,
+          102,
+          101,
+          173,
+          174,
+          183,
+          182
+        ]
+      },
+      "75": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          93,
+          94,
+          103,
+          102,
+          174,
+          175,
+          184,
+          183
+        ]
+      },
+      "76": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          94,
+          95,
+          104,
+          103,
+          175,
+          176,
+          185,
+          184
+        ]
+      },
+      "77": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          95,
+          96,
+          105,
+          104,
+          176,
+          177,
+          186,
+          185
+        ]
+      },
+      "78": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          96,
+          97,
+          106,
+          105,
+          177,
+          178,
+          187,
+          186
+        ]
+      },
+      "79": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          97,
+          98,
+          107,
+          106,
+          178,
+          179,
+          188,
+          187
+        ]
+      },
+      "80": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          98,
+          99,
+          108,
+          107,
+          179,
+          180,
+          189,
+          188
+        ]
+      },
+      "81": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          100,
+          101,
+          110,
+          109,
+          181,
+          182,
+          191,
+          190
+        ]
+      },
+      "82": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          101,
+          102,
+          111,
+          110,
+          182,
+          183,
+          192,
+          191
+        ]
+      },
+      "83": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          102,
+          103,
+          112,
+          111,
+          183,
+          184,
+          193,
+          192
+        ]
+      },
+      "84": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          103,
+          104,
+          113,
+          112,
+          184,
+          185,
+          194,
+          193
+        ]
+      },
+      "85": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          104,
+          105,
+          114,
+          113,
+          185,
+          186,
+          195,
+          194
+        ]
+      },
+      "86": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          105,
+          106,
+          115,
+          114,
+          186,
+          187,
+          196,
+          195
+        ]
+      },
+      "87": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          106,
+          107,
+          116,
+          115,
+          187,
+          188,
+          197,
+          196
+        ]
+      },
+      "88": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          107,
+          108,
+          117,
+          116,
+          188,
+          189,
+          198,
+          197
+        ]
+      },
+      "89": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          109,
+          110,
+          119,
+          118,
+          190,
+          191,
+          200,
+          199
+        ]
+      },
+      "90": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          110,
+          111,
+          120,
+          119,
+          191,
+          192,
+          201,
+          200
+        ]
+      },
+      "91": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          111,
+          112,
+          121,
+          120,
+          192,
+          193,
+          202,
+          201
+        ]
+      },
+      "92": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          112,
+          113,
+          122,
+          121,
+          193,
+          194,
+          203,
+          202
+        ]
+      },
+      "93": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          113,
+          114,
+          123,
+          122,
+          194,
+          195,
+          204,
+          203
+        ]
+      },
+      "94": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          114,
+          115,
+          124,
+          123,
+          195,
+          196,
+          205,
+          204
+        ]
+      },
+      "95": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          115,
+          116,
+          125,
+          124,
+          196,
+          197,
+          206,
+          205
+        ]
+      },
+      "96": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          116,
+          117,
+          126,
+          125,
+          197,
+          198,
+          207,
+          206
+        ]
+      },
+      "97": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          118,
+          119,
+          128,
+          127,
+          199,
+          200,
+          209,
+          208
+        ]
+      },
+      "98": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          119,
+          120,
+          129,
+          128,
+          200,
+          201,
+          210,
+          209
+        ]
+      },
+      "99": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          120,
+          121,
+          130,
+          129,
+          201,
+          202,
+          211,
+          210
+        ]
+      },
+      "100": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          121,
+          122,
+          131,
+          130,
+          202,
+          203,
+          212,
+          211
+        ]
+      },
+      "101": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          122,
+          123,
+          132,
+          131,
+          203,
+          204,
+          213,
+          212
+        ]
+      },
+      "102": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          123,
+          124,
+          133,
+          132,
+          204,
+          205,
+          214,
+          213
+        ]
+      },
+      "103": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          124,
+          125,
+          134,
+          133,
+          205,
+          206,
+          215,
+          214
+        ]
+      },
+      "104": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          125,
+          126,
+          135,
+          134,
+          206,
+          207,
+          216,
+          215
+        ]
+      },
+      "105": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          127,
+          128,
+          137,
+          136,
+          208,
+          209,
+          218,
+          217
+        ]
+      },
+      "106": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          128,
+          129,
+          138,
+          137,
+          209,
+          210,
+          219,
+          218
+        ]
+      },
+      "107": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          129,
+          130,
+          139,
+          138,
+          210,
+          211,
+          220,
+          219
+        ]
+      },
+      "108": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          130,
+          131,
+          140,
+          139,
+          211,
+          212,
+          221,
+          220
+        ]
+      },
+      "109": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          131,
+          132,
+          141,
+          140,
+          212,
+          213,
+          222,
+          221
+        ]
+      },
+      "110": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          132,
+          133,
+          142,
+          141,
+          213,
+          214,
+          223,
+          222
+        ]
+      },
+      "111": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          133,
+          134,
+          143,
+          142,
+          214,
+          215,
+          224,
+          223
+        ]
+      },
+      "112": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          134,
+          135,
+          144,
+          143,
+          215,
+          216,
+          225,
+          224
+        ]
+      },
+      "113": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          136,
+          137,
+          146,
+          145,
+          217,
+          218,
+          227,
+          226
+        ]
+      },
+      "114": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          137,
+          138,
+          147,
+          146,
+          218,
+          219,
+          228,
+          227
+        ]
+      },
+      "115": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          138,
+          139,
+          148,
+          147,
+          219,
+          220,
+          229,
+          228
+        ]
+      },
+      "116": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          139,
+          140,
+          149,
+          148,
+          220,
+          221,
+          230,
+          229
+        ]
+      },
+      "117": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          140,
+          141,
+          150,
+          149,
+          221,
+          222,
+          231,
+          230
+        ]
+      },
+      "118": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          141,
+          142,
+          151,
+          150,
+          222,
+          223,
+          232,
+          231
+        ]
+      },
+      "119": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          142,
+          143,
+          152,
+          151,
+          223,
+          224,
+          233,
+          232
+        ]
+      },
+      "120": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          143,
+          144,
+          153,
+          152,
+          224,
+          225,
+          234,
+          233
+        ]
+      },
+      "121": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          145,
+          146,
+          155,
+          154,
+          226,
+          227,
+          236,
+          235
+        ]
+      },
+      "122": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          146,
+          147,
+          156,
+          155,
+          227,
+          228,
+          237,
+          236
+        ]
+      },
+      "123": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          147,
+          148,
+          157,
+          156,
+          228,
+          229,
+          238,
+          237
+        ]
+      },
+      "124": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          148,
+          149,
+          158,
+          157,
+          229,
+          230,
+          239,
+          238
+        ]
+      },
+      "125": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          149,
+          150,
+          159,
+          158,
+          230,
+          231,
+          240,
+          239
+        ]
+      },
+      "126": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          150,
+          151,
+          160,
+          159,
+          231,
+          232,
+          241,
+          240
+        ]
+      },
+      "127": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          151,
+          152,
+          161,
+          160,
+          232,
+          233,
+          242,
+          241
+        ]
+      },
+      "128": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          152,
+          153,
+          162,
+          161,
+          233,
+          234,
+          243,
+          242
+        ]
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {},
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.02,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "2": {
+        "X": 1.25,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "3": {
+        "X": 2.5,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "4": {
+        "X": 3.75,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "5": {
+        "X": 5.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "6": {
+        "X": 6.25,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "7": {
+        "X": 7.5,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "8": {
+        "X": 8.75,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "9": {
+        "X": 10.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "10": {
+        "X": 0.0,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "11": {
+        "X": 1.25,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "12": {
+        "X": 2.5,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "13": {
+        "X": 3.75,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "14": {
+        "X": 5.0,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "15": {
+        "X": 6.25,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "16": {
+        "X": 7.5,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "17": {
+        "X": 8.75,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "18": {
+        "X": 10.0,
+        "Y": 1.25,
+        "Z": 0.0
+      },
+      "19": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "20": {
+        "X": 1.25,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "21": {
+        "X": 2.5,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "22": {
+        "X": 3.75,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "23": {
+        "X": 5.0,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "24": {
+        "X": 6.25,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "25": {
+        "X": 7.5,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "26": {
+        "X": 8.75,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "27": {
+        "X": 10.0,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "28": {
+        "X": 0.0,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "29": {
+        "X": 1.25,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "30": {
+        "X": 2.5,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "31": {
+        "X": 3.75,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "32": {
+        "X": 5.0,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "33": {
+        "X": 6.25,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "34": {
+        "X": 7.5,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "35": {
+        "X": 8.75,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "36": {
+        "X": 10.0,
+        "Y": 3.75,
+        "Z": 0.0
+      },
+      "37": {
+        "X": 0.0,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "38": {
+        "X": 1.25,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "39": {
+        "X": 2.5,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "40": {
+        "X": 3.75,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "41": {
+        "X": 5.0,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "42": {
+        "X": 6.25,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "43": {
+        "X": 7.5,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "44": {
+        "X": 8.75,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "45": {
+        "X": 10.0,
+        "Y": 5.0,
+        "Z": 0.0
+      },
+      "46": {
+        "X": 0.0,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "47": {
+        "X": 1.25,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "48": {
+        "X": 2.5,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "49": {
+        "X": 3.75,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "50": {
+        "X": 5.0,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "51": {
+        "X": 6.25,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "52": {
+        "X": 7.5,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "53": {
+        "X": 8.75,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "54": {
+        "X": 10.0,
+        "Y": 6.25,
+        "Z": 0.0
+      },
+      "55": {
+        "X": 0.0,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "56": {
+        "X": 1.25,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "57": {
+        "X": 2.5,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "58": {
+        "X": 3.75,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "59": {
+        "X": 5.0,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "60": {
+        "X": 6.25,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "61": {
+        "X": 7.5,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "62": {
+        "X": 8.75,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "63": {
+        "X": 10.0,
+        "Y": 7.5,
+        "Z": 0.0
+      },
+      "64": {
+        "X": 0.0,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "65": {
+        "X": 1.25,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "66": {
+        "X": 2.5,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "67": {
+        "X": 3.75,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "68": {
+        "X": 5.0,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "69": {
+        "X": 6.25,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "70": {
+        "X": 7.5,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "71": {
+        "X": 8.75,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "72": {
+        "X": 10.0,
+        "Y": 8.75,
+        "Z": 0.0
+      },
+      "73": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "74": {
+        "X": 1.25,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "75": {
+        "X": 2.5,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "76": {
+        "X": 3.75,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "77": {
+        "X": 5.0,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "78": {
+        "X": 6.25,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "79": {
+        "X": 7.5,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "80": {
+        "X": 8.75,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "81": {
+        "X": 10.0,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "82": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "83": {
+        "X": 1.25,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "84": {
+        "X": 2.5,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "85": {
+        "X": 3.75,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "86": {
+        "X": 5.0,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "87": {
+        "X": 6.25,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "88": {
+        "X": 7.5,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "89": {
+        "X": 8.75,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "90": {
+        "X": 10.0,
+        "Y": 0.0,
+        "Z": 0.5
+      },
+      "91": {
+        "X": 0.0,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "92": {
+        "X": 1.25,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "93": {
+        "X": 2.5,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "94": {
+        "X": 3.75,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "95": {
+        "X": 5.0,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "96": {
+        "X": 6.25,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "97": {
+        "X": 7.5,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "98": {
+        "X": 8.75,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "99": {
+        "X": 10.0,
+        "Y": 1.25,
+        "Z": 0.5
+      },
+      "100": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "101": {
+        "X": 1.25,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "102": {
+        "X": 2.5,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "103": {
+        "X": 3.75,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "104": {
+        "X": 5.0,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "105": {
+        "X": 6.25,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "106": {
+        "X": 7.5,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "107": {
+        "X": 8.75,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "108": {
+        "X": 10.0,
+        "Y": 2.5,
+        "Z": 0.5
+      },
+      "109": {
+        "X": 0.0,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "110": {
+        "X": 1.25,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "111": {
+        "X": 2.5,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "112": {
+        "X": 3.75,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "113": {
+        "X": 5.0,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "114": {
+        "X": 6.25,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "115": {
+        "X": 7.5,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "116": {
+        "X": 8.75,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "117": {
+        "X": 10.0,
+        "Y": 3.75,
+        "Z": 0.5
+      },
+      "118": {
+        "X": 0.0,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "119": {
+        "X": 1.25,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "120": {
+        "X": 2.5,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "121": {
+        "X": 3.75,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "122": {
+        "X": 5.0,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "123": {
+        "X": 6.25,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "124": {
+        "X": 7.5,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "125": {
+        "X": 8.75,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "126": {
+        "X": 10.0,
+        "Y": 5.0,
+        "Z": 0.5
+      },
+      "127": {
+        "X": 0.0,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "128": {
+        "X": 1.25,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "129": {
+        "X": 2.5,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "130": {
+        "X": 3.75,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "131": {
+        "X": 5.0,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "132": {
+        "X": 6.25,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "133": {
+        "X": 7.5,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "134": {
+        "X": 8.75,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "135": {
+        "X": 10.0,
+        "Y": 6.25,
+        "Z": 0.5
+      },
+      "136": {
+        "X": 0.0,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "137": {
+        "X": 1.25,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "138": {
+        "X": 2.5,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "139": {
+        "X": 3.75,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "140": {
+        "X": 5.0,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "141": {
+        "X": 6.25,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "142": {
+        "X": 7.5,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "143": {
+        "X": 8.75,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "144": {
+        "X": 10.0,
+        "Y": 7.5,
+        "Z": 0.5
+      },
+      "145": {
+        "X": 0.0,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "146": {
+        "X": 1.25,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "147": {
+        "X": 2.5,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "148": {
+        "X": 3.75,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "149": {
+        "X": 5.0,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "150": {
+        "X": 6.25,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "151": {
+        "X": 7.5,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "152": {
+        "X": 8.75,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "153": {
+        "X": 10.0,
+        "Y": 8.75,
+        "Z": 0.5
+      },
+      "154": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "155": {
+        "X": 1.25,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "156": {
+        "X": 2.5,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "157": {
+        "X": 3.75,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "158": {
+        "X": 5.0,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "159": {
+        "X": 6.25,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "160": {
+        "X": 7.5,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "161": {
+        "X": 8.75,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "162": {
+        "X": 10.0,
+        "Y": 10.0,
+        "Z": 0.5
+      },
+      "163": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "164": {
+        "X": 1.25,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "165": {
+        "X": 2.5,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "166": {
+        "X": 3.75,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "167": {
+        "X": 5.0,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "168": {
+        "X": 6.25,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "169": {
+        "X": 7.5,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "170": {
+        "X": 8.75,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "171": {
+        "X": 10.0,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "172": {
+        "X": 0.0,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "173": {
+        "X": 1.25,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "174": {
+        "X": 2.5,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "175": {
+        "X": 3.75,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "176": {
+        "X": 5.0,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "177": {
+        "X": 6.25,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "178": {
+        "X": 7.5,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "179": {
+        "X": 8.75,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "180": {
+        "X": 10.0,
+        "Y": 1.25,
+        "Z": 1.0
+      },
+      "181": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "182": {
+        "X": 1.25,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "183": {
+        "X": 2.5,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "184": {
+        "X": 3.75,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "185": {
+        "X": 5.0,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "186": {
+        "X": 6.25,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "187": {
+        "X": 7.5,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "188": {
+        "X": 8.75,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "189": {
+        "X": 10.0,
+        "Y": 2.5,
+        "Z": 1.0
+      },
+      "190": {
+        "X": 0.0,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "191": {
+        "X": 1.25,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "192": {
+        "X": 2.5,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "193": {
+        "X": 3.75,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "194": {
+        "X": 5.0,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "195": {
+        "X": 6.25,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "196": {
+        "X": 7.5,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "197": {
+        "X": 8.75,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "198": {
+        "X": 10.0,
+        "Y": 3.75,
+        "Z": 1.0
+      },
+      "199": {
+        "X": 0.0,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "200": {
+        "X": 1.25,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "201": {
+        "X": 2.5,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "202": {
+        "X": 3.75,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "203": {
+        "X": 5.0,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "204": {
+        "X": 6.25,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "205": {
+        "X": 7.5,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "206": {
+        "X": 8.75,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "207": {
+        "X": 10.0,
+        "Y": 5.0,
+        "Z": 1.0
+      },
+      "208": {
+        "X": 0.0,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "209": {
+        "X": 1.25,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "210": {
+        "X": 2.5,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "211": {
+        "X": 3.75,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "212": {
+        "X": 5.0,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "213": {
+        "X": 6.25,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "214": {
+        "X": 7.5,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "215": {
+        "X": 8.75,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "216": {
+        "X": 10.0,
+        "Y": 6.25,
+        "Z": 1.0
+      },
+      "217": {
+        "X": 0.0,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "218": {
+        "X": 1.25,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "219": {
+        "X": 2.5,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "220": {
+        "X": 3.75,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "221": {
+        "X": 5.0,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "222": {
+        "X": 6.25,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "223": {
+        "X": 7.5,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "224": {
+        "X": 8.75,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "225": {
+        "X": 10.0,
+        "Y": 7.5,
+        "Z": 1.0
+      },
+      "226": {
+        "X": 0.0,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "227": {
+        "X": 1.25,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "228": {
+        "X": 2.5,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "229": {
+        "X": 3.75,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "230": {
+        "X": 5.0,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "231": {
+        "X": 6.25,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "232": {
+        "X": 7.5,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "233": {
+        "X": 8.75,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "234": {
+        "X": 10.0,
+        "Y": 8.75,
+        "Z": 1.0
+      },
+      "235": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "236": {
+        "X": 1.25,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "237": {
+        "X": 2.5,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "238": {
+        "X": 3.75,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "239": {
+        "X": 5.0,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "240": {
+        "X": 6.25,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "241": {
+        "X": 7.5,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "242": {
+        "X": 8.75,
+        "Y": 10.0,
+        "Z": 1.0
+      },
+      "243": {
+        "X": 10.0,
+        "Y": 10.0,
+        "Z": 1.0
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {},
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": true,
+        "SMASS": 1
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {},
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

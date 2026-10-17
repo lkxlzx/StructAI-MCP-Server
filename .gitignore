@@ -67,6 +67,11 @@ data/
 # ⚠️ **P179**：真机测量（REBC/REBR 载荷探针）与基线快照的临时目录（**不**进仓库）
 .tmp_p179/
 
+# ⚠️ **P180**：Gen Verification 的导出快照 / 样本副本 / pytest 临时目录（**不**进仓库）——
+#    模板库 `templates/gen_verification/` **进仓库**（交付物）；
+#    导出快照可由 `registry/tools/export_gen_verification_p180.py --probe` 重建。
+.tmp_p180/
+
 # ⚠️ **P176**：探针 / 测试跑出来的**临时 sqlite 库**目录（**不**进仓库）——
 #    `p152-interface-*` 来自 `registry/tools/probe_interface_paths.py` 的进程内装配；
 #    `pytest-of-*` 是 pytest 的 `tmp_path` 根（`--basetemp` 未指定时的默认位置）。

@@ -1,0 +1,72 @@
+{
+ "note": [
+  "P180 · 参数化模板 → JSON → 经 MCP 导入 → 按写入值读回。",
+  "判据 = 效果（铁律 ⓪）：每个改动都按写入值读回；未改的表/字段不变。",
+  "⚠️ 写入值均**不在**样本原值里（防回显）。",
+  "⚠️ 只碰 `.tmp_p180/e2e/` 内的副本；样本原目录只读。"
+ ],
+ "template": "templates/gen_verification/Static-02.json",
+ "sample": "Static-02.mgbx",
+ "overrides": {
+  "material.1.elastic_modulus": 7777777.0,
+  "section.1.name": "TPL-P180",
+  "support.1.constraint": "1111111",
+  "load_case.1.name": "CASE-P180",
+  "node.2.x": 123.5
+ },
+ "checks": [
+  {
+   "parameter": "material.1.elastic_modulus",
+   "written": 7777777.0,
+   "read_back": 7777777,
+   "where": "MATL/1/PARAM[0].ELAST"
+  },
+  {
+   "parameter": "section.1.name",
+   "written": "TPL-P180",
+   "read_back": "TPL-P180",
+   "where": "SECT/1/SECT_NAME"
+  },
+  {
+   "parameter": "support.1.constraint",
+   "written": "1111111",
+   "read_back": "1111111",
+   "where": "CONS/1/ITEMS[0].CONSTRAINT"
+  },
+  {
+   "parameter": "load_case.1.name",
+   "written": "CASE-P180",
+   "read_back": "CASE-P180",
+   "where": "STLD/1/NAME"
+  },
+  {
+   "parameter": "node.2.x",
+   "written": 123.5,
+   "read_back": 123.5,
+   "where": "NODE/2/X"
+  }
+ ],
+ "unchanged": {
+  "BMLD/P（梁荷载数值，未参数化改动）": true,
+  "NODE/1,3（未改动的节点坐标）": true,
+  "MATL/1/NAME（未改动）": true,
+  "SECT/2（未改动的截面，数值等价）": true
+ },
+ "native_cascade": {
+  "BMLD/1/ITEMS[0].LCNAME": {
+   "before": "CASE1",
+   "after": "CASE-P180"
+  },
+  "LCOM-GEN/1/vCOMB[0].LCNAME": {
+   "before": "CASE1",
+   "after": "CASE-P180"
+  }
+ },
+ "native_cascade_note": "改 `STLD/1/NAME` 时 MIDAS 自动把引用该工况的 `LCNAME` 一起改名 —— 引用完整性，不是模板污染。⚠️ 它使「整表不变」**不能**当阴性对照。",
+ "session": {
+  "file_name": "session-backup",
+  "has_project_path": true
+ },
+ "applied": true,
+ "verdict": "PASSED"
+}

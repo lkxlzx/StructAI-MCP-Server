@@ -3003,3 +3003,59 @@ P171 / R164 已踩过「同名不同义」）；**只增不减**；**类型不�
 `pytest tests/test_midas_leftovers_p179.py -q`（**11** 项）·
 `python registry/tools/check_operation_availability.py --check`（**71 / 73**）·
 裁决 `docs/07` §16.1 **R172** / **R173**。
+
+---
+
+### 8.34 P180：官方样本 → **参数化模板** → 经 MCP 导入（⇒ **R174**）
+
+#### 8.34.1 做了什么
+
+`Gen Verification` 的 **156** 个 `.mgbx` **不**逆向，全部经官方通道导出：
+
+```
+DOC.OPEN（样本副本） → DOC.EXPORT → {"DBG": {表: {id: 行}}}
+        → build_template（抽参数，其余逐字保留）
+        → templates/gen_verification/*.json（156 个 · 17 族 · index.json）
+        → materialize + --set → filled.json
+        → MCP engineering_doc / MODEL.IMPORT → 按写入值读回
+```
+
+- **模板层**：`app/infrastructure/adapters/midas/model_template.py`
+  （`build_template` / `materialize` / `dumps_template`；`TEMPLATE_FORMAT` / `TEMPLATE_VERSION`）。
+- **工具链**（均可 `--check`，零请求）：
+  - `registry/tools/export_gen_verification_p180.py`（批量导出，可续跑）
+  - `registry/tools/model_template_p180.py`（`--build` / `--check` / `--show` / `--fill --set`）
+  - `registry/tools/probe_model_template_e2e_p180.py`（真机端到端）
+
+#### 8.34.2 判据（效果，不是状态码）
+
+| 阶段 | 判据 | 实测 |
+| --- | --- | --- |
+| 批量导出 | 文件真的落盘 ∧ 可解析 | **156 / 156** · 0 失败 |
+| 模板自洽 | `materialize(build_template(x))` 与 `x` 逐表一致（排除会话表） | 156 / 156 无损 · 序列化稳定 |
+| 端到端 | 改参数 → `MODEL.IMPORT` → **按写入值读回** | **5 / 5** 参数读回 |
+| 阴性对照 | 未改字段**不变** | 4 / 4 不变 |
+| 收尾 | `FILE_NAME` ≠ `无标题`（R144） | ✅ |
+
+#### 8.34.3 ⚠️ 两处实测事实（影响**判据设计**，不是缺陷）
+
+1. **工况重命名会级联**：改 `STLD/NAME` 时 MIDAS 自动改写 `BMLD` / `CNLD` / `LCOM-*`
+   里引用该工况的 `LCNAME` —— 引用完整性。⇒ **「整表不变」不能当阴性对照**，
+   必须挑**无引用语义**的字段（如 `BMLD/…/P`、未改节点的坐标）。
+2. **未改动截面有 1 ulp 抖动**：`SECT_I.STIFF.Y/Z` 在导入后出现
+   `-0.49999999999999994 → -0.4999999999999999`（原生按尺寸**重算**截面刚度）。
+   ⇒ 数值对比用 `rel_tol=1e-9`，**逐字节相等**会假红。
+
+#### 8.34.4 口径边界
+
+- `PJCF`（项目名 / 路径 / 时间戳）与 `CO_M`/`CO_S`/`CO_T`（颜色表）**不进模板** ——
+  `DOC.IMPORT` 是合并语义，导入它们会污染当前项目。
+- 节点 > **64** 不做逐坐标参数化；约束行 > **24** 不逐行参数化（可读性取舍，`model` 仍可手改）。
+- 未知参数 / 类型不匹配 / 未知占位符 ⇒ **报错**（不猜、不静默忽略）。
+
+**可执行判定** = `python registry/tools/model_template_p180.py --check` ·
+`python registry/tools/probe_model_template_e2e_p180.py --check` ·
+`python registry/tools/export_gen_verification_p180.py --check` ·
+`pytest tests/test_midas_model_template_p180.py -q`（**12** 项）·
+`python registry/tools/check_operation_availability.py --check`（**71 / 73** 不变）·
+裁决 `docs/07` §16.1 **R174** · 手册 `docs/09_参数化模板与AI_Agent填写手册_v1.0.md`。

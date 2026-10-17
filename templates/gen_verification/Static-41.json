@@ -1,0 +1,6799 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Static-41",
+    "family": "Static",
+    "source": ".tmp_p180/exports/Static-41.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 0,
+      "CONS": 24,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 132,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 0,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 145,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 132,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 1,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 1,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.gravity": {
+      "value": 9.806,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "load_case.1.name": {
+      "value": "Load Case",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 210000000000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "M1",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.3,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "support.231.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 231 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/231/ITEMS[0].CONSTRAINT"
+    },
+    "support.232.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 232 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/232/ITEMS[0].CONSTRAINT"
+    },
+    "support.233.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 233 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/233/ITEMS[0].CONSTRAINT"
+    },
+    "support.234.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 234 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/234/ITEMS[0].CONSTRAINT"
+    },
+    "support.235.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 235 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/235/ITEMS[0].CONSTRAINT"
+    },
+    "support.236.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 236 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/236/ITEMS[0].CONSTRAINT"
+    },
+    "support.237.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 237 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/237/ITEMS[0].CONSTRAINT"
+    },
+    "support.256.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 256 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/256/ITEMS[0].CONSTRAINT"
+    },
+    "support.260.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 260 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/260/ITEMS[0].CONSTRAINT"
+    },
+    "support.261.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 261 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/261/ITEMS[0].CONSTRAINT"
+    },
+    "support.262.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 262 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/262/ITEMS[0].CONSTRAINT"
+    },
+    "support.263.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 263 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/263/ITEMS[0].CONSTRAINT"
+    },
+    "support.264.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 264 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/264/ITEMS[0].CONSTRAINT"
+    },
+    "support.280.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 280 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/280/ITEMS[0].CONSTRAINT"
+    },
+    "support.284.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 284 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/284/ITEMS[0].CONSTRAINT"
+    },
+    "support.285.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 285 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/285/ITEMS[0].CONSTRAINT"
+    },
+    "support.286.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 286 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/286/ITEMS[0].CONSTRAINT"
+    },
+    "support.287.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 287 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/287/ITEMS[0].CONSTRAINT"
+    },
+    "support.288.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 288 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/288/ITEMS[0].CONSTRAINT"
+    },
+    "support.304.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 304 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/304/ITEMS[0].CONSTRAINT"
+    },
+    "support.305.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 305 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/305/ITEMS[0].CONSTRAINT"
+    },
+    "support.306.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 306 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/306/ITEMS[0].CONSTRAINT"
+    },
+    "support.307.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 307 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/307/ITEMS[0].CONSTRAINT"
+    },
+    "support.308.constraint": {
+      "value": "1111110",
+      "kind": "string",
+      "description": "节点 308 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/308/ITEMS[0].CONSTRAINT"
+    },
+    "units.dist": {
+      "value": "M",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "N",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "J",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 20,
+        "TOL": 0.001,
+        "ACWC": true
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {},
+    "CONS": {
+      "231": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.231.constraint}"
+          }
+        ]
+      },
+      "232": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.232.constraint}"
+          }
+        ]
+      },
+      "233": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.233.constraint}"
+          }
+        ]
+      },
+      "234": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.234.constraint}"
+          }
+        ]
+      },
+      "235": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.235.constraint}"
+          }
+        ]
+      },
+      "236": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.236.constraint}"
+          }
+        ]
+      },
+      "237": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.237.constraint}"
+          }
+        ]
+      },
+      "256": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.256.constraint}"
+          }
+        ]
+      },
+      "260": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.260.constraint}"
+          }
+        ]
+      },
+      "261": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.261.constraint}"
+          }
+        ]
+      },
+      "262": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.262.constraint}"
+          }
+        ]
+      },
+      "263": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.263.constraint}"
+          }
+        ]
+      },
+      "264": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.264.constraint}"
+          }
+        ]
+      },
+      "280": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.280.constraint}"
+          }
+        ]
+      },
+      "284": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.284.constraint}"
+          }
+        ]
+      },
+      "285": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.285.constraint}"
+          }
+        ]
+      },
+      "286": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.286.constraint}"
+          }
+        ]
+      },
+      "287": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.287.constraint}"
+          }
+        ]
+      },
+      "288": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.288.constraint}"
+          }
+        ]
+      },
+      "304": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.304.constraint}"
+          }
+        ]
+      },
+      "305": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.305.constraint}"
+          }
+        ]
+      },
+      "306": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.306.constraint}"
+          }
+        ]
+      },
+      "307": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.307.constraint}"
+          }
+        ]
+      },
+      "308": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.308.constraint}"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "131": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          178,
+          179,
+          189,
+          177,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "132": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          177,
+          189,
+          190,
+          176,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "133": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          176,
+          190,
+          191,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "134": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          175,
+          191,
+          192,
+          174,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "135": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          174,
+          192,
+          193,
+          173,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "136": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          173,
+          193,
+          188,
+          172,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "137": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          179,
+          180,
+          194,
+          189,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "138": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          189,
+          194,
+          195,
+          190,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "139": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          190,
+          195,
+          196,
+          191,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "140": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          191,
+          196,
+          197,
+          192,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "141": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          192,
+          197,
+          198,
+          193,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "142": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          193,
+          198,
+          187,
+          188,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "143": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          180,
+          181,
+          199,
+          194,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "144": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          194,
+          199,
+          200,
+          195,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "145": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          195,
+          200,
+          201,
+          196,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "146": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          196,
+          201,
+          202,
+          197,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "147": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          197,
+          202,
+          203,
+          198,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "148": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          198,
+          203,
+          186,
+          187,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "149": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          181,
+          182,
+          204,
+          199,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "150": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          199,
+          204,
+          205,
+          200,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "151": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          200,
+          205,
+          206,
+          201,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "152": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          201,
+          206,
+          207,
+          202,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "153": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          202,
+          207,
+          208,
+          203,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "154": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          203,
+          208,
+          185,
+          186,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "155": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          182,
+          183,
+          209,
+          204,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "156": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          204,
+          209,
+          210,
+          205,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "157": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          205,
+          210,
+          211,
+          206,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "158": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          206,
+          211,
+          212,
+          207,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "159": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          207,
+          212,
+          213,
+          208,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "160": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          208,
+          213,
+          184,
+          185,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "161": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          183,
+          165,
+          166,
+          209,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "162": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          209,
+          166,
+          167,
+          210,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "163": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          210,
+          167,
+          168,
+          211,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "164": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          211,
+          168,
+          169,
+          212,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "165": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          212,
+          169,
+          170,
+          213,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "166": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          213,
+          170,
+          171,
+          184,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "179": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          238,
+          241,
+          184,
+          171,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "180": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          239,
+          242,
+          241,
+          238,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "181": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          240,
+          243,
+          242,
+          239,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "182": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          232,
+          233,
+          243,
+          240,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "183": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          241,
+          244,
+          185,
+          184,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "184": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          242,
+          245,
+          244,
+          241,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "185": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          243,
+          246,
+          245,
+          242,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "186": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          233,
+          234,
+          246,
+          243,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "187": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          244,
+          247,
+          186,
+          185,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "188": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          245,
+          248,
+          247,
+          244,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "189": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          246,
+          249,
+          248,
+          245,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "190": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          234,
+          235,
+          249,
+          246,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "191": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          247,
+          250,
+          187,
+          186,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "192": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          248,
+          251,
+          250,
+          247,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "193": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          249,
+          252,
+          251,
+          248,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "194": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          235,
+          236,
+          252,
+          249,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "195": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          250,
+          253,
+          188,
+          187,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "196": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          251,
+          254,
+          253,
+          250,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "197": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          252,
+          255,
+          254,
+          251,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "198": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          236,
+          237,
+          255,
+          252,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "199": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          253,
+          228,
+          172,
+          188,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "200": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          254,
+          229,
+          228,
+          253,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "201": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          255,
+          230,
+          229,
+          254,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "202": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          237,
+          231,
+          230,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "203": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          228,
+          265,
+          173,
+          172,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "204": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          229,
+          266,
+          265,
+          228,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "205": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          230,
+          267,
+          266,
+          229,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "206": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          231,
+          260,
+          267,
+          230,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "207": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          265,
+          268,
+          174,
+          173,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "208": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          266,
+          269,
+          268,
+          265,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "209": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          267,
+          270,
+          269,
+          266,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "210": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          260,
+          261,
+          270,
+          267,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "211": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          268,
+          271,
+          175,
+          174,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "212": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          269,
+          272,
+          271,
+          268,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "213": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          270,
+          273,
+          272,
+          269,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "214": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          261,
+          262,
+          273,
+          270,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "215": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          271,
+          274,
+          176,
+          175,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "216": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          272,
+          275,
+          274,
+          271,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "217": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          273,
+          276,
+          275,
+          272,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "218": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          262,
+          263,
+          276,
+          273,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "219": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          274,
+          277,
+          177,
+          176,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "220": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          275,
+          278,
+          277,
+          274,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "221": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          276,
+          279,
+          278,
+          275,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "222": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          263,
+          264,
+          279,
+          276,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "223": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          277,
+          259,
+          178,
+          177,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "224": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          278,
+          258,
+          259,
+          277,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "225": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          279,
+          257,
+          258,
+          278,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "226": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          264,
+          256,
+          257,
+          279,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "227": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          259,
+          289,
+          179,
+          178,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "228": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          258,
+          290,
+          289,
+          259,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "229": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          257,
+          291,
+          290,
+          258,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "230": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          256,
+          284,
+          291,
+          257,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "231": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          289,
+          292,
+          180,
+          179,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "232": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          290,
+          293,
+          292,
+          289,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "233": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          291,
+          294,
+          293,
+          290,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "234": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          284,
+          285,
+          294,
+          291,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "235": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          292,
+          295,
+          181,
+          180,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "236": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          293,
+          296,
+          295,
+          292,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "237": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          294,
+          297,
+          296,
+          293,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "238": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          285,
+          286,
+          297,
+          294,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "239": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          295,
+          298,
+          182,
+          181,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "240": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          296,
+          299,
+          298,
+          295,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "241": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          297,
+          300,
+          299,
+          296,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "242": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          286,
+          287,
+          300,
+          297,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "243": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          298,
+          301,
+          183,
+          182,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "244": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          299,
+          302,
+          301,
+          298,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "245": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          300,
+          303,
+          302,
+          299,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "246": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          287,
+          288,
+          303,
+          300,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "247": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          301,
+          283,
+          165,
+          183,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "248": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          302,
+          282,
+          283,
+          301,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "249": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          303,
+          281,
+          282,
+          302,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "250": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          288,
+          280,
+          281,
+          303,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "251": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          283,
+          309,
+          166,
+          165,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "252": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          282,
+          310,
+          309,
+          283,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "253": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          281,
+          311,
+          310,
+          282,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "254": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          280,
+          304,
+          311,
+          281,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "255": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          309,
+          312,
+          167,
+          166,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "256": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          310,
+          313,
+          312,
+          309,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "257": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          311,
+          314,
+          313,
+          310,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "258": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          304,
+          305,
+          314,
+          311,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "259": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          312,
+          315,
+          168,
+          167,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "260": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          313,
+          316,
+          315,
+          312,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "261": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          314,
+          317,
+          316,
+          313,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "262": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          305,
+          306,
+          317,
+          314,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "263": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          315,
+          318,
+          169,
+          168,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "264": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          316,
+          319,
+          318,
+          315,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "265": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          317,
+          320,
+          319,
+          316,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "266": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          306,
+          307,
+          320,
+          317,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "267": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          318,
+          321,
+          170,
+          169,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "268": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          319,
+          322,
+          321,
+          318,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "269": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          320,
+          323,
+          322,
+          319,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "270": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          307,
+          308,
+          323,
+          320,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "271": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          321,
+          238,
+          171,
+          170,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "272": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          322,
+          239,
+          238,
+          321,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "273": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          323,
+          240,
+          239,
+          322,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      },
+      "274": {
+        "TYPE": "PLATE",
+        "MATL": 1,
+        "SECT": 1,
+        "NODE": [
+          308,
+          232,
+          240,
+          323,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ANGLE": 0.0,
+        "STYPE": 1
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {},
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "165": {
+        "X": -0.363,
+        "Y": -0.364,
+        "Z": 0.0
+      },
+      "166": {
+        "X": -0.26,
+        "Y": -0.389,
+        "Z": 0.0
+      },
+      "167": {
+        "X": -0.133,
+        "Y": -0.408,
+        "Z": 0.0
+      },
+      "168": {
+        "X": 0.003,
+        "Y": -0.413,
+        "Z": 0.0
+      },
+      "169": {
+        "X": 0.139,
+        "Y": -0.406,
+        "Z": 0.0
+      },
+      "170": {
+        "X": 0.263,
+        "Y": -0.388,
+        "Z": 0.0
+      },
+      "171": {
+        "X": 0.365,
+        "Y": -0.364,
+        "Z": 0.0
+      },
+      "172": {
+        "X": 0.365,
+        "Y": 0.365,
+        "Z": 0.0
+      },
+      "173": {
+        "X": 0.261,
+        "Y": 0.39,
+        "Z": 0.0
+      },
+      "174": {
+        "X": 0.133,
+        "Y": 0.408,
+        "Z": 0.0
+      },
+      "175": {
+        "X": -0.003,
+        "Y": 0.414,
+        "Z": 0.0
+      },
+      "176": {
+        "X": -0.138,
+        "Y": 0.407,
+        "Z": 0.0
+      },
+      "177": {
+        "X": -0.262,
+        "Y": 0.388,
+        "Z": 0.0
+      },
+      "178": {
+        "X": -0.363,
+        "Y": 0.363,
+        "Z": 0.0
+      },
+      "179": {
+        "X": -0.389,
+        "Y": 0.259,
+        "Z": 0.0
+      },
+      "180": {
+        "X": -0.408,
+        "Y": 0.133,
+        "Z": 0.0
+      },
+      "181": {
+        "X": -0.414,
+        "Y": -0.003,
+        "Z": 0.0
+      },
+      "182": {
+        "X": -0.407,
+        "Y": -0.137,
+        "Z": 0.0
+      },
+      "183": {
+        "X": -0.388,
+        "Y": -0.261,
+        "Z": 0.0
+      },
+      "184": {
+        "X": 0.39,
+        "Y": -0.26,
+        "Z": 0.0
+      },
+      "185": {
+        "X": 0.408,
+        "Y": -0.133,
+        "Z": 0.0
+      },
+      "186": {
+        "X": 0.414,
+        "Y": 0.003,
+        "Z": 0.0
+      },
+      "187": {
+        "X": 0.407,
+        "Y": 0.138,
+        "Z": 0.0
+      },
+      "188": {
+        "X": 0.389,
+        "Y": 0.262,
+        "Z": 0.0
+      },
+      "189": {
+        "X": -0.258,
+        "Y": 0.256,
+        "Z": 0.0
+      },
+      "190": {
+        "X": -0.13,
+        "Y": 0.268,
+        "Z": 0.0
+      },
+      "191": {
+        "X": 0.0,
+        "Y": 0.273,
+        "Z": 0.0
+      },
+      "192": {
+        "X": 0.13,
+        "Y": 0.269,
+        "Z": 0.0
+      },
+      "193": {
+        "X": 0.257,
+        "Y": 0.259,
+        "Z": 0.0
+      },
+      "194": {
+        "X": -0.269,
+        "Y": 0.128,
+        "Z": 0.0
+      },
+      "195": {
+        "X": -0.133,
+        "Y": 0.132,
+        "Z": 0.0
+      },
+      "196": {
+        "X": 0.0,
+        "Y": 0.135,
+        "Z": 0.0
+      },
+      "197": {
+        "X": 0.133,
+        "Y": 0.133,
+        "Z": 0.0
+      },
+      "198": {
+        "X": 0.268,
+        "Y": 0.13,
+        "Z": 0.0
+      },
+      "199": {
+        "X": -0.273,
+        "Y": -0.001,
+        "Z": 0.0
+      },
+      "200": {
+        "X": -0.135,
+        "Y": -0.001,
+        "Z": 0.0
+      },
+      "201": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "202": {
+        "X": 0.135,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "203": {
+        "X": 0.273,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "204": {
+        "X": -0.268,
+        "Y": -0.131,
+        "Z": 0.0
+      },
+      "205": {
+        "X": -0.133,
+        "Y": -0.134,
+        "Z": 0.0
+      },
+      "206": {
+        "X": 0.0,
+        "Y": -0.135,
+        "Z": 0.0
+      },
+      "207": {
+        "X": 0.134,
+        "Y": -0.133,
+        "Z": 0.0
+      },
+      "208": {
+        "X": 0.269,
+        "Y": -0.13,
+        "Z": 0.0
+      },
+      "209": {
+        "X": -0.257,
+        "Y": -0.258,
+        "Z": 0.0
+      },
+      "210": {
+        "X": -0.128,
+        "Y": -0.269,
+        "Z": 0.0
+      },
+      "211": {
+        "X": 0.002,
+        "Y": -0.273,
+        "Z": 0.0
+      },
+      "212": {
+        "X": 0.132,
+        "Y": -0.268,
+        "Z": 0.0
+      },
+      "213": {
+        "X": 0.259,
+        "Y": -0.257,
+        "Z": 0.0
+      },
+      "228": {
+        "X": 0.429,
+        "Y": 0.43,
+        "Z": 0.0
+      },
+      "229": {
+        "X": 0.509,
+        "Y": 0.509,
+        "Z": 0.0
+      },
+      "230": {
+        "X": 0.6,
+        "Y": 0.601,
+        "Z": 0.0
+      },
+      "231": {
+        "X": 0.704,
+        "Y": 0.704,
+        "Z": 0.0
+      },
+      "232": {
+        "X": 0.704,
+        "Y": -0.704,
+        "Z": 0.0
+      },
+      "233": {
+        "X": 0.866,
+        "Y": -0.5,
+        "Z": 0.0
+      },
+      "234": {
+        "X": 0.962,
+        "Y": -0.258,
+        "Z": 0.0
+      },
+      "235": {
+        "X": 1.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "236": {
+        "X": 0.962,
+        "Y": 0.258,
+        "Z": 0.0
+      },
+      "237": {
+        "X": 0.866,
+        "Y": 0.5,
+        "Z": 0.0
+      },
+      "238": {
+        "X": 0.43,
+        "Y": -0.428,
+        "Z": 0.0
+      },
+      "239": {
+        "X": 0.51,
+        "Y": -0.509,
+        "Z": 0.0
+      },
+      "240": {
+        "X": 0.601,
+        "Y": -0.6,
+        "Z": 0.0
+      },
+      "241": {
+        "X": 0.508,
+        "Y": -0.296,
+        "Z": 0.0
+      },
+      "242": {
+        "X": 0.617,
+        "Y": -0.354,
+        "Z": 0.0
+      },
+      "243": {
+        "X": 0.733,
+        "Y": -0.421,
+        "Z": 0.0
+      },
+      "244": {
+        "X": 0.543,
+        "Y": -0.148,
+        "Z": 0.0
+      },
+      "245": {
+        "X": 0.676,
+        "Y": -0.177,
+        "Z": 0.0
+      },
+      "246": {
+        "X": 0.8130000000000001,
+        "Y": -0.215,
+        "Z": 0.0
+      },
+      "247": {
+        "X": 0.554,
+        "Y": 0.005,
+        "Z": 0.0
+      },
+      "248": {
+        "X": 0.6940000000000001,
+        "Y": 0.004,
+        "Z": 0.0
+      },
+      "249": {
+        "X": 0.84,
+        "Y": 0.001,
+        "Z": 0.0
+      },
+      "250": {
+        "X": 0.542,
+        "Y": 0.155,
+        "Z": 0.0
+      },
+      "251": {
+        "X": 0.676,
+        "Y": 0.184,
+        "Z": 0.0
+      },
+      "252": {
+        "X": 0.8140000000000001,
+        "Y": 0.218,
+        "Z": 0.0
+      },
+      "253": {
+        "X": 0.507,
+        "Y": 0.298,
+        "Z": 0.0
+      },
+      "254": {
+        "X": 0.616,
+        "Y": 0.356,
+        "Z": 0.0
+      },
+      "255": {
+        "X": 0.733,
+        "Y": 0.422,
+        "Z": 0.0
+      },
+      "256": {
+        "X": -0.704,
+        "Y": 0.704,
+        "Z": 0.0
+      },
+      "257": {
+        "X": -0.603,
+        "Y": 0.602,
+        "Z": 0.0
+      },
+      "258": {
+        "X": -0.51,
+        "Y": 0.509,
+        "Z": 0.0
+      },
+      "259": {
+        "X": -0.428,
+        "Y": 0.426,
+        "Z": 0.0
+      },
+      "260": {
+        "X": 0.5,
+        "Y": 0.866,
+        "Z": 0.0
+      },
+      "261": {
+        "X": 0.258,
+        "Y": 0.962,
+        "Z": 0.0
+      },
+      "262": {
+        "X": 0.0,
+        "Y": 1.0,
+        "Z": 0.0
+      },
+      "263": {
+        "X": -0.258,
+        "Y": 0.962,
+        "Z": 0.0
+      },
+      "264": {
+        "X": -0.5,
+        "Y": 0.866,
+        "Z": 0.0
+      },
+      "265": {
+        "X": 0.296,
+        "Y": 0.508,
+        "Z": 0.0
+      },
+      "266": {
+        "X": 0.354,
+        "Y": 0.616,
+        "Z": 0.0
+      },
+      "267": {
+        "X": 0.421,
+        "Y": 0.733,
+        "Z": 0.0
+      },
+      "268": {
+        "X": 0.148,
+        "Y": 0.543,
+        "Z": 0.0
+      },
+      "269": {
+        "X": 0.177,
+        "Y": 0.675,
+        "Z": 0.0
+      },
+      "270": {
+        "X": 0.215,
+        "Y": 0.8130000000000001,
+        "Z": 0.0
+      },
+      "271": {
+        "X": -0.005,
+        "Y": 0.553,
+        "Z": 0.0
+      },
+      "272": {
+        "X": -0.004,
+        "Y": 0.6940000000000001,
+        "Z": 0.0
+      },
+      "273": {
+        "X": -0.002,
+        "Y": 0.84,
+        "Z": 0.0
+      },
+      "274": {
+        "X": -0.156,
+        "Y": 0.542,
+        "Z": 0.0
+      },
+      "275": {
+        "X": -0.184,
+        "Y": 0.676,
+        "Z": 0.0
+      },
+      "276": {
+        "X": -0.218,
+        "Y": 0.8140000000000001,
+        "Z": 0.0
+      },
+      "277": {
+        "X": -0.299,
+        "Y": 0.506,
+        "Z": 0.0
+      },
+      "278": {
+        "X": -0.357,
+        "Y": 0.615,
+        "Z": 0.0
+      },
+      "279": {
+        "X": -0.422,
+        "Y": 0.733,
+        "Z": 0.0
+      },
+      "280": {
+        "X": -0.704,
+        "Y": -0.704,
+        "Z": 0.0
+      },
+      "281": {
+        "X": -0.602,
+        "Y": -0.603,
+        "Z": 0.0
+      },
+      "282": {
+        "X": -0.509,
+        "Y": -0.51,
+        "Z": 0.0
+      },
+      "283": {
+        "X": -0.427,
+        "Y": -0.428,
+        "Z": 0.0
+      },
+      "284": {
+        "X": -0.866,
+        "Y": 0.5,
+        "Z": 0.0
+      },
+      "285": {
+        "X": -0.962,
+        "Y": 0.258,
+        "Z": 0.0
+      },
+      "286": {
+        "X": -1.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "287": {
+        "X": -0.962,
+        "Y": -0.258,
+        "Z": 0.0
+      },
+      "288": {
+        "X": -0.866,
+        "Y": -0.5,
+        "Z": 0.0
+      },
+      "289": {
+        "X": -0.508,
+        "Y": 0.296,
+        "Z": 0.0
+      },
+      "290": {
+        "X": -0.616,
+        "Y": 0.354,
+        "Z": 0.0
+      },
+      "291": {
+        "X": -0.733,
+        "Y": 0.421,
+        "Z": 0.0
+      },
+      "292": {
+        "X": -0.543,
+        "Y": 0.148,
+        "Z": 0.0
+      },
+      "293": {
+        "X": -0.675,
+        "Y": 0.178,
+        "Z": 0.0
+      },
+      "294": {
+        "X": -0.8130000000000001,
+        "Y": 0.215,
+        "Z": 0.0
+      },
+      "295": {
+        "X": -0.554,
+        "Y": -0.005,
+        "Z": 0.0
+      },
+      "296": {
+        "X": -0.6940000000000001,
+        "Y": -0.004,
+        "Z": 0.0
+      },
+      "297": {
+        "X": -0.84,
+        "Y": -0.001,
+        "Z": 0.0
+      },
+      "298": {
+        "X": -0.543,
+        "Y": -0.155,
+        "Z": 0.0
+      },
+      "299": {
+        "X": -0.676,
+        "Y": -0.184,
+        "Z": 0.0
+      },
+      "300": {
+        "X": -0.8140000000000001,
+        "Y": -0.218,
+        "Z": 0.0
+      },
+      "301": {
+        "X": -0.507,
+        "Y": -0.299,
+        "Z": 0.0
+      },
+      "302": {
+        "X": -0.615,
+        "Y": -0.357,
+        "Z": 0.0
+      },
+      "303": {
+        "X": -0.733,
+        "Y": -0.422,
+        "Z": 0.0
+      },
+      "304": {
+        "X": -0.5,
+        "Y": -0.866,
+        "Z": 0.0
+      },
+      "305": {
+        "X": -0.258,
+        "Y": -0.962,
+        "Z": 0.0
+      },
+      "306": {
+        "X": 0.0,
+        "Y": -1.0,
+        "Z": 0.0
+      },
+      "307": {
+        "X": 0.258,
+        "Y": -0.962,
+        "Z": 0.0
+      },
+      "308": {
+        "X": 0.5,
+        "Y": -0.866,
+        "Z": 0.0
+      },
+      "309": {
+        "X": -0.296,
+        "Y": -0.508,
+        "Z": 0.0
+      },
+      "310": {
+        "X": -0.355,
+        "Y": -0.616,
+        "Z": 0.0
+      },
+      "311": {
+        "X": -0.421,
+        "Y": -0.733,
+        "Z": 0.0
+      },
+      "312": {
+        "X": -0.148,
+        "Y": -0.542,
+        "Z": 0.0
+      },
+      "313": {
+        "X": -0.178,
+        "Y": -0.675,
+        "Z": 0.0
+      },
+      "314": {
+        "X": -0.215,
+        "Y": -0.8130000000000001,
+        "Z": 0.0
+      },
+      "315": {
+        "X": 0.005,
+        "Y": -0.553,
+        "Z": 0.0
+      },
+      "316": {
+        "X": 0.004,
+        "Y": -0.6940000000000001,
+        "Z": 0.0
+      },
+      "317": {
+        "X": 0.001,
+        "Y": -0.84,
+        "Z": 0.0
+      },
+      "318": {
+        "X": 0.156,
+        "Y": -0.542,
+        "Z": 0.0
+      },
+      "319": {
+        "X": 0.184,
+        "Y": -0.676,
+        "Z": 0.0
+      },
+      "320": {
+        "X": 0.218,
+        "Y": -0.8140000000000001,
+        "Z": 0.0
+      },
+      "321": {
+        "X": 0.299,
+        "Y": -0.507,
+        "Z": 0.0
+      },
+      "322": {
+        "X": 0.356,
+        "Y": -0.615,
+        "Z": 0.0
+      },
+      "323": {
+        "X": 0.422,
+        "Y": -0.733,
+        "Z": 0.0
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {
+      "131": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "132": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "133": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "134": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "135": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "136": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "137": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "138": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "139": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "140": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "141": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "142": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "143": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "144": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "145": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "146": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "147": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "148": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "149": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "150": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "151": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "152": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "153": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "154": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "155": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "156": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "157": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "158": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "159": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "160": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "161": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "162": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "163": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "164": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "165": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "166": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "179": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "180": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "181": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "182": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "183": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "184": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "185": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "186": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "187": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "188": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "189": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "190": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "191": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "192": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "193": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "194": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "195": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "196": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "197": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "198": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "199": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "200": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "201": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "202": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "203": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "204": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "205": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "206": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "207": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "208": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "209": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "210": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "211": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "212": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "213": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "214": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "215": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "216": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "217": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "218": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "219": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "220": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "221": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "222": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "223": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "224": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "225": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "226": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "227": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "228": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "229": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "230": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "231": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "232": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "233": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "234": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "235": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "236": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "237": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "238": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "239": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "240": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "241": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "242": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "243": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "244": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "245": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "246": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "247": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "248": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "249": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "250": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "251": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "252": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "253": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "254": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "255": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "256": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "257": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "258": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "259": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "260": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "261": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "262": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "263": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "264": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "265": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "266": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "267": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "268": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "269": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "270": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "271": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "272": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "273": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "274": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Load Case",
+            "GROUP_NAME": "",
+            "CMD": "PRES",
+            "ELEM_TYPE": "PLATE",
+            "FACE_EDGE_TYPE": "FACE",
+            "DIRECTION": "LZ",
+            "FORCES": [
+              -1000.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      }
+    },
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {
+      "1": {
+        "NAME": "1",
+        "TYPE": "VALUE",
+        "bINOUT": false,
+        "T_IN": 0.005,
+        "T_OUT": 0.0,
+        "O_VALUE": 0.0
+      }
+    },
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

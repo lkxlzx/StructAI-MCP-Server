@@ -1,0 +1,2114 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "MNL-04-2",
+    "family": "MNL",
+    "source": ".tmp_p180/exports/MNL-04-2.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 1,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 0,
+      "CONS": 8,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 1,
+      "ELNK": 0,
+      "EPMT": 1,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 0,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 1,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 1,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 8,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 7,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 6,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 0,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.gravity": {
+      "value": 9806.0,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "analysis.nonlinear.max_iterations": {
+      "value": 10,
+      "kind": "integer",
+      "description": "每步最大迭代次数",
+      "source": "NLCT/1/MAX_ITERATIONS"
+    },
+    "analysis.nonlinear.steps": {
+      "value": 1,
+      "kind": "integer",
+      "description": "非线性荷载步数",
+      "source": "NLCT/1/NUMBER_STEPS"
+    },
+    "load_case.1.name": {
+      "value": "DU1",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "load_case.2.name": {
+      "value": "DU2",
+      "kind": "string",
+      "description": "荷载工况 2 的名称",
+      "source": "STLD/2/NAME"
+    },
+    "load_case.3.name": {
+      "value": "DV1",
+      "kind": "string",
+      "description": "荷载工况 3 的名称",
+      "source": "STLD/3/NAME"
+    },
+    "load_case.4.name": {
+      "value": "DV2",
+      "kind": "string",
+      "description": "荷载工况 4 的名称",
+      "source": "STLD/4/NAME"
+    },
+    "load_case.5.name": {
+      "value": "DW1",
+      "kind": "string",
+      "description": "荷载工况 5 的名称",
+      "source": "STLD/5/NAME"
+    },
+    "load_case.6.name": {
+      "value": "DW2",
+      "kind": "string",
+      "description": "荷载工况 6 的名称",
+      "source": "STLD/6/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 250000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "MAT",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.25,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "node.1.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 X 坐标",
+      "source": "NODE/1/X",
+      "unit": "length"
+    },
+    "node.1.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 Y 坐标",
+      "source": "NODE/1/Y",
+      "unit": "length"
+    },
+    "node.1.z": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 1 的 Z 坐标",
+      "source": "NODE/1/Z",
+      "unit": "length"
+    },
+    "node.2.x": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 2 的 X 坐标",
+      "source": "NODE/2/X",
+      "unit": "length"
+    },
+    "node.2.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 2 的 Y 坐标",
+      "source": "NODE/2/Y",
+      "unit": "length"
+    },
+    "node.2.z": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 2 的 Z 坐标",
+      "source": "NODE/2/Z",
+      "unit": "length"
+    },
+    "node.3.x": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 3 的 X 坐标",
+      "source": "NODE/3/X",
+      "unit": "length"
+    },
+    "node.3.y": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 3 的 Y 坐标",
+      "source": "NODE/3/Y",
+      "unit": "length"
+    },
+    "node.3.z": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 3 的 Z 坐标",
+      "source": "NODE/3/Z",
+      "unit": "length"
+    },
+    "node.4.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 的 X 坐标",
+      "source": "NODE/4/X",
+      "unit": "length"
+    },
+    "node.4.y": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 4 的 Y 坐标",
+      "source": "NODE/4/Y",
+      "unit": "length"
+    },
+    "node.4.z": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 4 的 Z 坐标",
+      "source": "NODE/4/Z",
+      "unit": "length"
+    },
+    "node.5.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 5 的 X 坐标",
+      "source": "NODE/5/X",
+      "unit": "length"
+    },
+    "node.5.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 5 的 Y 坐标",
+      "source": "NODE/5/Y",
+      "unit": "length"
+    },
+    "node.5.z": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 5 的 Z 坐标",
+      "source": "NODE/5/Z",
+      "unit": "length"
+    },
+    "node.6.x": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 6 的 X 坐标",
+      "source": "NODE/6/X",
+      "unit": "length"
+    },
+    "node.6.y": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 6 的 Y 坐标",
+      "source": "NODE/6/Y",
+      "unit": "length"
+    },
+    "node.6.z": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 6 的 Z 坐标",
+      "source": "NODE/6/Z",
+      "unit": "length"
+    },
+    "node.7.x": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 7 的 X 坐标",
+      "source": "NODE/7/X",
+      "unit": "length"
+    },
+    "node.7.y": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 7 的 Y 坐标",
+      "source": "NODE/7/Y",
+      "unit": "length"
+    },
+    "node.7.z": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 7 的 Z 坐标",
+      "source": "NODE/7/Z",
+      "unit": "length"
+    },
+    "node.8.x": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 8 的 X 坐标",
+      "source": "NODE/8/X",
+      "unit": "length"
+    },
+    "node.8.y": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 8 的 Y 坐标",
+      "source": "NODE/8/Y",
+      "unit": "length"
+    },
+    "node.8.z": {
+      "value": 1000.0,
+      "kind": "number",
+      "description": "节点 8 的 Z 坐标",
+      "source": "NODE/8/Z",
+      "unit": "length"
+    },
+    "support.1.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 1 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/1/ITEMS[0].CONSTRAINT"
+    },
+    "support.2.constraint": {
+      "value": "0110000",
+      "kind": "string",
+      "description": "节点 2 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/2/ITEMS[0].CONSTRAINT"
+    },
+    "support.3.constraint": {
+      "value": "0110000",
+      "kind": "string",
+      "description": "节点 3 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/3/ITEMS[0].CONSTRAINT"
+    },
+    "support.4.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 4 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/4/ITEMS[0].CONSTRAINT"
+    },
+    "support.5.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 5 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/5/ITEMS[0].CONSTRAINT"
+    },
+    "support.6.constraint": {
+      "value": "0110000",
+      "kind": "string",
+      "description": "节点 6 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/6/ITEMS[0].CONSTRAINT"
+    },
+    "support.7.constraint": {
+      "value": "0110000",
+      "kind": "string",
+      "description": "节点 7 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/7/ITEMS[0].CONSTRAINT"
+    },
+    "support.8.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 8 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/8/ITEMS[0].CONSTRAINT"
+    },
+    "units.dist": {
+      "value": "MM",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "N",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "J",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 20,
+        "TOL": 0.001,
+        "ACWC": false
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {
+      "1": {
+        "bBASE_LEVEL": false,
+        "bSTORY_SHEAR_RATIO": false,
+        "bCONSIDER_WIND_SEIS_FOR_FLEX": true,
+        "bSTORY_CENTER": false,
+        "bSTORY_RESPONSE_THRS": false
+      }
+    },
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {},
+    "CONS": {
+      "1": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.1.constraint}"
+          }
+        ]
+      },
+      "2": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.2.constraint}"
+          }
+        ]
+      },
+      "3": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.3.constraint}"
+          }
+        ]
+      },
+      "4": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.4.constraint}"
+          }
+        ]
+      },
+      "5": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.5.constraint}"
+          }
+        ]
+      },
+      "6": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.6.constraint}"
+          }
+        ]
+      },
+      "7": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.7.constraint}"
+          }
+        ]
+      },
+      "8": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.8.constraint}"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "1": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "ELNK": {},
+    "EPMT": {
+      "1": {
+        "NAME": "vonMises",
+        "MODEL_TYPE": "VM",
+        "VMISES": {
+          "INIT_YIELD_STRESS": 5.0,
+          "OPT_HARDENING": 1.0,
+          "HARDENING_TYPE": "ISO",
+          "BACK_STRESS_COEF": 1.0,
+          "HARDENING_COEF": 50000.0
+        }
+      }
+    },
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {},
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {
+      "1": {
+        "LCNAME_ITEM": [
+          "DU1",
+          "DV1",
+          "DW1",
+          "DU2",
+          "DV2",
+          "DW2"
+        ]
+      }
+    },
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 1,
+        "P_NAME": "vonMises",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "IS(RC)",
+        "CONC_MDB": "Fe415",
+        "SRC_CODE": "IS(RC)",
+        "SRC_MDB": "Fe415"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {
+      "1": {
+        "NONLINEAR_TYPE": "MATL",
+        "ITERATION_METHOD": "NEWTON",
+        "OPT_ENERGY_NORM": true,
+        "ENERGY_NORM": 1e-06,
+        "OPT_DISPLACEMENT_NORM": true,
+        "DISPLACEMENT_NORM": 1e-06,
+        "OPT_FORCE_NORM": true,
+        "FORCE_NORM": 1e-06,
+        "NUMBER_STEPS": "${analysis.nonlinear.steps}",
+        "MAX_ITERATIONS": "${analysis.nonlinear.max_iterations}",
+        "NEWTON_ITEMS": [
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DU1",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 39,
+            "LOAD_FACTORS": [
+              1.0,
+              2.0
+            ]
+          },
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DU2",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 30,
+            "LOAD_FACTORS": [
+              -1.0,
+              -2.0
+            ]
+          },
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DV1",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 30,
+            "LOAD_FACTORS": [
+              1.0,
+              2.0
+            ]
+          },
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DV2",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 30,
+            "LOAD_FACTORS": [
+              -1.0,
+              -2.0
+            ]
+          },
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DW1",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 30,
+            "LOAD_FACTORS": [
+              1.0,
+              2.0
+            ]
+          },
+          {
+            "ITERATION_METHOD": "NEWTON",
+            "LCNAME": "DW2",
+            "NUMBER_STEPS": 2.0,
+            "MAX_ITERATIONS": 30,
+            "LOAD_FACTORS": [
+              -1.0,
+              -2.0
+            ]
+          }
+        ]
+      }
+    },
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": "${node.1.x}",
+        "Y": "${node.1.y}",
+        "Z": "${node.1.z}"
+      },
+      "2": {
+        "X": "${node.2.x}",
+        "Y": "${node.2.y}",
+        "Z": "${node.2.z}"
+      },
+      "3": {
+        "X": "${node.3.x}",
+        "Y": "${node.3.y}",
+        "Z": "${node.3.z}"
+      },
+      "4": {
+        "X": "${node.4.x}",
+        "Y": "${node.4.y}",
+        "Z": "${node.4.z}"
+      },
+      "5": {
+        "X": "${node.5.x}",
+        "Y": "${node.5.y}",
+        "Z": "${node.5.z}"
+      },
+      "6": {
+        "X": "${node.6.x}",
+        "Y": "${node.6.y}",
+        "Z": "${node.6.z}"
+      },
+      "7": {
+        "X": "${node.7.x}",
+        "Y": "${node.7.y}",
+        "Z": "${node.7.z}"
+      },
+      "8": {
+        "X": "${node.8.x}",
+        "Y": "${node.8.y}",
+        "Z": "${node.8.z}"
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {
+      "2": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DU1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DU2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "3": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DU1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DU2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 3,
+            "LCNAME": "DV1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 4,
+            "LCNAME": "DV2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "4": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DV1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DV2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "5": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DW1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DW2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "6": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DU1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DU2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 3,
+            "LCNAME": "DW1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 4,
+            "LCNAME": "DW2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "7": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DU1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DU2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 3,
+            "LCNAME": "DV1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 4,
+            "LCNAME": "DV2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 5,
+            "LCNAME": "DW1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 6,
+            "LCNAME": "DW2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      "8": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "DV1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 2,
+            "LCNAME": "DV2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 3,
+            "LCNAME": "DW1",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          },
+          {
+            "ID": 4,
+            "LCNAME": "DW2",
+            "GROUP_NAME": "",
+            "VALUES": [
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": true,
+                "DISPLACEMENT": 0.025
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              },
+              {
+                "OPT_FLAG": false,
+                "DISPLACEMENT": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "2": {
+        "NO": 2,
+        "NAME": "${load_case.2.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "3": {
+        "NO": 3,
+        "NAME": "${load_case.3.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "4": {
+        "NO": 4,
+        "NAME": "${load_case.4.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "5": {
+        "NO": 5,
+        "NAME": "${load_case.5.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "6": {
+        "NO": 6,
+        "NAME": "${load_case.6.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {},
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}

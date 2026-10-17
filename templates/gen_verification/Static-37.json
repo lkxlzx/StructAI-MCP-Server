@@ -1,0 +1,2113 @@
+{
+  "format": "structai.model_template",
+  "version": 1,
+  "meta": {
+    "name": "Static-37",
+    "family": "Static",
+    "source": ".tmp_p180/exports/Static-37.json",
+    "tables": [
+      "ACTL",
+      "ARPR",
+      "BCCT",
+      "BLDC",
+      "BMLD",
+      "BNGR",
+      "BODF",
+      "BTMP",
+      "BUCK",
+      "CCFC",
+      "CGLP",
+      "CLDR",
+      "CLWP",
+      "CMFT",
+      "CNLD",
+      "CONS",
+      "CO_F",
+      "CRPC",
+      "CSCS",
+      "CUTL",
+      "DCON",
+      "DMAS",
+      "DOEL",
+      "DRLS",
+      "DSTL",
+      "EARE",
+      "EDMP",
+      "EFCT",
+      "EIGV",
+      "ELEM",
+      "ELNK",
+      "EPMT",
+      "EPSE",
+      "EPST",
+      "ESQW",
+      "ETFC",
+      "ETMP",
+      "EXLD",
+      "FBLA",
+      "FBLD",
+      "FIBR",
+      "FIBW",
+      "FIMP",
+      "FMLD",
+      "FRLS",
+      "GALD",
+      "GRDP",
+      "GRUP",
+      "GSPR",
+      "GSTP",
+      "GTMP",
+      "HAHS",
+      "HECB",
+      "HHCT",
+      "HHND",
+      "HPCE",
+      "HSFC",
+      "HSPT",
+      "HSTG",
+      "IEHC",
+      "IEHG",
+      "IEHP",
+      "IELC",
+      "IEPI",
+      "IFGS",
+      "IMFM",
+      "IMPF",
+      "INMF",
+      "IPCR",
+      "IPDT",
+      "KFAC",
+      "LCOM-CFSTEEL",
+      "LCOM-CONC",
+      "LCOM-FDN",
+      "LCOM-GEN",
+      "LCOM-LINEAR",
+      "LCOM-SEISMIC",
+      "LCOM-SRC",
+      "LCOM-STEEL",
+      "LCOM-STLCOMP",
+      "LDGR",
+      "LDSQ",
+      "LLAN",
+      "LLANCH",
+      "LLANID",
+      "LLANOP",
+      "LLANTR",
+      "LTOM",
+      "MADO",
+      "MATD",
+      "MATL",
+      "MCON",
+      "MDGN",
+      "MEMB",
+      "MLFC",
+      "MLSP",
+      "MLSR",
+      "MRFT",
+      "MTCS",
+      "MVCD",
+      "MVCT",
+      "MVCTBS",
+      "MVCTCH",
+      "MVCTID",
+      "MVCTTR",
+      "MVHC",
+      "MVHL",
+      "MVHLTR",
+      "MVLD",
+      "MVLDBS",
+      "MVLDCH",
+      "MVLDEU",
+      "MVLDID",
+      "MVLDJP",
+      "MVLDPL",
+      "MVLDTR",
+      "NBOF",
+      "NLCT",
+      "NLLP",
+      "NLNK",
+      "NMAS",
+      "NODE",
+      "NPLN",
+      "NSPR",
+      "NTMP",
+      "NUCS",
+      "OFFS",
+      "PDEL",
+      "PHGE",
+      "PHGT",
+      "PNLA",
+      "PNLD",
+      "POGD",
+      "POLC",
+      "POSL",
+      "POSP",
+      "PRES",
+      "PRLS",
+      "PRST",
+      "PSLT",
+      "PSSF",
+      "PTNS",
+      "PZEF",
+      "REBB",
+      "REBC",
+      "REBR",
+      "REBW",
+      "RIGD",
+      "RISS",
+      "RPSC",
+      "SBCT",
+      "SBDO",
+      "SDHY",
+      "SDIS",
+      "SDSP",
+      "SDST",
+      "SDVE",
+      "SDVI",
+      "SECF",
+      "SECT",
+      "SEIS",
+      "SINF",
+      "SKEW",
+      "SLAN",
+      "SLANCH",
+      "SLANOP",
+      "SMCT",
+      "SMLC",
+      "SMPT",
+      "SPFC",
+      "SPLC",
+      "SSPS",
+      "STAG",
+      "STBK",
+      "STCT",
+      "STDG",
+      "STLD",
+      "STMP",
+      "STOR",
+      "STYP",
+      "TDCS",
+      "TDGR",
+      "TDME",
+      "TDMF",
+      "TDMT",
+      "TDNA",
+      "TDNT",
+      "TDPL",
+      "THFC",
+      "THGA",
+      "THGC",
+      "THIK",
+      "THIS",
+      "THMS",
+      "THNL",
+      "THRE",
+      "THRG",
+      "THRI",
+      "THRS",
+      "THSL",
+      "TMAT",
+      "TMLD",
+      "TRFT",
+      "TSGR",
+      "UFIG",
+      "ULCT",
+      "ULFC",
+      "UNIT",
+      "VBEM",
+      "VSEC",
+      "WIND",
+      "WMAK",
+      "WNAT",
+      "WSSF"
+    ],
+    "row_counts": {
+      "ACTL": 1,
+      "ARPR": 0,
+      "BCCT": 0,
+      "BLDC": 0,
+      "BMLD": 0,
+      "BNGR": 0,
+      "BODF": 0,
+      "BTMP": 0,
+      "BUCK": 0,
+      "CCFC": 0,
+      "CGLP": 0,
+      "CLDR": 0,
+      "CLWP": 0,
+      "CMFT": 0,
+      "CNLD": 4,
+      "CONS": 6,
+      "CO_F": 0,
+      "CRPC": 0,
+      "CSCS": 0,
+      "CUTL": 0,
+      "DCON": 0,
+      "DMAS": 0,
+      "DOEL": 0,
+      "DRLS": 0,
+      "DSTL": 0,
+      "EARE": 0,
+      "EDMP": 0,
+      "EFCT": 0,
+      "EIGV": 0,
+      "ELEM": 24,
+      "ELNK": 0,
+      "EPMT": 0,
+      "EPSE": 0,
+      "EPST": 0,
+      "ESQW": 0,
+      "ETFC": 0,
+      "ETMP": 0,
+      "EXLD": 0,
+      "FBLA": 0,
+      "FBLD": 0,
+      "FIBR": 0,
+      "FIBW": 0,
+      "FIMP": 0,
+      "FMLD": 0,
+      "FRLS": 0,
+      "GALD": 0,
+      "GRDP": 0,
+      "GRUP": 0,
+      "GSPR": 0,
+      "GSTP": 0,
+      "GTMP": 0,
+      "HAHS": 0,
+      "HECB": 0,
+      "HHCT": 0,
+      "HHND": 0,
+      "HPCE": 0,
+      "HSFC": 0,
+      "HSPT": 0,
+      "HSTG": 0,
+      "IEHC": 0,
+      "IEHG": 0,
+      "IEHP": 0,
+      "IELC": 0,
+      "IEPI": 0,
+      "IFGS": 0,
+      "IMFM": 0,
+      "IMPF": 0,
+      "INMF": 0,
+      "IPCR": 0,
+      "IPDT": 0,
+      "KFAC": 0,
+      "LCOM-CFSTEEL": 0,
+      "LCOM-CONC": 0,
+      "LCOM-FDN": 0,
+      "LCOM-GEN": 0,
+      "LCOM-LINEAR": 0,
+      "LCOM-SEISMIC": 0,
+      "LCOM-SRC": 0,
+      "LCOM-STEEL": 0,
+      "LCOM-STLCOMP": 0,
+      "LDGR": 0,
+      "LDSQ": 0,
+      "LLAN": 0,
+      "LLANCH": 0,
+      "LLANID": 0,
+      "LLANOP": 0,
+      "LLANTR": 0,
+      "LTOM": 0,
+      "MADO": 0,
+      "MATD": 0,
+      "MATL": 1,
+      "MCON": 0,
+      "MDGN": 1,
+      "MEMB": 0,
+      "MLFC": 0,
+      "MLSP": 0,
+      "MLSR": 0,
+      "MRFT": 0,
+      "MTCS": 0,
+      "MVCD": 0,
+      "MVCT": 0,
+      "MVCTBS": 0,
+      "MVCTCH": 0,
+      "MVCTID": 0,
+      "MVCTTR": 0,
+      "MVHC": 0,
+      "MVHL": 0,
+      "MVHLTR": 0,
+      "MVLD": 0,
+      "MVLDBS": 0,
+      "MVLDCH": 0,
+      "MVLDEU": 0,
+      "MVLDID": 0,
+      "MVLDJP": 0,
+      "MVLDPL": 0,
+      "MVLDTR": 0,
+      "NBOF": 0,
+      "NLCT": 0,
+      "NLLP": 0,
+      "NLNK": 0,
+      "NMAS": 0,
+      "NODE": 78,
+      "NPLN": 0,
+      "NSPR": 0,
+      "NTMP": 0,
+      "NUCS": 0,
+      "OFFS": 0,
+      "PDEL": 0,
+      "PHGE": 0,
+      "PHGT": 0,
+      "PNLA": 0,
+      "PNLD": 0,
+      "POGD": 0,
+      "POLC": 0,
+      "POSL": 0,
+      "POSP": 0,
+      "PRES": 0,
+      "PRLS": 0,
+      "PRST": 0,
+      "PSLT": 0,
+      "PSSF": 0,
+      "PTNS": 0,
+      "PZEF": 0,
+      "REBB": 0,
+      "REBC": 0,
+      "REBR": 0,
+      "REBW": 0,
+      "RIGD": 0,
+      "RISS": 0,
+      "RPSC": 0,
+      "SBCT": 0,
+      "SBDO": 0,
+      "SDHY": 0,
+      "SDIS": 0,
+      "SDSP": 0,
+      "SDST": 0,
+      "SDVE": 0,
+      "SDVI": 0,
+      "SECF": 0,
+      "SECT": 0,
+      "SEIS": 0,
+      "SINF": 0,
+      "SKEW": 0,
+      "SLAN": 0,
+      "SLANCH": 0,
+      "SLANOP": 0,
+      "SMCT": 0,
+      "SMLC": 0,
+      "SMPT": 0,
+      "SPFC": 0,
+      "SPLC": 0,
+      "SSPS": 0,
+      "STAG": 0,
+      "STBK": 0,
+      "STCT": 0,
+      "STDG": 0,
+      "STLD": 2,
+      "STMP": 0,
+      "STOR": 0,
+      "STYP": 1,
+      "TDCS": 0,
+      "TDGR": 0,
+      "TDME": 0,
+      "TDMF": 0,
+      "TDMT": 0,
+      "TDNA": 0,
+      "TDNT": 0,
+      "TDPL": 0,
+      "THFC": 0,
+      "THGA": 0,
+      "THGC": 0,
+      "THIK": 0,
+      "THIS": 0,
+      "THMS": 0,
+      "THNL": 0,
+      "THRE": 0,
+      "THRG": 0,
+      "THRI": 0,
+      "THRS": 0,
+      "THSL": 0,
+      "TMAT": 0,
+      "TMLD": 0,
+      "TRFT": 0,
+      "TSGR": 0,
+      "UFIG": 0,
+      "ULCT": 0,
+      "ULFC": 0,
+      "UNIT": 1,
+      "VBEM": 0,
+      "VSEC": 0,
+      "WIND": 0,
+      "WMAK": 0,
+      "WNAT": 0,
+      "WSSF": 0
+    },
+    "notes": [
+      "`parameters` 的 value 是**默认值**（= 样本原值），改它即可改模型。",
+      "`model` 里的 `${参数名}` 由 materialize 填回；未知占位符会**报错**。",
+      "`PJCF` / `CO_*` 不在模板内（会话元数据 / 颜色表，不是工程数据）。"
+    ]
+  },
+  "parameters": {
+    "analysis.gravity": {
+      "value": 9.806,
+      "kind": "number",
+      "description": "重力加速度（按当前单位系统）",
+      "source": "STYP/1/GRAV",
+      "unit": "length/time^2"
+    },
+    "load_case.1.name": {
+      "value": "In-plane shear",
+      "kind": "string",
+      "description": "荷载工况 1 的名称",
+      "source": "STLD/1/NAME"
+    },
+    "load_case.2.name": {
+      "value": "Out-of-plane shear",
+      "kind": "string",
+      "description": "荷载工况 2 的名称",
+      "source": "STLD/2/NAME"
+    },
+    "material.1.density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "重度 / 密度",
+      "source": "MATL/1/PARAM[0].DEN",
+      "unit": "force/length^3"
+    },
+    "material.1.elastic_modulus": {
+      "value": 29000000.0,
+      "kind": "number",
+      "description": "弹性模量 E",
+      "source": "MATL/1/PARAM[0].ELAST",
+      "unit": "force/length^2"
+    },
+    "material.1.mass_density": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "质量密度",
+      "source": "MATL/1/PARAM[0].MASS",
+      "unit": "mass/length^3"
+    },
+    "material.1.name": {
+      "value": "user",
+      "kind": "string",
+      "description": "材料名称",
+      "source": "MATL/1/NAME"
+    },
+    "material.1.poisson_ratio": {
+      "value": 0.22,
+      "kind": "number",
+      "description": "泊松比 ν",
+      "source": "MATL/1/PARAM[0].POISN"
+    },
+    "material.1.thermal_coefficient": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "线膨胀系数 α",
+      "source": "MATL/1/PARAM[0].THERMAL",
+      "unit": "1/temperature"
+    },
+    "material.1.type": {
+      "value": "USER",
+      "kind": "string",
+      "description": "材料类型（USER / 规范库类型）",
+      "source": "MATL/1/TYPE"
+    },
+    "nodal_load.73.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FX",
+      "source": "CNLD/73/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.73.0.fy": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FY",
+      "source": "CNLD/73/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.73.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FZ",
+      "source": "CNLD/73/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.73.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MX",
+      "source": "CNLD/73/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.73.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MY",
+      "source": "CNLD/73/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.73.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MZ",
+      "source": "CNLD/73/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.73.1.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FX",
+      "source": "CNLD/73/ITEMS[1].FX",
+      "unit": "force"
+    },
+    "nodal_load.73.1.fy": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FY",
+      "source": "CNLD/73/ITEMS[1].FY",
+      "unit": "force"
+    },
+    "nodal_load.73.1.fz": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 73 荷载分量 FZ",
+      "source": "CNLD/73/ITEMS[1].FZ",
+      "unit": "force"
+    },
+    "nodal_load.73.1.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MX",
+      "source": "CNLD/73/ITEMS[1].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.73.1.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MY",
+      "source": "CNLD/73/ITEMS[1].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.73.1.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 73 荷载分量 MZ",
+      "source": "CNLD/73/ITEMS[1].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.74.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FX",
+      "source": "CNLD/74/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.74.0.fy": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FY",
+      "source": "CNLD/74/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.74.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FZ",
+      "source": "CNLD/74/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.74.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MX",
+      "source": "CNLD/74/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.74.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MY",
+      "source": "CNLD/74/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.74.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MZ",
+      "source": "CNLD/74/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.74.1.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FX",
+      "source": "CNLD/74/ITEMS[1].FX",
+      "unit": "force"
+    },
+    "nodal_load.74.1.fy": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FY",
+      "source": "CNLD/74/ITEMS[1].FY",
+      "unit": "force"
+    },
+    "nodal_load.74.1.fz": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 74 荷载分量 FZ",
+      "source": "CNLD/74/ITEMS[1].FZ",
+      "unit": "force"
+    },
+    "nodal_load.74.1.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MX",
+      "source": "CNLD/74/ITEMS[1].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.74.1.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MY",
+      "source": "CNLD/74/ITEMS[1].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.74.1.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 74 荷载分量 MZ",
+      "source": "CNLD/74/ITEMS[1].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.77.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FX",
+      "source": "CNLD/77/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.77.0.fy": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FY",
+      "source": "CNLD/77/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.77.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FZ",
+      "source": "CNLD/77/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.77.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MX",
+      "source": "CNLD/77/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.77.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MY",
+      "source": "CNLD/77/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.77.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MZ",
+      "source": "CNLD/77/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.77.1.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FX",
+      "source": "CNLD/77/ITEMS[1].FX",
+      "unit": "force"
+    },
+    "nodal_load.77.1.fy": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FY",
+      "source": "CNLD/77/ITEMS[1].FY",
+      "unit": "force"
+    },
+    "nodal_load.77.1.fz": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 77 荷载分量 FZ",
+      "source": "CNLD/77/ITEMS[1].FZ",
+      "unit": "force"
+    },
+    "nodal_load.77.1.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MX",
+      "source": "CNLD/77/ITEMS[1].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.77.1.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MY",
+      "source": "CNLD/77/ITEMS[1].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.77.1.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 77 荷载分量 MZ",
+      "source": "CNLD/77/ITEMS[1].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.78.0.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FX",
+      "source": "CNLD/78/ITEMS[0].FX",
+      "unit": "force"
+    },
+    "nodal_load.78.0.fy": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FY",
+      "source": "CNLD/78/ITEMS[0].FY",
+      "unit": "force"
+    },
+    "nodal_load.78.0.fz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FZ",
+      "source": "CNLD/78/ITEMS[0].FZ",
+      "unit": "force"
+    },
+    "nodal_load.78.0.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MX",
+      "source": "CNLD/78/ITEMS[0].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.78.0.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MY",
+      "source": "CNLD/78/ITEMS[0].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.78.0.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MZ",
+      "source": "CNLD/78/ITEMS[0].MZ",
+      "unit": "force*length"
+    },
+    "nodal_load.78.1.fx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FX",
+      "source": "CNLD/78/ITEMS[1].FX",
+      "unit": "force"
+    },
+    "nodal_load.78.1.fy": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FY",
+      "source": "CNLD/78/ITEMS[1].FY",
+      "unit": "force"
+    },
+    "nodal_load.78.1.fz": {
+      "value": -0.25,
+      "kind": "number",
+      "description": "节点 78 荷载分量 FZ",
+      "source": "CNLD/78/ITEMS[1].FZ",
+      "unit": "force"
+    },
+    "nodal_load.78.1.mx": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MX",
+      "source": "CNLD/78/ITEMS[1].MX",
+      "unit": "force*length"
+    },
+    "nodal_load.78.1.my": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MY",
+      "source": "CNLD/78/ITEMS[1].MY",
+      "unit": "force*length"
+    },
+    "nodal_load.78.1.mz": {
+      "value": 0.0,
+      "kind": "number",
+      "description": "节点 78 荷载分量 MZ",
+      "source": "CNLD/78/ITEMS[1].MZ",
+      "unit": "force*length"
+    },
+    "support.1.constraint": {
+      "value": "1010000",
+      "kind": "string",
+      "description": "节点 1 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/1/ITEMS[0].CONSTRAINT"
+    },
+    "support.2.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 2 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/2/ITEMS[0].CONSTRAINT"
+    },
+    "support.3.constraint": {
+      "value": "1010000",
+      "kind": "string",
+      "description": "节点 3 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/3/ITEMS[0].CONSTRAINT"
+    },
+    "support.4.constraint": {
+      "value": "1010000",
+      "kind": "string",
+      "description": "节点 4 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/4/ITEMS[0].CONSTRAINT"
+    },
+    "support.5.constraint": {
+      "value": "1110000",
+      "kind": "string",
+      "description": "节点 5 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/5/ITEMS[0].CONSTRAINT"
+    },
+    "support.6.constraint": {
+      "value": "1010000",
+      "kind": "string",
+      "description": "节点 6 的约束串（7 位：DX DY DZ RX RY RZ RW，1=约束）",
+      "source": "CONS/6/ITEMS[0].CONSTRAINT"
+    },
+    "units.dist": {
+      "value": "M",
+      "kind": "string",
+      "description": "长度单位（如 FT / M / IN）",
+      "source": "UNIT/1/DIST",
+      "unit": "length"
+    },
+    "units.force": {
+      "value": "KGF",
+      "kind": "string",
+      "description": "力单位（如 KIPS / TONF / KN）",
+      "source": "UNIT/1/FORCE",
+      "unit": "force"
+    },
+    "units.heat": {
+      "value": "KCAL",
+      "kind": "string",
+      "description": "热量单位（如 BTU / KCAL）",
+      "source": "UNIT/1/HEAT",
+      "unit": "heat"
+    },
+    "units.temper": {
+      "value": "C",
+      "kind": "string",
+      "description": "温度单位（如 C / F）",
+      "source": "UNIT/1/TEMPER",
+      "unit": "temperature"
+    }
+  },
+  "model": {
+    "ACTL": {
+      "1": {
+        "ARDC": true,
+        "ANRC": true,
+        "CSECF": true,
+        "TRS": true,
+        "BMSTRESS": false,
+        "CRBAR": true,
+        "ITER": 20,
+        "TOL": 0.001,
+        "ACWC": true
+      }
+    },
+    "ARPR": {},
+    "BCCT": {},
+    "BLDC": {},
+    "BMLD": {},
+    "BNGR": {},
+    "BODF": {},
+    "BTMP": {},
+    "BUCK": {},
+    "CCFC": {},
+    "CGLP": {},
+    "CLDR": {},
+    "CLWP": {},
+    "CMFT": {},
+    "CNLD": {
+      "73": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Out-of-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.73.0.fx}",
+            "FY": "${nodal_load.73.0.fy}",
+            "FZ": "${nodal_load.73.0.fz}",
+            "MX": "${nodal_load.73.0.mx}",
+            "MY": "${nodal_load.73.0.my}",
+            "MZ": "${nodal_load.73.0.mz}"
+          },
+          {
+            "ID": 2,
+            "LCNAME": "In-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.73.1.fx}",
+            "FY": "${nodal_load.73.1.fy}",
+            "FZ": "${nodal_load.73.1.fz}",
+            "MX": "${nodal_load.73.1.mx}",
+            "MY": "${nodal_load.73.1.my}",
+            "MZ": "${nodal_load.73.1.mz}"
+          }
+        ]
+      },
+      "74": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Out-of-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.74.0.fx}",
+            "FY": "${nodal_load.74.0.fy}",
+            "FZ": "${nodal_load.74.0.fz}",
+            "MX": "${nodal_load.74.0.mx}",
+            "MY": "${nodal_load.74.0.my}",
+            "MZ": "${nodal_load.74.0.mz}"
+          },
+          {
+            "ID": 2,
+            "LCNAME": "In-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.74.1.fx}",
+            "FY": "${nodal_load.74.1.fy}",
+            "FZ": "${nodal_load.74.1.fz}",
+            "MX": "${nodal_load.74.1.mx}",
+            "MY": "${nodal_load.74.1.my}",
+            "MZ": "${nodal_load.74.1.mz}"
+          }
+        ]
+      },
+      "77": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Out-of-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.77.0.fx}",
+            "FY": "${nodal_load.77.0.fy}",
+            "FZ": "${nodal_load.77.0.fz}",
+            "MX": "${nodal_load.77.0.mx}",
+            "MY": "${nodal_load.77.0.my}",
+            "MZ": "${nodal_load.77.0.mz}"
+          },
+          {
+            "ID": 2,
+            "LCNAME": "In-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.77.1.fx}",
+            "FY": "${nodal_load.77.1.fy}",
+            "FZ": "${nodal_load.77.1.fz}",
+            "MX": "${nodal_load.77.1.mx}",
+            "MY": "${nodal_load.77.1.my}",
+            "MZ": "${nodal_load.77.1.mz}"
+          }
+        ]
+      },
+      "78": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "LCNAME": "Out-of-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.78.0.fx}",
+            "FY": "${nodal_load.78.0.fy}",
+            "FZ": "${nodal_load.78.0.fz}",
+            "MX": "${nodal_load.78.0.mx}",
+            "MY": "${nodal_load.78.0.my}",
+            "MZ": "${nodal_load.78.0.mz}"
+          },
+          {
+            "ID": 2,
+            "LCNAME": "In-plane shear",
+            "GROUP_NAME": "",
+            "FX": "${nodal_load.78.1.fx}",
+            "FY": "${nodal_load.78.1.fy}",
+            "FZ": "${nodal_load.78.1.fz}",
+            "MX": "${nodal_load.78.1.mx}",
+            "MY": "${nodal_load.78.1.my}",
+            "MZ": "${nodal_load.78.1.mz}"
+          }
+        ]
+      }
+    },
+    "CONS": {
+      "1": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.1.constraint}"
+          }
+        ]
+      },
+      "2": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.2.constraint}"
+          }
+        ]
+      },
+      "3": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.3.constraint}"
+          }
+        ]
+      },
+      "4": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.4.constraint}"
+          }
+        ]
+      },
+      "5": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.5.constraint}"
+          }
+        ]
+      },
+      "6": {
+        "ITEMS": [
+          {
+            "ID": 1,
+            "GROUP_NAME": "",
+            "CONSTRAINT": "${support.6.constraint}"
+          }
+        ]
+      }
+    },
+    "CO_F": {},
+    "CRPC": {},
+    "CSCS": {},
+    "CUTL": {},
+    "DCON": {},
+    "DMAS": {},
+    "DOEL": {},
+    "DRLS": {},
+    "DSTL": {},
+    "EARE": {},
+    "EDMP": {},
+    "EFCT": {},
+    "EIGV": {},
+    "ELEM": {
+      "1": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          1,
+          2,
+          5,
+          4,
+          7,
+          8,
+          11,
+          10
+        ]
+      },
+      "2": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          2,
+          3,
+          6,
+          5,
+          8,
+          9,
+          12,
+          11
+        ]
+      },
+      "3": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          7,
+          8,
+          11,
+          10,
+          13,
+          14,
+          17,
+          16
+        ]
+      },
+      "4": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          8,
+          9,
+          12,
+          11,
+          14,
+          15,
+          18,
+          17
+        ]
+      },
+      "5": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          13,
+          14,
+          17,
+          16,
+          19,
+          20,
+          23,
+          21
+        ]
+      },
+      "6": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          14,
+          15,
+          18,
+          17,
+          20,
+          22,
+          24,
+          23
+        ]
+      },
+      "7": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          19,
+          20,
+          23,
+          21,
+          25,
+          26,
+          29,
+          27
+        ]
+      },
+      "8": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          20,
+          22,
+          24,
+          23,
+          26,
+          28,
+          30,
+          29
+        ]
+      },
+      "9": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          25,
+          26,
+          29,
+          27,
+          31,
+          33,
+          34,
+          32
+        ]
+      },
+      "10": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          26,
+          28,
+          30,
+          29,
+          33,
+          35,
+          36,
+          34
+        ]
+      },
+      "11": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          31,
+          33,
+          34,
+          32,
+          37,
+          39,
+          40,
+          38
+        ]
+      },
+      "12": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          33,
+          35,
+          36,
+          34,
+          39,
+          41,
+          42,
+          40
+        ]
+      },
+      "13": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          37,
+          39,
+          40,
+          38,
+          43,
+          45,
+          46,
+          44
+        ]
+      },
+      "14": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          39,
+          41,
+          42,
+          40,
+          45,
+          47,
+          48,
+          46
+        ]
+      },
+      "15": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          43,
+          45,
+          46,
+          44,
+          49,
+          51,
+          52,
+          50
+        ]
+      },
+      "16": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          45,
+          47,
+          48,
+          46,
+          51,
+          53,
+          54,
+          52
+        ]
+      },
+      "17": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          49,
+          51,
+          52,
+          50,
+          55,
+          57,
+          58,
+          56
+        ]
+      },
+      "18": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          51,
+          53,
+          54,
+          52,
+          57,
+          59,
+          60,
+          58
+        ]
+      },
+      "19": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          55,
+          57,
+          58,
+          56,
+          61,
+          63,
+          64,
+          62
+        ]
+      },
+      "20": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          57,
+          59,
+          60,
+          58,
+          63,
+          65,
+          66,
+          64
+        ]
+      },
+      "21": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          61,
+          63,
+          64,
+          62,
+          67,
+          69,
+          70,
+          68
+        ]
+      },
+      "22": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          63,
+          65,
+          66,
+          64,
+          69,
+          71,
+          72,
+          70
+        ]
+      },
+      "23": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          67,
+          69,
+          70,
+          68,
+          74,
+          76,
+          75,
+          73
+        ]
+      },
+      "24": {
+        "TYPE": "SOLID",
+        "MATL": 1,
+        "SECT": 0,
+        "NODE": [
+          69,
+          71,
+          72,
+          70,
+          76,
+          78,
+          77,
+          75
+        ]
+      }
+    },
+    "ELNK": {},
+    "EPMT": {},
+    "EPSE": {},
+    "EPST": {},
+    "ESQW": {},
+    "ETFC": {},
+    "ETMP": {},
+    "EXLD": {},
+    "FBLA": {},
+    "FBLD": {},
+    "FIBR": {},
+    "FIBW": {},
+    "FIMP": {},
+    "FMLD": {},
+    "FRLS": {},
+    "GALD": {},
+    "GRDP": {},
+    "GRUP": {},
+    "GSPR": {},
+    "GSTP": {},
+    "GTMP": {},
+    "HAHS": {},
+    "HECB": {},
+    "HHCT": {},
+    "HHND": {},
+    "HPCE": {},
+    "HSFC": {},
+    "HSPT": {},
+    "HSTG": {},
+    "IEHC": {},
+    "IEHG": {},
+    "IEHP": {},
+    "IELC": {},
+    "IEPI": {},
+    "IFGS": {},
+    "IMFM": {},
+    "IMPF": {},
+    "INMF": {},
+    "IPCR": {},
+    "IPDT": {},
+    "KFAC": {},
+    "LCOM-CFSTEEL": {},
+    "LCOM-CONC": {},
+    "LCOM-FDN": {},
+    "LCOM-GEN": {},
+    "LCOM-LINEAR": {},
+    "LCOM-SEISMIC": {},
+    "LCOM-SRC": {},
+    "LCOM-STEEL": {},
+    "LCOM-STLCOMP": {},
+    "LDGR": {},
+    "LDSQ": {},
+    "LLAN": {},
+    "LLANCH": {},
+    "LLANID": {},
+    "LLANOP": {},
+    "LLANTR": {},
+    "LTOM": {},
+    "MADO": {},
+    "MATD": {},
+    "MATL": {
+      "1": {
+        "TYPE": "${material.1.type}",
+        "NAME": "${material.1.name}",
+        "HE_SPEC": 0.0,
+        "HE_COND": 0.0,
+        "PLMT": 0,
+        "P_NAME": "",
+        "bMASS_DENS": false,
+        "DAMP_RAT": 0.0,
+        "PARAM": [
+          {
+            "P_TYPE": 2,
+            "ELAST": "${material.1.elastic_modulus}",
+            "POISN": "${material.1.poisson_ratio}",
+            "THERMAL": "${material.1.thermal_coefficient}",
+            "DEN": "${material.1.density}",
+            "MASS": "${material.1.mass_density}"
+          }
+        ]
+      }
+    },
+    "MCON": {},
+    "MDGN": {
+      "1": {
+        "CONC_CODE": "BS(RC)",
+        "CONC_MDB": "S460",
+        "SRC_CODE": "ASTM19(RC)",
+        "SRC_MDB": "Grade 60"
+      }
+    },
+    "MEMB": {},
+    "MLFC": {},
+    "MLSP": {},
+    "MLSR": {},
+    "MRFT": {},
+    "MTCS": {},
+    "MVCD": {},
+    "MVCT": {},
+    "MVCTBS": {},
+    "MVCTCH": {},
+    "MVCTID": {},
+    "MVCTTR": {},
+    "MVHC": {},
+    "MVHL": {},
+    "MVHLTR": {},
+    "MVLD": {},
+    "MVLDBS": {},
+    "MVLDCH": {},
+    "MVLDEU": {},
+    "MVLDID": {},
+    "MVLDJP": {},
+    "MVLDPL": {},
+    "MVLDTR": {},
+    "NBOF": {},
+    "NLCT": {},
+    "NLLP": {},
+    "NLNK": {},
+    "NMAS": {},
+    "NODE": {
+      "1": {
+        "X": 0.0,
+        "Y": -0.55,
+        "Z": -0.16
+      },
+      "2": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": -0.16
+      },
+      "3": {
+        "X": 0.0,
+        "Y": 0.55,
+        "Z": -0.16
+      },
+      "4": {
+        "X": 0.0,
+        "Y": -0.55,
+        "Z": 0.16
+      },
+      "5": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.16
+      },
+      "6": {
+        "X": 0.0,
+        "Y": 0.55,
+        "Z": 0.16
+      },
+      "7": {
+        "X": 1.0,
+        "Y": -0.52441,
+        "Z": -0.230421
+      },
+      "8": {
+        "X": 1.0,
+        "Y": 0.0208842,
+        "Z": -0.158631
+      },
+      "9": {
+        "X": 1.0,
+        "Y": 0.566179,
+        "Z": -0.0868418
+      },
+      "10": {
+        "X": 1.0,
+        "Y": -0.566179,
+        "Z": 0.0868418
+      },
+      "11": {
+        "X": 1.0,
+        "Y": -0.0208842,
+        "Z": 0.158631
+      },
+      "12": {
+        "X": 1.0,
+        "Y": 0.52441,
+        "Z": 0.230421
+      },
+      "13": {
+        "X": 2.0,
+        "Y": -0.489848,
+        "Z": -0.296899
+      },
+      "14": {
+        "X": 2.0,
+        "Y": 0.041411,
+        "Z": -0.154548
+      },
+      "15": {
+        "X": 2.0,
+        "Y": 0.57267,
+        "Z": -0.0121977
+      },
+      "16": {
+        "X": 2.0,
+        "Y": -0.57267,
+        "Z": 0.0121977
+      },
+      "17": {
+        "X": 2.0,
+        "Y": -0.041411,
+        "Z": 0.154548
+      },
+      "18": {
+        "X": 2.0,
+        "Y": 0.489848,
+        "Z": 0.296899
+      },
+      "19": {
+        "X": 3.0,
+        "Y": -0.446904,
+        "Z": -0.358297
+      },
+      "20": {
+        "X": 3.0,
+        "Y": 0.0612293,
+        "Z": -0.147821
+      },
+      "21": {
+        "X": 3.0,
+        "Y": -0.569363,
+        "Z": -0.0626552
+      },
+      "22": {
+        "X": 3.0,
+        "Y": 0.569363,
+        "Z": 0.0626552
+      },
+      "23": {
+        "X": 3.0,
+        "Y": -0.0612293,
+        "Z": 0.147821
+      },
+      "24": {
+        "X": 3.0,
+        "Y": 0.446904,
+        "Z": 0.358297
+      },
+      "25": {
+        "X": 4.0,
+        "Y": -0.396314,
+        "Z": -0.413564
+      },
+      "26": {
+        "X": 4.0,
+        "Y": 0.08,
+        "Z": -0.138564
+      },
+      "27": {
+        "X": 4.0,
+        "Y": -0.556314,
+        "Z": -0.136436
+      },
+      "28": {
+        "X": 4.0,
+        "Y": 0.556314,
+        "Z": 0.136436
+      },
+      "29": {
+        "X": 4.0,
+        "Y": -0.08,
+        "Z": 0.138564
+      },
+      "30": {
+        "X": 4.0,
+        "Y": 0.396314,
+        "Z": 0.413564
+      },
+      "31": {
+        "X": 5.0,
+        "Y": -0.338943,
+        "Z": -0.461755
+      },
+      "32": {
+        "X": 5.0,
+        "Y": -0.533746,
+        "Z": -0.207882
+      },
+      "33": {
+        "X": 5.0,
+        "Y": 0.0974018,
+        "Z": -0.126937
+      },
+      "34": {
+        "X": 5.0,
+        "Y": -0.0974018,
+        "Z": 0.126937
+      },
+      "35": {
+        "X": 5.0,
+        "Y": 0.533746,
+        "Z": 0.207882
+      },
+      "36": {
+        "X": 5.0,
+        "Y": 0.338943,
+        "Z": 0.461755
+      },
+      "37": {
+        "X": 6.0,
+        "Y": -0.275772,
+        "Z": -0.502046
+      },
+      "38": {
+        "X": 6.0,
+        "Y": -0.502046,
+        "Z": -0.275772
+      },
+      "39": {
+        "X": 6.0,
+        "Y": 0.113137,
+        "Z": -0.113137
+      },
+      "40": {
+        "X": 6.0,
+        "Y": -0.113137,
+        "Z": 0.113137
+      },
+      "41": {
+        "X": 6.0,
+        "Y": 0.502046,
+        "Z": 0.275772
+      },
+      "42": {
+        "X": 6.0,
+        "Y": 0.275772,
+        "Z": 0.502046
+      },
+      "43": {
+        "X": 7.0,
+        "Y": -0.207882,
+        "Z": -0.533746
+      },
+      "44": {
+        "X": 7.0,
+        "Y": -0.461755,
+        "Z": -0.338943
+      },
+      "45": {
+        "X": 7.0,
+        "Y": 0.126937,
+        "Z": -0.0974018
+      },
+      "46": {
+        "X": 7.0,
+        "Y": -0.126937,
+        "Z": 0.0974018
+      },
+      "47": {
+        "X": 7.0,
+        "Y": 0.461755,
+        "Z": 0.338943
+      },
+      "48": {
+        "X": 7.0,
+        "Y": 0.207882,
+        "Z": 0.533746
+      },
+      "49": {
+        "X": 8.0,
+        "Y": -0.136436,
+        "Z": -0.556314
+      },
+      "50": {
+        "X": 8.0,
+        "Y": -0.413564,
+        "Z": -0.396314
+      },
+      "51": {
+        "X": 8.0,
+        "Y": 0.138564,
+        "Z": -0.08
+      },
+      "52": {
+        "X": 8.0,
+        "Y": -0.138564,
+        "Z": 0.08
+      },
+      "53": {
+        "X": 8.0,
+        "Y": 0.413564,
+        "Z": 0.396314
+      },
+      "54": {
+        "X": 8.0,
+        "Y": 0.136436,
+        "Z": 0.556314
+      },
+      "55": {
+        "X": 9.0,
+        "Y": -0.0626552,
+        "Z": -0.569363
+      },
+      "56": {
+        "X": 9.0,
+        "Y": -0.358297,
+        "Z": -0.446904
+      },
+      "57": {
+        "X": 9.0,
+        "Y": 0.147821,
+        "Z": -0.0612293
+      },
+      "58": {
+        "X": 9.0,
+        "Y": -0.147821,
+        "Z": 0.0612293
+      },
+      "59": {
+        "X": 9.0,
+        "Y": 0.358297,
+        "Z": 0.446904
+      },
+      "60": {
+        "X": 9.0,
+        "Y": 0.0626552,
+        "Z": 0.569363
+      },
+      "61": {
+        "X": 10.0,
+        "Y": 0.0121977,
+        "Z": -0.57267
+      },
+      "62": {
+        "X": 10.0,
+        "Y": -0.296899,
+        "Z": -0.489848
+      },
+      "63": {
+        "X": 10.0,
+        "Y": 0.154548,
+        "Z": -0.041411
+      },
+      "64": {
+        "X": 10.0,
+        "Y": -0.154548,
+        "Z": 0.041411
+      },
+      "65": {
+        "X": 10.0,
+        "Y": 0.296899,
+        "Z": 0.489848
+      },
+      "66": {
+        "X": 10.0,
+        "Y": -0.0121977,
+        "Z": 0.57267
+      },
+      "67": {
+        "X": 11.0,
+        "Y": 0.0868418,
+        "Z": -0.566179
+      },
+      "68": {
+        "X": 11.0,
+        "Y": -0.230421,
+        "Z": -0.52441
+      },
+      "69": {
+        "X": 11.0,
+        "Y": 0.158631,
+        "Z": -0.0208842
+      },
+      "70": {
+        "X": 11.0,
+        "Y": -0.158631,
+        "Z": 0.0208842
+      },
+      "71": {
+        "X": 11.0,
+        "Y": 0.230421,
+        "Z": 0.52441
+      },
+      "72": {
+        "X": 11.0,
+        "Y": -0.0868418,
+        "Z": 0.566179
+      },
+      "73": {
+        "X": 12.0,
+        "Y": -0.16,
+        "Z": -0.55
+      },
+      "74": {
+        "X": 12.0,
+        "Y": 0.16,
+        "Z": -0.55
+      },
+      "75": {
+        "X": 12.0,
+        "Y": -0.16,
+        "Z": 0.0
+      },
+      "76": {
+        "X": 12.0,
+        "Y": 0.16,
+        "Z": 0.0
+      },
+      "77": {
+        "X": 12.0,
+        "Y": -0.16,
+        "Z": 0.55
+      },
+      "78": {
+        "X": 12.0,
+        "Y": 0.16,
+        "Z": 0.55
+      }
+    },
+    "NPLN": {},
+    "NSPR": {},
+    "NTMP": {},
+    "NUCS": {},
+    "OFFS": {},
+    "PDEL": {},
+    "PHGE": {},
+    "PHGT": {},
+    "PNLA": {},
+    "PNLD": {},
+    "POGD": {},
+    "POLC": {},
+    "POSL": {},
+    "POSP": {},
+    "PRES": {},
+    "PRLS": {},
+    "PRST": {},
+    "PSLT": {},
+    "PSSF": {},
+    "PTNS": {},
+    "PZEF": {},
+    "REBB": {},
+    "REBC": {},
+    "REBR": {},
+    "REBW": {},
+    "RIGD": {},
+    "RISS": {},
+    "RPSC": {},
+    "SBCT": {},
+    "SBDO": {},
+    "SDHY": {},
+    "SDIS": {},
+    "SDSP": {},
+    "SDST": {},
+    "SDVE": {},
+    "SDVI": {},
+    "SECF": {},
+    "SECT": {},
+    "SEIS": {},
+    "SINF": {},
+    "SKEW": {},
+    "SLAN": {},
+    "SLANCH": {},
+    "SLANOP": {},
+    "SMCT": {},
+    "SMLC": {},
+    "SMPT": {},
+    "SPFC": {},
+    "SPLC": {},
+    "SSPS": {},
+    "STAG": {},
+    "STBK": {},
+    "STCT": {},
+    "STDG": {},
+    "STLD": {
+      "1": {
+        "NO": 1,
+        "NAME": "${load_case.1.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      },
+      "2": {
+        "NO": 2,
+        "NAME": "${load_case.2.name}",
+        "TYPE": "USER",
+        "DESC": ""
+      }
+    },
+    "STMP": {},
+    "STOR": {},
+    "STYP": {
+      "1": {
+        "STYP": 0,
+        "MASS": 1,
+        "GRAV": "${analysis.gravity}",
+        "TEMP": 0.0,
+        "bALIGNBEAM": false,
+        "bALIGNSLAB": false,
+        "bMASSOFFSET": false,
+        "bROTRIGID": false,
+        "bSELFWEIGHT": false
+      }
+    },
+    "TDCS": {},
+    "TDGR": {},
+    "TDME": {},
+    "TDMF": {},
+    "TDMT": {},
+    "TDNA": {},
+    "TDNT": {},
+    "TDPL": {},
+    "THFC": {},
+    "THGA": {},
+    "THGC": {},
+    "THIK": {},
+    "THIS": {},
+    "THMS": {},
+    "THNL": {},
+    "THRE": {},
+    "THRG": {},
+    "THRI": {},
+    "THRS": {},
+    "THSL": {},
+    "TMAT": {},
+    "TMLD": {},
+    "TRFT": {},
+    "TSGR": {},
+    "UFIG": {},
+    "ULCT": {},
+    "ULFC": {},
+    "UNIT": {
+      "1": {
+        "FORCE": "${units.force}",
+        "DIST": "${units.dist}",
+        "HEAT": "${units.heat}",
+        "TEMPER": "${units.temper}"
+      }
+    },
+    "VBEM": {},
+    "VSEC": {},
+    "WIND": {},
+    "WMAK": {},
+    "WNAT": {},
+    "WSSF": {}
+  }
+}
