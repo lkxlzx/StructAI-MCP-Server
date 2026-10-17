@@ -124,3 +124,18 @@ tr:hover .letter-avatar{transform:scale(1.06)}
 .event-item{border-radius:6px;transition:background-color var(--fx-dur) var(--fx-ease)}
 .side-row{transition:background-color var(--fx-dur) var(--fx-ease)}
 .side-status:hover{background:rgba(255,255,255,.085)}
+
+/* ============================================================
+   P182 · 登录页全屏（隐藏外壳的顶栏 / 侧栏 / 底栏）
+   ============================================================ */
+html.is-login .topbar,
+html.is-login .sidebar,
+html.is-login .app-footer{display:none}
+html.is-login .app{min-width:0}
+html.is-login .app-body{padding-top:0}
+html.is-login .content{padding:0;overflow:hidden}
+html.is-login .page{gap:0}
+
+/* P182：空数据行 */
+.empty-row td{height:88px;text-align:center;color:#9AA7BC;font-size:13px;background:#fff}
+.event-empty{height:72px;display:flex;align-items:center;justify-content:center;color:#9AA7BC;font-size:13px}

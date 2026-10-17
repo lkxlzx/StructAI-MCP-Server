@@ -1,7 +1,21 @@
 /* ============================================================
    外壳：顶部栏 / 侧栏 / 内容区 / 底栏 / 窗口按钮
    ============================================================ */
-.app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+/* P182：全局密度。`--ui-zoom` 统一缩放外壳（默认 .875）。
+   ⚠️ `vh` 单位**不随 zoom 缩放**，故高度/最小宽度都要除以 zoom，
+      否则页面底部会留出 1-zoom 的空白。 */
+.app{
+  /* P182：全局密度用 **transform scale**（不用 CSS zoom）。
+     原因（实测）：`zoom` 下 `vh` / `%` 的解析口径随浏览器实现漂移，
+     同一份 CSS 在 1920 视口下实测高度 864 ≠ 1080（底部留白 20%）。
+     transform 是确定性的：固定铺满视口 → 按 1/zoom 放大 → 再缩回 zoom。 */
+  position:fixed;left:0;top:0;
+  width:calc(100% / var(--ui-zoom));
+  height:calc(100% / var(--ui-zoom));
+  transform:scale(var(--ui-zoom));
+  transform-origin:top left;
+  display:flex;flex-direction:column;overflow:hidden;
+}
 
 /* ---------------- 顶部标题栏 ---------------- */
 .topbar{
@@ -156,10 +170,12 @@ html.is-desktop .win-actions{display:flex}
 .win-actions{display:flex;visibility:hidden;pointer-events:none}
 html.is-desktop .win-actions{visibility:visible;pointer-events:auto}
 
-/* 窄视口保护：视口小于设计宽度时整体横向滚动，避免卡片/文字相互重叠 */
-body{overflow-x:auto;overflow-y:hidden}
-.app{min-width:1320px}
-.topbar{min-width:1320px}
+/* P182：`.app` 用 zoom 做全局密度 ⇒ 它的**布局宽度**恒为 `视口 / zoom`，
+   浏览器会因此认为文档横向溢出（即使视觉上正好铺满）⇒ 必须锁死文档滚动，
+   滚动交给 `.content` / 表格容器。 */
+html,body{overflow:hidden}
+.app{min-width:calc(1320px / var(--ui-zoom))}
+.topbar{min-width:calc(1320px / var(--ui-zoom))}
 
 /* 灰色状态点（未连接等） */
 .dot-gray{background:#B4BECD}

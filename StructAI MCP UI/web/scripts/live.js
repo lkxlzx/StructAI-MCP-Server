@@ -28,6 +28,8 @@
       const tasks = pick(await window.Api.get('/api/tasks?limit=5')) || { items: [] };
       return {
         status: status,
+        registry: status.registry || {},
+        templates: status.templates || {},
         stats: stats.map(function (card) {
           return {
             icon: card.key === 'service' ? 'stat-server'
@@ -77,7 +79,8 @@
           kind: item.product || item.vendor || '',
           api: item.endpoint || '-',
           online: !!item.online,
-          ver: item.version || '-'
+          ver: item.version || '-',
+          credential: item.credential_reference || '-'
         };
       });
     },

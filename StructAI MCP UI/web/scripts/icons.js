@@ -17,6 +17,12 @@
       '<path d="M5 38V13.6C5 7.9 8.2 4 13 4c3.3 0 5.6 1.6 7.1 4.6L27 21.5l6.9-12.9C35.4 5.6 37.7 4 41 4' +
       'c4.8 0 8 3.9 8 9.6V38" stroke="url(#midasGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 
+    logoMark:
+      '<svg viewBox="0 0 54 41" fill="none">' +
+      '<path d="M5 38V13.6C5 7.9 8.2 4 13 4c3.3 0 5.6 1.6 7.1 4.6L27 21.5l6.9-12.9C35.4 5.6 37.7 4 41 4' +
+      'c4.8 0 8 3.9 8 9.6V38" stroke="currentColor" stroke-width="8" ' +
+      'stroke-linecap="round" stroke-linejoin="round"/></svg>',
+
     footerMark:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">' +
       '<path d="M12 2.6 20.5 7.4v9.2L12 21.4 3.5 16.6V7.4z"/><path d="M12 2.6v9.2M12 11.8l8.5-4.4M12 11.8 3.5 7.4M12 21.4v-9.6"/></svg>',
@@ -43,6 +49,16 @@
       '<path d="M9.2 3h5.6v3H9.2z"/><path d="M9 12.6h6M9 16.2h4"/>', 'stroke-width="1.9"'),
     'stat-check': S('<circle cx="12" cy="12" r="8.6"/><path d="m8.6 12.3 2.4 2.4 4.5-4.8"/>', 'stroke-width="1.9"'),
     'stat-clock': S('<circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2.1"/>', 'stroke-width="1.9"'),
+
+    user: S('<circle cx="12" cy="8" r="3.6"/><path d="M4.8 20.2c.8-3.6 3.6-5.6 7.2-5.6s6.4 2 7.2 5.6"/>'),
+    lock: S('<rect x="4.6" y="10.4" width="14.8" height="9.8" rx="2.2"/>' +
+      '<path d="M8.2 10.4V7.8a3.8 3.8 0 0 1 7.6 0v2.6"/><path d="M12 14.4v2.2"/>'),
+    eye: S('<path d="M2.6 12S6 6.2 12 6.2 21.4 12 21.4 12 18 17.8 12 17.8 2.6 12 2.6 12z"/>' +
+      '<circle cx="12" cy="12" r="2.8"/>'),
+    'eye-off': S('<path d="M3.4 3.4 20.6 20.6"/>' +
+      '<path d="M9.6 6.6A9.7 9.7 0 0 1 12 6.2c6 0 9.4 5.8 9.4 5.8a17 17 0 0 1-3 3.6"/>' +
+      '<path d="M6.4 8.2A17 17 0 0 0 2.6 12S6 17.8 12 17.8c1 0 1.9-.2 2.8-.5"/>' +
+      '<path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'),
 
     chevR: S('<path d="m9.5 5.5 6.5 6.5-6.5 6.5"/>', 'stroke-width="2"'),
     chevD: S('<path d="m5.5 9.5 6.5 6.5 6.5-6.5"/>', 'stroke-width="2"'),

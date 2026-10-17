@@ -44,11 +44,16 @@
   }
 
   function renderLogin() {
+    document.documentElement.classList.add('is-login');
     document.querySelectorAll('.nav-item').forEach(function (a) { a.classList.remove('is-active'); });
     document.title = '登录 · ' + shell.appName;
-    view.innerHTML = '<div class="page">' + window.PageLogin.render() + '</div>';
+    view.innerHTML = window.PageLogin.render();
     window.PageLogin.mount(view);
     window.Icons.mount(view);
+  }
+
+  function leaveLogin() {
+    document.documentElement.classList.remove('is-login');
   }
 
   /* P181：页面数据先取实时数据，失败则回落 mock（离线也能看界面） */
@@ -59,6 +64,7 @@
 
   async function renderPage(route) {
     if (needsLogin()) { renderLogin(); return; }
+    leaveLogin();
     if (route.name === 'login') { location.hash = '#/home'; return; }
 
     const name = route.name;
