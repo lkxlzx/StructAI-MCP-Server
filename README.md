@@ -124,6 +124,24 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 生成器 = [`registry/tools/sync_result_graphic_modes.py`](registry/tools/sync_result_graphic_modes.py) ·
 > [`registry/tools/sync_table_type_variant_enum.py`](registry/tools/sync_table_type_variant_enum.py)。
 
+> ✅ **R169（P176 收口）—— 设计规范是**运行时数据**，不是接口层的常量**：
+> 接口层原先写死了「生效规范 / 配置端点的字段集 / 材料库名」。根因是**设计规范三处必须同族** ——
+> `DRC.DGNCODE`（规范码）· `MATL.STANDARD`（**材料库名**，如 `GB/T10(RC)`，**不是**规范码）·
+> `MDGN.CONC_CODE`（配筋材料码）；**只切一处** ⇒ 引擎跳过**所有**单元
+> （⚠️ **不崩**，只是 `400 failed:LoadCombination` + `*-TABLE` **0 行**）。
+> 三条实测事实：**①** 路径段是**固定路由名**（`/design/RC/GB-T50010-10/DCO` → **`404`**）
+> ⇒ 规范码**不能**进 URI，切换只能靠 `DRC.DGNCODE`；**②** 配置端点字段集**随规范变化**
+> （KDS **12/13**、`GB/T50010-10` **0**），而 `GET /info/...` 在两种规范下**返回同一份 13 字段**
+> ⇒ **自省不能作来源**，只能实测（`registry/live/design_code_field_sets.json`）；
+> **③** `DCO` 可选（为空时设计链照常跑通）。
+> ⇒ 主指标 **`71 / 73` 不变**（本批**不**改任何裁定）—— 价值在**去硬编码**与**归因更正**
+> （推翻 P164-c 的「`BD-ANAL` 必崩」：同 build 实测**不崩**且设计**真的产出**）。
+> ⚠️ 新登记 **R170**：`spec_guard` 对 `patternProperties` 下的枚举**一个都不检查**
+> （**21** 个文件 / **90** 个枚举节点 **100% 盲区**；两相对照：`DESIGN.RC.DRC` 的
+> `DGNCODE="TOTALLY-BOGUS"` **不拦**，同一取值在 `OPE.LCOM-CONC` **拦**）
+> —— **如实留缺**，修它须**用户授权**（核心闸门改动）。
+> 细节 = [`registry/README.md`](registry/README.md) §8.31 · `docs/07` §16.1 **R169** / **R170**。
+
 > ✅ **R166（P174 收口）**：`POST.STEELCODECHECK` **真机实测收口** ⇒ 它挡住的
 > **`DESIGN.CODE_CHECK`**（钢铁路由）**解锁** ⇒ 主指标 `68 / 71` → **`69 / 71`**
 > （被挡 **3 → 2** · 挡点端点 **13 → 4**）。
@@ -137,6 +155,19 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > ⇒ 改用**状态对照**（如实记录，**不**硬凑假对照）。
 > 证据 = [`registry/live/steelcodecheck_probe.json`](registry/live/steelcodecheck_probe.json)；
 > 生成器 = [`registry/tools/probe_steelcodecheck_p174.py`](registry/tools/probe_steelcodecheck_p174.py)（可 `--check` 离线复算）。
+
+> ⚠️ **R169 / R170（P176 / P177）—— 设计规范是运行时数据；闸门仍有**一处**盲区**：
+> 上表「谁**能**修」是**端点可用性**的归因，**不**覆盖「**为什么**某个设计链跑不出结果」。
+> P176 实测的根因是**配置不同族**（`DRC.DGNCODE` / `MATL.STANDARD` / `MDGN.CONC_CODE` 三处
+> **必须同族**；⚠️ `MATL.STANDARD` 的合法值是**材料库名**，**不是**规范码）⇒ 只切一处时
+> 引擎**跳过所有单元**（⚠️ **不崩**，只是 `400 failed:LoadCombination` + `*-TABLE` **0 行**）
+> ⇒ **不要**据此判定「产品不支持」。三条实测事实（路径段是**固定路由名** / 字段集**随规范变化**
+> 且**自省不反映** / `DCO` 可选）见 [`registry/README.md`](registry/README.md) §8.31。
+> ⚠️ **R170 如实留缺**：`spec_guard` 对 **`patternProperties` 下的枚举一个都不检查**
+> （**21** 个文件 / **90** 个枚举节点 **100% 盲区**）⇒ `DESIGN.RC.DRC` 的
+> `DGNCODE="TOTALLY-BOGUS"` **不拦**，而同一取值在 `OPE.LCOM-CONC`（枚举在 `properties` 下）**拦**。
+> ⇒ 这 **21** 个文件的枚举约束**目前只是文档**，**不是**闸门；修它须**用户授权**（核心闸门改动）。
+> 主指标**不受影响**（仍 **`71 / 73`**）。
 
 > ⚠️ **R166（P173，归因）**：主指标的**缺口归因**也**不**手写 ——
 > `python registry/tools/check_operation_availability.py --attribution`（**零请求**）给出

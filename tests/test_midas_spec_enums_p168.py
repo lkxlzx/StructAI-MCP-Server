@@ -102,10 +102,18 @@ EXPECTED_BY_CLASS = {
     # ⚠️ **P175 / R168（事实变更）**：`manifest` 101 → **102**、`single_article` 158 → **157**
     # —— 新增的 27 张表带进 1 条枚举约束，其来源被归为「登记表」（原先那条算「单篇文章」）。
     # 合计仍 **754**（本批**未**新增枚举约束）。
+    # ⚠️ **P177 / R169（事实变更）**：`manual` 225 → **223**、`untraceable` 270 → **272**
+    # —— `DESIGN.RC.DRC` / `DESIGN.STEEL.DSTL` 的 `DGNCODE` 由 **1** 个取值补到 **65 / 66**
+    # （来源 = 手册**规格表**，`registry/tools/sync_design_code_selector_enum.py`）。
+    # 手册的 `json_schema` **只**声明 **1** 个取值（`KDS 41 20 : 2022` / `KDS 41 30 : 2022`），
+    # 故并集**不再**落进「任一文章的 `json_schema` 声明并集」⇒ 这 **2** 条由 `manual` 变
+    # `untraceable`。⚠️ **与 P169 / R162 同源**（那批是 `POST.TEXT` 的 3 条，**-2 / +2**）。
+    # 取值本身**仍可追溯**（手册规格表 = 弱来源）⇒ `unexplained` 标志**仍为 0**（未变）。
+    # 约束**总数**（**754**）与其余两类**一字未变**。
     "manifest": 102,
-    "manual": 225,
+    "manual": 223,
     "single_article": 157,
-    "untraceable": 270,
+    "untraceable": 272,
 }
 """四个来源分类的规模（合计 **754**）。
 
@@ -114,6 +122,13 @@ EXPECTED_BY_CLASS = {
 扩到「同一 URI 12 篇文章的 **29** 个」⇒ 那 **3** 条约束的**分类**由 `manual` 变为 `untraceable`
 （29 个取值跨 **12** 篇文章、不再落进**任一**文章的声明并集）⇒ **-2 / +2**。
 ⚠️ 约束**总数**（**754**）与其余两类**一字未变**。
+
+⚠️ **P177 / R169（同类事实变更）**：`DESIGN.RC.DRC` / `DESIGN.STEEL.DSTL` 的 `DGNCODE`
+由 **1** 个取值补到 **65 / 66**（手册**规格表**）⇒ 同样**不再**落进 `json_schema` 的声明并集
+⇒ `manual -2 / untraceable +2`。**取值的可追溯性没有变差**：它们仍能从手册规格表复算
+（`sync_design_code_selector_enum.py --check` 会**交叉断言**手册码表 == `design_codes.yaml`）。
+⚠️ **R170 的边界**：这 **2** 条在 `patternProperties` 下 ⇒ 闸门**本来就没在检查**它们，
+本次补全的收益是**数据一致性**（与 `design_codes.yaml` / 手册同源），**不是**「闸门现在会拦」。
 """
 
 EXPECTED_BLIND_WITH_SCHEMA_JSON = 104

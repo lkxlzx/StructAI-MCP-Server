@@ -2706,3 +2706,138 @@ P172（§8.27）把**收益**算准了（收口 `POST.STEELCODECHECK` ⇒ **+1**
 `registry/tools/sync_export_only_tables_p175.py --check`（27 张表的字段 == 自省原文）·
 `registry/tools/check_operation_availability.py --check`（**71 / 73**）·
 `pytest -q`（**1547 passed / 0 failed**）· 裁决 `docs/07` §16.1 **R168**。
+
+### 8.31 P176：设计规范成为**运行时数据** —— 接口层去硬编码（⇒ **R169**）
+
+> **本批有副作用**（真机）——只碰自建 `.tmp_*` 内的样本**副本**与产出物；
+> 样本原目录 `D:\Program\MIDAS\MIDAS GEN NX\Gen Verification` **只读**；
+> 收尾用 `GET /db/PJCF` 核对 `FILE_NAME` ≠ `无标题`（**R144**）。
+> ⚠️ **本批一次都不发 `DOC.NEW`**（会让项目变无路径 ⇒ 原生自动保存弹「另存为」并挂起 API）。
+
+#### 8.31.1 为什么需要它
+
+**用户指出架构缺陷**：接口层**写死**了设计规范 / 材料 / 配置端点的字段集，
+而这些应当**在实际使用时确定**。触发场景 = `DESIGN.CONCRETE` 跑不通
+（`BD-ANAL` → `400 failed:LoadCombination`）。
+
+#### 8.31.2 根因：**设计规范三处必须同族**
+
+| 位置 | 端点 | 合法取值是**什么** |
+| --- | --- | --- |
+| 设计规范码 | `DRC` / `DSTL` / `DSRC` 的 `DGNCODE` | 规范码，如 `GB/T50010-10` |
+| **材料库名** | `MATL.STANDARD` | ⚠️ **材料库名**，如 `GB/T10(RC)` —— **不是**规范码 |
+| 配筋材料码 | `MDGN.CONC_CODE` | 配筋材料码 |
+
+⚠️ **只切一处** ⇒ 引擎找不到「验算材料 / 截面类型 / 荷载组合」⇒ **跳过所有单元**
+（⚠️ **不崩**，只是 `400 failed:LoadCombination` ∧ `*-TABLE` **0 行**）
+⇒ 表面上像「产品不支持」，实为**配置不同族**。
+⚠️ **`MATL.STANDARD` 填规范码**（`GB/T50010-10`）⇒ 原生 **`400 Unknown Error`**
+—— **两套码表，不可互换**。
+
+**两相对照实测**（`registry/live/concrete_code_match_probe.json`）：
+
+| 相位 | `DRC.DGNCODE` | `BD-ANAL` | `BD-TABLE` 行数 |
+| --- | --- | ---: | ---: |
+| 不匹配 | `KDS 41 20 : 2022` | **`400`** | **0** |
+| 匹配 | `GB/T50010-10` | **`200`** | **3**（真实结果） |
+
+⚠️ **顺带推翻一条旧结论**：P164-c 记「`BD-ANAL` **必崩** MIDAS」——
+同一 build `GenNX.exe 26.9.01.1001` 实测**不崩**且设计**真的产出**
+⇒ 当时**归因不完整**：那**不是**产品缺陷，是**配置不同族**。
+（**R154** 的崩溃族**仅指** `DESIGN.{RC,SRC}` 的 `*-ANAL` 在**另一些**前置条件下实测打崩宿主，两者**不矛盾**。）
+
+#### 8.31.3 三条实测事实（**决定方案形状**）
+
+**F1 —— 路径段是固定路由名，不是生效规范**
+
+```
+/design/RC/GB-T50010-10/DCO   → 404
+/design/RC/GB50010-02/DCO     → 404
+/design/RC/ACI318-19/DCO      → 404
+```
+
+⇒ 规范码**不能**进 URI；`KDS-41-20-2022` 这个路径段是**固定路由名**。
+切换规范的**唯一**手段 = **选择器端点** `DESIGN.RC.DRC` 的 `DGNCODE` 字段。
+
+**F2 —— 字段集随规范变化，且**自省不反映它****
+
+| 生效规范 | `DCO` 可接受字段 |
+| --- | --- |
+| `KDS 41 20 : 2022` | **12 / 13**（`CONC_STRS_STRN` 被拒 `400 Wrong Field`） |
+| `GB/T50010-10` | **0**（连 `DESIGN_CD` 也被拒；空体 `{"Assign": {}}` 反而 `200`） |
+
+而 `GET /info/design/RC/KDS-41-20-2022/DCO` 在**两种**规范下**返回同一份 13 字段**
+⇒ 自省是**端点声明的形状**，**不是**当前规范接受的集合 ⇒ **自省不能作来源**，只能实测。
+⚠️ 同族的 `DCTL` / `MEMB` **与规范无关** ⇒ **不**纳入该检查（纳入会误报错）。
+
+**F3 —— `DCO` 可选**：为空时设计链照常跑通（`BD-ANAL` `200` `{"message":"success"}`）。
+
+#### 8.31.4 本批消除的两处硬编码
+
+| # | 硬编码 | 症状 | 修法 |
+| --- | --- | --- | --- |
+| ① | `design_code` **裸字符串**被 `_mapping_list` 吞成**空列表** | `DRC` 步**静默跳过** —— 规范**没**切换，而调用方**看不出** | 新增 `_design_code_items` 归一化（裸串 / 列表 / 映射**都**接） |
+| ② | 配置端点字段集写死在 `DesignRcOptionTransformer.fields`（**13** 个类级常量） | **换规范必 `400`** | 按 `(material, code)` 从 `registry/live/design_code_field_sets.json` **注入** |
+
+⚠️ **缺失语义（**不猜字段**）**：某 `(material, code)` **无记录** ⇒ 调用方若**给了**配置项则
+**显式失败**（`design_option_not_characterized_for_code`）；**没给**则**跳过**该步
+（跳过是安全的 —— F3：`DCO` 为空时设计链照常跑通）。
+
+**顺带修掉两个既有缺陷**：
+
+1. **`BuiltRequest` 丢参数** —— `build_request()` 收了 `allow_native_crash_risk` 却**没**存进请求
+   ⇒ `send_result()` 取不到 ⇒ **即便用户已授权**，护栏**仍然**拦（`via="raw_path"`）。
+2. **`DCTL` 参数缺失** —— 不传它该步被跳过 ⇒ 设计引擎对 `BD-ANAL` 回原生 `400`。
+
+#### 8.31.5 ⚠️ 新发现一处闸门盲区（**R170**，**如实登记，本批不修**）
+
+**R161**（P168）修过**一处**盲区（`unwrap_schema()` 剥**根**包装键，盲区 **104 → 0**）。
+⚠️ **但** `unwrap_schema()` **只**剥**根**包装键，**不**处理**条目级**的 `patternProperties` ——
+而「键控对象」形状正是这样声明条目字段的：
+
+```
+properties.Assign.patternProperties["^[0-9]+$"].properties.DGNCODE.enum
+```
+
+而 `check_spec_values()` **只**走 `properties` 与 `items`，对 `patternProperties` **不做任何处理**
+⇒ 这些枚举**全部**落在闸门视野之外。
+
+**机械计数（可复算）**：`registry/schema/**` 的枚举节点共 **639** 个，
+其中落在 `patternProperties` 之下的 **90** 个、分布在 **21** 个文件里 ——
+且这 **21** 个文件里**没有一个是「混合」的**（**全部**枚举都在 `patternProperties` 下）
+⇒ 这 **21** 个文件的枚举约束 **100% 处于盲区**。
+
+**两相对照实测（零请求）**：
+
+| 端点 | `DGNCODE` 取值 | 闸门 |
+| --- | --- | --- |
+| `DESIGN.RC.DRC`（枚举在 `patternProperties` 下） | `"TOTALLY-BOGUS"` | **PASS（不拦）** |
+| `OPE.LCOM-CONC`（枚举在 `properties` 下） | `"TOTALLY-BOGUS"` | **BLOCK** |
+
+⇒ **不是「取值合法」，是「闸门没看」**。
+
+⚠️ **不修的理由**：修它要把 `check_spec_values()` 改成对 `patternProperties` 的**每一个**
+正则分支都尝试匹配，属**核心闸门**改动 ⇒ 需**用户明确授权**（与 **R161** 同口径）。
+⚠️ **对枚举补全的直接约束**：`DESIGN.RC.DRC` / `DSTL` / `DSRC` 的 `DGNCODE` 枚举**补了也不生效**
+（闸门看不到它）⇒ 补全的**真实收益**落在**枚举写在 `properties` 下**的端点（如 `OPE.LCOM-*`）
+与**数据侧一致性**，**不**是「闸门会拦住非法规范码」。
+
+#### 8.31.6 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **不变**（**`71 / 73`** —— 本批**不**改任何裁定） |
+| 被挡 Operation / 挡点端点 | **不变**（**2** / **4**） |
+| Operation 总数 | **不变**（**73**） |
+| 端点 `availability` | **不变**（本批**未**新增/收口任何端点） |
+| Registry 条目 / Schema 文件 | **不变**（**663** / **652**） |
+| `app/**` | 改 **5** 个文件（`design_codes.py` **新增** + `adapter` / `transforms` / `client` / `registry`） |
+| 判定用例 | **+28**（`tests/test_midas_design_code_p176.py`） |
+
+⚠️ **本批的价值在去硬编码与归因更正，不在抬主指标** —— 与 **R161**（P168）同口径。
+
+**可执行判定** = `registry/tools/probe_concrete_code_match_p176.py --check`（裸 HTTP 两相对照）·
+`registry/tools/probe_design_code_via_mcp_p176.py --check`（**经 MCP** 切换）·
+`registry/tools/sync_design_code_field_sets.py --check`（字段集 == 实测）·
+`registry/tools/check_operation_availability.py --check`（**71 / 73**）·
+`pytest -q` · 裁决 `docs/07` §16.1 **R169** / **R170**。
