@@ -3020,7 +3020,7 @@ DOC.OPEN（样本副本） → DOC.EXPORT → {"DBG": {表: {id: 行}}}
         → MCP engineering_doc / MODEL.IMPORT → 按写入值读回
 ```
 
-- **模板层**：`app/infrastructure/adapters/midas/model_template.py`
+- **模板层**：`app/application/templates/model_template.py`
   （`build_template` / `materialize` / `dumps_template`；`TEMPLATE_FORMAT` / `TEMPLATE_VERSION`）。
 - **工具链**（均可 `--check`，零请求）：
   - `registry/tools/export_gen_verification_p180.py`（批量导出，可续跑）
@@ -3059,3 +3059,73 @@ DOC.OPEN（样本副本） → DOC.EXPORT → {"DBG": {表: {id: 行}}}
 `pytest tests/test_midas_model_template_p180.py -q`（**12** 项）·
 `python registry/tools/check_operation_availability.py --check`（**71 / 73** 不变）·
 裁决 `docs/07` §16.1 **R174** · 手册 `docs/09_参数化模板与AI_Agent填写手册_v1.0.md`。
+
+---
+
+### 8.35 P181：Web UI 的接入面 —— 同源装配 + 管理 API（⇒ **R175**）
+
+#### 8.35.1 交付
+
+```
+一个进程 / 一个端口
+├── /                    Web UI（StructAI MCP UI/web/，零依赖静态站）
+├── /api/*               管理面（Bearer token）
+├── /livez /readyz /health
+└── /mcp                 MCP Streamable HTTP（9 Tool 不变）
+```
+
+- **端口**：`app/application/management/`（`ManagementPort`）
+- **实现**：`app/infrastructure/management/service.py`（映射到既有服务，不写业务判定）
+- **装配**：`app/interfaces/http/{app,api}.py`
+- **只读数据源**：`app/application/registry_catalog.py`（663 端点）· `app/application/templates/library.py`（156 模板）
+
+#### 8.35.2 管理 API
+
+| 路径 | 数据来源 |
+| --- | --- |
+| `POST /api/auth/login` · `/logout` · `GET /auth/me` | `SecurityServices.guard` / `sessions` |
+| `GET /api/status` · `/stats` | 任务分组计数 + 实例计数 + 目录/模板摘要 |
+| `GET /api/clients` | `software` / `software_products` / `software_versions` / `software_instances` |
+| `GET /api/tasks` · `/tasks/{id}` · `POST /tasks/{id}/cancel` | `TaskRepository` / `TaskEngine` |
+| `GET /api/events` | `AuditStore.chain`（append-only） |
+| `GET /api/registry` · `/endpoints` · `/endpoints/{key}` · `/operations` | `registry/manifest.json` + 运行时注册表 |
+| `GET /api/templates` · `/templates/{name}` · `POST /templates/{name}/import` | `templates/gen_verification/` + `materialize` → `MODEL.IMPORT` |
+| `POST /api/call` | `MCPServer.handle`（**同一条** 9 Tool 链，返回 13 键信封） |
+
+#### 8.35.3 ⚠️ 两处实现陷阱（实测）
+
+1. **Starlette `Mount('/mcp')` 不匹配恰好 `/mcp`**：只匹配 `/mcp/…`，对 `/mcp` 会
+   `307 → /mcp/`；关掉 `redirect_slashes` 后又变成 `404`。⇒ 必须**显式补一条精确
+   `Route('/mcp', …)`**，并在挂载分支里还原 `scope["path"]` 与 `scope["root_path"]`
+   （`get_route_path()` 会从 `path` 里剥 `root_path`）。
+2. **`OperationRegistry.get/list` 是异步方法**：管理面是同步读场景，用
+   `require()` / `names()`（同步只读入口），否则拿到的是 coroutine。
+
+#### 8.35.4 Settings 显式升级（R66 的既定路径）
+
+| 字段 | 默认 | 用途 |
+| --- | --- | --- |
+| `ui_root` | `""` | 静态 UI 目录；空 = 不挂载 |
+| `template_root` | `./templates/gen_verification` | 模板库 |
+| `management_import_root` | `./data/management` | 模板生成的 JSON 落点 |
+| `ui_cors_origins` | `""` | 显式来源；同源部署留空 |
+
+⇒ Settings **17 → 21**；`.env.example` 与 `tests/test_infrastructure_p29_p35.py`
+的字段断言**同批升级**（不得悄悄扩）。
+
+#### 8.35.5 前端接入
+
+| 文件 | 作用 |
+| --- | --- |
+| `web/scripts/api.js` | API 客户端；token 只存 `sessionStorage` |
+| `web/scripts/live.js` / `live-pages.js` | 实时数据映射 + 覆盖渲染 |
+| `web/scripts/pages/login.js` | 登录页（唯一匿名流程） |
+| `web/scripts/pages/templates.js` | 参数化模板表单 + 导入 |
+
+**回落策略**：后端未启动 / 未登录 ⇒ 页面仍按 `mock.js` 渲染；实时数据只替换数据区域。
+
+**可执行判定** = `pytest tests/test_management_api_p181.py -q`（**11** 项）·
+`pytest tests/test_transport_p40_p41.py -q`（**22** 项，MCP 传输零回归）·
+`pytest tests/test_midas_model_template_p180.py -q`（**12** 项）·
+`python registry/tools/check_operation_availability.py --check`（**71 / 73** 不变）·
+裁决 `docs/07` §16.1 **R175** · 部署手册 `docs/10_Web_UI接入与同源部署_v1.0.md`。

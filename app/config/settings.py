@@ -56,6 +56,15 @@ class Settings(BaseSettings):
     host: str = "127.0.0.1"
     port: int = 7860
 
+    # ===== P181：同源 Web UI / 管理面 =====
+    # ⚠️ 这 4 个字段是 **P181 显式新增**（`docs/07` §16 R66 的「若后续需要运维可调，
+    # 应在**新批次**里连同 `.env.example` 与那条断言一起显式升级」）。
+    # 默认值 = 不启用（保持既有部署行为不变）。
+    ui_root: str = ""  # 静态 UI 根目录；空串 ⇒ 不挂载（纯 API / MCP 模式）
+    template_root: str = "./templates/gen_verification"  # 参数化模板库
+    management_import_root: str = "./data/management"  # 模板导入的服务器侧 JSON 落点
+    ui_cors_origins: str = ""  # 逗号分隔的显式来源；空串 ⇒ 同源部署，不启用 CORS
+
     # ===== 任务 / 存储 / 超时（source7 §5.1）=====
     task_worker_count: int = 4
     artifact_root: str = "./data/artifacts"

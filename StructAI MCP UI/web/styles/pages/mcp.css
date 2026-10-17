@@ -1,0 +1,194 @@
+/* ============================================================
+   MCP 服务器
+   量测基准：ui/MCP服务器.png（1536×1024）
+   页头卡 88–185；指标行 200–329（高 130）；主区 343–955
+   左卡 257–921、右栏 935–1521（间距 14）
+   ============================================================ */
+
+.mcp-page{display:flex;flex-direction:column;gap:var(--gap-y)}
+
+/* ---------------- 页头 ---------------- */
+.mcp-head{
+  position:relative;flex:none;height:98px;
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+}
+.mcp-head-accent{
+  position:absolute;left:8px;top:20px;width:6px;height:52px;border-radius:3px;
+  background:linear-gradient(180deg,#0B6AFB,#0A90FC);
+}
+.mcp-title{position:absolute;left:28px;top:18px;font-size:30px;line-height:1;font-weight:700;color:var(--text-1)}
+.mcp-sub{position:absolute;left:28px;top:56px;font-size:16px;line-height:1;color:var(--text-3)}
+.mcp-head-actions{position:absolute;right:26px;top:29px;display:flex;align-items:center;gap:12px}
+.btn-outline-blue{
+  display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 20px;
+  border-radius:var(--r-sm);border:1px solid #CFE0FA;background:#fff;
+  color:var(--brand);font-size:15px;font-weight:600;
+}
+.btn-outline-blue:hover{background:#F5F9FF;border-color:#B7D3F8}
+.btn-outline-blue .bi{width:18px;height:18px}
+
+/* ---------------- 指标行（高 130） ---------------- */
+.mcp-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--gap-x);flex:none}
+.mcp-stat{
+  height:130px;background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:18px 16px 16px;display:flex;flex-direction:column;
+}
+.mcp-stat-top{display:flex;gap:13px;flex:1;min-height:0}
+.mcp-stat-label{font-size:15px;color:var(--text-3);line-height:1.15;white-space:nowrap}
+.mcp-stat-value{
+  margin-top:10px;font-size:30px;line-height:1;font-weight:700;color:var(--text-1);
+  font-family:var(--font-num);display:flex;align-items:center;gap:8px;
+}
+.mcp-stat-value.is-text{font-size:26px;font-family:var(--font)}
+.mcp-stat-value.is-green{color:var(--green)}
+.mcp-stat-value .dot{width:12px;height:12px}
+.mcp-stat-value .unit{font-size:22px;font-weight:700;letter-spacing:.5px}
+.mcp-stat-foot{
+  margin-top:auto;font-size:14px;color:var(--text-3);line-height:1.2;
+  display:flex;align-items:center;gap:8px;
+}
+.mcp-stat-foot .v{font-family:var(--font-num)}
+.mcp-stat-foot .bar{color:#D9E0EA}
+.mcp-stat-foot .bad{color:var(--red);font-weight:600}
+.mcp-chip{
+  display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;
+  border-radius:6px;background:var(--brand-soft);color:var(--brand);
+  font-size:13px;font-weight:600;font-family:var(--font-num);
+}
+.mcp-delta{margin-left:14px;font-size:15px;font-weight:600;font-family:var(--font-num);color:var(--green)}
+
+/* ---------------- 主体分栏 ---------------- */
+.mcp-split{
+  display:grid;grid-template-columns:minmax(0,1fr) 587px;gap:14px;align-items:start;
+}
+.mcp-card{
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:18px 24px 20px;
+}
+.mcp-card-title{font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:16px}
+
+/* 表单 */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:16px}
+.field-label{display:block;font-size:14px;color:var(--text-2);margin-bottom:8px}
+.field-label .req{color:var(--red);margin-left:2px}
+.field-input{
+  height:40px;display:flex;align-items:center;
+  border:1px solid #E3E9F2;border-radius:var(--r-sm);background:#fff;padding:0 14px;
+}
+.field-input:focus-within{border-color:#B7D3F8;box-shadow:0 0 0 3px rgba(0,102,254,.08)}
+.field-input input{
+  flex:1;min-width:0;border:0;outline:none;background:transparent;
+  font-size:15px;color:var(--text-2);font-family:var(--font-num);
+}
+.field-input input.is-text{font-family:var(--font)}
+.field-hint{font-size:13px;color:var(--text-4);margin-top:8px;line-height:1.4}
+.spin{
+  width:22px;height:40px;flex:none;display:flex;flex-direction:column;
+  border-left:1px solid #E3E9F2;margin-right:-14px;
+}
+.spin button{
+  flex:1;display:flex;align-items:center;justify-content:center;color:#8C97AD;
+}
+.spin button:first-child{border-bottom:1px solid #E3E9F2}
+.spin button:hover{background:#F2F6FB;color:var(--brand)}
+.spin svg{width:13px;height:13px}
+
+/* 传输方式 */
+.transports{margin:6px 0 18px}
+.transports-label{font-size:14px;color:var(--text-2);margin-bottom:12px}
+.check-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.cbx{
+  width:20px;height:20px;border-radius:5px;flex:none;margin-top:1px;
+  border:1.5px solid #C9D4E4;background:#fff;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+.cbx svg{width:13px;height:13px}
+.check-row.is-on .cbx{background:var(--brand);border-color:var(--brand)}
+.check-row .cname{font-size:15px;color:var(--text-1);line-height:1.3}
+.check-row .cdesc{font-size:14px;color:var(--text-3);margin-top:5px;line-height:1.3}
+
+/* 高级设置 */
+.adv{
+  margin:6px 0 18px;
+}
+.adv-head{
+  height:34px;display:flex;align-items:center;gap:8px;
+  background:#F2F7FB;border-radius:6px;padding:0 12px;
+  font-size:15px;font-weight:600;color:var(--text-2);cursor:pointer;
+}
+.adv-head .chev{width:16px;height:16px;color:var(--text-3)}
+.adv-body{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding-top:16px}
+.adv-field .field-input{height:40px}
+.adv-field .field-select{width:100%;height:40px}
+
+.form-actions{display:flex;align-items:center;gap:14px}
+
+/* ---------------- 右栏 ---------------- */
+.mcp-side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.side-card-head2{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.side-card-head2 .mcp-card-title{margin-bottom:0}
+.mini-table{width:100%;font-size:14px}
+.mini-table th{
+  height:36px;padding:0 10px;text-align:left;white-space:nowrap;
+  font-size:14px;font-weight:600;color:var(--text-3);background:#F6F9FD;
+}
+.mini-table td{height:44px;padding:0 10px;color:var(--text-2);white-space:nowrap}
+.mini-table th:first-child,.mini-table td:first-child{padding-left:14px;border-radius:6px 0 0 6px}
+.mini-table th:last-child,.mini-table td:last-child{padding-right:14px;border-radius:0 6px 6px 0}
+.mini-table .col-mid{color:var(--text-3)}
+.mini-table .col-time{color:var(--text-3);font-family:var(--font-num)}
+.mini-table .col-ops{width:48px;text-align:center}
+.mini-table tbody tr:hover td{background:#FAFCFF}
+
+/* 状态码圆点 */
+.code-dot{
+  width:26px;height:26px;border-radius:50%;display:inline-flex;
+  align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;
+  font-family:var(--font-num);
+}
+.code-dot.ok{background:var(--green)}
+.code-dot.info{background:var(--brand)}
+
+/* 服务操作 */
+.ops-btns{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn-danger-outline{
+  display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 18px;
+  border-radius:var(--r-sm);border:1px solid #FBC9C7;background:#fff;
+  color:var(--red);font-size:15px;
+}
+.btn-danger-outline:hover{background:#FEF3F2;border-color:#F7A9A6}
+.btn-danger-outline .bi{width:17px;height:17px}
+.btn-plain{
+  display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 18px;
+  border-radius:var(--r-sm);border:1px solid #E3E9F2;background:#fff;
+  color:var(--text-2);font-size:15px;
+}
+.btn-plain:hover{border-color:#C9D8EC;color:var(--brand)}
+.btn-plain .bi{width:17px;height:17px}
+.btn-solid{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 20px;border-radius:var(--r-sm);
+  background:var(--brand);color:#fff;font-size:15px;font-weight:600;
+}
+.btn-solid:hover{background:var(--brand-deep)}
+
+/* ---------- 表单纵向节奏校准（原稿：标签 402、输入 425–465、提示 470–481、
+   传输方式 506、三行 536/588/643、服务名 708、高级设置 810/846/872、按钮 912） ---------- */
+.field-label{margin-bottom:6px;line-height:1.25}
+.field-hint{margin-top:4px;line-height:1.35}
+.form-row{margin-bottom:12px;gap:28px}
+.transports{margin:4px 0 14px}
+.transports-label{margin-bottom:10px}
+.check-row{margin-bottom:11px}
+.adv{margin:4px 0 14px}
+.adv-body{padding-top:8px;gap:20px}
+.mcp-card-title{margin-bottom:14px}
+
+/* 末次微调：把下半部分（服务名称/高级设置/按钮）整体上提约 15px */
+.adv-body{padding-top:4px}
+.field-hint{margin-top:3px}
+.check-row{margin-bottom:10px}
+.form-row{margin-bottom:10px}

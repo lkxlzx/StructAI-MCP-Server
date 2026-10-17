@@ -1,0 +1,165 @@
+/* ============================================================
+   外壳：顶部栏 / 侧栏 / 内容区 / 底栏 / 窗口按钮
+   ============================================================ */
+.app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ---------------- 顶部标题栏 ---------------- */
+.topbar{
+  flex:none;
+  height:var(--header-h);
+  display:flex;
+  align-items:center;
+  padding:0 0 0 26px;
+  background:var(--header-bg);
+  box-shadow:0 1px 0 0 var(--header-line), 0 10px 18px -14px rgba(23,43,77,.35);
+  position:relative;
+  z-index:30;
+}
+html.is-desktop .topbar{-webkit-app-region:drag}
+
+.brand{display:flex;align-items:center;gap:19px;min-width:0}
+.brand-logo{width:54px;height:41px;flex:none}
+.brand-text{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
+.brand-title{
+  font-size:23px;line-height:1;font-weight:700;color:var(--text-1);
+  letter-spacing:.2px;white-space:nowrap;
+}
+.brand-sub{
+  font-size:14px;line-height:1;color:var(--text-3);white-space:nowrap;
+}
+
+.topbar-right{
+  margin-left:auto;
+  display:flex;align-items:center;
+  height:100%;
+}
+.run-state{display:flex;align-items:center;gap:7px;margin-right:19px}
+.run-state-text{font-size:15px;font-weight:600;color:var(--green);white-space:nowrap}
+.dot{width:14px;height:14px;border-radius:50%;flex:none;background:currentColor}
+.dot-green{background:var(--green)}
+.dot-red{background:var(--red)}
+.dot-blue{background:var(--brand)}
+.dot-orange{background:var(--orange)}
+.dot-sm{width:8px;height:8px}
+
+.version-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:38px;min-width:92px;padding:0 16px;
+  border-radius:var(--r-sm);
+  background:var(--brand);
+  color:#fff;font-size:15px;font-weight:600;letter-spacing:.2px;
+  margin-right:25px;
+}
+.icon-btn{
+  width:24px;height:24px;color:#5C6A82;margin-right:25px;
+  transition:color .15s;
+}
+.icon-btn:hover{color:var(--brand)}
+html.is-desktop .icon-btn,html.is-desktop .run-state,html.is-desktop .version-badge{-webkit-app-region:no-drag}
+
+/* 窗口按钮（仅桌面壳显示） */
+.win-actions{display:none;height:100%;align-items:stretch;-webkit-app-region:no-drag}
+html.is-desktop .win-actions{display:flex}
+.win-btn{
+  width:48px;height:100%;display:flex;align-items:center;justify-content:center;
+  color:#5C6A82;transition:background-color .12s,color .12s;
+}
+.win-btn svg{width:12px;height:12px}
+.win-btn:hover{background:rgba(16,34,66,.06);color:var(--text-1)}
+.win-btn.win-close:hover{background:#E5484D;color:#fff}
+.win-btn.win-close{width:56px}
+
+/* ---------------- 主体 ---------------- */
+.app-body{
+  flex:1;min-height:0;display:flex;
+  padding-top:var(--body-pad-top);
+}
+
+/* ---------------- 左侧导航 ---------------- */
+.sidebar{
+  flex:none;width:var(--sidebar-w);
+  background:var(--sidebar-bg);
+  display:flex;flex-direction:column;
+  padding:20px 12px 14px;
+}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav-item{
+  display:flex;align-items:center;gap:14px;
+  height:52px;padding:0 16px;border-radius:var(--r-sm);
+  color:var(--sidebar-text);font-size:16px;
+  transition:background-color .14s,color .14s;
+}
+.nav-item .nav-icon{width:24px;height:24px;flex:none;color:#A9B7C9}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.is-active{background:var(--sidebar-active);color:#fff;font-weight:600}
+.nav-item.is-active .nav-icon{color:#fff}
+
+/* 侧栏底部服务卡片 */
+.side-status{
+  margin-top:auto;
+  border-radius:10px;
+  background:var(--sidebar-card);
+  border:1px solid var(--sidebar-line);
+  padding:16px 14px 14px;
+}
+.side-status-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.side-status-head .dot{width:10px;height:10px}
+.side-status-head span{font-size:15px;color:#fff;font-weight:600}
+.side-row{display:flex;align-items:center;justify-content:space-between;height:30px}
+.side-row dt{color:var(--sidebar-muted);font-size:14px;font-weight:400}
+.side-row dd{margin:0;color:#E8EEF7;font-size:15px;font-weight:600;font-family:var(--font-num)}
+.side-btn{
+  margin-top:12px;width:100%;height:36px;border-radius:var(--r-xs);
+  background:var(--brand);color:#fff;font-size:15px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background-color .14s;
+}
+.side-btn:hover{background:var(--brand-deep)}
+.side-btn.is-stopped{background:#3B4E66}
+
+/* ---------------- 内容区 ---------------- */
+.content{
+  flex:1;min-width:0;overflow:auto;
+  padding:0 var(--content-pad-x) var(--content-pad-b, 0);
+  outline:none;
+}
+.page{display:flex;flex-direction:column;gap:var(--gap-y)}
+
+/* ---------------- 底部栏 ---------------- */
+.app-footer{
+  flex:none;height:var(--footer-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px 0 26px;
+  background:var(--bg);
+}
+.footer-left{display:flex;align-items:center;gap:10px;color:var(--text-1)}
+.footer-left .footer-logo{width:26px;height:26px;color:var(--brand)}
+.footer-left .footer-brand{font-size:19px;font-weight:700;letter-spacing:.2px}
+.footer-left .footer-slogan{font-size:15px;color:var(--text-4);margin-left:2px}
+.footer-right{display:flex;align-items:center;gap:12px;color:var(--text-4);font-size:14px}
+.footer-right .sep{color:#C9D3E0}
+
+/* 侧栏按钮内图标 */
+.side-btn-icon{width:15px;height:15px;display:inline-flex;flex:none}
+.side-rows{margin:0}
+.footer-left .footer-logo,.footer-left .footer-brand{flex:none}
+
+/* ---------- 依据原稿量测的二次校准 ---------- */
+.brand-text{gap:8px}
+.side-status{padding:14px 14px 10px}
+.side-status-head{margin-bottom:12px}
+.side-row{height:27.5px}
+.side-btn{margin-top:10px}
+
+/* 浏览器（Web 版）隐藏窗口按钮但保留占位，使右上角状态区、
+   版本徽标、齿轮在各平台像素位置完全一致 */
+.win-actions{display:flex;visibility:hidden;pointer-events:none}
+html.is-desktop .win-actions{visibility:visible;pointer-events:auto}
+
+/* 窄视口保护：视口小于设计宽度时整体横向滚动，避免卡片/文字相互重叠 */
+body{overflow-x:auto;overflow-y:hidden}
+.app{min-width:1320px}
+.topbar{min-width:1320px}
+
+/* 灰色状态点（未连接等） */
+.dot-gray{background:#B4BECD}

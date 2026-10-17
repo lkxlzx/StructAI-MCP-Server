@@ -30,7 +30,7 @@ sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
 REPO: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
-from app.infrastructure.adapters.midas.model_template import (  # noqa: E402
+from app.application.templates.model_template import (  # noqa: E402
     materialize,
     parameter_values,
 )

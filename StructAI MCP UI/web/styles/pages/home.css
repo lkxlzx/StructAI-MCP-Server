@@ -1,0 +1,156 @@
+/* ============================================================
+   首页
+   ============================================================ */
+
+/* ---------------- 欢迎横幅 ---------------- */
+.banner{
+  position:relative;
+  height:var(--h-banner);
+  flex:none;
+  border-radius:var(--r-card);
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,#FFFFFF 0%,#FDFEFF 34%,#F2F7FE 62%,#E4EFFE 100%);
+  box-shadow:var(--shadow-card);
+  display:flex;align-items:center;
+}
+.banner-art{
+  position:absolute;right:0;top:0;height:100%;width:66%;
+  pointer-events:none;
+}
+.banner-art svg{height:100%;width:100%}
+.banner-accent{
+  position:absolute;left:4px;top:22px;width:7px;height:64px;
+  border-radius:4px;
+  background:linear-gradient(180deg,#0B6AFB,#0A90FC);
+}
+.banner-main{
+  position:relative;
+  padding-left:24px;
+  display:flex;flex-direction:column;justify-content:center;gap:9px;
+}
+.banner-title{
+  font-size:38px;line-height:1;font-weight:700;color:var(--text-1);
+  letter-spacing:.5px;
+}
+.banner-sub{
+  font-size:19px;line-height:1;color:var(--text-3);letter-spacing:.3px;
+}
+.banner-aside{
+  position:absolute;right:34px;top:50%;transform:translateY(-50%);
+  text-align:right;z-index:2;
+}
+.banner-aside-1{font-size:20px;font-weight:600;color:#12406E;line-height:1.25}
+.banner-aside-2{font-size:15px;color:#5C7FA6;margin-top:4px}
+
+/* ---------------- 指标卡片行 ---------------- */
+.stat-row{
+  flex:none;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:var(--gap-x);
+}
+.stat-card{
+  height:var(--h-statcard);
+  background:var(--card);border-radius:var(--r-card);
+  box-shadow:var(--shadow-card);
+  padding:16px;
+  display:flex;flex-direction:column;
+}
+.stat-top{display:flex;gap:13px;flex:1;min-height:0}
+.stat-icon{
+  width:48px;height:48px;border-radius:12px;flex:none;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  background:linear-gradient(135deg,#0A78FE 0%,#0560F5 100%);
+}
+.stat-icon svg{width:26px;height:26px}
+.stat-body{min-width:0;padding-top:1px}
+.stat-label{font-size:15px;color:var(--text-3);line-height:1.15;white-space:nowrap}
+.stat-value{
+  margin-top:9px;font-size:30px;line-height:1;font-weight:700;color:var(--text-1);
+  font-family:var(--font-num);display:flex;align-items:center;gap:8px;
+}
+.stat-value .unit{font-size:22px;font-weight:700;letter-spacing:.5px}
+.stat-value.is-text{font-size:26px;font-family:var(--font)}
+.stat-value .dot{width:12px;height:12px}
+.stat-value.is-green{color:var(--green)}
+.stat-delta{margin-left:14px;font-size:15px;font-weight:600;font-family:var(--font-num)}
+.stat-foot{
+  margin-top:auto;font-size:14px;color:var(--text-3);
+  display:flex;align-items:center;gap:8px;
+}
+.stat-foot .v{font-family:var(--font-num);color:var(--text-3)}
+.stat-foot .bar{color:#D9E0EA}
+.stat-foot .bad{color:var(--red);font-weight:600}
+
+/* ---------------- 左右分栏 ---------------- */
+.split{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) var(--side-col-w);
+  gap:var(--gap-x);
+  align-items:start;
+}
+.col-main,.col-side{display:flex;flex-direction:column;gap:var(--gap-y);min-width:0}
+
+/* ---------------- 任务执行趋势 ---------------- */
+.chart-card{height:var(--h-chartcard);display:flex;flex-direction:column}
+.chart-body{flex:1;min-height:0;padding:0 20px 12px;display:flex;flex-direction:column}
+.chart-legend{margin:14px 0 6px}
+.chart-canvas{flex:1;min-height:0;position:relative}
+.chart-canvas svg{width:100%;height:100%}
+
+/* ---------------- 最近任务 ---------------- */
+.table-card{height:var(--h-tablecard);display:flex;flex-direction:column;overflow:hidden}
+.table-wrap{flex:1;min-height:0;overflow:auto;padding-top:12px}
+.table-wrap .table th{position:sticky;top:0;z-index:1}
+
+/* ---------------- 系统事件 ---------------- */
+.events-card{height:var(--h-eventscard);display:flex;flex-direction:column}
+.events-list{flex:1;min-height:0;overflow:auto;padding:8px 20px 14px}
+.event-item{
+  display:flex;align-items:flex-start;gap:12px;height:29.33px;
+  font-size:15px;color:var(--text-2);
+}
+.event-item .dot{width:8px;height:8px;margin-top:6px}
+.event-time{
+  color:var(--text-3);font-family:var(--font-num);
+  font-variant-numeric:tabular-nums;flex:none;
+}
+.event-text{color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.event-item.is-error .event-text{color:var(--red)}
+.event-item.is-info .event-text{color:var(--text-2)}
+
+/* ---------------- 使用提示 ---------------- */
+.tips-card{
+  height:var(--h-tipscard);
+  background:var(--tip-bg, #EAF3FD);
+  border-radius:var(--r-card);
+  padding:20px;
+  display:flex;gap:14px;
+  box-shadow:var(--shadow-card);
+}
+.tips-icon{width:26px;height:26px;flex:none;color:var(--brand)}
+.tips-icon svg{width:100%;height:100%}
+.tips-title{font-size:17px;font-weight:700;color:var(--text-1);margin-bottom:8px}
+.tips-text{font-size:15px;line-height:1.55;color:#3D5A7D}
+
+/* 图表文字样式 */
+.chart-canvas svg text{font-family:var(--font);font-size:13px;fill:#8C97AD}
+
+/* ---------- 依据原稿量测的二次校准 ---------- */
+/* 横幅标题：原稿墨迹高 34px / 宽 914px（x 282..1195）*/
+.banner-title{font-size:34px;letter-spacing:-.3px}
+/* 横幅副标题：原稿墨迹高 17px / 宽 245px */
+.banner-sub{font-size:18px;letter-spacing:.4px}
+/* 指标卡：图标与标签自卡片顶部 +18px 起 */
+.stat-card{padding:18px 16px 16px}
+.stat-foot{line-height:1.2}
+/* 图表：原稿绘图区高约 120px，刻度线自 y≈410 起 */
+.chart-body{padding:0 20px 46px}
+.chart-legend{margin:2px 0 0}
+
+/* ---------- 二次校准（第二稿） ---------- */
+/* 事件列表首行文字自卡片顶 +61px 起（原稿 y=405，卡片顶 y=344） */
+.events-list{padding:15px 20px 14px}
+/* 横幅右侧文案：原稿首行墨迹高 16px、行块中心约在卡片中线下方 7px */
+.banner-aside{top:calc(50% + 7px)}
+.banner-aside-1{font-size:19px}
+.banner-aside-2{font-size:15px}

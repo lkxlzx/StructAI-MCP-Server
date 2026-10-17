@@ -1,0 +1,40 @@
+{
+  "name": "midas-mcp-manager",
+  "productName": "MIDAS MCP 管理器",
+  "version": "1.0.0",
+  "description": "MIDAS MCP 管理器 · Windows 桌面版（与 Web 版共用同一份 UI）",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.structai.midas.mcp",
+    "productName": "MIDAS MCP 管理器",
+    "files": [
+      "main.js",
+      "preload.js",
+      { "from": "../web", "to": "web" }
+    ],
+    "extraResources": [],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "MIDAS-MCP-Manager-Setup-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "MIDAS-MCP-Manager-Portable-${version}-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}

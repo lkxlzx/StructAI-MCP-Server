@@ -307,8 +307,15 @@ SETTINGS_FIELD_SPEC: tuple[str, ...] = (
     "task_default_timeout_seconds",
     "lock_default_timeout_seconds",
     "capability_cache_seconds",
+    # ⚠️ **P181 显式升级**（`docs/07` §16 R66 的既定路径：新增字段必须连同
+    # `.env.example` 与**本条断言**一起升级，不得悄悄扩）：
+    # 同源 Web UI / 管理面的 4 个运行期参数。
+    "ui_root",
+    "template_root",
+    "management_import_root",
+    "ui_cors_origins",
 )
-"""`docs/02` §5 / §5.1 的 Settings 字段（P02 已冻结；本批**未新增**）。"""
+"""`docs/02` §5 / §5.1 的 Settings 字段（P02 冻结 **17**；P181 显式新增 **4** ⇒ **21**）。"""
 
 FROZEN_DEPENDENCIES: tuple[str, ...] = (
     "fastapi",

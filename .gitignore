@@ -77,3 +77,10 @@ data/
 #    `pytest-of-*` 是 pytest 的 `tmp_path` 根（`--basetemp` 未指定时的默认位置）。
 p152-interface-*/
 pytest-of-*/
+
+# ⚠️ **P181**：前端原型的依赖与打包产物（**不**进仓库）——
+#    源码（web/ · server/ · docs/ · ui/ · desktop/{main.js,preload.js,package.json}）进仓库。
+StructAI MCP UI/desktop/node_modules/
+StructAI MCP UI/desktop/dist/
+StructAI MCP UI/server/__pycache__/
+StructAI MCP UI/**/__pycache__/

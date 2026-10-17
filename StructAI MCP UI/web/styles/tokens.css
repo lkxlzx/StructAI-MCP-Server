@@ -1,0 +1,74 @@
+/* ============================================================
+   设计变量（Design Tokens）
+   数值来源：ui/首页.png 逐像素量测（1536 x 1024 原稿）
+   ------------------------------------------------------------
+   布局：
+     顶部栏 78px + 主体上间距 10px  →  侧栏/内容区自 y=88 开始
+     底栏 59px（侧栏止于 y=965）
+     侧栏宽 240px，内容区左右内边距 18px
+     卡片横向间距 16px，纵向间距 14px
+   ============================================================ */
+:root{
+  /* ---- 布局 ---- */
+  --header-h: 78px;
+  --body-pad-top: 10px;
+  --footer-h: 59px;
+  --sidebar-w: 240px;
+  --content-pad-x: 18px;
+  --gap-x: 16px;
+  --gap-y: 14px;
+  --side-col-w: 418px;
+
+  /* 卡片高度（首页） */
+  --h-banner: 108px;
+  --h-statcard: 120px;
+  --h-chartcard: 266px;
+  --h-tablecard: 328px;
+  --h-eventscard: 455px;
+  --h-tipscard: 123px;
+
+  /* ---- 色彩 ---- */
+  --bg:              #F2F6FB;
+  --header-bg:       #F6F9FC;
+  --card:            #FFFFFF;
+  --card-line:       #E8EDF5;
+  --header-line:     #E7EEF7;
+
+  --sidebar-bg:      #1B2D43;
+  --sidebar-card:    rgba(255,255,255,.055);
+  --sidebar-line:    rgba(255,255,255,.10);
+  --sidebar-active:  #274C7C;
+  --sidebar-text:    #C2CEDF;
+  --sidebar-muted:   #8FA1B8;
+
+  --brand:           #0065FE;
+  --brand-deep:      #0157D6;
+  --brand-cyan:      #0A90FC;
+  --brand-soft:      #E8F1FE;
+  --brand-soft-2:    #DCEAFE;
+
+  --green:           #06A65A;
+  --green-soft:      #E7F7EF;
+  --red:             #FE3B36;
+  --red-soft:        #FEEDEC;
+  --orange:          #F79009;
+
+  --text-1:          #0B1220;   /* 标题 */
+  --text-2:          #1F2A44;   /* 正文 */
+  --text-3:          #5A6884;   /* 次要 */
+  --text-4:          #8C97AD;   /* 弱化 */
+  --track:           #EDF1F7;
+
+  /* ---- 圆角 / 阴影 ---- */
+  --r-card:  12px;
+  --r-sm:    8px;
+  --r-xs:    6px;
+  --r-pill:  999px;
+  --shadow-card: 0 1px 2px rgba(16,34,66,.04);
+  --shadow-pop:  0 8px 24px rgba(16,34,66,.12);
+
+  /* ---- 字体 ---- */
+  --font: "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+  --font-num: "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif;
+}

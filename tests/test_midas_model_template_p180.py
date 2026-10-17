@@ -23,7 +23,7 @@ from typing import Final
 
 import pytest
 
-from app.infrastructure.adapters.midas.model_template import (
+from app.application.templates.model_template import (
     EXCLUDED_TABLES,
     NODE_PARAM_LIMIT,
     SUPPORT_PARAM_LIMIT,

@@ -1,0 +1,15 @@
+/* 登录页（P181） */
+.login-card{margin:120px auto 0;max-width:420px;background:var(--card-bg,#fff);border-radius:14px;
+  box-shadow:0 8px 30px rgba(16,34,66,.10);padding:32px 34px 26px}
+.login-brand{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.login-logo{width:44px;height:44px;display:inline-block;color:var(--brand,#0065FE)}
+.login-title{margin:0;font-size:20px;font-weight:700;color:var(--text-1,#0B1220)}
+.login-sub{margin:4px 0 0;font-size:12px;color:var(--text-3,#5A6884)}
+.login-form{display:flex;flex-direction:column;gap:16px}
+.login-field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--text-2,#33415C)}
+.login-field input{height:40px;border:1px solid #DDE5F0;border-radius:8px;padding:0 12px;font-size:14px;outline:none}
+.login-field input:focus{border-color:var(--brand,#0065FE);box-shadow:0 0 0 3px rgba(0,101,254,.12)}
+.login-error{margin:0;min-height:18px;font-size:12px;color:#FE3B36}
+.login-submit{height:42px;border-radius:9px;font-size:15px}
+.login-submit:disabled{opacity:.6;cursor:default}
+.login-hint{margin:0;font-size:12px;color:var(--text-3,#5A6884)}

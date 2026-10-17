@@ -1,0 +1,126 @@
+/* ============================================================
+   交互反馈动效（鼠标 hover / 按下 / 触摸涟漪 / 键盘焦点）
+   说明：只在交互态生效，不改变默认静态外观，因此不影响像素还原度
+   ============================================================ */
+
+:root{
+  --fx-fast: .12s;
+  --fx-dur:  .18s;
+  --fx-ease: cubic-bezier(.4,0,.2,1);
+  --fx-press: scale(.97);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+}
+
+/* ---------- 统一过渡基线 ---------- */
+button, a, .nav-item, .ai-tab, .model-tab, .detail-tab, .chip, .vtool, .check-row, .cbx,
+.client-table tbody tr, .mini-table tbody tr, .pg-btn, .row-more, .row-ico, .win-btn,
+.side-btn, .side-status, .btn-primary, .btn-outline, .btn-ghost, .btn-icon, .btn-soft,
+.btn-solid, .btn-plain, .btn-danger-outline, .btn-outline-blue, .search-box, .field-input,
+.select-like, .letter-avatar, .stat-card, .mcp-stat, .tips-card, .code-dot, .avatar{
+  transition:
+    background-color var(--fx-dur) var(--fx-ease),
+    border-color     var(--fx-dur) var(--fx-ease),
+    color            var(--fx-dur) var(--fx-ease),
+    box-shadow       var(--fx-dur) var(--fx-ease),
+    transform        var(--fx-fast) var(--fx-ease),
+    opacity          var(--fx-dur) var(--fx-ease);
+  will-change: transform;
+}
+
+/* ---------- 按下反馈（鼠标左键 / 触摸） ---------- */
+button:active,
+.pg-btn:active, .row-more:active, .row-ico:active, .win-btn:active, .side-btn:active,
+.chip:active, .vtool:active, .ai-tab:active, .model-tab:active, .detail-tab:active,
+.nav-item:active, .link-more:active,
+.btn-primary:active, .btn-outline:active, .btn-ghost:active, .btn-icon:active,
+.btn-soft:active, .btn-solid:active, .btn-plain:active, .btn-danger-outline:active,
+.btn-outline-blue:active{
+  transform: var(--fx-press);
+}
+
+.btn-primary:hover, .btn-solid:hover, .btn-ghost:hover{
+  box-shadow: 0 4px 12px rgba(0,102,254,.28);
+}
+.btn-outline:hover, .btn-plain:hover, .btn-danger-outline:hover, .btn-outline-blue:hover,
+.btn-soft:hover, .btn-icon:hover{
+  box-shadow: 0 2px 8px rgba(16,34,66,.10);
+}
+
+/* ---------- 侧栏导航 ---------- */
+.nav-item:hover{transform: translateX(2px)}
+.nav-item:hover .nav-icon{transform: scale(1.06)}
+.nav-item .nav-icon{transition: transform var(--fx-dur) var(--fx-ease), color var(--fx-dur) var(--fx-ease)}
+/* ---------- 指标卡 / 提示卡：轻微抬起 ---------- */
+.stat-card:hover, .mcp-stat:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16,34,66,.10);
+}
+.tips-card:hover{transform: translateY(-2px);box-shadow: 0 8px 20px rgba(16,34,66,.10)}
+
+/* ---------- 表格行 ---------- */
+.client-table tbody tr:hover td, .mini-table tbody tr:hover td, .table tbody tr:hover td{
+  background:#F3F8FF;
+}
+.client-table tbody tr:active td{background:#EAF3FF}
+
+/* ---------- 标签（下划线渐入） ---------- */
+.ai-tab, .model-tab, .detail-tab{position:relative}
+.ai-tab::after, .model-tab::after, .detail-tab::after{
+  content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:var(--brand);transform:scaleX(0);transform-origin:center;
+  transition:transform var(--fx-dur) var(--fx-ease);opacity:.45;border-radius:2px;
+}
+.ai-tab:hover::after, .model-tab:hover::after, .detail-tab:hover::after{transform:scaleX(.7)}
+.ai-tab.is-active::after, .model-tab.is-active::after, .detail-tab.is-active::after{
+  transform:scaleX(1);opacity:0;
+}
+
+/* ---------- 输入 / 下拉 ---------- */
+.search-box:hover, .field-input:hover{border-color:#CFDDF0}
+.select-like:hover{border-color:#C9D8EC}
+input::selection{background:rgba(0,102,254,.18)}
+.composer:hover{box-shadow:0 4px 16px rgba(16,34,66,.08)}
+
+/* ---------- 复选框（勾选弹一下） ---------- */
+.check-row .cbx{transition:transform var(--fx-dur) var(--fx-ease), background-color var(--fx-dur), border-color var(--fx-dur)}
+.check-row:hover .cbx{border-color:#93B8F3}
+.check-row.is-on .cbx{animation:fx-pop .24s var(--fx-ease)}
+@keyframes fx-pop{
+  0%{transform:scale(.8)} 60%{transform:scale(1.12)} 100%{transform:scale(1)}
+}
+
+/* ---------- 字母头像 / 状态圆点 ---------- */
+tr:hover .letter-avatar{transform:scale(1.06)}
+.card-title, .identity-name{transition:color var(--fx-dur) var(--fx-ease)}
+.quick .btn-primary:focus-visible, .chip:focus-visible{outline:none}
+
+/* ---------- 涟漪（JS 注入） ---------- */
+.fx-ripple-host{position:relative !important;overflow:hidden}
+.fx-ripple{
+  position:absolute;border-radius:50%;background:currentColor;opacity:.26;
+  transform:scale(0);pointer-events:none;animation:fx-ripple .55s ease-out forwards;
+}
+@keyframes fx-ripple{ to{ transform:scale(1);opacity:0 } }
+.btn-primary .fx-ripple, .btn-solid .fx-ripple{background:#fff;opacity:.35}
+
+/* ---------- 键盘焦点 ---------- */
+:focus-visible{outline:2px solid rgba(0,102,254,.55);outline-offset:2px;border-radius:6px}
+.nav-item:focus-visible{outline-offset:-2px}
+
+/* ---------- 触摸设备：按下时给一点底色 ---------- */
+@media (hover:none){
+  .nav-item:active{background:rgba(255,255,255,.12)}
+  .chip:active{background:#E4F0FF}
+  .btn-plain:active, .btn-outline:active{background:#F2F6FB}
+  .pg-btn:active{border-color:#B7D3F8;color:var(--brand)}
+}
+
+/* 首页任务表行反馈 */
+.table tbody tr td{transition:background-color var(--fx-dur) var(--fx-ease)}
+.event-item:hover{background:#F7FAFE}
+.event-item{border-radius:6px;transition:background-color var(--fx-dur) var(--fx-ease)}
+.side-row{transition:background-color var(--fx-dur) var(--fx-ease)}
+.side-status:hover{background:rgba(255,255,255,.085)}

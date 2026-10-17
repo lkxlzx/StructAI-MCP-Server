@@ -6,7 +6,7 @@
 `Gen Verification` 的 156 个样本全是 `.mgbx` 二进制（magic `MGNX`），逆向代价极高；
 官方已提供 `DOC.EXPORT`（模型 → JSON）⇒ **不**逆向，直接让 MIDAS 自己导出。
 本工具只负责**取样**：`DOC.OPEN` 样本副本 → `DOC.EXPORT` → 落盘。
-参数化模板由 `app/infrastructure/adapters/midas/model_template.py` 生成。
+参数化模板由 `app/application/templates/model_template.py` 生成。
 
 红线（与既有各批一致）
 ----------------------

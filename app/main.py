@@ -144,22 +144,51 @@ async def _serve_stdio(container: AppContainer, builder: ServerBuilder) -> None:
 
 
 async def _serve_http(container: AppContainer, builder: ServerBuilder) -> None:
-    """在 Streamable HTTP 上服务（`docs/02` §98；`docs/03` §44–§59）。
+    """在 Streamable HTTP 上服务（`docs/02` §98；`docs/03` §44–§59；P181 同源装配）。
 
     ⚠️ HTTP **必须鉴权**（`docs/07` §8.1）：认证端口由容器提供
     （`ExecutionServiceFactory.authenticator`），身份仍由**服务端**构造。
+
+    P181：同一端口同时提供 **MCP `/mcp`** + **管理面 `/api/*`** + **健康探针** +
+    **Web UI 静态资源**（同源部署 ⇒ 不需要 CORS）。
     """
     import uvicorn
 
-    from app.interfaces.mcp.transport.http import DEFAULT_HTTP_PATH, build_http_app
+    from app.interfaces.http.app import build_ui_app
+    from app.interfaces.mcp.transport.http import (
+        DEFAULT_HTTP_PATH,
+        StreamableHTTPTransport,
+    )
 
     factory = container.execution_service
     assert factory is not None  # noqa: S101 - `_serve` 已判空
-    app = build_http_app(
-        builder,
+    runtime = factory.runtime
+
+    transport = StreamableHTTPTransport(
+        server=builder,
         authenticator=factory.authenticator(),
         path=DEFAULT_HTTP_PATH,
         host=settings.host,
+    )
+    from app.application.registry_catalog import load_catalog
+    from app.application.templates.library import load_library
+    from app.infrastructure.management.service import build_management_service
+
+    management = build_management_service(
+        runtime,
+        catalog=load_catalog(settings.registry_root),
+        templates=load_library(settings.template_root),
+        import_root=settings.management_import_root,
+        version=settings.app_version,
+    )
+    app = build_ui_app(
+        api=management,
+        health=runtime.health,
+        mcp_app=transport.protocol_app,
+        mcp_middleware=transport.middleware,
+        ui_root=settings.ui_root,
+        cors_allow_origins=_cors_origins(settings.ui_cors_origins),
+        title=settings.app_name,
     )
     config = uvicorn.Config(
         app,
@@ -170,6 +199,11 @@ async def _serve_http(container: AppContainer, builder: ServerBuilder) -> None:
     )
     server = uvicorn.Server(config)
     await server.serve()
+
+
+def _cors_origins(raw: str) -> tuple[str, ...]:
+    """把逗号分隔的来源配置拆成元组（空串 ⇒ 不启用 CORS）。"""
+    return tuple(item.strip() for item in raw.split(",") if item.strip())
 
 
 def main(argv: Sequence[str] | None = None) -> int:

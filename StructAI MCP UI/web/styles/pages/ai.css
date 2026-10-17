@@ -1,0 +1,239 @@
+/* ============================================================
+   AI 工程助手 · 智能对话
+   量测基准：ui/AI工程助手-智能对话.png（1536×1024）
+   内容区：卡片 x 257–1520；左栏 257–1155，右栏 1170–1520（间距 14/15）
+   ============================================================ */
+
+/* ---------------- 页面头卡（标题 + 当前软件 + 标签行） ---------------- */
+.ai-head{
+  position:relative;flex:none;height:133px;
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+}
+.ai-head-accent{
+  position:absolute;left:15px;top:19px;width:7px;height:50px;border-radius:4px;
+  background:linear-gradient(180deg,#0B6AFB,#0A90FC);
+}
+.ai-title{
+  position:absolute;left:40px;top:15px;
+  font-size:24px;line-height:1;font-weight:700;color:var(--text-1);letter-spacing:.3px;
+}
+.ai-sub{
+  position:absolute;left:40px;top:46px;
+  font-size:16px;line-height:1;color:var(--text-3);
+}
+.ai-head-right{
+  position:absolute;right:33px;top:15px;
+  display:flex;flex-direction:column;align-items:flex-end;gap:7px;
+}
+.ai-soft-label{font-size:13px;line-height:1;color:var(--text-3)}
+.ai-head-row{display:flex;align-items:center;gap:18px}
+.ai-soft-select{
+  width:214px;height:34px;border-color:#CFE0FA;background:#F7FAFF;color:#12406E;
+}
+.ai-soft-select select{color:#12406E}
+.btn-soft{
+  display:inline-flex;align-items:center;gap:8px;
+  height:34px;padding:0 15px;border-radius:var(--r-sm);
+  border:1px solid #CFE0FA;background:#F7FAFF;color:var(--brand);
+  font-size:15px;transition:background-color .14s,border-color .14s;
+}
+.btn-soft:hover{background:#EDF4FF;border-color:#B7D3F8}
+.btn-soft .bi{width:17px;height:17px}
+
+/* 标签行（智能对话 / 工程模板 / 示例案例 / 历史记录） */
+.ai-tabs{
+  position:absolute;left:23px;bottom:11px;height:30px;
+  display:flex;align-items:flex-end;gap:30px;
+  border-bottom:1px solid #EEF2F7;padding-bottom:0;
+}
+.ai-tabs::after{
+  content:'';position:absolute;left:0;right:-23px;bottom:-1px;height:1px;
+  background:#EEF2F7;
+}
+.ai-tab{
+  position:relative;display:flex;align-items:center;gap:8px;
+  height:30px;padding-bottom:6px;font-size:15px;color:var(--text-3);
+  border-bottom:2px solid transparent;
+}
+.ai-tab .ti{width:20px;height:20px}
+.ai-tab:hover{color:var(--brand)}
+.ai-tab.is-active{color:#0B5FF3;font-weight:600;border-bottom-color:#0B5FF3}
+
+/* ---------------- 主体：左对话 + 右信息栏 ---------------- */
+.ai-split{
+  display:grid;grid-template-columns:minmax(0,1fr) 351px;
+  gap:15px;align-items:start;
+}
+.ai-main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.ai-side{display:flex;flex-direction:column;gap:11px;min-width:0}
+
+/* ---------------- 对话区 ---------------- */
+.chat-card{
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  height:655px;display:flex;flex-direction:column;overflow:hidden;
+}
+.chat-log{flex:1;min-height:0;overflow:auto;padding:12px 24px 0}
+
+/* 用户消息（右侧气泡） */
+.msg-user{display:flex;justify-content:flex-end;gap:14px;margin-bottom:18px}
+.msg-user .bubble{
+  max-width:560px;min-height:76px;
+  background:#E4F1FE;border-radius:10px;
+  padding:16px 20px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+}
+.msg-user .bubble p{font-size:16px;line-height:1.55;color:#12365E}
+.msg-user .stamp{align-self:flex-end;font-size:14px;color:var(--text-3);font-family:var(--font-num)}
+.avatar{
+  width:36px;height:36px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.avatar-me{background:var(--brand);color:#fff;font-size:15px;font-weight:600}
+.avatar-ai{background:transparent}
+
+/* AI 回复 */
+.msg-ai{display:flex;gap:16px;margin-bottom:16px}
+.msg-ai .ai-avatar{width:30px;height:30px;flex:none;margin-top:2px}
+.msg-ai-body{flex:1;min-width:0}
+.msg-ai-text{font-size:16px;line-height:1.6;color:var(--text-1)}
+.task-steps{margin:12px 0 0 4px;display:flex;flex-direction:column;gap:9px}
+.task-steps li{display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--text-1);line-height:1.35}
+.step-no{
+  width:20px;height:20px;border-radius:50%;flex:none;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--green-soft);color:var(--green);
+}
+.step-no svg{width:13px;height:13px}
+.msg-foot{
+  display:flex;flex-direction:column;align-items:flex-end;gap:6px;
+  margin-top:14px;
+}
+.msg-foot .pill{height:28px;font-size:14px}
+.msg-foot .ms{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:14px;color:var(--text-3);font-family:var(--font-num);
+}
+.msg-foot .ms .mi{width:15px;height:15px;color:#8C97AD}
+.msg-foot .stamp{font-size:14px;color:var(--text-3);font-family:var(--font-num)}
+
+/* ---------------- 模型面板（视图/结果/计算书） ---------------- */
+.model-panel{border-top:1px solid #EEF2F7;padding:0 24px 14px;flex:none}
+.model-tabs{display:flex;gap:0;border-bottom:1px solid #EEF2F7;margin:0 -24px 0;padding:0 24px}
+.model-tab{
+  padding:12px 26px;font-size:15px;color:var(--text-3);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.model-tab:hover{color:var(--brand)}
+.model-tab.is-active{color:#0B5FF3;font-weight:600;border-bottom-color:#0B5FF3}
+.model-body{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:0;height:333px}
+.view-wrap{position:relative;border-right:0}
+.view-toolbar{display:flex;align-items:center;gap:6px;padding:12px 0 10px}
+.vtool{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-width:52px;height:44px;padding:0 8px;border-radius:6px;
+  font-size:12px;color:var(--text-3);
+}
+.vtool .vi{width:17px;height:17px}
+.vtool:hover{background:#F2F6FB}
+.vtool.is-active{background:var(--brand);color:#fff}
+.view-canvas{height:262px;position:relative}
+.view-canvas svg{width:100%;height:100%}
+/* 模型信息（浅底面板） */
+.model-info{
+  background:#F2F7FD;border-radius:10px;
+  padding:16px 18px;overflow:auto;
+}
+.model-info-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--text-1);margin-bottom:12px}
+.model-info-title .mi{width:18px;height:18px;color:var(--brand)}
+.kv{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:5px 0}
+.kv dt{font-size:14px;color:var(--text-3);white-space:nowrap}
+.kv dd{margin:0;font-size:14px;color:var(--text-2);text-align:right}
+
+/* ---------------- 输入栏 ---------------- */
+.composer{
+  height:54px;flex:none;
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  display:flex;align-items:center;gap:12px;padding:0 14px 0 18px;
+}
+.composer .clip{width:20px;height:20px;color:#8C97AD;flex:none;cursor:pointer}
+.composer .clip:hover{color:var(--brand)}
+.composer input{
+  flex:1;min-width:0;height:100%;border:0;outline:none;background:transparent;
+  font-size:15px;color:var(--text-2);
+}
+.composer input::placeholder{color:#A3AEC0}
+.composer-model{
+  width:172px;height:34px;flex:none;border-color:#E3E9F2;
+}
+.btn-send{
+  height:36px;padding:0 18px;border-radius:var(--r-sm);flex:none;
+  background:var(--brand);color:#fff;font-size:15px;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:background-color .14s;
+}
+.btn-send:hover{background:var(--brand-deep)}
+.btn-send .si{width:17px;height:17px}
+
+/* ---------------- 右栏卡片 ---------------- */
+.side-card{
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  padding:16px 18px;
+}
+.side-card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:10px;border-bottom:1px solid #EEF2F7;margin-bottom:6px;
+}
+.side-card-title{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:var(--text-1)}
+.side-card-title .si{width:18px;height:18px;color:var(--brand)}
+.side-card-head .link-more{font-size:14px}
+.side-card-head .link-more .edit-i{width:15px;height:15px}
+
+/* 工程信息 */
+.info-kv{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:14px}
+.info-kv dt{width:74px;flex:none;color:var(--text-3)}
+.info-kv dd{margin:0;flex:1;min-width:0;color:var(--text-2);word-break:break-all;text-align:left}
+
+/* 执行过程 */
+.steps-list{display:flex;flex-direction:column}
+.step-row{display:flex;align-items:center;gap:10px;height:27px;font-size:14px}
+.step-row .ck{
+  width:17px;height:17px;border-radius:50%;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--green-soft);color:var(--green);
+}
+.step-row .ck svg{width:12px;height:12px}
+.step-row .nm{flex:1;min-width:0;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.step-row .tm{color:var(--text-3);font-family:var(--font-num);font-variant-numeric:tabular-nums}
+
+/* 常用指令 */
+.chips-card{padding-bottom:14px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:8px}
+.chip{
+  height:34px;border-radius:7px;
+  background:#F5F9FF;border:1px solid #E2ECFA;color:#12406E;
+  font-size:14px;display:flex;align-items:center;justify-content:center;
+  transition:background-color .14s,border-color .14s;
+}
+.chip:hover{background:#EAF3FF;border-color:#C9DEFB;color:var(--brand)}
+
+/* ---------- 依据原稿量测的校准 ---------- */
+.ai-title{top:18px}
+.ai-sub{top:50px}
+
+/* ---------- 气泡 / AI 回复块：依据原稿 244–319、346–520 校准 ---------- */
+.msg-user .bubble{
+  position:relative;width:560px;height:75px;padding:12px 18px 24px;overflow:hidden;
+}
+.msg-user .bubble p{font-size:15px;line-height:1.32}
+.msg-user .stamp{position:absolute;right:16px;bottom:8px}
+.msg-ai{background:#F4F9FE;border-radius:10px;padding:14px 20px;margin-bottom:16px}
+.msg-ai-text{font-size:16px;line-height:1.5}
+.msg-ai-row{display:flex;align-items:flex-start;gap:14px}
+.msg-ai-row .task-steps{flex:1;min-width:0;margin-top:8px;gap:6px}
+.msg-ai-row .msg-foot{margin-top:34px;flex:none}
+.task-steps li{font-size:15px;line-height:1.4}
+
+/* 模型面板内高校准：原稿活动标签下划线 y≈570、3D视图按钮 y 587–622 */
+.model-tab{padding:8px 26px}
+.model-body{height:300px}
+.view-canvas{height:238px}

@@ -1,0 +1,128 @@
+/* ============================================================
+   通用组件：卡片 / 卡片标题 / 徽标 / 进度条 / 表格 / 下拉 / 链接
+   ============================================================ */
+
+/* ---------- 卡片 ---------- */
+.card{
+  background:var(--card);
+  border-radius:var(--r-card);
+  box-shadow:var(--shadow-card);
+}
+.card-pad{padding:20px}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 20px 0;
+}
+.card-title{
+  font-size:20px;font-weight:700;color:var(--text-1);line-height:1.2;
+}
+.card-title-sm{font-size:17px;font-weight:700;color:var(--text-1)}
+
+/* “查看更多 ›” */
+.link-more{
+  display:inline-flex;align-items:center;gap:2px;
+  color:var(--brand);font-size:15px;
+}
+.link-more:hover{color:var(--brand-deep)}
+.link-more .chev{width:16px;height:16px}
+
+/* ---------- 徽标 / 状态点标签 ---------- */
+.pill{
+  display:inline-flex;align-items:center;gap:7px;
+  height:26px;padding:0 11px;border-radius:var(--r-pill);
+  font-size:14px;font-weight:600;white-space:nowrap;
+}
+.pill .dot{width:8px;height:8px}
+.pill-blue{background:var(--brand-soft);color:var(--brand)}
+.pill-green{background:var(--green-soft);color:var(--green)}
+.pill-red{background:var(--red-soft);color:var(--red)}
+.pill-orange{background:#FEF3E5;color:var(--orange)}
+.pill-gray{background:#F0F3F8;color:var(--text-3)}
+
+/* ---------- 进度条 ---------- */
+.progress{
+  display:flex;align-items:center;gap:12px;
+}
+.progress-track{
+  position:relative;flex:1;height:8px;border-radius:var(--r-pill);
+  background:var(--track);overflow:hidden;min-width:60px;
+}
+.progress-fill{
+  position:absolute;left:0;top:0;bottom:0;border-radius:var(--r-pill);
+  background:var(--brand);
+}
+.progress-fill.is-done{background:var(--green)}
+.progress-fill.is-fail{background:#C9D2E0}
+.progress-text{
+  width:48px;text-align:right;font-size:14px;color:var(--text-3);
+  font-family:var(--font-num);font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 表格 ---------- */
+.table{width:100%;font-size:15px}
+.table th{
+  height:40px;padding:0 12px;text-align:left;
+  font-size:15px;font-weight:600;color:var(--text-3);
+  background:#F8FAFD;
+  white-space:nowrap;
+}
+.table th:first-child{padding-left:20px}
+.table th:last-child{padding-right:20px}
+.table td{
+  height:40px;padding:0 12px;color:var(--text-2);
+  border-bottom:1px solid #EFF3F8;
+  white-space:nowrap;
+}
+.table td:first-child{padding-left:20px}
+.table td:last-child{padding-right:20px}
+.table tbody tr:last-child td{border-bottom:0}
+.table tbody tr:hover td{background:#FAFCFF}
+.table .col-id{color:var(--text-2);font-family:var(--font-num);font-weight:500}
+.table .col-muted{color:var(--text-3)}
+.table .col-time{color:var(--text-3);font-family:var(--font-num)}
+.table .col-actions{width:56px;text-align:center}
+
+/* 行内“更多”按钮 */
+.row-more{
+  width:28px;height:28px;border-radius:var(--r-xs);margin:0 auto;
+  display:flex;align-items:center;justify-content:center;color:#8C97AD;
+}
+.row-more:hover{background:#F0F4FA;color:var(--text-2)}
+.row-more svg{width:18px;height:18px}
+
+/* ---------- 下拉选择（外观与稿一致） ---------- */
+.select-like{
+  display:inline-flex;align-items:center;justify-content:space-between;gap:10px;
+  height:34px;min-width:150px;padding:0 12px;
+  border:1px solid var(--card-line);border-radius:var(--r-sm);
+  background:#fff;color:var(--text-2);font-size:14px;
+}
+.select-like:hover{border-color:#D6DEEA}
+.select-like .chev{width:16px;height:16px;color:var(--text-4)}
+.select-like select{
+  appearance:none;border:0;background:transparent;outline:none;
+  font-size:14px;color:var(--text-2);cursor:pointer;width:100%;
+}
+
+/* ---------- 图例 ---------- */
+.legend{display:flex;align-items:center;gap:26px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-3)}
+.legend-item .dot{width:10px;height:10px}
+
+/* ---------- 数值变化（↑12%） ---------- */
+.delta{font-size:15px;font-weight:600;font-family:var(--font-num);white-space:nowrap}
+.delta-up{color:var(--green)}
+.delta-down{color:var(--green)}
+.delta-bad{color:var(--red)}
+
+/* ---------- 轻提示 ---------- */
+.toast{
+  position:fixed;left:50%;bottom:36px;transform:translate(-50%,12px);
+  background:rgba(17,29,51,.93);color:#fff;font-size:14px;
+  padding:9px 18px;border-radius:8px;opacity:0;pointer-events:none;
+  transition:opacity .18s,transform .18s;z-index:99;box-shadow:var(--shadow-pop);
+}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+
+/* 卡片标题：原稿墨迹高 17px */
+.card-title{font-size:17px}
