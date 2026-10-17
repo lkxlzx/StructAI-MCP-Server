@@ -30,7 +30,8 @@
                 "const": "KDS(41-12: 2022)",
                 "description": "Wind load code. Currently only KDS(41-12: 2022) is supported by this schema.",
                 "enum": [
-                  "KDS(41-12: 2022)"
+                  "KDS(41-12: 2022)",
+                  "USER TYPE"
                 ]
               },
               "DESC": {

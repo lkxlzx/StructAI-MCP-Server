@@ -40,15 +40,15 @@
   },
   "by_class": {
    "manifest": 102,
-   "manual": 223,
-   "single_article": 157,
-   "untraceable": 272
+   "manual": 222,
+   "single_article": 156,
+   "untraceable": 274
   },
   "flags": {
    "narrow": 0,
    "missing_enum": 3,
    "unexplained": 0,
-   "example_blocked": 1,
+   "example_blocked": 7,
    "missing_enum_excluded": 7,
    "missing_enum_nested_only": 0
   },
@@ -59,7 +59,7 @@
    "blind_with_schema_json": 104,
    "blind_with_effective_schema": 0,
    "example_bodies_checked": 1990,
-   "example_violations": 3,
+   "example_violations": 9,
    "example_violations_case_insensitive_only": 2
   }
  },
@@ -182,13 +182,37 @@
   "examples": {
    "checked": 1990,
    "unattributed": 5,
-   "violations": 3,
+   "violations": 9,
    "violations_case_insensitive_only": 2,
-   "endpoints_with_violations": 2,
+   "endpoints_with_violations": 8,
    "top_endpoints": [
     [
      "VIEW.RESULTGRAPHIC",
      2
+    ],
+    [
+     "DB.REBR",
+     1
+    ],
+    [
+     "DESIGN.RC.KDS-41-20-2022.DCRE",
+     1
+    ],
+    [
+     "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+     1
+    ],
+    [
+     "DESIGN.RC.KDS-41-20-2022.REBC",
+     1
+    ],
+    [
+     "DESIGN.RC.KDS-41-20-2022.REBR",
+     1
+    ],
+    [
+     "DESIGN.RC.KDS-41-20-2022.REBW",
+     1
     ],
     [
      "DESIGN.STEEL.KDS-41-30-2022.TABLE",
@@ -210,6 +234,80 @@
      "case_insensitive_only": true
     },
     {
+     "endpoint": "DESIGN.RC.KDS-41-20-2022.DCRE",
+     "file": "registry/schema/design/rc/KDS-41-20-2022/DCRE.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#733",
+     "title": "DESIGN/RC/KDS-41-20-2022/DCRE : Design Criteria for Rebar",
+     "example": "DESIGN/RC/KDS-41-20-2022/DCRE : Design Criteria for Rebar #1",
+     "wrapper": "none",
+     "problems": [
+      "Assign.1.BEAM.MAIN_REBAR[0]='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.BEAM.STIRRUPS='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.BEAM.SIDE_BAR='D13' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+     ],
+     "problem_count": 5,
+     "case_insensitive_only": false
+    },
+    {
+     "endpoint": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+     "file": "registry/schema/design/rc/KDS-41-20-2022/DCRM-WALL.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#738",
+     "title": "DESIGN/RC/KDS-41-20-2022/DCRM-WALL : Design Criteria for Rebars by Wall Member",
+     "example": "DESIGN/RC/KDS-41-20-2022/DCRM-WALL : Design Criteria for Rebars by Wall Member #1",
+     "wrapper": "none",
+     "problems": [
+      "Assign.3.ITEMS[0].VERTICAL_REBAR='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.3.ITEMS[0].HORIZONTAL_REBAR='D32' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.3.ITEMS[0].BE_HORZ_REBAR='D13' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+     ],
+     "problem_count": 5,
+     "case_insensitive_only": false
+    },
+    {
+     "endpoint": "DESIGN.RC.KDS-41-20-2022.REBC",
+     "file": "registry/schema/design/rc/KDS-41-20-2022/REBC.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#756",
+     "title": "DESIGN/RC/KDS-41-20-2022/REBC : Modify Column Rebar Data",
+     "example": "DESIGN/RC/KDS-41-20-2022/REBC : Modify Column Rebar Data #1",
+     "wrapper": "none",
+     "problems": [
+      "Assign.1.ITEMS[0].MAIN_BAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.ITEMS[0].SHEAR_BAR_END.NAME='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.ITEMS[0].SHEAR_BAR_CEN.NAME='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+     ],
+     "problem_count": 3,
+     "case_insensitive_only": false
+    },
+    {
+     "endpoint": "DESIGN.RC.KDS-41-20-2022.REBR",
+     "file": "registry/schema/design/rc/KDS-41-20-2022/REBR.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#757",
+     "title": "DESIGN/RC/KDS-41-20-2022/REBR : Modify Brace Rebar Data",
+     "example": "DESIGN/RC/KDS-41-20-2022/REBR : Modify Brace Rebar Data #1",
+     "wrapper": "none",
+     "problems": [
+      "Assign.1.ITEMS[0].MAIN_BAR.NAME='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.ITEMS[0].SHEAR_BAR_CEN.NAME='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+     ],
+     "problem_count": 2,
+     "case_insensitive_only": false
+    },
+    {
+     "endpoint": "DESIGN.RC.KDS-41-20-2022.REBW",
+     "file": "registry/schema/design/rc/KDS-41-20-2022/REBW.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#758",
+     "title": "DESIGN/RC/KDS-41-20-2022/REBW : Modify Wall Rebar Data",
+     "example": "DESIGN/RC/KDS-41-20-2022/REBW : Modify Wall Rebar Data #1",
+     "wrapper": "none",
+     "problems": [
+      "Assign.1.ITEMS[0].VERTICAL_REBAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.ITEMS[0].HORIZONTAL_REBAR.NAME='D16' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+      "Assign.1.ITEMS[0].BE_HORIZONTAL_REBAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+     ],
+     "problem_count": 4,
+     "case_insensitive_only": false
+    },
+    {
      "endpoint": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
      "file": "registry/schema/design/steel/KDS-41-30-2022/TABLE.json",
      "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#825",
@@ -218,6 +316,19 @@
      "wrapper": "none",
      "problems": [
       "Argument.PARTS[0]='All' 不在说明书允许值 ['PartI', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
+     ],
+     "problem_count": 1,
+     "case_insensitive_only": false
+    },
+    {
+     "endpoint": "DB.REBR",
+     "file": "registry/schema/common/db/REBR.json",
+     "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#835",
+     "title": "Modify Brace Rebar Data",
+     "example": "Modify Brace Rebar Data #1",
+     "wrapper": "Assign",
+     "problems": [
+      "1.ITEMS[0].HOOP_TYPE='Spirals' 不在说明书允许值 [1, 2] 内"
      ],
      "problem_count": 1,
      "case_insensitive_only": false
@@ -257,6 +368,10 @@
    "Part3/4",
    "PartI",
    "PartJ"
+  ],
+  "04c4719d89a6": [
+   "KDS(41-12: 2022)",
+   "USER TYPE"
   ],
   "0513b45d4239": [
    "GX",
@@ -434,9 +549,6 @@
   "16f5bce91252": [
    "FIBR_ELASTREMAIN",
    "THISBEAMFORCE"
-  ],
-  "18a0003babc6": [
-   "KDS(41-17-00: 2019)"
   ],
   "18aa9af1d5dd": [
    "Member Forces",
@@ -1444,6 +1556,10 @@
   "a1c74246da21": [
    "KS19(RC)"
   ],
+  "a1db1b3a807c": [
+   "KDS(41-17-00: 2019)",
+   "USER TYPE"
+  ],
   "a41dee13f9de": [
    "Combined(Normal)",
    "Combined(Ssy)",
@@ -1492,9 +1608,6 @@
    "DX",
    "DY",
    "DZ"
-  ],
-  "ab251e0e96c6": [
-   "KDS(41-12: 2022)"
   ],
   "abdc41615b52": [
    "ARC",
@@ -9837,9 +9950,9 @@
    "shape": "Assign.SEIS_CODE",
    "kind": "enum",
    "pointer": "#/properties/Assign/patternProperties/^[0-9]+$/properties/SEIS_CODE",
-   "class": "single_article",
-   "value_set": "18a0003babc6",
-   "value_count": 1,
+   "class": "untraceable",
+   "value_set": "a1db1b3a807c",
+   "value_count": 2,
    "declaring_articles": 1,
    "file_source": "help_center"
   },
@@ -10279,9 +10392,9 @@
    "shape": "Assign.WIND_CODE",
    "kind": "enum",
    "pointer": "#/properties/Assign/patternProperties/^[0-9]+$/properties/WIND_CODE",
-   "class": "manual",
-   "value_set": "ab251e0e96c6",
-   "value_count": 1,
+   "class": "untraceable",
+   "value_set": "04c4719d89a6",
+   "value_count": 2,
    "declaring_articles": 2,
    "file_source": "help_center"
   },
@@ -11941,6 +12054,75 @@
   "unexplained": [],
   "example_blocked": [
    {
+    "key": "DESIGN.RC.KDS-41-20-2022.DCRE::MAIN_REBAR",
+    "endpoint": "DESIGN.RC.KDS-41-20-2022.DCRE",
+    "file": "registry/schema/design/rc/KDS-41-20-2022/DCRE.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#733",
+    "title": "DESIGN/RC/KDS-41-20-2022/DCRE : Design Criteria for Rebar",
+    "example": "DESIGN/RC/KDS-41-20-2022/DCRE : Design Criteria for Rebar #1",
+    "problems": [
+     "Assign.1.BEAM.MAIN_REBAR[0]='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.BEAM.STIRRUPS='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.BEAM.SIDE_BAR='D13' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+    ],
+    "problem_count": 5
+   },
+   {
+    "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL::VERTICAL_REBAR",
+    "endpoint": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL",
+    "file": "registry/schema/design/rc/KDS-41-20-2022/DCRM-WALL.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#738",
+    "title": "DESIGN/RC/KDS-41-20-2022/DCRM-WALL : Design Criteria for Rebars by Wall Member",
+    "example": "DESIGN/RC/KDS-41-20-2022/DCRM-WALL : Design Criteria for Rebars by Wall Member #1",
+    "problems": [
+     "Assign.3.ITEMS[0].VERTICAL_REBAR='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.3.ITEMS[0].HORIZONTAL_REBAR='D32' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.3.ITEMS[0].BE_HORZ_REBAR='D13' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+    ],
+    "problem_count": 5
+   },
+   {
+    "key": "DESIGN.RC.KDS-41-20-2022.REBC::NAME",
+    "endpoint": "DESIGN.RC.KDS-41-20-2022.REBC",
+    "file": "registry/schema/design/rc/KDS-41-20-2022/REBC.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#756",
+    "title": "DESIGN/RC/KDS-41-20-2022/REBC : Modify Column Rebar Data",
+    "example": "DESIGN/RC/KDS-41-20-2022/REBC : Modify Column Rebar Data #1",
+    "problems": [
+     "Assign.1.ITEMS[0].MAIN_BAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.ITEMS[0].SHEAR_BAR_END.NAME='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.ITEMS[0].SHEAR_BAR_CEN.NAME='D10' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+    ],
+    "problem_count": 3
+   },
+   {
+    "key": "DESIGN.RC.KDS-41-20-2022.REBR::NAME",
+    "endpoint": "DESIGN.RC.KDS-41-20-2022.REBR",
+    "file": "registry/schema/design/rc/KDS-41-20-2022/REBR.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#757",
+    "title": "DESIGN/RC/KDS-41-20-2022/REBR : Modify Brace Rebar Data",
+    "example": "DESIGN/RC/KDS-41-20-2022/REBR : Modify Brace Rebar Data #1",
+    "problems": [
+     "Assign.1.ITEMS[0].MAIN_BAR.NAME='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.ITEMS[0].SHEAR_BAR_CEN.NAME='D22' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+    ],
+    "problem_count": 2
+   },
+   {
+    "key": "DESIGN.RC.KDS-41-20-2022.REBW::NAME",
+    "endpoint": "DESIGN.RC.KDS-41-20-2022.REBW",
+    "file": "registry/schema/design/rc/KDS-41-20-2022/REBW.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#758",
+    "title": "DESIGN/RC/KDS-41-20-2022/REBW : Modify Wall Rebar Data",
+    "example": "DESIGN/RC/KDS-41-20-2022/REBW : Modify Wall Rebar Data #1",
+    "problems": [
+     "Assign.1.ITEMS[0].VERTICAL_REBAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.ITEMS[0].HORIZONTAL_REBAR.NAME='D16' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内",
+     "Assign.1.ITEMS[0].BE_HORIZONTAL_REBAR.NAME='D19' 不在说明书允许值 ['D4', 'D5', 'D6', 'D7', 'D8'] 内"
+    ],
+    "problem_count": 4
+   },
+   {
     "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS",
     "endpoint": "DESIGN.STEEL.KDS-41-30-2022.TABLE",
     "file": "registry/schema/design/steel/KDS-41-30-2022/TABLE.json",
@@ -11949,6 +12131,18 @@
     "example": "DESIGN/STEEL/KDS-41-30-2022/TABLE : Steel Member Design Forces #1",
     "problems": [
      "Argument.PARTS[0]='All' 不在说明书允许值 ['PartI', 'Part1/4', 'Part2/4', 'Part3/4', 'PartJ'] 内"
+    ],
+    "problem_count": 1
+   },
+   {
+    "key": "DB.REBR::HOOP_TYPE",
+    "endpoint": "DB.REBR",
+    "file": "registry/schema/common/db/REBR.json",
+    "article": "MIDAS_API_Online_Manual_Gen_NX_v1.0.json#835",
+    "title": "Modify Brace Rebar Data",
+    "example": "Modify Brace Rebar Data #1",
+    "problems": [
+     "1.ITEMS[0].HOOP_TYPE='Spirals' 不在说明书允许值 [1, 2] 内"
     ],
     "problem_count": 1
    }
@@ -12632,12 +12826,53 @@
  },
  "dispositions": [
   {
+   "key": "DB.REBR::HOOP_TYPE",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**类型冲突**：落盘枚举是 **integer** `[1, 2]`，而手册**示例体**给的是 **string** `\"Spirals\"` / `\"Ties\"`。**权威证据站在 integer 一侧**：① `GET /info/db/REBR` 的字段声明是 `{\"type\": \"integer\", \"description\": \"Hoop Type (1=Tied, 2=Spiral)\"}`；② `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **MD-34** 已裁定该端点整条 item 形状错（`HOOP_TYPE` 为**整数**）。⇒ 手册示例是**过时的字符串写法**，**不能**把 `\"Spirals\"` 塞进 integer 枚举（混型 + 与 `/info` 冲突）。",
+   "ask": "向 **MIDAS** 问一件事（**唯一**）：本 build 的 `/db/REBR` 是否**仍**接受字符串形式的 `HOOP_TYPE`（`\"Ties\"` / `\"Spirals\"`），还是只接受整数 `1` / `2`？—— 只接受整数 ⇒ 手册示例需**勘误**（本仓台账更新即可）；两者都接受 ⇒ 枚举须改成 `oneOf[{integer},{string}]`（**另一件事**，须单独裁决）。⚠️ **恢复条件**：产品侧给出权威结论，**或**一次授权真机测量（`PUT` 两种写法各一次）。"
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.DCRE::MAIN_REBAR",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**：① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 **每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），**推不出完整集合** ⇒ **不发明**中间那 17 个取值。",
+   "ask": "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；推测可能是标准钢筋直径序列，但**推测不作为依据**。）⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 `sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— 这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.DCRM-WALL::VERTICAL_REBAR",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**：① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 **每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），**推不出完整集合** ⇒ **不发明**中间那 17 个取值。",
+   "ask": "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；推测可能是标准钢筋直径序列，但**推测不作为依据**。）⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 `sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— 这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBC::NAME",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**：① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 **每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），**推不出完整集合** ⇒ **不发明**中间那 17 个取值。",
+   "ask": "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；推测可能是标准钢筋直径序列，但**推测不作为依据**。）⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 `sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— 这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBR::NAME",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**：① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 **每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），**推不出完整集合** ⇒ **不发明**中间那 17 个取值。",
+   "ask": "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；推测可能是标准钢筋直径序列，但**推测不作为依据**。）⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 `sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— 这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+  },
+  {
+   "key": "DESIGN.RC.KDS-41-20-2022.REBW::NAME",
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**：① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 **每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），**推不出完整集合** ⇒ **不发明**中间那 17 个取值。",
+   "ask": "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；推测可能是标准钢筋直径序列，但**推测不作为依据**。）⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 `sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— 这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+  },
+  {
    "key": "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS",
-   "status": "closed",
-   "ruling": "R163",
-   "reason": "**P169 判为不可判别**（本模型无该表数据 ⇒ 基线就是空块），**P170 可判别化**：建了一个**带相应结果**的自建模型（`registry/tools/build_parts_discriminator_p170.py`；**板网格 + 虚拟截面/虚拟梁**供 `RESULTANT_FORCES`；**钢结构设计**供 `DESIGN.STEEL.…TABLE`）⇒ 重跑 `registry/tools/probe_parts_disposition_p169.py --probe` （证据 = `registry/live/parts_disposition_probe_p170.json`）⇒ **6 / 6** 个端点**可判别**。⚠️ **P170 更正 P169 的「需要什么」**：`RESULTANT_FORCES` **不是**要**板 / 实体**单元，而是要**虚拟截面**（手册 `db/VSEC` + `db/VBEM`）—— 本批**两样都建**以一次消除疑点。实测：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；`Part1` ⇒ **空块**（与伪取值 `PartZ` **同形**）⇒ 上游声明是**笔误**；⚠️ `DESIGN.STEEL.…TABLE` 的 `PARTS.default = ['All']` 实测**空块** ⇒ 声明可疑（**E-05**）。来源 = 实测**有效**取值 ∪ 已落盘（**只增不减**）。",
-   "generator": "registry/tools/sync_parts_enum.py",
-   "generator_agrees": true
+   "status": "left_open",
+   "ruling": "R171",
+   "reason": "**P170 已实测**：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；`Part1` ⇒ **空块**（与伪值 `PartZ` **同形**）⇒ 上游声明是**笔误**。⚠️ **R170 修好后**（P178）闸门**第一次**检查本端点 ⇒ 手册**自己的示例**里的 `\"All\"` 被拦。⚠️ 但 `\"All\"` **只**出现在 Schema 的 `default` 里（`PARTS.default = [\"All\"]`），**P170 从未实测过它** —— 把未实测的 `default` 塞进 `enum` 是**放松**闸门（`default` 不是「合法取值」的证据）。",
+   "ask": "向 **MIDAS** 问一件事（**唯一**）：`Argument.PARTS` 是否接受 `\"All\"`？—— 接受 ⇒ 它是**合法的「全选」简写**，应进 `enum`（**并**修正 P170 的「声明可疑」记录）；不接受 ⇒ 手册示例的 `default` 是**错的**，应在台账里记为勘误。⚠️ **恢复条件**：一次授权真机测量（`POST /DESIGN/STEEL/KDS-41-30-2022/TABLE` 带 `PARTS: [\"All\"]` ⇒ 看是否回**非空** `DATA`）。"
   },
   {
    "key": "OPE.GSBG::BRDG_GROUP",

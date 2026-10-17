@@ -30,7 +30,8 @@
                 "const": "KDS(41-17-00: 2019)",
                 "description": "Seismic load code. Currently only KDS(41-17-00: 2019) is supported by this schema.",
                 "enum": [
-                  "KDS(41-17-00: 2019)"
+                  "KDS(41-17-00: 2019)",
+                  "USER TYPE"
                 ]
               },
               "DESC": {

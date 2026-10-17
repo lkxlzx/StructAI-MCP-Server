@@ -138,9 +138,12 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > （推翻 P164-c 的「`BD-ANAL` 必崩」：同 build 实测**不崩**且设计**真的产出**）。
 > ⚠️ 新登记 **R170**：`spec_guard` 对 `patternProperties` 下的枚举**一个都不检查**
 > （**21** 个文件 / **90** 个枚举节点 **100% 盲区**；两相对照：`DESIGN.RC.DRC` 的
-> `DGNCODE="TOTALLY-BOGUS"` **不拦**，同一取值在 `OPE.LCOM-CONC` **拦**）
-> —— **如实留缺**，修它须**用户授权**（核心闸门改动）。
-> 细节 = [`registry/README.md`](registry/README.md) §8.31 · `docs/07` §16.1 **R169** / **R170**。
+> `DGNCODE="TOTALLY-BOGUS"` **不拦**，同一取值在 `OPE.LCOM-CONC` **拦**）。
+> ✅ **P178 已收口**（**R171**）：盲区 **21 文件 / 90 节点 → 0**；修完后闸门**第一次**
+> 看见 **6** 条既有窄枚举 ⇒ **2** 条已补（`DB.SWIND` / `DB.SSEIS` 的 `USER TYPE`）、
+> **4** 条**如实留缺**（钢筋规格「D4~D57」手册无完整表；`HOOP_TYPE` 整数/字符串冲突）。
+> 细节 = [`registry/README.md`](registry/README.md) §8.31 / §8.32 · `docs/07` §16.1
+> **R169** / **R170** / **R171**。
 
 > ✅ **R166（P174 收口）**：`POST.STEELCODECHECK` **真机实测收口** ⇒ 它挡住的
 > **`DESIGN.CODE_CHECK`**（钢铁路由）**解锁** ⇒ 主指标 `68 / 71` → **`69 / 71`**
@@ -156,17 +159,22 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 > 证据 = [`registry/live/steelcodecheck_probe.json`](registry/live/steelcodecheck_probe.json)；
 > 生成器 = [`registry/tools/probe_steelcodecheck_p174.py`](registry/tools/probe_steelcodecheck_p174.py)（可 `--check` 离线复算）。
 
-> ⚠️ **R169 / R170（P176 / P177）—— 设计规范是运行时数据；闸门仍有**一处**盲区**：
+> ⚠️ **R169 / R170 / R171（P176 / P177 / P178）—— 设计规范是运行时数据；闸门盲区已收口**：
 > 上表「谁**能**修」是**端点可用性**的归因，**不**覆盖「**为什么**某个设计链跑不出结果」。
 > P176 实测的根因是**配置不同族**（`DRC.DGNCODE` / `MATL.STANDARD` / `MDGN.CONC_CODE` 三处
 > **必须同族**；⚠️ `MATL.STANDARD` 的合法值是**材料库名**，**不是**规范码）⇒ 只切一处时
 > 引擎**跳过所有单元**（⚠️ **不崩**，只是 `400 failed:LoadCombination` + `*-TABLE` **0 行**）
 > ⇒ **不要**据此判定「产品不支持」。三条实测事实（路径段是**固定路由名** / 字段集**随规范变化**
 > 且**自省不反映** / `DCO` 可选）见 [`registry/README.md`](registry/README.md) §8.31。
-> ⚠️ **R170 如实留缺**：`spec_guard` 对 **`patternProperties` 下的枚举一个都不检查**
-> （**21** 个文件 / **90** 个枚举节点 **100% 盲区**）⇒ `DESIGN.RC.DRC` 的
-> `DGNCODE="TOTALLY-BOGUS"` **不拦**，而同一取值在 `OPE.LCOM-CONC`（枚举在 `properties` 下）**拦**。
-> ⇒ 这 **21** 个文件的枚举约束**目前只是文档**，**不是**闸门；修它须**用户授权**（核心闸门改动）。
+> ✅ **R170 → R171（P178 已收口）**：`spec_guard` 现在**认识** `patternProperties` ——
+> 盲区 **21 个文件 / 90 个枚举节点 → 0**；`DESIGN.RC.DRC` 的 `DGNCODE="TOTALLY-BOGUS"`
+> **现在会拦**（修前不拦），而**合法值**（`KDS 41 20 : 2022` / `GB/T50010-10`）**仍放行**。
+> ⚠️ **修完的直接后果**：闸门**第一次**看见 **6** 条既有窄枚举（**不是**新增闸门）⇒
+> **2** 条已补（`DB.SWIND` / `DB.SSEIS` 的 `USER TYPE`，来源 = 本端点自己的手册示例）、
+> **4** 条**如实留缺**：钢筋规格「D4~D57」手册**无完整表**（`D57` 出现 **0** 次）⇒ 不发明；
+> `DB.REBR.HOOP_TYPE` 整数/字符串**类型冲突**（`/info` 权威站在 integer 一侧）。
+> ⚠️ **代价如实记录**：钢筋规格那 **5** 个端点的合法调用（如 `D22`）**会被我方拦** ——
+> 有意的取舍（宁可我方拦，也不把不确定的取值放行到原生）。
 > 主指标**不受影响**（仍 **`71 / 73`**）。
 
 > ⚠️ **R166（P173，归因）**：主指标的**缺口归因**也**不**手写 ——

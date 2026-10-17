@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any, Final
 
 from app.infrastructure.adapters.midas.errors import MidasValidationError
@@ -38,8 +39,41 @@ def _allowed_values(node: Any) -> tuple[Any, ...]:
     return ()
 
 
+def _child_nodes(schema: Any, key: str) -> list[Any]:
+    """该键在 Schema 下**全部**适用的子 Schema（`properties` + 匹配的 `patternProperties`）。
+
+    ⚠️ **R170（P178）**：原先**只**取 `properties` ⇒ 「键控对象」形状
+    （`properties.Assign.patternProperties["^[0-9]+$"].properties.DGNCODE`）的枚举
+    **一个都检查不到**（**21** 个文件 / **90** 个枚举节点）。JSON Schema 的语义是
+    **两者并存、都适用** ⇒ 这里**两路都**返回。
+
+    ⚠️ **非法正则**（数据瑕疵）⇒ **跳过**该条，**不**抛 —— 否则一个写坏的 pattern
+    会让**所有**请求都失败（数据瑕疵不得升级成全局故障）。
+    """
+    if not isinstance(schema, dict):
+        return []
+    nodes: list[Any] = []
+    direct = (schema.get("properties") or {}).get(key)
+    if isinstance(direct, dict):
+        nodes.append(direct)
+    for pattern, node in (schema.get("patternProperties") or {}).items():
+        if not isinstance(node, dict):
+            continue
+        try:
+            matched = re.search(str(pattern), key) is not None
+        except re.error:
+            continue
+        if matched:
+            nodes.append(node)
+    return nodes
+
+
 def check_spec_values(schema: Any, value: Any, *, endpoint: str, path: str = "") -> list[str]:
-    """递归比对 `value` 与 Schema 的枚举约束；返回违规描述（**不**抛）。"""
+    """递归比对 `value` 与 Schema 的枚举约束；返回违规描述（**不**抛）。
+
+    ⚠️ **R170（P178）**：下钻走 `_child_nodes()` —— `properties` 与匹配的
+    `patternProperties` **都**适用（JSON Schema 语义），且**不重复**报同一路径。
+    """
     problems: list[str] = []
     allowed = _allowed_values(schema)
     if allowed and isinstance(value, _LEAF_TYPES):
@@ -50,14 +84,9 @@ def check_spec_values(schema: Any, value: Any, *, endpoint: str, path: str = "")
         return problems
     if isinstance(value, dict):
         for key, child in value.items():
-            node = (schema.get("properties") or {}).get(key)
-            if node is None:
-                continue
-            problems.extend(
-                check_spec_values(
-                    node, child, endpoint=endpoint, path=f"{path}.{key}" if path else str(key)
-                )
-            )
+            child_path = f"{path}.{key}" if path else str(key)
+            for node in _child_nodes(schema, key):
+                problems.extend(check_spec_values(node, child, endpoint=endpoint, path=child_path))
     elif isinstance(value, list):
         items = schema.get("items")
         if isinstance(items, dict):
@@ -65,7 +94,9 @@ def check_spec_values(schema: Any, value: Any, *, endpoint: str, path: str = "")
                 problems.extend(
                     check_spec_values(items, child, endpoint=endpoint, path=f"{path}[{index}]")
                 )
-    return problems
+    # 同一键同时命中 `properties` 与 `patternProperties` ⇒ 可能报出**逐字相同**的一条
+    # （两份 Schema 的约束一样时）⇒ 按出现顺序去重，保留**首次**出现的描述。
+    return list(dict.fromkeys(problems))
 
 
 def guard_spec_values(schema: Any, body: Any, *, endpoint: str, wrapper: str = "none") -> None:

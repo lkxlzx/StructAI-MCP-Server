@@ -354,7 +354,15 @@ def test_p150_the_verdict_is_recomputed_per_endpoint() -> None:
 
 
 def test_p150_the_three_left_out_endpoints_are_unchanged_and_the_gap_is_recorded() -> None:
-    """门槛（判定 4 / 7）：留缺的 **3** 个端点**一行未改**，缺口**逐条**记在证据里。"""
+    """门槛（判定 4 / 7）：留缺的 **3** 个端点**一行未改**，缺口**逐条**记在证据里。
+
+    ⚠️ **P178 / R171（事实变更）**：`DB.SSEIS` / `DB.SWIND` 的 Schema 文件**改过**了 ——
+    **R170** 修好 `spec_guard` 的 `patternProperties` 盲区后，闸门**第一次**检查这两个端点，
+    暴露 `SEIS_CODE` / `WIND_CODE` 的枚举**太窄**（拦住了手册自己的 `USER TYPE` 示例）
+    ⇒ 各补一个取值（来源 = 本端点自己的手册示例，见 `sync_narrow_enum_from_examples.py`）。
+    ⇒ 它们**不再**是「一行未改」：改为断言 **`availability` 字段仍未被改动**
+    （P150 的**实质**诉求是「**留缺**没被悄悄搬成别的状态」，枚举补全与它**无关**）。
+    """
     document = _evidence()
     manifest = _manifest()
     assert document["endpoints"]["DB.KFAC"]["introspect_only"] == ["Ky", "Kz", "Kt"]
@@ -362,7 +370,16 @@ def test_p150_the_three_left_out_endpoints_are_unchanged_and_the_gap_is_recorded
         assert document["endpoints"][key]["introspect_only"] == ["INPUTS", "PROFILE"], key
     for key in EXPECTED_LEFT_OUT:
         relative = str(manifest[key]["schema"])
-        assert _unchanged_since_head(REPO_ROOT / "registry" / relative), key
+        definition = REPO_ROOT / "registry" / relative
+        if key in _ENUM_WIDENED_P178:
+            # ⚠️ 文件因**枚举补全**而变 ⇒ 只断言 `availability` 未被改动
+            assert _fields_unchanged_since_head(definition, AVAILABILITY_FIELDS), key
+            continue
+        assert _unchanged_since_head(definition), key
+
+
+_ENUM_WIDENED_P178 = frozenset({"DB.SSEIS", "DB.SWIND"})
+"""**P178** 因 `R170` 收口而补过枚举的两个端点（见上方用例的说明）。"""
 
 
 # ===== 4. 落盘与幂等（判定 5 / 6 / 8）=====

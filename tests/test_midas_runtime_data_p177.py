@@ -27,6 +27,8 @@ import json
 from pathlib import Path
 from typing import Any, Final
 
+import pytest
+
 from app.infrastructure.adapters.midas.design_codes import load_design_code_field_sets
 from app.infrastructure.adapters.midas.registry import MidasRegistry
 from app.infrastructure.adapters.midas.spec_guard import guard_spec_values
@@ -186,9 +188,14 @@ def test_p177_the_guard_blind_spot_is_counted_mechanically() -> None:
 
 
 def test_p177_the_blind_spot_is_proven_by_a_two_way_contrast() -> None:
-    """门槛（**R170** 的核心）：**两相对照** —— 同一字段名、同一非法取值，一处拦、一处不拦。
+    """门槛（**R170** 的**历史**两相对照 —— ⚠️ **P178 已修好，本用例改为断言「已收口」**）。
 
-    ⚠️ 这**不是**「取值合法」，是「**闸门没看**」 —— 没有这个对照就无法区分二者。
+    **历史**（P177）：同一非法取值在 `DESIGN.RC.DRC`（枚举在 `patternProperties` 下）**不拦**、
+    在 `OPE.LCOM-CONC`（枚举在 `properties` 下）**拦** ⇒ 证明「不是取值合法，是闸门没看」。
+
+    **现状**（P178 / **R170 收口**）：两侧**都**拦 ⇒ 盲区已归零。
+    ⚠️ 本用例**保留**两相对照的**形状**（同一组件、同一取值），只是把**期望**从
+    「一处拦一处不拦」改成「**两处都拦**」—— 这样一旦回归，**立刻**红。
     """
     blind = json.loads((SCHEMA_ROOT / "design" / "rc" / "DRC.json").read_text(encoding="utf-8"))
     seen = json.loads(
@@ -196,26 +203,25 @@ def test_p177_the_blind_spot_is_proven_by_a_two_way_contrast() -> None:
     )
     bogus = "TOTALLY-BOGUS-DESIGN-CODE"
 
-    # 盲区：枚举在 patternProperties 下 ⇒ **不拦**
-    guard_spec_values(
-        blind["schema"],
-        {"Assign": {"1": {"DGNCODE": bogus}}},
-        endpoint="DESIGN.RC.DRC",
-        wrapper="Assign",
-    )
+    # 原先的**盲区**：枚举在 patternProperties 下 —— 现在**必须**拦（R170 已收口）
+    with pytest.raises(Exception) as blind_error:  # noqa: B017 —— 只断言「被拦」
+        guard_spec_values(
+            blind["schema"],
+            {"Assign": {"1": {"DGNCODE": bogus}}},
+            endpoint="DESIGN.RC.DRC",
+            wrapper="Assign",
+        )
+    assert "spec_enum" in str(blind_error.value)
 
-    # 对照：同一字段名、同一非法取值，枚举在 properties 下 ⇒ **拦**
-    try:
+    # 对照：枚举在 properties 下 —— 一直**拦**
+    with pytest.raises(Exception) as seen_error:  # noqa: B017 —— 只断言「被拦」
         guard_spec_values(
             seen["schema"],
             {"Argument": {"DGNCODE": bogus}},
             endpoint="OPE.LCOM-CONC",
             wrapper="Argument",
         )
-    except Exception as error:  # noqa: BLE001 —— 只断言「被拦」，不绑定错误类型
-        assert "value_not_in_spec_enum" in str(error) or "spec_enum" in str(error)
-    else:  # pragma: no cover —— 走到这里说明对照失效
-        raise AssertionError("对照组必须拦住非法取值；若未拦，闸门语义已变")
+    assert "spec_enum" in str(seen_error.value)
 
 
 def test_p177_the_legit_value_still_passes_through_the_guarded_endpoint() -> None:

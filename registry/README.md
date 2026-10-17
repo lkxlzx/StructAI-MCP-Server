@@ -2841,3 +2841,97 @@ properties.Assign.patternProperties["^[0-9]+$"].properties.DGNCODE.enum
 `registry/tools/sync_design_code_field_sets.py --check`（字段集 == 实测）·
 `registry/tools/check_operation_availability.py --check`（**71 / 73**）·
 `pytest -q` · 裁决 `docs/07` §16.1 **R169** / **R170**。
+
+### 8.32 P178：`spec_guard` 的 `patternProperties` 盲区**收口**（⇒ **R171** 兑付 **R170**）
+
+> **本批改核心闸门**（`app/**` **一处**改动）——**用户已明确授权**（`R170` 登记时即写明「须授权」）。
+
+#### 8.32.1 问题（P177 登记为 **R170**）
+
+`check_spec_values()` **只**走 `properties` 与 `items`，**不**处理 `patternProperties`：
+
+```
+properties.Assign.patternProperties["^[0-9]+$"].properties.DGNCODE.enum
+```
+
+⇒ **21** 个文件 / **90** 个枚举节点 **100% 盲区**。**两相对照（修前）**：
+`DESIGN.RC.DRC` 的 `DGNCODE="TOTALLY-BOGUS"` ⇒ **不拦**；同一取值在
+`OPE.LCOM-CONC`（枚举在 `properties` 下）⇒ **拦**。**不是「取值合法」，是「闸门没看」。**
+
+#### 8.32.2 修法
+
+新增 `_child_nodes(schema, key)`：对**同一个键**返回**全部**适用的子 Schema ——
+`properties[key]` **加上**每一个**匹配**的 `patternProperties` 分支（JSON Schema 语义：
+**两者并存、都适用**）。`check_spec_values()` 改为遍历该列表，并**按路径去重**
+（同一键同时命中两路且约束相同时，只报**一条**）。
+
+⚠️ **非法正则**（`patternProperties` 的键写坏了）⇒ **跳过**该条，**不**抛异常 ——
+数据瑕疵**不**得升级成「所有请求都失败」。
+
+#### 8.32.3 判定（**R157** 的方法学：说「修好了」前先证明**仪器有效**）
+
+| # | 判据 | 结果 |
+| --- | --- | --- |
+| ① | 修前伪值**不拦**（P177 实测） | 事实 |
+| ② | 修后伪值**拦** | ✅ |
+| ③ | **合法值仍放行**（`KDS 41 20 : 2022` / `GB/T50010-10` / `AISC(16th)-LRFD22`） | ✅ |
+| ④ | `OPE.LCOM-CONC`（`properties` 形状）**零回归** | ✅ |
+| ⑤ | 规模：**86** 条 `enum` + **67** 条 `oneOf.const` **逐条**可检查 | ✅ |
+
+⚠️ **为什么是 86 而不是 90**：排除 **4** 条**不属于闸门检查面**的 ——
+`if` / `then` / `else` / `not` 里的**条件约束**（**2** 条，是收窄不是取值表）与
+`anyOf[0]` 里的**备选类型**（**2** 条，`_allowed_values()` 根本不读）。
+纳入会让**合法值**被误拦（**R151** 同一类事故）。
+
+#### 8.32.4 ⚠️ 修复的**直接后果**：6 条既有窄枚举**终于暴露**
+
+闸门**第一次**真正检查那 21 个文件 ⇒ 「误伤普查」**3 → 11** 条。
+**这不是新增闸门，是闸门终于看见既有窄枚举**；若不管，**合法调用会被拦死**。
+
+| 端点 / 字段 | 拦住的手册示例 | 处置 |
+| --- | --- | --- |
+| `DB.SWIND.WIND_CODE` | `USER TYPE` | ✅ **已补**（来源 = 本端点自己的手册示例） |
+| `DB.SSEIS.SEIS_CODE` | `USER TYPE` | ✅ **已补**（同上） |
+| `DCRE` / `REBC` / `REBR` / `REBW` / `DCRM-WALL` 的钢筋规格 | `D19` / `D22` / `D32` / `D41` | ⏳ **留缺**（**不可复算**） |
+| `DB.REBR.HOOP_TYPE` | `"Spirals"`（string） | ⏳ **留缺**（**类型冲突**） |
+| `DESIGN.STEEL.KDS-41-30-2022.TABLE.PARTS` | `"All"` | ⏳ **留缺**（`default` **不是**合法取值的证据） |
+
+**① 已补的 2 条**（`registry/tools/sync_narrow_enum_from_examples.py`）：
+来源 = **本端点自己**的手册文章 `examples[].json` 里的**同名叶子**（**不**跨端点借取值 ——
+P171 / R164 已踩过「同名不同义」）；**只增不减**；**类型不兼容拒绝补**。
+
+**② 钢筋规格为什么不能补**：Schema 的 `description` 自述
+「**전체 19종: D4 ~ D57**」（全部 19 种：D4~D57），而 `enum` 只有 **5** 个（`D4`…`D8`）
+⇒ **Schema 自述与自身约束矛盾**。⚠️ 但手册里**没有**这 19 个取值的**完整表**
+（`D57` 在整份手册出现 **0** 次）⇒ 只能推出**数量**（19）与**端点**（D4 / D57），
+**推不出完整集合** ⇒ **不发明**中间那 17 个。
+⚠️ **代价如实记录**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** ——
+这是**有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。
+
+**③ `HOOP_TYPE` 为什么不能补**：落盘枚举是 **integer** `[1, 2]`，手册示例给 **string**
+（`"Spirals"` / `"Ties"`）。**权威证据站在 integer 一侧**：`GET /info/db/REBR` 声明
+`{"type": "integer", "description": "Hoop Type (1=Tied, 2=Spiral)"}`；
+`MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **MD-34** 已裁定该端点整条 item 形状错。
+⇒ 手册示例是**过时的字符串写法**，混型会**放松**闸门。
+
+**④ `PARTS` 为什么改回留缺**：手册示例的 `"All"` **只**出现在 Schema 的 `default` 里
+（`PARTS.default = ["All"]`），**P170 从未实测过它**（实测的是 `PartI` / `PartJ` / `Part1` 与伪值 `PartZ`）。
+⚠️ **`default` 不是「合法取值」的证据** —— 塞进 `enum` 就是**放松**。
+
+#### 8.32.5 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **不变**（**`71 / 73`**） |
+| `patternProperties` 盲区 | **21 文件 / 90 节点 → 0** |
+| 「拦住手册自己的示例」 | **11 → 7**（剩下的是**有意的**） |
+| 台账 `DISPOSITIONS` | **19 → 25**（`closed 16 → 15` · `left_open 3 → 10`） |
+| `DB.SWIND` / `DB.SSEIS` 枚举 | **1 → 2**（各补 `USER TYPE`） |
+| 普查分类 | `manual 223 → 222` · `single_article 157 → 156` · `untraceable 272 → 274` |
+| `app/**` | 改 **1** 个文件（`spec_guard.py`） |
+
+**可执行判定** = `pytest tests/test_midas_spec_guard_pattern_p178.py -q`（**12** 项）·
+`registry/tools/check_spec_enums.py --check` · `registry/tools/sync_narrow_enum_from_examples.py --check` ·
+`registry/tools/sync_design_code_selector_enum.py --check` ·
+`registry/tools/check_operation_availability.py --check`（**71 / 73**）· `pytest -q` ·
+裁决 `docs/07` §16.1 **R171**。

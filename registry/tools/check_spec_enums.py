@@ -217,6 +217,33 @@ _PARTS_DECIDED_P170: Final[Disposition] = Disposition(
 """`PARTS` 冲突里 P169 **不可判别**、P170 **可判别化**的 3 个端点（**R163** 收口）。"""
 
 
+_REBAR_DIAMETER_LEFT_OPEN: Final[Disposition] = Disposition(
+    status="left_open",
+    ruling="R171",
+    reason=(
+        "**枚举确实太窄，但补齐所需的取值表不可复算**。**证据（本仓可读）**："
+        "① `registry/schema/design/rc/KDS-41-20-2022/{DCRE,REBC,REBR,REBW,DCRM-WALL}.json` 的 "
+        "**每个**钢筋规格字段的 `description` 都写着 **「전체 19종: D4 ~ D57」**"
+        "（**全部 19 种：D4 ~ D57**），而 `enum` 只列了 **5** 个（`D4`…`D8`）"
+        "⇒ **Schema 自述与自身约束矛盾**；② 手册**示例体**用的是 `D19` / `D22` / `D32` / `D41`"
+        "（**都在** enum 之外）⇒ 合法调用**会**被 `spec_guard` 拦死（**R151** 的镜像）。"
+        "⚠️ **但**手册里**没有**这 19 个取值的**完整表**（`D57` 在整份手册出现 **0** 次）"
+        "⇒ 只能从 `description` 推出**数量**（19）与**端点**（D4 / D57），"
+        "**推不出完整集合** ⇒ **不发明**中间那 17 个取值。"
+    ),
+    ask=(
+        "向 **MIDAS** 要一张**权威表**（**唯一**）：`KDS 41 20 : 2022` 的钢筋规格**全部 19 个**"
+        "取值是什么？（本仓已有 `D4`~`D8`、示例出现 `D19`/`D22`/`D32`/`D41`；"
+        "推测可能是标准钢筋直径序列，但**推测不作为依据**。）"
+        "⚠️ **恢复条件**：拿到 19 个取值的**权威清单** ⇒ 用 "
+        "`sync_narrow_enum_from_examples.py` 的同口径生成器落 `enum`（**只增不减**）；"
+        "**或**一次授权真机测量（逐个 `PUT` 试探 —— 但那是 **19 × 5** 次写操作，代价高）。"
+        "⚠️ **在此之前**：这 5 个端点的合法调用（如 `D22`）**会被我方闸门拦住** —— "
+        "这是**已知的、有意的**取舍（宁可我方拦，也不把不确定的取值放行到原生）。"
+    ),
+)
+
+
 DISPOSITIONS: Final[dict[str, Disposition]] = {
     "VIEW.RESULTGRAPHIC::CURRENT_MODE": Disposition(
         status="closed",
@@ -372,7 +399,59 @@ DISPOSITIONS: Final[dict[str, Disposition]] = {
     "POST.TABLE.THISBEAMFORCE::PARTS": _PARTS_CLOSED,
     "POST.TABLE.RESULTANT_FORCES::PARTS": _PARTS_DECIDED_P170,
     "POST.TABLE.RESULTANT_FORCESVBM::PARTS": _PARTS_DECIDED_P170,
-    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": _PARTS_DECIDED_P170,
+    # ---- R171（P178 / **R170 收口**）：闸门**终于看见**的 6 条既有窄枚举 ----
+    # ⚠️ 这不是「新增闸门」—— **R170** 修好 `patternProperties` 盲区后，这 6 条**第一次**
+    #    被真正检查 ⇒ 立刻暴露「拦住手册自己的示例」。能复算的已补（见
+    #    `sync_narrow_enum_from_examples.py`：`DB.SWIND` / `DB.SSEIS` 的 `USER TYPE`）；
+    #    剩下的**不可复算**或**类型冲突**，如实留缺。
+    "DB.REBR::HOOP_TYPE": Disposition(
+        status="left_open",
+        ruling="R171",
+        reason=(
+            "**类型冲突**：落盘枚举是 **integer** `[1, 2]`，而手册**示例体**给的是 **string** "
+            "`\"Spirals\"` / `\"Ties\"`。**权威证据站在 integer 一侧**："
+            "① `GET /info/db/REBR` 的字段声明是 `{\"type\": \"integer\", "
+            "\"description\": \"Hoop Type (1=Tied, 2=Spiral)\"}`；"
+            "② `MIDAS_API_Online_Manual_勘误与补全_v1.0.md` **MD-34** 已裁定该端点整条 item 形状错"
+            "（`HOOP_TYPE` 为**整数**）。⇒ 手册示例是**过时的字符串写法**，"
+            "**不能**把 `\"Spirals\"` 塞进 integer 枚举（混型 + 与 `/info` 冲突）。"
+        ),
+        ask=(
+            "向 **MIDAS** 问一件事（**唯一**）：本 build 的 `/db/REBR` 是否**仍**接受字符串形式的 "
+            "`HOOP_TYPE`（`\"Ties\"` / `\"Spirals\"`），还是只接受整数 `1` / `2`？"
+            "—— 只接受整数 ⇒ 手册示例需**勘误**（本仓台账更新即可）；"
+            "两者都接受 ⇒ 枚举须改成 `oneOf[{integer},{string}]`（**另一件事**，须单独裁决）。"
+            "⚠️ **恢复条件**：产品侧给出权威结论，**或**一次授权真机测量（`PUT` 两种写法各一次）。"
+        ),
+    ),
+    "DESIGN.RC.KDS-41-20-2022.DCRE::MAIN_REBAR": _REBAR_DIAMETER_LEFT_OPEN,
+    "DESIGN.RC.KDS-41-20-2022.DCRM-WALL::VERTICAL_REBAR": _REBAR_DIAMETER_LEFT_OPEN,
+    "DESIGN.RC.KDS-41-20-2022.REBC::NAME": _REBAR_DIAMETER_LEFT_OPEN,
+    "DESIGN.RC.KDS-41-20-2022.REBR::NAME": _REBAR_DIAMETER_LEFT_OPEN,
+    "DESIGN.RC.KDS-41-20-2022.REBW::NAME": _REBAR_DIAMETER_LEFT_OPEN,
+    # ⚠️ **P178 / R171 复核**：本项原先在 `_PARTS_DECIDED_P170`（`closed`）。**R170** 修好后
+    #    闸门**第一次**真正检查它 ⇒ 手册示例的 `"All"` 被拦。`"All"` 只出现在 `default` 里、
+    #    **P170 从未实测过它**（实测的是 `PartI` / `PartJ` / `Part1` 与伪值 `PartZ`）
+    #    ⇒ **不**把未实测的 `default` 塞进 `enum`（那是**放松**闸门）⇒ 改为**如实留缺**。
+    "DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS": Disposition(
+        status="left_open",
+        ruling="R171",
+        reason=(
+            "**P170 已实测**：`PartI` / `PartJ` / `Part1/4` / `Part2/4` / `Part3/4` ⇒ **真的过滤**；"
+            "`Part1` ⇒ **空块**（与伪值 `PartZ` **同形**）⇒ 上游声明是**笔误**。"
+            "⚠️ **R170 修好后**（P178）闸门**第一次**检查本端点 ⇒ 手册**自己的示例**里的 "
+            "`\"All\"` 被拦。⚠️ 但 `\"All\"` **只**出现在 Schema 的 `default` 里"
+            "（`PARTS.default = [\"All\"]`），**P170 从未实测过它** —— "
+            "把未实测的 `default` 塞进 `enum` 是**放松**闸门（`default` 不是「合法取值」的证据）。"
+        ),
+        ask=(
+            "向 **MIDAS** 问一件事（**唯一**）：`Argument.PARTS` 是否接受 `\"All\"`？"
+            "—— 接受 ⇒ 它是**合法的「全选」简写**，应进 `enum`（**并**修正 P170 的「声明可疑」记录）；"
+            "不接受 ⇒ 手册示例的 `default` 是**错的**，应在台账里记为勘误。"
+            "⚠️ **恢复条件**：一次授权真机测量（`POST /DESIGN/STEEL/KDS-41-30-2022/TABLE` "
+            "带 `PARTS: [\"All\"]` ⇒ 看是否回**非空** `DATA`）。"
+        ),
+    ),
 }
 """标志项 → 处置。⚠️ `--check` 断言**每一个**标志项都在此表里（缺口**不许静默**）。"""
 

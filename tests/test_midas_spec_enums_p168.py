@@ -110,10 +110,16 @@ EXPECTED_BY_CLASS = {
     # `untraceable`。⚠️ **与 P169 / R162 同源**（那批是 `POST.TEXT` 的 3 条，**-2 / +2**）。
     # 取值本身**仍可追溯**（手册规格表 = 弱来源）⇒ `unexplained` 标志**仍为 0**（未变）。
     # 约束**总数**（**754**）与其余两类**一字未变**。
+    # ⚠️ **P178 / R171（事实变更）**：`manual` 223 → **222**、`single_article` 157 → **156**、
+    # `untraceable` 272 → **274** —— `DB.SWIND` / `DB.SSEIS` 的枚举各补了 `USER TYPE`
+    # （**R170 修好后**闸门才看见这两个窄枚举；来源 = 本端点自己的手册示例）。
+    # 补全后它们**不再**落进「`json_schema` 声明并集」⇒ `WIND_CODE` 由 `manual`、
+    # `SEIS_CODE` 由 `single_article` 变为 `untraceable`。
+    # ⚠️ **与 P169 / R162 / P177 同源**（同一类事实变更）。
     "manifest": 102,
-    "manual": 223,
-    "single_article": 157,
-    "untraceable": 272,
+    "manual": 222,
+    "single_article": 156,
+    "untraceable": 274,
 }
 """四个来源分类的规模（合计 **754**）。
 

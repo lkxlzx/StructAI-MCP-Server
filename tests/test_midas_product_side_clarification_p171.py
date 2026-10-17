@@ -203,10 +203,16 @@ def test_p171_the_closed_count_is_unchanged() -> None:
     dispositions = _json(AUDIT)["dispositions"]
     closed = [item for item in dispositions if item["status"] == "closed"]
     left_open = [item for item in dispositions if item["status"] == "left_open"]
-    assert len(dispositions) == 19
-    assert len(closed) == 16
-    assert len(left_open) == 3
-    assert {item["key"] for item in left_open} == set(LEFT_OPEN_R164)
+    # ⚠️ **P178 / R171（事实变更）**：台账 **19 → 25** 项、`closed 16 → 15`、
+    # `left_open 3 → 10` —— **R170** 修好 `patternProperties` 盲区后，闸门**第一次**
+    # 真正检查那 **21** 个文件 ⇒ 暴露 **6** 条既有窄枚举（拦住手册自己的示例）。
+    # 其中 **2** 条可复算已补（`DB.SWIND` / `DB.SSEIS`），**4** 条如实留缺（`R171`）；
+    # 另有 `DESIGN.STEEL.…TABLE::PARTS` 由 `closed` **改回** `left_open`（`"All"` 未实测）。
+    # ⚠️ **P171 的结论本身不变**：`LEFT_OPEN_R164` 那 3 项仍是 `left_open`（见下）。
+    assert len(dispositions) == 25
+    assert len(closed) == 15
+    assert len(left_open) == 10
+    assert set(LEFT_OPEN_R164) <= {item["key"] for item in left_open}
     for item in closed:
         assert item.get("generator_agrees") is True, f"{item['key']} 的生成器与已落盘不一致"
 
