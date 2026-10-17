@@ -58,6 +58,9 @@ data/
 # ⚠️ **P175**：模型样本导出/转换实测的临时目录（`Gen Verification` 样本的**副本**与导出 JSON）
 .tmp_p175/
 
+# ⚠️ **P176**：设计规范匹配 / 经 MCP 的设计链实测的临时目录（样本**副本**与备份）
+.tmp_p176/
+
 # ⚠️ **P176**：探针 / 测试跑出来的**临时 sqlite 库**目录（**不**进仓库）——
 #    `p152-interface-*` 来自 `registry/tools/probe_interface_paths.py` 的进程内装配；
 #    `pytest-of-*` 是 pytest 的 `tmp_path` 根（`--basetemp` 未指定时的默认位置）。

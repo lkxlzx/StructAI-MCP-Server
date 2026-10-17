@@ -236,9 +236,35 @@ class SchemaBoundTransformer:
     endpoint: ClassVar[str] = ""
     fields: ClassVar[tuple[FieldMap, ...]] = ()
 
-    def __init__(self, registry: MidasRegistry) -> None:
-        """绑定 Registry（**只读**；不做任何 I/O）。"""
+    def __init__(
+        self,
+        registry: MidasRegistry,
+        *,
+        fields: tuple[FieldMap, ...] | None = None,
+    ) -> None:
+        """绑定 Registry（**只读**；不做任何 I/O）。
+
+        Args:
+            registry: Registry（字段白名单的**唯一**来源，见裁决 1）。
+            fields: **本次调用**的字段表覆盖（`None` → 用类级 `fields`）。
+
+        ⚠️ **P176 / R168 —— 为什么需要覆盖**：配置类端点（`DCO` 等）的**可接受字段集
+        随生效设计规范变化**（实测：`KDS 41 20 : 2022` 接受 12 / 13 个字段，
+        `GB/T50010-10` 接受 **0** 个）⇒ 类级常量**必然**在某一种规范下失败。
+        字段集因此成为**运行时数据**（`registry/live/design_code_field_sets.json`），
+        由 Adapter 按 `(material, code)` 查出后经本参数注入。
+
+        ⚠️ **类级 `fields` 保持不变**：`registry/tools/check_canonical_field_gap.py` 与
+        `classify_mapping_gap.py` 是**从类上**读 `cls.endpoint` / `cls.fields` 的
+        ⇒ 覆盖只走实例，不碰类属性。
+        """
         self._registry = registry
+        self._fields = fields if fields is not None else self.fields
+
+    @property
+    def effective_fields(self) -> tuple[FieldMap, ...]:
+        """**本次调用**生效的字段表（有覆盖 → 覆盖；否则 → 类级 `fields`）。"""
+        return self._fields
 
     # ===== Schema 访问（白名单的**唯一**来源，见裁决 1）=====
 
@@ -356,20 +382,23 @@ class SchemaBoundTransformer:
 
     def from_native(self, native: Mapping[str, Any]) -> dict[str, Any]:
         """Native → Canonical（缺字段 → `None`，**不**虚构 `0`，见裁决 2）。"""
-        return {field_map.canonical: _lookup(native, field_map.native) for field_map in self.fields}
+        return {
+            field_map.canonical: _lookup(native, field_map.native)
+            for field_map in self.effective_fields
+        }
 
     # ===== 内部 =====
 
     def field_for(self, canonical_key: str) -> FieldMap | None:
         """按 canonical 键找映射（未知 → `None`）。"""
-        for field_map in self.fields:
+        for field_map in self.effective_fields:
             if field_map.canonical == canonical_key:
                 return field_map
         return None
 
     def _require(self, canonical: Mapping[str, Any]) -> None:
         """必填字段缺失 → 明确失败（`docs/04` §25 的前置条件）。"""
-        for field_map in self.fields:
+        for field_map in self.effective_fields:
             if field_map.required and canonical.get(field_map.canonical) is None:
                 raise MidasValidationError(
                     "transformer_required_field_missing",

@@ -238,6 +238,14 @@ class BuiltRequest:
     wrapper: str
     table_type: str
     budget_seconds: float
+    allow_native_crash_risk: bool = False
+    """**逐请求**的原生崩溃护栏放行标志（`P176 / R168 续`）。
+
+    ⚠️ **为什么必须存进请求体**：`build_request()` 原先**收了**这个参数却**没存**
+    ⇒ `send_result()` 调 `_request()` 时**取不到**它 ⇒ `_raw()` 拿到默认 `False`
+    ⇒ **即便调用方显式授权，护栏仍拦**（实测：`STRUCTAI-1200 native_crash_risk`，
+    `via="raw_path"`）。⇒ 存进请求，让**构造 → 发送**这条链**带上**调用方的授权。
+    """
 
     def __repr__(self) -> str:
         """诊断表示：**不含**请求体（可能含业务数据），只含定位字段。"""
@@ -537,6 +545,7 @@ class MidasHttpClient:
             wrapper=wrapper,
             table_type=resolved.table_type,
             budget_seconds=self.budget_for(resolved),
+            allow_native_crash_risk=allow_native_crash_risk,
         )
 
     def budget_for(self, resolved: ResolvedEndpoint) -> float:
@@ -565,6 +574,7 @@ class MidasHttpClient:
             body=request.body,
             budget_seconds=request.budget_seconds,
             endpoint=request.endpoint,
+            allow_native_crash_risk=request.allow_native_crash_risk,
         )
         return SendResult(
             status_code=int(response.status_code),

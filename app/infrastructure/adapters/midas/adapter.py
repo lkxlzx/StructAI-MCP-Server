@@ -440,7 +440,7 @@ class MidasAdapter(BaseAdapter):
             return result
         if step.intent.startswith("delete_"):
             return await self._delete(operation, step, resolved, parameters)
-        return await self._write(operation, step, resolved, payloads)
+        return await self._write(operation, step, resolved, payloads, parameters=parameters)
 
     def _require_registry(self) -> MidasRegistry:
         """取已装载 Registry（未连接 → `STRUCTAI-3000`）。"""
@@ -502,16 +502,21 @@ class MidasAdapter(BaseAdapter):
         step: EndpointStep,
         resolved: ResolvedEndpoint,
         payloads: Mapping[str, Any],
+        *,
+        parameters: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
         """写步骤：按 intent 取载荷 → Transformer → 构造 → 发送（见裁决 5）。"""
-        registry = self._require_registry()
         items = list(payloads.get(step.intent) or [])
         if not items:
             raise MidasValidationError(
                 "step_payload_missing", endpoint=resolved.definition.key, intent=step.intent
             )
         transformer_name = WRITE_INTENT_TRANSFORMERS.get(step.intent) or step.transformer
-        transformer = TRANSFORMER_REGISTRY[transformer_name](registry) if transformer_name else None
+        transformer = (
+            self._build_transformer(transformer_name, resolved, parameters)
+            if transformer_name
+            else None
+        )
         prepared = [
             self._prepare_item(item, transformer=transformer, resolved=resolved) for item in items
         ]
@@ -549,6 +554,72 @@ class MidasAdapter(BaseAdapter):
             "responses": results,
             "data": results,
         }
+
+    def _build_transformer(
+        self,
+        name: str,
+        resolved: ResolvedEndpoint,
+        parameters: Mapping[str, Any] | None,
+    ) -> Any:
+        """构造 Transformer，并在**配置类端点**上按生效规范注入字段集（P176 / R168）。
+
+        ⚠️ **为什么需要它**：配置类端点（`DCO` 等）的**可接受字段集随生效设计规范变化**
+        （实测：`KDS 41 20 : 2022` 接受 12 / 13 个字段；`GB/T50010-10` 接受 **0** 个）
+        ⇒ 类级 `fields` 常量**必然**在某一种规范下失败（`400 Wrong Field`）。
+        字段集因此是**运行时数据**：本方法按 `(material, code)` 从 Registry 查出后注入。
+
+        **生效规范从哪来**（按优先级）：
+        1. 调用方**显式**给的 `design_code`（裸字符串或 `[{"dgn_code": ...}]`）；
+        2. 否则：**不注入** ⇒ 用类级 `fields`（**既有行为逐字不变**）。
+
+        ⚠️ **缺记录时不猜**：`registry/live/design_code_field_sets.json` 里
+        没有该 `(material, code)` 记录时 ——
+        * 调用方**没**给该配置项 ⇒ 该步会在 `_has_payload` 处**跳过**（安全 —— 实测
+          `DCO` 为空时设计链照常跑通）；
+        * 调用方**给了**该配置项 ⇒ 抛 `design_option_not_characterized_for_code`
+          （**不**按类级字段硬发 —— 那正是会 `400` 的路径）。
+
+        Raises:
+            MidasValidationError: `design_option_not_characterized_for_code` ——
+                该 `(material, code)` 未实测，而调用方仍给了配置项。
+        """
+        factory = TRANSFORMER_REGISTRY[name]
+        code = _design_code_of(parameters)
+        if not code:
+            return factory(self._require_registry())
+        material = _design_material_of(resolved.definition.key)
+        endpoint = _design_config_endpoint_of(resolved.definition.key)
+        if material is None or endpoint is None:
+            return factory(self._require_registry())
+        # ⚠️ **类级字段表对它「自己那个规范」是对的** —— 每个设计 Transformer 的类级
+        # `endpoint` 就标明了归属（如 `midas.design.dco.v1` 的
+        # `DESIGN.STEEL.KDS-41-30-2022.DCO` ⇒ 它的 `fields` 是 **KDS 钢**规范的）。
+        # ⇒ 调用方给的码**与该归属一致**时，类级默认即正确，**不**需要覆盖
+        #   （否则会把本来正确的配置误判为「未实测」）。
+        if code == _code_of_class_endpoint(factory):
+            return factory(self._require_registry())
+        field_set = self._require_registry().design_code_field_set(material, code, endpoint)
+        if field_set is None:
+            if parameters is not None and _has_payload_for_config(parameters, endpoint):
+                raise MidasValidationError(
+                    "design_option_not_characterized_for_code",
+                    endpoint=resolved.definition.key,
+                    design_code=code,
+                    hint=(
+                        f"`{material}` 的规范 `{code}` 在本仓**未实测**配置端点的可接受字段集"
+                        " ⇒ 不猜字段。请先实测并登记到 "
+                        "`registry/live/design_code_field_sets.json`，或不要传该配置项"
+                        "（配置项为空时设计链照常跑通）。"
+                    ),
+                )
+            return factory(self._require_registry())
+        allowed = {field_map.native for field_map in factory.fields}
+        kept = tuple(
+            field_map
+            for field_map in factory.fields
+            if field_map.native in field_set.fields and field_map.native in allowed
+        )
+        return factory(self._require_registry(), fields=kept)
 
     def _prepare_item(
         self,
@@ -796,7 +867,8 @@ def _build_payloads(parameters: Mapping[str, Any]) -> dict[str, list[dict[str, A
         # ⚠️ **P157 / R141**：`DESIGN.STEEL` 的**配置**四步（手册方法 = `GET, PUT, DELETE`）。
         # ⚠️ **P159 / R133**：单位系统（模型级设置）—— 载荷入口 = `parameters["unit"]`。
         "write_unit": _mapping_list(parameters.get("unit")),
-        "write_design_code": _mapping_list(parameters.get("design_code")),
+        # ⚠️ **P176 / R168**：裸字符串也要认（`_mapping_list` 对字符串返回空列表 ⇒ 静默跳过）。
+        "write_design_code": _design_code_items(parameters),
         "write_design_option": _mapping_list(parameters.get("design_option")),
         "write_design_frame": _mapping_list(parameters.get("design_frame")),
         "write_design_member": _mapping_list(parameters.get("design_members")),
@@ -1166,6 +1238,104 @@ def _mapping_list(value: Any) -> list[dict[str, Any]]:
     if isinstance(value, Sequence) and not isinstance(value, str):
         return [dict(item) for item in value if isinstance(item, Mapping)]
     return []
+
+
+DESIGN_CODE_SENSITIVE_ENDPOINTS: Final[frozenset[str]] = frozenset({"DCO"})
+"""**字段集随生效设计规范变化**的设计端点末段（`P176 / R168`）。
+
+⚠️ **只有 `DCO`**（设计选项）—— P176 实测：KDS 下接受 12 / 13 个字段，`GB/T50010-10` 下
+接受 **0** 个（`DESIGN_CD` 也被拒）。
+
+⚠️ **同族的 `DCTL`（框架控制）/ `MEMB`（构件指派）与规范无关**（同批实测：
+中国规范下两者 `PUT` 均 `200`）⇒ **不**纳入本集合 —— 纳入会把本来正确的配置
+误判为「未实测」而**误报错**（P176 实测踩到：`MEMB` 被拦，整个设计任务 `FAILED`）。
+
+⚠️ 其余设计端点（`DRC` / `*-ANAL` / `*-TABLE`）的字段集同样与规范无关。
+"""
+
+DESIGN_MATERIAL_SEGMENTS: Final[frozenset[str]] = frozenset({"RC", "STEEL", "SRC"})
+"""设计端点的**材料段**（`DESIGN.<material>.<...>`）。"""
+
+
+def _design_code_of(parameters: Mapping[str, Any] | None) -> str:
+    """取调用方**显式**给的设计规范码（没给 → 空串 ⇒ 不注入字段集）。"""
+    if not parameters:
+        return ""
+    items = _design_code_items(parameters)
+    if not items:
+        return ""
+    return str(items[0].get("dgn_code") or "").strip()
+
+
+def _design_material_of(endpoint_key: str) -> str | None:
+    """从端点 key 取材料段（`DESIGN.RC.KDS-41-20-2022.DCO` → `RC`）；取不到 → `None`。"""
+    parts = str(endpoint_key).split(".")
+    if len(parts) >= 3 and parts[0] == "DESIGN" and parts[1] in DESIGN_MATERIAL_SEGMENTS:
+        return parts[1]
+    return None
+
+
+def _design_config_endpoint_of(endpoint_key: str) -> str | None:
+    """从端点 key 取**随规范变化**的配置端点末段（`...DCO` → `DCO`）；其余 → `None`。"""
+    tail = str(endpoint_key).rsplit(".", 1)[-1]
+    return tail if tail in DESIGN_CODE_SENSITIVE_ENDPOINTS else None
+
+
+def _has_payload_for_config(parameters: Mapping[str, Any], endpoint: str) -> bool:
+    """调用方是否为该配置端点**给了**载荷（给了 ⇒ 未实测时必须显式失败，**不**硬发）。"""
+    field = {
+        "DCO": "design_option",
+        "DCTL": "design_frame",
+        "MEMB": "design_members",
+    }.get(str(endpoint))
+    if field is None:
+        return False
+    return bool(_mapping_list(parameters.get(field)))
+
+
+CLASS_ENDPOINT_CODES: Final[dict[str, str]] = {
+    "DESIGN.RC.KDS-41-20-2022": "KDS 41 20 : 2022",
+    "DESIGN.STEEL.KDS-41-30-2022": "KDS 41 30 : 2022",
+    "DESIGN.SRC.AIK-SRC2K": "AIK-SRC2K",
+}
+"""类级 `endpoint` 的规范段 → **该 Transformer 的 `fields` 所属规范码**。
+
+⚠️ 这张表是**机械的**：`registry/design_codes.yaml` 的 `designer_design.selectors`
+已把 `endpoint_prefix` ↔ `code` 记成数据（本表是它在**应用侧**的等价物 ——
+`pyyaml` 不在依赖清单，故此处以内联映射表达，**不**新增依赖）。
+
+⚠️ 它**不**声称「实例支持哪些规范」——那由**实测**决定
+（`registry/live/design_code_field_sets.json`）。
+"""
+
+
+def _code_of_class_endpoint(factory: Any) -> str:
+    """该 Transformer 的类级 `fields` **所属**的规范码（取不到 → 空串）。"""
+    endpoint = str(getattr(factory, "endpoint", "") or "")
+    for prefix, code in CLASS_ENDPOINT_CODES.items():
+        if endpoint.startswith(prefix):
+            return code
+    return ""
+
+
+def _design_code_items(parameters: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """设计规范条目：**裸字符串**与**映射列表**两种形态都接受（P176 / R168）。
+
+    ⚠️ **为什么需要它**：`_mapping_list` 对**字符串**返回**空列表**（它只认映射 / 映射序列）
+    ⇒ 调用方按最自然的方式传 `design_code: "GB/T50010-10"` 时，`DESIGN.RC.DRC` 那一步
+    会拿到**空载荷**而被**静默跳过** ⇒ 规范**根本没切换**，而调用方看不出任何异常
+    （实测：`BD-ANAL` 仍按**旧规范**跑）。
+
+    ⇒ 这里把裸字符串归一成 `[{"dgn_code": <code>}]`（与 Transformer 的 canonical 字段名一致），
+    与既有的 `design_code: [{"dgn_code": ...}]` 形态**并存**（向后兼容）。
+
+    ⚠️ **不**臆造字段：只做 `str → {"dgn_code": str}` 这一种机械转换；
+    其余类型（数字 / 布尔 / 嵌套）**不**猜测，原样交给 `_mapping_list` 处理（⇒ 空列表）。
+    """
+    value = parameters.get("design_code")
+    if isinstance(value, str) and value.strip():
+        return [{"dgn_code": value.strip()}]
+    return _mapping_list(value)
 
 
 def _load_items(parameters: Mapping[str, Any]) -> list[dict[str, Any]]:

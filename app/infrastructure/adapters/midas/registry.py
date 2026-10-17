@@ -56,6 +56,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
+from app.infrastructure.adapters.midas.design_codes import (
+    DesignCodeFieldSet,
+    DesignCodeFieldSets,
+    load_design_code_field_sets,
+)
 from app.infrastructure.adapters.midas.errors import MidasCapabilityError, MidasConnectionError
 from app.infrastructure.adapters.midas.write_templates import (
     WritePayloadTemplate,
@@ -228,6 +233,7 @@ class MidasRegistry:
         self._definitions = dict(definitions)
         self._order = tuple(order)
         self._write_templates: WriteTemplateSet | None = None
+        self._design_code_field_sets: DesignCodeFieldSets | None = None
 
     # ===== 查询 =====
 
@@ -453,6 +459,33 @@ class MidasRegistry:
     def write_template(self, key: str) -> WritePayloadTemplate | None:
         """按端点 key 取写路径请求体模板（无模板 → `None`，调用方回落 `derive_body`）。"""
         return self.write_templates().get(str(key))
+
+    # ===== 设计规范字段集（P176；数据侧 `registry/live/design_code_field_sets.json`）=====
+
+    def design_code_field_sets(self) -> DesignCodeFieldSets:
+        """装载数据侧**设计规范字段集**（惰性；缺文件 → 空集合）。
+
+        ⚠️ 存在的理由：配置端点（`DCO` 等）的**可接受字段集随生效规范变化**
+        （P176 实测：KDS 接受 12 / 13，`GB/T50010-10` 接受 **0**），
+        而接口层原先把字段表**写死**在 Transformer 的类级常量里 ⇒ 换规范必失败。
+        本方法只是那份**实测数据**的唯一读取点 —— Core 里**不**硬编码任何字段集。
+
+        Returns:
+            `DesignCodeFieldSets`（首次调用后缓存；`registry/` 是只读数据）。
+        """
+        if self._design_code_field_sets is None:
+            self._design_code_field_sets = load_design_code_field_sets(self._root)
+        return self._design_code_field_sets
+
+    def design_code_field_set(
+        self, material: str, code: str, endpoint: str
+    ) -> DesignCodeFieldSet | None:
+        """按 `(material, code, endpoint)` 取字段集（**未实测** → `None`）。
+
+        ⚠️ `None` 的语义是「**未实测**」——调用方**不**得据此臆造字段，
+        应显式失败或跳过（见 `adapter.py` 的 `design_option_not_characterized_for_code`）。
+        """
+        return self.design_code_field_sets().get(str(material), str(code), str(endpoint))
 
     def summary(self) -> dict[str, Any]:
         """装配摘要（供启动日志与验收证据；**不含** secret）。"""
