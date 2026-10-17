@@ -54,6 +54,8 @@
 
   function leaveLogin() {
     document.documentElement.classList.remove('is-login');
+    /* 登录页的粒子动画随页面离开销毁（避免后台 requestAnimationFrame 空转） */
+    if (window.PageLogin && window.PageLogin.destroy) window.PageLogin.destroy();
   }
 
   /* P181：页面数据先取实时数据，失败则回落 mock（离线也能看界面） */

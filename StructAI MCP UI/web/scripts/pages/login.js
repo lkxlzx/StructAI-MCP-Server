@@ -44,6 +44,7 @@
     return '' +
       '<section class="login-shell">' +
         '<aside class="login-hero">' +
+          '<canvas class="login-particles" id="loginParticles" aria-hidden="true"></canvas>' +
           '<div class="login-hero-art">' + ART + '</div>' +
           '<div class="login-hero-inner">' +
             '<div class="login-brand">' +
@@ -116,8 +117,19 @@
       '</section>';
   }
 
+  let particles = null;
+
   function mount(root) {
     window.Icons.mount(root);
+
+    /* 粒子背景（左侧区域；离开登录页时销毁，避免后台空转） */
+    const hero = root.querySelector('.login-hero');
+    const canvas = root.querySelector('#loginParticles');
+    if (particles) { particles.destroy(); particles = null; }
+    if (hero && canvas && window.LoginParticles) {
+      particles = window.LoginParticles.create(canvas, hero);
+    }
+
     const form = root.querySelector('#loginForm');
     const error = root.querySelector('#loginError');
     const submit = root.querySelector('#loginSubmit');
@@ -184,5 +196,9 @@
     });
   }
 
-  window.PageLogin = { render: render, mount: mount };
+  function destroy() {
+    if (particles) { particles.destroy(); particles = null; }
+  }
+
+  window.PageLogin = { render: render, mount: mount, destroy: destroy };
 })();
