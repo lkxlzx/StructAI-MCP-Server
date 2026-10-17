@@ -4,16 +4,16 @@
    - `prefers-reduced-motion` ⇒ 静态星点（不跑动画）
    - 零依赖，只操作 canvas */
 (function () {
-  const DENSITY = 1 / 8500;      // 每平方 CSS 像素的粒子数
-  const MAX_PARTICLES = 140;
-  const MIN_PARTICLES = 28;
-  const LINK_DISTANCE = 142;      // 粒子互联距离
-  const CURSOR_RADIUS = 150;      // 光标影响半径
-  const CURSOR_PUSH = 0.55;       // 推开强度
-  const SPEED = 0.16;             // 基础漂移速度
-  const DAMPING = 0.985;
-  const DOT_MIN = 0.7;
-  const DOT_MAX = 1.9;
+  const DENSITY = 1 / 4200;      // 每平方 CSS 像素的粒子数（约翻倍）
+  const MAX_PARTICLES = 280;
+  const MIN_PARTICLES = 56;
+  const LINK_DISTANCE = 160;      // 粒子互联距离
+  const CURSOR_RADIUS = 190;      // 光标影响半径
+  const CURSOR_PUSH = 0.85;       // 推开强度
+  const SPEED = 0.62;             // 基础漂移速度（每帧，约为原来的 4 倍）
+  const DAMPING = 0.94;           // 只衰减「光标冲量」，不衰减基础漂移
+  const DOT_MIN = 1.4;
+  const DOT_MAX = 3.8;
 
   function create(canvas, host) {
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -53,8 +53,10 @@
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * SPEED,
+          vx: (Math.random() - 0.5) * SPEED,   // 基础漂移（恒定）
           vy: (Math.random() - 0.5) * SPEED,
+          ix: 0,                                // 光标冲量（衰减）
+          iy: 0,
           r: DOT_MIN + Math.random() * (DOT_MAX - DOT_MIN),
           a: 0.25 + Math.random() * 0.45
         });
@@ -69,10 +71,7 @@
         const p = particles[i];
 
         if (!reduce) {
-          p.x += p.vx;
-          p.y += p.vy;
-
-          /* 光标推开 */
+          /* 光标推开：写入**冲量**分量（基础漂移不受影响） */
           if (pointer.active) {
             const dx = p.x - pointer.x;
             const dy = p.y - pointer.y;
@@ -80,17 +79,18 @@
             if (dist2 < CURSOR_RADIUS * CURSOR_RADIUS && dist2 > 0.01) {
               const dist = Math.sqrt(dist2);
               const force = (1 - dist / CURSOR_RADIUS) * CURSOR_PUSH;
-              p.vx += (dx / dist) * force;
-              p.vy += (dy / dist) * force;
+              p.ix += (dx / dist) * force;
+              p.iy += (dy / dist) * force;
             }
           }
 
-          p.vx *= DAMPING;
-          p.vy *= DAMPING;
-
-          /* 保持最低漂移，避免完全静止 */
-          if (Math.abs(p.vx) < 0.02) p.vx += (Math.random() - 0.5) * 0.02;
-          if (Math.abs(p.vy) < 0.02) p.vy += (Math.random() - 0.5) * 0.02;
+          /* 积分：恒定漂移 + 衰减冲量 */
+          p.x += p.vx + p.ix;
+          p.y += p.vy + p.iy;
+          p.ix *= DAMPING;
+          p.iy *= DAMPING;
+          if (Math.abs(p.ix) < 0.01) p.ix = 0;
+          if (Math.abs(p.iy) < 0.01) p.iy = 0;
 
           /* 环绕边界 */
           if (p.x < -8) p.x = width + 8;
@@ -115,12 +115,12 @@
           const dy = a.y - b.y;
           const dist2 = dx * dx + dy * dy;
           if (dist2 > LINK_DISTANCE * LINK_DISTANCE) continue;
-          const alpha = (1 - Math.sqrt(dist2) / LINK_DISTANCE) * 0.22;
+          const alpha = (1 - Math.sqrt(dist2) / LINK_DISTANCE) * 0.34;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
           ctx.strokeStyle = 'rgba(140, 190, 255, ' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 1.1;
           ctx.stroke();
         }
       }
@@ -133,21 +133,21 @@
           const dy = p.y - pointer.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist > CURSOR_RADIUS) continue;
-          const alpha = (1 - dist / CURSOR_RADIUS) * 0.42;
+          const alpha = (1 - dist / CURSOR_RADIUS) * 0.60;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(pointer.x, pointer.y);
           ctx.strokeStyle = 'rgba(120, 185, 255, ' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 1.4;
           ctx.stroke();
         }
         /* 光标光晕 */
-        const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 46);
-        glow.addColorStop(0, 'rgba(96, 170, 255, 0.18)');
+        const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 62);
+        glow.addColorStop(0, 'rgba(96, 170, 255, 0.30)');
         glow.addColorStop(1, 'rgba(96, 170, 255, 0)');
         ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(pointer.x, pointer.y, 46, 0, Math.PI * 2);
+        ctx.arc(pointer.x, pointer.y, 62, 0, Math.PI * 2);
         ctx.fill();
       }
 
