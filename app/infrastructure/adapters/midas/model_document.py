@@ -27,6 +27,7 @@ Registry 端点**只是相交、不可互推**（实测：导出 218 张表 vs �
 
 from __future__ import annotations
 
+import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Final
@@ -35,10 +36,14 @@ from app.infrastructure.adapters.midas.adapter import _explode_items
 from app.infrastructure.adapters.midas.transforms import TRANSFORMER_REGISTRY
 
 __all__ = [
+    "MODEL_DOCUMENT_FORMAT",
+    "MODEL_DOCUMENT_VERSION",
     "MODEL_TABLES",
     "ModelDocument",
     "canonical_to_native",
+    "from_json",
     "native_to_canonical",
+    "to_json",
 ]
 
 DBG_ROOT: Final[str] = "DBG"
@@ -269,3 +274,88 @@ def canonical_to_native(document: ModelDocument, registry: Any) -> dict[str, Any
         out[table] = block
 
     return {DBG_ROOT: out}
+
+
+# ===== 稳定序列化格式（P179 / R173）=====
+#
+# 为什么需要：`ModelDocument` 是内存视图，参数化建模需要把它**落盘 / 传输 / 版本化**。
+# 没有固定格式时，每个调用方各写一份 JSON ⇒ 「同一模型两种表示」，无法比较、无法回归。
+#
+# 口径（**稳定** = 同样的模型永远产出逐字节相同的文本）：
+#   1. 顶层四键固定顺序：`format` / `version` / `units` / `tables`；
+#   2. `tables` 按**表名升序**；每个表内按 **id 升序**（数值优先，其次字符串）；
+#   3. 键序固定（显式构造，**不**依赖 dict 插入顺序的偶然性）；
+#   4. 缩进 2 / `ensure_ascii=False` / 结尾换行 —— 与其他落盘文件一致；
+#   5. `native` 块**不**进序列化（它是无损回写用的旁路）。
+#
+# ⚠️ `version` 是**格式版本**（本常量），不是模型版本；改格式必须 +1 并提供迁移说明。
+
+MODEL_DOCUMENT_FORMAT: Final[str] = "structai.model_document"
+MODEL_DOCUMENT_VERSION: Final[int] = 1
+"""序列化格式标识与版本（`from_json` 严格校验，未知版本 ⇒ 报错不猜）。"""
+
+
+def _entity_sort_key(entity: Mapping[str, Any]) -> tuple[int, int | str]:
+    """实体按 `id` 升序（数值优先，其次字符串）—— 与 `_sorted_items` 同口径。"""
+    raw = entity.get("id")
+    try:
+        return (0, int(str(raw)))
+    except (TypeError, ValueError):
+        return (1, str(raw))
+
+
+def to_json(document: ModelDocument) -> str:
+    """`ModelDocument` → **稳定** JSON 文本（逐字节可复现）。
+
+    Args:
+        document: 参数化模型文档。
+
+    Returns:
+        带格式标识 / 版本 / 单位的 JSON 文本（结尾含换行）。
+    """
+    tables: dict[str, Any] = {}
+    for table in sorted(document.entities):
+        rows = sorted(document.entities[table], key=_entity_sort_key)
+        tables[table] = [dict(row) for row in rows]
+    payload = {
+        "format": MODEL_DOCUMENT_FORMAT,
+        "version": MODEL_DOCUMENT_VERSION,
+        "units": dict(document.units),
+        "tables": tables,
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+
+
+def from_json(text: str) -> ModelDocument:
+    """**稳定** JSON 文本 → `ModelDocument`（`to_json` 的逆）。
+
+    ⚠️ 序列化只含 `entities` / `units`；`native` 侧**为空** —— 调用方若需要
+    无损回写，应把 `canonical_to_native()` 的结果与原生块合并，而不是依赖本函数。
+
+    Raises:
+        ValueError: 格式标识或版本不认识（**不**猜、**不**降级）。
+    """
+    payload = json.loads(text)
+    if payload.get("format") != MODEL_DOCUMENT_FORMAT:
+        raise ValueError(
+            f"model_document: 未知格式 {payload.get('format')!r}（期望 {MODEL_DOCUMENT_FORMAT!r}）"
+        )
+    version = payload.get("version")
+    if version != MODEL_DOCUMENT_VERSION:
+        raise ValueError(
+            f"model_document: 不支持的格式版本 {version!r}（本实现 = {MODEL_DOCUMENT_VERSION}）"
+        )
+    tables = payload.get("tables")
+    if not isinstance(tables, Mapping):
+        raise ValueError("model_document: `tables` 缺失或不是对象")
+    entities: dict[str, tuple[dict[str, Any], ...]] = {}
+    for table, rows in tables.items():
+        if not isinstance(rows, Sequence) or isinstance(rows, str):
+            raise ValueError(f"model_document: `tables[{table!r}]` 不是数组")
+        entities[str(table)] = tuple(dict(row) for row in rows if isinstance(row, Mapping))
+    units = payload.get("units")
+    return ModelDocument(
+        entities=entities,
+        native={},
+        units=dict(units) if isinstance(units, Mapping) else {},
+    )

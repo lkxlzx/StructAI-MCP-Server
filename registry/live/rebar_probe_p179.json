@@ -1,0 +1,133 @@
+{
+ "tool": "probe_rebar_p179 (manual PowerShell, no generator)",
+ "criterion_version": 1,
+ "ruling": "R172",
+ "instance": {
+  "alias": "gen-local",
+  "product": "GEN NX",
+  "base_url": "http://localhost:3030/gen",
+  "probed_at": "2026-10-17"
+ },
+ "note": [
+  "P179 · B 组：REBC / REBR 的**真机有副作用测量**（用户授权「全部 3 项」）。",
+  "⚠️ **判据 = 效果**（铁律 ⓪）：不只看状态码 —— 每次写后**再 GET 读回**比对。",
+  "⚠️ **阳性对照先行**（R157）：`POST /db/NODE` 建 101 号 → 读回同值 → `DELETE` 删除 ⇒ 仪器有效；",
+  "   对照同时覆盖 `DB.MATL` 的 PUT 往返（DAMP_RAT 0→0.05→0，两次 200 且读回一致）。",
+  "⚠️ **零残留**：跑完删除自建节点/单元；`GET /db/NODE` / `GET /db/ELEM` 均回空块。",
+  "⚠️ 项目**有路径**（`GET /db/PJCF` 的 FILE_NAME = p176-mcp-backup）⇒ R144 满足。"
+ ],
+ "model": {
+  "before": {
+   "nodes": 21,
+   "elements": 20,
+   "shape": "20 根水平梁（X 方向，Z=0）"
+  },
+  "rebuilt_for_test": {
+   "nodes": 2,
+   "elements": 1,
+   "shape": "1 根竖直柱（Z 0→3），用于让 REBC（柱配筋）有可作用的单元"
+  },
+  "after": {
+   "nodes": 0,
+   "elements": 0
+  }
+ },
+ "measurements": [
+  {
+   "id": "B0",
+   "purpose": "阳性对照 —— 仪器有效性（R157）",
+   "cases": [
+    {
+     "request": "PUT /db/MATL {DAMP_RAT: 0.05}",
+     "status": 200,
+     "readback": "DAMP_RAT = 0.05",
+     "restored": true
+    },
+    {
+     "request": "POST /db/NODE {101: {X:9,Y:9,Z:9}}",
+     "status": 201,
+     "readback": "NODE.101 = {X:9,Y:9,Z:9}",
+     "cleanup": "DELETE /db/NODE/101 ⇒ 200"
+    }
+   ],
+   "verdict": "PASSED（仪器有效）"
+  },
+  {
+   "id": "B1",
+   "purpose": "钢筋规格 D19 / D22 —— 验证「枚举是否真的太窄」",
+   "targets": [
+    "DESIGN.RC.KDS-41-20-2022.REBC",
+    "DESIGN.RC.KDS-41-20-2022.REBR",
+    "DB.REBC",
+    "DB.REBR"
+   ],
+   "bodies_tried": [
+    "手册逐字示例（D19 / Ties，含 CREATE_SUB_SECTION=false + MAIN_BAR + SHEAR_BAR_END + SHEAR_BAR_CEN + DO + HOOK_TYPE）",
+    "同上但 D19 → D22",
+    "同上但 HOOP_TYPE \"Ties\" → 1（integer）",
+    "含 CREATE_SUB_SECTION=true + ELEMS.KEYS=[1] 的创建形态",
+    "原生短键形态（vMAIN_BAR / vSHEAR_BAR_END / D0 / HOOP_TYPE=1）",
+    "扁平数组（无 Assign 包装）",
+    "Argument.ITEMS（无 Assign 包装，按 /info 的顶层 Argument 形状）",
+    "极简体（仅 MAIN_BAR）"
+   ],
+   "results": [
+    {
+     "body": "手册逐字示例 / D22 / HOOP_TYPE=1 / 创建形态 / 原生短键 / 扁平数组 / Argument.ITEMS / 极简体",
+     "status": 400,
+     "response_body": "（空）",
+     "readback_after": "{\"message\":\"\"}（未落库）"
+    },
+    {
+     "body": "{\"Assign\":{}}（空载荷）",
+     "status": 200,
+     "response_body": "{\"message\":\"\"}",
+     "significance": "**路由本身可达且接受 PUT** ⇒ 400 不是路由/方法问题，而是**载荷内容被拒**"
+    }
+   ],
+   "verdict": "INCONCLUSIVE（无法区分「取值非法」与「载荷形状/前置条件不满足」）",
+   "why_inconclusive": [
+    "**空载荷 200** 证明端点可达、方法正确 ⇒ 400 来自载荷校验。",
+    "但**所有**合法形状（含手册逐字示例）都 400 且**响应体为空** ⇒ 原生的拒绝理由**不可见**。",
+    "手册示例用 D19 / D10 / D7 等**已在枚举内**的取值同样 400 ⇒ 不能把 400 归因于「D22 不在枚举」。",
+    "⇒ 无法据此判定 `D22` 是否合法；**不能**把 D22 加进 enum（那会是**发明**）。",
+    "⚠️ 这是**负面结论**，但它是**可复算的机械事实**：端点可达 + 空载荷 200 + 一切合法载荷 400 + 响应体为空。"
+   ]
+  },
+  {
+   "id": "B2",
+   "purpose": "HOOP_TYPE 类型冲突（integer 1/2 vs string Ties/Spirals）",
+   "cases": [
+    { "endpoint": "DESIGN.RC.KDS-41-20-2022.REBC", "value": "\"Ties\"", "status": 400 },
+    { "endpoint": "DESIGN.RC.KDS-41-20-2022.REBC", "value": "1", "status": 400 },
+    { "endpoint": "DB.REBC", "value": "1", "status": 400 }
+   ],
+   "verdict": "INCONCLUSIVE（两种写法都无法写入 ⇒ 无法判定类型）",
+   "why_inconclusive": [
+    "B1 的同一个成因：所有合法载荷都 400 ⇒ 400 不携带「类型对不对」的信息。",
+    "⚠️ **不能**据此把 `\"Ties\"` 塞进 integer 枚举（混型 = 放松闸门）。"
+   ]
+  },
+  {
+   "id": "B3",
+   "purpose": "PARTS: [\"All\"] 是否合法（`DESIGN.STEEL.KDS-41-30-2022.TABLE`）",
+   "executed": false,
+   "reason": "P170 的 `registry/live/parts_disposition_probe_p170.json` 的 `measured.All` **已经**记录过：status=200 · empty_block=true · filters=false · valid=false ⇒ **无需重复测量**。P178 台账写「从未实测」是记法错误，P179 已更正。",
+   "verdict": "ALREADY_MEASURED（P170）"
+  }
+ ],
+ "conclusion": {
+  "closed_by_this_probe": 0,
+  "left_open_unchanged": [
+   "DB.REBR::HOOP_TYPE",
+   "DESIGN.RC.KDS-41-20-2022.DCRE::SPLICED_BARS"
+  ],
+  "reason": "两处都是**类型冲突**；真机测量**无法给出可判别信号**（所有合法载荷统一 400 且响应体为空）⇒ 只能等产品侧答复。",
+  "value_of_this_probe": [
+   "**排除**了「D22 被拒 ⇒ enum 太窄」这一假说 —— 手册示例的 D19 同样被拒，说明 400 与取值无关。",
+   "**证明**端点可达（空载荷 200），把问题**收窄**到「载荷校验」，而不是「路由/方法/产品不支持」。",
+   "**建立**了可复用的阳性对照流程（node 建→读→删 + MATL 改→还原）。"
+  ]
+ },
+ "verdict": "INCONCLUSIVE_BUT_DECISIVE_ON_ATTRIBUTION"
+}

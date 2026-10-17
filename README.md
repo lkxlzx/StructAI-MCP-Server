@@ -26,7 +26,7 @@ MIDAS Open API 的**机器可读端点注册表（Endpoint Registry）**与配�
 ## 目录
 
 ```
-registry/          Endpoint Registry（636 端点定义 + 625 JSON Schema + 索引 + 实例矩阵）
+registry/          Endpoint Registry（663 端点定义 + 652 JSON Schema + 索引 + 实例矩阵）
 examples/          参考客户端与冒烟测试（midas_client.py / smoke_test.py / cases.json）
 app/               Core 实现（P01 起逐步落地；进度见 docs/08 §3）
 pyproject.toml     依赖与工具链配置（冻结于 docs/07 §3.1–§3.2）· .env.example 环境变量样例
@@ -62,10 +62,10 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | --- | --- | --- |
 | 🔴 主指标 | 接口层写路径端到端 | **`13 / 13 PASSED`** |
 | 🔴 主指标 | 接口层读路径端到端 | `2 PASSED + 7 PARTIAL + 6 FAILED`（15 条） |
-| 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`** |
+| 🔴 主指标 | 旗舰五步链（`docs/07` §13.5）**生产口径** | **`12 / 12 PASSED`**（⚠️ **阶段 B**：`BUILD.COLUMN` 仍 `FAILED`，①′ 用 §6.5 的原子 Operation 替代；见 `flagship_chain_probe.json` 的 `substituted_*`） |
 | 🔴 主指标 | **生产路径可用 Operation** | **`71 / 73`**（缺口 = **4** 个端点 → **2** 个 Operation） |
 | 🟡 次指标 | 数据侧可达性上限（`write_path_coverage()`） | `72 / **660**` |
-| ⚪ 账本 | 映射缺口 / 留缺账本 | `487` / `178`（**只登记，不驱动优先级**） |
+| ⚪ 账本 | 映射缺口 / 留缺账本 | `514` / `178`（**只登记，不驱动优先级**；缺口 `487 → 514` 见 **R168**） |
 
 证据 = `registry/live/{interface_path_probe,interface_read_probe,flagship_chain_probe}.json`；
 生成器 = `registry/tools/probe_interface_paths.py` / `probe_flagship_chain.py`（均可 `--check` 离线复算）。
@@ -194,7 +194,7 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | **`docs/01`–`docs/06`** | **V2 原始规范（架构 / 实现 / 9 Tools / Adapter / SDK / 验收）** |
 | **`docs/07_开发方案与任务续接_v1.0.md`** | **开发方案 + 任务续接（含 Operation → MIDAS API 映射）** |
 | **`docs/08_会话交接与续接提示词_v1.0.md`** | **会话边界硬性原则 + 交接协议 + 批次状态表 + 续接提示词（每个新会话的第一个入口）** |
-| **`registry/`** | **MIDAS API 唯一权威来源**（636 端点定义 + 625 JSON Schema） |
+| **`registry/`** | **MIDAS API 唯一权威来源**（663 端点定义 + 652 JSON Schema） |
 | `docs/00_文档通读与API对照报告_v1.0.md` | V2 六份文档的通读与 API 对照结论 |
 | `docs/reports/` | 5 份逐节精读报告 |
 | `MIDAS_API_手册覆盖对照_CivilDesigner_v1.0.md` | 手册覆盖对照 |
@@ -354,17 +354,19 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 > （**盲区**：文件根键就是包装键 ⇒ 下钻约定取不到）；核心 1 行改用 `effective_schema()`
 > 后 **盲区归零**（`104 → 0`，零回归）。⚠️ **可见性恢复 ⇒ 窄枚举立刻会拦住合法调用**
 > ⇒ 同批先补枚举（`CURRENT_MODE` **36** 个取值 + **6** 个变体 token），
-> 效果判据 `PASSED`。**本节的主指标数字不受影响**（`68 / 71`）—— 本批的价值在**防事故**。
+> 效果判据 `PASSED`。**本节的主指标数字不受影响**（当时为 `68 / 71`；**现值见 §1.1**）—— 本批的价值在**防事故**。
 > 细节 = [`registry/README.md`](registry/README.md) §8.22 · `docs/07` §16.1 **R161**；
 > 证据 = [`registry/live/spec_enum_audit.json`](registry/live/spec_enum_audit.json)。
 
 ⚠️ 上表端点**全是纯写端点**（`methods = POST`）⇒ **不能只读收口**，必须**真机写 + 读回验效果**。
-⚠️ **剩余 3 个被挡 Operation 的 13 个挡点端点分两组**（**逐条**由
+⚠️ **剩余 2 个被挡 Operation 的 4 个挡点端点分两组**（**逐条**由
 `tests/test_midas_operation_availability_p165b.py::test_p165b_the_remaining_blockers_are_split_by_recovery_condition` 钉住）：
-**6** 个 `*-ANAL` = **实测崩溃族**（`NATIVE_CRASH_ENDPOINTS`，**R154** ⇒ **MIDAS 侧**修 `wg_db.dll`）；
-**7** 个（6 个 `*-TABLE` + `POST.STEELCODECHECK`）= `availability: untested`
-（`*-TABLE` 要**先有设计结果** ⇒ 依赖上面那 6 个；`POST.STEELCODECHECK` 我方**可以**收口，
-且 **R165 更正 R152**：收口它**真的**解锁 `DESIGN.CODE_CHECK` —— **+1**，**不**是 **0**）。
+**2** 个 `*-ANAL`（`BD-ANAL` / `BC-ANAL`）= **实测 / 同族推定的崩溃族**
+（`NATIVE_CRASH_ENDPOINTS`，**R154** ⇒ **MIDAS 侧**修 `wg_db.dll`）；
+**2** 个 `*-TABLE`（`BD-TABLE` / `BC-TABLE`）= `availability: untested`
+（要读的**设计结果**只能由同选项里的崩溃族 `*-ANAL` 产出 ⇒ 卡在**同一条**崩溃边，**R166**）。
+> ✅ **R166（P174）已收口** `POST.STEELCODECHECK`（→ `verified`）⇒ 挡点端点 **13 → 4**、
+> 被挡 Operation **3 → 2**；`--attribution` 的 `ours` 现为**空**。
 
 > ⚠️ **上表「挡住」列是**挡点个数**，不是**解锁代价**（**R165** 澄清）：因为 `routes` 是
 > **替代**路线，解锁 `DESIGN.CODE_CHECK` 只要 **1** 个端点、`DESIGN.CONCRETE` / `DESIGN.SRC`
@@ -374,14 +376,20 @@ python smoke_test.py --live --expect-product GEN_NX     # 真实调用（默认�
 
 ### 5.2 🟡 次指标：数据侧可达性上限与 Schema 覆盖
 
-- **写路径模板**：`71` 个端点 / `115` 个 body（**全部**来源可复算：`check_write_templates.py --check` 全绿）。
+- **写路径模板**：`71` 个端点 / `115` 个 body（**全部**来源可复算：`check_write_templates.py --summary` 全绿）。
 - **11 个端点无 JSON Schema**：`DB.LCOM` · `DOC.CLOSEALL` · `DOC.EXIT` ·
   `OPE.{CPCREATE,CPEXPORT,CPUPDATEMODEL,CPUPDATERESULT,PROJECTSTATUS,SECTPROP,STORYPROP}` · `VIEW.SELECT`。
   ⚠️ 其中 `DB.LCOM` / `OPE.PROJECTSTATUS` / `OPE.SECTPROP` / `VIEW.SELECT` 属**无请求体**端点
   （`docs/07` §16 R5 的裁决），**不**建 Schema 文件是**如实留缺**，不是遗漏。
-- **`availability` 分档**：`untested` 的 **102** 个里，绝大多数在现有实例上**结构性不可达**
-  （`-M1` 家族 21 个 · `unavailable_on: gen-local` · CIVIL_DESIGNER 独有而 `designer-cloud` 宕机）
+- **`availability` 分档**：`untested` **126** 个里，**15** 个是 CIVIL_DESIGNER 独有（`designer-cloud` 宕机）、
+  **3** 个已声明 `unavailable_on`；其余为**无 GET** 的纯写端点（只读探针覆盖不到）。
+  ⚠️ `-M1` 家族 **21** 个属 **`unverified`**（不是 `untested`）—— 两个实例实测均 `404`，见 §1 / `registry/README.md` §8.17.3。
   ⇒ `docs/07` §15.6.2 的 **P4** 已明确**降级**，不再消耗批次预算。
+- **窄枚举台账**（P179 收尾）：`closed` **22** · `left_open` **4**。
+  ⚠️ 剩余 4 条**全部**是**类型冲突**或**自由引用名** —— 即「不是不知道取值，而是不知道**类型**」：
+  `DB.REBR::HOOP_TYPE` · `DCRE::SPLICED_BARS` · `OPE.GSBG::BRDG_GROUP` · `OPE.LCOM-GEN::DGNCODE`。
+  P179 的真机测量已证明**这类问题无法靠测量判别**（所有合法载荷统一 `400` 且响应体为空）
+  ⇒ 只能等产品侧答复。见 `registry/README.md` §8.33。
 
 ### 5.3 环境与安全
 

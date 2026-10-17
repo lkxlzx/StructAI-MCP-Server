@@ -34,15 +34,15 @@ registry/
 
 ### 2.1 JSON Schema 方言与装载现状（P09 裁决，2026-10-05）
 
-`registry/schema/` 的 **625** 个文件是**请求体 Schema**（P141 起；P140 时 620、P138a 时 616），形态有两种：`{<请求体包装根键>: <JSON Schema>}`
-（如 `ACTL` / `Argument` / `TABLE`；**378** 个）与直接就是 JSON Schema（**247** 个；判据 = `schema` 是否只有**一个**非 JSON-Schema 关键字 的键）。
+`registry/schema/` 的 **652** 个文件是**请求体 Schema**（P141 起 625；P176 的 **R168** 补 27 张导出独有表 ⇒ **652**），形态有两种：`{<请求体包装根键>: <JSON Schema>}`
+（如 `ACTL` / `Argument` / `TABLE`；**378** 个）与直接就是 JSON Schema（**274** 个；判据 = `schema` 是否只有**一个**非 JSON-Schema 关键字 的键）。
 
 | 项 | 实测值 | 说明 |
 | --- | --- | --- |
-| 文件数 | **625** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件；P141 起） |
-| 可装载 | **625** | 剥离包装根键后原样登记（**不改写任何取值**） |
+| 文件数 | **652** | 与 `manifest.json` 中带 `schema` 的端点 **1:1**（无孤儿、无缺文件；P141 起） |
+| 可装载 | **652** | 剥离包装根键后原样登记（**不改写任何取值**） |
 | 无法装载 | **0** | P138a 前为 **1**（`products/gen_nx/db/MBTP.json` 的 `schema` 是**坏串**，见下） |
-| `$schema` 声明 | **447** `draft-07` / **178** 未声明 | 按**生效 Schema**（剥离包装根键后）统计（P141 起） |
+| `$schema` 声明 | **474** `draft-07` / **178** 未声明 | 按**生效 Schema**（剥离包装根键后）统计（P141 起） |
 | 不是合法 JSON Schema | **0** | P138a 前为 **4**（`DESIGN.SRC.AIK-SRC2K.{MATD,MCRD,MRBD}` 的占位分支 + `OPE.EDMP` 的 `type: "Number"`） |
 
 **方言裁决（`docs/07` §16 R18）**：**按各 Schema 自身声明的方言校验**（draft-07 → `Draft7Validator`；
@@ -53,7 +53,7 @@ registry/
 
 ⚠️ **R19 已收口（P138a）**：本目录**不再有**数据缺陷 —— 修复固化在生成链工具
 `registry/tools/fix_schema_defects.py`（见 §8.3），逐条差异可复算；`SchemaEngine.check_schema()`
-的失败数 **4 → 0**，**625/625** 可装载（P141 起）。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，
+的失败数 **4 → 0**，**652/652** 可装载（P141 起 625、P176 起 652）。注意 `jsonschema` 在实例校验时**不**检查 Schema 自身，
 非法关键字会被**静默忽略**（校验变宽松），故 Core 侧仍由 `check_schema()` 显式诊断。
 另：**11** 个端点仍**没有** JSON Schema（`docs/07` §16 R5；P138b 分类 20 个、**P140 补齐 4 个**、
 **P141 补齐 5 个**，见 §8.4），本目录不臆造。
@@ -97,7 +97,7 @@ registry/
 `midas_api_schemas`（`direction = "response"`，URI = `midas://<product>/<code>/response/v1`），
 并**回填** `midas_api_endpoints.response_schema_id` 与 `midas_api_mappings.response_schema`
 （存的是 Schema 行的 id，与 `request_schema*` 同口径）—— 该表自 **P138a** 起为
-**864** 行 = 请求 **625** + 响应 **241**（P141 起；P140 时为 859 = 620 + 239）；未声明 `response`
+**969** 行 = 请求 **652** + 响应 **317**（P176 起；P141 时为 864 = 625 + 241）；未声明 `response`
 块的端点仍为 `None`（**不**臆造）。
 数据侧仍**可复算**：`sync_manifest.py` / `sync_response_schemas.py` / `fix_schema_defects.py`
 预演差异均为 **0**。
@@ -281,12 +281,12 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
 
 ## 3. 统计
 
-- 端点定义（Registry key）：**636**
-- JSON Schema 文件：**625**（P141 起；P140 时 620、P138a 时 616）
+- 端点定义（Registry key）：**663**
+- JSON Schema 文件：**652**（P176 起；P141 时 625、P140 时 620、P138a 时 616）
 
 | 桶 | 数量 | 说明 |
 | --- | --- | --- |
-| common | 370 | GEN NX 与 CIVIL NX 共有 |
+| common | 397 | GEN NX 与 CIVIL NX 共有 |
 | products/gen_nx | 100 | GEN NX 独有 |
 | products/civil_nx | 17 | CIVIL NX 独有 |
 | products/civil_designer | 24 | Civil Designer 独有 |
@@ -296,7 +296,7 @@ L5 三步链只覆盖「创建 → 读回 → 按路径 key 删除」，**PUT（
 
 | 命名空间 | 数量 |
 | --- | --- |
-| DB | 244 |
+| DB | 271 |
 | POST | 199 |
 | DESIGN | 125 |
 | OPE | 34 |
@@ -2935,3 +2935,71 @@ P171 / R164 已踩过「同名不同义」）；**只增不减**；**类型不�
 `registry/tools/sync_design_code_selector_enum.py --check` ·
 `registry/tools/check_operation_availability.py --check`（**71 / 73**）· `pytest -q` ·
 裁决 `docs/07` §16.1 **R171**。
+
+### 8.33 P179：留缺 10 → 4 + 参数化模型稳定序列化（⇒ **R172** / **R173**）
+
+#### 8.33.1 A 组：能复算的收口（**零请求**）
+
+| 项 | 处置 | 依据 |
+| --- | --- | --- |
+| 钢筋规格（`DCRE` / `DCRM-WALL` / `REBC` / `REBR` / `REBW`） | ✅ `closed` | **本端点自己的手册示例体**里出现过的直径：`D10`/`D13`/`D16`/`D19`/`D22`/`D25`/`D32`/`D41`（+ 已落盘 `D4`~`D8`）。⚠️ **不发明** `D9`/`D11`/…/`D57` |
+| `OPE.LINEBMLD::TYPE` | ✅ `closed` | 手册 `specifications` 第 3 行（`Key="TYPE"` / `Value Type=String` / `Required`）**逐条列出 9 个取值**，与示例体 **9/9 一致** |
+| `DESIGN.STEEL…TABLE::PARTS` | ✅ `closed` | ⚠️ **更正 P178**：P170 **确实实测过** `"All"`（`measured.All` = `empty_block=true` / `valid=false`）⇒ 它不是合法取值 |
+| `DB.REBR::HOOP_TYPE` | ⏳ `left_open` | DB 与 DESIGN 是**两条路由**，类型本就不同；真机**无法判别**（见 8.33.2） |
+| `DESIGN.RC…DCRE::SPLICED_BARS` | ⏳ `left_open`（**新暴露**） | 枚举是 string `["None","50%","100%"]`，示例给 **integer `1`** |
+
+**口径修正（重要）**：钢筋规格的 `description` 说「전체 19종: D4 ~ D57」，但手册**没有**完整表
+（`D57` 出现 **0** 次）。P179 的收口**不是**「凑齐 19 个」，而是「**只补可复算的**」——
+未出现的取值**仍被闸门拦住**，这是**有意的**取舍（宁可我方拦，也不把不确定取值放行到原生）。
+
+#### 8.33.2 B 组：真机测量（用户授权「全部 3 项」）—— **不可判别但归因已定**
+
+**阳性对照先行**（R157）：`POST /db/NODE` 建 101 号 → 读回同值 → `DELETE` ⇒ 仪器有效；
+`DB.MATL` 的 `PUT` 往返（`DAMP_RAT` 0 → 0.05 → 0）两次 `200` 且读回一致。
+
+**测量结果**（证据 = [`live/rebar_probe_p179.json`](live/rebar_probe_p179.json)）：
+
+| 载荷 | 状态码 | 读回 |
+| --- | ---: | --- |
+| `{"Assign":{}}`（空载荷） | **200** | `{"message":""}` |
+| 手册逐字示例（D19 / Ties） | **400** | **空响应体** |
+| D22 / Ties | **400** | 空响应体 |
+| D22 / `HOOP_TYPE: 1`（integer） | **400** | 空响应体 |
+| 原生短键形态（`vMAIN_BAR` / `D0`） | **400** | 空响应体 |
+| 扁平数组 / `Argument.ITEMS` / 极简体 | **400** | 空响应体 |
+
+⚠️ **判读**：**空载荷 200** 证明端点可达、方法正确 ⇒ 400 来自**载荷校验**；
+但**所有**合法形状（**含手册逐字示例**）统一 400 且**响应体为空** ⇒
+**400 与取值无关**（`D19` 同样被拒）⇒ **不能**据此判定 `D22` 是否合法 ⇒ **不发明取值**。
+这是**可复算的负面结论**：把问题从「取值非法？」**收窄**到「载荷形状 / 前置条件」。
+
+⚠️ **副作用受控**：模型清空后仅建 2 节点 / 1 柱；跑完删除；`GET /db/NODE` / `ELEM` 回空块；
+项目仍有路径（`FILE_NAME = p176-mcp-backup`，R144 满足）。
+
+#### 8.33.3 C 组：参数化模型的稳定序列化（**零请求**）
+
+`app/infrastructure/adapters/midas/model_document.py` 新增 `to_json()` / `from_json()`：
+顶层四键固定顺序（`format` / `version` / `units` / `tables`）· 表名与 id 升序 ·
+未知格式或版本**报错不猜**。**13 份真实导出样本**批量往返：全部**无损**且序列化**逐字节稳定**
+（证据 = [`live/model_document_batch_p179.json`](live/model_document_batch_p179.json)）。
+
+#### 8.33.4 计数（本批变化）
+
+| 项 | 变化 |
+| --- | --- |
+| **生产路径可用 Operation**（主指标） | **不变**（**`71 / 73`**） |
+| 台账 `DISPOSITIONS` | `closed 15 → 22` · `left_open 10 → 4` |
+| 普查约束总数 | **754 → 755**（`LINEBMLD` 新增 1 条 `enum`） |
+| 带枚举的 Schema 文件 | **225 → 226** |
+| 旧口径（`schema_json`）盲区 | **104 → 105**（新增那条同样在包装根键下） |
+| `untraceable` 分类 | **274 → 275** |
+| `missing_enum` 标志 | **3 → 2** |
+| `app/**` | 改 **1** 个文件（`model_document.py`，仅新增序列化） |
+
+**可执行判定** = `python registry/tools/check_spec_enums.py --check` ·
+`python registry/tools/sync_narrow_enum_from_examples.py --check` ·
+`python registry/tools/sync_linebmld_type_enum.py --check` ·
+`python registry/tools/probe_model_document_batch_p179.py --check` ·
+`pytest tests/test_midas_leftovers_p179.py -q`（**11** 项）·
+`python registry/tools/check_operation_availability.py --check`（**71 / 73**）·
+裁决 `docs/07` §16.1 **R172** / **R173**。

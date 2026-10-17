@@ -354,8 +354,11 @@ def test_p169_the_census_ledger_is_complete_and_generator_checked() -> None:
     closed = [item for item in dispositions if item["status"] == "closed"]
     assert closed, "本批必须至少收口一项"
     for item in closed:
-        assert item.get("generator"), item
-        assert item.get("generator_agrees") is True, f"{item['key']} 的生成器与已落盘不一致"
+        # ⚠️ **P179 / R172（事实变更）**：`closed` 的收口依据现在有**两种** ——
+        # ① **数据派生**（`generator`，机械复算）；② **真机实测**（`evidence`，如
+        # `PARTS` 的 `"All"` 由 P170 实测证明非法 ⇒ 不收进枚举）。两者**必有其一**。
+        assert item.get("generator") or item.get("evidence"), item
+        assert item.get("generator_agrees") is True, f"{item['key']} 的收口依据不成立"
 
 
 def test_p169_the_three_new_closures_are_registered_as_r162() -> None:

@@ -169,22 +169,35 @@ def test_p171_nested_only_candidates_are_bucketed_not_dropped() -> None:
     assert "missing_enum_nested_only" in flags, "取值只来自嵌套同名子字段必须**如实**另立一档"
     assert flags["missing_enum_nested_only"] == []
     assert document["summary"]["flags"]["missing_enum_nested_only"] == 0
-    # 本批**不**改「缺枚举」的数量（仍是那 3 项产品 / 数据侧）。
-    assert len(flags["missing_enum"]) == 3
-    linebmld = [item for item in flags["missing_enum"] if item["uri"] == "ope/linebmld"]
-    assert len(linebmld) == 1
-    assert set(linebmld[0]["values"]) == set(LINEBMLD_TYPES)
-    assert linebmld[0]["value_count"] == 9, "修正后**不得**再含 '0'/'1'"
+    # ⚠️ **P179 / R172（事实变更）**：`OPE.LINEBMLD` 的 `TYPE` 已落 `enum`（手册规格表）
+    # ⇒ 它**不再**是「缺枚举」项 ⇒ 数量 **3 → 2**。P171 的**判据本身不变**
+    # （9 个取值、不含 `'0'`/`'1'`）—— 只是现在它由 Schema 的 `enum` 承载。
+    assert len(flags["missing_enum"]) == 2
+    assert not [item for item in flags["missing_enum"] if item["uri"] == "ope/linebmld"]
+    linebmld_schema = _json(REPO_ROOT / "registry/schema/common/ope/LINEBMLD.json")["schema"]
+    values = linebmld_schema["LINEBMLD"]["properties"]["Argument"]["properties"]["TYPE"]["enum"]
+    assert set(values) == set(LINEBMLD_TYPES)
+    assert len(values) == 9, "修正后**不得**再含 '0'/'1'"
 
 
 # ===== 3. 台账（3 项 R164）=====
 
 
 def test_p171_the_three_left_open_items_are_ruled_r164() -> None:
-    """门槛（**裁决号 + 留缺**）：3 项都挂 **R164** · 仍 `left_open` · 都写明「向谁问什么」。"""
+    """门槛（**裁决号 + 留缺**）：3 项都挂 **R164**，且**仍留缺**的写明「向谁问什么」。
+
+    ⚠️ **P179 / R172（事实变更）**：`OPE.LINEBMLD::TYPE` 已由手册规格表**复算收口**
+    （9 个取值，两个来源一致）⇒ 不再是 `left_open`。本用例只断言**仍留缺**的项；
+    `LINEBMLD` 的收口由 `tests/test_midas_leftovers_p179.py` 单独钉住。
+    """
     dispositions = {item["key"]: item for item in _json(AUDIT)["dispositions"]}
     for key in LEFT_OPEN_R164:
         item = dispositions[key]
+        if item["status"] == "closed":
+            # 已收口 ⇒ 必须有收口依据（生成器或实测证据），且仍挂 R164 或后续裁决号
+            assert item.get("generator_agrees") is True, item
+            assert item["ruling"] in {"R164", "R172"}, key
+            continue
         assert item["status"] == "left_open", item
         assert item["ruling"] == "R164", key
         assert item.get("ask"), f"{key} 的留缺必须写明「向谁问什么」"
@@ -208,13 +221,19 @@ def test_p171_the_closed_count_is_unchanged() -> None:
     # 真正检查那 **21** 个文件 ⇒ 暴露 **6** 条既有窄枚举（拦住手册自己的示例）。
     # 其中 **2** 条可复算已补（`DB.SWIND` / `DB.SSEIS`），**4** 条如实留缺（`R171`）；
     # 另有 `DESIGN.STEEL.…TABLE::PARTS` 由 `closed` **改回** `left_open`（`"All"` 未实测）。
-    # ⚠️ **P171 的结论本身不变**：`LEFT_OPEN_R164` 那 3 项仍是 `left_open`（见下）。
-    assert len(dispositions) == 25
-    assert len(closed) == 15
-    assert len(left_open) == 10
-    assert set(LEFT_OPEN_R164) <= {item["key"] for item in left_open}
+    # ⚠️ **P179 / R172（事实变更）**：台账 **25 → 26** 项（新暴露 `DCRE::SPLICED_BARS`）、
+    # `closed 15 → 22`、`left_open 10 → 4` —— 钢筋规格 5 项 + `LINEBMLD::TYPE` 由
+    # **手册示例体 / 规格表**复算收口；`PARTS` 因 **P170 实测过 `"All"`**（回空块）而收口。
+    # ⚠️ **P171 的结论本身不变**：`GSBG` / `LCOM-GEN` 仍 `left_open`；
+    # `LINEBMLD::TYPE` 已由 P179 收口（见 `test_p179_*`）。
+    assert len(dispositions) == 26
+    assert len(closed) == 22
+    assert len(left_open) == 4
+    remaining = {item["key"] for item in left_open}
+    # ⚠️ `LEFT_OPEN_R164` 里 `LINEBMLD::TYPE` 已由 P179 收口 ⇒ 只断言**仍留缺**的那两项。
+    assert {"OPE.GSBG::BRDG_GROUP", "OPE.LCOM-GEN::DGNCODE"} <= remaining
     for item in closed:
-        assert item.get("generator_agrees") is True, f"{item['key']} 的生成器与已落盘不一致"
+        assert item.get("generator_agrees") is True, f"{item['key']} 的收口依据不成立"
 
 
 def test_p171_the_clarification_is_recorded_in_the_dispositions() -> None:
@@ -249,10 +268,23 @@ def test_p171_no_enum_was_invented_for_the_three_fields() -> None:
     assert "enum" not in node, "`BRDG_GROUP` 是**自由引用名** ⇒ 不得硬凑枚举"
     assert node["type"] == "string"
 
+    # ⚠️ **P179 / R172（事实变更）**：`Argument.TYPE` 的 9 个取值**已由手册规格表确认**
+    # （`specifications` 第 3 行，`Key = "TYPE"` / `Value Type = String` / `Required`）
+    # ⇒ P179 按**可复算来源**落 `enum`。**不是硬凑**：两个来源（规格表 + 示例体）逐条一致。
     linebmld = _json(REPO_ROOT / "registry/schema/common/ope/LINEBMLD.json")["schema"]
     node = linebmld["LINEBMLD"]["properties"]["Argument"]["properties"]["TYPE"]
-    assert "enum" not in node, "`Argument.TYPE` 的词表**未**经权威确认 ⇒ 不得硬凑枚举"
     assert node["type"] == "string"
+    assert node["enum"] == [
+        "CONLOAD",
+        "CONMOMENT",
+        "UNILOAD",
+        "UNIMOMENT",
+        "TRALOAD",
+        "TRAMOMENT",
+        "UNIPRESSURE",
+        "TRAPRESSURE",
+        "CURVED",
+    ], "P179：9 个取值来自手册规格表（可复算），不得多也不得少"
 
     # `DGNCODE` 仍是**三个** `oneOf` 分支里的 `const`（**不**是 `enum`）。
     lcom = _json(SCHEMA_LCOM_GEN)["schema"]["properties"]["Argument"]

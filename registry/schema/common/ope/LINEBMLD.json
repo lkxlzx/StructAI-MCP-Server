@@ -17,7 +17,18 @@
               "type": "string"
             },
             "TYPE": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "CONLOAD",
+                "CONMOMENT",
+                "UNILOAD",
+                "UNIMOMENT",
+                "TRALOAD",
+                "TRAMOMENT",
+                "UNIPRESSURE",
+                "TRAPRESSURE",
+                "CURVED"
+              ]
             },
             "TARGET": {
               "type": "object",

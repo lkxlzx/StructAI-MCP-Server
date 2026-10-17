@@ -13,13 +13,20 @@ instances:
       从而把**可达**的实例误判为「未运行」。此误判已**三次**发生
       （P138 自我更正 · P139 记为已知坑 · P172/P173 又踩，见 R167）。
     profile: NX_FAMILY
+    # ⚠️ **基线快照，不是当前值**（P179 标注）：下列 5 个字段是 **2026-05-07** 那一次
+    # L4 全量只读扫描的结果。此后 `availability` 持续演进（P134–P178 逐批收口），
+    # 当前 `manifest.json` 里 `verified_on` 含 `gen-local` 的端点是 **484** 个。
+    # ⇒ 读这些字段时**必须**连同 `tested_at` 一起读；**不**要把 253 当成「现在只验过 253 个」。
     tested_at: "2026-05-07"
     loaded_project: portrait_truss_80m
     get_endpoints_tested: 253
     routed_ok: 217
     routed_empty: 0
     not_found: 36
-    note: 本地部署实例。缺 21 个 Hyper-S 变体与 15 个桥梁/铁路专项表，版本明显落后于云实例。
+    note: >-
+      本地部署实例。缺 21 个 Hyper-S 变体与 15 个桥梁/铁路专项表，版本明显落后于云实例。
+      ⚠️ 上列计数是 **2026-05-07** 的快照；当前 `verified_on: [gen-local]` 的端点数
+      以 `registry/manifest.json` 为准（P179 实测 **484**）。
 
   - alias: civil-cloud
     product: CIVIL_NX

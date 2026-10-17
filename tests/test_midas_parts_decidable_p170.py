@@ -217,10 +217,12 @@ def test_p170_the_ledger_closes_the_three_endpoints() -> None:
 
     ⚠️ **P178 / R171（事实变更）**：`DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS` 由
     `closed` 改 **`left_open`** —— **R170** 修好闸门后，它**第一次**被真正检查，
-    暴露手册示例的 `"All"` 被拦；而 `"All"` **只**出现在 Schema 的 `default` 里、
-    **P170 从未实测过它** ⇒ **不**把未实测的 `default` 塞进 `enum`（那是**放松**闸门）。
-    ⚠️ **P170 的方法学结论不变**：`PartI`/`PartJ`/`Part1/4`… 的**过滤效果**仍成立
-    （那三条仍是 `closed` 且生成器一致）。
+    暴露手册示例的 `"All"` 被拦。
+    ⚠️ **P179 / R172（事实变更，并更正 P178 的记法）**：P178 写「P170 从未实测过 `"All"`」
+    **是错的** —— `registry/live/parts_disposition_probe_p170.json` 的 `measured.All`
+    明确记录 `status=200` · `empty_block=true` · `valid=false`（**发过、回空块**）。
+    ⇒ `"All"` **不是**合法取值 ⇒ 台账 **`closed`**（收口依据 = **实测证据**，不是生成器）。
+    ⚠️ **P170 的方法学结论不变**：`PartI`/`PartJ`/`Part1/4`… 的**过滤效果**仍成立。
     """
     document = _json(AUDIT)
     dispositions = {str(item["key"]): item for item in document["dispositions"]}
@@ -228,17 +230,18 @@ def test_p170_the_ledger_closes_the_three_endpoints() -> None:
         key = f"{endpoint}::PARTS"
         assert key in dispositions, f"台账缺 {key}"
         item = dispositions[key]
-        if key in _REOPENED_P178:
-            assert item["status"] == "left_open", f"{key} 应改为留缺（R171）"
-            assert item["ruling"] == "R171", f"{key} 的裁决号应为 R171"
-            continue
         assert item["status"] == "closed", f"{key} 应已收口"
+        if key in _EVIDENCE_CLOSED_P179:
+            assert item["ruling"] == "R172", f"{key} 的裁决号应为 R172（P179 收口）"
+            assert item["evidence"], f"{key} 的收口依据必须是实测证据"
+            assert item.get("generator_agrees") is True, f"{key} 的证据文件不存在"
+            continue
         assert item["ruling"] == "R163", f"{key} 的裁决号应为 R163"
         assert item.get("generator_agrees") is True, f"{key} 的生成器不一致"
 
 
-_REOPENED_P178 = frozenset({"DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS"})
-"""**P178** 因 `R170` 收口而**重新留缺**的项（见上方用例的说明）。"""
+_EVIDENCE_CLOSED_P179 = frozenset({"DESIGN.STEEL.KDS-41-30-2022.TABLE::PARTS"})
+"""**P179** 用**实测证据**（而非生成器）收口的项（见上方用例的说明）。"""
 
 
 def test_p170_the_parts_generator_merges_both_evidence_files() -> None:

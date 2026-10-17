@@ -95,8 +95,12 @@ VARIANT_ENDPOINTS = (
 )
 """**来源太窄**的 6 个变体端点（登记 token 原先**不在**自己的枚举里）。"""
 
-EXPECTED_CONSTRAINTS = 754
-"""枚举约束总数（**R161** 收口后：`enum` **639** + `oneOf.const` **115**）。"""
+EXPECTED_CONSTRAINTS = 755
+"""枚举约束总数（**P179 / R172** 后：`enum` **640** + `oneOf.const` **115**）。
+
+⚠️ **P179 事实变更**：`OPE.LINEBMLD` 的 `Argument.TYPE` 新增 1 条 `enum`
+（来源 = 手册规格表 9 个取值，`registry/tools/sync_linebmld_type_enum.py`）⇒ **754 → 755**。
+"""
 
 EXPECTED_BY_CLASS = {
     # ⚠️ **P175 / R168（事实变更）**：`manifest` 101 → **102**、`single_article` 158 → **157**
@@ -119,7 +123,7 @@ EXPECTED_BY_CLASS = {
     "manifest": 102,
     "manual": 222,
     "single_article": 156,
-    "untraceable": 274,
+    "untraceable": 275,
 }
 """四个来源分类的规模（合计 **754**）。
 
@@ -137,8 +141,12 @@ EXPECTED_BY_CLASS = {
 本次补全的收益是**数据一致性**（与 `design_codes.yaml` / 手册同源），**不是**「闸门现在会拦」。
 """
 
-EXPECTED_BLIND_WITH_SCHEMA_JSON = 104
-"""`schema_json()`（**旧口径**）下的**盲区**文件数（带枚举的 **225** 个里）。"""
+EXPECTED_BLIND_WITH_SCHEMA_JSON = 105
+"""`schema_json()`（**旧口径**）下的**盲区**文件数（带枚举的 **226** 个里）。
+
+⚠️ **P179 事实变更**：`OPE.LINEBMLD` 新增枚举 ⇒ 带枚举文件 **225 → 226**、盲区 **104 → 105**
+（新增的那条同样在包装根键下 ⇒ 旧口径看不见它）。
+"""
 
 EXPECTED_CURRENT_MODES = 36
 EXPECTED_RESULT_ROWS = 63

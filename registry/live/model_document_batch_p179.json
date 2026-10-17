@@ -1,0 +1,149 @@
+{
+ "tool": "probe_model_document_batch_p179",
+ "criterion_version": 1,
+ "note": [
+  "P179 · 参数化模型的**批量**往返（`docs/07` §16.1 **R173**）。",
+  "**零请求**：只读 `.tmp_p175/*.json`（P175 的导出产物），不碰 MIDAS 实例。",
+  "判据：① 往返**逐字段无损**；② 序列化**逐字节稳定**（两次调用 + 往返后仍相同）；③ 空表在 canonical 侧**保留**（模块口径 1）。"
+ ],
+ "samples": [
+  {
+   "sample": "Eigen-01.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-blank.json",
+   "tables": 10,
+   "canonical_tables": 6,
+   "empty_tables": 10,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-case-empty-all.json",
+   "tables": 10,
+   "canonical_tables": 6,
+   "empty_tables": 10,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-case-empty-DBG.json",
+   "tables": 0,
+   "canonical_tables": 0,
+   "empty_tables": 0,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-case-full-sample.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-case-one-table-empty.json",
+   "tables": 1,
+   "canonical_tables": 1,
+   "empty_tables": 1,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-e2e-edited.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-e2e-export.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-export-effect.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-export.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-negative.json",
+   "tables": 10,
+   "canonical_tables": 6,
+   "empty_tables": 10,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-positive.json",
+   "tables": 1,
+   "canonical_tables": 1,
+   "empty_tables": 0,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  },
+  {
+   "sample": "p175-timing.json",
+   "tables": 218,
+   "canonical_tables": 7,
+   "empty_tables": 204,
+   "empty_tables_kept": true,
+   "lossless": true,
+   "serialization_stable": true,
+   "serialization_roundtrip_stable": true
+  }
+ ],
+ "summary": {
+  "total": 13,
+  "usable": 13,
+  "skipped": 0,
+  "lossless": 13,
+  "stable": 13
+ },
+ "verdict": "PASSED"
+}
