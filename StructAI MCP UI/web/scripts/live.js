@@ -37,8 +37,9 @@
               : card.key === 'tasks' ? 'stat-task'
               : card.key === 'requests' ? 'stat-check' : 'stat-clock',
             label: card.label,
-            valueHtml: window.UI.esc(String(card.value)) +
-              (card.delta ? '<span class="stat-delta delta-up">' + window.UI.esc(card.delta) + '</span>' : ''),
+            value: card.value,
+            unit: card.unit || '',
+            delta: card.delta === null || card.delta === undefined ? null : card.delta,
             valueClass: card.tone === 'green' ? 'is-text is-green' : '',
             footHtml: window.UI.esc(String(card.foot || ''))
           };

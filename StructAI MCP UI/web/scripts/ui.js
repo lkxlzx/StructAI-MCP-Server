@@ -33,14 +33,26 @@
         '<span class="progress-text">' + w + '%</span></div>';
     },
 
-    /* 指标卡 */
+    /* 指标卡（设计原稿：数值 + 单位 + 环比箭头；无数据时隐藏环比） */
     statCard: function (s) {
+      let delta = '';
+      if (s.delta !== null && s.delta !== undefined && s.delta !== '') {
+        const value = Number(s.delta);
+        const up = value >= 0;
+        delta = '<span class="stat-delta ' + (up ? 'delta-up' : 'delta-down') + '">' +
+          (up ? '↑' : '↓') + ' ' + Math.abs(value) + '%</span>';
+      }
+      const missing = s.value === null || s.value === undefined;
+      const valueHtml = s.valueHtml !== undefined
+        ? s.valueHtml
+        : (missing ? '<span class="stat-empty">—</span>'
+                   : esc(String(s.value)) + (s.unit ? '<span class="unit">' + esc(s.unit) + '</span>' : ''));
       return '<article class="stat-card">' +
         '<div class="stat-top">' +
         '<div class="stat-icon" data-icon="' + s.icon + '"></div>' +
         '<div class="stat-body">' +
         '<div class="stat-label">' + esc(s.label) + '</div>' +
-        '<div class="stat-value ' + (s.valueClass || '') + '">' + (s.valueHtml || '') + '</div>' +
+        '<div class="stat-value ' + (s.valueClass || '') + '">' + valueHtml + delta + '</div>' +
         '</div></div>' +
         '<div class="stat-foot">' + (s.footHtml || '') + '</div>' +
         '</article>';

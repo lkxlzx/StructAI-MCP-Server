@@ -154,3 +154,6 @@
 .banner-aside{top:calc(50% + 7px)}
 .banner-aside-1{font-size:19px}
 .banner-aside-2{font-size:15px}
+
+/* P184：指标卡无数据时的占位（不显示单位） */
+.stat-value .stat-empty{color:#C3CBD8;font-weight:700;letter-spacing:2px;font-size:26px}

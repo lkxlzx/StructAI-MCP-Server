@@ -25,6 +25,7 @@ import json
 import pathlib
 import uuid
 from collections.abc import Mapping, Sequence
+from datetime import UTC, datetime, timedelta
 from typing import Any, Final
 
 from sqlalchemy import func, select
@@ -39,6 +40,7 @@ from app.domain.errors import (
     NotFoundError,
     StructAIError,
 )
+from app.infrastructure.database.models.audit import AuditRecordORM
 from app.infrastructure.database.models.software import (
     SoftwareInstanceORM,
     SoftwareORM,
@@ -151,6 +153,8 @@ class ManagementService(ManagementPort):
             clients_total, clients_connected = await _client_counts(uow.session)
         catalog = self._catalog.summary()
         templates = self._templates.summary()
+        async with UnitOfWork.from_session_factory(self._factory()) as uow:
+            usage = await _usage(uow.session)
         return {
             "service": {
                 "running": True,
@@ -170,6 +174,7 @@ class ManagementService(ManagementPort):
                 "count": templates["count"],
                 "families": len(templates["families"]),
             },
+            "usage": usage,
         }
 
     # ===== 客户端 =====
@@ -465,6 +470,77 @@ async def _task_counts(session: Any) -> dict[str, Any]:
         "completed": counts.get("COMPLETED", 0),
         "by_status": counts,
     }
+
+
+async def _usage(session: Any) -> dict[str, Any]:
+    """今日 / 昨日请求数与平均响应时间（数据源 = 审计记录）。
+
+    ⚠️ **口径**：`audit_records` 每次「已执行的调用」写一条（`docs/02` §8.3），
+    因此「今日请求数」= 今日的审计条数。平均响应时间**不在**审计里（`audit_records`
+    没有耗时列）⇒ 用同一时间窗内**已完成任务**的
+    `completed_at - started_at` 均值；没有样本时返回 `None`（**不**编造 0）。
+    """
+    now = datetime.now(UTC)
+    today = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    yesterday = today - timedelta(days=1)
+
+    async def count_between(start: datetime, end: datetime) -> int:
+        return int(
+            (
+                await session.execute(
+                    select(func.count())
+                    .select_from(AuditRecordORM)
+                    .where(AuditRecordORM.created_at >= start, AuditRecordORM.created_at < end)
+                )
+            ).scalar_one()
+        )
+
+    async def latency_between(start: datetime, end: datetime) -> float | None:
+        rows = (
+            await session.execute(
+                select(TaskORM.started_at, TaskORM.completed_at).where(
+                    TaskORM.completed_at >= start,
+                    TaskORM.completed_at < end,
+                    TaskORM.started_at.is_not(None),
+                )
+            )
+        ).all()
+        values = [
+            (completed - started).total_seconds()
+            for started, completed in rows
+            if started is not None and completed is not None
+        ]
+        if not values:
+            return None
+        return round(sum(values) / len(values) * 1000.0, 1)
+
+    requests_today = await count_between(today, now)
+    requests_yesterday = await count_between(yesterday, today)
+    latency_today = await latency_between(today, now)
+    latency_yesterday = await latency_between(yesterday, today)
+    return {
+        "requests": {
+            "today": requests_today,
+            "yesterday": requests_yesterday,
+            "delta_percent": _delta_percent(requests_today, requests_yesterday),
+        },
+        "latency_ms": {
+            "today": latency_today,
+            "yesterday": latency_yesterday,
+            "delta_percent": _delta_percent(latency_today, latency_yesterday, inverse=True),
+        },
+    }
+
+
+def _delta_percent(today: Any, yesterday: Any, *, inverse: bool = False) -> float | None:
+    """环比百分比（昨日为 0 / 缺失 ⇒ `None`，**不**编造）。
+
+    `inverse=True` 用于响应时间：下降是好事，返回**负值**表示改善。
+    """
+    if today is None or yesterday is None or float(yesterday) == 0:
+        return None
+    change = (float(today) - float(yesterday)) / float(yesterday) * 100.0
+    return round(-change if inverse else change, 1)
 
 
 async def _client_counts(session: Any) -> tuple[int, int]:

@@ -345,40 +345,63 @@ def _bounded(value: int, *, default: int = 20, maximum: int = 200) -> int:
 
 
 def _stat_cards(overview: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """首页 5 张指标卡（数值**只**来自 `overview`）。"""
+    """首页 5 张指标卡（**按设计原稿**：服务 / 客户端 / 任务 / 今日请求 / 平均响应）。
+
+    数值**只**来自 `overview`；昨日基线或环比算不出时字段为 `None`
+    （前端据此隐藏，**不**显示编造的 0%）。
+    """
     service = overview.get("service") or {}
     tasks = overview.get("tasks") or {}
     clients = overview.get("clients") or {}
+    usage = overview.get("usage") or {}
+    requests = usage.get("requests") or {}
+    latency = usage.get("latency_ms") or {}
     return [
         {
             "key": "service",
             "label": "MCP 服务状态",
             "value": "运行中" if service.get("running") else "已停止",
+            "unit": None,
             "tone": "green" if service.get("running") else "gray",
+            "delta": None,
             "foot": str(service.get("version") or ""),
         },
         {
             "key": "clients",
             "label": "已连接客户端",
             "value": str(clients.get("connected") or 0),
+            "unit": None,
+            "tone": "plain",
+            "delta": None,
             "foot": f"总计 {clients.get('total') or 0}",
         },
         {
             "key": "tasks",
             "label": "活跃任务",
             "value": str(tasks.get("active") or 0),
+            "unit": None,
+            "tone": "plain",
+            "delta": None,
             "foot": f"排队 {tasks.get('queued') or 0} | 失败 {tasks.get('failed') or 0}",
         },
         {
             "key": "requests",
-            "label": "端点总数",
-            "value": str((overview.get("registry") or {}).get("endpoints") or 0),
-            "foot": f"Schema {(overview.get('registry') or {}).get('schemas') or 0}",
+            "label": "今日请求数",
+            "value": str(requests.get("today") or 0),
+            "unit": None,
+            "tone": "plain",
+            "delta": requests.get("delta_percent"),
+            "foot": f"昨日 {requests.get('yesterday') or 0}",
         },
         {
             "key": "latency",
-            "label": "模板总数",
-            "value": str((overview.get("templates") or {}).get("count") or 0),
-            "foot": f"族 {(overview.get('templates') or {}).get('families') or 0}",
+            "label": "平均响应时间",
+            "value": None if latency.get("today") is None else str(latency.get("today")),
+            "unit": "ms",
+            "tone": "plain",
+            "delta": latency.get("delta_percent"),
+            "foot": "昨日 —"
+            if latency.get("yesterday") is None
+            else f"昨日 {latency.get('yesterday')} ms",
         },
     ]
