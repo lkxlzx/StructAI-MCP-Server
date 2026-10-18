@@ -179,9 +179,16 @@
       form.classList.remove('is-loading');
 
       if (!result.ok) {
-        fail(result.status === 401
-          ? '用户名或密码错误'
-          : '无法连接核心服务（' + (result.status || '网络错误') + '）');
+        const reason = result.error && result.error.details && result.error.details.reason;
+        if (reason === 'blacklisted' || reason === 'not_whitelisted') {
+          fail('当前 IP 已被访问控制策略拦截');
+        } else if (reason === 'rate_limited') {
+          fail('请求过于频繁，请稍后再试');
+        } else {
+          fail(result.status === 401
+            ? '用户名或密码错误'
+            : '无法连接核心服务（' + (result.status || '网络错误') + '）');
+        }
         return;
       }
 

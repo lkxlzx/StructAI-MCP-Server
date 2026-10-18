@@ -1,19 +1,15 @@
 /* ============================================================
    外壳：顶部栏 / 侧栏 / 内容区 / 底栏 / 窗口按钮
    ============================================================ */
-/* P182：全局密度。`--ui-zoom` 统一缩放外壳（默认 .875）。
-   ⚠️ `vh` 单位**不随 zoom 缩放**，故高度/最小宽度都要除以 zoom，
-      否则页面底部会留出 1-zoom 的空白。 */
+/* P184：**1:1 渲染**。
+   P182 用 `transform:scale(.8)` 做全局密度，代价是文字被整体降采样：
+   15px 文字按 15px 栅格化后再缩到 12px，笔画边缘落在半像素上 ⇒ 发虚；
+   12/11px 辅助文字实际只有 9.6/8.8px。已改回 1:1，密度只通过字号/间距调节。
+   （保留 `--ui-zoom` 变量 = 1，兼容既有 `calc(100vh / var(--ui-zoom))`。） */
 .app{
-  /* P182：全局密度用 **transform scale**（不用 CSS zoom）。
-     原因（实测）：`zoom` 下 `vh` / `%` 的解析口径随浏览器实现漂移，
-     同一份 CSS 在 1920 视口下实测高度 864 ≠ 1080（底部留白 20%）。
-     transform 是确定性的：固定铺满视口 → 按 1/zoom 放大 → 再缩回 zoom。 */
   position:fixed;left:0;top:0;
   width:calc(100% / var(--ui-zoom));
   height:calc(100% / var(--ui-zoom));
-  transform:scale(var(--ui-zoom));
-  transform-origin:top left;
   display:flex;flex-direction:column;overflow:hidden;
 }
 
@@ -95,6 +91,10 @@ html.is-desktop .win-actions{display:flex}
   background:var(--sidebar-bg);
   display:flex;flex-direction:column;
   padding:20px 12px 14px;
+  /* 小视口（1366×768）下导航 + 服务卡总高 709 > 可用 621：
+     侧栏自身滚动，避免服务卡压到底栏外面。 */
+  overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;
 }
 .nav{display:flex;flex-direction:column;gap:4px}
 .nav-item{
@@ -170,12 +170,11 @@ html.is-desktop .win-actions{display:flex}
 .win-actions{display:flex;visibility:hidden;pointer-events:none}
 html.is-desktop .win-actions{visibility:visible;pointer-events:auto}
 
-/* P182：`.app` 用 zoom 做全局密度 ⇒ 它的**布局宽度**恒为 `视口 / zoom`，
-   浏览器会因此认为文档横向溢出（即使视觉上正好铺满）⇒ 必须锁死文档滚动，
-   滚动交给 `.content` / 表格容器。 */
+/* 文档滚动锁死，滚动交给 `.content` / 表格容器。
+   最小宽度 = 设计稿的可用下限（1366 视口下 5 张指标卡仍可读）。 */
 html,body{overflow:hidden}
-.app{min-width:calc(1320px / var(--ui-zoom))}
-.topbar{min-width:calc(1320px / var(--ui-zoom))}
+.app{min-width:1320px}
+.topbar{min-width:1320px}
 
 /* 灰色状态点（未连接等） */
 .dot-gray{background:#B4BECD}

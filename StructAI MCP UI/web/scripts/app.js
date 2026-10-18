@@ -58,10 +58,10 @@
     if (window.PageLogin && window.PageLogin.destroy) window.PageLogin.destroy();
   }
 
-  /* P181：页面数据先取实时数据，失败则回落 mock（离线也能看界面） */
+  /* P181：页面数据先取实时数据，失败则回落 mock（离线也能看界面）。
+     P185：MIDAS 客户端页自行管理实时数据（CRUD / 详情 / 事件），不再二次覆盖。 */
   const LIVE = {
-    home: function () { return window.Live.home(); },
-    midas: function () { return window.Live.clients(); }
+    home: function () { return window.Live.home(); }
   };
 
   async function renderPage(route) {
@@ -104,6 +104,8 @@
   /* ---------------- 轻提示 ---------------- */
   window.Toast = {
     show: function (msg) {
+      /* 页面通知通道关闭时不弹提示（设置页「通知方式」） */
+      if (window.Toast.channels && window.Toast.channels.indexOf('page') < 0) return;
       let box = document.getElementById('toast');
       if (!box) {
         box = document.createElement('div');
@@ -136,6 +138,17 @@
     const task = e.target.closest('[data-task]');
     if (task) window.Toast.show('任务 ' + task.dataset.task + ' 操作菜单');
     const act = e.target.closest('#sideAction');
-    if (act) window.Toast.show('已请求停止 MCP 服务');
+    if (act) {
+      /* 侧栏服务卡：走真实服务控制端点（未接入时如实提示） */
+      if (!window.Api || !window.Api.token()) {
+        window.Toast.show('未登录，无法控制服务');
+        return;
+      }
+      window.Api.serviceControl('stop').then(function (result) {
+        window.Toast.show(result && result.ok && result.data && result.data.applied
+          ? '已提交停止服务请求'
+          : '当前部署未接入进程控制');
+      });
+    }
   });
 })();

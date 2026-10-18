@@ -46,6 +46,62 @@
     setToken: setToken,
     get: function (path) { return request('GET', path); },
     post: function (path, body) { return request('POST', path, body || {}); },
+    put: function (path, body) { return request('PUT', path, body || {}); },
+    del: function (path) { return request('DELETE', path); },
+    /* ===== MIDAS 客户端（P185）===== */
+    clientOptions: function () { return request('GET', '/api/clients/options'); },
+    createClient: function (payload) { return request('POST', '/api/clients', payload); },
+    updateClient: function (id, payload) {
+      return request('PUT', '/api/clients/' + encodeURIComponent(id), payload);
+    },
+    deleteClient: function (id) { return request('DELETE', '/api/clients/' + encodeURIComponent(id)); },
+    testClient: function (id) { return request('POST', '/api/clients/' + encodeURIComponent(id) + '/test', {}); },
+    clientEvents: function (id) { return request('GET', '/api/clients/' + encodeURIComponent(id) + '/events'); },
+
+    /* ===== 系统设置（P183 / P185）===== */
+    clients: function () { return request('GET', '/api/clients'); },
+    settings: function () { return request('GET', '/api/settings'); },
+    saveSettings: function (section, values) {
+      return request('PUT', '/api/settings/' + encodeURIComponent(section), values);
+    },
+    resetSettings: function (section) {
+      return request('POST', '/api/settings/reset', { section: section || '' });
+    },
+    users: function (query) {
+      return request('GET', '/api/users' + (query ? '?q=' + encodeURIComponent(query) : ''));
+    },
+    createUser: function (payload) { return request('POST', '/api/users', payload); },
+    updateUser: function (id, payload) { return request('PUT', '/api/users/' + encodeURIComponent(id), payload); },
+    deleteUser: function (id) { return request('DELETE', '/api/users/' + encodeURIComponent(id)); },
+    roles: function () { return request('GET', '/api/roles'); },
+    createRole: function (payload) { return request('POST', '/api/roles', payload); },
+    updateRole: function (id, payload) { return request('PUT', '/api/roles/' + encodeURIComponent(id), payload); },
+    deleteRole: function (id) { return request('DELETE', '/api/roles/' + encodeURIComponent(id)); },
+    checkPassword: function (password) { return request('POST', '/api/users/password/check', { password: password }); },
+    models: function () { return request('GET', '/api/models'); },
+    saveModels: function (payload) { return request('PUT', '/api/models', payload); },
+    testModel: function (id) { return request('POST', '/api/models/' + encodeURIComponent(id) + '/test', {}); },
+    securityOverview: function () { return request('GET', '/api/security/overview'); },
+    dataStats: function () { return request('GET', '/api/data/stats'); },
+    backupNow: function () { return request('POST', '/api/data/backup', {}); },
+    backups: function () { return request('GET', '/api/data/backups'); },
+    deleteBackup: function (id) { return request('DELETE', '/api/data/backups/' + encodeURIComponent(id)); },
+    restoreBackup: function (id) { return request('POST', '/api/data/backups/' + encodeURIComponent(id) + '/restore', {}); },
+    cleanup: function (categories) { return request('POST', '/api/data/cleanup', categories || {}); },
+    purgeData: function () { return request('POST', '/api/data/purge', {}); },
+    importData: function (payload) { return request('POST', '/api/data/import', payload); },
+    exportData: function () { return request('GET', '/api/data/export'); },
+    logs: function (level, query) {
+      return request('GET', '/api/logs?limit=300'
+        + (level ? '&level=' + encodeURIComponent(level) : '')
+        + (query ? '&q=' + encodeURIComponent(query) : ''));
+    },
+    browse: function (path) {
+      return request('GET', '/api/fs/browse' + (path ? '?path=' + encodeURIComponent(path) : ''));
+    },
+    testNotify: function (email) { return request('POST', '/api/notify/test', { email: email }); },
+    checkUpdate: function () { return request('GET', '/api/updates/check'); },
+    serviceControl: function (action) { return request('POST', '/api/service/control', { action: action }); },
     login: async function (username, password) {
       const result = await request('POST', '/api/auth/login', { username: username, password: password });
       if (result.ok && result.data && result.data.token) {

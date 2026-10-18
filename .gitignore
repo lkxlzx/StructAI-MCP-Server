@@ -87,3 +87,8 @@ StructAI MCP UI/desktop/node_modules/
 StructAI MCP UI/desktop/dist/
 StructAI MCP UI/server/__pycache__/
 StructAI MCP UI/**/__pycache__/
+
+# ⚠️ **P183–P185**：系统设置 / 客户端 CRUD 真机验证的临时目录（**不**进仓库）
+.tmp_p183/
+.tmp_p184/
+.tmp_p185/

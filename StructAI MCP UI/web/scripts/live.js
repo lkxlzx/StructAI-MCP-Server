@@ -66,25 +66,7 @@
       };
     },
 
-    /* MIDAS 客户端页：实例列表 */
-    clients: async function () {
-      const payload = pick(await window.Api.get('/api/clients'));
-      if (!payload) return null;
-      return (payload.items || []).map(function (item, index) {
-        const name = String(item.name || item.id);
-        return {
-          id: item.id,
-          letter: name.slice(0, 1).toUpperCase(),
-          color: ['#0D72F7', '#0054F3', '#8936F5', '#FE620F', '#09A96E'][index % 5],
-          name: name,
-          kind: item.product || item.vendor || '',
-          api: item.endpoint || '-',
-          online: !!item.online,
-          ver: item.version || '-',
-          credential: item.credential_reference || '-'
-        };
-      });
-    },
+    /* MIDAS 客户端页由 `pages/clients.js` 自行管理（P185：CRUD / 详情 / 事件）。 */
 
     /* 工具与接口页：端点列表（按命名空间） */
     endpoints: async function (namespace, query) {

@@ -23,7 +23,9 @@
         return '<td' + cls + '>' + c + '</td>';
       }).join('') + '</tr>';
     }).join('');
-    return '<table class="dtable"><thead><tr>' + th + '</tr></thead><tbody>' + tr + '</tbody></table>';
+    /* 包一层横向滚动容器：3 栏卡宽有限，长表头不应把卡片撑宽（`.dtable-wrap`）。 */
+    return '<div class="dtable-wrap"><table class="dtable"><thead><tr>' + th +
+      '</tr></thead><tbody>' + tr + '</tbody></table></div>';
   };
   const setRow = function (k, v, labelW) {
     return '<div class="set-row"><span class="k"' + (labelW ? ' style="width:' + labelW + 'px"' : '') + '>' + k + '</span>' +

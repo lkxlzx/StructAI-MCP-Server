@@ -57,9 +57,13 @@
 }
 .mcp-delta{margin-left:14px;font-size:15px;font-weight:600;font-family:var(--font-num);color:var(--green)}
 
-/* ---------------- 主体分栏 ---------------- */
+/* ---------------- 主体分栏 ----------------
+   P184：右栏原为固定 587px，在 1366 视口下把左卡压到 489px，
+   导致「高级设置」四列（min-content 855px）溢出。改为可收缩的上限。 */
 .mcp-split{
-  display:grid;grid-template-columns:minmax(0,1fr) 587px;gap:14px;align-items:start;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) clamp(420px,38%,587px);
+  gap:14px;align-items:start;
 }
 .mcp-card{
   background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
@@ -117,7 +121,8 @@
   font-size:15px;font-weight:600;color:var(--text-2);cursor:pointer;
 }
 .adv-head .chev{width:16px;height:16px;color:var(--text-3)}
-.adv-body{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding-top:16px}
+/* 四列在窄卡里放不下：按可用宽度自动减列（每列至少 150px）。 */
+.adv-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px;padding-top:16px}
 .adv-field .field-input{height:40px}
 .adv-field .field-select{width:100%;height:40px}
 
@@ -130,6 +135,10 @@
   margin-bottom:14px;
 }
 .side-card-head2 .mcp-card-title{margin-bottom:0}
+/* P184：6 列 nowrap 的 min-content 是 481px，窄侧栏（420px）会溢出。
+   外层容器横向滚动，表格本身保持 table 布局（列对齐不变）。 */
+.mini-table-wrap{width:100%;min-width:0;overflow-x:auto}
+.mini-table-wrap .mini-table{min-width:max-content}
 .mini-table{width:100%;font-size:14px}
 .mini-table th{
   height:36px;padding:0 10px;text-align:left;white-space:nowrap;

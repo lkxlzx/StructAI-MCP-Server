@@ -126,3 +126,86 @@
 
 /* 卡片标题：原稿墨迹高 17px */
 .card-title{font-size:17px}
+
+/* ============================================================
+   通用弹窗 / 表单（P185）
+   ============================================================ */
+.ui-dialog-layer{
+  position:fixed;inset:0;z-index:1200;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(11,18,32,.38);backdrop-filter:blur(2px);
+}
+.ui-dialog-layer.is-on{display:flex}
+.ui-dialog{
+  width:min(560px,calc(100vw - 40px));max-height:calc(100vh - 80px);
+  display:flex;flex-direction:column;
+  background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-pop);
+  animation:ui-dialog-in .16s var(--fx-ease, ease-out);
+}
+@keyframes ui-dialog-in{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+.ui-dialog-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 20px;border-bottom:1px solid #EDF1F7;
+}
+.ui-dialog-head b{font-size:16px;color:var(--text-1)}
+.ui-dialog-x{
+  width:28px;height:28px;border-radius:var(--r-xs);
+  font-size:20px;line-height:1;color:var(--text-3);
+}
+.ui-dialog-x:hover{background:#F3F6FB;color:var(--text-1)}
+.ui-dialog-body{padding:18px 20px;overflow:auto;font-size:14px;color:var(--text-2)}
+.ui-dialog-body p{margin:0 0 10px;line-height:1.7}
+.ui-dialog-foot{
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+  padding:14px 20px;border-top:1px solid #EDF1F7;
+}
+.ui-dialog-foot .btn-blue,.ui-dialog-foot .btn-w,.ui-dialog-foot .btn-red{height:36px;padding:0 16px}
+
+.ui-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.ui-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ui-field.wide{grid-column:1 / -1}
+.ui-field-label{font-size:13px;font-weight:600;color:var(--text-2)}
+.ui-field-label em{color:var(--red);font-style:normal;margin-left:2px}
+.ui-field input,.ui-field select,.ui-field textarea{
+  height:36px;padding:0 10px;border:1px solid #E3E9F2;border-radius:var(--r-xs);
+  background:#fff;font-size:14px;color:var(--text-2);outline:none;min-width:0;
+}
+.ui-field textarea{height:auto;padding:8px 10px;resize:vertical;line-height:1.6}
+.ui-field input:focus,.ui-field select:focus,.ui-field textarea:focus{
+  border-color:#B7D3F8;box-shadow:0 0 0 3px rgba(0,102,254,.08);
+}
+.ui-field-hint{font-size:12px;color:var(--text-4);line-height:1.5}
+.ui-form-note{
+  margin-top:14px;padding:10px 12px;border-radius:var(--r-xs);
+  background:#F5F9FF;color:var(--text-3);font-size:13px;line-height:1.6;
+}
+.ui-switch{display:inline-flex;align-items:center;height:36px}
+.ui-switch input{display:none}
+.ui-switch span{
+  position:relative;width:40px;height:22px;border-radius:999px;background:#CBD5E3;
+  transition:background-color .16s;
+}
+.ui-switch span::after{
+  content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 2px rgba(16,34,66,.25);transition:left .16s;
+}
+.ui-switch input:checked + span{background:var(--brand)}
+.ui-switch input:checked + span::after{left:20px}
+
+/* 目录选择器 */
+.ui-browser{border:1px solid #EDF1F7;border-radius:var(--r-sm);overflow:hidden}
+.ui-browser-head{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F8FAFD;
+  border-bottom:1px solid #EDF1F7;font-size:12px;color:var(--text-3);
+}
+.ui-browser-path{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-browser-list{max-height:260px;overflow:auto}
+.ui-browser-item{
+  display:flex;align-items:center;gap:8px;width:100%;
+  padding:8px 12px;text-align:left;font-size:14px;color:var(--text-2);
+}
+.ui-browser-item:hover{background:#F3F8FF;color:var(--brand)}
+.ui-browser-empty{padding:18px;text-align:center;color:var(--text-4);font-size:13px}
+
+/* 表格内联表单行（环境变量等） */
+.ui-inline-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}

@@ -101,20 +101,27 @@
 .act-row .at span{display:block;font-size:12px;color:var(--text-3);margin-top:3px}
 .act-row .ch{width:16px;height:16px;color:#B4BECD;flex:none}
 
-/* 滑块行 */
-.slider-row{display:flex;align-items:center;gap:14px;margin-bottom:6px}
-.slider-row .lb{width:132px;flex:none;font-size:14px;color:var(--text-2)}
-.slider-wrap{flex:1;min-width:0}
-.slider{position:relative;height:4px;border-radius:2px;background:#E3E9F2}
+/* 滑块行（3 栏卡片内宽度有限：标签收窄、刻度不换行） */
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.slider-row .lb{
+  width:96px;flex:none;font-size:13px;color:var(--text-2);line-height:1.25;
+}
+.slider-wrap{flex:1;min-width:64px}
+/* ⚠️ 必须 block：`.slider` 是 `<span>`，行内元素的高度/定位不生效，
+   会让轨道与刻度挤在同一行并与标签重叠。 */
+.slider{display:block;position:relative;height:4px;border-radius:2px;background:#E3E9F2}
 .slider .fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--brand)}
 .slider .knob{
   position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fff;
   border:2px solid var(--brand);transform:translate(-50%,-50%);box-shadow:0 1px 3px rgba(16,34,66,.25);
 }
-.slider-scale{display:flex;justify-content:space-between;font-size:12px;color:var(--text-4);margin-top:5px}
+.slider-scale{
+  display:flex;justify-content:space-between;font-size:12px;color:var(--text-4);
+  margin-top:5px;white-space:nowrap;
+}
 .slider-val{
-  width:66px;height:32px;flex:none;border:1px solid #E3E9F2;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-2);
+  width:52px;height:30px;flex:none;border:1px solid #E3E9F2;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text-2);
   font-family:var(--font-num);
 }
 
@@ -186,8 +193,22 @@
 .btn-red .bi{width:16px;height:16px}
 .card-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:auto;padding-top:14px}
 
-/* 子页网格与补充图标相关样式 */
-.set3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 10px;align-items:start}
-.set2{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:11px 10px;align-items:start}
+/* 子页网格：原稿同排卡片**等高**（底边对齐），故用 stretch 而不是 start。
+   `minmax(0,1fr)` 保证长表格不会把列撑破（表格自身横向裁切，见 `.dtable`）。 */
+.set3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px 10px;align-items:stretch}
+.set2{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:11px 10px;align-items:stretch}
 .set3 .settings-card,.set2 .settings-card{min-height:0}
 .s-card-title .link-more,.s-card-title .btn-w{margin-left:auto}
+
+/* 表格不得撑破卡片：超宽时在卡片内横向滚动（原稿的「环境变量」「安全日志」
+   在 3 栏宽度下都超过了卡内可用宽度）。 */
+.dtable-wrap{width:100%;min-width:0;overflow-x:auto}
+.dtable-wrap .dtable{min-width:max-content}
+
+/* 卡片标题行的「查看更多」不得把卡片撑宽（标题 + 链接的 min-content 会超过卡宽） */
+.s-card-title{min-width:0}
+.s-card-title .link-more{flex:none;white-space:nowrap}
+
+/* 数据库信息表有 24 行：限制卡内高度，滚动查看（避免整页被一张表拉长） */
+.set3 .settings-card .dtable{max-width:100%}
+.settings-card .dtable{max-width:100%}

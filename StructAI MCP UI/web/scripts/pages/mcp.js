@@ -195,14 +195,14 @@
             '<div class="side-card-head2"><h2 class="mcp-card-title">' + sc.title + '</h2>' +
             '<a class="link-more" href="javascript:void(0)" data-more="' + sc.link + '">' + sc.link +
             '<span class="chev" data-icon="chevR"></span></a></div>' +
-            '<table class="mini-table"><thead><tr>' + clientCols + '</tr></thead><tbody>' + clientRows + '</tbody></table>' +
+            '<div class="mini-table-wrap"><table class="mini-table"><thead><tr>' + clientCols + '</tr></thead><tbody>' + clientRows + '</tbody></table></div>' +
           '</section>' +
 
           '<section class="mcp-card">' +
             '<div class="side-card-head2"><h2 class="mcp-card-title">' + sq.title + '</h2>' +
             '<a class="link-more" href="javascript:void(0)" data-more="' + sq.link + '">' + sq.link +
             '<span class="chev" data-icon="chevR"></span></a></div>' +
-            '<table class="mini-table"><thead><tr>' + reqCols + '</tr></thead><tbody>' + reqRows + '</tbody></table>' +
+            '<div class="mini-table-wrap"><table class="mini-table"><thead><tr>' + reqCols + '</tr></thead><tbody>' + reqRows + '</tbody></table></div>' +
           '</section>' +
 
           '<section class="mcp-card">' +

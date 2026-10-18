@@ -7,7 +7,7 @@
 .tpl-tab{border:1px solid #DDE5F0;background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;
   color:var(--text-2,#33415C);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .tpl-tab.is-active{background:#EBF4FE;border-color:#BBD8FB;color:#0065FE;font-weight:600}
-.tpl-count{font-size:11px;color:#5A6884}
+.tpl-count{font-size:12px;color:#5A6884}
 .tpl-list{display:flex;flex-direction:column;gap:2px;max-height:560px;overflow:auto}
 .tpl-item{display:flex;align-items:center;justify-content:space-between;gap:10px;
   border:0;background:transparent;padding:9px 10px;border-radius:8px;
@@ -24,8 +24,8 @@
   max-height:480px;overflow:auto;padding-right:4px}
 .tpl-row{display:flex;flex-direction:column;gap:4px;border-bottom:1px dashed #EEF3FA;padding-bottom:8px}
 .tpl-label{font-size:12px;color:var(--text-2,#33415C);display:flex;flex-direction:column;gap:2px}
-.tpl-desc{font-size:11px;color:#8A96AC}
-.tpl-unit{color:#8A96AC;font-size:11px}
+.tpl-desc{font-size:12px;color:#8A96AC}
+.tpl-unit{color:#8A96AC;font-size:12px}
 .tpl-input{height:32px;border:1px solid #DDE5F0;border-radius:7px;padding:0 9px;font-size:13px;outline:none}
 .tpl-input:focus{border-color:#0065FE;box-shadow:0 0 0 3px rgba(0,101,254,.10)}
 .tpl-empty{margin:20px 0;color:var(--text-3,#5A6884);font-size:13px}

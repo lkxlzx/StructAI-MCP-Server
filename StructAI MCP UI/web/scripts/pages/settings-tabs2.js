@@ -22,6 +22,10 @@
           '<span class="nm">' + it.name + '</span><span class="vl">' + it.text + ' (' + it.pct + '%)</span></div>';
       }).join('') + '</div></div>';
   };
+  /* 滑块：`.slider-wrap` 内是「轨道（块级）+ 刻度」两行，右侧数值框对齐轨道中线。 */
+  /* 表格容器（横向滚动；与 settings-tabs.js 的 `dtable` 同口径） */
+  const wrap = function (table) { return '<div class="dtable-wrap">' + table + '</div>'; };
+
   const sliderRow = function (label, val, min, max, pct) {
     return '<div class="slider-row"><span class="lb">' + label + '</span>' +
       '<span class="slider-wrap"><span class="slider"><span class="fill" style="width:' + pct + '%"></span>' +
@@ -79,8 +83,8 @@
       '<span class="select-like"><select><option>全部提供商</option></select><span class="chev" data-icon="chevD"></span></span>' +
       '<span class="select-like"><select><option>全部状态</option></select><span class="chev" data-icon="chevD"></span></span>' +
       '<button class="btn-w" type="button" data-act2="刷新列表"><span class="bi" data-icon="refresh"></span>刷新列表</button></div>' +
-      S.dtable([{ t: '' }, { t: '#' }, { t: '模型名称' }, { t: '提供商' }, { t: '模型类型' }, { t: '上下文长度' },
-        { t: '状态' }, { t: '默认模型' }, { t: '操作' }], rows) +
+      wrap(S.dtable([{ t: '' }, { t: '#' }, { t: '模型名称' }, { t: '提供商' }, { t: '模型类型' }, { t: '上下文长度' },
+        { t: '状态' }, { t: '默认模型' }, { t: '操作' }], rows)) +
       pager('共 6 条', ['1'], '10 条/页'));
 
     const detailCard = S.card('model', '',
@@ -95,24 +99,26 @@
         .map(function (r) { return '<div class="r"><dt style="width:96px">' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') +
       '</div>' +
       '<div class="card-actions" style="justify-content:flex-start">' +
-      '<button class="btn-w" type="button" data-act2="测试模型"><span class="bi" data-icon="play2"></span>测试模型</button>' +
-      '<button class="btn-w" type="button" data-act2="设为默认"><span class="bi" data-icon="star"></span>设为默认</button>' +
-      '<button class="btn-red" type="button" data-act2="删除"><span class="bi" data-icon="trash"></span>删除</button></div>',
+      '<button class="btn-w" type="button" data-model-test-detail><span class="bi" data-icon="play2"></span>测试模型</button>' +
+      '<button class="btn-w" type="button" data-model-default-detail><span class="bi" data-icon="star"></span>设为默认</button>' +
+      '<button class="btn-red" type="button" data-model-delete><span class="bi" data-icon="trash"></span>删除</button></div>',
       '<a class="link-more" style="margin-left:auto" href="javascript:void(0)" data-more="编辑">编辑<span class="chev" data-icon="chevR"></span></a>');
 
+    /* 3 栏卡片宽度有限：滑块与开关**上下排**（原稿的 1fr+200px 在 433px 卡内
+       会把滑块压到 80px 以下、刻度文字互相覆盖）。 */
     const paramCard = S.card('sliders', '模型参数设置',
-      '<div style="display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:24px">' +
-      '<div>' + sliderRow('默认温度 (Temperature)', '0.7', '0.0', '2.0', 35) +
+      sliderRow('默认温度 (Temperature)', '0.7', '0.0', '2.0', 35) +
       sliderRow('默认最大输出长度', '4096', '256', '8192', 50) +
-      sliderRow('Top P', '0.9', '0.0', '1.0', 90) + '</div>' +
-      '<div>' + S.togRow('启用流式输出', true) + S.togRow('启用工具调用', true) + S.togRow('自动重试', true) +
-      S.numRow('重试次数', '3', '', true, 100) + '</div></div>' +
+      sliderRow('Top P', '0.9', '0.0', '1.0', 90) +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin-top:6px">' +
+      S.togRow('启用流式输出', true) + S.togRow('启用工具调用', true) + S.togRow('自动重试', true) +
+      S.numRow('重试次数', '3', '', true, 92) + '</div>' +
       '<div class="card-actions"><button class="btn-blue" type="button" data-act2="保存参数">保存参数</button></div>');
 
     const testCard = S.card('chat', '模型测试',
       S.selRow('选择模型', 'deepseek-v4-flash', ['deepseek-v4-flash', 'deepseek-v4-pro', 'gpt-4o'], 110) +
       '<textarea class="s-textarea" style="margin-top:8px" placeholder="请输入测试内容..."></textarea>' +
-      '<div class="card-actions"><button class="btn-blue" type="button" data-act2="发送测试">' +
+      '<div class="card-actions"><button class="btn-blue" type="button" data-model-test-run>' +
       '<span class="bi" data-icon="send"></span>发送测试</button></div>');
 
     const connCard = S.card('plug', '模型接入配置', '' +
@@ -187,11 +193,12 @@
       ['4', '2026-09-18 14:20', '手动备份', '260 MB', S.tag('成功', 'green', true)],
       ['5', '2026-09-17 02:30', '自动备份', '242 MB', S.tag('成功', 'green', true)]
     ].map(function (r) {
-      return r.concat(['<span class="ico-cell"><button class="tbtn icon" type="button" data-act2="下载"><span data-icon="download"></span></button>' +
-        '<button class="tbtn icon danger" type="button" data-act2="删除备份"><span data-icon="trash"></span></button></span>']);
+      return r.concat(['<span class="ico-cell"><button class="tbtn icon" type="button" data-backup-open><span data-icon="download"></span></button>' +
+        '<button class="tbtn icon" type="button" data-backup-restore><span data-icon="restore"></span></button>' +
+        '<button class="tbtn icon danger" type="button" data-backup-del><span data-icon="trash"></span></button></span>']);
     });
     const bkCard = S.card('stat-clock', '备份记录',
-      S.dtable([{ t: '#' }, { t: '备份时间' }, { t: '备份类型' }, { t: '文件大小' }, { t: '状态' }, { t: '操作' }], bkRows) +
+      wrap(S.dtable([{ t: '#' }, { t: '备份时间' }, { t: '备份类型' }, { t: '文件大小' }, { t: '状态' }, { t: '操作' }], bkRows)) +
       pager('共 12 条', ['1', '2', '3'], '5 条/页'),
       '<a class="link-more" style="margin-left:auto" href="javascript:void(0)" data-more="查看更多">查看更多<span class="chev" data-icon="chevR"></span></a>');
 
@@ -201,7 +208,7 @@
       ['logs', '52,691', '420 KB', '系统日志表'], ['configs', '42', '64 KB', '系统配置表'],
       ['audit_logs', '3,215', '96 KB', '审计日志表']
     ];
-    const dbCard = S.card('db', '数据库信息', S.dtable([{ t: '表名' }, { t: '记录数' }, { t: '大小' }, { t: '说明' }], dbRows));
+    const dbCard = S.card('db', '数据库信息', wrap(S.dtable([{ t: '表名' }, { t: '记录数' }, { t: '大小' }, { t: '说明' }], dbRows)));
 
     const storeItems = [
       { name: '任务记录', text: '320 MB', pct: 25.8, color: '#2E90FA' },
@@ -236,8 +243,9 @@
       const st = r[5] === '在线' ? S.tag('在线', 'green', true) : r[5] === '禁用' ? S.tag('禁用', 'red', true) : S.tag('离线', 'gray', true);
       return ['<input type="checkbox" style="accent-color:var(--brand)">', r[0], r[1], r[2], r[3],
         S.tag(r[4], roleTag[r[4]] || 'gray'), st, r[6],
-        '<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-act2="编辑用户">编辑</button>' +
-        '<button class="tbtn icon" type="button" data-act2="更多"><span data-icon="more"></span></button></span>'];
+        '<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-user-edit>编辑</button>' +
+        '<button class="tbtn icon" type="button" data-user-toggle><span data-icon="lock"></span></button>' +
+        '<button class="tbtn icon danger" type="button" data-user-delete><span data-icon="trash"></span></button></span>'];
     });
     const listCard = S.card('user', '用户列表',
       '<div class="toolbar">' + searchBox('搜索用户名、姓名、邮箱或角色...') +
@@ -245,8 +253,8 @@
       '<button class="btn-blue" type="button" data-act2="新建用户"><span class="bi" data-icon="plus"></span>新建用户</button>' +
       '<button class="btn-w" type="button" data-act2="刷新"><span class="bi" data-icon="refresh"></span>刷新</button>' +
       '<button class="btn-w" type="button" data-act2="导出"><span class="bi" data-icon="download"></span>导出</button></div>' +
-      S.dtable([{ t: '' }, { t: '#' }, { t: '用户名' }, { t: '姓名' }, { t: '邮箱' }, { t: '角色' },
-        { t: '状态' }, { t: '最后登录时间' }, { t: '操作' }], uRows) +
+      wrap(S.dtable([{ t: '' }, { t: '#' }, { t: '用户名' }, { t: '姓名' }, { t: '邮箱' }, { t: '角色' },
+        { t: '状态' }, { t: '最后登录时间' }, { t: '操作' }], uRows)) +
       pager('共 12 条', ['1', '2'], '10 条/页'));
 
     const detailCard = S.card('user', '',
@@ -264,9 +272,9 @@
         .map(function (r) { return '<div class="r"><dt style="width:80px">' + r[0] + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') +
       '</div>' +
       '<div class="card-actions" style="justify-content:flex-start">' +
-      '<button class="btn-w" type="button" data-act2="重置密码"><span class="bi" data-icon="key"></span>重置密码</button>' +
-      '<button class="btn-w" type="button" data-act2="禁用用户"><span class="bi" data-icon="lock"></span>禁用用户</button>' +
-      '<button class="btn-red" type="button" data-act2="删除用户"><span class="bi" data-icon="trash"></span>删除用户</button></div>',
+      '<button class="btn-w" type="button" data-user-reset><span class="bi" data-icon="key"></span>重置密码</button>' +
+      '<button class="btn-w" type="button" data-user-toggle><span class="bi" data-icon="lock"></span>禁用用户</button>' +
+      '<button class="btn-red" type="button" data-user-delete><span class="bi" data-icon="trash"></span>删除用户</button></div>',
       '<a class="link-more" style="margin-left:auto" href="javascript:void(0)" data-more="编辑">编辑<span class="chev" data-icon="chevR"></span></a>');
 
     const roleRows = [
@@ -274,11 +282,11 @@
       ['3', '分析师', '可查看结果和数据', '2'], ['4', '访客', '只读权限', '1'],
       ['5', '自定义角色', '自定义权限角色', '1']
     ].map(function (r) {
-      return r.concat(['<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-act2="编辑角色">编辑</button>' +
-        '<button class="tbtn icon" type="button" data-act2="更多"><span data-icon="more"></span></button></span>']);
+      return r.concat(['<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-role-edit>编辑</button>' +
+        '<button class="tbtn icon danger" type="button" data-role-delete><span data-icon="trash"></span></button></span>']);
     });
     const roleCard = S.card('shield', '角色管理',
-      S.dtable([{ t: '#' }, { t: '角色名称' }, { t: '描述' }, { t: '用户数' }, { t: '操作' }], roleRows),
+      wrap(S.dtable([{ t: '#' }, { t: '角色名称' }, { t: '描述' }, { t: '用户数' }, { t: '操作' }], roleRows)),
       '<button class="btn-w" style="margin-left:auto;height:32px;padding:0 12px" type="button" data-act2="新建角色">' +
       '<span class="bi" data-icon="plus"></span>新建角色</button>');
 

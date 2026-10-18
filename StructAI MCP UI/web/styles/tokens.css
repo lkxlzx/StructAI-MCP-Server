@@ -68,14 +68,115 @@
   --shadow-pop:  0 8px 24px rgba(16,34,66,.12);
   --hairline:    1px solid #EDF1F7;
 
-  /* ---- 全局密度（P182）----
-     原稿按 1536×1024 量测，1 单位 = 1 CSS px；现代显示器上偏大。
-     `--ui-zoom` 统一缩放外壳：1 = 原稿比例；0.875 = 更紧凑（默认）。
-     ⚠️ 只调这一个变量即可整体调密度，不要逐页改 px。 */
-  --ui-zoom: .8;
+  /* ---- 全局密度（P184 修订）----
+     原稿按 1536×1024 量测，1 单位 = 1 CSS px。
+     ⚠️ **必须保持 1**：P182 曾用 `transform:scale(.8)` 缩小外壳，导致
+        ① 15px 文字先按 15px 栅格化再缩到 12px ⇒ 发虚（实测锐度下降 27%）；
+        ② 12/11px 的辅助文字实际只有 9.6/8.8px ⇒ 不可读；
+        ③ 卡片高度 120px 被压成 96px，与宽度比例失衡。
+     密度应通过**字号与间距**调整，不要再用整体缩放。
+     `--ui-zoom` 保留为 1，仅用于兼容既有 `calc(100vh / var(--ui-zoom))`。 */
+  --ui-zoom: 1;
 
   /* ---- 字体 ---- */
   --font: "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", "PingFang SC",
           "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
   --font-num: "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif;
+}
+
+/* ============================================================
+   界面偏好（P185）：深色 / 密度 / 动效 / 紧凑侧栏
+   由 scripts/preferences.js 写到 <html data-*> 上。
+   ============================================================ */
+html[data-theme="dark"]{
+  --bg:#0E1726;
+  --header-bg:#111C2E;
+  --card:#16233A;
+  --card-line:#24344F;
+  --header-line:#22324B;
+  --sidebar-bg:#0C1524;
+  --sidebar-card:rgba(255,255,255,.05);
+  --sidebar-line:rgba(255,255,255,.08);
+  --sidebar-active:#1E3A61;
+  --sidebar-text:#C4D0E2;
+  --sidebar-muted:#8296B0;
+  --brand-soft:#16304F;
+  --brand-soft-2:#1A3A60;
+  --green-soft:#123326;
+  --red-soft:#3A1D1D;
+  --text-1:#EDF2FA;
+  --text-2:#CBD6E6;
+  --text-3:#9AABC2;
+  --text-4:#74869F;
+  --track:#22324B;
+  --shadow-card:0 1px 2px rgba(0,0,0,.35);
+  --shadow-pop:0 8px 24px rgba(0,0,0,.45);
+  --hairline:1px solid #22324B;
+  color-scheme:dark;
+}
+html[data-theme="dark"] body{background:var(--bg);color:var(--text-2)}
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .app-footer{background:var(--header-bg)}
+html[data-theme="dark"] .settings-head,
+html[data-theme="dark"] .settings-card,
+html[data-theme="dark"] .client-list-card,
+html[data-theme="dark"] .client-detail,
+html[data-theme="dark"] .detail-card,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .mcp-card,
+html[data-theme="dark"] .mcp-stat,
+html[data-theme="dark"] .settings-card .dtable th,
+html[data-theme="dark"] .ui-dialog{background:var(--card)}
+html[data-theme="dark"] .settings-tabs{background:#132039;border-bottom-color:#22324B}
+html[data-theme="dark"] .settings-tab.is-active{background:var(--card)}
+html[data-theme="dark"] .client-table th,
+html[data-theme="dark"] .dtable th{background:#1A2A44;color:var(--text-3)}
+html[data-theme="dark"] .client-table td,
+html[data-theme="dark"] .dtable td{border-bottom-color:#22324B}
+html[data-theme="dark"] .client-table tbody tr:hover td,
+html[data-theme="dark"] .dtable tbody tr:hover td{background:#1B2C48}
+html[data-theme="dark"] .search-box,
+html[data-theme="dark"] .s-input input,
+html[data-theme="dark"] .ui-field input,
+html[data-theme="dark"] .ui-field select,
+html[data-theme="dark"] .ui-field textarea{background:#111C2E;border-color:#2A3B58;color:var(--text-2)}
+html[data-theme="dark"] .btn-w{background:#16233A;border-color:#2A3B58;color:var(--text-2)}
+html[data-theme="dark"] .btn-w:hover{border-color:#3C5480;color:#8FC4FF}
+html[data-theme="dark"] .field-hint,
+html[data-theme="dark"] .ui-field-hint{color:var(--text-4)}
+html[data-theme="dark"] .ui-dialog-head,
+html[data-theme="dark"] .ui-dialog-foot{border-color:#22324B}
+html[data-theme="dark"] .ui-browser-head{background:#111C2E;border-color:#22324B}
+html[data-theme="dark"] .ui-browser-item:hover{background:#1B2C48}
+html[data-theme="dark"] .kv-list .r,
+html[data-theme="dark"] .detail-row{border-color:#22324B}
+
+/* 密度：通过行高 / 间距 / 字号实现（不使用整体缩放，见 tokens 的说明） */
+html[data-density="standard"]{--density-row:56px;--density-pad:0.92}
+html[data-density="compact"]{--density-row:46px;--density-pad:0.82}
+html[data-density="standard"] .client-table td{height:var(--density-row)}
+html[data-density="compact"] .client-table td{height:var(--density-row)}
+html[data-density="standard"] .dtable td{height:38px}
+html[data-density="compact"] .dtable td{height:34px}
+html[data-density="compact"] .client-table th,
+html[data-density="compact"] .dtable th{height:34px}
+html[data-density="compact"] .settings-card{padding:calc(16px * var(--density-pad))}
+html[data-density="standard"] .settings-card{padding:calc(18px * var(--density-pad))}
+html[data-density="compact"] .stat4 .sc{min-height:76px;padding:12px 14px}
+html[data-density="compact"] .settings-head{height:170px}
+html[data-density="compact"] .settings-title{font-size:26px}
+html[data-density="compact"] .settings-sub{font-size:14px}
+
+/* 紧凑侧栏（.app-body 是 flex 布局，直接改侧栏宽度） */
+html[data-sidebar="compact"] .sidebar{width:76px;padding-left:8px;padding-right:8px}
+html[data-sidebar="compact"] .nav-item{justify-content:center;padding:0}
+html[data-sidebar="compact"] .nav-item > span:not(.nav-icon){display:none}
+html[data-sidebar="compact"] .side-status{display:none}
+
+/* 关闭动画 */
+html[data-animations="off"] *,
+html[data-animations="off"] *::before,
+html[data-animations="off"] *::after{
+  animation-duration:0s !important;
+  transition-duration:0s !important;
 }

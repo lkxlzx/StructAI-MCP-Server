@@ -34,6 +34,7 @@ import logging
 import sys
 from collections.abc import AsyncIterator, Callable, Sequence
 from contextlib import AbstractAsyncContextManager, AsyncExitStack, asynccontextmanager
+from typing import Any
 
 from app import __app_name__, __version__
 from app.config.logging import configure_logging
@@ -89,6 +90,14 @@ async def async_main(transport: str = "none") -> int:
     Returns:
         进程退出码（正常为 0）。
     """
+    # 日志目录默认跟随数据库（`<data>/logs`）；显式配置 `STRUCTAI_LOG_DIR` 时优先。
+    # 写入环境变量是为了让管理面「日志中心」读到同一个目录（同一个解析函数）。
+    if not os.environ.get("STRUCTAI_LOG_DIR"):
+        prefix = "sqlite+aiosqlite:///"
+        if settings.database_url.startswith(prefix):
+            database = pathlib.Path(settings.database_url[len(prefix) :])
+            os.environ["STRUCTAI_LOG_DIR"] = str(database.resolve().parent / "logs")
+
     configure_logging(settings.log_level)
 
     container: AppContainer = build_container(settings)
@@ -198,7 +207,26 @@ async def _serve_http(container: AppContainer, builder: ServerBuilder) -> None:
         access_log=False,
     )
     server = uvicorn.Server(config)
+
+    # 服务控制（管理面「停止 / 重启服务」）：只翻转 uvicorn 的退出标志，
+    # **不**杀进程、不跳过 shutdown 钩子；重启在 serve() 正常返回后重新 exec。
+    restart_requested = {"value": False}
+
+    def _service_control(action: str) -> dict[str, Any]:
+        if action in {"stop", "restart"}:
+            restart_requested["value"] = action == "restart"
+            server.should_exit = True
+            return {"running": False, "restart": restart_requested["value"]}
+        return {"running": not server.should_exit, "restart": False}
+
+    runtime.service_control = _service_control
     await server.serve()
+    if restart_requested["value"]:
+        # 进程内重启：用同一命令行重新执行自己（退出码与信号语义保持不变）。
+        import os
+
+        logger.info("restarting %s on request from the management API", __app_name__)
+        os.execv(sys.executable, [sys.executable, *sys.argv])
 
 
 def _cors_origins(raw: str) -> tuple[str, ...]:

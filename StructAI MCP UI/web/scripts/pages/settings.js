@@ -244,6 +244,8 @@
         s.setAttribute('aria-checked', s.classList.contains('is-on'));
       });
     });
+    /* P183：设置项 → 管理 API（保存 / 实时数据覆盖） */
+    if (window.PageSettingsLive) window.PageSettingsLive.mount(root);
     root.querySelectorAll('.theme-card').forEach(function (c) {
       c.addEventListener('click', function () {
         root.querySelectorAll('.theme-card').forEach(function (x) { x.classList.remove('is-on'); });
@@ -262,11 +264,8 @@
         location.hash = '#/settings/' + b.dataset.stab;
       });
     });
-    root.querySelectorAll('[data-act],[data-op2],[data-pick],[data-act2]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        window.Toast.show('执行：' + (b.dataset.act || b.dataset.op2 || b.dataset.pick || b.dataset.act2));
-      });
-    });
+    /* 动作按钮由 `settings-live.js` 统一处理（保存 / 备份 / 测试 …）；
+       这里不再弹「执行：X」占位提示，避免与真实结果双提示。 */
   }
   window.PageSettings = { data: function () { return D; }, render: render, mount: mount };
 })();

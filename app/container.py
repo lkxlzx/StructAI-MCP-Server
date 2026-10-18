@@ -365,6 +365,12 @@ class ExecutionRuntime:
     schema_registry: SchemaRegistry | None = None
     execution: ExecutionServiceFactory | None = None
     password_service: PasswordService | None = None
+    service_control: Callable[[str], Any] | None = None
+    """服务控制钩子（`stop` / `restart`）；由 HTTP 装配方注入（P185）。
+
+    ⚠️ 必须是**可赋值字段**：`ExecutionRuntime` 是 `slots=True` 的 dataclass，
+      未声明的属性无法在运行期挂上去。
+    """
 
     def ready(self) -> bool:
         """运行时是否具备执行条件（`docs/07` §14.4：Registry 未装配 → 不就绪）。"""

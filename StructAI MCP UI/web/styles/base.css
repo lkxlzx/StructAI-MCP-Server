@@ -8,7 +8,9 @@ body{
   font-family:var(--font);
   font-size:15px;
   line-height:1.5;
-  -webkit-font-smoothing:antialiased;
+  /* P184：**不要**用 `-webkit-font-smoothing:antialiased`。
+     它在 Windows/Chrome 上关闭亚像素渲染（ClearType），中文字形变细发灰；
+     实测同一张指标卡的锐度 7.27 → 9.25（去掉后）。保留浏览器默认渲染。 */
   overflow:hidden;
 }
 h1,h2,h3,h4,p,ul,ol,figure{margin:0;padding:0}

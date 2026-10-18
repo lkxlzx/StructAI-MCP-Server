@@ -26,14 +26,48 @@ private key）绑定进上下文或写入日志。
 from __future__ import annotations
 
 import logging
+import os
+import pathlib
 import sys
 from typing import Any, Final
 
 import structlog
 
-__all__ = ["TRACE_FIELDS", "bind_context", "clear_context", "configure_logging"]
+__all__ = [
+    "LOG_FILE_NAME",
+    "TRACE_FIELDS",
+    "bind_context",
+    "clear_context",
+    "configure_logging",
+    "log_directory",
+]
 
 _HANDLER_NAME: Final[str] = "structai-structlog"
+_FILE_HANDLER_NAME: Final[str] = "structai-structlog-file"
+
+LOG_FILE_NAME: Final[str] = "structai.log"
+"""运行日志文件名（管理面「日志中心」读取它；stdout 仍只留给 MCP 协议）。"""
+
+LOG_DIR_ENV: Final[str] = "STRUCTAI_LOG_DIR"
+"""日志目录的环境变量（缺省 = 数据目录同级的 `logs/`）。"""
+
+
+def log_directory() -> pathlib.Path | None:
+    """日志目录（`STRUCTAI_LOG_DIR` 优先；缺省按 `DATABASE_URL` 的同级 `logs/`）。
+
+    Returns:
+        目录路径；数据库不是 SQLite 且未显式配置时返回 `None`（**不**猜）。
+    """
+    configured = os.environ.get(LOG_DIR_ENV)
+    if configured:
+        return pathlib.Path(configured)
+    url = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./data/structai.db")
+    prefix = "sqlite+aiosqlite:///"
+    if not url.startswith(prefix):
+        return None
+    database = pathlib.Path(url[len(prefix) :])
+    return database.parent / "logs"
+
 
 TRACE_FIELDS: Final[tuple[str, ...]] = ("trace_id", "request_id", "task_id")
 """`docs/02` §7 要求日志必须支持的关联字段。"""
@@ -98,9 +132,23 @@ def configure_logging(level: str = "INFO", *, json_output: bool = False) -> None
 
     root_logger = logging.getLogger()
     for existing in list(root_logger.handlers):
-        if existing.get_name() == _HANDLER_NAME:
+        if existing.get_name() in {_HANDLER_NAME, _FILE_HANDLER_NAME}:
             root_logger.removeHandler(existing)
+            if existing.get_name() == _FILE_HANDLER_NAME:
+                existing.close()
     root_logger.addHandler(handler)
+    # 文件日志（管理面「日志中心」读取）：目录不可写时**静默降级**为仅 stderr，
+    # 不让日志初始化把进程拖垮。
+    directory = log_directory()
+    if directory is not None:
+        try:
+            directory.mkdir(parents=True, exist_ok=True)
+            file_handler = logging.FileHandler(directory / LOG_FILE_NAME, encoding="utf-8")
+            file_handler.set_name(_FILE_HANDLER_NAME)
+            file_handler.setFormatter(formatter)
+            root_logger.addHandler(file_handler)
+        except OSError:
+            pass
     root_logger.setLevel(resolved_level)
 
 

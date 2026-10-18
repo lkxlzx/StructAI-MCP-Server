@@ -5,9 +5,11 @@
    两行卡片：275–652（377）/ 664–955（291），行间距 11
    ============================================================ */
 
+/* 原稿量测（1536×1024）：页头白底 88–211（123），标签条 212–275（64）⇒ 合计 187。 */
 .settings-head{
-  position:relative;flex:none;height:179px;
+  position:relative;flex:none;height:187px;
   background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
+  overflow:hidden;
 }
 .settings-head-accent{
   position:absolute;left:8px;top:46px;width:6px;height:52px;border-radius:3px;
@@ -16,32 +18,47 @@
 .settings-title{position:absolute;left:28px;top:44px;font-size:30px;line-height:1;font-weight:700;color:var(--text-1)}
 .settings-sub{position:absolute;left:28px;top:84px;font-size:16px;line-height:1;color:var(--text-3)}
 
-/* 标签行 */
+/* 标签行：原稿是一条通栏浅底（#F3F8FE）+ 白色页头结束于 y≈211，
+   激活项是**白色胶囊 + 底部 2px 蓝线**（不是只换文字颜色）。
+   原实现用 `bottom:5px` 留出白边，导致蓝线悬在卡片上方 5px —— 这里贴底。 */
 .settings-tabs{
-  position:absolute;left:16px;right:16px;bottom:5px;height:44px;
-  display:flex;align-items:stretch;gap:10px;
+  position:absolute;left:0;right:0;bottom:0;height:64px;
+  display:flex;align-items:stretch;gap:0;padding:0 16px;
+  background:#F3F8FE;border-radius:0 0 var(--r-card) var(--r-card);
   border-bottom:1px solid #E7EDF6;
 }
+/* 原稿：7 项**等分**通栏（每项 176px），激活项是白底胶囊 + 2px 蓝线。 */
 .settings-tab{
-  display:flex;align-items:center;gap:9px;padding:0 20px;
-  font-size:15px;color:var(--text-3);border-bottom:2px solid transparent;
-  margin-bottom:-1px;white-space:nowrap;
+  position:relative;flex:1 1 0;min-width:0;
+  display:flex;align-items:center;justify-content:center;gap:9px;padding:0 10px;
+  font-size:15px;color:var(--text-3);white-space:nowrap;
 }
 .settings-tab .ti{width:19px;height:19px;color:#8C97AD}
 .settings-tab:hover{color:var(--brand)}
 .settings-tab:hover .ti{color:var(--brand)}
-.settings-tab.is-active{color:#0B5FF3;font-weight:600;border-bottom-color:#0B5FF3}
+.settings-tab.is-active{
+  color:#0B5FF3;font-weight:600;background:#fff;
+  border-radius:8px 8px 0 0;
+}
+.settings-tab.is-active::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:#0B5FF3;border-radius:1px;
+}
 .settings-tab.is-active .ti{color:#0B5FF3}
 
-/* ---------------- 三栏卡片网格 ---------------- */
+/* ---------------- 三栏卡片网格 ----------------
+   ⚠️ 行高必须由内容决定：原稿的 377 / 291 是静态稿的固定框，
+   实际内容（含字体回退差异）会超出 16–18px 而被 `overflow:hidden` 裁掉。
+   用 `auto` 行高 + 同一行 `stretch`，既保留同排卡片等高对齐，也不裁内容。 */
 .settings-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  grid-template-rows:377px 291px;grid-auto-flow:column;
+  grid-auto-flow:column;grid-template-rows:auto auto;
   gap:11px 10px;align-items:stretch;
 }
 .settings-card{
   background:#fff;border-radius:var(--r-card);box-shadow:var(--shadow-card);
-  padding:16px 18px;display:flex;flex-direction:column;min-width:0;overflow:hidden;
+  padding:16px 18px;display:flex;flex-direction:column;min-width:0;
+  overflow:hidden;
 }
 .s-card-title{
   display:flex;align-items:center;gap:9px;
@@ -123,10 +140,12 @@
 .kv-table .kv-row dt{width:96px;flex:none;color:var(--text-3)}
 .kv-table .kv-row dd{margin:0;flex:1;min-width:0;color:var(--text-2);word-break:break-all}
 
-/* 主题模式卡片 */
-.theme-cards{display:flex;gap:12px;margin:2px 0 6px}
+/* 主题模式卡片。
+   P184：3 栏卡内「标签 96 + 值 257」后每张卡只有 ~78px，
+   13px 文字 + 14px 单选 + 间距会换行（实测标签高 39px）。收紧到单行。 */
+.theme-cards{display:flex;gap:8px;margin:2px 0 6px}
 .theme-card{
-  flex:1;min-width:0;border:1.5px solid #E3E9F2;border-radius:8px;padding:6px 6px 8px;
+  flex:1;min-width:0;border:1.5px solid #E3E9F2;border-radius:8px;padding:5px 4px 7px;
   cursor:pointer;background:#fff;
 }
 .theme-card.is-on{border-color:var(--brand);box-shadow:0 0 0 2px rgba(0,102,254,.10)}
@@ -135,17 +154,22 @@
   border:1px solid #EDF1F7;
 }
 .theme-preview svg{width:100%;height:100%;display:block}
-.theme-label{display:flex;align-items:center;gap:7px;margin-top:7px;font-size:13px;color:var(--text-2)}
+.theme-label{
+  display:flex;align-items:center;gap:4px;margin-top:6px;font-size:12px;color:var(--text-2);
+  white-space:nowrap;overflow:hidden;
+}
 .theme-radio{
-  width:14px;height:14px;border-radius:50%;flex:none;border:1.5px solid #C9D4E4;
+  width:12px;height:12px;border-radius:50%;flex:none;border:1.5px solid #C9D4E4;
   display:flex;align-items:center;justify-content:center;
 }
 .theme-card.is-on .theme-radio{border-color:var(--brand)}
-.theme-card.is-on .theme-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--brand)}
+.theme-card.is-on .theme-radio::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand)}
 .theme-card.is-on .theme-label{color:var(--brand);font-weight:600}
 
-/* 系统操作：操作块 */
-.ops-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* 系统操作：操作块。
+   P184：1366 视口下 3 栏卡内只有 ~309px，固定两列（min-content 466px）会溢出；
+   按可用宽度自动减为 1 列。 */
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
 .op-tile{
   display:flex;align-items:center;gap:10px;padding:10px 12px;
   border:1px solid #E8EEF7;border-radius:8px;background:#fff;text-align:left;
@@ -201,9 +225,10 @@
 .path-row .s-input{height:36px}
 .path-row .s-input input{font-size:14px;font-family:var(--font-num)}
 
-/* 纵向校准：原稿标题墨迹 140–169、副标题 178–194、标签下划线 257–260 */
-.settings-title{top:51px}
-.settings-sub{top:89px}
+/* 纵向校准：原稿标题墨迹 143–169、副标题 180–194、标签下划线 258–260。
+   页头自 y=88 起算：标题 55、副标题 92；面包屑 109–121（padding-top 15 已对齐）。 */
+.settings-title{top:55px}
+.settings-sub{top:92px}
 
 /* 卡片内节奏校准：原稿卡标题墨迹 +16~18、信息表行距 29 */
 .settings-card{padding:13px 18px}

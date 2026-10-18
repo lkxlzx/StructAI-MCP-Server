@@ -67,12 +67,14 @@
 .stat-value{
   margin-top:9px;font-size:30px;line-height:1;font-weight:700;color:var(--text-1);
   font-family:var(--font-num);display:flex;align-items:center;gap:8px;
+  /* 1366 宽下 5 卡等分后卡内仅 ~170px：环比徽标必须可收缩，否则被压成竖排。 */
+  flex-wrap:wrap;min-width:0;
 }
 .stat-value .unit{font-size:22px;font-weight:700;letter-spacing:.5px}
 .stat-value.is-text{font-size:26px;font-family:var(--font)}
 .stat-value .dot{width:12px;height:12px}
 .stat-value.is-green{color:var(--green)}
-.stat-delta{margin-left:14px;font-size:15px;font-weight:600;font-family:var(--font-num)}
+.stat-delta{margin-left:14px;font-size:15px;font-weight:600;font-family:var(--font-num);white-space:nowrap}
 .stat-foot{
   margin-top:auto;font-size:14px;color:var(--text-3);
   display:flex;align-items:center;gap:8px;
