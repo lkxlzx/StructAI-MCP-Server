@@ -940,6 +940,8 @@
   }
 
   async function flush() {
+    /* 手动保存会取消已排队的防抖计时器，避免「保存两次 + 两次提示」 */
+    clearTimeout(saveTimer);
     if (!pending) { toast('设置已保存'); return; }
     const batch = pending;
     pending = null;
@@ -1520,6 +1522,28 @@
         await reload(root);
         return;
       }
+      if (action === '重置为默认') {
+        const section = currentSection(root);
+        const confirmed = await window.UI.dialog({
+          title: '重置为默认',
+          body: '<p>把「' + section + '」相关设置恢复为默认值？</p>' +
+            '<p style="color:var(--text-3)">用户、角色与数据不会被删除。</p>',
+          actions: [
+            { label: '取消', value: null, plain: true },
+            { label: '重置', value: 'reset', danger: true }
+          ]
+        }).result;
+        if (confirmed !== 'reset') return;
+        const sectionMap = { basic: 'behavior', service: 'service', model: 'models',
+          users: 'security', security: 'security', data: 'data', about: '' };
+        const target = sectionMap[section] || '';
+        const result = await window.Api.resetSettings(target);
+        if (!ok(result)) { fail(result, '重置失败'); return; }
+        state = result.data;
+        await reload(root);
+        toast('已恢复默认设置');
+        return;
+      }
       if (action === '重置所有设置') {
         const confirmed = await window.UI.dialog({
           title: '重置所有设置',
@@ -1692,6 +1716,66 @@
     /* 用户 / 角色 / 模型 / 备份行内动作 */
     root.addEventListener('click', async function (event) {
       if (!window.Api || !window.Api.token()) return;
+      const editModelButton = event.target.closest('[data-model-edit]');
+      if (editModelButton) {
+        const id = editModelButton.dataset.modelEdit;
+        const items = (state && state.models && state.models.items) || [];
+        const current = items.find(function (item) { return item.id === id; });
+        if (!current) return;
+        const values = await window.UI.form({
+          title: '编辑模型：' + current.name,
+          fields: [
+            { key: 'name', label: '模型名称', value: current.name, required: true },
+            { key: 'provider', label: '提供商', value: current.provider },
+            { key: 'kind', label: '模型类型', value: current.kind },
+            { key: 'context', label: '上下文长度', value: current.context },
+            { key: 'available', label: '可用', type: 'switch', value: !!current.available },
+            { key: 'description', label: '描述', type: 'textarea', wide: true, rows: 3,
+              value: current.description }
+          ]
+        });
+        if (!values) return;
+        const next = items.map(function (item) {
+          return item.id === current.id ? Object.assign({}, item, values) : item;
+        });
+        const result = await window.Api.saveModels({ items: next });
+        if (!ok(result)) { fail(result, '保存失败'); return; }
+        toast('模型已更新');
+        await reload(root);
+        return;
+      }
+      const keyToggle = event.target.closest('[data-key-toggle]');
+      if (keyToggle) {
+        toast('API Key 由运行环境注入（STRUCTAI_SECRET_*），界面只显示是否已配置');
+        return;
+      }
+      const pickBackup = event.target.closest('[data-pick-backup]');
+      if (pickBackup) {
+        const row = pickBackup.closest('.set-row');
+        const input = row ? row.querySelector('input') : null;
+        const chosen = await pickDirectory(input ? input.value : '');
+        if (chosen && input) {
+          input.value = chosen;
+          input.dispatchEvent(new Event('change'));
+        }
+        return;
+      }
+      const exportUsers = event.target.closest('[data-export-users]');
+      if (exportUsers) {
+        const users = (state && state.users && state.users.items) || [];
+        downloadJson('structai-users-' + new Date().toISOString().slice(0, 10) + '.json', {
+          exported_at: new Date().toISOString(),
+          items: users.map(function (user) {
+            return {
+              username: user.username, display_name: user.display_name, email: user.email,
+              phone: user.phone, role: user.role_label, is_active: user.is_active,
+              locked: user.locked, created_at: user.created_at
+            };
+          })
+        });
+        toast('用户列表已导出');
+        return;
+      }
       const testModel = event.target.closest('[data-model-test]');
       if (testModel) {
         const result = await window.Api.testModel(testModel.dataset.modelTest);

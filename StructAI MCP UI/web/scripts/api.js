@@ -56,6 +56,8 @@
     },
     deleteClient: function (id) { return request('DELETE', '/api/clients/' + encodeURIComponent(id)); },
     testClient: function (id) { return request('POST', '/api/clients/' + encodeURIComponent(id) + '/test', {}); },
+    connectClient: function (id) { return request('POST', '/api/clients/' + encodeURIComponent(id) + '/connect', {}); },
+    disconnectClient: function (id) { return request('POST', '/api/clients/' + encodeURIComponent(id) + '/disconnect', {}); },
     clientEvents: function (id) { return request('GET', '/api/clients/' + encodeURIComponent(id) + '/events'); },
 
     /* ===== 系统设置（P183 / P185）===== */

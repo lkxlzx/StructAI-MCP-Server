@@ -39,7 +39,9 @@
       quick: {
         title: '快捷操作',
         buttons: [
-          { label: '测试连接', icon: 'plug', primary: true },
+          { label: '连接', icon: 'plug', primary: true },
+          { label: '断开', icon: 'stop2' },
+          { label: '测试连接', icon: 'check' },
           { label: '刷新 Key', icon: 'refresh' },
           { label: '查看日志', icon: 'fileText' },
           { label: '删除', icon: 'trash', danger: true }
@@ -57,6 +59,7 @@
 
   let clients = null;        // 实时列表；null = 后端不可达（保留 mock）
   let options = null;        // /api/clients/options
+  let featuresCache = null;  // /api/operations（功能支持页签）
   let selectedId = '';
   let page = 1;
   let keyword = '';
@@ -217,7 +220,7 @@
             (dt.connected ? '<span class="badge-conn"><span class="dot dot-green"></span>已连接</span>' : '') +
             '<div class="detail-actions">' +
               '<button class="btn-ghost" type="button" data-act="编辑">编辑</button>' +
-              '<button class="btn-icon" type="button" title="更多" data-icon="more"></button>' +
+              '<button class="btn-icon" type="button" title="更多" data-client-more aria-label="更多操作" data-icon="more"></button>' +
             '</div>' +
           '</div>' +
           '<nav class="detail-tabs">' + tabs + '</nav>' +
@@ -238,7 +241,8 @@
           '<section class="detail-card" data-pane="功能支持" style="display:none">' +
             '<div class="side-card-title" style="margin-bottom:12px"><span class="si" data-icon="layers"></span>' +
             dt.features.title + '</div>' +
-            '<div class="feats">' + feats + '</div>' +
+            '<div class="feats" data-feats>' + feats + '</div>' +
+            '<div class="field-hint" data-feats-note style="margin-top:10px"></div>' +
           '</section>' +
           '<section class="detail-card" data-pane="连接日志" style="display:none"></section>' +
           '<section class="detail-card" data-pane="操作历史" style="display:none"></section>' +
@@ -317,7 +321,23 @@
         '<span class="si" data-icon="plug"></span>连接配置</div>' +
         '<dl class="detail-rows">' + settings.map(function (pair) {
           return '<div class="detail-row"><dt>' + esc(pair[0]) + '</dt><dd>' + esc(pair[1]) + '</dd></div>';
-        }).join('') + '</dl>';
+        }).join('') + '</dl>' +
+        '<div class="card-actions" style="justify-content:flex-start;padding-top:14px">' +
+        '<button class="btn-w" type="button" data-quick="' + (row.online ? '断开' : '连接') + '">' +
+        '<span class="bi" data-icon="' + (row.online ? 'stop2' : 'plug') + '"></span>' +
+        (row.online ? '断开连接' : '连接') + '</button>' +
+        '<button class="btn-w" type="button" data-quick="测试连接"><span class="bi" data-icon="check"></span>测试连接</button>' +
+        '<button class="btn-w" type="button" data-quick="编辑配置"><span class="bi" data-icon="edit"></span>修改配置</button>' +
+        '</div>';
+      window.Icons.mount(configPane);
+    }
+
+    /* 功能支持：按运行时 Operation 清单分组（真实数据，不写死） */
+    const featsBox = aside.querySelector('[data-feats]');
+    const featsNote = aside.querySelector('[data-feats-note]');
+    if (featsBox) {
+      featsBox.innerHTML = '<span class="ui-browser-empty" style="grid-column:1/-1">正在读取 Operation 清单…</span>';
+      loadFeatures(root, featsBox, featsNote);
     }
 
     const logPane = aside.querySelector('[data-pane="连接日志"]');
@@ -336,7 +356,66 @@
     root.querySelectorAll('.client-table tbody tr').forEach(function (tr) {
       tr.classList.toggle('is-active', tr.dataset.client === row.id);
     });
+    /* 切换实例时回到「基本信息」，避免停在上一个实例的空页签 */
+    if (root.dataset.detailClient !== row.id) {
+      root.dataset.detailClient = row.id;
+      root.querySelectorAll('[data-pane]').forEach(function (pane) {
+        pane.style.display = pane.dataset.pane === '基本信息' ? '' : 'none';
+      });
+      root.querySelectorAll('.detail-tab').forEach(function (tab) {
+        tab.classList.toggle('is-active', tab.dataset.dtab === '基本信息');
+      });
+    }
     loadEvents(root, row);
+  }
+
+  /* 功能支持：9 Tool → 中文分组；数据来自 /api/operations（真实运行时清单） */
+  const TOOL_GROUPS = [
+    ['engineering_doc', '项目管理（DOC）'],
+    ['engineering_model_query', '模型查询（QUERY）'],
+    ['engineering_model_assign', '模型赋值（ASSIGN）'],
+    ['engineering_model_delete', '模型删除（DELETE）'],
+    ['engineering_model_build', '参数化建模（BUILD）'],
+    ['engineering_view', '图形生成（VIEW）'],
+    ['engineering_result', '结果查询（POST）'],
+    ['engineering_design', '设计校核（DESIGN）'],
+    ['engineering_analysis', '计算分析（ANAL）']
+  ];
+
+  async function loadFeatures(root, box, note) {
+    if (!window.Api || !window.Api.token()) {
+      box.innerHTML = '<span class="ui-browser-empty" style="grid-column:1/-1">未连接后端</span>';
+      return;
+    }
+    if (featuresCache) {
+      paintFeatures(box, note, featuresCache);
+      return;
+    }
+    const result = await window.Api.get('/api/operations');
+    if (!ok(result)) {
+      box.innerHTML = '<span class="ui-browser-empty" style="grid-column:1/-1">Operation 清单不可用</span>';
+      return;
+    }
+    featuresCache = result.data.items || [];
+    paintFeatures(box, note, featuresCache);
+  }
+
+  function paintFeatures(box, note, operations) {
+    const counts = {};
+    operations.forEach(function (item) {
+      counts[item.tool] = (counts[item.tool] || 0) + 1;
+    });
+    box.innerHTML = TOOL_GROUPS.map(function (group) {
+      const count = counts[group[0]] || 0;
+      return '<span class="feat' + (count ? '' : ' is-off') + '" title="' +
+        esc(group[0]) + ' · ' + count + ' 个 Operation">' +
+        '<span class="ck" data-icon="' + (count ? 'check' : 'warn') + '"></span>' +
+        esc(group[1]) + (count ? '（' + count + '）' : '（不可用）') + '</span>';
+    }).join('');
+    window.Icons.mount(box);
+    if (note) {
+      note.textContent = '共 ' + operations.length + ' 个 Operation；按 9 个 Tool 分组，括号内为该 Tool 的 Operation 数。';
+    }
   }
 
   async function loadEvents(root, row) {
@@ -496,6 +575,45 @@
     loadEvents(root, row);
   }
 
+  /* 连接 / 断开：走 Adapter 的真实生命周期（不是 HTTP 探测） */
+  async function connectClient(root, row) {
+    if (!row) return;
+    if (!window.Api || !window.Api.token()) { toast('未连接后端，无法连接'); return; }
+    toast('正在连接 ' + row.name + '…');
+    const result = await window.Api.connectClient(row.id);
+    if (!ok(result)) {
+      const details = (result && result.data && result.data.details) || {};
+      if (details.reason === 'adapter_not_found') {
+        toast('没有可用的 Adapter：' + (details.vendor || '') + ' / ' + (details.product || ''));
+      } else {
+        fail(result, '连接失败');
+      }
+      return;
+    }
+    const data = result.data || {};
+    if (data.connected) {
+      const latency = data.health && data.health.latency_ms;
+      toast('已连接' + (latency ? '（' + latency + ' ms）' : ''));
+    } else {
+      toast('连接失败：' + (data.reason || '未知原因'));
+    }
+    await reload(root);
+    const current = clients && clients.find(function (item) { return item.id === row.id; });
+    if (current) showDetail(root, rowOf(current, 0));
+  }
+
+  async function disconnectClient(root, row) {
+    if (!row) return;
+    if (!window.Api || !window.Api.token()) { toast('未连接后端，无法断开'); return; }
+    const result = await window.Api.disconnectClient(row.id);
+    if (!ok(result)) { fail(result, '断开失败'); return; }
+    toast(result.data && result.data.reason
+      ? '已断开（' + result.data.reason + '）' : '已断开');
+    await reload(root);
+    const current = clients && clients.find(function (item) { return item.id === row.id; });
+    if (current) showDetail(root, rowOf(current, 0));
+  }
+
   async function copyEndpoint(root, row) {
     if (!row || !row.endpoint) { toast('该客户端未配置 API 地址'); return; }
     try {
@@ -580,20 +698,47 @@
         });
       });
     });
-    root.querySelectorAll('[data-quick]').forEach(function (button) {
-      button.addEventListener('click', async function () {
-        const row = selectedRow(root);
-        const label = button.dataset.quick;
-        if (label === '测试连接') await testClient(root, row);
-        else if (label === '删除') await removeClient(root, row);
-        else if (label === '刷新 Key') {
-          if (!row) return;
-          toast('凭据由运行环境注入；请更新 STRUCTAI_SECRET_ 环境变量后重启服务');
-        } else if (label === '查看日志') {
-          const tab = root.querySelector('.detail-tab[data-dtab="连接日志"]');
-          if (tab) tab.click();
-        }
-      });
+    /* 快捷操作 / 连接配置里的动作统一委托（内容会被 showDetail 重绘） */
+    root.addEventListener('click', async function (event) {
+      const button = event.target.closest('[data-quick]');
+      if (!button) return;
+      const row = selectedRow(root);
+      const label = button.dataset.quick;
+      if (label === '连接') await connectClient(root, row);
+      else if (label === '断开') await disconnectClient(root, row);
+      else if (label === '测试连接') await testClient(root, row);
+      else if (label === '删除') await removeClient(root, row);
+      else if (label === '编辑配置') await openEditor(root, row);
+      else if (label === '刷新 Key') {
+        if (!row) return;
+        toast('凭据由运行环境注入；请更新 STRUCTAI_SECRET_ 环境变量后重启服务');
+      } else if (label === '查看日志') {
+        const tab = root.querySelector('.detail-tab[data-dtab="连接日志"]');
+        if (tab) tab.click();
+      }
+    });
+
+    /* 标题右侧的 ⋮：详情级操作菜单 */
+    root.addEventListener('click', async function (event) {
+      const more = event.target.closest('[data-client-more]');
+      if (!more) return;
+      const row = selectedRow(root);
+      if (!row) return;
+      const action = await window.UI.dialog({
+        title: row.name,
+        body: '<p style="color:var(--text-3)">选择要执行的操作</p>',
+        actions: [
+          { label: '测试连接', value: 'test' },
+          { label: '编辑', value: 'edit' },
+          { label: '复制 API 地址', value: 'copy' },
+          { label: '删除', value: 'delete', danger: true },
+          { label: '取消', value: null, plain: true }
+        ]
+      }).result;
+      if (action === 'test') await testClient(root, row);
+      else if (action === 'edit') await openEditor(root, row);
+      else if (action === 'copy') await copyEndpoint(root, row);
+      else if (action === 'delete') await removeClient(root, row);
     });
     root.querySelectorAll('[data-act]').forEach(function (button) {
       button.addEventListener('click', async function () {

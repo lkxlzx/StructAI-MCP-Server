@@ -77,6 +77,36 @@ python -m app.main --transport http
 | POST | `/api/templates/{name}/import` | 生成 JSON → `MODEL.IMPORT`（经 MCP） |
 | POST | `/api/call` | 任意 Tool 调用（**同一条** 9 Tool 链） |
 
+### 3.1 P185：客户端与系统设置（新增）
+
+写操作（`POST` / `PUT` / `DELETE`）与敏感读取要求有效权限含 **`SYSTEM_ADMIN`**；
+只读列表仍允许任意已登录用户。访问控制（白 / 黑名单 + 频率限制）在登录与写操作上生效。
+
+| 方法 | 路径 | 说明 |
+| --- | --- | --- |
+| GET | `/api/clients/options` | 新增 / 编辑客户端的候选值（软件 / 产品 / 版本 / 状态） |
+| POST | `/api/clients` | 登记实例（自动补齐 software → product → version 链） |
+| PUT | `/api/clients/{id}` | 更新实例（名称 / 产品 / 版本 / 地址 / 凭据引用 / 状态 / 描述） |
+| DELETE | `/api/clients/{id}` | 删除实例（清理不再被引用的孤儿链） |
+| POST | `/api/clients/{id}/test` | 连接测试（已绑定 Adapter ⇒ 健康检查；仅地址 ⇒ HTTP 探测） |
+| GET | `/api/clients/{id}/events` | 连接测试 / 生命周期事件（本机运维库） |
+| POST | `/api/users/password/check` | 按「密码策略」校验口令（不回显） |
+| POST | `/api/roles` / DELETE `/api/roles/{id}` | 新建 / 删除角色（系统管理员、仍被引用的角色拒绝） |
+| POST | `/api/data/backups/{id}/restore` | 从备份恢复（先自动生成 pre-restore 备份） |
+| GET | `/api/data/backups/{id}/download` | 下载备份（zip） |
+| POST | `/api/data/purge` | 清空业务数据（保留管理员 / 角色 / 软件注册表；审计不删） |
+| POST | `/api/data/import` | 导入导出的设置分区 |
+| GET | `/api/logs` | 运行日志尾部（`STRUCTAI_LOG_DIR` 或 `<数据目录>/logs`） |
+| GET | `/api/fs/browse` | 目录浏览（选择目录用） |
+| POST | `/api/service/control` | `stop` / `restart`（重启 = 进程内 `execv`） |
+
+**设置落点**：`MANAGEMENT_IMPORT_ROOT/settings.db`（独立 SQLite 文件）。Core 的
+24 张表**不新增**（`docs/07` §4.3）；客户端描述、连接事件、口令历史都在该运维库。
+口令历史只存 Argon2id 哈希；SMTP 口令只从 `STRUCTAI_SMTP_PASSWORD` 读取。
+
+**前端生效项**：主题（浅色 / 深色 / 跟随系统）、显示密度、每页条数、动画开关、
+紧凑侧栏都会立即作用到页面（`scripts/preferences.js`）；通知方式决定页面提示是否弹出。
+
 `/api/call` 的请求体与 MCP `tools/call` 的 arguments 同形：
 
 ```json
@@ -126,6 +156,7 @@ python -m app.main --transport http
 | 判据 | 命令 |
 | --- | --- |
 | 管理面鉴权 / 同源路由 / 模板导入 / 只读数据源 | `pytest tests/test_management_api_p181.py -q`（11 项） |
+| 客户端 CRUD / 连接测试 / 角色增删 / 口令策略 / 备份恢复 / 导入 / 日志 / 目录浏览 / 管理员门 | `pytest tests/test_management_clients_p185.py -q`（16 项） |
 | MCP 传输不回归（含同源挂载） | `pytest tests/test_transport_p40_p41.py -q`（22 项） |
 | 模板库 | `pytest tests/test_midas_model_template_p180.py -q`（12 项） |
 | 全量 | `pytest -q`（1632 passed / 11 skipped，TEMP 指向可写目录） |
@@ -139,5 +170,9 @@ python -m app.main --transport http
 - **任务监控 / 日志中心**在原型里是占位页；`/api/tasks`、`/api/events` 已提供数据。
 - **文件上传未实现**：`MODEL.IMPORT` 只收服务器本地路径，模板导入由服务端写文件；
   浏览器直接上传模型文件需另开一个上传端点（**未做**）。
+- **服务「重启」是进程内 `execv`**：只适用于本进程直接启动的部署；容器 / systemd
+  下应由编排层重启（界面会如实返回 `applied=true` 但重启动作交给进程管理器）。
+- **访问控制的频率限制是进程内滑动窗口**：多进程 / 多节点部署需要外部限流。
+- **SMTP 口令只从环境变量读取**：界面不提供口令输入框，避免明文密钥入库。
 - **`desktop/`（Electron）未接入**：它加载同一份 `web/`，但窗口壳仍是原型状态。
 - `desktop/node_modules/` 与 `desktop/dist/` **不进仓库**（`.gitignore`）。

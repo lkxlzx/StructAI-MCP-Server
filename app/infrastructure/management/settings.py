@@ -592,19 +592,35 @@ class SettingsStore:
     # ===== 备份 / 恢复 / 导入 =====
 
     def backup_to(self, target: str | pathlib.Path) -> None:
-        """用 SQLite backup API 把设置库复制到 `target`（不阻塞正在进行的读写）。"""
+        """用 SQLite backup API 把设置库复制到 `target`（不阻塞正在进行的读写）。
+
+        ⚠️ `sqlite3.connect(...)` 的上下文管理器只提交事务、**不关闭连接**；
+        目标文件句柄不释放会导致 Windows 上删除备份目录时报 `WinError 32`。
+        """
         destination = pathlib.Path(target)
         destination.parent.mkdir(parents=True, exist_ok=True)
-        with self._connection() as source, sqlite3.connect(str(destination)) as target_db:
-            source.backup(target_db)
+        target_db = sqlite3.connect(str(destination))
+        try:
+            with self._connection() as source:
+                source.backup(target_db)
+        finally:
+            target_db.close()
 
     def restore_from(self, source: str | pathlib.Path) -> None:
-        """用 SQLite backup API 从 `source` 恢复设置库（源文件必须存在）。"""
+        """用 SQLite backup API 从 `source` 恢复设置库（源文件必须存在）。
+
+        源连接必须显式关闭：否则备份目录里的 `settings.db` 会被占用，
+        后续「删除备份」会失败（Windows 文件锁）。
+        """
         origin = pathlib.Path(source)
         if not origin.is_file():
             raise FileNotFoundError(str(origin))
-        with sqlite3.connect(str(origin)) as source_db, self._connection() as target:
-            source_db.backup(target)
+        source_db = sqlite3.connect(str(origin))
+        try:
+            with self._connection() as target:
+                source_db.backup(target)
+        finally:
+            source_db.close()
         self._initialized = True
 
     def replace_sections(self, values: Mapping[str, Any]) -> list[str]:

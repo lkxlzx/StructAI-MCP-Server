@@ -393,6 +393,154 @@ class ClientManagementMixin:
         )
         return result
 
+    # ===== 连接 / 断开（P185）=====
+
+    async def connect_client(self, client_id: str) -> Mapping[str, Any]:
+        """连接实例：按需注册 Adapter → 绑定 → 连接 → 健康检查 → 回写状态。
+
+        `AdapterManager` 启动时只注册 Mock Adapter；真实厂商 Adapter 在首次连接时
+        经 `plugins.adapter_class_for()` 发现并注册（`docs/07` §14.2：不在 Core 写厂商名）。
+
+        Raises:
+            ProtocolError: 没有可用的 Adapter 实现（`STRUCTAI-1000`）。
+        """
+        from app.infrastructure.adapters.plugins import adapter_class_for
+
+        async with UnitOfWork.from_session_factory(self._factory()) as uow:
+            instance = (
+                await uow.session.execute(
+                    select(SoftwareInstanceORM).where(SoftwareInstanceORM.id == client_id)
+                )
+            ).scalar_one_or_none()
+            if instance is None:
+                raise NotFoundError(f"unknown client: {client_id}")
+            version_row, product_row, software_row = (
+                await uow.session.execute(
+                    select(SoftwareVersionORM, SoftwareProductORM, SoftwareORM)
+                    .join(
+                        SoftwareProductORM,
+                        SoftwareProductORM.id == SoftwareVersionORM.product_id,
+                    )
+                    .join(SoftwareORM, SoftwareORM.id == SoftwareProductORM.software_id)
+                    .where(SoftwareVersionORM.id == instance.version_id)
+                )
+            ).one()
+            name = str(instance.name)
+            endpoint = str(instance.endpoint or "")
+            credential = str(instance.credential_reference or "")
+            vendor = str(software_row.vendor)
+            product = str(product_row.product)
+            version = str(version_row.version)
+
+        adapters = getattr(self._runtime, "adapters", None)
+        if adapters is None:
+            raise ProtocolError(
+                "adapter manager is not assembled",
+                details={"stage": "management", "reason": "adapter_manager_missing"},
+            )
+        adapter_class = adapter_class_for(vendor, product)
+        if adapter_class is None:
+            raise ProtocolError(
+                f"no adapter is available for {vendor} / {product}",
+                details={
+                    "stage": "management",
+                    "reason": "adapter_not_found",
+                    "vendor": vendor,
+                    "product": product,
+                },
+            )
+        key = (str(adapter_class.vendor), str(adapter_class.product))
+        if key not in adapters.registered_keys():
+            adapters.register(adapter_class())
+        config = {
+            key_name: value
+            for key_name, value in {
+                "base_url": endpoint,
+                "product": product,
+                "version": version,
+                "secret_ref": credential or None,
+            }.items()
+            if value
+        }
+        result = await self._connect_bound(adapters, client_id, key, config)
+        await self._set_status(client_id, "CONNECTED" if result["connected"] else "DEGRADED")
+        self._settings_store().append_client_event(
+            client_id,
+            {
+                "action": "connect",
+                "result": "SUCCESS" if result["connected"] else "FAILED",
+                "detail": result.get("reason") or name,
+            },
+        )
+        result.update({"id": client_id, "name": name, "vendor": vendor, "product": product})
+        return result
+
+    async def disconnect_client(self, client_id: str) -> Mapping[str, Any]:
+        """断开实例（幂等；未绑定也返回成功）。"""
+        adapters = getattr(self._runtime, "adapters", None)
+        if adapters is None:
+            raise ProtocolError(
+                "adapter manager is not assembled",
+                details={"stage": "management", "reason": "adapter_manager_missing"},
+            )
+        async with UnitOfWork.from_session_factory(self._factory()) as uow:
+            instance = (
+                await uow.session.execute(
+                    select(SoftwareInstanceORM).where(SoftwareInstanceORM.id == client_id)
+                )
+            ).scalar_one_or_none()
+            if instance is None:
+                raise NotFoundError(f"unknown client: {client_id}")
+            name = str(instance.name)
+        reason = None
+        if client_id in adapters.bound_instance_ids():
+            try:
+                await adapters.disconnect(client_id)
+            except Exception as error:  # noqa: BLE001 - 如实报告，不吞成 500
+                reason = _error_reason(error)
+            adapters.unbind_instance(client_id)
+        await self._set_status(client_id, "DISCONNECTED")
+        self._settings_store().append_client_event(
+            client_id,
+            {
+                "action": "disconnect",
+                "result": "SUCCESS" if reason is None else "FAILED",
+                "detail": reason or name,
+            },
+        )
+        return {"id": client_id, "name": name, "connected": False, "reason": reason}
+
+    async def _connect_bound(
+        self,
+        adapters: Any,
+        client_id: str,
+        key: tuple[str, str],
+        config: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        """绑定 + 连接 + 健康检查（异常归一化为结果，**不**抛给路由）。"""
+        try:
+            adapters.bind_instance(client_id, vendor=key[0], product=key[1], config=config)
+            health = await adapters.connect(client_id)
+        except Exception as error:  # noqa: BLE001 - 连接失败是正常结果，不是 500
+            return {"connected": False, "reason": _error_reason(error), "health": None}
+        return {
+            "connected": bool(health.get("healthy")),
+            "reason": None if health.get("healthy") else health.get("state"),
+            "health": dict(health),
+        }
+
+    async def _set_status(self, client_id: str, status: str) -> None:
+        """回写实例状态（`software_instances.status` 是真实连接状态）。"""
+        async with UnitOfWork.from_session_factory(self._factory()) as uow:
+            instance = (
+                await uow.session.execute(
+                    select(SoftwareInstanceORM).where(SoftwareInstanceORM.id == client_id)
+                )
+            ).scalar_one_or_none()
+            if instance is not None:
+                instance.status = status
+                await uow.session.flush()
+
     async def client_events(
         self, client_id: str, *, limit: int = 50
     ) -> Sequence[Mapping[str, Any]]:

@@ -74,9 +74,9 @@
         r[3], r[4],
         r[5] ? S.tag('可用', 'green', true) : S.tag('不可用', 'red', true),
         '<span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1.5px solid ' + (r[6] ? 'var(--brand)' : '#C9D4E4') + '">' + (r[6] ? '<span style="width:8px;height:8px;border-radius:50%;background:var(--brand)"></span>' : '') + '</span>',
-        '<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-act2="测试 ' + r[1] + '">测试</button>' +
-        '<button class="tbtn link" type="button" data-act2="编辑 ' + r[1] + '">编辑</button>' +
-        '<button class="tbtn icon" type="button" data-act2="更多"><span data-icon="more"></span></button></span>'];
+        '<span style="display:flex;gap:4px"><button class="tbtn link" type="button" data-model-test="' + r[1] + '">测试</button>' +
+        '<button class="tbtn link" type="button" data-model-edit="' + r[1] + '">编辑</button>' +
+        '<button class="tbtn icon" type="button" data-model-default="' + r[1] + '"><span data-icon="star"></span></button></span>'];
     });
     const listCard = S.card('model', '模型列表',
       '<div class="toolbar">' + searchBox('搜索模型名称、提供商或描述...') +
@@ -125,7 +125,7 @@
       S.setRow('API 地址', '<span class="s-input"><input type="text" value="https://api.deepseek.com/v1"></span>', 88) +
       '<div style="height:10px"></div>' +
       S.setRow('API Key', '<span class="s-input"><input type="text" value="••••••••••••••••••••••">' +
-        '<button class="ico-btn" type="button" data-act2="显示 Key"><span data-icon="eye"></span></button></span>', 88) +
+        '<button class="ico-btn" type="button" data-key-toggle><span data-icon="eye"></span></button></span>', 88) +
       '<div style="height:10px"></div>' +
       S.numRow('请求超时', '60', '秒', false, 88) +
       '<div style="height:10px"></div>' +
@@ -155,7 +155,7 @@
       S.selRow('备份频率', '每天', ['每天', '每周', '每月'], 110) +
       S.numRow('保留备份数量', '7', '份', false, 110) +
       S.setRow('备份存储路径', '<span class="s-input"><input type="text" value="/opt/midas-mcp/backups">' +
-        '<button class="ico-btn" type="button" data-act2="选择目录"><span data-icon="folder"></span></button></span>', 110));
+        '<button class="ico-btn" type="button" data-pick-backup><span data-icon="folder"></span></button></span>', 110));
 
     const ioCard = S.card('upload', '数据导入与导出',
       '<div style="display:flex;gap:10px;margin-bottom:14px">' +
@@ -252,7 +252,7 @@
       '<span class="select-like"><select><option>全部角色</option></select><span class="chev" data-icon="chevD"></span></span>' +
       '<button class="btn-blue" type="button" data-act2="新建用户"><span class="bi" data-icon="plus"></span>新建用户</button>' +
       '<button class="btn-w" type="button" data-act2="刷新"><span class="bi" data-icon="refresh"></span>刷新</button>' +
-      '<button class="btn-w" type="button" data-act2="导出"><span class="bi" data-icon="download"></span>导出</button></div>' +
+      '<button class="btn-w" type="button" data-export-users><span class="bi" data-icon="download"></span>导出</button></div>' +
       wrap(S.dtable([{ t: '' }, { t: '#' }, { t: '用户名' }, { t: '姓名' }, { t: '邮箱' }, { t: '角色' },
         { t: '状态' }, { t: '最后登录时间' }, { t: '操作' }], uRows)) +
       pager('共 12 条', ['1', '2'], '10 条/页'));

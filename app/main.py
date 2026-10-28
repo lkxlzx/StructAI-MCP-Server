@@ -31,6 +31,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import logging
+import os
 import sys
 from collections.abc import AsyncIterator, Callable, Sequence
 from contextlib import AbstractAsyncContextManager, AsyncExitStack, asynccontextmanager
@@ -80,6 +81,24 @@ def _server_builder(
     return _build
 
 
+def _export_log_directory(database_url: str) -> None:
+    """把默认日志目录写进环境变量（`<数据库目录>/logs`）。
+
+    - 显式配置 `STRUCTAI_LOG_DIR` 时**不**覆盖（运维选择优先）；
+    - 非 SQLite 且未显式配置时保持未设置（管理面如实报告「未启用文件日志」）。
+
+    这是**同步**的进程启动动作（只做路径拼接 + 一次环境变量赋值），
+    故不放在 `async_main` 里以免触发 ASYNC240。
+    """
+    if os.environ.get("STRUCTAI_LOG_DIR"):
+        return
+    prefix = "sqlite+aiosqlite:///"
+    if not database_url.startswith(prefix):
+        return
+    database = os.path.abspath(database_url[len(prefix) :])
+    os.environ["STRUCTAI_LOG_DIR"] = os.path.join(os.path.dirname(database), "logs")
+
+
 async def async_main(transport: str = "none") -> int:
     """异步主流程：初始化日志 → 装配容器 → startup → （可选）服务传输 → shutdown。
 
@@ -90,14 +109,7 @@ async def async_main(transport: str = "none") -> int:
     Returns:
         进程退出码（正常为 0）。
     """
-    # 日志目录默认跟随数据库（`<data>/logs`）；显式配置 `STRUCTAI_LOG_DIR` 时优先。
-    # 写入环境变量是为了让管理面「日志中心」读到同一个目录（同一个解析函数）。
-    if not os.environ.get("STRUCTAI_LOG_DIR"):
-        prefix = "sqlite+aiosqlite:///"
-        if settings.database_url.startswith(prefix):
-            database = pathlib.Path(settings.database_url[len(prefix) :])
-            os.environ["STRUCTAI_LOG_DIR"] = str(database.resolve().parent / "logs")
-
+    _export_log_directory(settings.database_url)
     configure_logging(settings.log_level)
 
     container: AppContainer = build_container(settings)

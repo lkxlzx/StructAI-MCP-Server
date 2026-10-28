@@ -196,8 +196,8 @@ MIDAS_API_*.md     MIDAS 官方手册整理（外部厂商资料）
 | **`docs/08_会话交接与续接提示词_v1.0.md`** | **会话边界硬性原则 + 交接协议 + 批次状态表 + 续接提示词（每个新会话的第一个入口）** |
 | **`docs/09_参数化模板与AI_Agent填写手册_v1.0.md`** | **官方样本 → 参数化模板 → 经 MCP 导入** 的完整链路：参数命名、模板选型、Agent 操作流程（P180） |
 | **`templates/gen_verification/`** | **156 个参数化模板**（来自 `Gen Verification` 官方样本 · 17 族）+ `index.json` |
-| **`docs/10_Web_UI接入与同源部署_v1.0.md`** | **同源部署**：MCP + 管理 API + 健康探针 + Web UI 一个端口；API 清单与前端接入点（P181） |
-| **`StructAI MCP UI/`** | **Web UI 前端**（`web/` 零依赖静态站 + `desktop/` Electron 壳 + `ui/` 原稿）；由同源 FastAPI 托管（P181） |
+| **`docs/10_Web_UI接入与同源部署_v1.0.md`** | **同源部署**：MCP + 管理 API + 健康探针 + Web UI 一个端口；API 清单与前端接入点（P181；P185 补齐客户端 CRUD 与系统设置全功能） |
+| **`StructAI MCP UI/`** | **Web UI 前端**（`web/` 零依赖静态站 + `desktop/` Electron 壳 + `ui/` 原稿）；由同源 FastAPI 托管（P181 / P185） |
 | **`registry/`** | **MIDAS API 唯一权威来源**（663 端点定义 + 652 JSON Schema） |
 | `docs/00_文档通读与API对照报告_v1.0.md` | V2 六份文档的通读与 API 对照结论 |
 | `docs/reports/` | 5 份逐节精读报告 |

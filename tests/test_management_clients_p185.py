@@ -500,3 +500,76 @@ async def test_access_control_blacklist_blocks_login(app: Any) -> None:
         )
         assert blocked.status_code == 403
         assert blocked.json()["details"]["reason"] == "blacklisted"
+
+
+# ===== 8. 连接 / 断开（P185）=====
+
+
+@pytest.mark.asyncio
+async def test_connect_reports_missing_endpoint(app: Any) -> None:
+    """未配置地址 ⇒ `base_url_not_configured`（不伪造连接成功）。"""
+    async with _client(app) as client:
+        headers = await _auth(client)
+        created = await client.post(
+            "/api/clients",
+            headers=headers,
+            json={"name": "NoAddr", "vendor": "MIDAS", "product": "CIVIL NX", "version": "2025"},
+        )
+        client_id = created.json()["id"]
+        result = await client.post(f"/api/clients/{client_id}/connect", headers=headers)
+        assert result.status_code == 200
+        assert result.json()["connected"] is False
+        assert result.json()["reason"] == "base_url_not_configured"
+        listed = (await client.get("/api/clients", headers=headers)).json()["items"]
+        assert next(item for item in listed if item["id"] == client_id)["status"] == "DEGRADED"
+
+
+@pytest.mark.asyncio
+async def test_connect_unknown_vendor_is_rejected(app: Any) -> None:
+    """没有可用 Adapter ⇒ `STRUCTAI-1000` + `adapter_not_found`。"""
+    async with _client(app) as client:
+        headers = await _auth(client)
+        created = await client.post(
+            "/api/clients",
+            headers=headers,
+            json={"name": "Unknown", "vendor": "Nope", "product": "X", "version": "1"},
+        )
+        result = await client.post(f"/api/clients/{created.json()['id']}/connect", headers=headers)
+        assert result.status_code == 400
+        assert result.json()["details"]["reason"] == "adapter_not_found"
+
+
+@pytest.mark.asyncio
+async def test_disconnect_is_idempotent_and_updates_status(app: Any) -> None:
+    """断开未连接的实例也成功，并把状态写回 `DISCONNECTED`。"""
+    async with _client(app) as client:
+        headers = await _auth(client)
+        created = await client.post(
+            "/api/clients",
+            headers=headers,
+            json={
+                "name": "Idle",
+                "vendor": "MIDAS",
+                "product": "CIVIL NX",
+                "version": "2025",
+                "status": "CONNECTED",
+            },
+        )
+        client_id = created.json()["id"]
+        result = await client.post(f"/api/clients/{client_id}/disconnect", headers=headers)
+        assert result.status_code == 200
+        assert result.json()["connected"] is False
+        listed = (await client.get("/api/clients", headers=headers)).json()["items"]
+        assert next(item for item in listed if item["id"] == client_id)["status"] == "DISCONNECTED"
+
+
+def test_adapter_plugins_are_discovered_without_vendor_names() -> None:
+    """适配器发现按子包扫描（Core 内不写厂商名），能解析出注册键。"""
+    from app.infrastructure.adapters.plugins import adapter_class_for, discover_adapters
+
+    found = discover_adapters()
+    assert ("MIDAS", "CIVIL NX") in found
+    assert ("CSI", "ETABS") in found
+    # 同厂商的其它产品复用同一实现（产品由连接配置选择）
+    assert adapter_class_for("MIDAS", "GEN NX") is found[("MIDAS", "CIVIL NX")]
+    assert adapter_class_for("Nope", "X") is None

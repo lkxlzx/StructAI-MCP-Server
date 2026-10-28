@@ -76,6 +76,18 @@ class ManagementPort(Protocol):
         """测试实例连通性（HTTP 端点真实探测；无地址时如实报告未配置）。"""
         ...
 
+    async def connect_client(self, client_id: str) -> Mapping[str, Any]:
+        """连接实例（注册 / 绑定 Adapter → 建立连接 → 健康检查）。
+
+        Raises:
+            ProtocolError: 未找到可用的 Adapter 实现（`STRUCTAI-1000`）。
+        """
+        ...
+
+    async def disconnect_client(self, client_id: str) -> Mapping[str, Any]:
+        """断开实例（释放 Adapter 会话；幂等）。"""
+        ...
+
     async def client_events(
         self, client_id: str, *, limit: int = 50
     ) -> Sequence[Mapping[str, Any]]:

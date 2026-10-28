@@ -166,6 +166,28 @@ def register_core_routes(
         except StructAIError as error:
             return error_response(error)
 
+    @router.post("/clients/{client_id}/connect")
+    async def client_connect(request: Request, client_id: str) -> Any:
+        """连接实例（按需注册 Adapter → 绑定 → 连接 → 健康检查）。"""
+        current = await admin(request)
+        if isinstance(current, JSONResponse):
+            return current
+        try:
+            return json_payload(await port.connect_client(client_id))
+        except StructAIError as error:
+            return error_response(error)
+
+    @router.post("/clients/{client_id}/disconnect")
+    async def client_disconnect(request: Request, client_id: str) -> Any:
+        """断开实例（幂等）。"""
+        current = await admin(request)
+        if isinstance(current, JSONResponse):
+            return current
+        try:
+            return json_payload(await port.disconnect_client(client_id))
+        except StructAIError as error:
+            return error_response(error)
+
     @router.get("/clients/{client_id}/events")
     async def client_events(request: Request, client_id: str, limit: int = 50) -> Any:
         """实例的连接测试 / 生命周期事件。"""

@@ -148,6 +148,9 @@
     });
   }
 
+  /* ⚠️ 不要写 `window.UI = {...}`：`ui.js` 已经建立了该命名空间，
+     整体赋值会把它覆盖掉（页面上的 pill/progress 等都会失效）。 */
+  window.UI = window.UI || {};
   window.UI.dialog = dialog;
   window.UI.form = form;
 })();

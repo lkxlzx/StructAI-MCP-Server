@@ -230,3 +230,7 @@
 .client-sub{margin-top:4px}
 .client-search{padding:41px 24px 0}
 .client-table-wrap{padding-top:16px}
+
+/* 功能支持：不可用分组（P185） */
+.feat.is-off{color:var(--text-3)}
+.feat.is-off .ck{background:#F1F4F9;color:#8C97AD}
