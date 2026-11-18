@@ -1,0 +1,1798 @@
+{
+  "note": [
+    "P189 附：**简支钢梁**全链路真机实测（判据走接口层）。",
+    "模型：8 m 简支钢梁（节点 1/2/3 沿 +X @ 0/4/8m），跨中竖向集中荷载 200 kN↓，STATIC → 跨中位移 → 设计(KDS 41 30)。",
+    "复用旗舰阶段 B 的材质(Q355 规范库)/截面(P154S1 占位) 参数（不新造截面形状，守 R151）；只改几何/边界/荷载/取点。",
+    "纪律：只碰自建编号 · 跑前/跑后只读哨兵 · 零残留 · 判据=效果（再读）。",
+    "证据绝不出现凭据；失败响应只留 error.message 前 200 字。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-11-18"
+  },
+  "spec": {
+    "prompt": "8 m 简支钢梁，跨中集中荷载 200 kN 向下，两端简支",
+    "span_m": 8.0,
+    "mid_fz": -200000.0,
+    "mid_node": 2,
+    "elements": [
+      1,
+      2
+    ]
+  },
+  "steps": [
+    {
+      "order": -1,
+      "operation": "SAVE_AS",
+      "tool": "engineering_doc",
+      "label": "⓪′ 先给项目落明确路径（R143：保存必须带路径，杜绝另存为弹窗）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {},
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DOC/SAVEAS",
+          "status": 200,
+          "body": {
+            "Argument": "C:\\Users\\JSK\\StructAI-MCP-Server\\.tmp_p189\\P189_beam.mgbx"
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 43
+        }
+      ]
+    },
+    {
+      "order": 0,
+      "operation": "MODEL.UNIT.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "⓪ 单位口径（KN/M）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.UNIT": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "PUT",
+          "path": "/gen/DB/UNIT",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DIST": "M",
+                "FORCE": "KN",
+                "HEAT": "KJ",
+                "TEMPER": "C"
+              }
+            }
+          },
+          "shape": {
+            "UNIT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 65
+        }
+      ]
+    },
+    {
+      "order": 1,
+      "operation": "MODEL.MATERIAL.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "① 材质 Q355（规范库路线）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.MATL": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/MATL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "PARAM": [
+                  {
+                    "bELAST": false,
+                    "CODE": "",
+                    "DB": "Q355",
+                    "ELAST": 206000000.0,
+                    "P_TYPE": 1,
+                    "STANDARD": "GB50017-17(S)"
+                  }
+                ],
+                "bMASS_DENS": false,
+                "DAMP_RAT": 0.02,
+                "HE_COND": 0,
+                "HE_SPEC": 0,
+                "NAME": "Q355",
+                "P_NAME": "",
+                "PLMT": 0,
+                "TYPE": "STEEL"
+              }
+            }
+          },
+          "shape": {
+            "MATL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 236
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "operation": "MODEL.SECTION.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "① 截面 P154S1（旗舰同一份，已验证可用）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.SECT": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/SECT",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "SECT_BEFORE": {
+                  "DATATYPE": 2,
+                  "HORZ_OFFSET_OPT": 0,
+                  "OFFSET_PT": "LT",
+                  "SHAPE": "SB",
+                  "USE_SHEAR_DEFORM": false,
+                  "USE_WARPING_EFFECT": false,
+                  "VERT_OFFSET_OPT": 0,
+                  "SECT_I": {
+                    "vSIZE": [
+                      1,
+                      1
+                    ]
+                  }
+                },
+                "SECT_NAME": "P154S1",
+                "SECTTYPE": "DBUSER"
+              }
+            }
+          },
+          "shape": {
+            "SECT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 237
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "operation": "MODEL.NODE.CREATE",
+      "tool": "engineering_model_assign",
+      "label": "① 左端节点(0,0,0)",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.NODE": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              }
+            }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "operation": "MODEL.NODE.CREATE",
+      "tool": "engineering_model_assign",
+      "label": "① 跨中节点(4,0,0)",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.NODE": {
+          "ids": [
+            "1",
+            "2"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "2": {
+                "X": 4.0,
+                "Y": 0.0,
+                "Z": 0.0
+              }
+            }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "operation": "MODEL.NODE.CREATE",
+      "tool": "engineering_model_assign",
+      "label": "① 右端节点(8,0,0)",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.NODE": {
+          "ids": [
+            "1",
+            "2",
+            "3"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/NODE",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "3": {
+                "X": 8.0,
+                "Y": 0.0,
+                "Z": 0.0
+              }
+            }
+          },
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 40
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "operation": "MODEL.ELEMENT.CREATE",
+      "tool": "engineering_model_assign",
+      "label": "① 单元1（左-中）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.ELEM": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/ELEM",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "MATL": 1,
+                "NODE": [
+                  1,
+                  2
+                ],
+                "SECT": 1,
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 61
+        }
+      ]
+    },
+    {
+      "order": 7,
+      "operation": "MODEL.ELEMENT.CREATE",
+      "tool": "engineering_model_assign",
+      "label": "① 单元2（中-右）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.ELEM": {
+          "ids": [
+            "1",
+            "2"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/ELEM",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "2": {
+                "MATL": 1,
+                "NODE": [
+                  2,
+                  3
+                ],
+                "SECT": 1,
+                "TYPE": "BEAM"
+              }
+            }
+          },
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 61
+        }
+      ]
+    },
+    {
+      "order": 8,
+      "operation": "MODEL.BOUNDARY.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "① 左端铰支",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.CONS": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "ITEMS": [
+                  {
+                    "GROUP_NAME": "",
+                    "ID": 1,
+                    "CONSTRAINT": "1110000"
+                  }
+                ]
+              }
+            }
+          },
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 74
+        }
+      ]
+    },
+    {
+      "order": 9,
+      "operation": "MODEL.BOUNDARY.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "① 右端滚动",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.CONS": {
+          "ids": [
+            "1",
+            "3"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "3": {
+                "ITEMS": [
+                  {
+                    "GROUP_NAME": "",
+                    "ID": 3,
+                    "CONSTRAINT": "0010000"
+                  }
+                ]
+              }
+            }
+          },
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 74
+        }
+      ]
+    },
+    {
+      "order": 10,
+      "operation": "MODEL.LOAD.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "② 跨中集中荷载 200kN ↓（先建工况）",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.STLD": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        },
+        "DB.CNLD": {
+          "ids": [
+            "2"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/STLD",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DESC": "BEAM_P",
+                "NAME": "BEAM_P",
+                "TYPE": "D"
+              }
+            }
+          },
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 59
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DB/CNLD",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "2": {
+                "ITEMS": [
+                  {
+                    "FZ": -200000.0,
+                    "ID": 2,
+                    "LCNAME": "BEAM_P"
+                  }
+                ]
+              }
+            }
+          },
+          "shape": {
+            "CNLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 68
+        }
+      ]
+    },
+    {
+      "order": 11,
+      "operation": "MODEL.LOAD_COMBINATION.ASSIGN",
+      "tool": "engineering_model_assign",
+      "label": "③ 荷载组合(DB.LCOM-STEEL)",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {
+        "DB.LCOM-STEEL": {
+          "ids": [
+            "1"
+          ],
+          "present": true
+        }
+      },
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/DB/LCOM-STEEL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "ACTIVE": "STRENGTH",
+                "vCOMB": [
+                  {
+                    "ANAL": "ST",
+                    "FACTOR": 1.0,
+                    "LCNAME": "BEAM_P"
+                  }
+                ],
+                "DESC": "",
+                "iTYPE": 0,
+                "NAME": "sLCB1",
+                "NO": 1
+              }
+            }
+          },
+          "shape": {
+            "LCOM-STEEL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 139
+        }
+      ]
+    },
+    {
+      "order": 12,
+      "operation": "ANALYSIS.STATIC",
+      "tool": "engineering_analysis",
+      "label": "④ STATIC 分析",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {
+        "task_id": "3436032b-0d04-4ba2-bb77-09a55140647f",
+        "status": "COMPLETED",
+        "error": {}
+      },
+      "native_error": "",
+      "readback": {},
+      "numbers": {},
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "path": "/gen/DB/STLD",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 66
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/BMLD",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "GET",
+          "path": "/gen/DB/CONS",
+          "status": 200,
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 2
+            }
+          },
+          "shape_raw_length": 138
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DOC/ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "TYPE": "STATIC"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 43
+        }
+      ]
+    },
+    {
+      "order": 13,
+      "operation": "RESULT.NODE.DISPLACEMENT",
+      "tool": "engineering_result",
+      "label": "⑤ 跨中位移",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {},
+      "native_error": "",
+      "readback": {},
+      "numbers": {
+        "displacement.ux": -0.023301,
+        "displacement.uy": 77.060409,
+        "displacement.uz": -0.133247,
+        "displacement.rx": -460.270535,
+        "displacement.ry": 0.0,
+        "displacement.rz": 19.267346
+      },
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "POST",
+          "path": "/gen/POST/TABLE",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "TABLE_TYPE": "DISPLACEMENTG"
+            }
+          },
+          "shape": {
+            "empty": {
+              "kind": "mapping",
+              "size": 4
+            }
+          },
+          "shape_raw_length": 650
+        }
+      ]
+    },
+    {
+      "order": 14,
+      "operation": "DESIGN.STEEL",
+      "tool": "engineering_design",
+      "label": "⑥ 钢构件验算(KDS 41 30)",
+      "status": "PASSED",
+      "detail": "",
+      "error": {},
+      "task": {
+        "task_id": "7373bb4c-d0fd-4116-a506-3b66ef32ab3f",
+        "status": "COMPLETED",
+        "error": {}
+      },
+      "native_error": "",
+      "readback": {},
+      "numbers": {
+        "design.ratio": 0.0,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": 0.0,
+        "design.axial_capacity": 240999.0,
+        "design.moment_y": 440000.0,
+        "design.moment_y_capacity": 47254.7,
+        "design.moment_z": 0.0,
+        "design.moment_z_capacity": 47254.7,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 121247.0,
+        "design.shear_z": -110000.0,
+        "design.shear_z_capacity": 121247.0
+      },
+      "attempts": 1,
+      "requests": [
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/DSTL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "DGNCODE": "GB50017-03"
+              }
+            }
+          },
+          "shape": {
+            "DSTL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 39
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "bAUTOKF": false,
+                "DT": "3D",
+                "FRAMEX": "Braced Non-sway",
+                "FRAMEY": "Braced Non-sway"
+              }
+            }
+          },
+          "shape": {
+            "DCTL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 96
+        },
+        {
+          "method": "PUT",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+          "status": 200,
+          "body": {
+            "Assign": {
+              "1": {
+                "AELEM": [
+                  1,
+                  2
+                ],
+                "bREVERSE": false
+              }
+            }
+          },
+          "shape": {
+            "MEMB": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 47
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "PERFORM_TYPE": "ALL"
+            }
+          },
+          "shape": {
+            "message": {
+              "kind": "scalar",
+              "size": null
+            }
+          },
+          "shape_raw_length": 21
+        },
+        {
+          "method": "POST",
+          "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+          "status": 200,
+          "body": {
+            "Argument": {
+              "ELEMS": {
+                "KEYS": [
+                  1,
+                  2
+                ]
+              },
+              "PRI_SORT": 1,
+              "RESULT": 0,
+              "TABLE_TYPE": "PROP"
+            }
+          },
+          "shape": {
+            "Result Table": {
+              "kind": "mapping",
+              "size": 4
+            }
+          },
+          "shape_raw_length": 555
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "PASSED": 16
+  },
+  "verdict": "PASSED",
+  "aborted": "",
+  "sentinel_endpoints": [
+    "DB.CNLD",
+    "DB.CONS",
+    "DB.ELEM",
+    "DB.GRUP",
+    "DB.LCOM-STEEL",
+    "DB.MATL",
+    "DB.NODE",
+    "DB.SECT",
+    "DB.STLD"
+  ],
+  "sentinel_before": {
+    "DB.CNLD": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.LCOM-STEEL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.STLD": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "sentinel_after": {
+    "DB.CNLD": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.CONS": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.ELEM": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.GRUP": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.LCOM-STEEL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.MATL": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.NODE": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.SECT": {
+      "status": 200,
+      "ids": []
+    },
+    "DB.STLD": {
+      "status": 200,
+      "ids": []
+    }
+  },
+  "cleanup": [
+    {
+      "endpoint": "DB.LCOM-STEEL",
+      "operation": "MODEL.LOAD.DELETE",
+      "ids": [
+        "1"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/LCOM-STEEL/1",
+          "status": 200,
+          "shape": {
+            "LCOM-STEEL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 151
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.CNLD",
+      "operation": "MODEL.LOAD.DELETE",
+      "ids": [
+        "2"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/STLD/2",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/BMLD/2",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.CONS",
+      "operation": "MODEL.BOUNDARY.DELETE",
+      "ids": [
+        "1",
+        "3"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/CONS/1,3",
+          "status": 200,
+          "shape": {
+            "CONS": {
+              "kind": "mapping",
+              "size": 2
+            }
+          },
+          "shape_raw_length": 138
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.ELEM",
+      "operation": "MODEL.ELEMENT.DELETE",
+      "ids": [
+        "1",
+        "2"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/ELEM/1,2",
+          "status": 200,
+          "shape": {
+            "ELEM": {
+              "kind": "mapping",
+              "size": 2
+            }
+          },
+          "shape_raw_length": 180
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.NODE",
+      "operation": "MODEL.NODE.DELETE",
+      "ids": [
+        "1",
+        "2",
+        "3"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/NODE/1,2,3",
+          "status": 200,
+          "shape": {
+            "NODE": {
+              "kind": "mapping",
+              "size": 3
+            }
+          },
+          "shape_raw_length": 100
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.MATL",
+      "operation": "MODEL.MATERIAL.DELETE",
+      "ids": [
+        "1"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/MATL/1",
+          "status": 200,
+          "shape": {
+            "MATL": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 236
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.SECT",
+      "operation": "MODEL.SECTION.DELETE",
+      "ids": [
+        "1"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/SECT/1",
+          "status": 200,
+          "shape": {
+            "SECT": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 355
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    },
+    {
+      "endpoint": "DB.STLD",
+      "operation": "MODEL.LOAD.DELETE",
+      "ids": [
+        "1"
+      ],
+      "error": {},
+      "requests": [
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/STLD/1",
+          "status": 200,
+          "shape": {
+            "STLD": {
+              "kind": "mapping",
+              "size": 1
+            }
+          },
+          "shape_raw_length": 66
+        },
+        {
+          "method": "DELETE",
+          "path": "/gen/DB/BMLD/1",
+          "status": 200,
+          "shape": {
+            "BMLD": {
+              "kind": "mapping",
+              "size": 0
+            }
+          },
+          "shape_raw_length": 11
+        }
+      ],
+      "remaining": [],
+      "gone": true
+    }
+  ],
+  "residue": {},
+  "numbers": {
+    "displacement.ux": -0.023301,
+    "displacement.uy": 77.060409,
+    "displacement.uz": -0.133247,
+    "displacement.rx": -460.270535,
+    "displacement.ry": 0.0,
+    "displacement.rz": 19.267346,
+    "design.ratio": 0.0,
+    "design.status": "NG",
+    "design.combination": "1",
+    "design.section_name": "P154S1",
+    "design.material_name": "Q355",
+    "design.fy": 315000.0,
+    "design.axial_force": 0.0,
+    "design.axial_capacity": 240999.0,
+    "design.moment_y": 440000.0,
+    "design.moment_y_capacity": 47254.7,
+    "design.moment_z": 0.0,
+    "design.moment_z_capacity": 47254.7,
+    "design.shear_y": 0.0,
+    "design.shear_y_capacity": 121247.0,
+    "design.shear_z": -110000.0,
+    "design.shear_z_capacity": 121247.0
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/gen/DOC/SAVEAS",
+      "status": 200,
+      "body": {
+        "Argument": "C:\\Users\\JSK\\StructAI-MCP-Server\\.tmp_p189\\P189_beam.mgbx"
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 43
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DB/UNIT",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DIST": "M",
+            "FORCE": "KN",
+            "HEAT": "KJ",
+            "TEMPER": "C"
+          }
+        }
+      },
+      "shape": {
+        "UNIT": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 65
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/MATL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "PARAM": [
+              {
+                "bELAST": false,
+                "CODE": "",
+                "DB": "Q355",
+                "ELAST": 206000000.0,
+                "P_TYPE": 1,
+                "STANDARD": "GB50017-17(S)"
+              }
+            ],
+            "bMASS_DENS": false,
+            "DAMP_RAT": 0.02,
+            "HE_COND": 0,
+            "HE_SPEC": 0,
+            "NAME": "Q355",
+            "P_NAME": "",
+            "PLMT": 0,
+            "TYPE": "STEEL"
+          }
+        }
+      },
+      "shape": {
+        "MATL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 236
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/SECT",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "SECT_BEFORE": {
+              "DATATYPE": 2,
+              "HORZ_OFFSET_OPT": 0,
+              "OFFSET_PT": "LT",
+              "SHAPE": "SB",
+              "USE_SHEAR_DEFORM": false,
+              "USE_WARPING_EFFECT": false,
+              "VERT_OFFSET_OPT": 0,
+              "SECT_I": {
+                "vSIZE": [
+                  1,
+                  1
+                ]
+              }
+            },
+            "SECT_NAME": "P154S1",
+            "SECTTYPE": "DBUSER"
+          }
+        }
+      },
+      "shape": {
+        "SECT": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 237
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/NODE",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+          }
+        }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/NODE",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "2": {
+            "X": 4.0,
+            "Y": 0.0,
+            "Z": 0.0
+          }
+        }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/NODE",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "3": {
+            "X": 8.0,
+            "Y": 0.0,
+            "Z": 0.0
+          }
+        }
+      },
+      "shape": {
+        "NODE": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 40
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/ELEM",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "MATL": 1,
+            "NODE": [
+              1,
+              2
+            ],
+            "SECT": 1,
+            "TYPE": "BEAM"
+          }
+        }
+      },
+      "shape": {
+        "ELEM": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 61
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/ELEM",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "2": {
+            "MATL": 1,
+            "NODE": [
+              2,
+              3
+            ],
+            "SECT": 1,
+            "TYPE": "BEAM"
+          }
+        }
+      },
+      "shape": {
+        "ELEM": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 61
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ITEMS": [
+              {
+                "GROUP_NAME": "",
+                "ID": 1,
+                "CONSTRAINT": "1110000"
+              }
+            ]
+          }
+        }
+      },
+      "shape": {
+        "CONS": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 74
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/CONS",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "3": {
+            "ITEMS": [
+              {
+                "GROUP_NAME": "",
+                "ID": 3,
+                "CONSTRAINT": "0010000"
+              }
+            ]
+          }
+        }
+      },
+      "shape": {
+        "CONS": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 74
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/STLD",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DESC": "BEAM_P",
+            "NAME": "BEAM_P",
+            "TYPE": "D"
+          }
+        }
+      },
+      "shape": {
+        "STLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 59
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/CNLD",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "2": {
+            "ITEMS": [
+              {
+                "FZ": -200000.0,
+                "ID": 2,
+                "LCNAME": "BEAM_P"
+              }
+            ]
+          }
+        }
+      },
+      "shape": {
+        "CNLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 68
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DB/LCOM-STEEL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "ACTIVE": "STRENGTH",
+            "vCOMB": [
+              {
+                "ANAL": "ST",
+                "FACTOR": 1.0,
+                "LCNAME": "BEAM_P"
+              }
+            ],
+            "DESC": "",
+            "iTYPE": 0,
+            "NAME": "sLCB1",
+            "NO": 1
+          }
+        }
+      },
+      "shape": {
+        "LCOM-STEEL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 139
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/STLD",
+      "status": 200,
+      "shape": {
+        "STLD": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 66
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/BMLD",
+      "status": 200,
+      "shape": {
+        "BMLD": {
+          "kind": "mapping",
+          "size": 0
+        }
+      },
+      "shape_raw_length": 11
+    },
+    {
+      "method": "GET",
+      "path": "/gen/DB/CONS",
+      "status": 200,
+      "shape": {
+        "CONS": {
+          "kind": "mapping",
+          "size": 2
+        }
+      },
+      "shape_raw_length": 138
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DOC/ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "TYPE": "STATIC"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 43
+    },
+    {
+      "method": "POST",
+      "path": "/gen/POST/TABLE",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "TABLE_TYPE": "DISPLACEMENTG"
+        }
+      },
+      "shape": {
+        "empty": {
+          "kind": "mapping",
+          "size": 4
+        }
+      },
+      "shape_raw_length": 650
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/DSTL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "DGNCODE": "GB50017-03"
+          }
+        }
+      },
+      "shape": {
+        "DSTL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 39
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/DCTL",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "bAUTOKF": false,
+            "DT": "3D",
+            "FRAMEX": "Braced Non-sway",
+            "FRAMEY": "Braced Non-sway"
+          }
+        }
+      },
+      "shape": {
+        "DCTL": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 96
+    },
+    {
+      "method": "PUT",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/MEMB",
+      "status": 200,
+      "body": {
+        "Assign": {
+          "1": {
+            "AELEM": [
+              1,
+              2
+            ],
+            "bREVERSE": false
+          }
+        }
+      },
+      "shape": {
+        "MEMB": {
+          "kind": "mapping",
+          "size": 1
+        }
+      },
+      "shape_raw_length": 47
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-ANAL",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "PERFORM_TYPE": "ALL"
+        }
+      },
+      "shape": {
+        "message": {
+          "kind": "scalar",
+          "size": null
+        }
+      },
+      "shape_raw_length": 21
+    },
+    {
+      "method": "POST",
+      "path": "/gen/DESIGN/STEEL/KDS-41-30-2022/CODE-TABLE",
+      "status": 200,
+      "body": {
+        "Argument": {
+          "ELEMS": {
+            "KEYS": [
+              1,
+              2
+            ]
+          },
+          "PRI_SORT": 1,
+          "RESULT": 0,
+          "TABLE_TYPE": "PROP"
+        }
+      },
+      "shape": {
+        "Result Table": {
+          "kind": "mapping",
+          "size": 4
+        }
+      },
+      "shape_raw_length": 555
+    }
+  ]
+}
