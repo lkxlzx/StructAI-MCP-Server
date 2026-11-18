@@ -1,0 +1,117 @@
+{
+ "tool": "probe_rebr_prereq_p188",
+ "ruling": "P188",
+ "criterion": "效果 + 原生文案（铁律 ⓪）；阳性对照 R157",
+ "endpoint": "/DESIGN/RC/KDS-41-20-2022/REBR",
+ "instance": "http://localhost:3030/gen",
+ "live": true,
+ "observations": [
+  {
+   "step": "baseline_node",
+   "method": "GET",
+   "path": "/db/NODE",
+   "status": 200,
+   "native": "{\"message\":\"\"}"
+  },
+  {
+   "step": "baseline_elem",
+   "method": "GET",
+   "path": "/db/ELEM",
+   "status": 200,
+   "native": "{\"message\":\"\"}"
+  },
+  {
+   "step": "post_node1",
+   "method": "POST",
+   "path": "/db/NODE",
+   "status": 201,
+   "native": "{\"NODE\":{\"1\":{\"X\":0,\"Y\":0,\"Z\":0}}}"
+  },
+  {
+   "step": "post_node2",
+   "method": "POST",
+   "path": "/db/NODE",
+   "status": 201,
+   "native": "{\"NODE\":{\"2\":{\"X\":0,\"Y\":0,\"Z\":3}}}"
+  },
+  {
+   "step": "readback_node",
+   "method": "GET",
+   "path": "/db/NODE",
+   "status": 200,
+   "native": "{\"NODE\":{\"1\":{\"X\":0,\"Y\":0,\"Z\":0},\"2\":{\"X\":0,\"Y\":0,\"Z\":3}}}"
+  },
+  {
+   "step": "post_elem1",
+   "method": "POST",
+   "path": "/db/ELEM",
+   "status": 201,
+   "native": "{\"ELEM\":{\"1\":{\"TYPE\":\"BEAM\",\"MATL\":1,\"SECT\":1,\"NODE\":[1,2]}}}"
+  },
+  {
+   "step": "readback_elem",
+   "method": "GET",
+   "path": "/db/ELEM",
+   "status": 200,
+   "native": "{\"ELEM\":{\"1\":{\"TYPE\":\"BEAM\",\"MATL\":1,\"SECT\":1,\"NODE\":[1,2,0,0,0,0,0,0],\"ANGLE\":0,\"STYPE\":0}}}"
+  },
+  {
+   "step": "put_rebr_with_elem",
+   "method": "PUT",
+   "path": "/DESIGN/RC/KDS-41-20-2022/REBR",
+   "status": 400,
+   "native": "{\"error\":{\"message\":\"Wrong Field\"}}",
+   "request_body": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "CREATE_SUB_SECTION": false,
+        "ELEMS": {
+         "KEYS": [
+          1
+         ]
+        },
+        "MAIN_BAR": {
+         "NAME": "D22",
+         "NUM": 4,
+         "ROW": 2
+        },
+        "SHEAR_BAR_END": {
+         "NAME": "D10",
+         "LEG_Y": 2,
+         "LEG_Z": 2,
+         "DIST": 100
+        },
+        "SHEAR_BAR_CEN": {
+         "NAME": "D10",
+         "LEG_Y": 2,
+         "LEG_Z": 2,
+         "DIST": 200
+        },
+        "DO": 0.0
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "step": "readback_rebr",
+   "method": "GET",
+   "path": "/DESIGN/RC/KDS-41-20-2022/REBR",
+   "status": 200,
+   "native": "{\"REBR\":{}}"
+  }
+ ],
+ "conclusion": {
+  "put_rebr_status": 400,
+  "same_family_as_rebc": true,
+  "attribution": "REBR 与 REBC 同族（Assign→截面号→ITEMS[]、同 required）；本批测其在「前置单元已存在」下的状态码/原生文案，判断是否同为 Wrong Field ⇒ 合并为一问"
+ },
+ "final_zero_residue": true,
+ "final_state": {
+  "nodes": "{\"message\":\"\"}",
+  "elems": "{\"message\":\"\"}"
+ }
+}

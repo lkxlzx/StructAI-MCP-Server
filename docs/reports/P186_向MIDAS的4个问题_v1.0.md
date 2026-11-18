@@ -133,9 +133,11 @@
 
 ---
 
-## 问题 ⑤ —— `DESIGN.RC.KDS-41-20-2022.REBC`（键名/形状疑点，`P186-B` 真机归因）
+## 问题 ⑤ —— `DESIGN.RC.REBC` / `REBR`（键名/形状疑点，`P186-B` + `P188` 真机归因，**合并一问**）
 
 > ⚠️ 本条由 **P186-B 真机排查**新增（`docs/reports/P186B_REBC400归因排查_v1.0.md`）。
+> **P188** 已证实 `REBR` 与 `REBC` **同族同因**（同 `Assign → 截面号 → ITEMS[]`；`PUT REBR` 在前置单元已存在时同样回 `400 Wrong Field`、读回 `{}`）
+> ⇒ **REBC 与 REBR 合并为同一问**，不再单独提第 6 问。证据 = `registry/live/{rebc_prereq_probe_p186,rebr_prereq_probe_p188}.json`。
 
 - **端点 / 字段**：`PUT /DESIGN/RC/KDS-41-20-2022/REBC`（列配筋数据），请求体 `Assign → 截面号 → ITEMS[]`。
 - **机械事实**：本 build 对「`Assign` → 截面键 → `ITEMS[]`（含 `MAIN_BAR`/`SHEAR_BAR_END`/`SHEAR_BAR_CEN`/`DO`/`ELEMS`）」的**任何**写法都回
@@ -152,7 +154,7 @@
 - **恢复条件**：
   - 产品侧给出**正确键名/包装** ⇒ 我方 Schema 登记勘误（形如 `TABLE_TYPE`→`TEXT_TYPE` 的键名修正）⇒ 可重测。
   - 若产品侧确认形体无误 ⇒ 本 build **未实现**该端点 ⇒ 登记**产品缺陷/不支持**（与 `R154` 的 `BD-ANAL` 同档）。
-  - ⚠️ `REBR` 为 `REBC` **同族**（列/梁配筋），极可能同因，暂**不**单独真机排查（需另授权）。
+  - ✅ **`REBR` 同族同因（P188 已确认）**：`PUT /DESIGN/RC/KDS-41-20-2022/REBR` 在**前置单元已存在**时同样回 `400 Wrong Field`、`GET` 读回 `{}` ⇒ **REBC/REBR 合并为同一问**（问法里的端点写「`REBC` 或 `REBR`」即可）。
 
 ---
 
@@ -165,8 +167,8 @@
 >    整数 `0`/`1`/`2`，还是两者？（落盘枚举是字符串，示例给 `1`。）
 > 3. **`POST /OPE/LCOM-GEN` 的请求体**：选择操作的那个键，键名是 **`OPTION`** 吗？
 >    （我们对任何取值都收到 `400 Wrong Field`，怀疑键名。）
-> 4. **`PUT /DESIGN/RC/KDS-41-20-2022/REBC` 的请求体**：`Assign → 截面号 → ITEMS[]` 的任何写法都回
->    `400 Wrong Field`（**前置单元已就绪亦然**）。请问正确的**顶层键名/包装**是什么？是否另有必填键？
+> 4. **`PUT /DESIGN/RC/KDS-41-20-2022/REBC` 与 `/REBR` 的请求体**（同族）：`Assign → 截面号 → ITEMS[]` 的任何写法都回
+>    `400 Wrong Field`（**前置单元已就绪亦然**，REBR 同）。请问正确的**顶层键名/包装**是什么？是否另有必填键？
 >
 > （第 5 项 `OPE.GSBG::BRDG_GROUP` 我们已确认是模型内 StructureGroup 的引用名、非受控词表，无需回复。）
 > 谢谢！
