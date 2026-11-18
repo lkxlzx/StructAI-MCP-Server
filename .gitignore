@@ -12,6 +12,14 @@
 MAPI-Key*
 mapi_key*
 
+# ⚠️ **修复（补登发现）**：`*secret*` / `*credential*` 是**子串**匹配，会**误伤源码目录**
+#   `app/infrastructure/secrets/`（必需模块：`EnvironmentCredentialProvider` / 敏感键清洗），
+#   导致任何人 `clone` 后 `import app.infrastructure.secrets` 直接 `ModuleNotFoundError`
+#   （上游 clone 不可运行的真实原因）。这里显式反忽略该源码包（及其下 `.py`）；
+#   凭据**文件**（`.env` / `*.key` / `*.pem` / `MAPI-Key*` 等）仍照常被忽略。
+!app/infrastructure/secrets/
+!app/infrastructure/secrets/**
+
 # ===== Python =====
 __pycache__/
 *.py[cod]
