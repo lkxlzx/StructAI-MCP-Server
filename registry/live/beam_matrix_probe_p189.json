@@ -1,0 +1,156 @@
+{
+  "note": [
+    "P189 附3：**参数化矩阵**真机实测 —— 固定简支梁骨架，套不同（跨度/荷载）数据，批量跑全链路。",
+    "每用例独立临时库 + 专用实例 + 独立 SAVE_AS 路径（R143）；跑前/跑后只读哨兵；零残留。",
+    "判据 = 全链路步全 PASSED ∧ 设计表有行；数值逐条取自接口层响应。"
+  ],
+  "criterion_version": 1,
+  "instance": {
+    "alias": "gen-local",
+    "product": "GEN NX",
+    "base_url": "http://localhost:3030/gen",
+    "probed_at": "2026-11-18"
+  },
+  "cases": [
+    {
+      "case": "beam-6m-150kN",
+      "span_m": 6.0,
+      "mid_fz": -150000.0,
+      "verdict": "PASSED",
+      "counts": {
+        "PASSED": 16
+      },
+      "aborted": "",
+      "residue": {},
+      "numbers": {
+        "displacement.ux": -0.00983,
+        "displacement.uy": -11.254702,
+        "displacement.uz": -0.044369,
+        "displacement.rx": 0.0,
+        "displacement.ry": 0.0,
+        "displacement.rz": -3.749884,
+        "design.ratio": 0.0,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": 0.0,
+        "design.axial_capacity": 240999.0,
+        "design.moment_y": 247500.0,
+        "design.moment_y_capacity": 47254.7,
+        "design.moment_z": 0.0,
+        "design.moment_z_capacity": 47254.7,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 121247.0,
+        "design.shear_z": 82500.0,
+        "design.shear_z_capacity": 121247.0
+      }
+    },
+    {
+      "case": "beam-8m-200kN",
+      "span_m": 8.0,
+      "mid_fz": -200000.0,
+      "verdict": "PASSED",
+      "counts": {
+        "PASSED": 16
+      },
+      "aborted": "",
+      "residue": {},
+      "numbers": {
+        "displacement.ux": -0.023301,
+        "displacement.uy": 77.060409,
+        "displacement.uz": -0.133247,
+        "displacement.rx": -460.270535,
+        "displacement.ry": 0.0,
+        "displacement.rz": 19.267346,
+        "design.ratio": 0.0,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": 0.0,
+        "design.axial_capacity": 240999.0,
+        "design.moment_y": 440000.0,
+        "design.moment_y_capacity": 47254.7,
+        "design.moment_z": 0.0,
+        "design.moment_z_capacity": 47254.7,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 121247.0,
+        "design.shear_z": -110000.0,
+        "design.shear_z_capacity": 121247.0
+      }
+    },
+    {
+      "case": "beam-10m-250kN",
+      "span_m": 10.0,
+      "mid_fz": -250000.0,
+      "verdict": "PASSED",
+      "counts": {
+        "PASSED": 16
+      },
+      "aborted": "",
+      "residue": {},
+      "numbers": {
+        "displacement.ux": -0.04551,
+        "displacement.uy": 73.189739,
+        "displacement.uz": -0.317422,
+        "displacement.rx": -306.223181,
+        "displacement.ry": 0.0,
+        "displacement.rz": 14.640753,
+        "design.ratio": 0.0,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": 0.0,
+        "design.axial_capacity": 240999.0,
+        "design.moment_y": 687500.0,
+        "design.moment_y_capacity": 47254.7,
+        "design.moment_z": 0.0,
+        "design.moment_z_capacity": 47254.7,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 121247.0,
+        "design.shear_z": 137500.0,
+        "design.shear_z_capacity": 121247.0
+      }
+    },
+    {
+      "case": "beam-12m-300kN",
+      "span_m": 12.0,
+      "mid_fz": -300000.0,
+      "verdict": "PASSED",
+      "counts": {
+        "PASSED": 16
+      },
+      "aborted": "",
+      "residue": {},
+      "numbers": {
+        "displacement.ux": -0.078641,
+        "displacement.uy": -0.397257,
+        "displacement.uz": -0.64932,
+        "displacement.rx": 0.090283,
+        "displacement.ry": 0.0,
+        "displacement.rz": -0.062844,
+        "design.ratio": 0.0,
+        "design.status": "NG",
+        "design.combination": "1",
+        "design.section_name": "P154S1",
+        "design.material_name": "Q355",
+        "design.fy": 315000.0,
+        "design.axial_force": 0.0,
+        "design.axial_capacity": 240999.0,
+        "design.moment_y": 990000.0,
+        "design.moment_y_capacity": 47254.7,
+        "design.moment_z": 0.0,
+        "design.moment_z_capacity": 47254.7,
+        "design.shear_y": 0.0,
+        "design.shear_y_capacity": 121247.0,
+        "design.shear_z": -165000.0,
+        "design.shear_z_capacity": 121247.0
+      }
+    }
+  ]
+}

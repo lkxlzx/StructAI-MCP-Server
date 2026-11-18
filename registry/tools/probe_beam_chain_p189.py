@@ -14,6 +14,13 @@
 
 只改：几何（节点坐标）、边界（简支）、荷载（跨中集中力）、结果取点（跨中节点）。
 纪律：只碰自建编号 · 跑前/跑后只读哨兵 · 零残留 · 判据=效果（再读）· 证据不含凭据。
+
+**参数化（本节重点）**：
+* `--probe`：跑**单个**模型（默认 8m/200kN；可用 `--span`/`--mid-fz` 覆盖）。
+* `--matrix`：跑**参数化矩阵** —— 固定简支梁骨架，遍历 `BEAM_MATRIX` 各用例（不同跨度/荷载）
+  批量真机跑，汇总成矩阵（`registry/live/beam_matrix_probe_p189.json`）。
+  每个用例独立临时库 + 专用实例 + 独立 SAVE_AS 路径（R143），互不污染。
+  ⇒ 「一个固定模板套入数据、一条命令批量测、快速发现差异用例」。
 """
 
 from __future__ import annotations
@@ -54,6 +61,16 @@ MID_FZ = -200_000.0  # 跨中集中力 200 kN 向下（MIDAS 力单位制 N）
 # ⚠️ R143 铁律：所有保存必须带路径。DESIGN 前先把项目 SAVEAS 到明确路径，避免「另存为」弹窗阻塞 API。
 PROJECT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".tmp_p189")
 PROJECT_PATH = os.path.join(PROJECT_DIR, "P189_beam.mgbx")
+
+# ===== 参数化用例表（固定骨架 + 不同数据）=====
+# 每个用例 = 一个简支梁模型（跨度 m / 跨中集中力 N）。同一模板套不同数据，批量真机跑，快速发现差异用例。
+BEAM_MATRIX: tuple[dict[str, Any], ...] = (
+    {"case": "beam-6m-150kN", "span": 6.0, "mid_fz": -150_000.0},
+    {"case": "beam-8m-200kN", "span": 8.0, "mid_fz": -200_000.0},
+    {"case": "beam-10m-250kN", "span": 10.0, "mid_fz": -250_000.0},
+    {"case": "beam-12m-300kN", "span": 12.0, "mid_fz": -300_000.0},
+)
+"""参数化用例矩阵：一条命令批量跑多个简支梁模型（跨度/荷载不同），套同一骨架。"""
 
 UNIT_PARAMETERS: dict[str, Any] = {
     "unit": [{"id": "1", "force": "KN", "dist": "M", "heat": "KJ", "temper": "C"}],
@@ -186,42 +203,6 @@ DESIGN_PARAMETERS: dict[str, Any] = {
 }
 
 
-def beam_steps() -> tuple[dict[str, Any], ...]:
-    """简支梁建模 → 荷载 → 组合 → 分析 → 结果 → 设计（8 步 + 收尾）。"""
-    return (
-        {"order": 0, "operation": "MODEL.UNIT.ASSIGN", "tool": "engineering_model_assign",
-         "label": "⓪ 单位口径（KN/M）", "parameters": UNIT_PARAMETERS, "confirm": True, "readback": ("DB.UNIT",)},
-        {"order": 1, "operation": "MODEL.MATERIAL.ASSIGN", "tool": "engineering_model_assign",
-         "label": "① 材质 Q355（规范库路线）", "parameters": _material_parameters(), "confirm": True, "readback": ("DB.MATL",)},
-        {"order": 2, "operation": "MODEL.SECTION.ASSIGN", "tool": "engineering_model_assign",
-         "label": "① 截面 P154S1（占位，与旗舰同一份）", "parameters": _section_parameters(), "confirm": True, "readback": ("DB.SECT",)},
-        {"order": 3, "operation": "MODEL.NODE.CREATE", "tool": "engineering_model_assign",
-         "label": "① 左端节点(0,0,0)", "parameters": _node(str(NODE_LEFT), x=0.0), "confirm": True, "readback": ("DB.NODE",)},
-        {"order": 4, "operation": "MODEL.NODE.CREATE", "tool": "engineering_model_assign",
-         "label": "① 跨中节点(4,0,0)", "parameters": _node(str(NODE_MID), x=SPAN / 2), "confirm": True, "readback": ("DB.NODE",)},
-        {"order": 5, "operation": "MODEL.NODE.CREATE", "tool": "engineering_model_assign",
-         "label": "① 右端节点(8,0,0)", "parameters": _node(str(NODE_RIGHT), x=SPAN), "confirm": True, "readback": ("DB.NODE",)},
-        {"order": 6, "operation": "MODEL.ELEMENT.CREATE", "tool": "engineering_model_assign",
-         "label": "① 单元1（左-中）", "parameters": _element(str(ELEMENT_LEFT), n1=str(NODE_LEFT), n2=str(NODE_MID)), "confirm": True, "readback": ("DB.ELEM",)},
-        {"order": 7, "operation": "MODEL.ELEMENT.CREATE", "tool": "engineering_model_assign",
-         "label": "① 单元2（中-右）", "parameters": _element(str(ELEMENT_RIGHT), n1=str(NODE_MID), n2=str(NODE_RIGHT)), "confirm": True, "readback": ("DB.ELEM",)},
-        {"order": 8, "operation": "MODEL.BOUNDARY.ASSIGN", "tool": "engineering_model_assign",
-         "label": "① 左端铰支", "parameters": _support(NODE_LEFT, hinge=True, own_id=str(NODE_LEFT)), "confirm": True, "readback": ("DB.CONS",)},
-        {"order": 9, "operation": "MODEL.BOUNDARY.ASSIGN", "tool": "engineering_model_assign",
-         "label": "① 右端滚动", "parameters": _support(NODE_RIGHT, hinge=False, own_id=str(NODE_RIGHT)), "confirm": True, "readback": ("DB.CONS",)},
-        {"order": 10, "operation": "MODEL.LOAD.ASSIGN", "tool": "engineering_model_assign",
-         "label": "② 跨中集中荷载 200kN ↓（先建工况）", "parameters": LOAD_PARAMETERS, "confirm": True, "readback": ("DB.STLD", "DB.CNLD")},
-        {"order": 11, "operation": "MODEL.LOAD_COMBINATION.ASSIGN", "tool": "engineering_model_assign",
-         "label": "③ 荷载组合(DB.LCOM-STEEL)", "parameters": LOAD_COMBINATION_PARAMETERS, "confirm": True, "readback": ("DB.LCOM-STEEL",)},
-        {"order": 12, "operation": "ANALYSIS.STATIC", "tool": "engineering_analysis",
-         "label": "④ STATIC 分析", "parameters": ANALYSIS_PARAMETERS, "confirm": True, "readback": ()},
-        {"order": 13, "operation": "RESULT.NODE.DISPLACEMENT", "tool": "engineering_result",
-         "label": "⑤ 跨中位移", "parameters": RESULT_PARAMETERS, "confirm": False, "readback": ()},
-        {"order": 14, "operation": "DESIGN.STEEL", "tool": "engineering_design",
-         "label": "⑥ 钢构件验算(KDS 41 30)", "parameters": DESIGN_PARAMETERS, "confirm": True, "readback": ()},
-    )
-
-
 SENTINEL_ENDPOINTS: tuple[str, ...] = (
     "DB.CNLD", "DB.CONS", "DB.ELEM", "DB.GRUP", "DB.LCOM-STEEL",
     "DB.MATL", "DB.NODE", "DB.SECT", "DB.STLD",
@@ -249,8 +230,14 @@ def _load_module(repo: pathlib.Path, rel: str, name: str) -> Any:
     return module
 
 
-def _beam_steps_via(stack_mod: Any, flag: Any) -> tuple[dict[str, Any], ...]:
-    """用**旗舰/接口层已验证可用**的参数构造函数生成简支梁各步（不手写 body，避免键名缺漏）。"""
+def _beam_steps_via(stack_mod: Any, flag: Any, *, span: float = None, mid_fz: float = None, project_path: str = None) -> tuple[dict[str, Any], ...]:
+    """用**旗舰/接口层已验证可用**的参数构造函数生成简支梁各步（不手写 body，避免键名缺漏）。
+
+    **参数化**：`span`（跨度 m）/ `mid_fz`（跨中集中力 N，向下为负）/ `project_path`（保存路径，R143）——固定骨架套不同数据。
+    """
+    span = SPAN if span is None else float(span)
+    mid_fz = MID_FZ if mid_fz is None else float(mid_fz)
+    project_path = PROJECT_PATH if project_path is None else str(project_path)
     material = stack_mod._material_parameters(str(MATERIAL_ID))  # noqa: SLF001
     section = stack_mod._section_parameters(str(SECTION_ID))  # noqa: SLF001
     # 让材质/截面与旗舰阶段 B **逐字节一致**：直接取旗舰 `_substitute_steps` 里对应步的 parameters
@@ -260,14 +247,20 @@ def _beam_steps_via(stack_mod: Any, flag: Any) -> tuple[dict[str, Any], ...]:
         elif _s.get("operation") == "MODEL.MATERIAL.ASSIGN":
             material = _s["parameters"]
     n_left = stack_mod._node_parameters(str(NODE_LEFT), x=0.0, y=0.0, z=0.0)  # noqa: SLF001
-    n_mid = stack_mod._node_parameters(str(NODE_MID), x=SPAN / 2, y=0.0, z=0.0)  # noqa: SLF001
-    n_right = stack_mod._node_parameters(str(NODE_RIGHT), x=SPAN, y=0.0, z=0.0)  # noqa: SLF001
+    n_mid = stack_mod._node_parameters(str(NODE_MID), x=span / 2, y=0.0, z=0.0)  # noqa: SLF001
+    n_right = stack_mod._node_parameters(str(NODE_RIGHT), x=span, y=0.0, z=0.0)  # noqa: SLF001
+    # 参数化荷载（工况名固定 BEAM_P；跨中集中力用传入 mid_fz）
+    load_params = {
+        "load_type": "NODE_FORCE",
+        "load": {"id": NODE_MID, "load_case": LOAD_CASE, "fz": mid_fz},
+        "load_case_definition": {"name": LOAD_CASE, "type": "D", "description": LOAD_CASE},
+    }
     e1 = stack_mod._element_parameters(str(ELEMENT_LEFT), nodes=[str(NODE_LEFT), str(NODE_MID)], materials=[str(MATERIAL_ID)], sections=[str(SECTION_ID)])  # noqa: SLF001
     e2 = stack_mod._element_parameters(str(ELEMENT_RIGHT), nodes=[str(NODE_MID), str(NODE_RIGHT)], materials=[str(MATERIAL_ID)], sections=[str(SECTION_ID)])  # noqa: SLF001
     return (
         {"order": -1, "operation": "SAVE_AS", "tool": "engineering_doc",
          "label": "⓪′ 先给项目落明确路径（R143：保存必须带路径，杜绝另存为弹窗）",
-         "parameters": {"project_path": PROJECT_PATH}, "confirm": True, "readback": ()},
+         "parameters": {"project_path": project_path}, "confirm": True, "readback": ()},
         {"order": 0, "operation": "MODEL.UNIT.ASSIGN", "tool": "engineering_model_assign",
          "label": "⓪ 单位口径（KN/M）", "parameters": UNIT_PARAMETERS, "confirm": True, "readback": ("DB.UNIT",)},
         {"order": 1, "operation": "MODEL.MATERIAL.ASSIGN", "tool": "engineering_model_assign",
@@ -289,7 +282,7 @@ def _beam_steps_via(stack_mod: Any, flag: Any) -> tuple[dict[str, Any], ...]:
         {"order": 9, "operation": "MODEL.BOUNDARY.ASSIGN", "tool": "engineering_model_assign",
          "label": "① 右端滚动", "parameters": _support(NODE_RIGHT, hinge=False, own_id=str(NODE_RIGHT)), "confirm": True, "readback": ("DB.CONS",)},
         {"order": 10, "operation": "MODEL.LOAD.ASSIGN", "tool": "engineering_model_assign",
-         "label": "② 跨中集中荷载 200kN ↓（先建工况）", "parameters": LOAD_PARAMETERS, "confirm": True, "readback": ("DB.STLD", "DB.CNLD")},
+         "label": f"② 跨中集中荷载 {abs(mid_fz)/1000:.0f}kN ↓（先建工况）", "parameters": load_params, "confirm": True, "readback": ("DB.STLD", "DB.CNLD")},
         {"order": 11, "operation": "MODEL.LOAD_COMBINATION.ASSIGN", "tool": "engineering_model_assign",
          "label": "③ 荷载组合(DB.LCOM-STEEL)", "parameters": LOAD_COMBINATION_PARAMETERS, "confirm": True, "readback": ("DB.LCOM-STEEL",)},
         {"order": 12, "operation": "ANALYSIS.STATIC", "tool": "engineering_analysis",
@@ -324,9 +317,11 @@ async def _cleanup(flag: Any, stack: Any) -> list[dict[str, Any]]:
     return cleanup
 
 
-async def _probe(repo: pathlib.Path) -> dict[str, Any]:
+async def _probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None, project_path: str = None) -> dict[str, Any]:
     stack_mod = _load_module(repo, STACK_TOOL_RELATIVE, "structai_probe_interface_paths_p189")
     flag = _load_module(repo, FLAGSHIP_TOOL_RELATIVE, "structai_probe_flagship_p189")
+    span = SPAN if span is None else float(span)
+    mid_fz = MID_FZ if mid_fz is None else float(mid_fz)
     summary: dict[str, Any] = {"aborted": "", "sentinel_before": {}, "sentinel_after": {}, "cleanup": [], "residue": {}, "numbers": {}}
     rows: list[dict[str, Any]] = []
     with tempfile.TemporaryDirectory(prefix="structai-beam-p189-") as workdir:
@@ -346,24 +341,18 @@ async def _probe(repo: pathlib.Path) -> dict[str, Any]:
                 summary["sentinel_after"] = before
                 return {"steps": rows, "summary": summary}
 
-            steps = _beam_steps_via(stack_mod, flag)
-            # R135 加固：GEN NX 对 8m 梁的 STATIC 分析是触发式的、且可能较慢 ⇒
-            # 加大取结果的重试窗口，并在分析后先等一段时间，避免「分析未就绪 → 空表」。
+            steps = _beam_steps_via(stack_mod, flag, span=span, mid_fz=mid_fz, project_path=project_path)
+            # R135 加固：GEN NX STATIC 分析是触发式的、可能较慢 ⇒ 加大取结果重试窗口。
             try:
                 flag.RESULT_ATTEMPTS = 15
                 flag.RESULT_DELAY_SECONDS = 6.0
             except Exception:
                 pass
-            print("=== 简支钢梁全链路（8m, 跨中 200kN）===")
-            _dbgout = []
-            for _dbg in steps:
-                if _dbg.get("operation") in ("MODEL.SECTION.ASSIGN", "MODEL.MATERIAL.ASSIGN"):
-                    _dbgout.append(_dbg["operation"] + " params=" + json.dumps(_dbg["parameters"], ensure_ascii=False))
-            (repo / "registry" / "tools" / "_beam_dbg.txt").write_text("\n".join(_dbgout), encoding="utf-8")
+            print(f"=== 简支钢梁全链路（{span:.1f}m, 跨中 {abs(mid_fz)/1000:.0f}kN）===")
             for step in steps:
                 row = await flag._run_step(stack, step)  # noqa: SLF001
                 rows.append(row)
-                print(f"  [{row['order']}] {row['operation']} = {row['status']} {row.get('detail') or ''} {row.get('numbers') or ''}")
+                print(f"  [{row['order']:2}] {row['operation']} = {row['status']} {row.get('detail') or ''}")
                 if row["status"] not in ("PASSED", "SKIPPED"):
                     for rest in steps[len(rows):]:
                         rows.append({"order": rest["order"], "operation": rest["operation"], "tool": rest["tool"],
@@ -372,7 +361,6 @@ async def _probe(repo: pathlib.Path) -> dict[str, Any]:
                     break
                 summary["numbers"].update(row["numbers"])
                 if row["operation"] == "ANALYSIS.STATIC" and row["status"] == "PASSED":
-                    print("  … 分析已触发，等待 20s 让 GEN NX 算完（R135）")
                     await asyncio.sleep(20.0)
             summary["cleanup"] = await _cleanup(flag, stack)
             after = stack.sentinel(SENTINEL_ENDPOINTS)
@@ -388,13 +376,13 @@ def _counts(rows: list[dict[str, Any]]) -> dict[str, int]:
     return c
 
 
-def probe(repo: pathlib.Path) -> int:
+def probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None) -> int:
     base_url = os.environ.get("MIDAS_BASE_URL", "").rstrip("/")
     key_value = os.environ.get("MIDAS_MAPI_KEY", "")
     if not base_url or not key_value:
         print("❌ --probe 需要 MIDAS_BASE_URL / MIDAS_MAPI_KEY（见 scripts/load-midas-env.ps1）")
         return 1
-    result = asyncio.run(_probe(repo))
+    result = asyncio.run(_probe(repo, span=span, mid_fz=mid_fz))
     rows = result["steps"]
     summary = result["summary"]
     document = {
@@ -409,7 +397,7 @@ def probe(repo: pathlib.Path) -> int:
         "instance": {"alias": INSTANCE_ALIAS, "product": INSTANCE_PRODUCT,
                      "base_url": os.environ.get("MIDAS_BASE_URL", ""), "probed_at": PROBED_AT},
         "spec": {"prompt": "8 m 简支钢梁，跨中集中荷载 200 kN 向下，两端简支",
-                 "span_m": SPAN, "mid_fz": MID_FZ, "mid_node": NODE_MID,
+                 "span_m": (SPAN if span is None else span), "mid_fz": (MID_FZ if mid_fz is None else mid_fz), "mid_node": NODE_MID,
                  "elements": [ELEMENT_LEFT, ELEMENT_RIGHT]},
         "steps": rows,
         "counts": _counts(rows),
@@ -434,6 +422,49 @@ def probe(repo: pathlib.Path) -> int:
     return 0 if document["verdict"] == "PASSED" and not summary.get("aborted") else 1
 
 
+def matrix(repo: pathlib.Path) -> int:
+    """**参数化矩阵**：遍历 `BEAM_MATRIX`，每用例独立 stack 真机跑全链路，汇总成矩阵。"""
+    if not (os.environ.get("MIDAS_BASE_URL") and os.environ.get("MIDAS_MAPI_KEY")):
+        print("❌ --matrix 需要 MIDAS_BASE_URL / MIDAS_MAPI_KEY")
+        return 1
+    os.makedirs(PROJECT_DIR, exist_ok=True)
+    cases_out: list[dict[str, Any]] = []
+    for i, case in enumerate(BEAM_MATRIX):
+        span = float(case["span"]); mid_fz = float(case["mid_fz"])
+        proj = os.path.join(PROJECT_DIR, f"{case['case']}.mgbx")
+        print(f"\n===== 用例 {i+1}/{len(BEAM_MATRIX)}: {case['case']}（span={span}m, P={abs(mid_fz)/1000:.0f}kN）=====")
+        result = asyncio.run(_probe(repo, span=span, mid_fz=mid_fz, project_path=proj))
+        rows = result["steps"]; summary = result["summary"]
+        nums = summary.get("numbers") or {}
+        case_verdict = "PASSED" if rows and _counts(rows).get("PASSED") == len(rows) else "NOT_PASSED"
+        cases_out.append({
+            "case": case["case"], "span_m": span, "mid_fz": mid_fz,
+            "verdict": case_verdict, "counts": _counts(rows),
+            "aborted": str(summary.get("aborted") or ""), "residue": summary.get("residue") or {},
+            "numbers": nums,
+        })
+    document = {
+        "note": [
+            "P189 附3：**参数化矩阵**真机实测 —— 固定简支梁骨架，套不同（跨度/荷载）数据，批量跑全链路。",
+            "每用例独立临时库 + 专用实例 + 独立 SAVE_AS 路径（R143）；跑前/跑后只读哨兵；零残留。",
+            "判据 = 全链路步全 PASSED ∧ 设计表有行；数值逐条取自接口层响应。",
+        ],
+        "criterion_version": CRITERION_VERSION,
+        "instance": {"alias": INSTANCE_ALIAS, "product": INSTANCE_PRODUCT,
+                     "base_url": os.environ.get("MIDAS_BASE_URL", ""), "probed_at": PROBED_AT},
+        "cases": cases_out,
+    }
+    path = repo / "registry" / "live" / "beam_matrix_probe_p189.json"
+    path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("\n======= 矩阵汇总 =======")
+    for c in cases_out:
+        n = c["numbers"]
+        print(f"  {c['case']:18s} span={c['span_m']:.0f}m P={abs(c['mid_fz'])/1000:.0f}kN  verdict={c['verdict']:9s} "
+              f"{c['counts']} uz={n.get('displacement.uz')} My={n.get('design.moment_y')} Mg={n.get('design.status')}")
+    print(f"已写入 registry/live/beam_matrix_probe_p189.json")
+    return 0 if all(c["verdict"] == "PASSED" for c in cases_out) else 1
+
+
 def summary(repo: pathlib.Path) -> int:
     path = repo / "registry" / EVIDENCE_RELATIVE
     if not path.is_file():
@@ -451,11 +482,16 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="P189 附：简支钢梁全链路真机实测")
     p.add_argument("--repo", default=REPO_DEFAULT)
     p.add_argument("--probe", action="store_true")
+    p.add_argument("--matrix", action="store_true", help="参数化矩阵：批量跑 BEAM_MATRIX 各用例")
+    p.add_argument("--span", type=float, default=None, help="单模型跨度 m（默认 8.0）")
+    p.add_argument("--mid-fz", type=float, default=None, help="单模型跨中集中力 N（向下为负，默认 -200000）")
     p.add_argument("--summary", action="store_true")
     args = p.parse_args(argv)
     repo = pathlib.Path(args.repo).resolve()
     if args.probe:
-        return probe(repo)
+        return probe(repo, span=args.span, mid_fz=args.mid_fz)
+    if args.matrix:
+        return matrix(repo)
     if args.summary:
         return summary(repo)
     p.print_help()
