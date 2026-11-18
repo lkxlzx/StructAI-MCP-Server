@@ -1,0 +1,121 @@
+{
+ "tool": "probe_rebc_prereq_p186",
+ "ruling": "P186-B",
+ "criterion": "效果 + 原生文案（铁律 ⓪）；阳性对照 R157",
+ "instance": "http://localhost:3030/gen",
+ "live": true,
+ "observations": [
+  {
+   "step": "baseline_node",
+   "method": "GET",
+   "path": "/db/NODE",
+   "status": 200,
+   "native": "{\"message\":\"\"}"
+  },
+  {
+   "step": "baseline_elem",
+   "method": "GET",
+   "path": "/db/ELEM",
+   "status": 200,
+   "native": "{\"message\":\"\"}"
+  },
+  {
+   "step": "post_node1",
+   "method": "POST",
+   "path": "/db/NODE",
+   "status": 201,
+   "native": "{\"NODE\":{\"1\":{\"X\":0,\"Y\":0,\"Z\":0}}}"
+  },
+  {
+   "step": "post_node2",
+   "method": "POST",
+   "path": "/db/NODE",
+   "status": 201,
+   "native": "{\"NODE\":{\"2\":{\"X\":0,\"Y\":0,\"Z\":3}}}"
+  },
+  {
+   "step": "readback_node",
+   "method": "GET",
+   "path": "/db/NODE",
+   "status": 200,
+   "native": "{\"NODE\":{\"1\":{\"X\":0,\"Y\":0,\"Z\":0},\"2\":{\"X\":0,\"Y\":0,\"Z\":3}}}"
+  },
+  {
+   "step": "post_elem1",
+   "method": "POST",
+   "path": "/db/ELEM",
+   "status": 201,
+   "native": "{\"ELEM\":{\"1\":{\"TYPE\":\"BEAM\",\"MATL\":1,\"SECT\":1,\"NODE\":[1,2]}}}"
+  },
+  {
+   "step": "readback_elem",
+   "method": "GET",
+   "path": "/db/ELEM",
+   "status": 200,
+   "native": "{\"ELEM\":{\"1\":{\"TYPE\":\"BEAM\",\"MATL\":1,\"SECT\":1,\"NODE\":[1,2,0,0,0,0,0,0],\"ANGLE\":0,\"STYPE\":0}}}"
+  },
+  {
+   "step": "put_rebc_with_elem",
+   "method": "PUT",
+   "path": "/DESIGN/RC/KDS-41-20-2022/REBC",
+   "status": 400,
+   "native": "{\"error\":{\"message\":\"Wrong Field\"}}",
+   "request_body": {
+    "Assign": {
+     "1": {
+      "ITEMS": [
+       {
+        "CREATE_SUB_SECTION": false,
+        "ELEMS": {
+         "KEYS": [
+          1
+         ]
+        },
+        "MAIN_BAR": {
+         "NAME": "D22",
+         "NUM": 4,
+         "ROW": 2,
+         "USE_CORNER": true
+        },
+        "SHEAR_BAR_END": {
+         "NAME": "D10",
+         "NUM": 2,
+         "SPACING": 100
+        },
+        "SHEAR_BAR_CEN": {
+         "NAME": "D10",
+         "NUM": 2,
+         "SPACING": 200
+        },
+        "DO": 0.0
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "step": "readback_rebc",
+   "method": "GET",
+   "path": "/DESIGN/RC/KDS-41-20-2022/REBC",
+   "status": 200,
+   "native": "{\"REBC\":{}}"
+  }
+ ],
+ "conclusion": {
+  "put_rebc_status": 400,
+  "attribution": "REBC 400=Wrong Field（键名/形状级），前置单元已存在仍 400 ⇒ 与前置对象无关；与 P169 TABLE_TYPE→TEXT_TYPE 同族；手册 REBC 出现 0 次，无可复算来源 ⇒ 不硬凑",
+  "residual": "需 MIDAS 侧确认 REBC 请求体键名/包装"
+ },
+ "final_zero_residue": true,
+ "plan": {
+  "positive_control": "POST /db/NODE ×2 → GET 读回",
+  "prereq": "POST /db/ELEM（引用节点 1→2）",
+  "target": "PUT /DESIGN/RC/KDS-41-20-2022/REBC（ELEMS.KEYS=[1]）",
+  "cleanup": "DELETE /db/ELEM/1 → /db/NODE/2 → /db/NODE/1（逆序）"
+ },
+ "final_state": {
+  "nodes": "{\"message\":\"\"}",
+  "elems": "{\"message\":\"\"}"
+ }
+}
