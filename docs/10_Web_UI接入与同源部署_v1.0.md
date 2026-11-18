@@ -89,6 +89,8 @@ python -m app.main --transport http
 | PUT | `/api/clients/{id}` | 更新实例（名称 / 产品 / 版本 / 地址 / 凭据引用 / 状态 / 描述） |
 | DELETE | `/api/clients/{id}` | 删除实例（清理不再被引用的孤儿链） |
 | POST | `/api/clients/{id}/test` | 连接测试（已绑定 Adapter ⇒ 健康检查；仅地址 ⇒ HTTP 探测） |
+| POST | `/api/clients/{id}/connect` | **连接实例**（`plugins.adapter_class_for()` 按需发现/注册 Adapter → 绑定 → 连接 → 健康检查 → 回写 `CONNECTED`/`DEGRADED`）；`SYSTEM_ADMIN` |
+| POST | `/api/clients/{id}/disconnect` | **断开实例**（幂等）；`SYSTEM_ADMIN` |
 | GET | `/api/clients/{id}/events` | 连接测试 / 生命周期事件（本机运维库） |
 | POST | `/api/users/password/check` | 按「密码策略」校验口令（不回显） |
 | POST | `/api/roles` / DELETE `/api/roles/{id}` | 新建 / 删除角色（系统管理员、仍被引用的角色拒绝） |
@@ -99,6 +101,42 @@ python -m app.main --transport http
 | GET | `/api/logs` | 运行日志尾部（`STRUCTAI_LOG_DIR` 或 `<数据目录>/logs`） |
 | GET | `/api/fs/browse` | 目录浏览（选择目录用） |
 | POST | `/api/service/control` | `stop` / `restart`（重启 = 进程内 `execv`） |
+
+### 3.2 P186-C：端点表补全（对齐 `app/interfaces/http/management_routes_*.py`）
+
+> ⚠️ 本节补齐 §3 / §3.1 **此前漏登**、但代码里**实际存在**的端点（P186-C 核对交付）。
+> 权限口径同 §3.1：写操作与敏感读取要求 **`SYSTEM_ADMIN`**；只读列表允许任意已登录用户。
+> 全部前缀 `/api`；表格列出时省略前缀。
+
+| 方法 | 路径 | 权限 | 说明 |
+| --- | --- | --- | --- |
+| GET | `/users` | 登录用户 | 用户列表 |
+| POST | `/users` | SYSTEM_ADMIN | 新建用户（口令策略校验） |
+| PUT | `/users/{id}` | SYSTEM_ADMIN | 更新用户（角色 / 状态） |
+| DELETE | `/users/{id}` | SYSTEM_ADMIN | 删除用户 |
+| POST | `/users/password/check` | SYSTEM_ADMIN | 按密码策略校验口令（不回显） |
+| POST | `/auth/password` | 登录用户 | 当前用户改密（校验旧口令 + 策略） |
+| GET | `/roles` | 登录用户 | 角色列表 + 权限 |
+| PUT | `/roles/{id}` | SYSTEM_ADMIN | 更新角色权限 |
+| GET | `/models` | 登录用户 | 模型（LLM）来源列表（**不**回显密钥值，只报是否已配置 + 尾部掩码） |
+| PUT | `/models` | SYSTEM_ADMIN | 替换模型配置 |
+| POST | `/models/{id}/test` | SYSTEM_ADMIN | 模型连通性测试 |
+| GET | `/settings` | 登录用户 | 系统设置（口令策略 / 通知 / 安全；**非** secret 原值） |
+| PUT | `/settings/{section}` | SYSTEM_ADMIN | 更新某设置分区 |
+| POST | `/settings/reset` | SYSTEM_ADMIN | 重置设置为默认 |
+| POST | `/notify/test` | SYSTEM_ADMIN | 发送测试通知（SMTP 凭据只读 `STRUCTAI_SMTP_PASSWORD`） |
+| GET | `/updates/check` | 登录用户 | 版本检查（只报当前 + 是否有更新） |
+| GET | `/security/overview` | 登录用户 | 安全概览（登录失败 / 告警 / 审计计数） |
+| GET | `/data/stats` | 登录用户 | 数据库 / 存储 / 表行数 / 备份摘要 |
+| GET | `/data/export` | SYSTEM_ADMIN | 导出设置分区（**不含** secret 值） |
+| POST | `/data/backup` | SYSTEM_ADMIN | 立即备份（SQLite backup API；含设置库） |
+| GET | `/data/backups` | 登录用户 | 备份记录列表 |
+| DELETE | `/data/backups/{id}` | SYSTEM_ADMIN | 删除备份 |
+| POST | `/data/cleanup` | SYSTEM_ADMIN | 清理过期备份 / 产物（**不**删审计链） |
+
+> ⚠️ **数据安全底线**：`cleanup` / `purge` **永不**删除审计链（`docs/02` §29 / §45）；
+> `purge` 保留管理员 / 角色 / 软件注册表；口令只存 Argon2id 哈希；模型 key / SMTP 口令
+> 只经环境变量注入，管理面只报「是否已配置 + 尾部掩码」，**不**回显原值。
 
 **设置落点**：`MANAGEMENT_IMPORT_ROOT/settings.db`（独立 SQLite 文件）。Core 的
 24 张表**不新增**（`docs/07` §4.3）；客户端描述、连接事件、口令历史都在该运维库。
