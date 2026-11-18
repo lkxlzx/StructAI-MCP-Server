@@ -72,6 +72,18 @@ BEAM_MATRIX: tuple[dict[str, Any], ...] = (
 )
 """参数化用例矩阵：一条命令批量跑多个简支梁模型（跨度/荷载不同），套同一骨架。"""
 
+# ===== 截面参数化矩阵（验证「截面参数真的驱动设计」）=====
+# ⚠️ R151：真实 H 型钢的 DBUSER `SHAPE`/`vSIZE` 语义在本仓**无权威来源** ⇒ **不臆造真实钢号尺寸**。
+# 本矩阵用**同一 8m/200kN 模型、只改截面 vSIZE 缩放**，验证「截面参数变化 ⇒ 设计承载力变化」（机制验证）。
+# 真实 H 型钢用例待获取权威 `SHAPE`/`vSIZE` 定义后加入（见报告「下一步」）。
+SECTION_MATRIX: tuple[dict[str, Any], ...] = (
+    {"case": "sect-vsize-1-1", "span": 8.0, "mid_fz": -200_000.0, "section_vsize": [1, 1]},
+    {"case": "sect-vsize-5-5", "span": 8.0, "mid_fz": -200_000.0, "section_vsize": [5, 5]},
+    {"case": "sect-vsize-10-10", "span": 8.0, "mid_fz": -200_000.0, "section_vsize": [10, 10]},
+    {"case": "sect-vsize-20-20", "span": 8.0, "mid_fz": -200_000.0, "section_vsize": [20, 20]},
+)
+"""截面参数化矩阵（机制验证：只改 vSIZE 缩放，看设计承载力是否随之变）。"""
+
 UNIT_PARAMETERS: dict[str, Any] = {
     "unit": [{"id": "1", "force": "KN", "dist": "M", "heat": "KJ", "temper": "C"}],
 }
@@ -230,10 +242,14 @@ def _load_module(repo: pathlib.Path, rel: str, name: str) -> Any:
     return module
 
 
-def _beam_steps_via(stack_mod: Any, flag: Any, *, span: float = None, mid_fz: float = None, project_path: str = None) -> tuple[dict[str, Any], ...]:
+def _beam_steps_via(stack_mod: Any, flag: Any, *, span: float = None, mid_fz: float = None, project_path: str = None,
+                    section_shape: str = None, section_vsize: list = None, section_secttype: str = None) -> tuple[dict[str, Any], ...]:
     """用**旗舰/接口层已验证可用**的参数构造函数生成简支梁各步（不手写 body，避免键名缺漏）。
 
-    **参数化**：`span`（跨度 m）/ `mid_fz`（跨中集中力 N，向下为负）/ `project_path`（保存路径，R143）——固定骨架套不同数据。
+    **参数化**：
+    * `span`（跨度 m）/ `mid_fz`（跨中集中力 N，向下为负）/ `project_path`（保存路径，R143）；
+    * `section_shape` / `section_vsize` / `section_secttype`：截面参数（None ⇒ 沿用旗舰占位截面
+      `P154S1`/`SB`/`[1,1]`，已验证可用）。传真实值即换真实截面（vSIZE 语义随 SHAPE，须权威来源 R151）。
     """
     span = SPAN if span is None else float(span)
     mid_fz = MID_FZ if mid_fz is None else float(mid_fz)
@@ -246,6 +262,17 @@ def _beam_steps_via(stack_mod: Any, flag: Any, *, span: float = None, mid_fz: fl
             section = _s["parameters"]
         elif _s.get("operation") == "MODEL.MATERIAL.ASSIGN":
             material = _s["parameters"]
+    # 截面参数化：若给了 section_shape/vsize/secttype，覆盖占位截面
+    if section_shape is not None or section_vsize is not None or section_secttype is not None:
+        import copy as _copy
+        section = _copy.deepcopy(section)
+        item = section["sections"][0]
+        if section_secttype is not None:
+            item["section_type"] = str(section_secttype)
+        if section_shape is not None:
+            item["shape"] = str(section_shape)
+        if section_vsize is not None:
+            item["vsize"] = [float(x) for x in section_vsize]
     n_left = stack_mod._node_parameters(str(NODE_LEFT), x=0.0, y=0.0, z=0.0)  # noqa: SLF001
     n_mid = stack_mod._node_parameters(str(NODE_MID), x=span / 2, y=0.0, z=0.0)  # noqa: SLF001
     n_right = stack_mod._node_parameters(str(NODE_RIGHT), x=span, y=0.0, z=0.0)  # noqa: SLF001
@@ -317,7 +344,8 @@ async def _cleanup(flag: Any, stack: Any) -> list[dict[str, Any]]:
     return cleanup
 
 
-async def _probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None, project_path: str = None) -> dict[str, Any]:
+async def _probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None, project_path: str = None,
+                 section_shape: str = None, section_vsize: list = None, section_secttype: str = None) -> dict[str, Any]:
     stack_mod = _load_module(repo, STACK_TOOL_RELATIVE, "structai_probe_interface_paths_p189")
     flag = _load_module(repo, FLAGSHIP_TOOL_RELATIVE, "structai_probe_flagship_p189")
     span = SPAN if span is None else float(span)
@@ -341,7 +369,8 @@ async def _probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None
                 summary["sentinel_after"] = before
                 return {"steps": rows, "summary": summary}
 
-            steps = _beam_steps_via(stack_mod, flag, span=span, mid_fz=mid_fz, project_path=project_path)
+            steps = _beam_steps_via(stack_mod, flag, span=span, mid_fz=mid_fz, project_path=project_path,
+                                    section_shape=section_shape, section_vsize=section_vsize, section_secttype=section_secttype)
             # R135 加固：GEN NX STATIC 分析是触发式的、可能较慢 ⇒ 加大取结果重试窗口。
             try:
                 flag.RESULT_ATTEMPTS = 15
@@ -422,46 +451,56 @@ def probe(repo: pathlib.Path, *, span: float = None, mid_fz: float = None) -> in
     return 0 if document["verdict"] == "PASSED" and not summary.get("aborted") else 1
 
 
-def matrix(repo: pathlib.Path) -> int:
-    """**参数化矩阵**：遍历 `BEAM_MATRIX`，每用例独立 stack 真机跑全链路，汇总成矩阵。"""
+def matrix(repo: pathlib.Path, which: str = "beam") -> int:
+    """**参数化矩阵**：遍历用例表，每用例独立 stack 真机跑全链路，汇总成矩阵。
+
+    `which`：`beam`（跨度/荷载矩阵 `BEAM_MATRIX`）/ `sections`（截面 vSIZE 缩放矩阵 `SECTION_MATRIX`）。
+    """
     if not (os.environ.get("MIDAS_BASE_URL") and os.environ.get("MIDAS_MAPI_KEY")):
         print("❌ --matrix 需要 MIDAS_BASE_URL / MIDAS_MAPI_KEY")
         return 1
+    table = SECTION_MATRIX if which == "sections" else BEAM_MATRIX
+    out_name = "beam_section_matrix_probe_p189.json" if which == "sections" else "beam_matrix_probe_p189.json"
     os.makedirs(PROJECT_DIR, exist_ok=True)
     cases_out: list[dict[str, Any]] = []
-    for i, case in enumerate(BEAM_MATRIX):
+    for i, case in enumerate(table):
         span = float(case["span"]); mid_fz = float(case["mid_fz"])
+        vsize = case.get("section_vsize")
         proj = os.path.join(PROJECT_DIR, f"{case['case']}.mgbx")
-        print(f"\n===== 用例 {i+1}/{len(BEAM_MATRIX)}: {case['case']}（span={span}m, P={abs(mid_fz)/1000:.0f}kN）=====")
-        result = asyncio.run(_probe(repo, span=span, mid_fz=mid_fz, project_path=proj))
+        tag = f"（span={span}m, P={abs(mid_fz)/1000:.0f}kN" + (f", vSIZE={vsize}" if vsize else "") + "）"
+        print(f"\n===== 用例 {i+1}/{len(table)}: {case['case']}{tag}=====")
+        result = asyncio.run(_probe(repo, span=span, mid_fz=mid_fz, project_path=proj, section_vsize=vsize))
         rows = result["steps"]; summary = result["summary"]
         nums = summary.get("numbers") or {}
         case_verdict = "PASSED" if rows and _counts(rows).get("PASSED") == len(rows) else "NOT_PASSED"
         cases_out.append({
-            "case": case["case"], "span_m": span, "mid_fz": mid_fz,
+            "case": case["case"], "span_m": span, "mid_fz": mid_fz, "section_vsize": vsize,
             "verdict": case_verdict, "counts": _counts(rows),
             "aborted": str(summary.get("aborted") or ""), "residue": summary.get("residue") or {},
             "numbers": nums,
         })
     document = {
         "note": [
-            "P189 附3：**参数化矩阵**真机实测 —— 固定简支梁骨架，套不同（跨度/荷载）数据，批量跑全链路。",
+            "P189 附4：**参数化矩阵**真机实测 —— 固定简支梁骨架，套不同数据批量跑全链路。",
+            f"本轮矩阵：{which}（{'截面 vSIZE 缩放（机制验证：截面参数是否驱动设计）' if which=='sections' else '跨度/荷载'}）。",
             "每用例独立临时库 + 专用实例 + 独立 SAVE_AS 路径（R143）；跑前/跑后只读哨兵；零残留。",
-            "判据 = 全链路步全 PASSED ∧ 设计表有行；数值逐条取自接口层响应。",
+            "判据 = 全链路步全 PASSED；数值逐条取自接口层响应。",
+            "⚠️ R151：真实 H 型钢 SHAPE/vSIZE 语义本仓无权威来源 ⇒ 截面矩阵只做 vSIZE 缩放机制验证，不臆造钢号尺寸。",
         ],
         "criterion_version": CRITERION_VERSION,
         "instance": {"alias": INSTANCE_ALIAS, "product": INSTANCE_PRODUCT,
                      "base_url": os.environ.get("MIDAS_BASE_URL", ""), "probed_at": PROBED_AT},
         "cases": cases_out,
     }
-    path = repo / "registry" / "live" / "beam_matrix_probe_p189.json"
+    path = repo / "registry" / "live" / out_name
     path.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("\n======= 矩阵汇总 =======")
     for c in cases_out:
         n = c["numbers"]
-        print(f"  {c['case']:18s} span={c['span_m']:.0f}m P={abs(c['mid_fz'])/1000:.0f}kN  verdict={c['verdict']:9s} "
-              f"{c['counts']} uz={n.get('displacement.uz')} My={n.get('design.moment_y')} Mg={n.get('design.status')}")
-    print(f"已写入 registry/live/beam_matrix_probe_p189.json")
+        vs = f" vSIZE={c['section_vsize']}" if c.get("section_vsize") else ""
+        print(f"  {c['case']:18s} span={c['span_m']:.0f}m P={abs(c['mid_fz'])/1000:.0f}kN{vs}  verdict={c['verdict']:9s} "
+              f"{c['counts']} uz={n.get('displacement.uz')} My={n.get('design.moment_y')} Mcy={n.get('design.moment_y_capacity')} Mg={n.get('design.status')}")
+    print(f"已写入 registry/live/{out_name}")
     return 0 if all(c["verdict"] == "PASSED" for c in cases_out) else 1
 
 
@@ -482,7 +521,8 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="P189 附：简支钢梁全链路真机实测")
     p.add_argument("--repo", default=REPO_DEFAULT)
     p.add_argument("--probe", action="store_true")
-    p.add_argument("--matrix", action="store_true", help="参数化矩阵：批量跑 BEAM_MATRIX 各用例")
+    p.add_argument("--matrix", action="store_true", help="参数化矩阵：批量跑用例表")
+    p.add_argument("--matrix-kind", choices=["beam", "sections"], default="beam", help="矩阵类型：beam(跨度/荷载) / sections(截面vSIZE缩放)")
     p.add_argument("--span", type=float, default=None, help="单模型跨度 m（默认 8.0）")
     p.add_argument("--mid-fz", type=float, default=None, help="单模型跨中集中力 N（向下为负，默认 -200000）")
     p.add_argument("--summary", action="store_true")
@@ -491,7 +531,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.probe:
         return probe(repo, span=args.span, mid_fz=args.mid_fz)
     if args.matrix:
-        return matrix(repo)
+        return matrix(repo, which=args.matrix_kind)
     if args.summary:
         return summary(repo)
     p.print_help()
